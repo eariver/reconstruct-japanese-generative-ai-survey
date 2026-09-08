@@ -449,3 +449,34 @@ At this point the Human and Sol are broadly aligned on the following direction, 
 8. Separate obvious current-Core maintenance defects, such as the repeated release-checkpoint producer/consumer mismatch, from the larger architecture reconstruction.
 
 No production implementation decision has yet been made from Phase A.
+
+---
+
+## 8. Grok X Source Intake: preserve the current facts, leave future topology to Astra
+
+The Human asked whether the current Astra Phase A architecture already treated the Grok-based X Source Intake as an independent actor.
+
+Sol checked the current production configuration. In `config/survey-production-v2.json`, the present X/Grok lane is explicitly represented under `external_source_intake.x_grok` with the following current characteristics:
+
+- provider: `xAI`;
+- transport: `GOOGLE_DRIVE`;
+- Weekly policy: `REQUIRED_BY_PROFILE`;
+- Evidence role: `DISCOVERY_AND_COMMUNITY_SIGNAL_ONLY`;
+- repository write authority: `CHATGPT_IMPORT_AFTER_GOOGLE_DRIVE_RECEIPT`.
+
+This means the current Core treats Grok as an external Source Intake provider / discovery lane rather than as technical Evidence authority or Human decision authority.
+
+At the same time, the actual X Source Intake behavior is semantically richer than a passive feed or crawler: Grok searches the X information space, identifies potentially relevant material, supplies context, and returns a structured intake. Sol therefore noted that several future architecture interpretations are possible, such as treating this capability as part of a Worker, as a distinct External Discovery role, or as one member of a broader heterogeneous research/critic pool.
+
+The Human then set the design boundary for the next Astra work:
+
+> これについても、扱いはAstraに任せるべきですね。現状のGrokの位置付けの説明はこちらからする必要がありますが、これからどうするかはAstraに委ねましょう。
+
+Human and Sol therefore agreed on the following principle:
+
+- provide the **current factual position** of Grok/X Source Intake to Astra;
+- do not pre-decide its future architecture role;
+- let Astra determine whether it should remain a Worker-accessed capability, become an explicit independent actor, share a broader role with other discovery providers, overlap with critic functions, or take some other form;
+- preserve the current safety fact that Grok/X output is discovery/community signal rather than automatically accepted technical Evidence unless a future architecture explicitly changes that contract through a reviewed migration.
+
+This is intentionally an open architecture question. The context records the current system and the Human’s delegation of the future design decision; it does not establish a preferred future topology.
