@@ -1,0 +1,370 @@
+{
+  "main": "0a47a9b85108c5a2e9644037e7c0fb48b5bd96dc",
+  "w34": "993583e871bcbfea7bfe700fe5c6f2648e8887c0",
+  "inventory": {
+    "schemas/": 69,
+    "scripts/": 210,
+    ".github/workflows/": 7,
+    "docs/": 127
+  },
+  "contract_file_counts": {
+    "pipeline": 62,
+    "quality": 3
+  },
+  "state": {
+    "lifecycle_state": "CANDIDATES_NORMALIZED",
+    "human_gates": {
+      "architecture_review": "pending",
+      "publication_preview": "pending"
+    },
+    "next_action": "stage:evidence-materiality-completeness",
+    "terminal_reason": null
+  },
+  "evidence_status_counts": {
+    "NEEDS_MORE": 14,
+    "VERIFIED": 32,
+    "REJECTED": 7,
+    "PARTIAL": 27
+  },
+  "card_samples": [
+    {
+      "path": "sources/2026-W34/evidence/v2/accepted/377134b62c98bf0b65a7cf8cda1ef538eac0e2afcd7aa9aeeeda0f1d09493ada/results/task-01c9b9b1871ecbdc4c84.json",
+      "card": {
+        "schema_version": "2.0-rc1",
+        "issue_id": "2026-W34",
+        "evidence_task_id": "evidence:2026-W34:d6ad2b7d5d7d9f9e",
+        "basis": {
+          "task_sha256": "69bf58e0405d3f20aeed5a8366270ef21d715da00bda1c9f0c31741cb579c5f1",
+          "screening_acceptance_sha256": "04743e36762b58e6d850f6a63c89470f6f4f1c8ba0f80c76426e686b629bbee9",
+          "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+          "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+        },
+        "status": "NEEDS_MORE",
+        "entities": [
+          {
+            "entity_id": "w34-evidence-entity-w34-event-c056",
+            "canonical_name": "Meta AI Mac app with Muse Spark system-wide dictation",
+            "entity_type": "OTHER",
+            "organization": null,
+            "canonical_url": "https://drive.google.com/open?id=1gPkwYYQz2SNnrgrc0ay6JxeTDzpj1xE_"
+          }
+        ],
+        "artifact": {
+          "primary_subject_id": "w34-evidence-entity-w34-event-c056",
+          "artifact_type": "OTHER",
+          "canonical_name": "Meta AI Mac app with Muse Spark system-wide dictation",
+          "canonical_url": "https://drive.google.com/open?id=1gPkwYYQz2SNnrgrc0ay6JxeTDzpj1xE_"
+        },
+        "temporal": {
+          "observed_at": "2026-09-07T00:00:00Z",
+          "events": []
+        },
+        "sources": [
+          {
+            "source_id": "src-1",
+            "url": "https://drive.google.com/open?id=1gPkwYYQz2SNnrgrc0ay6JxeTDzpj1xE_",
+            "source_class": "SOCIAL",
+            "title": "Meta AI Mac app with Muse Spark system-wide dictation",
+            "published_at": null,
+            "accessed_at": "2026-09-07T00:00:00Z",
+            "role": "Discovery-bounded source used for factual verification"
+          }
+        ],
+        "claims": [
+          {
+            "statement_id": "claim-1",
+            "text": "The bound DailyX/X community observation preserves a verification target for Meta AI Mac app with Muse Spark system-wide dictation; the Discovery summary is not treated as an established technical fact.",
+            "subject_id": "w34-evidence-entity-w34-event-c056",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "SOCIAL_OBSERVATION",
+            "source_ids": [
+              "src-1"
+            ],
+            "context": "The target is retained from the task-bound source locator https://drive.google.com/open?id=1gPkwYYQz2SNnrgrc0ay6JxeTDzpj1xE_."
+          },
+          {
+            "statement_id": "claim-2",
+            "text": "The source and chronology qualifiers are retained as Evidence limitations pending authoritative verification.",
+            "subject_id": "w34-evidence-entity-w34-event-c056",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "src-1"
+            ],
+            "context": "Source type=dailyx_x_observation; chronology=INVENTORY_CHRONOLOGY_PRESERVED."
+          }
+        ],
+        "metrics": [],
+        "limitations": [
+          {
+            "statement_id": "limitation-1",
+            "text": "DailyX/X is a Discovery/community signal and is not used as direct technical Evidence authority.",
+            "subject_id": "w34-evidence-entity-w34-event-c056",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "src-1"
+            ],
+            "context": "Evidence boundary retained for downstream editorial use."
+          },
+          {
+            "statement_id": "limitation-2",
+            "text": "A separately captured authoritative first-party source is required to verify the technical/product delta.",
+            "subject_id": "w34-evidence-entity-w34-event-c056",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "src-1"
+            ],
+            "context": "Evidence boundary retained for downstream editorial use."
+          },
+          {
+            "statement_id": "limitation-3",
+            "text": "Evidence Authority Expansion r2 classification=UNRESOLVED; retain the unresolved chronology/authority boundary.",
+            "subject_id": "w34-evidence-entity-w34-event-c056",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "src-1"
+            ],
+            "context": "Evidence boundary retained for downstream editorial use."
+          }
+        ],
+        "verification": {
+          "targets": [
+            {
+              "target": "Product event appears real; seek Meta first-party announcement before Evidence.",
+              "status": "UNRESOLVED",
+              "finding": "The task-bound source is a DailyX/X community observation; it preserves the target but does not supply independently accepted technical authority. The target remains unresolved: Product event appears real; seek Meta first-party announcement before Evidence. Research classification=UNRESOLVED; no stronger claim is inferred.",
+              "subject_ids": [
+                "w34-evidence-entity-w34-event-c056"
+              ],
+              "source_ids": [
+                "src-1"
+              ]
+            }
+          ],
+          "unresolved_questions": [
+            "Product event appears real; seek Meta first-party announcement before Evidence.: The task-bound source is a DailyX/X community observation; it preserves the target but does not supply independently accepted technical authority. The target remains unresolved: Product event appears real; seek Meta first-party announcement before Evidence. Research classification=UNRESOLVED; no stronger claim is inferred."
+          ],
+          "contradictions": []
+        }
+      }
+    },
+    {
+      "path": "sources/2026-W34/evidence/v2/accepted/377134b62c98bf0b65a7cf8cda1ef538eac0e2afcd7aa9aeeeda0f1d09493ada/results/task-089aea0f0b318bee50b2.json",
+      "card": {
+        "schema_version": "2.0-rc1",
+        "issue_id": "2026-W34",
+        "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+        "basis": {
+          "task_sha256": "71bad08f6448f7e6569d77fd0cec62210d340c44cc2f2a4b76a227abbb7d31fa",
+          "screening_acceptance_sha256": "04743e36762b58e6d850f6a63c89470f6f4f1c8ba0f80c76426e686b629bbee9",
+          "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+          "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+        },
+        "status": "VERIFIED",
+        "entities": [
+          {
+            "entity_id": "w34-evidence-entity-w34-event-c019",
+            "canonical_name": "Mistral Agentic Search",
+            "entity_type": "OTHER",
+            "organization": "Mistral",
+            "canonical_url": "https://mistral.ai/news/agentic-search/"
+          }
+        ],
+        "artifact": {
+          "primary_subject_id": "w34-evidence-entity-w34-event-c019",
+          "artifact_type": "AGENT",
+          "canonical_name": "Mistral Agentic Search",
+          "canonical_url": "https://mistral.ai/news/agentic-search/"
+        },
+        "temporal": {
+          "observed_at": "2026-09-07T00:00:00Z",
+          "events": [
+            {
+              "event_id": "event-1",
+              "event_type": "SOURCE_PUBLICATION_OR_RELEASE",
+              "event_date": "2026-08-20T00:00:00Z",
+              "subject_id": "w34-evidence-entity-w34-event-c019",
+              "subject_role": "PRIMARY_SUBJECT",
+              "source_ids": [
+                "supplement-src-eef599385fccba54"
+              ]
+            }
+          ]
+        },
+        "sources": [
+          {
+            "source_id": "supplement-src-eef599385fccba54",
+            "url": "https://mistral.ai/news/agentic-search/",
+            "source_class": "PRIMARY_OFFICIAL",
+            "title": "C019 captured primary authority",
+            "published_at": "2026-08-20T00:00:00Z",
+            "accessed_at": "2026-09-05T11:11:56Z",
+            "role": "Post-Screening exact authority supplement: post-Screening exact authority capture for C019; result=VERIFIED"
+          }
+        ],
+        "claims": [
+          {
+            "statement_id": "claim-1",
+            "text": "The bound official publisher locator observation preserves a verification target for Mistral Agentic Search; the Discovery summary is not treated as an established technical fact.",
+            "subject_id": "w34-evidence-entity-w34-event-c019",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "PRIMARY_FACT",
+            "source_ids": [
+              "supplement-src-eef599385fccba54"
+            ],
+            "context": "The target is retained from the task-bound source locator https://mistral.ai/news/agentic-search/."
+          },
+          {
+            "statement_id": "claim-2",
+            "text": "The source and chronology qualifiers are retained as Evidence limitations pending authoritative verification.",
+            "subject_id": "w34-evidence-entity-w34-event-c019",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "supplement-src-eef599385fccba54"
+            ],
+            "context": "Source type=official_publisher_page; chronology=INVENTORY_CHRONOLOGY_PRESERVED."
+          }
+        ],
+        "metrics": [],
+        "limitations": [
+          {
+            "statement_id": "limitation-1",
+            "text": "The committed source-local capture preserves the locator/observation but not exact page or paper bytes; technical details remain unaccepted.",
+            "subject_id": "w34-evidence-entity-w34-event-c019",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "supplement-src-eef599385fccba54"
+            ],
+            "context": "Evidence boundary retained for downstream editorial use."
+          },
+          {
+            "statement_id": "limitation-2",
+            "text": "Chronology or technical significance remains bounded by the source metadata and verification target.",
+            "subject_id": "w34-evidence-entity-w34-event-c019",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "supplement-src-eef599385fccba54"
+            ],
+            "context": "Evidence boundary retained for downstream editorial use."
+          }
+        ],
+        "verification": {
+          "targets": [
+            {
+              "target": "Multi-step retrieval/navigation/verification layer; vendor benchmarks remain maker-reported.",
+              "status": "UNRESOLVED",
+              "finding": "The task-bound source is a official publisher locator observation; it preserves the target but does not supply independently accepted technical authority. The target remains unresolved: Multi-step retrieval/navigation/verification layer; vendor benchmarks remain maker-reported.",
+              "subject_ids": [
+                "w34-evidence-entity-w34-event-c019"
+              ],
+              "source_ids": [
+                "supplement-src-eef599385fccba54"
+              ]
+            }
+          ],
+          "unresolved_questions": [
+            "Multi-step retrieval/navigation/verification layer; vendor benchmarks remain maker-reported.: The task-bound source is a official publisher locator observation; it preserves the target but does not supply independently accepted technical authority. The target remains unresolved: Multi-step retrieval/navigation/verification layer; vendor benchmarks remain maker-reported."
+          ],
+          "contradictions": []
+        }
+      }
+    }
+  ],
+  "claim_count_distribution": {
+    "2": 80
+  },
+  "verified_with_all_targets_unresolved": 31,
+  "c019_authority": [
+    {
+      "supplement_source_id": "supplement-src-eef599385fccba54",
+      "discovery_id": "w34-event-c019",
+      "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+      "locator": "https://mistral.ai/news/agentic-search/",
+      "source_type": "first_party_product_release",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "C019 captured primary authority",
+      "published_at": "2026-08-20T00:00:00Z",
+      "accessed_at": "2026-09-05T11:11:56Z",
+      "raw_path": "sources/2026-W34/execution/luna/w34-evidence-authority-expansion-r2/raw/c019-mistral-agentic-search.html",
+      "raw_sha256": "286195a9673f8ed169a192bb3ac9c4a192c6b938e029ddc5eefd9619cacefd01",
+      "byte_count": 263578,
+      "relation": "post-Screening exact authority capture for C019; result=VERIFIED"
+    }
+  ],
+  "historical_architecture": {
+    "schema_version": "2.0-rc1",
+    "issue_id": "2026-W34",
+    "research_profile": "WEEKLY",
+    "publication_profile": "WEEKLY_MAGAZINE",
+    "status": "PROPOSED",
+    "basis": {
+      "production_profile_sha256": "a6e3eb3006dde95da008876486cbfc7fdce75f507f7efcd6b0fcaba5e154b21a",
+      "profile_completeness_sha256": "bf0ac1b01cf2424a42620ff5fc92e37dcc9b18717b1dc79595eb24c62ac5f94e",
+      "materiality_ledger_sha256": "d053ae3d513852db32d913bb10da8296745570336146faf697d1497501fc91dd",
+      "candidate_matrix_sha256": "18626ec22a50d3ef66012be181912a4e9ea6b41504b1bec7a1372aff5fd4d3a9",
+      "candidate_selection_sha256": "6bbeb8a38821f6d4a45ddce49328f2dbbcdf1922985d44244df03a71526ecf95"
+    },
+    "editorial_thesis": "Present one rigorously verified W34 technical change while making the remaining authority and chronology boundaries explicit for review.",
+    "architecture_goals": [
+      "Lead with the verified in-window technical change.",
+      "Keep unresolved candidates as bounded internal context rather than unsupported claims.",
+      "Preserve Weekly chronology, authority, and carry-over limitations through review."
+    ],
+    "page_plan": {
+      "target_pages": 2,
+      "max_pages": 3,
+      "notes": "Architecture-only structure; reader-facing drafting is deferred until after Human Architecture Review."
+    },
+    "packages": [
+      {
+        "package_id": "w34-package-01",
+        "title": "Verified developer-tooling change",
+        "purpose": "Anchor the proposed Weekly architecture in the one candidate with exact immutable repository Raw chronology while retaining its publisher-claim boundary.",
+        "primary_candidate_ids": [
+          "candidate:2026-W34:e019cc9cdd7f4cae"
+        ],
+        "supporting_candidate_ids": [],
+        "must_cover_requirements": [
+          "weekly:current-relevance",
+          "weekly:technical-significance"
+        ],
+        "boundaries": [
+          "The release API bytes are exact and immutable, but the technical changes in the release body were not independently reproduced in this Evidence run."
+        ],
+        "drafting_order": 1,
+        "profile_extensions": {
+          "review_note": "Technical delta requires post-review drafting discipline."
+        },
+        "publication_extensions": {
+          "section_role": "WEEKLY_MAGAZINE:technical-update"
+        }
+      }
+    ],
+    "selected_exceptions": [],
+    "profile_extensions": {
+      "review_scope": "Architecture review only; no reader-facing prose or Human decision recorded.",
+      "authority_boundary": "DailyX/Grok/X and Sol observations remain non-technical Evidence."
+    },
+    "publication_extensions": {
+      "deferred_until": "ARCHITECTURE_REVIEW approval"
+    },
+    "human_review": {
+      "reviewed_by": null,
+      "reviewed_at": null,
+      "review_reference": null
+    }
+  },
+  "findings_paths": [
+    "sources/2026-W34/execution/findings/sol-agent-first-screening-wrapper-review-20260903-r1.md",
+    "sources/2026-W34/execution/findings/sol-discovery-materialization-review-20260903-r1.md",
+    "sources/2026-W34/execution/findings/sol-event-discovery-byte-integrity-review-20260904-r1.md",
+    "sources/2026-W34/execution/findings/sol-external-sidecar-qa-pilot-plan-20260905-r1.md",
+    "sources/2026-W34/execution/findings/sol-screening-granularity-review-20260903-r1.md"
+  ]
+}
