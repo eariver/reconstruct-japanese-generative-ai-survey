@@ -12,6 +12,8 @@ The repository already contains the durable architecture outputs and Human/Sol r
 
 Do not disclose private chain-of-thought or hidden reasoning. Record conclusions, assumptions, uncertainties, evidence dependencies, decision criteria, rejected/paused alternatives, and revisit conditions in a concise form that another future Astra session can safely use.
 
+This handoff is descriptive, not binding. A future Astra session may reopen, revise, or reject any prior architectural judgment when new evidence, changed production reality, or better reasoning warrants it.
+
 ## Existing durable material
 
 Treat these as already externalized and avoid restating them except by reference when necessary:
@@ -41,7 +43,7 @@ Useful categories may include, when applicable:
 - alternatives you considered, rejected, deferred, or deliberately did not investigate, when the reason is not already recorded;
 - evidence dependencies: which conclusions rely on which observed production facts, and which facts would need re-verification if the production baseline changes;
 - revisit triggers: new evidence or conditions that should cause a future session to reconsider a current conclusion;
-- areas that a future session can safely treat as settled enough not to re-investigate unless a trigger occurs;
+- areas where, based on the present evidence, re-investigation appears lower priority, while making clear that a future Astra session remains free to reopen them;
 - areas where a future session should explicitly avoid assuming certainty;
 - session-specific operational lessons that could materially reduce future Astra cost or duplicated investigation, such as what was expensive, what proved unnecessary, or what compact context was sufficient;
 - any important distinction between "architecture recommendation", "unverified design hypothesis", "implementation-design-ready", and "production-adoption-ready" that is not already explicit enough;
@@ -82,11 +84,13 @@ Do not convert Human or Sol opinions into your own decisions unless you actually
 
 Do not infer missing facts to make the handoff look complete.
 
+A recorded `DECISION` is a snapshot of your current judgment, not an instruction that a future Astra session must preserve it.
+
 ## Scope and safety
 
 - Do not perform another broad production-repository crawl.
 - Do not start implementation design.
-- Do not define the next phase or next task unless a missing piece of current decision state cannot be expressed without noting a dependency.
+- Do not start or commit to the next phase or next task. You may record candidate next questions, dependencies, or uncertainties if they are part of the current decision state, but do not turn them into a binding work plan.
 - Do not mutate `eariver/japanese-generative-ai-survey`.
 - The reconstruction repository is the only writable workspace.
 - Normal Git Pull/Push/merge transport is Human-operated; do not spend work on Git transport as part of this closeout.
@@ -101,7 +105,7 @@ Create one compact handoff artifact:
 
 The artifact should be optimized for **future selective loading**, not archival completeness.
 
-A future Astra session should be able to read this file first, then consult the referenced durable artifacts only where necessary, without redoing Phase A or the refinement merely to reconstruct your decision state.
+A future Astra session should be able to read this file first, then consult the referenced durable artifacts only where necessary, without redoing Phase A or the refinement merely to reconstruct the prior decision state. It remains free to revisit that state when warranted.
 
 At the end, include a short section named `Suggested selective reload order` that lists only the files a future session should read first, second, or only-on-demand.
 
