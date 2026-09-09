@@ -1,0 +1,194 @@
+{
+  "scope": "ANALYSIS_ONLY_NOT_CORE_VALIDATION",
+  "refs": {
+    "main": "6d748a962d57beff89da7c1b20cb5a9a86c8e261",
+    "weekly": "030eb723c12282f0cfd09aaada05d14f0c0906c7",
+    "special": "1b19a98511f9717d04b3b8f95207599fcdb7f48d"
+  },
+  "samples": [
+    {
+      "discovery_id": "w34-event-c019",
+      "task_id": "evidence:2026-W34:fb85a056f96e113a",
+      "paths": {
+        "task": "sources/2026-W34/evidence/v2/accepted/647cde464d92935c1ca633ade62bcbf7ebe88c458cc8b3848bae8d2fc4794831/tasks/task-089aea0f0b318bee50b2.json",
+        "card": "sources/2026-W34/evidence/v2/accepted/647cde464d92935c1ca633ade62bcbf7ebe88c458cc8b3848bae8d2fc4794831/results/task-089aea0f0b318bee50b2.json",
+        "view": "sources/2026-W34/evidence/v2/views/accepted/e2e644bcc97ac664949b272fca919923385af6192c65b5a3566e30382b0ca7ba/views/view-089aea0f0b318bee50b2.json"
+      },
+      "card_sha256": "3afb8c1d3db93b195aa90636110199542cf7ef21e708e9e0d6939c181fbaaf60",
+      "status": "VERIFIED",
+      "materiality": {
+        "status": "MATERIAL",
+        "rationale": "Provisional: Mistral first-party Aug 20 post confirms multi-step agentic search capabilities; benchmark figures stay maker-reported and separated."
+      },
+      "checks": {
+        "package_hash_matches_acceptance": true,
+        "task_hash_matches_package_and_card": true,
+        "card_hash_matches_acceptance_and_view": true,
+        "view_hash_matches_view_acceptance": true,
+        "same_edition_task": true,
+        "claims_text_class_context_preserved_from_input": true,
+        "materiality_rationale_preserved_in_view": true,
+        "supplement_hash_matches_package": true
+      },
+      "sources": [
+        {
+          "id": "supplement-src-fda465f3cb8a4488",
+          "path": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/official/w34-event-c019__mistral-ai-news-agentic-search.html",
+          "sha256": "cbf8f93ac0d72a9a3ea9536d7bf645bdf30302528f9e7e6d93e24bdc2ef52465",
+          "exact_raw_hash_and_size_match": true
+        }
+      ],
+      "consumption_state": "AUTHORITY_CONSUMED",
+      "detail_keys": [
+        "discovery_id",
+        "method",
+        "bound_sources"
+      ],
+      "target_characters": {
+        "task": 92,
+        "ledger": 92
+      }
+    },
+    {
+      "discovery_id": "w34-event-arxiv-2608-14927",
+      "task_id": "evidence:2026-W34:10f1492c33d25e64",
+      "paths": {
+        "task": "sources/2026-W34/evidence/v2/accepted/647cde464d92935c1ca633ade62bcbf7ebe88c458cc8b3848bae8d2fc4794831/tasks/task-3cc4e37f782b5aba0ce7.json",
+        "card": "sources/2026-W34/evidence/v2/accepted/647cde464d92935c1ca633ade62bcbf7ebe88c458cc8b3848bae8d2fc4794831/results/task-3cc4e37f782b5aba0ce7.json",
+        "view": "sources/2026-W34/evidence/v2/views/accepted/e2e644bcc97ac664949b272fca919923385af6192c65b5a3566e30382b0ca7ba/views/view-3cc4e37f782b5aba0ce7.json"
+      },
+      "card_sha256": "ac7524078e2dfa0dd6d8a7bfb5502915284f8b669363d3b9a700b69340f90a51",
+      "status": "PARTIAL",
+      "materiality": {
+        "status": "CONTEXT",
+        "rationale": "Provisional execution annotation only: peer-style research lead with consumed body but maker-reported results; editorial significance and selection are Sol decisions."
+      },
+      "checks": {
+        "package_hash_matches_acceptance": true,
+        "task_hash_matches_package_and_card": true,
+        "card_hash_matches_acceptance_and_view": true,
+        "view_hash_matches_view_acceptance": true,
+        "same_edition_task": true,
+        "claims_text_class_context_preserved_from_input": true,
+        "materiality_rationale_preserved_in_view": true,
+        "supplement_hash_matches_package": true
+      },
+      "sources": [
+        {
+          "id": "supplement-src-aae133acd2501ad5",
+          "path": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_14927.html",
+          "sha256": "0446cde9bbc8f861b63f0165afbe61d31caf0ceead8dcb069de2f4f8c3e75bac",
+          "exact_raw_hash_and_size_match": true
+        }
+      ],
+      "consumption_state": "AUTHORITY_CONSUMED",
+      "detail_keys": [
+        "discovery_id",
+        "method",
+        "body_kind",
+        "method_spans",
+        "eval_spans",
+        "result_spans"
+      ],
+      "target_characters": {
+        "task": 934,
+        "ledger": 220
+      },
+      "paper_observations": {
+        "normalized_characters_before_cap": 79363,
+        "cap": 60000,
+        "normalized_line_count": 1,
+        "method_claim": "\"LLMs Can Predict Failure Risk, But Struggle to Predict Which Collaboration Protocol Pays Off: Cost-Aware Protocol Routing Across Reasoning Tasks\" proposes Gle to Predict Which Collaboration Protocol Pays Off:Cost-Aware Protocol Routing Across Reasoning Tasks Title: Content selection saved.",
+        "ui_phrase_in_method_claim": true,
+        "ui_phrase_in_raw_hidden_modal": true,
+        "raw_has_section_7": true,
+        "detail_method_span_count": 3,
+        "detail_method_span_3": "We isolate this decision by running every problem under four protocols while holding the solver fixed within each setting: direct solving (Baseline), iterative self-correction (Single), planner–executor–reviewer collaboration (PER), and multi-agent deliberation (Broadcast).",
+        "verification_statuses": [
+          "VERIFIED"
+        ]
+      }
+    },
+    {
+      "discovery_id": "w34-event-c033",
+      "task_id": "evidence:2026-W34:b25c912f0774b778",
+      "paths": {
+        "task": "sources/2026-W34/evidence/v2/accepted/647cde464d92935c1ca633ade62bcbf7ebe88c458cc8b3848bae8d2fc4794831/tasks/task-c776ff2ef6ed21175ba8.json",
+        "card": "sources/2026-W34/evidence/v2/accepted/647cde464d92935c1ca633ade62bcbf7ebe88c458cc8b3848bae8d2fc4794831/results/task-c776ff2ef6ed21175ba8.json",
+        "view": "sources/2026-W34/evidence/v2/views/accepted/e2e644bcc97ac664949b272fca919923385af6192c65b5a3566e30382b0ca7ba/views/view-c776ff2ef6ed21175ba8.json"
+      },
+      "card_sha256": "29cd05f97c7c17af7821a1ef1dd65a954d147262ae94aa9d424b730d82348ee2",
+      "status": "NEEDS_MORE",
+      "materiality": {
+        "status": "HOLD",
+        "rationale": "Provisional: captured rankings page renders client-side with no benchmark section in bytes; '39 image models' methodology unverified."
+      },
+      "checks": {
+        "package_hash_matches_acceptance": true,
+        "task_hash_matches_package_and_card": true,
+        "card_hash_matches_acceptance_and_view": true,
+        "view_hash_matches_view_acceptance": true,
+        "same_edition_task": true,
+        "claims_text_class_context_preserved_from_input": true,
+        "materiality_rationale_preserved_in_view": true,
+        "supplement_hash_matches_package": true
+      },
+      "sources": [
+        {
+          "id": "supplement-src-10ca4b388a80845d",
+          "path": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/official/w34-event-c033__openrouter-ai-rankings.html",
+          "sha256": "425290923776d116555048b32dcdacf528a90febb2502ca5e785aec31c5e22b4",
+          "exact_raw_hash_and_size_match": true
+        }
+      ],
+      "consumption_state": "AUTHORITY_CAPTURED_BUT_UNCONSUMED",
+      "detail_keys": [
+        "discovery_id",
+        "method",
+        "bound_sources"
+      ],
+      "target_characters": {
+        "task": 130,
+        "ledger": 130
+      }
+    },
+    {
+      "discovery_id": "SP001-D008",
+      "task_id": "evidence:SP001:afc0e0cae360c851",
+      "paths": {
+        "task": "sources/SP001/evidence/v2/accepted/3785dc9ee87378b6682cc6d45a064cba1c9325bba4339dc04e460d441dcfb430/tasks/task-daa40564c14ee29d4dd3.json",
+        "card": "sources/SP001/evidence/v2/accepted/3785dc9ee87378b6682cc6d45a064cba1c9325bba4339dc04e460d441dcfb430/results/task-daa40564c14ee29d4dd3.json",
+        "view": "sources/SP001/evidence/v2/views/accepted/4478306c4b6949fc9aa6677a801048891da5a0dd0369e627db4b86189e459bf2/views/view-daa40564c14ee29d4dd3.json"
+      },
+      "card_sha256": "ad396c33b1c0301abbbe787d6a12e02d3ed9e3501adb0526d8de659935f3f8eb",
+      "status": "PARTIAL",
+      "materiality": {
+        "status": "MATERIAL",
+        "rationale": "Directly contributes to one or more SP001 scope obligations and the six-package technical-history Architecture."
+      },
+      "checks": {
+        "package_hash_matches_acceptance": true,
+        "task_hash_matches_package_and_card": true,
+        "card_hash_matches_acceptance_and_view": true,
+        "view_hash_matches_view_acceptance": true,
+        "same_edition_task": true,
+        "profile_annotations_preserved_through_selection": true,
+        "matrix_points_to_exact_card_and_view": true
+      },
+      "raw_refs": [
+        "sources/SP001/raw/postintegration-primary-source-observations-2026-08-25.md"
+      ],
+      "claim_equals_discovery_summary": true,
+      "unresolved_questions": [
+        "release dates and checkpoint identities",
+        "repository versus weight-license distinction",
+        "source-local performance conditions"
+      ],
+      "selection_rationale": "Select as primary current Qwen endpoint; unresolved checkpoint/license and performance-comparability items remain package boundaries.",
+      "as_of": {
+        "mode": "OPEN_HISTORY_AS_OF",
+        "as_of": "2026-08-24T17:24:00Z"
+      }
+    }
+  ]
+}
