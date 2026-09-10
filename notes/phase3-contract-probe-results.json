@@ -1,0 +1,339 @@
+{
+  "scope": "ANALYSIS_ONLY_NOT_FULL_CORE_OR_SEMANTIC_VALIDATION",
+  "refs": {
+    "main": "6d748a962d57beff89da7c1b20cb5a9a86c8e261",
+    "w34_r1": "558d29b091313747fa373a71110e169c3e31b214",
+    "w34_current_snapshot": "2b49ad77eafc4128f5d7dbf7004f767d8e29c078",
+    "special": "1b19a98511f9717d04b3b8f95207599fcdb7f48d"
+  },
+  "extraction": {
+    "source_sha256": "f7478d8646c2258adc563c2684f2c20a42970c0647831c01499e6ae08ef10341",
+    "functions": [
+      "_check_subject_role",
+      "_source_class",
+      "validate_evidence_card"
+    ],
+    "dependency_shim": "offset-aware instant parser; supplement path not exercised"
+  },
+  "synthetic_cases": [
+    {
+      "case": "baseline",
+      "schema_errors": [],
+      "extracted_validator_errors": [],
+      "proposed_exact_target_guard": true
+    },
+    {
+      "case": "missing_target",
+      "schema_errors": [],
+      "extracted_validator_errors": [],
+      "proposed_exact_target_guard": false
+    },
+    {
+      "case": "duplicate_target",
+      "schema_errors": [],
+      "extracted_validator_errors": [],
+      "proposed_exact_target_guard": false
+    },
+    {
+      "case": "unbound_source",
+      "schema_errors": [],
+      "extracted_validator_errors": [
+        "claims claim-a source_ids must reference registered sources"
+      ],
+      "proposed_exact_target_guard": true
+    },
+    {
+      "case": "self_comparator",
+      "schema_errors": [],
+      "extracted_validator_errors": [
+        "metric metric-a cannot list its own subject as comparator"
+      ],
+      "proposed_exact_target_guard": true
+    },
+    {
+      "case": "stale_basis",
+      "schema_errors": [],
+      "extracted_validator_errors": [
+        "Evidence Card basis hashes do not match exact task/package"
+      ],
+      "proposed_exact_target_guard": true
+    },
+    {
+      "case": "ui_claim",
+      "schema_errors": [],
+      "extracted_validator_errors": [],
+      "proposed_exact_target_guard": true
+    }
+  ],
+  "authoring_comparison": {
+    "a_plus_prepared_canonical": {
+      "schema_version": "2.0-rc1",
+      "issue_id": "ANALYSIS-ONLY",
+      "evidence_task_id": "synthetic-task",
+      "basis": {
+        "task_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "screening_acceptance_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "prompt_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "result_contract_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "status": "PARTIAL",
+      "entities": [
+        {
+          "entity_id": "A",
+          "canonical_name": "A",
+          "entity_type": "MODEL",
+          "organization": null,
+          "canonical_url": null
+        },
+        {
+          "entity_id": "B",
+          "canonical_name": "B",
+          "entity_type": "MODEL",
+          "organization": null,
+          "canonical_url": null
+        }
+      ],
+      "artifact": {
+        "primary_subject_id": "A",
+        "artifact_type": "MODEL",
+        "canonical_name": "A",
+        "canonical_url": null
+      },
+      "temporal": {
+        "observed_at": "2026-09-10T00:00:00Z",
+        "events": []
+      },
+      "sources": [
+        {
+          "source_id": "src-1",
+          "url": "https://example.invalid/a",
+          "source_class": "PRIMARY_PAPER",
+          "title": "Synthetic source 1",
+          "published_at": null,
+          "accessed_at": "2026-09-10T00:00:00Z",
+          "role": "Synthetic fixture only"
+        },
+        {
+          "source_id": "src-2",
+          "url": "https://example.invalid/b",
+          "source_class": "PRIMARY_REPOSITORY",
+          "title": "Synthetic source 2",
+          "published_at": null,
+          "accessed_at": "2026-09-10T00:00:00Z",
+          "role": "Synthetic fixture only"
+        }
+      ],
+      "claims": [
+        {
+          "statement_id": "claim-a",
+          "text": "A reports a result under protocol P.",
+          "subject_id": "A",
+          "subject_role": "PRIMARY_SUBJECT",
+          "evidence_class": "AUTHOR_CLAIM",
+          "source_ids": [
+            "src-1"
+          ],
+          "context": "Synthetic locator: table 2; no factual assertion."
+        },
+        {
+          "statement_id": "claim-b",
+          "text": "B protocol remains unspecified.",
+          "subject_id": "B",
+          "subject_role": "COMPARATOR",
+          "evidence_class": "PROJECT_CLAIM",
+          "source_ids": [
+            "src-2"
+          ],
+          "context": "Synthetic README observation only."
+        }
+      ],
+      "metrics": [
+        {
+          "metric_id": "metric-a",
+          "name": "score",
+          "value": "72",
+          "unit": "%",
+          "context": "Synthetic protocol P; B comparability UNRESOLVED, not a ranking.",
+          "subject_id": "A",
+          "subject_role": "PRIMARY_SUBJECT",
+          "comparison_subject_ids": [
+            "B"
+          ],
+          "evidence_class": "AUTHOR_CLAIM",
+          "source_ids": [
+            "src-1"
+          ]
+        }
+      ],
+      "limitations": [],
+      "verification": {
+        "targets": [
+          {
+            "target": "Compare A and B under the same protocol",
+            "status": "UNRESOLVED",
+            "finding": "B protocol not established; cannot infer a winner.",
+            "subject_ids": [
+              "A",
+              "B"
+            ],
+            "source_ids": [
+              "src-1",
+              "src-2"
+            ]
+          }
+        ],
+        "unresolved_questions": [
+          "B protocol"
+        ],
+        "contradictions": []
+      }
+    },
+    "b_machine_fields": {
+      "schema_version": "2.0-rc1",
+      "issue_id": "ANALYSIS-ONLY",
+      "evidence_task_id": "synthetic-task",
+      "basis": {
+        "task_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "screening_acceptance_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "prompt_sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "result_contract_sha256": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    },
+    "b_same_shape_semantic_payload": {
+      "status": "PARTIAL",
+      "entities": [
+        {
+          "entity_id": "A",
+          "canonical_name": "A",
+          "entity_type": "MODEL",
+          "organization": null,
+          "canonical_url": null
+        },
+        {
+          "entity_id": "B",
+          "canonical_name": "B",
+          "entity_type": "MODEL",
+          "organization": null,
+          "canonical_url": null
+        }
+      ],
+      "artifact": {
+        "primary_subject_id": "A",
+        "artifact_type": "MODEL",
+        "canonical_name": "A",
+        "canonical_url": null
+      },
+      "temporal": {
+        "observed_at": "2026-09-10T00:00:00Z",
+        "events": []
+      },
+      "sources": [
+        {
+          "source_id": "src-1",
+          "url": "https://example.invalid/a",
+          "source_class": "PRIMARY_PAPER",
+          "title": "Synthetic source 1",
+          "published_at": null,
+          "accessed_at": "2026-09-10T00:00:00Z",
+          "role": "Synthetic fixture only"
+        },
+        {
+          "source_id": "src-2",
+          "url": "https://example.invalid/b",
+          "source_class": "PRIMARY_REPOSITORY",
+          "title": "Synthetic source 2",
+          "published_at": null,
+          "accessed_at": "2026-09-10T00:00:00Z",
+          "role": "Synthetic fixture only"
+        }
+      ],
+      "claims": [
+        {
+          "statement_id": "claim-a",
+          "text": "A reports a result under protocol P.",
+          "subject_id": "A",
+          "subject_role": "PRIMARY_SUBJECT",
+          "evidence_class": "AUTHOR_CLAIM",
+          "source_ids": [
+            "src-1"
+          ],
+          "context": "Synthetic locator: table 2; no factual assertion."
+        },
+        {
+          "statement_id": "claim-b",
+          "text": "B protocol remains unspecified.",
+          "subject_id": "B",
+          "subject_role": "COMPARATOR",
+          "evidence_class": "PROJECT_CLAIM",
+          "source_ids": [
+            "src-2"
+          ],
+          "context": "Synthetic README observation only."
+        }
+      ],
+      "metrics": [
+        {
+          "metric_id": "metric-a",
+          "name": "score",
+          "value": "72",
+          "unit": "%",
+          "context": "Synthetic protocol P; B comparability UNRESOLVED, not a ranking.",
+          "subject_id": "A",
+          "subject_role": "PRIMARY_SUBJECT",
+          "comparison_subject_ids": [
+            "B"
+          ],
+          "evidence_class": "AUTHOR_CLAIM",
+          "source_ids": [
+            "src-1"
+          ]
+        }
+      ],
+      "limitations": [],
+      "verification": {
+        "targets": [
+          {
+            "target": "Compare A and B under the same protocol",
+            "status": "UNRESOLVED",
+            "finding": "B protocol not established; cannot infer a winner.",
+            "subject_ids": [
+              "A",
+              "B"
+            ],
+            "source_ids": [
+              "src-1",
+              "src-2"
+            ]
+          }
+        ],
+        "unresolved_questions": [
+          "B protocol"
+        ],
+        "contradictions": []
+      }
+    },
+    "same_canonical_object": true,
+    "semantic_quality_and_effort_measured": false
+  },
+  "persisted_selection": {
+    "old_sha256": "ea146f37d649b0b52ece2ef54e6a53537c6f0c2e73aed812ac8b9592676229ce",
+    "new_sha256": "ac7cbc291b0af167ad8aefe858da541875f24961626b5bb445160b037abdc00d",
+    "matrix_sha256": "b2e9fe60e8046e6e41453c3fbe60aa522536f594050f2563a485a965b7551529",
+    "matrix_unchanged": true,
+    "assignments": 409,
+    "delta": {
+      "candidate:2026-W34:fe3f3db788282cf4": {
+        "architecture_role": {
+          "before": "WEEKLY:retrieval-tool-orchestration",
+          "after": "WEEKLY:model-economics-distribution"
+        },
+        "rationale": {
+          "before": "Sol Selection r1 supporting evidence for WEEKLY:retrieval-tool-orchestration: material W34 delta retained to support the cluster without requiring a standalone article.",
+          "after": "Sol Selection r2 supporting evidence for WEEKLY:model-economics-distribution: regional processing is a deployment/access surface retained with provider availability, region coverage, pricing and deployability without requiring a standalone article."
+        }
+      }
+    },
+    "exact_object_replay": true,
+    "profile_extensions_equal_matrix_all_rows": true
+  }
+}
