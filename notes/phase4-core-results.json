@@ -1,0 +1,189 @@
+{
+  "scope": "ISOLATED_REAL_CORE_FUNCTIONS_WITH_SYNTHETIC_FIXTURE_NOT_STAGE_OR_PRODUCTION_ADMISSION",
+  "fixed_main": "6d748a962d57beff89da7c1b20cb5a9a86c8e261",
+  "python": "3.10.6",
+  "system": "Linux",
+  "fixture_implementation_sha": "4444444444444444444444444444444444444444",
+  "baseline_tests": {
+    "run": 12,
+    "passed": true
+  },
+  "profiles": [
+    {
+      "profile": "WEEKLY",
+      "accepted_card_exact_bytes": true,
+      "accepted_views_validated": true,
+      "state_bytes_unchanged": true,
+      "preflight_no_writes": true,
+      "prior_acceptance_revalidated": true,
+      "card_entities": 3,
+      "metrics": 4,
+      "negative_cases": [
+        {
+          "case": "missing_target",
+          "candidate_check": "targets must cover the exact task set once each",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "duplicate_target",
+          "candidate_check": "targets must cover the exact task set once each",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "missing_claim_text",
+          "candidate_check": "experimental candidate fails /tmp/tmpcpj4ex3i/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "wrong_subject",
+          "candidate_check": "metric policy-gate-solve subject_id is not a registered entity",
+          "direct_core_acceptance": "Evidence Card evidence:2026-W33:2556cd0b7e345984 invalid: metric policy-gate-solve subject_id is not a registered entity"
+        },
+        {
+          "case": "stale_basis",
+          "candidate_check": "Evidence Card basis hashes do not match exact task/package",
+          "direct_core_acceptance": "Evidence Card evidence:2026-W33:2556cd0b7e345984 invalid: Evidence Card basis hashes do not match exact task/package"
+        },
+        {
+          "case": "supplement_metadata_drift",
+          "candidate_check": "Evidence supplement source supplement-src-aae133acd2501ad5 title differs from exact authority manifest",
+          "direct_core_acceptance": "Evidence Card evidence:2026-W33:2556cd0b7e345984 invalid: Evidence supplement source supplement-src-aae133acd2501ad5 title differs from exact authority manifest"
+        },
+        {
+          "case": "raw_tamper",
+          "candidate_check": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/2026-W33/raw/paper.html",
+          "direct_core_acceptance": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/2026-W33/raw/paper.html"
+        },
+        {
+          "case": "extra_result_file",
+          "candidate_check": null,
+          "direct_core_acceptance": "Evidence result set must be complete and exact: missing=[] extra=['unexpected.txt']"
+        },
+        {
+          "case": "duplicate_json_key",
+          "candidate_check": "duplicate JSON key: status",
+          "direct_core_acceptance": null
+        }
+      ],
+      "candidate_sha256": "f4ae1ce9296eee866a6e625369ae1372a0adcad7bec447dc5e521c2e7a9ee355"
+    },
+    {
+      "profile": "THEMATIC",
+      "accepted_card_exact_bytes": true,
+      "accepted_views_validated": true,
+      "state_bytes_unchanged": true,
+      "preflight_no_writes": true,
+      "prior_acceptance_revalidated": true,
+      "card_entities": 3,
+      "metrics": 4,
+      "negative_cases": [
+        {
+          "case": "missing_target",
+          "candidate_check": "targets must cover the exact task set once each",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "duplicate_target",
+          "candidate_check": "targets must cover the exact task set once each",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "missing_claim_text",
+          "candidate_check": "experimental candidate fails /tmp/tmplg14f1u4/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "wrong_subject",
+          "candidate_check": "metric policy-gate-solve subject_id is not a registered entity",
+          "direct_core_acceptance": "Evidence Card evidence:SP001:2556cd0b7e345984 invalid: metric policy-gate-solve subject_id is not a registered entity"
+        },
+        {
+          "case": "stale_basis",
+          "candidate_check": "Evidence Card basis hashes do not match exact task/package",
+          "direct_core_acceptance": "Evidence Card evidence:SP001:2556cd0b7e345984 invalid: Evidence Card basis hashes do not match exact task/package"
+        },
+        {
+          "case": "supplement_metadata_drift",
+          "candidate_check": "Evidence supplement source supplement-src-aae133acd2501ad5 title differs from exact authority manifest",
+          "direct_core_acceptance": "Evidence Card evidence:SP001:2556cd0b7e345984 invalid: Evidence supplement source supplement-src-aae133acd2501ad5 title differs from exact authority manifest"
+        },
+        {
+          "case": "raw_tamper",
+          "candidate_check": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/paper.html",
+          "direct_core_acceptance": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/paper.html"
+        },
+        {
+          "case": "extra_result_file",
+          "candidate_check": null,
+          "direct_core_acceptance": "Evidence result set must be complete and exact: missing=[] extra=['unexpected.txt']"
+        },
+        {
+          "case": "duplicate_json_key",
+          "candidate_check": "duplicate JSON key: status",
+          "direct_core_acceptance": null
+        }
+      ],
+      "candidate_sha256": "87819c702a7b503f209c363b5e759ebd0b5fa35593eda313c5833831448fe7a8"
+    },
+    {
+      "profile": "RETROSPECTIVE_PERIOD",
+      "accepted_card_exact_bytes": true,
+      "accepted_views_validated": true,
+      "state_bytes_unchanged": true,
+      "preflight_no_writes": true,
+      "prior_acceptance_revalidated": true,
+      "card_entities": 3,
+      "metrics": 4,
+      "negative_cases": [
+        {
+          "case": "missing_target",
+          "candidate_check": "targets must cover the exact task set once each",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "duplicate_target",
+          "candidate_check": "targets must cover the exact task set once each",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "missing_claim_text",
+          "candidate_check": "experimental candidate fails /tmp/tmpdkkcw6nr/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+          "direct_core_acceptance": null
+        },
+        {
+          "case": "wrong_subject",
+          "candidate_check": "metric policy-gate-solve subject_id is not a registered entity",
+          "direct_core_acceptance": "Evidence Card evidence:PERIOD-LAB:2556cd0b7e345984 invalid: metric policy-gate-solve subject_id is not a registered entity"
+        },
+        {
+          "case": "stale_basis",
+          "candidate_check": "Evidence Card basis hashes do not match exact task/package",
+          "direct_core_acceptance": "Evidence Card evidence:PERIOD-LAB:2556cd0b7e345984 invalid: Evidence Card basis hashes do not match exact task/package"
+        },
+        {
+          "case": "supplement_metadata_drift",
+          "candidate_check": "Evidence supplement source supplement-src-aae133acd2501ad5 title differs from exact authority manifest",
+          "direct_core_acceptance": "Evidence Card evidence:PERIOD-LAB:2556cd0b7e345984 invalid: Evidence supplement source supplement-src-aae133acd2501ad5 title differs from exact authority manifest"
+        },
+        {
+          "case": "raw_tamper",
+          "candidate_check": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/PERIOD-LAB/raw/paper.html",
+          "direct_core_acceptance": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/PERIOD-LAB/raw/paper.html"
+        },
+        {
+          "case": "extra_result_file",
+          "candidate_check": null,
+          "direct_core_acceptance": "Evidence result set must be complete and exact: missing=[] extra=['unexpected.txt']"
+        },
+        {
+          "case": "duplicate_json_key",
+          "candidate_check": "duplicate JSON key: status",
+          "direct_core_acceptance": null
+        }
+      ],
+      "candidate_sha256": "d6540310af15b47e095356cab26e9aadb51395b933969b11ff06b0e851a35cb0"
+    }
+  ],
+  "independent_semantic_review": false,
+  "stage_transition_tested": false
+}
