@@ -1,0 +1,575 @@
+{
+  "fixed_main": "005e59841272464307386abfc11f5b09228f0814",
+  "scope": "CONTROLLED_FUNCTION_INTERLEAVINGS_NOT_REAL_CONCURRENCY_OR_STAGE_ADMISSION",
+  "patch_base": "phase5 structural hardening applied to fixed main",
+  "arms": [
+    {
+      "arm": "baseline",
+      "rows": [
+        {
+          "arm": "baseline",
+          "case": "valid",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "raw_after_first",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:ffa6a744d78d2838 invalid: Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html; Evidence source supplement-src-0000000000000001 was not explicitly bound to this Evidence task; add it through Discovery/Screening first or use an exact Evidence Authority Supplement",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "raw_after_last",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "card_after_check",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "6c923949f1f374955470e83a269a7f830c79caf5a267f23767ef0c35d765d946",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "card_before_copy",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "accepted Evidence result changed: evidence:SP001:c212b3ffca5edfa7",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "missing_target",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "7a70f9362f7e07c80e9eb8ca903385d08194d3c30c1643e8db5947d5c384fcf7",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "duplicate_target",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "25bf8169ff510b50bae19781d8c361d6c970d82b082010a770572253c5eaafd1",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "missing_text",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "6c923949f1f374955470e83a269a7f830c79caf5a267f23767ef0c35d765d946",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "baseline",
+          "case": "duplicate_key",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "d94932136d8fe46a093e05925aa57001579401374d9e6fd7c815af037e44b70c",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        }
+      ],
+      "unit_tests": 12,
+      "module_sha256": "f7478d8646c2258adc563c2684f2c20a42970c0647831c01499e6ae08ef10341"
+    },
+    {
+      "arm": "hardened",
+      "rows": [
+        {
+          "arm": "hardened",
+          "case": "valid",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "raw_after_first",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:ffa6a744d78d2838 invalid: Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html; Evidence source supplement-src-0000000000000001 was not explicitly bound to this Evidence task; add it through Discovery/Screening first or use an exact Evidence Authority Supplement",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "raw_after_last",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "card_after_check",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "6c923949f1f374955470e83a269a7f830c79caf5a267f23767ef0c35d765d946",
+          "subsequent_revalidation_error": "accepted Evidence result metadata/card divergence: evidence:SP001:c212b3ffca5edfa7",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "card_before_copy",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "accepted Evidence result changed: evidence:SP001:c212b3ffca5edfa7",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "missing_target",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence targets must cover the exact task set once each",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "duplicate_target",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence targets must cover the exact task set once each",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "missing_text",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence Card fails /tmp/tmpbeb_4w0_/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "hardened",
+          "case": "duplicate_key",
+          "accept_returned": false,
+          "rejection": "duplicate Evidence Card JSON key: status",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 0,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        }
+      ],
+      "unit_tests": 12,
+      "module_sha256": "20a13e6532266ba75b4041269e627db62f06e7c5bf95a98c3f3196b4fe2e9eb2"
+    },
+    {
+      "arm": "unsafe_memoized",
+      "rows": [
+        {
+          "arm": "unsafe_memoized",
+          "case": "valid",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "raw_after_first",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "raw_after_last",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "card_after_check",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "6c923949f1f374955470e83a269a7f830c79caf5a267f23767ef0c35d765d946",
+          "subsequent_revalidation_error": "accepted Evidence result metadata/card divergence: evidence:SP001:c212b3ffca5edfa7",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "card_before_copy",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": false,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "accepted Evidence result changed: evidence:SP001:c212b3ffca5edfa7",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "missing_target",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence targets must cover the exact task set once each",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "duplicate_target",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence targets must cover the exact task set once each",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "missing_text",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence Card fails /tmp/tmpz7j_vbk2/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "unsafe_memoized",
+          "case": "duplicate_key",
+          "accept_returned": false,
+          "rejection": "duplicate Evidence Card JSON key: status",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 0,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        }
+      ],
+      "unit_tests": 12,
+      "module_sha256": "20a13e6532266ba75b4041269e627db62f06e7c5bf95a98c3f3196b4fe2e9eb2"
+    },
+    {
+      "arm": "card_byte_bound",
+      "rows": [
+        {
+          "arm": "card_byte_bound",
+          "case": "valid",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "raw_after_first",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:ffa6a744d78d2838 invalid: Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html; Evidence source supplement-src-0000000000000001 was not explicitly bound to this Evidence task; add it through Discovery/Screening first or use an exact Evidence Authority Supplement",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "raw_after_last",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": "Evidence Authority Supplement sources[0] Raw SHA drift: sources/SP001/raw/authority-0.html",
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "card_after_check",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "card_before_copy",
+          "accept_returned": true,
+          "rejection": null,
+          "accepted_root_exists": true,
+          "accepted_cards_equal_initial_bytes": true,
+          "acceptance_sha256": "259e00c243fa950566bae442cffb5f34a4c2e28affe89683a7d4f3d3e96b1f6e",
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 2,
+            "supplement": 3
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "missing_target",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence targets must cover the exact task set once each",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "duplicate_target",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence targets must cover the exact task set once each",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "missing_text",
+          "accept_returned": false,
+          "rejection": "Evidence Card evidence:SP001:c212b3ffca5edfa7 invalid: Evidence Card fails /tmp/tmptvh3zc0l/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 1,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        },
+        {
+          "arm": "card_byte_bound",
+          "case": "duplicate_key",
+          "accept_returned": false,
+          "rejection": "duplicate Evidence Card JSON key: status",
+          "accepted_root_exists": false,
+          "accepted_cards_equal_initial_bytes": null,
+          "acceptance_sha256": null,
+          "subsequent_revalidation_error": null,
+          "calls_during_accept": {
+            "card": 0,
+            "supplement": 1
+          },
+          "state_unchanged": true
+        }
+      ],
+      "unit_tests": 12,
+      "module_sha256": "a545b315262072d8abf3eb5c183ae55c45343dc506eb6049e24a32b404410ba6"
+    }
+  ]
+}

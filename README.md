@@ -12,7 +12,7 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-For the ongoing authorized architecture investigation, start with [the PR #487 impact and validation-work decision](outputs/astra-validation-work-and-pr487-decision.md) (2026-09-12), especially sections 1, 5, and 6. It updates the prior stage-boundary decision and identifies the next bounded experiment. The initial-review reading list below is historical, not an instruction to restart Phase A.
+For the ongoing authorized architecture investigation, start with [the byte-ownership and sharing decision](outputs/astra-byte-ownership-and-sharing-decision.md) (2026-09-12), especially sections 1, 4, and 5. It narrows the prior validation-sharing proposal using controlled interleavings and identifies the next bounded experiment. The initial-review reading list below is historical, not an instruction to restart Phase A.
 
 Read these files before deep investigation:
 

@@ -1,0 +1,73 @@
+--- a/scripts/survey_evidence_v2.py
++++ b/scripts/survey_evidence_v2.py
+@@ -862,7 +862,7 @@
+         errors.append(f"{label} {subject_role} cannot bind artifact.primary_subject_id")
+ 
+ 
+-def _load_factual_card(path: Path) -> dict[str, Any]:
++def _decode_factual_card(data: bytes) -> dict[str, Any]:
+     def unique_object(pairs):
+         result = {}
+         for key, value in pairs:
+@@ -870,10 +870,14 @@
+                 raise ValueError(f"duplicate Evidence Card JSON key: {key}")
+             result[key] = value
+         return result
+-    value = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
++    value = json.loads(data.decode("utf-8"), object_pairs_hook=unique_object)
+     if not isinstance(value, dict):
+         raise ValueError("Evidence Card must be an object")
+     return value
++
++
++def _load_factual_card(path: Path) -> dict[str, Any]:
++    return _decode_factual_card(path.read_bytes())
+ 
+ 
+ def validate_evidence_card(
+@@ -1097,18 +1101,21 @@
+     expected = {Path(meta["path"]).name for meta in package["tasks"]}
+     files = _exact_regular_files(results_dir, expected, "Evidence result set")
+     entries: list[dict[str, Any]] = []
++    captured_cards: dict[str, bytes] = {}
+     for meta in package["tasks"]:
+         task_path = package_path.parent / meta["path"]
+         task = core.load_json(task_path)
+         result_path = files[Path(meta["path"]).name]
+-        card = _load_factual_card(result_path)
++        card_bytes = result_path.read_bytes()
++        card = _decode_factual_card(card_bytes)
++        captured_cards[result_path.name] = card_bytes
+         errors = validate_evidence_card(card, task, meta["sha256"], package, repo_root=repo_root)
+         if errors:
+             raise ValueError(f"Evidence Card {meta['evidence_task_id']} invalid: {'; '.join(errors)}")
+         entries.append({
+             "evidence_task_id": meta["evidence_task_id"],
+             "discovery_ids": list(meta["discovery_ids"]),
+-            "sha256": core.sha256_file(result_path),
++            "sha256": hashlib.sha256(card_bytes).hexdigest(),
+             "status": card["status"],
+             "filename": result_path.name,
+         })
+@@ -1127,7 +1134,7 @@
+     for meta in package["tasks"]:
+         basename = Path(meta["path"]).name
+         shutil.copy2(package_path.parent / meta["path"], run_dir / "tasks" / basename)
+-        shutil.copy2(files[basename], run_dir / "results" / basename)
++        (run_dir / "results" / basename).write_bytes(captured_cards[basename])
+     acceptance = {
+         "schema_version": "2.0-rc1",
+         "issue_id": package["issue_id"],
+@@ -1178,9 +1185,10 @@
+         name = Path(meta["path"]).name
+         if core.sha256_file(task_files[name]) != meta["sha256"]:
+             raise ValueError(f"accepted Evidence Task changed: {row['evidence_task_id']}")
+-        if row.get("filename") != name or core.sha256_file(result_files[name]) != row.get("sha256"):
++        card_bytes = result_files[name].read_bytes()
++        if row.get("filename") != name or hashlib.sha256(card_bytes).hexdigest() != row.get("sha256"):
+             raise ValueError(f"accepted Evidence result changed: {row['evidence_task_id']}")
+-        card = _load_factual_card(result_files[name])
++        card = _decode_factual_card(card_bytes)
+         errors = validate_evidence_card(
+             card,
+             core.load_json(task_files[name]),

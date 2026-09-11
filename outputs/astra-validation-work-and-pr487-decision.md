@@ -3,6 +3,8 @@
 日付: 2026-09-12 JST  
 状態: **CURRENT MAIN VERIFIED / WORK AMPLIFICATION MEASURED / NO PRODUCTION ADOPTION**
 
+継続更新: [bytes所有権・共有案の判断](astra-byte-ownership-and-sharing-decision.md)で操作内cacheの反例を確認し、性能共有を縮小した。本書の重複計測は維持し、次の実行順は後続文書§5を参照。
+
 ## 1. 今回の判断
 
 **authority Coreとcanonical artifactsを維持する方針は継続する。ただし、次の実装検討を「Evidence境界補強＋schema compile再利用」だけに限定せず、同じ操作内の検証済みbasisの共有へ広げる。最初の対象はEvidence Authority Supplementの重複検査とする。**
