@@ -3,6 +3,8 @@
 日付: 2026-09-11 JST  
 状態: **ISOLATED STAGE REPRODUCTION COMPLETE / EXPERIMENTAL PATCH / NO PRODUCTION ADOPTION**
 
+継続更新（2026-09-12）: PR #487/current mainの影響と次の投資順は[検証work・PR #487判断](astra-validation-work-and-pr487-decision.md)を参照。本書の実測は下記の旧fixed refに属する履歴として保持する。
+
 ## 1. 結論と次のdecision surface
 
 **canonical直接authoringの前提として、Evidenceの共通入力・再検証境界を補強する狭いCore maintenanceを推奨する。新しいauthoring engineやsemantic DSLの設計を先行させない。**

@@ -12,6 +12,8 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
+For the ongoing authorized architecture investigation, start with [the PR #487 impact and validation-work decision](outputs/astra-validation-work-and-pr487-decision.md) (2026-09-12), especially sections 1, 5, and 6. It updates the prior stage-boundary decision and identifies the next bounded experiment. The initial-review reading list below is historical, not an instruction to restart Phase A.
+
 Read these files before deep investigation:
 
 1. `brief/00-mission-and-success-criteria.md`
