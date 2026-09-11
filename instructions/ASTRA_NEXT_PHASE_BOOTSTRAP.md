@@ -1,5 +1,7 @@
 # Astra next-phase bootstrap
 
+> **HISTORICAL — superseded as a resume entry after Phase 3-G.** Fresh sessions use [ASTRA_POST_PHASE_3_BOOTSTRAP.md](ASTRA_POST_PHASE_3_BOOTSTRAP.md) and [Phase 3 closeout](../handoff/astra-phase-3-session-closeout.md). The decision-only output and same-session authorization procedure below applied to the post-Phase-A step; do not replay them by default. This text is retained as historical instruction provenance.
+
 Date: 2026-09-09 JST  
 Status: **NEXT-PHASE DECISION BOOTSTRAP / NO PRODUCTION ADOPTION**
 

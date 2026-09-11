@@ -3,6 +3,8 @@
 日付: 2026-09-12 JST  
 状態: **SYSTEM DIRECTION REASSESSED / PRIORITIES REPLACED / NO PRODUCTION ADOPTION**
 
+Phase境界: 本再評価をPhase 3-Gの現行判断として[Phase 3 closeout](../handoff/astra-phase-3-session-closeout.md)へ引き継いだ。新しい主比較は未着手。fresh sessionの入口は[post-Phase-3 bootstrap](../instructions/ASTRA_POST_PHASE_3_BOOTSTRAP.md)。
+
 ## 1. 結論
 
 **現時点では受理境界の実装検討を主経路として続けない。前回予定した「内部staging案をもう1つ試す」も保留し、研究上の問いからpublication・review・repairまでを通した仕事の比較へ重点を移す。**

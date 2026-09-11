@@ -12,27 +12,25 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-For the ongoing authorized architecture investigation, start with [the system direction reassessment](outputs/astra-system-direction-reassessment.md) (2026-09-12), especially sections 1, 5, and 7. It pauses further acceptance/staging implementation and prioritizes publication-quality and total-work comparison across research, editorial decisions, review, and repair. The initial-review reading list below is historical, not an instruction to restart Phase A.
+**Phase 3 is closed after the Phase 3-G system-direction reassessment.** New main work has not started.
 
-Read these files before deep investigation:
+Fresh Astra sessions need only:
 
-1. `brief/00-mission-and-success-criteria.md`
-2. `brief/01-human-and-supervisor-discussion-context.md`
-3. `brief/02-current-system-reference.md`
-4. `instructions/ASTRA_INITIAL_TASK.md`
-5. `research/00-astra-usage-and-cost-context.md`
+1. [Current bootstrap](instructions/ASTRA_POST_PHASE_3_BOOTSTRAP.md).
+2. [Phase 3 durable handoff](handoff/astra-phase-3-session-closeout.md).
+3. [System direction reassessment](outputs/astra-system-direction-reassessment.md), sections 1, 5, and 7.
 
-After that, investigate the upstream repository, its history, issues, pull requests, documentation, implementation, and relevant external sources as needed.
+Further acceptance/staging/cache implementation is paused. The next priority is publication-quality and total-work comparison across research questions, editorial decisions, reader-facing text, review, and repair. The handoff separates current decisions, unproven claims, and historical experiment references. Past Human-Sol logs, previous chat history, Phase A instructions, and lab reruns are not mandatory resume inputs. Other briefs and historical decisions remain available for selective provenance reads.
 
-## Current upstream reference
+## Last recorded upstream reference
 
 Production repository: `eariver/japanese-generative-ai-survey`
 
-Current `main` observed when this workspace was initialized:
+Last recorded production `main` (2026-09-12 JST):
 
-`0a47a9b85108c5a2e9644037e7c0fb48b5bd96dc`
+`005e59841272464307386abfc11f5b09228f0814`
 
-This commit merged PR #485 (`Core v2: enforce Sol/Luna review governance and full Architecture dossier`). It is a useful current baseline, not an architectural constraint.
+This commit merged PR #487 (`Core v2: resolve effective Screening Discovery basis during Drafting`). See the [fixed observation](notes/phase6-production-reality.json) and handoff for edition state and limitations. It was not re-observed during closeout and must not be assumed to remain latest. The initialization baseline `0a47a9b...` / PR #485 remains historical evidence.
 
 ## Core principle
 

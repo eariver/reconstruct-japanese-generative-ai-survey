@@ -4,17 +4,19 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-The original Phase A architecture review and its refinement are complete. Do **not** restart `instructions/ASTRA_INITIAL_TASK.md` or replay Phase A as the default task.
+Phase 3 is closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
 
 For a new Astra session, read first:
 
-1. `instructions/ASTRA_NEXT_PHASE_BOOTSTRAP.md`
-2. `handoff/astra-phase-a-session-closeout.md`
-3. `outputs/astra-phase-a-architecture-refinement.md` — begin with §1 and §10; load other sections only as needed
+1. `instructions/ASTRA_POST_PHASE_3_BOOTSTRAP.md`
+2. `handoff/astra-phase-3-session-closeout.md`
+3. `outputs/astra-system-direction-reassessment.md` — §1, §5, §7; other sections only as needed
 
-Use `context/2026-09-09_post-refinement-human-sol-discussion.md`, `notes/phase-a-evidence.md`, the original Phase A report, and upstream production artifacts selectively when they materially affect the current decision.
+Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
 
-The first task is to let Astra determine the next phase under the bootstrap instruction, not to impose a predefined implementation path. After writing `outputs/astra-next-phase-decision.md`, stop until the Human explicitly authorizes the selected phase, preferably in the same Astra session.
+The objective is to minimize total lifecycle work across production, supervisory reasoning/review, repair/regeneration, CI/runtime, LLM usage, operational complexity, and Human handoff, while preserving at least intended publication quality, provenance correctness, fail-close safety, Human authority, Weekly/Special generality, and historical reproducibility. Moving work between roles is not a saving; justified long-term investment is allowed.
+
+The current priority is research-question-to-publication/review/repair comparison with all-role cost accounting. Additional acceptance/staging/cache implementation is paused, including the previously proposed internal-staging alternative. Canonical direct authoring plus mechanical assistance is a comparator, not a proven final architecture. On a new continuation instruction, choose the next bounded work from the current evidence; do not replay the former decision-only/same-session approval step. During a closeout-only request, update durable handoff and stop.
 
 Historical task files remain useful provenance and context but are not the active task unless explicitly reactivated.
 
@@ -23,7 +25,7 @@ Historical task files remain useful provenance and context but are not the activ
 - `eariver/japanese-generative-ai-survey`: **READ ONLY** for this exercise unless the Human later gives an explicit production-mutation instruction.
 - `eariver/reconstruct-japanese-generative-ai-survey`: writable working area for notes, analysis, probes, diagrams, decisions, and proposals.
 
-Do not mutate the upstream production repository, its branches, PRs, Issues, Human decisions, Freeze/Release state, or other production authority during the next-phase decision step.
+Do not mutate the upstream production repository, its branches, PRs, Issues, production State, Human decisions, Gates, Freeze/Release state, adoption/migration, or other production authority without explicit Human authorization. Ordinary Git Pull/Push and final commit are handled by the Human.
 
 ## Investigation style
 
@@ -35,7 +37,7 @@ Prefer targeted reads over exhaustive crawling. Stop investigating a question wh
 
 Avoid wheel reinvention: public OSS, standards, workflow/provenance/publication/agent-orchestration patterns may be reused when they improve total-system cost and quality.
 
-Small read-only analytical probes are allowed. The bootstrap task is a decision/design task, not authorization for production implementation, migration, or a large shadow execution.
+Reconstruct investigation and candidate work follow the current Human request. The bootstrap is not authorization for production implementation, migration, or a large shadow execution. Read current remote reality only when current implementation/edition details matter; fixed lab snapshots are historical evidence.
 
 ## Role abstraction
 
@@ -50,8 +52,8 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-For the bootstrap step, place the primary decision artifact at:
+Current decision: `outputs/astra-system-direction-reassessment.md`.
 
-`outputs/astra-next-phase-decision.md`
+Current handoff: `handoff/astra-phase-3-session-closeout.md`.
 
-Keep supporting artifacts to the minimum actually needed. Then stop before executing the selected phase until the Human gives the same-session follow-up authorization.
+Do not overwrite historical decisions or recreate the old bootstrap output by default. Keep new durable artifacts minimal, preserve evidence scope and unresolved conditions, and stop at a supported decision surface or the Human's specified boundary.
