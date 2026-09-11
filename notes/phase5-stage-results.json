@@ -1,0 +1,108 @@
+{
+  "scope": "ISOLATED_STAGE_AND_CHECKPOINT_NOT_PRODUCTION_OR_SEMANTIC_REVIEW",
+  "main": "6d748a962d57beff89da7c1b20cb5a9a86c8e261",
+  "base_module_sha256": "f7478d8646c2258adc563c2684f2c20a42970c0647831c01499e6ae08ef10341",
+  "patched_module_sha256": "20a13e6532266ba75b4041269e627db62f06e7c5bf95a98c3f3196b4fe2e9eb2",
+  "results": [
+    {
+      "arm": "fixed_main",
+      "case": "valid",
+      "stopped_at": "EVIDENCE_REVIEWED",
+      "human_gates_pending": true,
+      "actual_fixture_commit": "2bab88dc07725171eba653f7f2f08ebaa25c815b",
+      "stage_contract_pass": true,
+      "successor_validator": {
+        "revalidation_error": null,
+        "historical_and_state_bytes_unchanged": true
+      }
+    },
+    {
+      "arm": "fixed_main",
+      "case": "missing_target",
+      "stopped_at": "EVIDENCE_REVIEWED",
+      "human_gates_pending": true,
+      "actual_fixture_commit": "a77762f46c5d7c5893a627858f5a8a5a8f55dd2f",
+      "stage_contract_pass": true,
+      "successor_validator": {
+        "revalidation_error": "accepted Evidence result metadata/card divergence: evidence:SP001:2556cd0b7e345984",
+        "historical_and_state_bytes_unchanged": true
+      }
+    },
+    {
+      "arm": "fixed_main",
+      "case": "duplicate_target",
+      "stopped_at": "EVIDENCE_REVIEWED",
+      "human_gates_pending": true,
+      "actual_fixture_commit": "d1ed52e67fb1ae996b8df706f8f6c24215e04064",
+      "stage_contract_pass": true,
+      "successor_validator": {
+        "revalidation_error": "accepted Evidence result metadata/card divergence: evidence:SP001:2556cd0b7e345984",
+        "historical_and_state_bytes_unchanged": true
+      }
+    },
+    {
+      "arm": "fixed_main",
+      "case": "missing_text",
+      "stopped_at": "EVIDENCE_REVIEWED",
+      "human_gates_pending": true,
+      "actual_fixture_commit": "6cf3e28f97fec2739d35b18aee7e446bb16704e6",
+      "stage_contract_pass": true,
+      "successor_validator": {
+        "revalidation_error": "accepted Evidence result metadata/card divergence: evidence:SP001:2556cd0b7e345984",
+        "historical_and_state_bytes_unchanged": true
+      }
+    },
+    {
+      "arm": "fixed_main",
+      "case": "duplicate_key",
+      "stopped_at": "EVIDENCE_REVIEWED",
+      "human_gates_pending": true,
+      "actual_fixture_commit": "100fbf2787804792e08e45c5abae46b99a3e99ad",
+      "stage_contract_pass": true,
+      "successor_validator": {
+        "revalidation_error": "duplicate Evidence Card JSON key: status",
+        "historical_and_state_bytes_unchanged": true
+      }
+    },
+    {
+      "arm": "experimental_hardened",
+      "case": "valid",
+      "stopped_at": "EVIDENCE_REVIEWED",
+      "human_gates_pending": true,
+      "actual_fixture_commit": "cd717eaabeba0c31ab6a3bf6745ec7c510ee68a1",
+      "stage_contract_pass": true
+    },
+    {
+      "arm": "experimental_hardened",
+      "case": "missing_target",
+      "stopped_at": "candidate_acceptance",
+      "error": "Evidence Card evidence:SP001:2556cd0b7e345984 invalid: Evidence targets must cover the exact task set once each",
+      "state_unchanged_on_reject": true,
+      "no_accepted_directory": true
+    },
+    {
+      "arm": "experimental_hardened",
+      "case": "duplicate_target",
+      "stopped_at": "candidate_acceptance",
+      "error": "Evidence Card evidence:SP001:2556cd0b7e345984 invalid: Evidence targets must cover the exact task set once each",
+      "state_unchanged_on_reject": true,
+      "no_accepted_directory": true
+    },
+    {
+      "arm": "experimental_hardened",
+      "case": "missing_text",
+      "stopped_at": "candidate_acceptance",
+      "error": "Evidence Card evidence:SP001:2556cd0b7e345984 invalid: Evidence Card fails /tmp/astra-stage-ay2e26q8/schemas/evidence-v2-card.schema.json: $.claims[0]: 'text' is a required property",
+      "state_unchanged_on_reject": true,
+      "no_accepted_directory": true
+    },
+    {
+      "arm": "experimental_hardened",
+      "case": "duplicate_key",
+      "stopped_at": "candidate_acceptance",
+      "error": "duplicate Evidence Card JSON key: status",
+      "state_unchanged_on_reject": true,
+      "no_accepted_directory": true
+    }
+  ]
+}

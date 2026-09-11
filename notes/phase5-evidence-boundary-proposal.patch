@@ -1,0 +1,63 @@
+--- a/scripts/survey_evidence_v2.py
++++ b/scripts/survey_evidence_v2.py
+@@ -862,6 +862,20 @@
+         errors.append(f"{label} {subject_role} cannot bind artifact.primary_subject_id")
+ 
+ 
++def _load_factual_card(path: Path) -> dict[str, Any]:
++    def unique_object(pairs):
++        result = {}
++        for key, value in pairs:
++            if key in result:
++                raise ValueError(f"duplicate Evidence Card JSON key: {key}")
++            result[key] = value
++        return result
++    value = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=unique_object)
++    if not isinstance(value, dict):
++        raise ValueError("Evidence Card must be an object")
++    return value
++
++
+ def validate_evidence_card(
+     card: dict[str, Any],
+     task: dict[str, Any],
+@@ -873,6 +887,21 @@
+     errors: list[str] = []
+     if set(card) != CARD_KEYS:
+         return ["Evidence Card fields must exactly match factual v2 contract; editorial fields are forbidden"]
++    if repo_root is not None:
++        try:
++            schema_gate.validate_instance(card, repo_root / CARD_SCHEMA, label="Evidence Card")
++        except ValueError as exc:
++            return [str(exc)]
++    verification = card.get("verification")
++    targets = verification.get("targets", []) if isinstance(verification, dict) else []
++    if not isinstance(targets, list) or any(not isinstance(row, dict) for row in targets):
++        return ["Evidence verification targets must be objects"]
++    actual_targets = [row.get("target") for row in targets]
++    expected_targets = task.get("verification_targets", [])
++    if (any(not isinstance(value, str) for value in actual_targets)
++            or len(actual_targets) != len(set(actual_targets))
++            or set(actual_targets) != set(expected_targets)):
++        return ["Evidence targets must cover the exact task set once each"]
+     if card.get("schema_version") != "2.0-rc1":
+         errors.append("Evidence Card schema_version mismatch")
+     if card.get("issue_id") != task.get("issue_id") or card.get("evidence_task_id") != task.get("evidence_task_id"):
+@@ -1072,7 +1101,7 @@
+         task_path = package_path.parent / meta["path"]
+         task = core.load_json(task_path)
+         result_path = files[Path(meta["path"]).name]
+-        card = core.load_json(result_path)
++        card = _load_factual_card(result_path)
+         errors = validate_evidence_card(card, task, meta["sha256"], package, repo_root=repo_root)
+         if errors:
+             raise ValueError(f"Evidence Card {meta['evidence_task_id']} invalid: {'; '.join(errors)}")
+@@ -1151,7 +1180,7 @@
+             raise ValueError(f"accepted Evidence Task changed: {row['evidence_task_id']}")
+         if row.get("filename") != name or core.sha256_file(result_files[name]) != row.get("sha256"):
+             raise ValueError(f"accepted Evidence result changed: {row['evidence_task_id']}")
+-        card = core.load_json(result_files[name])
++        card = _load_factual_card(result_files[name])
+         errors = validate_evidence_card(
+             card,
+             core.load_json(task_files[name]),
