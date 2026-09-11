@@ -12,7 +12,7 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-For the ongoing authorized architecture investigation, start with [the staged-acceptance tradeoff decision](outputs/astra-staged-acceptance-tradeoff-decision.md) (2026-09-12), especially sections 1, 4, and 6. It rejects the outer staging wrapper on compatibility and cost evidence, and sets a bounded internal alternative with a stop condition. The initial-review reading list below is historical, not an instruction to restart Phase A.
+For the ongoing authorized architecture investigation, start with [the system direction reassessment](outputs/astra-system-direction-reassessment.md) (2026-09-12), especially sections 1, 5, and 7. It pauses further acceptance/staging implementation and prioritizes publication-quality and total-work comparison across research, editorial decisions, review, and repair. The initial-review reading list below is historical, not an instruction to restart Phase A.
 
 Read these files before deep investigation:
 

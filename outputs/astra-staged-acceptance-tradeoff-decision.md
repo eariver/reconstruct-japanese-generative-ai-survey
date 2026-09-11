@@ -3,6 +3,8 @@
 日付: 2026-09-12 JST  
 状態: **BOUNDED PUBLICATION EXPERIMENT COMPLETE / OUTER WRAPPER NOT RECOMMENDED / NO ADOPTION**
 
+全体再評価による更新: [J-GAS全体方針再評価](astra-system-direction-reassessment.md)が次の優先順位を置き換える。本書§6の「内部案を次に1つ試す」は保留し、研究・編集・review・repairを通した品質/総仕事量比較を主経路とする。下記の試験結果は固定Evidenceとして保持する。
+
 ## 1. 結論
 
 **package/task/Cardをprivateな作業領域へ固定し、完成後に公開する性質は有効だった。ただし、今回の「既存accept関数の外側を包むwrapper」は採用候補から外す。** 理由は、既存のhistorical accepted再入を壊し、同じEvidenceの全再検証を追加して費用を増やすためである。これらを隠して「安全なstagingが完成した」とは扱わない。
