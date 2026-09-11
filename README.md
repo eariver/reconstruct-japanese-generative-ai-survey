@@ -12,7 +12,7 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-For the ongoing authorized architecture investigation, start with [the byte-ownership and sharing decision](outputs/astra-byte-ownership-and-sharing-decision.md) (2026-09-12), especially sections 1, 4, and 5. It narrows the prior validation-sharing proposal using controlled interleavings and identifies the next bounded experiment. The initial-review reading list below is historical, not an instruction to restart Phase A.
+For the ongoing authorized architecture investigation, start with [the staged-acceptance tradeoff decision](outputs/astra-staged-acceptance-tradeoff-decision.md) (2026-09-12), especially sections 1, 4, and 6. It rejects the outer staging wrapper on compatibility and cost evidence, and sets a bounded internal alternative with a stop condition. The initial-review reading list below is historical, not an instruction to restart Phase A.
 
 Read these files before deep investigation:
 

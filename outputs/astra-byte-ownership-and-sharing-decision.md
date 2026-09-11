@@ -3,6 +3,8 @@
 日付: 2026-09-12 JST  
 状態: **CONTROLLED INTERLEAVINGS TESTED / SHARING NARROWED / NO PRODUCTION ADOPTION**
 
+継続更新: [staging試作の採否判断](astra-staged-acceptance-tradeoff-decision.md)でpackage/task固定・公開失敗・historical再入を検証。外側wrapperは互換性退行と費用増のため採らず、次の範囲と停止条件を同文書§6へ更新した。
+
 ## 1. 結論と前回からの修正
 
 **Supplement検証結果の単純な操作内cacheは採らない。先に検査・hash・保存が同じbytesを使う受理境界を整える。** 前回の「単一操作へ共有を閉じる」は必要な制約だが、それだけで安全にはならなかった。
