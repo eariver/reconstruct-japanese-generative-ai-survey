@@ -1,0 +1,881 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "research_profile": "WEEKLY",
+  "publication_profile": "WEEKLY_MAGAZINE",
+  "package_id": "w34-collaborative-agent-workflows-retrieval",
+  "draft_version": "v1.1",
+  "status": "DRAFT",
+  "basis": {
+    "draft_package_sha256": "654e93ec0142f5e2f8815ea349bafa9bf94fc40095eb85fcd44a15ccb95b8661",
+    "prompt_id": "article-drafting-v2",
+    "prompt_sha256": "b687313312a23025228c16c3f10cb68f669b910cd7215e41886d4dd91f44fe11"
+  },
+  "runner": {
+    "provider": "OpenAI",
+    "model": "Astra / root",
+    "invocation": "Phase 4-E LAB ONLY: root-authored boundary wording; historical body carry-forward, not independently reviewed or admitted",
+    "generated_at": "2026-09-12T08:38:58.142350+00:00",
+    "run_reference": "notes/phase-4e/README.md"
+  },
+  "headline": "仕事場が一人用から共同用へ広がるとき",
+  "deck": "相談部屋、開発環境、検索と道具の往復が同じ作業面に寄り、エージェントの仕事場が一人用から共同用へ広がった。",
+  "deck_attribution_mode": "ATTRIBUTED",
+  "deck_evidence_refs": [
+    {
+      "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+      "kind": "CLAIM",
+      "evidence_id": "claim-1",
+      "subject_id": "slack-code",
+      "subject_role": "PRIMARY_SUBJECT"
+    },
+    {
+      "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+      "kind": "CLAIM",
+      "evidence_id": "claim-2",
+      "subject_id": "slack-code",
+      "subject_role": "PRIMARY_SUBJECT"
+    },
+    {
+      "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+      "kind": "CLAIM",
+      "evidence_id": "claim-1",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT"
+    },
+    {
+      "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+      "kind": "CLAIM",
+      "evidence_id": "claim-2",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT"
+    },
+    {
+      "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+      "kind": "CLAIM",
+      "evidence_id": "claim-3",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT"
+    }
+  ],
+  "blocks": [
+    {
+      "block_id": "p2-slack-collab",
+      "block_type": "PARAGRAPH",
+      "text": "8月20日のSlackの変更記録によると、既存の会話から専用の作業部屋が生まれ、人とエージェントが同じ場所で作る形が示された。符号の差分や部品の見え方、HTMLの試し見、カンバスが部屋に載り、終われば保管されて監査の記録が残る。GitHubの記録によれば、Slack側の連携はエージェントの力をSlackに持ち込み、作業部屋で方針を追い、差分を見て試し見を確かめながら繰り返す。Teams側の記録では、相談の流れ自体が皆で見て指示できる共同作業となり、引き継ぎには追加の承認を求められるとされる。いずれも記録の取得日付に依存する部分があり、提供範囲の細部は一次資料の範囲を超えて具体化しない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "slack-code",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "slack-code",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "slack-code",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "slack-code",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c7126721d5c45c52",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "copilot-slack",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c7126721d5c45c52",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "copilot-slack",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c7126721d5c45c52",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "copilot-slack",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:f6ee6d7a72e2e337",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "copilot-teams",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:f6ee6d7a72e2e337",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "copilot-teams",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:f6ee6d7a72e2e337",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "copilot-teams",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "p2-search-retrieval",
+      "block_type": "PARAGRAPH",
+      "text": "8月20日のMistralの記事は、検索を一度の問い合わせではなく、探す・開く・たどる・読む・絞るという複数手順の循環として描く。既存の索引の上で5種の道具を使い、見つけた内容を確かめて問いを磨き、資料を開いて節をたどり、本文を読んでから答える。FinanceBenchとOfficeQA Proでの評価は既定の構成による提供側の報告であり、独立の再現はない。RunwayのMCP対応は、作業場の手順を会話から一覧・打開・調整・実行できるとする8月20日の記録であり、品質や限界の記述はない。Kimiの符号道具は8月20日版で裏方作業の完了待ちをその場で扱い、13種の資料接続が加わり、8月18日版で複数技能の同時起動や待機命令、画面の整理、診断、Windowsでの早期停止が示された。道具の振る舞いや品質への効果は機能の説明を超えて断定しない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "CLAIM",
+          "evidence_id": "claim-3",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:0221bb0370677d0b",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "runway-mcp-workflows",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:0221bb0370677d0b",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "runway-mcp-workflows",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:0221bb0370677d0b",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "runway-mcp-workflows",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:42d0b21ecf41bf1b",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "kimi-code-cli",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:42d0b21ecf41bf1b",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "kimi-code-cli",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:42d0b21ecf41bf1b",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "kimi-code-cli",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "p2-ide-enterprise",
+      "block_type": "PARAGRAPH",
+      "text": "開発の現場側では、JetBrains向けの企業管理による差し込み口の統制や、MCPの許可・拒否の一覧、管理された計測や権限の扱いが記録されている。Googleの8月20日の記事は、条件を満たすGemini Enterpriseの加入でAntigravityが使え、管理者が有効化するとし、8月21日の雲の記事は開発環境の拡張や token の共用枠、上限、監査記録、砂箱やMCP、ブラウザーの制御を添える。日時の刻みは日付単位であり、加入条件の縁は画面での確認に譲る。OpenAIの8月19日の記事は、Replitの無償の場がGPT-5.6 Lunaの力と価格性能で開かれるとし、値下げの経緯を理由に挙げる。無償の対象や上限、 Luna自体の性能細部は示されず、値下げとの因果は提供側の語りとして区別する。macOSの机上道具では、iMessageやSMS、RCSを読み探してMessages経由で下書き・送信する差し込みや、既定で切られ選択制の操作履歴が示された。対応機種や仕事向け範囲の細部、秘め事の扱いは記録の文面を超えて断定しない。8月14日の記録は日付のみであり、今週の変化は8月20日の拡張に置く。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "copilot-jetbrains-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "copilot-jetbrains-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "copilot-jetbrains-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "copilot-jetbrains-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:4f3587003d52f194",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "antigravity-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:4f3587003d52f194",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "antigravity-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:4f3587003d52f194",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "antigravity-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:4f3587003d52f194",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "antigravity-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "replit-gpt56-luna",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "replit-gpt56-luna",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "replit-gpt56-luna",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "replit-gpt56-luna",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "chatgpt-messages-plugin",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "chatgpt-messages-plugin",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "chatgpt-messages-plugin",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "chatgpt-messages-plugin",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:70016a4d5eb2908e",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "chatgpt-computer-history",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:70016a4d5eb2908e",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "chatgpt-computer-history",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:70016a4d5eb2908e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "chatgpt-computer-history",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:70016a4d5eb2908e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "chatgpt-computer-history",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "p2-grok",
+      "block_type": "PARAGRAPH",
+      "text": "Grokの案内役の利用範囲は、SuperGrok PlusやCursorの上位・団体向けに広がり、従来の試行の層と区別される。8月21日17時29分36秒（協定時）のX上の公式の観測記録がこの拡張を伝えており、現在の案内頁の日付は8月26日に直された後のものである。本文の典拠として8月26日の頁を8月21日の記録として扱わず、時期の根拠はXの観測と8月21日付の副次記録に置く。無償試用や企業向け順番待ちの細部は頁の直し後の内容を含む可能性があり、断定しない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+          "kind": "CLAIM",
+          "evidence_id": "claim-1",
+          "subject_id": "grok-bot-expansion",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+          "kind": "CLAIM",
+          "evidence_id": "claim-2",
+          "subject_id": "grok-bot-expansion",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "grok-bot-expansion",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "grok-bot-expansion",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-mistral-agentic-search",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Mistral Agentic SearchのFinanceBench／OfficeQA Proの数値は、既定の構成を使ったMistral自身の報告である。今回確認された資料には独立した再現検証がなく、提供範囲や料金についても発表記事を超える詳細は確認されていない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "mistral-agentic-search",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-slack-code",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Slack Codeの企業向け展開や利用プランは、発表の「本日提供開始」を超える詳細が確認されていない。エージェントの出力品質やレビュー負担に関する説明も提供元の主張であり、今回の資料にはそれを測定した結果はない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "slack-code",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "slack-code",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-chatgpt-messages-plugin",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Messages連携の対応機種やWork／Codexでの利用範囲について、二次報道にある詳細は取得した一次資料で別途確認されていない。Appleの推奨・承認を示すものとも扱わない。端末上の自動操作という仕組みの説明も二次報道によるもので、取得した一次資料では確認されていない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "chatgpt-messages-plugin",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "chatgpt-messages-plugin",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-copilot-jetbrains-enterprise",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "JetBrains向けCopilotの資料の9月8日という日付は取得日であり、ページの発表日ではない。対象週との対応は変更記録の文脈と当時の観測に基づく。変更記録を超える展開時期や利用プランの詳細は確認されていない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "copilot-jetbrains-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "copilot-jetbrains-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-chatgpt-computer-history",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "ChatGPTの操作履歴の基本機能を記した8月14日の記録は日付のみで、対象期間の開始時刻との前後関係を確定できない。この週の変更として扱うのは8月20日の拡張である。プライバシー上の性質は記録の説明を超えて独立検証されていない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:70016a4d5eb2908e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "chatgpt-computer-history",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:70016a4d5eb2908e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "chatgpt-computer-history",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-grok-bot-expansion",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Grok Botの現在の案内ページは編集後の8月26日付であり、8月21日時点の本文を示す資料としては扱わない。8月21日の出来事としての時期は、当時の公式X投稿の観測と同日付の二次資料に基づく。現在のページにある無料試用や企業向け順番待ちの詳細には、8月21日後の編集内容が含まれる可能性がある。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "grok-bot-expansion",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "grok-bot-expansion",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-replit-gpt56-luna",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "ReplitのFree Modeの対象者や利用上限、GPT-5.6 Lunaの詳しい性能は今回の資料では確認されていない。値下げが無償提供を可能にしたという因果の説明は提供元のものであり、監査によって確かめられた結果ではない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "replit-gpt56-luna",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "replit-gpt56-luna",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-antigravity-enterprise",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Google Cloudの記事は8月21日付だが公開時刻がなく、22:00 UTCの締切以前だったかは確定できない。一方、8月20日のAntigravityの記事もバンドル提供を伝えている。Standard／Plus／新興市場向けの条件を超える個別の加入資格については管理画面での確認が必要である。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:4f3587003d52f194",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "antigravity-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "evidence:2026-W34:4f3587003d52f194",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-2",
+          "subject_id": "antigravity-enterprise",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-copilot-slack",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Slack向けCopilotの9月8日という日付は資料の取得日であり、対象週との対応は変更記録の文脈と当時の観測に基づく。機能の説明は取得した本文で確認できる範囲に限る。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:c7126721d5c45c52",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "copilot-slack",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-runway-mcp-workflows",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "RunwayのMCPによるワークフロー操作について、変更記録には品質や限界を評価する記述がない。機能の追加から品質の向上までは判断しない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:0221bb0370677d0b",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "runway-mcp-workflows",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-copilot-teams",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Teams向けCopilotの9月8日という日付は資料の取得日であり、対象週との対応は変更記録の文脈と当時の観測に基づく。機能の説明は取得した本文で確認できる範囲に限る。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:f6ee6d7a72e2e337",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "copilot-teams",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "scope-kimi-code-cli",
+      "block_type": "CLAIM_BOUNDARY",
+      "text": "Kimi Code CLIの新しい道具については機能の説明があるが、振る舞いや品質への効果を示す記述はない。機能の追加からその効果までは判断しない。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "evidence:2026-W34:42d0b21ecf41bf1b",
+          "kind": "LIMITATION",
+          "evidence_id": "limitation-1",
+          "subject_id": "kimi-code-cli",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    }
+  ],
+  "must_cover_coverage": [
+    {
+      "requirement": "Slack code channelsをagent coding workのshared channel化、artifact/audit/collaboration surfaceとして説明する。",
+      "block_ids": [
+        "p2-slack-collab"
+      ]
+    },
+    {
+      "requirement": "Mistral Agentic Searchをsearch/open/navigate/read/refineのmulti-step retrieval loopとして説明し、vendor benchmarkはmaker-reportedと明示する。",
+      "block_ids": [
+        "p2-search-retrieval",
+        "scope-mistral-agentic-search"
+      ]
+    },
+    {
+      "requirement": "Runway MCP workflow support、Kimi Code CLI、Gemini/Antigravity、OpenAI/Replit、GitHub Slack/Teams/JetBrainsなどを、個別ニュースの列ではなく「agent work surfaceの拡張」として配置する。",
+      "block_ids": [
+        "p2-slack-collab",
+        "p2-search-retrieval",
+        "p2-ide-enterprise"
+      ]
+    },
+    {
+      "requirement": "Grok BotはAug 21 first-party X observationと現行Aug 26 page re-dateのchronology conflictを保持し、Aug 26 pageをAug 21 exact datelineとして使用しない。",
+      "block_ids": [
+        "p2-grok",
+        "scope-grok-bot-expansion"
+      ]
+    },
+    {
+      "requirement": "GitHub Slack/Teams supporting rowsでcandidate-specific body wordingが限定的な場合、機能をEvidence以上に具体化しない。",
+      "block_ids": [
+        "p2-slack-collab",
+        "scope-copilot-slack",
+        "scope-copilot-teams"
+      ]
+    }
+  ],
+  "boundary_dispositions": [
+    {
+      "boundary": "FinanceBench/OfficeQA Pro figures are Mistral-reported with default-stack settings; no independent reproduction in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-mistral-agentic-search"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Availability/pricing/surface scope beyond the announcement post is not in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-mistral-agentic-search"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Enterprise rollout/plan availability specifics beyond 'live today' are not detailed in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-slack-code"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Agent-output quality and review-burden claims are vendor framing, not measured in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-slack-code"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Apple-silicon-only and Work/Codex-only scope per secondary detail was not separately verified in captured notes bytes; scope claims stay entry-bounded.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-chatgpt-messages-plugin"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "No Apple endorsement; local-automation mechanism per secondary reporting, not captured first-party.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-chatgpt-messages-plugin"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Snapshot is dated by capture (Sep 8), not by a page dateline; W34 timing rests on the changelog-entry context plus Discovery observation.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-copilot-jetbrains-enterprise"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Rollout/plan specifics beyond the entry are not in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-copilot-jetbrains-enterprise"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Base Aug 14 entry is date-only vs W34 start; the clean W34 delta is the Aug 20 expansion.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-chatgpt-computer-history"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Privacy properties beyond the notes text are not independently tested in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-chatgpt-computer-history"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "The captured page is dated Aug 26 (edited/re-dated after the event) and is never cited as Aug 21 exact-body authority; Aug 21 timing rests on the DailyX X observation plus secondary Aug 21 dating.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-grok-bot-expansion"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Free-trial and Enterprise-waitlist details on the current page may reflect post-Aug-21 edits.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-grok-bot-expansion"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Free Mode eligibility/limits and Luna performance specifics are not detailed in captured bytes.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-replit-gpt56-luna"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Price-cut causality is vendor narrative, not audited.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-replit-gpt56-luna"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Cloud-blog dating is Aug 21 without time; position vs 22:00Z cutoff is a stated precision limit, though the Aug 20 Antigravity post independently carries the bundle.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-antigravity-enterprise"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Plan-eligibility edge cases beyond Standard/Plus/emerging-market require console verification.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-antigravity-enterprise"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Snapshot capture-dated (Sep 8); entry-level dating vs W34 relies on changelog context plus Discovery observation.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-copilot-slack",
+        "scope-copilot-teams"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Agent-workflow quality/limits are undescribed in the changelog entry.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-runway-mcp-workflows"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Behavioral/quality effects of the new tools are undescribed beyond feature statements.",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-kimi-code-cli"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "maker-reported benchmark figures for Agentic Search",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-mistral-agentic-search"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "Grok Bot Aug 21 / Aug 26 chronology provenance",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-grok-bot-expansion"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "GitHub Slack/Teams claim-text capture limitations where applicable",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "scope-copilot-slack",
+        "scope-copilot-teams"
+      ],
+      "rationale": "名指しblockに日本語で制約を述べ、当該subjectの既存LIMITATION参照を保持する。原資料の再検証や独立した品質合格を意味しない。"
+    },
+    {
+      "boundary": "regional processing is NOT part of this package after Selection r2; it belongs to Package 4",
+      "handling": "RESPECTED_BY_OMISSION",
+      "block_ids": [],
+      "rationale": "内部の配置制約として保持する。本文にはregional processingを追加せず、Selection修復の経緯も掲載しない。元Architectureと他packageの配置は変更しない。"
+    }
+  ],
+  "profile_extensions": {
+    "sol_directive": "sol-architecture-directive-20260910-r1",
+    "architecture_roles": [
+      "WEEKLY:collaborative-agent-workflows",
+      "WEEKLY:retrieval-tool-orchestration"
+    ]
+  },
+  "publication_extensions": {
+    "section_kind": "FEATURE",
+    "target_pages": 3
+  }
+}
