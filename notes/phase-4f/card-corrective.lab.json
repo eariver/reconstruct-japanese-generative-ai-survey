@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:589f97e8aee10bd1",
+  "basis": {
+    "task_sha256": "9359f1949e0ed81347d592dfa99d0ab170c93eb84b6c648622829860cf06007b",
+    "screening_acceptance_sha256": "d18c8ce303e134d631d16cae26b8afea5020cf8801a91a69fc675c157b6ef2f6",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "grok-bot-expansion",
+      "canonical_name": "Grok Bot access expansion",
+      "entity_type": "PRODUCT",
+      "organization": "xAI",
+      "canonical_url": "https://x.ai/news/grok-bot-more-plans"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "grok-bot-expansion",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Grok Bot access expansion",
+    "canonical_url": "https://x.ai/news/grok-bot-more-plans"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-6b3ce48a6c75d42b",
+      "url": "https://x.ai/news/grok-bot-more-plans",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://x.ai/news/grok-bot-more-plans",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:52:53Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "url": "https://drive.google.com/open?id=1avn6m20KB6EEDSXCODwSRxGJXsxz60sn",
+      "source_class": "SOCIAL",
+      "title": "Grok Bot access expansion to more plans",
+      "published_at": null,
+      "accessed_at": "2026-09-02T17:36:01Z",
+      "role": "Archived DailyX observation report, exact Drive-returned bytes imported at the stated access time; not original X HTTP content. Repository raw: sources/2026-W34/external/x/dailyx/raw/2026-08-22_0700.md",
+      "source_id": "src-1"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The xAI page lists expansion to SuperGrok Plus, Cursor Pro+, and all Cursor Teams plans (with Heavy/Ultra/Premium retained), distinct from the Aug 11 beta tiers.",
+      "subject_id": "grok-bot-expansion",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-6b3ce48a6c75d42b"
+      ],
+      "context": "Page plan lists in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The preserved DailyX record holds an official X observation timestamped 2026-08-21T17:29:36Z describing the Plus/Pro+/Teams expansion.",
+      "subject_id": "grok-bot-expansion",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "SOCIAL_OBSERVATION",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Local DailyX raw bytes; exact authority for the Aug 21 timing."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "The captured page is dated Aug 26 (edited/re-dated after the event) and is never cited as Aug 21 exact-body authority; Aug 21 timing rests on the DailyX X observation plus secondary Aug 21 dating.",
+      "subject_id": "grok-bot-expansion",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-6b3ce48a6c75d42b",
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Free-trial and Enterprise-waitlist details on the current page may reflect post-Aug-21 edits.",
+      "subject_id": "grok-bot-expansion",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-6b3ce48a6c75d42b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Base Grok Bot launch is Aug 11 (pre-window). The W34 event is the Aug 21 expansion to SuperGrok Plus, Cursor Pro+ and all Cursor Teams plans.",
+        "status": "VERIFIED",
+        "finding": "Aug 21 expansion to SuperGrok Plus, Cursor Pro+, and all Cursor Teams confirmed as distinct from the Aug 11 beta; page re-date handled per chronology rule.",
+        "subject_ids": [
+          "grok-bot-expansion"
+        ],
+        "source_ids": [
+          "supplement-src-6b3ce48a6c75d42b",
+          "src-1"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}
