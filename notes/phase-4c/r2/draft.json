@@ -1,0 +1,395 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "lab-phase4c-weekly-2026-03-09",
+  "research_profile": "WEEKLY",
+  "publication_profile": "WEEKLY_MAGAZINE",
+  "package_id": "lab-p4c-article",
+  "draft_version": "v1.1",
+  "status": "REVISED",
+  "basis": {
+    "draft_package_sha256": "407e7302854623d8fbb1d20209322df4948178bdf2c9281710e6518ce12c00f3",
+    "prompt_id": "article-drafting-v2",
+    "prompt_sha256": "b687313312a23025228c16c3f10cb68f669b910cd7215e41886d4dd91f44fe11"
+  },
+  "runner": {
+    "provider": "OpenAI",
+    "model": "GPT-6 Astra (session binding; exact billing model/usage unavailable)",
+    "invocation": "root direct canonical-field authorship with local hash assembly",
+    "generated_at": "2026-09-12T06:57:14.417107+00:00",
+    "run_reference": "notes/phase-4c/protocol.md"
+  },
+  "headline": "P-EAGLEの並列draftは何を速くするのか",
+  "deck": "vLLMの速度報告は、draftを順番に生成する負担を減らす実装を示す。倍率を読むには、比較対象と運用条件をそろえる必要がある。",
+  "deck_attribution_mode": "MIXED",
+  "deck_evidence_refs": [
+    {
+      "evidence_task_id": "lab-p4c-c1",
+      "kind": "CLAIM",
+      "evidence_id": "p-method",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT"
+    },
+    {
+      "evidence_task_id": "lab-p4c-c1",
+      "kind": "CLAIM",
+      "evidence_id": "p-blog-setup",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT"
+    },
+    {
+      "evidence_task_id": "lab-p4c-c1",
+      "kind": "LIMITATION",
+      "evidence_id": "p-bound",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT"
+    }
+  ],
+  "blocks": [
+    {
+      "block_id": "b1",
+      "block_type": "PARAGRAPH",
+      "text": "AmazonとNVIDIAのチームによる[vLLMの3月13日付報告](https://vllm.ai/blog/2026-03-13-p-eagle)は、P-EAGLEのserving評価を紹介している。元の論文は、UCSCのMude HuiがAWSでのinternship中にAWSの共著者らと行った研究で、2月に公開された。P-EAGLEでは、補助モデル（drafter）が学習した共有hidden stateとmask embeddingを使い、複数のtoken候補を一回のforward passで提案する。本来動かしたい大きなモデル（target）がそれを検証するため、検証を省いて速くする仕組みではない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "EVENT",
+          "evidence_id": "p-report",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "EVENT",
+          "evidence_id": "p-paper",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-method",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-blog-author",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-paper-author",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "b2",
+      "block_type": "PARAGRAPH",
+      "text": "報告されたTPS（毎秒token数）は、GPT-OSS 20BをB200 1基のvLLMで動かした場合、公開済みvanilla EAGLE-3 checkpoint比で1.05～1.69倍だった。P-EAGLE側は専用学習した4層drafterで、報告では受理される候補の長さの改善も速度に寄与する。並列生成の順序だけを変えた効果の測定ではない。MT-Bench、HumanEval、SPEED-Bench Codeで、同時実行数1では1.55～1.69倍、64では1.05～1.25倍。最大1.69倍はSPEED-Bench Codeの同時実行数1の値である。両手法ともlinear draftingで提案token数Kを3・5・7と変え、各条件で最大TPSのKをそれぞれ選んだ比較であり、任意の負荷やKで同じ効果が得られるわけではない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "METRIC",
+          "evidence_id": "p-blog-speed",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "METRIC",
+          "evidence_id": "p-peak",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-blog-setup",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-acceptance",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "b3",
+      "block_type": "PARAGRAPH",
+      "text": "[P-EAGLE論文](https://arxiv.org/abs/2602.01469v1)では、H200と別のtarget・benchmark条件を使い、追加のHCA lossで学習したEAGLE-3を比較対象としている。要約の1.10～1.36倍は表10の全条件の範囲ではない。Qwen3-Coder 30BのHumanEval、同時実行数4、P-EAGLEのK=3では、最適KのEAGLE-3に対するTPSが0.92倍で、遅くなる条件もある。著者は低Kでは4層の一回の処理が1層の逐次処理より重くなり得ると説明する。また、attention mask事前計算や系列内分割は長系列学習のメモリ負荷への対策であり、専用drafterの学習をなくさない。一回のpassという特徴だけでは、学習・検証・計算負担まで小さくなるとは結論できない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "METRIC",
+          "evidence_id": "p-paper-speed",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-paper-setup",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-training",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "LIMITATION",
+          "evidence_id": "p-pass-cost",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "METRIC",
+          "evidence_id": "p-low-depth-slowdown",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "LIMITATION",
+          "evidence_id": "p-capacity-limit",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "LIMITATION",
+          "evidence_id": "p-source-discrepancy",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "b4",
+      "block_type": "PARAGRAPH",
+      "text": "関連研究の[DFlash v1](https://arxiv.org/abs/2602.06036v1)（2月5日付）は、UC San DiegoのJian Chen、Yesheng Liang、Zhijian Liuによる。targetのhidden featuresを各draft層のKVに渡し、block diffusionで並列に提案する。専用drafterを学習する点と、targetの検証を残す点は共通する。論文はSGLangでの評価も含み、B200・FA4・Spec-v2の条件では通常のautoregressive decodingに対して最大5.1倍を報告する。これはQwen3-8BのMath500、同時実行数1の値であり、EAGLE-3比1.69倍と大小比較できない。LLaMA-3.1-8BでEAGLE-3と学習dataをそろえた別のSGLang/Spec-v1評価でもDFlashが上回ったと報告するが、この資料群からP-EAGLEとの同条件の優劣は決められない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "EVENT",
+          "evidence_id": "d-paper",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "CLAIM",
+          "evidence_id": "d-method",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "CLAIM",
+          "evidence_id": "d-training",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "CLAIM",
+          "evidence_id": "d-serving",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "CLAIM",
+          "evidence_id": "d-eagle-serving",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "METRIC",
+          "evidence_id": "d-serving-speed",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "LIMITATION",
+          "evidence_id": "d-compare",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "CLAIM",
+          "evidence_id": "d-authors",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "b5",
+      "block_type": "PARAGRAPH",
+      "text": "導入時にはheadだけでなくserving設定も確認したい。P-EAGLEの報告はvLLM v0.16.0からの統合を案内する一方、GPT-OSS 20BでEAGLE drafterを使うにはPR #36684のpatchが必要と記す。測定ではfp8 KV cacheとasync schedulingを使い、prefix cachingとchunked prefillを無効にしている。DFlash側も、大blockは大batchなどで検証費用を増やし得るとし、adaptive block-size schedulingを今後の課題としている。掲載TPSから、自分のSLAに対する遅延改善や学習・運用を通じた総費用の削減までは推定できない。",
+      "attribution_mode": "MIXED",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-integration",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "CLAIM",
+          "evidence_id": "p-config",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "LIMITATION",
+          "evidence_id": "d-verification-cost",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "LIMITATION",
+          "evidence_id": "p-bound",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    },
+    {
+      "block_id": "b6",
+      "block_type": "PARAGRAPH",
+      "text": "時点については、以上は論文の固定versionと、後日取得した報告本文に基づく。報告の日付は、記載されたheadやpatchがその日に同じ状態で入手できた証明ではない。当時の即時導入可能性と、掲載条件の独立再現は未確認である。",
+      "attribution_mode": "INFERENCE",
+      "evidence_refs": [
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "LIMITATION",
+          "evidence_id": "p-time",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c1",
+          "kind": "LIMITATION",
+          "evidence_id": "p-bound",
+          "subject_id": "peagle",
+          "subject_role": "PRIMARY_SUBJECT"
+        },
+        {
+          "evidence_task_id": "lab-p4c-c2",
+          "kind": "LIMITATION",
+          "evidence_id": "d-time",
+          "subject_id": "dflash",
+          "subject_role": "PRIMARY_SUBJECT"
+        }
+      ]
+    }
+  ],
+  "must_cover_coverage": [
+    {
+      "requirement": "週内の報告と以前の研究を区別する",
+      "block_ids": [
+        "b1",
+        "b4",
+        "b6"
+      ]
+    },
+    {
+      "requirement": "並列draftと検証・学習負担を説明する",
+      "block_ids": [
+        "b1",
+        "b3",
+        "b4"
+      ]
+    },
+    {
+      "requirement": "P-EAGLEの倍率とbaseline/条件を保持する",
+      "block_ids": [
+        "b2",
+        "b3"
+      ]
+    },
+    {
+      "requirement": "DFlashの実質的代案と比較不能条件を示す",
+      "block_ids": [
+        "b4",
+        "b5"
+      ]
+    },
+    {
+      "requirement": "導入条件と未実証を伝える",
+      "block_ids": [
+        "b5",
+        "b6"
+      ]
+    }
+  ],
+  "boundary_dispositions": [
+    {
+      "boundary": "異条件の倍率で順位をつけない",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "b2",
+        "b3",
+        "b4"
+      ],
+      "rationale": "分母と測定環境を明記して順位を留保"
+    },
+    {
+      "boundary": "報告日を公開/導入可能日の証明にしない",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "b1",
+        "b6"
+      ],
+      "rationale": "日付の意味と取得履歴の限界を明示"
+    },
+    {
+      "boundary": "一回のpassを無費用や品質向上へ変換しない",
+      "handling": "EXPLICITLY_STATED",
+      "block_ids": [
+        "b1",
+        "b3",
+        "b5"
+      ],
+      "rationale": "検証・専用学習・計算負担を明示し品質向上を主張しない"
+    },
+    {
+      "boundary": "cutoff後のC3を週内根拠にしない",
+      "handling": "RESPECTED_BY_OMISSION",
+      "block_ids": [],
+      "rationale": "後日C3をpackage根拠にも本文にも取り込まない。採否理由はselectionへ保持"
+    }
+  ],
+  "profile_extensions": {
+    "lab_only": true,
+    "historical_page_state": "UNATTESTED"
+  },
+  "publication_extensions": {}
+}

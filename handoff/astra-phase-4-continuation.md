@@ -1,68 +1,62 @@
 # Phase 4 — fresh-session continuation
 
 日付: 2026-09-12 JST  
-状態: **CURRENT RESUME ENTRY / PHASE 4-A COMPLETE / NEXT-WINDOW PREPARATION COMPLETE / MAIN TRIAL NOT STARTED**
+状態: **CURRENT RESUME ENTRY / PHASE 4-C BOUNDED SLICE COMPLETE AFTER REPAIR / FULL CANONICAL PRODUCTION RUN UNTESTED**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [次の5時間枠の開始条件](../outputs/astra-phase-4-next-window-readiness.md) §1・§3–6。
-3. source反例・比較基準の根拠が必要なときに[Phase 4-A判断](../outputs/astra-phase-4-comparison-basis.md) §1・§3。全資料の再読は不要。
+2. [Phase 4-Cの判断](../outputs/astra-phase-4c-trial-assessment.md) §1・§3–5。
+3. 必要なEvidenceだけ同判断書§2のindexから読む。全Raw・全chat・旧labの再読/再実行は不要。
 
-Phase 3-Gの全体目標・安全制約は継承済み。過去chat、Human-Sol logs、Phase A、旧labの再実行を開始条件にしない。`notes/phase4-*`等はPhase 3中の歴史probeであり、新Phase 4の資料は`notes/phase-4/`にある。
+Phase 4-Aは比較前提の調査、4-Bは次枠準備、4-Cは今回の研究・編集slice。Phase 3-Gで閉じたacceptance/staging/cache主経路を再開しない。旧「A」等の歴史phase名と今回のA単独comparatorを混同しない。
 
-## 2. 今回変わった判断
+## 2. 最新結果と範囲
 
-- 継続したresearch/editorial ownerは現行governanceにすでにある。W34の実Selection/Architectureにも問いとboundaryの引継ぎがある。旧Bの「ownerを明示するだけ」の部分をAの共通条件へ吸収し、独立した比較armにはしない。
-- これはAの優位やBの全利益の否定ではない。次はfull canonicalと既存責任で、source読解→採否→短い本文→非著者review→修復まで品質条件を満たす小さな完了例を作り、全roleの仕事を記録する。そこで反復する意味再構成が残るなら、仕事の順序/単位を変える対案を一つ比較する。
-- acceptance/staging/cache、Core置換、review削減・全件化、新しい意味store、恒久telemetryは開始しない。実測で情報価値が変われば再評価可能。
+3候補/4一次source、一つのWeekly reader questionについて、rootがTask/Card/View・採否・package・日本語本文を作り、Humanが許可した**1体の非著者reviewer**がsource-first評価→初稿review→修復後再reviewを担当した。rootは事前評価を読まずr1を固定、finding後に原文を再確認して修復した。別model名だけを独立性の根拠にしない。
 
-目標はpublication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを少なくとも意図した水準で維持し、production/supervisory/repair/CI-runtime/LLM/複雑性/Humanを含むtotal lifecycle workを最小化すること。役割間の仕事移転は削減に数えない。長期純削減を裏付けられる初期投資は許容する。
+r1はschema/名指しbindingが通っても4件のblocking findingを含んだ。論文の要約倍率と表全体範囲の混同、研究/報告著者の欠落、DFlashの本文/表の分母不整合の確定扱い、P-EAGLEのcheckpoint/4層/受理長の比較条件不足。r2では全件を修復し、**独立再reviewはこの範囲で残るblocking output defectを認めなかった**。sourceの2つの不整合自体は未解決のまま、確定値として本文に使わない/範囲を限定することで閉じた。
 
-## 3. 実施済みのEvidenceと限界
+実験はcanonicalの意味欄を用いたA単独slice。Human approval hashを偽装しないためSelection/Packageは非受理のlab envelopeで、full canonical baselineやproduction admissionは未実行。この制約は意味生成前のpreflightに明記。Task/Card/ViewとDraft Resultのschema適合、根拠参照、部分構造検査と、productionとしての受理は区別する。
 
-[manifest](../notes/phase-4/basis.json)と[4件trace](../notes/phase-4/trace.json)を固定。GitHub GETによるread-only観測、Git blobと名指しSHA-256照合、targeted source読解を行った。Core/CI/PDFや旧labは実行していない。
+C1は3月13日付P-EAGLE/vLLM報告＋2月の論文、C2は2月のDFlash v1を背景として採用。C3は3月30日付hidden-state抽出報告をHOLD。問いの週は3月9日～16日未満UTC。source取得は9月12日で、当時のblog bytes/head/patch公開状態は未証明。今後この既知source群を未知sourceのA/B試験に再利用しない。
 
-| 標本 | 引き継ぐ知見 |
-|---|---|
-| c019 Mistral Agentic Search | Task→Card→View→Selection→Architectureに機構/帰属/利用目的がすでにある。本文完成の証拠ではない |
-| c045 regional processing | directive由来のcluster誤りがr2で修正され、canonicalへ保持。修復費用削減は未測定 |
-| c033 OpenRouter rankings | 未確認benchmarkをHOLDへ保持する具体例。追加探索の十分性は未評価 |
-| arxiv-2608-20771 CAS | Cardの方法文にUI文字列、保存本文にある§7 Limitationsが未消費、記録はCONSUMED。source固有の読解不足を確認。採用すべきという判定ではない |
+## 3. Durable Evidenceと再検査
 
-CASのRawはhash確認済み。本文§3.2、§3.4、§4.1–4.2、§7を対象に照合した。詳細と反例P4-F1–F3は判断書§3。4件は**結果を見ながら選んだ歴史校正例**であり、未知sourceの比較材料に再利用しない。新しいcanonical candidate、読者本文、修復後reviewは作っていない。
+- [protocol r1](../notes/phase-4c/protocol.md)と[preflight](../notes/phase-4c/preflight.md)は出力前の記録。protocol冒頭のINPUT PREPARATIONは当時の状態として改変せず保持。
+- [source manifest](../notes/phase-4c/source-manifest.json): Raw4件を名指し。派生text/extraction recipeも同dirに保存。
+- [契約manifest](../notes/phase-4c/contract-manifest.json): 固定main由来6schema/2prompt。Git blobとSHA-256照合済み。
+- [r1固定](../notes/phase-4c/r1-freeze.json) → [独立finding](../notes/phase-4c/review/r1-findings.md) → [r2固定](../notes/phase-4c/r2-freeze.json) → [独立再review](../notes/phase-4c/review/r2-rereview.md)。
+- [修復disposition](../notes/phase-4c/r2/repair-record.json)、[最終読者本文](../notes/phase-4c/r2/manuscript.md)、[作業記録](../notes/phase-4c/work-record.md)。
 
-調査script [capture_basis.py](../notes/phase-4/capture_basis.py) は`python notes/phase-4/capture_basis.py`で固定refを再取得できる。入力cacheはignored `.phase-4-inputs/`。upstream checkoutやCoreを実行/変更しない。manifestは最新observed refsと固定analysis refsを区別する。原則、再開時に再実行は不要。出力を再生成すると観測時刻が変わるため、新しい調査Evidenceを混ぜる際は旧scopeを保持する。
+再検査が判断上必要な場合のみ、Python + jsonschemaで `python notes/phase-4c/check.py r1` / `r2` を実行できる。Raw再取得やauthoring script再実行は不要。author_r1.py / draft_r1.py / repair_r2.pyは今回の著述/変換記録で、汎用authoring engineの提案ではない。固定版を上書きしない。ローカル検査は意味品質やCore受理を判定しない。
 
-## 4. Remote reality
+## 4. 全体方向と次の入口
 
-開始時はPhase 3最終観測と同一。終了時にedition branchの進行を検出し、関係差分だけ確認した。
+目標はpublication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを保ちつつ、production・supervisory reasoning/review・repair・CI/runtime・LLM・複雑性・Human handoffを含むtotal lifecycle workを最小化すること。役割移転は削減ではなく、根拠ある長期投資は許容する。
 
-- main `005e59841272464307386abfc11f5b09228f0814`
-- 4件の固定分析ref: `weekly/2026-W34-v2-work@601481acd9b82ee8fa0c2eb28a2ca28636165d60`。この時点のStateは`ARCHITECTURE_ESTABLISHED`、Architecture approved、Publication Preview pending、Draft pending。
-- 終了時の観測ref: `899d3d6ab96c14bb82ea24b0ae12700e798a781f`。1 commit追加、Stateは`DRAFT_COMPLETE`、next action `stage:reader-publication-validation`、Architecture approved、Publication Preview pending。Draft/Synthesisと検証recordが追加され、今回のEvidence/Selection/Architectureは不変。[追加観測](../notes/phase-4/late-observation.json)に保存した。新Draftの意味品質/reader manuscript/PDFは未検査。
-- 新worklogは`run_drafting_synthesis_v2_agent.py`で7 packages＋synthesis PASS、約4時間と報告する。実使用callerの補強Evidenceと費用上の信号だが、全role総費用の支配性やcache優位を証明しない。次の費用記録でruntimeも確認する。
+今回、sourceを突き合わせる意味判断と非著者review/repairが必要だった。既存Card欄で全findingを表現・修復でき、新storeは必要なかった。ただしcanonical方式の費用優位やruntime非支配を証明したわけではない。role別token/料金/実働時間はunknown。記録済みreview wall spanや1秒未満のJSON assembly runtimeを全仕事の費用へ換算しない。
 
-`execution/index.md`の80件/SELECTED 1/Architecture pendingという古い案内をcurrent stateとしない。現行Selectionは409件/SELECTED 41/HOLD 368。Stateやcheckpointの名指し先を辿る。indexの修正/自動生成を新主経路にするだけの費用Evidenceはない。
+**次のA/B主比較やarchitecture実装は開始しない。** 現段階で除ける具体的な仕事と代替費用を示せていない。継続ownerもEvidence段階のsource/採否reviewも現行governanceにあるため、単に追加/前倒しするだけでは独立したBにならない。
 
-今後current detailが判断を変える場合だけ、対象refと関係差分をread-onlyで確認する。固定snapshotを最新とみなさない。
+次に継続指示がある場合の候補は、**実際の完成canonical実行の1ケースに限り、source-consistency作業/監督checkpointと、修復・再読・runtimeの反復をread-onlyで照合すること**。Phase 4-A末尾のW34 DRAFT_COMPLETEと約4時間runner worklogが入口候補。全repo crawlや全号再生成をせず、名指しreview/repair/本文/実行ログの関係だけ読む。current detailが必要ならHEAD/refを再観測する。ログ不足を費用0にせず、計測基盤新設へ自動的に進まない。
 
-## 5. 次の入口・未実証・停止条件
+そこで除ける仕事/代替費用が具体化した場合だけ、共通の品質/role/補助/review条件と順序効果を扱える対案を一つ定義する。有用な差分がなければ停止する。今のsourceを知った同じauthorによる「Bの作り直し」を比較実証にしない。
 
-残り枠では主比較を始めず、[開始条件](../outputs/astra-phase-4-next-window-readiness.md)を整理して停止した。追加source/candidate/本文/review/repairは未着手。新しいremote観測もしていない。取得済みDrafting helperの静的確認で、compact参照生成にMETRIC列挙がなく、must-coverへ全content blockが付く点を確認した。full canonicalの能力と補助の能力、欄の存在と意味品質を区別する。補助の改修はしていない。
+この区切りは追加Human Gate、全体目標完了、usage不足によるblockedではない。次の入口は候補であり、fresh-sessionのEvidenceに応じて調査順/停止点を再判断してよい。
 
-次の最小作業は開始条件§3–5。まず出力経路・非著者review・取得可能な費用ログを確認し、review/repairまでの一往復を完了できる構成を整える。そのうえで未知の原則3候補（必要なら出力前に4候補）を一つのWeekly reader questionで選び、source/時点/品質条件/費用記録を**出力前**に固定する。paperとproductの異なる主張、強い未選択/未解決の対照を含める。全号/全Profileに広げず、採用/HOLDを正答として割り当てない。
+## 5. 過去Evidenceと未実証
 
-最初のA単独試験は成立性と仕事の所在の観測であり、対案に対する費用優位は判定できない。研究・編集sliceの完了と、全号のadmission/Human Gates/PDF/visual QA/歴史保証まで含むproduction完了も区別する。未実行の工程は費用0にしない。scopeの後付け縮小で未完を成功に見せない。
+Phase 4-A: [比較基準](../outputs/astra-phase-4-comparison-basis.md) §1/§3、[49入力のbasis/late observation](../notes/phase-4/basis.json)、[4件trace](../notes/phase-4/trace.json)。CASの未選択paperでは取得本文の限界が未消費、UI文字列混入、CONSUMED記録とのずれを確認した。採用すべきという判定ではない。4件は歴史校正例で未知source比較から除外。
 
-非著者reviewとrole別usageの取得方法は実行前に確認する。自分の再読を新candidateの独立reviewに数えず、取得できない値はunknown。Humanを追加reviewerや計測係へ無償で割り当てない。本sessionでは別agentへの委任・外部送信は行っていない。本handoffはそれらの包括的な実行許可でもない。
+Phase 4-B: [開始条件](../outputs/astra-phase-4-next-window-readiness.md)。同書のMAIN TRIAL NOT STARTEDはその時点の記録。A単独は費用優位を示さず、compact helperのMETRIC/coverage注意も保持。
 
-未実証: Aのpublication品質、omission reviewの十分性、all-role費用、未知sourceでの再現、repair完了、Specialの一般性、全歴史互換、ROI。今回の反例の存在から率や総額を推計しない。
+最後のproduction観測（Phase 4-A末尾）はmain `005e59841272464307386abfc11f5b09228f0814`、W34 `899d3d6ab96c14bb82ea24b0ae12700e798a781f` / DRAFT_COMPLETE。4件分析refは `601481acd9b82ee8fa0c2eb28a2ca28636165d60`。4-Cは固定契約のGET/再利用だけで、current production Stateを更新観測していない。
 
-品質条件を満たせないなら問い/source/表現/reviewを見直す。Aを完了しても外せる具体的作業の仮説がなければ対案の拡張/計測基盤投資を止める。同条件の比較で純削減が見えれば他Profile/失敗条件で反証する。runtime支配等の実測が出れば保留領域を再評価してよい。
-
-Phase 4-Aは比較の前提を変えるEvidenceが得られた判断面で区切り、その後の残り枠はHuman指示に従って次枠の成立条件を整えて停止した。Phase 4全体の完了、外部要因によるblocked、Humanの追加採用判断待ちではない。続行指示では旧decision-only承認手順を再演しない。
+未実証: full canonical baseline、全号publication/omission品質、Special一般性、全歴史互換、CI/並行admission、PDF/visual QA、Gates/Freeze/Release、all-role費用/ROI。C3の時間理由HOLDが十分でも、週内の強い未選択候補全般の十分性は証明しない。source記憶を排除したfresh-author試験でもない。
 
 ## 6. 権限
 
-production `eariver/japanese-generative-ai-survey`はread-only。上記findingはreconstructの調査資料のみで、productionのreview/State/Gate/adoption/migrationを変更していない。新たなproduction mutationは明示的なHuman authorizationが必要。通常Git Pull/Pushと最終commitはHumanが行う。
+production `eariver/japanese-generative-ai-survey`は明示的なHuman authorizationなしに変更しない。今回の1体の独立reviewと再reviewはHumanが許可済みで完了した。これは追加agentや外部送信・production mutationへの包括許可ではない。同じ許可を再確認する必要もない。
+
+通常Git Pull/Pushと最終commitはHuman。production State/approval/Gates/adoption/migration/PR/Issueは変更していない。

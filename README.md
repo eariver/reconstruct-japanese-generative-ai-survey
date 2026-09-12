@@ -12,15 +12,15 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 4-A and next-window preparation are complete; the main trial has not started.** Phase 3 remains closed after the Phase 3-G system-direction reassessment.
+**Phase 4-C's bounded research/editorial slice is complete after independent review, repair and re-review.** Full canonical production execution and comparative lifecycle savings remain untested. Phase 3 remains closed after the Phase 3-G system-direction reassessment.
 
 Fresh Astra sessions need only:
 
 1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
-2. [Next-window start conditions](outputs/astra-phase-4-next-window-readiness.md), sections 1 and 3–6.
-3. [Phase 4-A comparison basis](outputs/astra-phase-4-comparison-basis.md), sections 1 and 3 only when evidence is needed.
+2. [Phase 4-C assessment](outputs/astra-phase-4c-trial-assessment.md), sections 1 and 3–5.
+3. Only necessary Evidence from its index. [Phase 4-A comparison basis](outputs/astra-phase-4-comparison-basis.md) and [Phase 4-B preparation](outputs/astra-phase-4-next-window-readiness.md) remain historical decisions.
 
-Further acceptance/staging/cache implementation is paused. Current governance already assigns continuous supervisory/editorial responsibility; adding an owner alone is not a distinct alternative. Phase 4 traced four existing candidates and checked one unselected paper against its captured body, finding substantive consumption gaps. The next priority is a small quality-complete canonical baseline through reader-facing text, non-author review, and repair, with all-role work accounting. Quality/cost superiority is not established. Past Human-Sol logs, previous chat history, Phase A instructions, and lab reruns are not mandatory resume inputs. Historical decisions remain available for selective provenance reads.
+Further acceptance/staging/cache implementation is paused. The three-candidate Phase 4-C trial produced four semantic findings despite passing mechanical checks; all were repaired using existing canonical fields. Independent re-review found no remaining blocker within that slice. Selection/Package remained non-admitted lab envelopes, preserving the Human approval boundary. No work change with demonstrated net lifecycle savings has been established. The next candidate is a limited read-only trace of actual review/repair/runtime in one completed canonical case before defining an alternative. See the assessment and handoff for boundaries. Past Human-Sol logs, previous chat history, Phase A instructions, and lab reruns are not mandatory resume inputs.
 
 ## Last recorded upstream reference
 

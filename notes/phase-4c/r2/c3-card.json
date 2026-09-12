@@ -1,0 +1,154 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "lab-phase4c-weekly-2026-03-09",
+  "evidence_task_id": "lab-p4c-c3",
+  "basis": {
+    "task_sha256": "f00a78f946e0e4a23b40d747253e77394dc0badb39db0e1369924cabbbab410d",
+    "screening_acceptance_sha256": "84e16a50f084f121ab5d4474e76d993320c554eef162bf21b8c76ce1a8e94130",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "hidden-extract",
+      "canonical_name": "vLLM hidden-state extraction",
+      "entity_type": "PRODUCT",
+      "organization": null,
+      "canonical_url": "https://vllm.ai/blog/2026-03-30-extract-hidden-states"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "hidden-extract",
+    "artifact_type": "INTEGRATION",
+    "canonical_name": "vLLM hidden-state extraction",
+    "canonical_url": "https://vllm.ai/blog/2026-03-30-extract-hidden-states"
+  },
+  "temporal": {
+    "observed_at": "2026-09-12T06:49:41.892090+00:00",
+    "events": [
+      {
+        "event_id": "h-report",
+        "event_type": "SOURCE_PUBLICATION_LABEL",
+        "event_date": "2026-03-30",
+        "subject_id": "hidden-extract",
+        "subject_role": "PRIMARY_SUBJECT",
+        "source_ids": [
+          "hidden-states-blog"
+        ]
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "hidden-states-blog",
+      "url": "https://vllm.ai/blog/2026-03-30-extract-hidden-states",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "Extracting hidden states from vLLM",
+      "published_at": "2026-03-30",
+      "accessed_at": "2026-09-12T06:37:09.990735+00:00",
+      "role": "temporal-eligibility-test"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "h-design",
+      "text": "報告はdummy draft modelとKV connectorを再利用するhidden-state抽出を説明し、PR #33736とvLLM >=0.18.0に言及する。",
+      "subject_id": "hidden-extract",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PROJECT_CLAIM",
+      "source_ids": [
+        "hidden-states-blog"
+      ],
+      "context": "opening and Design Insights"
+    },
+    {
+      "statement_id": "h-training-use",
+      "text": "hidden-state生成の既存方式にはTransformersとのずれやvLLM patchのmaintenance負荷があると説明する。",
+      "subject_id": "hidden-extract",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PROJECT_CLAIM",
+      "source_ids": [
+        "hidden-states-blog"
+      ],
+      "context": "Motivation; author diagnosis, not measured J-GAS costs"
+    },
+    {
+      "statement_id": "h-author",
+      "text": "hidden-state抽出報告のbylineはFynn Schmitt-Ulms。",
+      "subject_id": "hidden-extract",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "hidden-states-blog"
+      ],
+      "context": "header"
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "h-limit",
+      "text": "執筆時のconnectorはdiskへ保存する例示実装で、dummy methodとconnectorを併用する必要がある。",
+      "subject_id": "hidden-extract",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PROJECT_CLAIM",
+      "source_ids": [
+        "hidden-states-blog"
+      ],
+      "context": "Usage and Limitations"
+    },
+    {
+      "statement_id": "h-date",
+      "text": "表示される報告日は3月30日。PRのmerge/release履歴を確認していないため、この日を機能が初めて存在した日とも、3月15日までに利用可能だった証拠とも扱えない。",
+      "subject_id": "hidden-extract",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "hidden-states-blog"
+      ],
+      "context": "publication label vs implementation chronology"
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "source publication label",
+        "status": "VERIFIED",
+        "finding": "3月30日表示を確認。",
+        "subject_ids": [
+          "hidden-extract"
+        ],
+        "source_ids": [
+          "hidden-states-blog"
+        ]
+      },
+      {
+        "target": "implementation and prerequisites",
+        "status": "VERIFIED",
+        "finding": "dummy model/KV connector、versionへの言及を確認。",
+        "subject_ids": [
+          "hidden-extract"
+        ],
+        "source_ids": [
+          "hidden-states-blog"
+        ]
+      },
+      {
+        "target": "availability before cutoff",
+        "status": "UNRESOLVED",
+        "finding": "この後日報告だけではcutoff以前の実装・公開を立証できない。",
+        "subject_ids": [
+          "hidden-extract"
+        ],
+        "source_ids": [
+          "hidden-states-blog"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "PR/リリースのcutoff以前の公開履歴"
+    ],
+    "contradictions": []
+  }
+}

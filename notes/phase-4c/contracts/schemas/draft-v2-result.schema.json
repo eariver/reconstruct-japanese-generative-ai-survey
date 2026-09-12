@@ -1,0 +1,105 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/draft-v2-result.schema.json",
+  "title": "Survey Production Core v2 Draft Result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "research_profile", "publication_profile", "package_id", "draft_version", "status", "basis", "runner", "headline", "deck", "deck_attribution_mode", "deck_evidence_refs", "blocks", "must_cover_coverage", "boundary_dispositions", "profile_extensions", "publication_extensions"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"enum": ["WEEKLY", "RETROSPECTIVE_PERIOD", "THEMATIC"]},
+    "publication_profile": {"type": "string", "minLength": 1},
+    "package_id": {"type": "string", "minLength": 1},
+    "draft_version": {"type": "string", "pattern": "^v[0-9]+\\.[0-9]+$"},
+    "status": {"enum": ["DRAFT", "REVISED", "ESTABLISHED"]},
+    "basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["draft_package_sha256", "prompt_id", "prompt_sha256"],
+      "properties": {
+        "draft_package_sha256": {"$ref": "#/$defs/sha256"},
+        "prompt_id": {"const": "article-drafting-v2"},
+        "prompt_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "runner": {"$ref": "#/$defs/runner"},
+    "headline": {"type": "string", "minLength": 1},
+    "deck": {"type": "string", "minLength": 1},
+    "deck_attribution_mode": {"$ref": "#/$defs/attribution_mode"},
+    "deck_evidence_refs": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}},
+    "blocks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["block_id", "block_type", "text", "attribution_mode", "evidence_refs"],
+        "properties": {
+          "block_id": {"type": "string", "minLength": 1},
+          "block_type": {"enum": ["HEADING", "PARAGRAPH", "BULLET_LIST", "TABLE", "CLAIM_BOUNDARY", "NOTE"]},
+          "text": {"type": "string", "minLength": 1},
+          "attribution_mode": {"$ref": "#/$defs/attribution_mode"},
+          "evidence_refs": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}}
+        }
+      }
+    },
+    "must_cover_coverage": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requirement", "block_ids"],
+        "properties": {
+          "requirement": {"type": "string", "minLength": 1},
+          "block_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+        }
+      }
+    },
+    "boundary_dispositions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["boundary", "handling", "block_ids", "rationale"],
+        "properties": {
+          "boundary": {"type": "string", "minLength": 1},
+          "handling": {"enum": ["EXPLICITLY_STATED", "RESPECTED_BY_OMISSION"]},
+          "block_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+          "rationale": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "profile_extensions": {"type": "object"},
+    "publication_extensions": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "subject_role": {"enum": ["PRIMARY_SUBJECT", "COMPARATOR", "RELATED"]},
+    "attribution_mode": {"enum": ["NONE", "FACTUAL", "ATTRIBUTED", "SOCIAL", "INFERENCE", "MIXED"]},
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence_task_id", "kind", "evidence_id", "subject_id", "subject_role"],
+      "properties": {
+        "evidence_task_id": {"type": "string", "minLength": 1},
+        "kind": {"enum": ["EVENT", "CLAIM", "METRIC", "LIMITATION"]},
+        "evidence_id": {"type": "string", "minLength": 1},
+        "subject_id": {"type": "string", "minLength": 1},
+        "subject_role": {"$ref": "#/$defs/subject_role"}
+      }
+    },
+    "runner": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["provider", "model", "invocation", "generated_at", "run_reference"],
+      "properties": {
+        "provider": {"type": "string", "minLength": 1},
+        "model": {"type": "string", "minLength": 1},
+        "invocation": {"type": "string", "minLength": 1},
+        "generated_at": {"type": "string", "format": "date-time"},
+        "run_reference": {"type": ["string", "null"]}
+      }
+    }
+  }
+}

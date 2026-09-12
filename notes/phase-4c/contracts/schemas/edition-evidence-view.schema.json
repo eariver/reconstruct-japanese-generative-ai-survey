@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/edition-evidence-view.schema.json",
+  "title": "Survey Production Core v2 Edition Evidence View",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "research_profile", "evidence_task_id", "evidence_sha256", "materiality", "scope_dimensions", "profile_annotations"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"enum": ["WEEKLY", "RETROSPECTIVE_PERIOD", "THEMATIC"]},
+    "evidence_task_id": {"type": "string", "minLength": 1},
+    "evidence_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "materiality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "rationale"],
+      "properties": {
+        "status": {"enum": ["MATERIAL", "CONTEXT", "NON_MATERIAL", "HOLD"]},
+        "rationale": {"type": "string", "minLength": 1}
+      }
+    },
+    "scope_dimensions": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "profile_annotations": {"type": "object"}
+  }
+}

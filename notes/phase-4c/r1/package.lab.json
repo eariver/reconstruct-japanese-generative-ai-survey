@@ -1,0 +1,620 @@
+{
+  "scope": "LAB_CANONICAL_FIELDS_NO_ARCHITECTURE_APPROVAL_OR_ADMISSION",
+  "issue_id": "lab-phase4c-weekly-2026-03-09",
+  "package_id": "lab-p4c-article",
+  "selection_sha256": "ef57844407f60a8f76ef6692be6299b73f49b095857f7295af62ee4141fd8345",
+  "protocol_sha256": "aaacdb09e5dda8332af6996eb6305a33e07cb92b66371937a436b729be5a5ddb",
+  "package": {
+    "title": "並列draftの速度報告をどう読むか",
+    "purpose": "掲載評価の範囲と導入条件を区別し、読者が比較検証の条件を把握する",
+    "drafting_order": 1,
+    "primary_candidate_ids": [
+      "c1"
+    ],
+    "supporting_candidate_ids": [
+      "c2"
+    ],
+    "must_cover_requirements": [
+      "週内の報告と以前の研究を区別する",
+      "並列draftと検証・学習負担を説明する",
+      "P-EAGLEの倍率とbaseline/条件を保持する",
+      "DFlashの実質的代案と比較不能条件を示す",
+      "導入条件と未実証を伝える"
+    ],
+    "boundaries": [
+      "異条件の倍率で順位をつけない",
+      "報告日を公開/導入可能日の証明にしない",
+      "一回のpassを無費用や品質向上へ変換しない",
+      "cutoff後のC3を週内根拠にしない"
+    ]
+  },
+  "evidence_inputs": [
+    {
+      "candidate_id": "c1",
+      "architecture_usage": "PRIMARY",
+      "evidence_task_id": "lab-p4c-c1",
+      "evidence_sha256": "6e9730d34da976b6693eae65a8efdd76fe5c3208c3af08104a4ecbccc257b372",
+      "evidence_card": {
+        "schema_version": "2.0-rc1",
+        "issue_id": "lab-phase4c-weekly-2026-03-09",
+        "evidence_task_id": "lab-p4c-c1",
+        "basis": {
+          "task_sha256": "11bfcbc283435c3186e0acac43a4a9fbd5be07af7695c78dd9928ecf8e2ee735",
+          "screening_acceptance_sha256": "84e16a50f084f121ab5d4474e76d993320c554eef162bf21b8c76ce1a8e94130",
+          "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+          "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+        },
+        "status": "PARTIAL",
+        "entities": [
+          {
+            "entity_id": "peagle",
+            "canonical_name": "P-EAGLE",
+            "entity_type": "FRAMEWORK",
+            "organization": null,
+            "canonical_url": "https://arxiv.org/abs/2602.01469v1"
+          },
+          {
+            "entity_id": "eagle3",
+            "canonical_name": "EAGLE-3",
+            "entity_type": "FRAMEWORK",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "gptoss20b",
+            "canonical_name": "GPT-OSS 20B",
+            "entity_type": "MODEL",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "gptoss120b",
+            "canonical_name": "GPT-OSS 120B",
+            "entity_type": "MODEL",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "qwen3coder",
+            "canonical_name": "Qwen3-Coder 30B",
+            "entity_type": "MODEL",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "vllm",
+            "canonical_name": "vLLM",
+            "entity_type": "FRAMEWORK",
+            "organization": null,
+            "canonical_url": null
+          }
+        ],
+        "artifact": {
+          "primary_subject_id": "peagle",
+          "artifact_type": "FRAMEWORK",
+          "canonical_name": "P-EAGLE",
+          "canonical_url": "https://arxiv.org/abs/2602.01469v1"
+        },
+        "temporal": {
+          "observed_at": "2026-09-12T06:49:41.892090+00:00",
+          "events": [
+            {
+              "event_id": "p-report",
+              "event_type": "SOURCE_PUBLICATION_LABEL",
+              "event_date": "2026-03-13",
+              "subject_id": "peagle",
+              "subject_role": "PRIMARY_SUBJECT",
+              "source_ids": [
+                "peagle-blog"
+              ]
+            },
+            {
+              "event_id": "p-paper",
+              "event_type": "SOURCE_PUBLICATION_LABEL",
+              "event_date": "2026-02-01",
+              "subject_id": "peagle",
+              "subject_role": "PRIMARY_SUBJECT",
+              "source_ids": [
+                "peagle-paper-v1"
+              ]
+            }
+          ]
+        },
+        "sources": [
+          {
+            "source_id": "peagle-blog",
+            "url": "https://vllm.ai/blog/2026-03-13-p-eagle",
+            "source_class": "PRIMARY_OFFICIAL",
+            "title": "P-EAGLE: Faster LLM inference with Parallel Speculative Decoding in vLLM",
+            "published_at": "2026-03-13",
+            "accessed_at": "2026-09-12T06:37:09.894621+00:00",
+            "role": "serving-report"
+          },
+          {
+            "source_id": "peagle-paper-v1",
+            "url": "https://arxiv.org/html/2602.01469v1",
+            "source_class": "PRIMARY_PAPER",
+            "title": "P-EAGLE: Parallel-Drafting EAGLE with Scalable Training",
+            "published_at": "2026-02-01",
+            "accessed_at": "2026-09-12T06:37:09.661324+00:00",
+            "role": "technical-background"
+          }
+        ],
+        "claims": [
+          {
+            "statement_id": "p-method",
+            "text": "学習済みの共有hidden stateとmask embeddingを使い、複数draft tokenを一回のforward passで提案する。採否を決めるtarget modelの検証は残る。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-blog",
+              "peagle-paper-v1"
+            ],
+            "context": "paper §2; blog Our Approach / Implementation"
+          },
+          {
+            "statement_id": "p-training",
+            "text": "並列予測専用のdrafterが必要。論文は長系列学習のattention mask事前計算と、依存関係を保つ系列内分割でメモリ負荷に対応する。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-paper-v1"
+            ],
+            "context": "§2–3; training is not free or removed"
+          },
+          {
+            "statement_id": "p-blog-setup",
+            "text": "報告の評価はGPT-OSS 20B、B200 1基、vLLM、4層drafter。両手法ともlinear draftingでK=3/5/7を掃引し、各条件でそれぞれ最大TPSのKを選ぶ。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-blog"
+            ],
+            "context": "vLLM Benchmarking; concurrency 1/2/4/8/16/32/64; MT-Bench/HumanEval/SPEED-Bench Code"
+          },
+          {
+            "statement_id": "p-config",
+            "text": "掲載設定はfp8 KV cache、async schedulingを使用し、prefix cachingとchunked prefillを無効にする。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-blog"
+            ],
+            "context": "benchmark launch command; recipe-specific, not general requirements"
+          },
+          {
+            "statement_id": "p-integration",
+            "text": "報告はvLLM v0.16.0からの統合と対応学習済みheadを案内する一方、GPT-OSS 20BでEAGLE drafterをserveするにはPR #36684のpatchが必要としている。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-blog"
+            ],
+            "context": "opening / benchmark Note; captured page statement, not verified release history"
+          },
+          {
+            "statement_id": "p-paper-setup",
+            "text": "論文のserving表はH200 1基、concurrency 2/4、3種のtargetと異なるbenchmark条件でAR EAGLE-3と比較する。baselineにはHCA lossも用いる。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-paper-v1"
+            ],
+            "context": "§5.1–5.3, Table 10; no conflation with March blog"
+          }
+        ],
+        "metrics": [
+          {
+            "metric_id": "p-blog-speed",
+            "name": "P-EAGLE / EAGLE-3 TPS",
+            "value": "1.05–1.69",
+            "unit": "ratio",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "comparison_subject_ids": [
+              "eagle3"
+            ],
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-blog"
+            ],
+            "context": "GPT-OSS20B/B200/vLLM; methods individually optimized K; c1 1.55–1.69, c64 1.05–1.25; Figures 4–6, not raw AR ratio"
+          },
+          {
+            "metric_id": "p-peak",
+            "name": "SPEED-Bench Code TPS ratio",
+            "value": "1.69",
+            "unit": "ratio",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "comparison_subject_ids": [
+              "eagle3"
+            ],
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-blog"
+            ],
+            "context": "Figure 6: c=1, B200 1 GPU/GPT-OSS20B, best K per method; code workload, not universal max latency reduction"
+          },
+          {
+            "metric_id": "p-paper-speed",
+            "name": "paper reported best serving speedup over AR EAGLE-3",
+            "value": "1.10–1.36",
+            "unit": "ratio",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "comparison_subject_ids": [
+              "eagle3"
+            ],
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "peagle-paper-v1"
+            ],
+            "context": "abstract and §5.3/Table10; H200; three targets; not same experiment as blog"
+          }
+        ],
+        "limitations": [
+          {
+            "statement_id": "p-time",
+            "text": "取得は2026-09-12。表示された報告日やversionから、ページ全文・head・patchの3月時点の正確な公開状態までは証明できない。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "peagle-blog",
+              "peagle-paper-v1"
+            ],
+            "context": "manifest capture versus source labels; no immutable blog commit checked"
+          },
+          {
+            "statement_id": "p-bound",
+            "text": "単一GPUと掲載workloadのTPS改善は、任意構成の応答遅延、総費用、モデル品質の改善、DFlashとの優劣を証明しない。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "peagle-blog",
+              "peagle-paper-v1"
+            ],
+            "context": "inference from tested scope; no independent reproduction"
+          },
+          {
+            "statement_id": "p-pass-cost",
+            "text": "forward passの回数が一定でも、K増加時の検証・draft batch・計算/メモリ負荷がゼロになるわけではない。",
+            "subject_id": "peagle",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "peagle-blog",
+              "peagle-paper-v1"
+            ],
+            "context": "blog batch expansion/CUDA graph range; paper §3 and §5; distinguish sequential overhead"
+          }
+        ],
+        "verification": {
+          "targets": [
+            {
+              "target": "method and verifier",
+              "status": "VERIFIED",
+              "finding": "共有学習parameterを使うparallel drafterでありtarget verificationを残す。",
+              "subject_ids": [
+                "peagle"
+              ],
+              "source_ids": [
+                "peagle-blog",
+                "peagle-paper-v1"
+              ]
+            },
+            {
+              "target": "performance and comparator conditions",
+              "status": "VERIFIED",
+              "finding": "blogは各条件のbest TPS同士。paperのH200条件と区別。",
+              "subject_ids": [
+                "peagle"
+              ],
+              "source_ids": [
+                "peagle-blog",
+                "peagle-paper-v1"
+              ]
+            },
+            {
+              "target": "training and deployment prerequisites",
+              "status": "VERIFIED",
+              "finding": "専用head、長系列学習、version/patch記載を取得本文で確認。",
+              "subject_ids": [
+                "peagle"
+              ],
+              "source_ids": [
+                "peagle-blog",
+                "peagle-paper-v1"
+              ]
+            },
+            {
+              "target": "historical availability",
+              "status": "UNRESOLVED",
+              "finding": "報告日表示はあるが3月当時の同一bytes/patch公開を追跡していない。",
+              "subject_ids": [
+                "peagle"
+              ],
+              "source_ids": [
+                "peagle-blog"
+              ]
+            }
+          ],
+          "unresolved_questions": [
+            "3月当時のblog本文・head・patchのimmutable公開履歴",
+            "掲載条件の独立再現と実運用SLA/総費用"
+          ],
+          "contradictions": []
+        }
+      }
+    },
+    {
+      "candidate_id": "c2",
+      "architecture_usage": "SUPPORTING",
+      "evidence_task_id": "lab-p4c-c2",
+      "evidence_sha256": "9c79448d647178ef60a7f693f26344280bdcde9a5b25bd951944b74d385aec00",
+      "evidence_card": {
+        "schema_version": "2.0-rc1",
+        "issue_id": "lab-phase4c-weekly-2026-03-09",
+        "evidence_task_id": "lab-p4c-c2",
+        "basis": {
+          "task_sha256": "b4281bfcdfd75dbf664b9bca5844f882fe48c19eb605557521dd1d85a50700d9",
+          "screening_acceptance_sha256": "84e16a50f084f121ab5d4474e76d993320c554eef162bf21b8c76ce1a8e94130",
+          "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+          "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+        },
+        "status": "PARTIAL",
+        "entities": [
+          {
+            "entity_id": "dflash",
+            "canonical_name": "DFlash",
+            "entity_type": "FRAMEWORK",
+            "organization": null,
+            "canonical_url": "https://arxiv.org/abs/2602.06036v1"
+          },
+          {
+            "entity_id": "eagle3",
+            "canonical_name": "EAGLE-3",
+            "entity_type": "FRAMEWORK",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "ar",
+            "canonical_name": "vanilla autoregressive decoding",
+            "entity_type": "OTHER",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "qwen38b",
+            "canonical_name": "Qwen3-8B",
+            "entity_type": "MODEL",
+            "organization": null,
+            "canonical_url": null
+          },
+          {
+            "entity_id": "sglang",
+            "canonical_name": "SGLang",
+            "entity_type": "FRAMEWORK",
+            "organization": null,
+            "canonical_url": null
+          }
+        ],
+        "artifact": {
+          "primary_subject_id": "dflash",
+          "artifact_type": "PAPER",
+          "canonical_name": "DFlash: Block Diffusion for Flash Speculative Decoding",
+          "canonical_url": "https://arxiv.org/abs/2602.06036v1"
+        },
+        "temporal": {
+          "observed_at": "2026-09-12T06:49:41.892090+00:00",
+          "events": [
+            {
+              "event_id": "d-paper",
+              "event_type": "SOURCE_PUBLICATION_LABEL",
+              "event_date": "2026-02-05",
+              "subject_id": "dflash",
+              "subject_role": "PRIMARY_SUBJECT",
+              "source_ids": [
+                "dflash-paper-v1"
+              ]
+            }
+          ]
+        },
+        "sources": [
+          {
+            "source_id": "dflash-paper-v1",
+            "url": "https://arxiv.org/html/2602.06036v1",
+            "source_class": "PRIMARY_PAPER",
+            "title": "DFlash: Block Diffusion for Flash Speculative Decoding",
+            "published_at": "2026-02-05",
+            "accessed_at": "2026-09-12T06:37:09.767687+00:00",
+            "role": "competing-method-background"
+          }
+        ],
+        "claims": [
+          {
+            "statement_id": "d-method",
+            "text": "DFlashはtargetの複数層のhidden featuresを各draft層のKVへ渡し、block diffusionで一回のpassから複数tokenを提案しtargetが検証する。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§3–4.1; distinct conditioning from P-EAGLE"
+          },
+          {
+            "statement_id": "d-training",
+            "text": "target生成応答で専用drafterを学習する。埋め込みとLM headを共有・固定し、draft transformerを更新。hidden featuresのoffline保存量は抽出層数に比例する。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§4.2, §5, §5.4.3, Appendix A.1; training/storage costs remain"
+          },
+          {
+            "statement_id": "d-serving",
+            "text": "論文にはTransformersだけでなくSGLang/FA4、B200 1基、Spec-v2 scheduling overlapでconcurrency 1–32を調べたserving評価がある。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§5.3/Table3; Qwen3-4B/8B/Coder30B; baseline vanilla AR"
+          },
+          {
+            "statement_id": "d-eagle-serving",
+            "text": "別のLLaMA-3.1-8B評価ではEAGLE-3と同じ学習dataと公式checkpointを用いて比較し、tree draftingに対応するSpec-v1を両者に用いる。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§5.4.1/Table4; single B200 Flashinfer; do not conflate with §5.3"
+          }
+        ],
+        "metrics": [
+          {
+            "metric_id": "d-transformers",
+            "name": "mean greedy decoding speedup",
+            "value": "4.9",
+            "unit": "ratio",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "comparison_subject_ids": [
+              "ar"
+            ],
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§5.1/Table1; Qwen3 instruct, thinking disabled, Transformers/H200, temp0; corresponding 2.4x over EAGLE-3 tree16; headline over6x is not mean"
+          },
+          {
+            "metric_id": "d-serving-speed",
+            "name": "reported peak SGLang speedup",
+            "value": "5.1",
+            "unit": "ratio",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "comparison_subject_ids": [
+              "ar"
+            ],
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§5.3/Table3; Qwen3-8B Math500, concurrency1, single B200/FA4/Spec-v2; denominator vanilla AR, not EAGLE-3 or P-EAGLE"
+          }
+        ],
+        "limitations": [
+          {
+            "statement_id": "d-verification-cost",
+            "text": "大blockはcompute-bound/大batchで検証費用を増やし得る。小さくする選択はあるがadaptive block-size schedulingは今後の課題。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "AUTHOR_CLAIM",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§5.4.4"
+          },
+          {
+            "statement_id": "d-compare",
+            "text": "この固定source群にP-EAGLEと同条件の直接比較はなく、異なる分母・model・backend・workloadの倍率から優劣は決められない。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "§5–5.4.1 compared with P-EAGLE corpus"
+          },
+          {
+            "statement_id": "d-time",
+            "text": "v1本文の表示は2月5日。後続v2の結果・採択statusは根拠にしない。source取得は9月であり、blog同様の公開履歴attestationは実施していない。",
+            "subject_id": "dflash",
+            "subject_role": "PRIMARY_SUBJECT",
+            "evidence_class": "INFERENCE",
+            "source_ids": [
+              "dflash-paper-v1"
+            ],
+            "context": "version-pinned HTML watermark and manifest"
+          }
+        ],
+        "verification": {
+          "targets": [
+            {
+              "target": "method and verifier",
+              "status": "VERIFIED",
+              "finding": "target feature conditioningとparallel diffusion draft、target検証を確認。",
+              "subject_ids": [
+                "dflash"
+              ],
+              "source_ids": [
+                "dflash-paper-v1"
+              ]
+            },
+            {
+              "target": "performance and comparator conditions",
+              "status": "VERIFIED",
+              "finding": "AR分母/対EAGLE比、Transformers/SGLang、異なるscheduling設定を区別。",
+              "subject_ids": [
+                "dflash"
+              ],
+              "source_ids": [
+                "dflash-paper-v1"
+              ]
+            },
+            {
+              "target": "training and source-specific limits",
+              "status": "VERIFIED",
+              "finding": "専用学習、hidden state保存、大block検証費用、adaptive scheduling未実装。",
+              "subject_ids": [
+                "dflash"
+              ],
+              "source_ids": [
+                "dflash-paper-v1"
+              ]
+            },
+            {
+              "target": "direct P-EAGLE rank",
+              "status": "UNRESOLVED",
+              "finding": "固定sourceに同条件直接比較なし。",
+              "subject_ids": [
+                "dflash"
+              ],
+              "source_ids": [
+                "dflash-paper-v1"
+              ]
+            }
+          ],
+          "unresolved_questions": [
+            "P-EAGLEとの同条件直接比較",
+            "両手法の実運用費用とSLAを含む再現"
+          ],
+          "contradictions": []
+        }
+      }
+    }
+  ],
+  "drafting_constraints": {
+    "language": "ja",
+    "raw_sources_forbidden": true,
+    "unknowns_remain_unknown": true,
+    "citation_granularity": "EVENT_CLAIM_METRIC_LIMITATION"
+  }
+}

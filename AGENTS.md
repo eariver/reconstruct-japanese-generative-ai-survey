@@ -4,19 +4,19 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-Phase 4-A and preparation for the next usage window are complete; the main trial has not started. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
+Phase 4-C's bounded canonical-field research/editorial slice is complete after independent review, repair and re-review. Full canonical production execution and comparative lifecycle savings remain untested. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
 
 For a new Astra session, read first:
 
 1. `handoff/astra-phase-4-continuation.md`
-2. `outputs/astra-phase-4-next-window-readiness.md` — §1, §3–6
-3. `outputs/astra-phase-4-comparison-basis.md` — §1, §3 only when the Phase 4-A evidence is needed
+2. `outputs/astra-phase-4c-trial-assessment.md` — §1, §3–5
+3. Only the Evidence needed from that assessment's index; older Phase 4-A/B decisions remain historical context.
 
 Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
 
 The objective is to minimize total lifecycle work across production, supervisory reasoning/review, repair/regeneration, CI/runtime, LLM usage, operational complexity, and Human handoff, while preserving at least intended publication quality, provenance correctness, fail-close safety, Human authority, Weekly/Special generality, and historical reproducibility. Moving work between roles is not a saving; justified long-term investment is allowed.
 
-The current priority is research-question-to-publication/review/repair comparison with all-role cost accounting. Phase 4 found that continuous supervisory/editorial responsibility already exists in current governance and selected artifacts; merely adding an owner is not a distinct comparison arm. Source-specific consumption and omission sufficiency remain unproven, with a concrete unselected-paper counterexample. Next prepare a small quality-complete canonical baseline run before attributing benefit to changes in work order/unit. Additional acceptance/staging/cache implementation is paused, including the previously proposed internal-staging alternative. Canonical direct authoring plus mechanical assistance is a comparator, not a proven final architecture. On a new continuation instruction, choose the next bounded work from the current evidence; do not replay the former decision-only/same-session approval step. During a closeout-only request, update durable handoff and stop.
+The current priority remains research-question-to-publication/review/repair with all-role work accounting. Phase 4-C found four semantic defects despite passing mechanical checks; all were repaired within existing canonical fields, and independent re-review found no remaining blocking output defect in the declared slice. Selection/Package used lab envelopes without fictitious Human approval, so this is not completion of a full canonical baseline. Continuous editorial ownership and pre-Architecture source/selection review already exist in governance; adding or advancing them alone is not a distinct comparison arm. No removable work with demonstrated net savings has yet been identified. The next candidate investigation is one completed canonical production case, read-only, tracing actual review/repair/runtime work before defining any distinct alternative. See the handoff for limits and stop conditions. Additional acceptance/staging/cache implementation remains paused. On continuation choose bounded work from current evidence; do not replay the old approval step or repeat known sources as an unknown-source comparison. During closeout-only requests update durable handoff and stop.
 
 Historical task files remain useful provenance and context but are not the active task unless explicitly reactivated.
 
@@ -52,7 +52,7 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-Current decision: `outputs/astra-phase-4-comparison-basis.md`; next-window execution conditions: `outputs/astra-phase-4-next-window-readiness.md`. An A-only trial establishes slice feasibility and work distribution, not comparative lifecycle savings. Phase 3-G objective and safety constraints remain applicable.
+Current decision: `outputs/astra-phase-4c-trial-assessment.md`. Phase 4-A comparison basis and Phase 4-B readiness are retained as historical decisions. A-only slice feasibility after repair is not comparative lifecycle savings, full production completion, or an adoption recommendation. Phase 3-G objective and safety constraints remain applicable.
 
 Current handoff: `handoff/astra-phase-4-continuation.md`.
 

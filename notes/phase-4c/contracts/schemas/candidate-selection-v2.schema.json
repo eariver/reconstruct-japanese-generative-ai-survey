@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/candidate-selection-v2.schema.json",
+  "title": "Survey Production Core v2 Internal Candidate Selection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "research_profile", "publication_profile", "selection_version", "status", "basis", "assignments", "summary"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"enum": ["WEEKLY", "RETROSPECTIVE_PERIOD", "THEMATIC"]},
+    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+    "selection_version": {"type": "string", "minLength": 1},
+    "status": {"const": "ESTABLISHED"},
+    "basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_profile_sha256", "candidate_matrix_sha256", "profile_completeness_sha256", "materiality_ledger_sha256"],
+      "properties": {
+        "production_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "candidate_matrix_sha256": {"$ref": "#/$defs/sha256"},
+        "profile_completeness_sha256": {"$ref": "#/$defs/sha256"},
+        "materiality_ledger_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "disposition", "rationale", "architecture_usage", "publication_role", "architecture_role", "profile_extensions"],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "disposition": {"enum": ["SELECTED", "HOLD", "REJECT", "INSPECT"]},
+          "rationale": {"type": "string", "minLength": 1},
+          "architecture_usage": {"enum": ["PRIMARY", "SUPPORTING", "NONE"]},
+          "publication_role": {"type": ["string", "null"], "minLength": 1},
+          "architecture_role": {"type": ["string", "null"], "minLength": 1},
+          "profile_extensions": {"type": "object"}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_count", "disposition_counts", "selected_count"],
+      "properties": {
+        "candidate_count": {"type": "integer", "minimum": 0},
+        "disposition_counts": {"type": "object", "additionalProperties": {"type": "integer", "minimum": 0}},
+        "selected_count": {"type": "integer", "minimum": 0}
+      }
+    }
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -1,0 +1,405 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "lab-phase4c-weekly-2026-03-09",
+  "evidence_task_id": "lab-p4c-c1",
+  "basis": {
+    "task_sha256": "6632da36dd1b622196a898702aea262e5a385c13ee91242e820a2e6d459384b9",
+    "screening_acceptance_sha256": "84e16a50f084f121ab5d4474e76d993320c554eef162bf21b8c76ce1a8e94130",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "peagle",
+      "canonical_name": "P-EAGLE",
+      "entity_type": "FRAMEWORK",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2602.01469v1"
+    },
+    {
+      "entity_id": "eagle3",
+      "canonical_name": "EAGLE-3",
+      "entity_type": "FRAMEWORK",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "gptoss20b",
+      "canonical_name": "GPT-OSS 20B",
+      "entity_type": "MODEL",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "gptoss120b",
+      "canonical_name": "GPT-OSS 120B",
+      "entity_type": "MODEL",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "qwen3coder",
+      "canonical_name": "Qwen3-Coder 30B",
+      "entity_type": "MODEL",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "vllm",
+      "canonical_name": "vLLM",
+      "entity_type": "FRAMEWORK",
+      "organization": null,
+      "canonical_url": null
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "peagle",
+    "artifact_type": "FRAMEWORK",
+    "canonical_name": "P-EAGLE",
+    "canonical_url": "https://arxiv.org/abs/2602.01469v1"
+  },
+  "temporal": {
+    "observed_at": "2026-09-12T06:49:41.892090+00:00",
+    "events": [
+      {
+        "event_id": "p-report",
+        "event_type": "SOURCE_PUBLICATION_LABEL",
+        "event_date": "2026-03-13",
+        "subject_id": "peagle",
+        "subject_role": "PRIMARY_SUBJECT",
+        "source_ids": [
+          "peagle-blog"
+        ]
+      },
+      {
+        "event_id": "p-paper",
+        "event_type": "SOURCE_PUBLICATION_LABEL",
+        "event_date": "2026-02-01",
+        "subject_id": "peagle",
+        "subject_role": "PRIMARY_SUBJECT",
+        "source_ids": [
+          "peagle-paper-v1"
+        ]
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "peagle-blog",
+      "url": "https://vllm.ai/blog/2026-03-13-p-eagle",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "P-EAGLE: Faster LLM inference with Parallel Speculative Decoding in vLLM",
+      "published_at": "2026-03-13",
+      "accessed_at": "2026-09-12T06:37:09.894621+00:00",
+      "role": "serving-report"
+    },
+    {
+      "source_id": "peagle-paper-v1",
+      "url": "https://arxiv.org/html/2602.01469v1",
+      "source_class": "PRIMARY_PAPER",
+      "title": "P-EAGLE: Parallel-Drafting EAGLE with Scalable Training",
+      "published_at": "2026-02-01",
+      "accessed_at": "2026-09-12T06:37:09.661324+00:00",
+      "role": "technical-background"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "p-method",
+      "text": "学習済みの共有hidden stateとmask embeddingを使い、複数draft tokenを一回のforward passで提案する。採否を決めるtarget modelの検証は残る。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-blog",
+        "peagle-paper-v1"
+      ],
+      "context": "paper §2; blog Our Approach / Implementation"
+    },
+    {
+      "statement_id": "p-training",
+      "text": "並列予測専用のdrafterが必要。論文は長系列学習のattention mask事前計算と、依存関係を保つ系列内分割でメモリ負荷に対応する。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "§2–3; training is not free or removed"
+    },
+    {
+      "statement_id": "p-blog-setup",
+      "text": "報告の評価はGPT-OSS 20B、B200 1基、vLLM、専用学習した4層P-EAGLE drafter対公開済みvanilla EAGLE-3 checkpoint。両手法はlinear draftingでK=3/5/7を掃引し、各条件でそれぞれ最大TPSのKを選ぶ。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "vLLM Benchmarking; concurrency 1/2/4/8/16/32/64; MT-Bench/HumanEval/SPEED-Bench Code"
+    },
+    {
+      "statement_id": "p-config",
+      "text": "掲載設定はfp8 KV cache、async schedulingを使用し、prefix cachingとchunked prefillを無効にする。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "benchmark launch command; recipe-specific, not general requirements"
+    },
+    {
+      "statement_id": "p-integration",
+      "text": "報告はvLLM v0.16.0からの統合と対応学習済みheadを案内する一方、GPT-OSS 20BでEAGLE drafterをserveするにはPR #36684のpatchが必要としている。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "opening / benchmark Note; captured page statement, not verified release history"
+    },
+    {
+      "statement_id": "p-paper-setup",
+      "text": "論文のserving表はH200 1基、concurrency 2/4、3種のtargetと異なるbenchmark条件でAR EAGLE-3と比較する。baselineにはHCA lossも用いる。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "§5.1–5.3, Table 10; no conflation with March blog"
+    },
+    {
+      "statement_id": "p-blog-author",
+      "text": "vLLM報告のbylineはAmazon and NVIDIA Team。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "header and acknowledgements; report authorship, not paper authorship"
+    },
+    {
+      "statement_id": "p-paper-author",
+      "text": "論文著者はMude Hui、Xin Huang、Jaime Campos Salas、Yue Sun、Nathan Pemberton、Xiang Song、Ashish Khetan、George Karypis。HuiはUCSC所属でAWS internship中の仕事と記載、他著者はAWS所属。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "title/author affiliations; distinguish from blog team"
+    },
+    {
+      "statement_id": "p-acceptance",
+      "text": "報告のP-EAGLEは4層で、vanilla EAGLE-3との測定には受理されるdraftの長さの改善も寄与すると著者は述べる。並列生成順序だけの因果効果を分離した実験ではない。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "vLLM Benchmarking + acceptance-length discussion; first sentence author report, causal isolation limit is editorial inference"
+    }
+  ],
+  "metrics": [
+    {
+      "metric_id": "p-blog-speed",
+      "name": "P-EAGLE / EAGLE-3 TPS",
+      "value": "1.05–1.69",
+      "unit": "ratio",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "comparison_subject_ids": [
+        "eagle3"
+      ],
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "GPT-OSS20B/B200/vLLM; methods individually optimized K; c1 1.55–1.69, c64 1.05–1.25; Figures 4–6, not raw AR ratio; baseline specifically publicly available vanilla checkpoint, unlike paper HCA-trained baseline; capacity/training/acceptance also differ"
+    },
+    {
+      "metric_id": "p-peak",
+      "name": "SPEED-Bench Code TPS ratio",
+      "value": "1.69",
+      "unit": "ratio",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "comparison_subject_ids": [
+        "eagle3"
+      ],
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-blog"
+      ],
+      "context": "Figure 6: c=1, B200 1 GPU/GPT-OSS20B, best K per method; code workload, not universal max latency reduction"
+    },
+    {
+      "metric_id": "p-paper-speed",
+      "name": "abstract/conclusion summary only, not Table10 range",
+      "value": "1.10–1.36",
+      "unit": "ratio",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "comparison_subject_ids": [
+        "eagle3"
+      ],
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "abstract/§7 author summary 1.10–1.36; not the range of all cells or per-condition best values in Table10. H200/three targets; §5.3 contains smaller gains and low-K slowdowns. No inferred aggregate."
+    },
+    {
+      "metric_id": "p-low-depth-slowdown",
+      "name": "Qwen3-Coder 30B HumanEval output TPS / optimized AR EAGLE-3",
+      "value": "0.92",
+      "unit": "ratio",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "comparison_subject_ids": [
+        "eagle3"
+      ],
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "Table10 Qwen30B P-EAGLE K=3,C=4, one H200:1066 OTPS vs best AR 1160 (K=5). Also §5.3. Not same-K comparison; not March blog configuration."
+    }
+  ],
+  "limitations": [
+    {
+      "statement_id": "p-time",
+      "text": "取得は2026-09-12。表示された報告日やversionから、ページ全文・head・patchの3月時点の正確な公開状態までは証明できない。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "peagle-blog",
+        "peagle-paper-v1"
+      ],
+      "context": "manifest capture versus source labels; no immutable blog commit checked"
+    },
+    {
+      "statement_id": "p-bound",
+      "text": "単一GPUと掲載workloadのTPS改善は、任意構成の応答遅延、総費用、モデル品質の改善、DFlashとの優劣を証明しない。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "peagle-blog",
+        "peagle-paper-v1"
+      ],
+      "context": "inference from tested scope; no independent reproduction"
+    },
+    {
+      "statement_id": "p-pass-cost",
+      "text": "forward passの回数が一定でも、K増加時の検証・draft batch・計算/メモリ負荷がゼロになるわけではない。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "peagle-blog",
+        "peagle-paper-v1"
+      ],
+      "context": "blog batch expansion/CUDA graph range; paper §3 and §5; distinguish sequential overhead"
+    },
+    {
+      "statement_id": "p-source-discrepancy",
+      "text": "Qwen30B/HumanEval K=3,C=2はTable10の0.94倍と§5.3本文の0.98倍が不一致。要約の1.10–1.36倍も表の全条件範囲ではない。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "abstract, §5.3/Table10; C4=0.92 is undisputed between table and prose"
+    },
+    {
+      "statement_id": "p-capacity-limit",
+      "text": "論文§5.3は低Kで4層の一回のpassが1層の逐次passより重くなり得ると説明する。並列化だけで高速化が保証されるとはいえない。",
+      "subject_id": "peagle",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "peagle-paper-v1"
+      ],
+      "context": "§5.3 Qwen30B/HumanEval; not attribution of all runtime differences to order alone"
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "method and verifier",
+        "status": "VERIFIED",
+        "finding": "共有学習parameterを使うparallel drafterでありtarget verificationを残す。",
+        "subject_ids": [
+          "peagle"
+        ],
+        "source_ids": [
+          "peagle-blog",
+          "peagle-paper-v1"
+        ]
+      },
+      {
+        "target": "performance and comparator conditions",
+        "status": "VERIFIED",
+        "finding": "blogは公開vanilla checkpointとの各条件best TPS比較で容量/受理長の差もある。paper要約倍率をTable10全条件範囲としない。表/本文の一致するC4低K slowdownは確認、不一致は別targetに保持。",
+        "subject_ids": [
+          "peagle"
+        ],
+        "source_ids": [
+          "peagle-blog",
+          "peagle-paper-v1"
+        ]
+      },
+      {
+        "target": "training and deployment prerequisites",
+        "status": "VERIFIED",
+        "finding": "専用head、長系列学習、version/patch記載を取得本文で確認。",
+        "subject_ids": [
+          "peagle"
+        ],
+        "source_ids": [
+          "peagle-blog",
+          "peagle-paper-v1"
+        ]
+      },
+      {
+        "target": "historical availability",
+        "status": "UNRESOLVED",
+        "finding": "報告日表示はあるが3月当時の同一bytes/patch公開を追跡していない。",
+        "subject_ids": [
+          "peagle"
+        ],
+        "source_ids": [
+          "peagle-blog"
+        ]
+      },
+      {
+        "target": "internal source consistency",
+        "status": "UNRESOLVED",
+        "finding": "C2 low-K値と要約範囲の不一致/範囲差を保持。本文は一致するC4 cellを用い、根拠なく統合しない。",
+        "subject_ids": [
+          "peagle"
+        ],
+        "source_ids": [
+          "peagle-paper-v1"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "3月当時のblog本文・head・patchのimmutable公開履歴",
+      "掲載条件の独立再現と実運用SLA/総費用",
+      "paper Table10と§5.3のC2低K倍率の不一致、および要約倍率の集計範囲"
+    ],
+    "contradictions": [
+      "paper Qwen30B/HumanEval K3,C2: Table10 0.94 vs §5.3 0.98; intended value unresolved. Abstract range is a summary, not a lower/upper envelope of Table10."
+    ]
+  }
+}

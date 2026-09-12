@@ -1,0 +1,249 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "lab-phase4c-weekly-2026-03-09",
+  "evidence_task_id": "lab-p4c-c2",
+  "basis": {
+    "task_sha256": "b4281bfcdfd75dbf664b9bca5844f882fe48c19eb605557521dd1d85a50700d9",
+    "screening_acceptance_sha256": "84e16a50f084f121ab5d4474e76d993320c554eef162bf21b8c76ce1a8e94130",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "dflash",
+      "canonical_name": "DFlash",
+      "entity_type": "FRAMEWORK",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2602.06036v1"
+    },
+    {
+      "entity_id": "eagle3",
+      "canonical_name": "EAGLE-3",
+      "entity_type": "FRAMEWORK",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "ar",
+      "canonical_name": "vanilla autoregressive decoding",
+      "entity_type": "OTHER",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "qwen38b",
+      "canonical_name": "Qwen3-8B",
+      "entity_type": "MODEL",
+      "organization": null,
+      "canonical_url": null
+    },
+    {
+      "entity_id": "sglang",
+      "canonical_name": "SGLang",
+      "entity_type": "FRAMEWORK",
+      "organization": null,
+      "canonical_url": null
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "dflash",
+    "artifact_type": "PAPER",
+    "canonical_name": "DFlash: Block Diffusion for Flash Speculative Decoding",
+    "canonical_url": "https://arxiv.org/abs/2602.06036v1"
+  },
+  "temporal": {
+    "observed_at": "2026-09-12T06:49:41.892090+00:00",
+    "events": [
+      {
+        "event_id": "d-paper",
+        "event_type": "SOURCE_PUBLICATION_LABEL",
+        "event_date": "2026-02-05",
+        "subject_id": "dflash",
+        "subject_role": "PRIMARY_SUBJECT",
+        "source_ids": [
+          "dflash-paper-v1"
+        ]
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "dflash-paper-v1",
+      "url": "https://arxiv.org/html/2602.06036v1",
+      "source_class": "PRIMARY_PAPER",
+      "title": "DFlash: Block Diffusion for Flash Speculative Decoding",
+      "published_at": "2026-02-05",
+      "accessed_at": "2026-09-12T06:37:09.767687+00:00",
+      "role": "competing-method-background"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "d-method",
+      "text": "DFlashはtargetの複数層のhidden featuresを各draft層のKVへ渡し、block diffusionで一回のpassから複数tokenを提案しtargetが検証する。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§3–4.1; distinct conditioning from P-EAGLE"
+    },
+    {
+      "statement_id": "d-training",
+      "text": "target生成応答で専用drafterを学習する。埋め込みとLM headを共有・固定し、draft transformerを更新。hidden featuresのoffline保存量は抽出層数に比例する。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§4.2, §5, §5.4.3, Appendix A.1; training/storage costs remain"
+    },
+    {
+      "statement_id": "d-serving",
+      "text": "論文にはTransformersだけでなくSGLang/FA4、B200 1基、Spec-v2 scheduling overlapでconcurrency 1–32を調べたserving評価がある。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§5.3/Table3; Qwen3-4B/8B/Coder30B; baseline vanilla AR"
+    },
+    {
+      "statement_id": "d-eagle-serving",
+      "text": "別のLLaMA-3.1-8B評価ではEAGLE-3と同じ学習dataと公式checkpointを用いて比較し、tree draftingに対応するSpec-v1を両者に用いる。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§5.4.1/Table4; single B200 Flashinfer; do not conflate with §5.3"
+    }
+  ],
+  "metrics": [
+    {
+      "metric_id": "d-transformers",
+      "name": "mean greedy decoding speedup",
+      "value": "4.9",
+      "unit": "ratio",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "comparison_subject_ids": [
+        "ar"
+      ],
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§5.1/Table1; Qwen3 instruct, thinking disabled, Transformers/H200, temp0; corresponding 2.4x over EAGLE-3 tree16; headline over6x is not mean"
+    },
+    {
+      "metric_id": "d-serving-speed",
+      "name": "reported peak SGLang speedup",
+      "value": "5.1",
+      "unit": "ratio",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "comparison_subject_ids": [
+        "ar"
+      ],
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§5.3/Table3; Qwen3-8B Math500, concurrency1, single B200/FA4/Spec-v2; denominator vanilla AR, not EAGLE-3 or P-EAGLE"
+    }
+  ],
+  "limitations": [
+    {
+      "statement_id": "d-verification-cost",
+      "text": "大blockはcompute-bound/大batchで検証費用を増やし得る。小さくする選択はあるがadaptive block-size schedulingは今後の課題。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§5.4.4"
+    },
+    {
+      "statement_id": "d-compare",
+      "text": "この固定source群にP-EAGLEと同条件の直接比較はなく、異なる分母・model・backend・workloadの倍率から優劣は決められない。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "§5–5.4.1 compared with P-EAGLE corpus"
+    },
+    {
+      "statement_id": "d-time",
+      "text": "v1本文の表示は2月5日。後続v2の結果・採択statusは根拠にしない。source取得は9月であり、blog同様の公開履歴attestationは実施していない。",
+      "subject_id": "dflash",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "dflash-paper-v1"
+      ],
+      "context": "version-pinned HTML watermark and manifest"
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "method and verifier",
+        "status": "VERIFIED",
+        "finding": "target feature conditioningとparallel diffusion draft、target検証を確認。",
+        "subject_ids": [
+          "dflash"
+        ],
+        "source_ids": [
+          "dflash-paper-v1"
+        ]
+      },
+      {
+        "target": "performance and comparator conditions",
+        "status": "VERIFIED",
+        "finding": "AR分母/対EAGLE比、Transformers/SGLang、異なるscheduling設定を区別。",
+        "subject_ids": [
+          "dflash"
+        ],
+        "source_ids": [
+          "dflash-paper-v1"
+        ]
+      },
+      {
+        "target": "training and source-specific limits",
+        "status": "VERIFIED",
+        "finding": "専用学習、hidden state保存、大block検証費用、adaptive scheduling未実装。",
+        "subject_ids": [
+          "dflash"
+        ],
+        "source_ids": [
+          "dflash-paper-v1"
+        ]
+      },
+      {
+        "target": "direct P-EAGLE rank",
+        "status": "UNRESOLVED",
+        "finding": "固定sourceに同条件直接比較なし。",
+        "subject_ids": [
+          "dflash"
+        ],
+        "source_ids": [
+          "dflash-paper-v1"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "P-EAGLEとの同条件直接比較",
+      "両手法の実運用費用とSLAを含む再現"
+    ],
+    "contradictions": []
+  }
+}

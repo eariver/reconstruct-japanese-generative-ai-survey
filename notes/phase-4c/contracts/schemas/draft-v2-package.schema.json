@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/draft-v2-package.schema.json",
+  "title": "Survey Production Core v2 Draft Package",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "research_profile", "publication_profile", "package_id", "basis", "package", "candidate_matrix", "evidence_acceptance", "evidence_inputs", "drafting_constraints", "profile_extensions", "publication_extensions"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"enum": ["WEEKLY", "RETROSPECTIVE_PERIOD", "THEMATIC"]},
+    "publication_profile": {"type": "string", "minLength": 1},
+    "package_id": {"type": "string", "minLength": 1},
+    "basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_profile_sha256", "architecture_sha256", "architecture_review_summary_sha256", "architecture_approval_sha256", "candidate_matrix_sha256", "candidate_selection_sha256", "evidence_acceptance_sha256"],
+      "properties": {
+        "production_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "architecture_sha256": {"$ref": "#/$defs/sha256"},
+        "architecture_review_summary_sha256": {"$ref": "#/$defs/sha256"},
+        "architecture_approval_sha256": {"$ref": "#/$defs/sha256"},
+        "candidate_matrix_sha256": {"$ref": "#/$defs/sha256"},
+        "candidate_selection_sha256": {"$ref": "#/$defs/sha256"},
+        "evidence_acceptance_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["title", "purpose", "drafting_order", "primary_candidate_ids", "supporting_candidate_ids", "must_cover_requirements", "boundaries"],
+      "properties": {
+        "title": {"type": "string", "minLength": 1},
+        "purpose": {"type": "string", "minLength": 1},
+        "drafting_order": {"type": "integer", "minimum": 1},
+        "primary_candidate_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "supporting_candidate_ids": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "must_cover_requirements": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "boundaries": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}}
+      }
+    },
+    "candidate_matrix": {"type": "object"},
+    "evidence_acceptance": {"type": "object"},
+    "evidence_inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "architecture_usage", "evidence_task_id", "evidence_sha256", "evidence_card"],
+        "properties": {
+          "candidate_id": {"type": "string", "minLength": 1},
+          "architecture_usage": {"enum": ["PRIMARY", "SUPPORTING"]},
+          "evidence_task_id": {"type": "string", "minLength": 1},
+          "evidence_sha256": {"$ref": "#/$defs/sha256"},
+          "evidence_card": {"type": "object"}
+        }
+      }
+    },
+    "drafting_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["language", "raw_sources_forbidden", "unknowns_remain_unknown", "citation_granularity"],
+      "properties": {
+        "language": {"type": "string", "minLength": 1},
+        "raw_sources_forbidden": {"const": true},
+        "unknowns_remain_unknown": {"const": true},
+        "citation_granularity": {"const": "EVENT_CLAIM_METRIC_LIMITATION"}
+      }
+    },
+    "profile_extensions": {"type": "object"},
+    "publication_extensions": {"type": "object"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}
