@@ -4,19 +4,19 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-Phase 4-C's bounded canonical-field research/editorial slice is complete after independent review, repair and re-review. Full canonical production execution and comparative lifecycle savings remain untested. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
+Phase 4-D's bounded read-only production trace is complete. It identified automatic publication of internal Architecture notes and bibliography status metadata as concrete sources of downstream repair work. Net lifecycle savings and a quality-complete full canonical baseline remain unproven. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former decision step, or acceptance/staging experiments as the default task.
 
 For a new Astra session, read first:
 
 1. `handoff/astra-phase-4-continuation.md`
-2. `outputs/astra-phase-4c-trial-assessment.md` — §1, §3–5
-3. Only the Evidence needed from that assessment's index; older Phase 4-A/B decisions remain historical context.
+2. `outputs/astra-phase-4d-production-trace.md` — §1, §3–5
+3. Only the Evidence needed from that assessment's index; older Phase 4-A/B/C decisions remain historical context.
 
 Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
 
 The objective is to minimize total lifecycle work across production, supervisory reasoning/review, repair/regeneration, CI/runtime, LLM usage, operational complexity, and Human handoff, while preserving at least intended publication quality, provenance correctness, fail-close safety, Human authority, Weekly/Special generality, and historical reproducibility. Moving work between roles is not a saving; justified long-term investment is allowed.
 
-The current priority remains research-question-to-publication/review/repair with all-role work accounting. Phase 4-C found four semantic defects despite passing mechanical checks; all were repaired within existing canonical fields, and independent re-review found no remaining blocking output defect in the declared slice. Selection/Package used lab envelopes without fictitious Human approval, so this is not completion of a full canonical baseline. Continuous editorial ownership and pre-Architecture source/selection review already exist in governance; adding or advancing them alone is not a distinct comparison arm. No removable work with demonstrated net savings has yet been identified. The next candidate investigation is one completed canonical production case, read-only, tracing actual review/repair/runtime work before defining any distinct alternative. See the handoff for limits and stop conditions. Additional acceptance/staging/cache implementation remains paused. On continuation choose bounded work from current evidence; do not replay the old approval step or repeat known sources as an unknown-source comparison. During closeout-only requests update durable handoff and stop.
+The priority remains research-question-to-publication/review/repair with all-role work accounting. Phase 4-C repaired four semantic defects in existing canonical fields, but used lab Selection/Package envelopes. Phase 4-D traced a real W34 path to VALIDATED_DRAFT followed by a sidecar FAIL/stop; it is not a quality-complete baseline. Internal notes were automatically carried through canonical Draft to publication source. A static lab probe showed that two kinds of internal text can be excluded from reader output while preserving existing fields/constraints. Next consider a bounded reconstruct-only compatibility/quality probe of canonical reader-ready Draft plus rendering that adds no internal metadata, after checking for relevant production fixes to avoid duplicate work. Do not strip substantive limitations or count moved author/reviewer work as savings. Continuous ownership and upstream review already exist and are not new comparison arms. Macro architecture comparison, new meaning stores, telemetry, and acceptance/staging/cache implementation remain paused unless new evidence warrants reassessment. On continuation choose bounded work from evidence; do not replay old approvals or use known sources as an unknown-source comparison. During closeout-only requests update handoff and stop.
 
 Historical task files remain useful provenance and context but are not the active task unless explicitly reactivated.
 
@@ -52,7 +52,7 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-Current decision: `outputs/astra-phase-4c-trial-assessment.md`. Phase 4-A comparison basis and Phase 4-B readiness are retained as historical decisions. A-only slice feasibility after repair is not comparative lifecycle savings, full production completion, or an adoption recommendation. Phase 3-G objective and safety constraints remain applicable.
+Current decision: `outputs/astra-phase-4d-production-trace.md`. Phase 4-A/B/C decisions remain historical Evidence. Identifying preventive output corrections does not establish net lifecycle savings, full production completion, or adoption. Phase 3-G objective and safety constraints remain applicable.
 
 Current handoff: `handoff/astra-phase-4-continuation.md`.
 
