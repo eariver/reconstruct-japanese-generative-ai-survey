@@ -1,6 +1,7 @@
 # Phase 4-E — canonical Draftから読者出力への互換性反証
 
-日付: 2026-09-12 JST  
+初回記録: 2026-09-12 JST / current reality追記: 2026-09-13 JST（§6）
+
 状態: **BOUNDED COMPATIBILITY PROBE COMPLETE / SOURCE JOIN REQUIRES TRACE / NO ADOPTION**
 
 ## 1. 結論と方針
@@ -57,7 +58,7 @@ W34の1 packageを使い、22件の意味境界をsubject別の日本語12 block
 
 対象: `evidence:2026-W34:589f97e8aee10bd1`、Card SHA `c398b532b7d0c047154176eb579e9931d9c025b313649307f5585cddb47781c1`、`claim-2`。
 
-claim textは2026-08-21T17:29:36Zの公式X観測を、contextはLocal DailyX raw bytesを日時のexact authorityとして述べる。しかし`source_ids`は` supplement-src-6b3ce48a6c75d42b`（先頭空白を除く）だけで、そのsource rowは`https://x.ai/news/grok-bot-more-plans`を指す。CardのLIMITATION自体が、同ページは8月26日に編集され、8月21日本文の根拠にしてはいけないと述べている。Cardには他のsource rowもtemporal eventもない。
+claim textは2026-08-21T17:29:36Zの公式X観測を、contextはLocal DailyX raw bytesを日時のexact authorityとして述べる。しかし`source_ids`は`supplement-src-6b3ce48a6c75d42b`だけで、そのsource rowは`https://x.ai/news/grok-bot-more-plans`を指す。CardのLIMITATION自体が、同ページは8月26日に編集され、8月21本文の根拠にしてはいけないと述べている。Cardには他のsource rowもtemporal eventもない。
 
 したがってCardのIDを正しく解決しても、日時claimが記述する根拠へ読者を導けない。**元のDailyX rawがrepository全体に無いとは結論しない**。今回はその外側のsource/task/supplementを調べていない。rendererが本文やcontextからXのURLを推測したり、編集後ページを日時根拠へ格上げしたりするのは解決策にならない。source-firstの意味確認が必要な場所を具体化できた。
 
@@ -82,3 +83,27 @@ claim textは2026-08-21T17:29:36Zの公式X観測を、contextはLocal DailyX ra
 publication全体の品質、独立source-first review/repair/re-review、PDF/visual QA、full canonical admission、Special一般性、歴史全閉包、all-role active time/token/料金、lifecycle純減は未実証。4-Cのreview許可はその試験で完了しており、4-Eでは追加subagentや外部reviewを使っていない。既に得た停止理由を埋めずに品質合格を取りに進む必要はない。
 
 productionはread-only。Human承認、State、Gates、Freeze/Release、adoption/migration、PR/Issueを変更していない。通常Git Pull/Pushと最終commitはHumanが行う。これは完了した限定調査であり、全体目標の達成や外部blockedの宣言ではない。
+
+## 6. 途中Push後のcurrent reality反映 — 2026-09-13 JST
+
+Humanによる途中commit `97a28af`後、PR #488 mergeの連絡を受けて関係差分をread-onlyで確認した。§2の「ref不変」は初回probe着手時の観測として保持し、**現在の入口はこちらとhandoffを使う**。
+
+[更新観測](../notes/phase-4e/production-refresh.json)（2026-09-12 15:47 UTC / 09-13 00:47 JST）:
+
+- [PR #488](https://github.com/eariver/japanese-generative-ai-survey/pull/488)はmerged。mainは`658ae823987431e1f1098243dc2f88cfc0d4864a`。
+- W34は`f50d229162b7402c504c0978f72dab4b33052f5e`。旧c170から12 commits / 19 changed paths。Core統合、bib再生成、新PDF、sidecar再実行、reader/quality/review更新、Candidate作成を含む。
+- Candidate recordのstatusは`READY_FOR_PUBLICATION_PREVIEW`、candidate SHAは`dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`。PDF metadataはSHA `f7403b0a...`、340480 bytes、12 pages。Human Previewの承認やRelease完了とは解釈しない。Production Stateはこの差分で変更されず、旧`VALIDATED_DRAFT`のままである。これらrecord間のfull admission整合は今回検証していない。
+
+[関係差分の検査](../notes/phase-4e/refresh-check.json)、[script](../notes/phase-4e/check_refresh.py)、追加rawのidentityは[inputs.json](../notes/phase-4e/inputs.json)。確認したこと:
+
+1. Weekly rendererの関数AST差分は`_bib_text`だけ。内部status/materialityのnoteを出さなくなった。W34の41 citation keys/order、title/author/URL/urldateの値はすべて保持され、内部noteは0。書式差分にはurldate末尾commaの除去がある。**この生成欠陥はcurrent mainとW34掲載sourceで修復済みなので、重複実装対象から外す。** 旧probeは歴史Evidenceに留める。
+2. 最新Candidateが名指しするreader manuscript、quality bundle、semantic review、visual reviewの4ファイルはSHA/byte_count一致。新manuscriptは実bibを正しいhashで指す。PDFはmetadataの照合のみで、download/目視やrootのquality認定はしていない。
+3. sidecar再実行reportはhard fail 164→0、既知Mistral framingのREVIEW_REQUIRED 1件、aggregate NEEDS_REVIEWと報告する。このreportのSTOPはCandidate作成より前の段階の記録であり、現在もCandidateが無いとは述べない。こちらでsidecarを再実行したわけではない。
+4. 対象Architecture/Package/Draft、section20、main.texは比較差分で不変。新manuscriptのsection20 hashも旧実bytesに一致し、内部のregional processing配置注記は残る。最新semantic PUBLICATION_BOUNDARYは本文/新bibに内部用語・修復履歴が無いとしてPASSする。**bibliography修復の成立と、本文の意味reviewの十分性は別**であり、新Candidateが全体品質の反例を解消したとは判断しない。
+5. `_section_label`、`_render_tex`等は関数ASTで不変。従ってE2のcompatibility制約は今回のmergeでは解決されない。Grokを含む上流Packageも不変なのでE4のsource対応の反例も残る。
+
+全体判断は、**修復済みのbib serializer案は閉じ、未解決のcanonical source対応を先に追う**。§4のGrok1件の入口を維持する。今回の修復では実際に再生成/build/sidecar/rebinding/review更新が生じたが、PR #488の将来の純削減額をこれらの件数やwall timeから算出しない。authority文書の再同期commitもあり、意味判断だけでなく運用/保守作業を含めた費用評価が必要という目的も維持する。
+
+current reality更新もreconstruct内のEvidence整理だけで、productionへの指示・書込み、commit/Pushはしていない。現時点で関係差分以上の全号監査やPDF試験へ広げる必要はない。
+
+[終了検査](../notes/phase-4e/closeout-check.json): 初回probeとrefresh検査を再実行し、固定入力identity、lab output、文書のlocal linksと`git diff --check`を確認した。機械的な整合の確認であり、残るsource対応や意味品質を合格へ変えない。

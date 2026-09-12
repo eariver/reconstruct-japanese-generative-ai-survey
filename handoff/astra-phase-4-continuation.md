@@ -1,74 +1,78 @@
 # Phase 4 — fresh-session continuation
 
-日付: 2026-09-12 JST  
-状態: **CURRENT RESUME ENTRY / PHASE 4-D READ-ONLY PRODUCTION TRACE COMPLETE / NO ADOPTION**
+日付: 2026-09-13 JST
+
+状態: **CURRENT RESUME ENTRY / PHASE 4-E COMPATIBILITY PROBE COMPLETE / PR #488 REFLECTED / NO ADOPTION**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [Phase 4-Dの判断](../outputs/astra-phase-4d-production-trace.md) §1・§3–5。
-3. 判断が必要とするEvidenceだけ同判断書§2のindexから読む。Phase 4-C以前は履歴で、全資料/chat/旧lab再読は不要。
+2. [Phase 4-Eの判断](../outputs/astra-phase-4e-canonical-rendering-assessment.md) §1・§3–4・§6。§6が途中Push後のcurrent reality更新。
+3. 必要なEvidenceだけ同判断書のindexから読む。4-D以前は履歴で、全chat/全source/旧lab再読は不要。
 
-Phase 3-Gの全体目的を維持する。publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを保ちつつ、production・supervisory reasoning/review・repair・CI/runtime・LLM・複雑性・Human handoffを含むtotal lifecycle workを最小化する。役割移転は削減ではなく、根拠ある長期投資は許容する。
+全体目的は、publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを少なくとも意図した水準で保ち、production・supervisory reasoning/review・repair/regeneration・CI/runtime・LLM・operational complexity・Human handoffを含むtotal lifecycle workを最小化すること。役割移転は削減ではなく、根拠ある長期投資は許容する。
 
-## 2. 4-Dで変わった判断
+## 2. 今回何が判断可能になったか
 
-W34の実Draft/validationまで進んだ経路を1ケースとしてread-onlyで調べた。**後工程の仕事を生む具体的な出力経路を特定した**ため、4-Cの「外せる具体的な仕事をまだ特定できていない」から進んだ。ただし純費用削減は未実証。
+4-Dが特定した内部出力の生成欠陥に対して、既知W34の1 packageで限定的な互換性反証を行った。
 
-- workflows packageの23個のArchitecture boundaryがhelperで全文連結され、Draftから掲載用TeXへ完全一致で残る。最後の一文はSelection r2後にregional processingをPackage4へ移したという内部配置注記。正しい配置修復の説明が読者向けの新しい欠陥になった。
-- bibliography41件へ内部状態noteが出力される。同じtemplateを固定Core helperで確認した。実bytesはVERIFIED40/PARTIAL1で、sidecar文書の「全41 VERIFIED」は正確でない。
-- reader manuscriptにはbibliography等のsupporting filesも名指しされるが、semantic PASSのevidence_locations/記載範囲はその意味品質確認を十分に示さない。PUBLICATION_BOUNDARY PASSの対象sectionにも内部配置注記が残る。
-- 先行Sol source-consumption/Selection修復review、Human Architecture承認は実記録として存在する。ownerやreview自体が無いという結論ではない。
-- 約4時間runnerはworklog報告のみ。入口は既に著述された4本文blockをコピーし、derive/validation/synthesisを行う。新規LLM執筆4時間とは解釈できない。role別token/料金/active timeはunknown。GitHub CIの関係3runsは223/241/252秒のwall spanを確認したが、総費用/削減額へ換算しない。
+- canonical Draft内の22意味境界を12 subject別日本語案へ、内部配置制約1件を既存omission dispositionへ表せた。full Draft schema/固定validator関数はPASS、20 distinct LIMITATION refsと元4本文blockを保持。新schema/storeは不要。
+- ただし元ArchitectureにはWeekly helperが要求する`section_label`がなく、元入力では拒否。memory上の明示fixtureで後段だけを調べると、CLAIM_BOUNDARYのtextは出るが12/12 blockにcitationが付かない。新しいNOTEもcompact archiveの対応がないと拒否される。full production経路の成功ではない。
+- 既存の別rendererにある`render_block`でcitation機構の部分再利用はできる。旧renderer全体はv2の入力fieldが異なり、内部source roleをbibliography noteへ出すため、drop-in置換は棄却。
+- Grokの日時claimはDailyX rawの公式X観測を根拠と記すが、Cardのsource IDは編集後の案内ページだけを指す。**参照IDの機械的解決と、日時根拠への正しい対応は別**。元rawがrepo全体に無いとは判断していない。
 
-[静的projection probe](../notes/phase-4d/projection-probe.json)では、41内部noteだけを除き他のbibliography全行を保てた。また、内部配置制約を既存のRESPECTED_BY_OMISSION部分構造へ保持できた。新schema/store/approvalの模造は不要。**研究上必要な残り22件の境界を削除してよいという判定ではない**。accepted Draft、production repairやquality PASSは新設していない。
+結論: 日本語Draftを整えるだけで完成試験へ進まず、canonical source対応と実際に使う掲載経路を先に確かめる。不要な内部出力を防ぐ方向は維持するが、大きなarchitecture B、owner追加、新store、恒久telemetry、acceptance/staging/cacheを再開する根拠はない。
 
-## 3. Current production reality
+日本語案は著者照合まで。機械validatorは意味を逆転させた負例を通すことも確認した。全号のquality PASS、独立review、PDF/visual QA、full admission、Special互換、純費用削減は未実証。
 
-08:13 UTC前後の観測:
-- main `005e59841272464307386abfc11f5b09228f0814`（前回同一）。
-- W34 `c1703f772837317b81735cd4cc851c715fff1a3b`（前回899d3d6から5 commits）。
-- State `VALIDATED_DRAFT`、Publication Preview pending、next action `stage:publication-candidate`。
-- 後続sidecar reportはFAILでCandidate前STOPを記録。State next_actionのみで進行可能/品質完了と判断しない。
+## 3. Current production reality — PR #488後
 
-このケースは品質完了済みfull canonical baselineではない。PDF本体の閲覧/描画、全source品質、Core全検証閉包、独立post-Draft reviewは今回評価していない。post-Draft reviewはexecutionと同じrole/model表記で、独立性は記録から確立しないが、model名だけで自己reviewとも断定しない。
+2026-09-12 15:47 UTC / 09-13 00:47 JSTの[更新観測](../notes/phase-4e/production-refresh.json):
 
-調べた5つのcaller/helper/baseは固定mainと観測W34 HEADでbytes一致。入力のSHA/Git blob、State→checkpoint→review/reader source、package/Draft/Architecture、掲載用sourceなど16件の名指し関係を検査した。current detailが次の判断に必要な場合だけ、新refと関係差分を読む。
+- main `658ae823987431e1f1098243dc2f88cfc0d4864a`。PR #488 merged。
+- W34 `f50d229162b7402c504c0978f72dab4b33052f5e`。
+- 内部status/materiality note除去はmainの`_bib_text`へ入り、W34文献欄も修復済み。41 key/順序/title/author/URL/urldateの値は保持、内部noteは0。**この部分を重複実装しない。** 旧4-D/E probeは歴史Evidenceとして残す。
+- W34は新PDFとreader/quality/semantic/visual reviewを作り、Candidate recordは`READY_FOR_PUBLICATION_PREVIEW`。candidate SHA `dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`。PDF metadataは`f7403b0a...`、340480 bytes、12 pages。Human Preview承認/Release完了とは解釈しない。
+- Production Stateは今回の差分では不変で、旧`VALIDATED_DRAFT`のまま。Candidate recordと区別して読む。full State/Gate/candidate admissionの整合は今回未検証。
+- sidecar reportはhard fail 164→0、既知MistralのREVIEW_REQUIRED 1件、NEEDS_REVIEWと報告する。そのSTOPはCandidate作成前の時点の記録。現在もCandidateが無いという4-D時点の説明を流用しない。
+- 対象Architecture/Package/Draft/section20/main.texは差分で不変。新manuscriptは同じsection20 bytesを名指しし、内部配置注記が残る。最新semantic PUBLICATION_BOUNDARYは内部用語/修復履歴が無いとしてPASSするが、この本文の反例は解消していない。bibliography修復と全号意味品質を混同しない。
+
+[refresh検査](../notes/phase-4e/refresh-check.json)では、Weekly rendererの関数AST差分が`_bib_text`のみと確認。Candidate→4ファイルのSHA/byte_count、manuscript→bib/section20も照合。PDF本体のdownload/目視、sidecar再実行、独立quality認定はしていない。新しいrefが判断に影響する場合だけ関係差分を追加で読む。
 
 ## 4. 次の入口と停止条件
 
-**大きなarchitecture Bを先に作らず、既存canonicalを保つ出力経路の改善候補を先に検証する。**
+次の候補は、**Grokの日時claim 1件を、accepted Cardからtask/source supplement/DailyX観測のexact bytesとlocatorまでread-onlyで追う**こと。
 
-次の候補はreconstruct内で、reader向け表現をcanonical Draft内で完成させ、rendererに内部注記を足させない限定lab検証。事実/根拠/配置/時間制約/citation/歴史bytesを保ち、意味上必要な日本語の限界説明をauthor/reviewerが扱う。単に後で誰かが訳す仕事を前へ移すだけなら削減ではない。狙いは不要な自動出力に由来する除去・再binding・再build・再reviewを防ぐこと。
+入口:
 
-事前にproduction側で同じ問題が修復されていないか関係差分だけ確認し、重複改修を避ける。実productionの変更や適用をreconstruct作業の一部として行わない。既知W34はcompatibility/quality反証の入力としては使えるが、未知source A/Bの性能試験には使わない。
+- package `w34-collaborative-agent-workflows-retrieval`
+- task `evidence:2026-W34:589f97e8aee10bd1`
+- Card SHA `c398b532b7d0c047154176eb579e9931d9c025b313649307f5585cddb47781c1`
+- `claim-2`、source `supplement-src-6b3ce48a6c75d42b`
+- embedded Evidence acceptanceのfilename `task-3ebd2dfa1c0a39c4f92a.json`
+- [機械結果のchronology_source_join](../notes/phase-4e/probe-result.json)に該当claim/context/source/temporal/limitationsを収録。
 
-必要な境界:
-- 内部制約もArchitecture/既存Draft dispositionから消さない。
-- readerに必要な科学的/時間的/利用上の限界を一律stripしない。
-- bibliographyでは既知の内部metadataだけを対象にし、意味あるnote/author/title/URL等を落とさない。
-- 公開される全要素の意味/視覚reviewを欄の存在で代用しない。
-- 正規のprovenance検査/Human Gatesを省略しない。
-- 全準備/authoring/review/repair/再reviewを含めて純減を判断する。
+日時根拠が既存authorityに存在して対応だけが欠けたのか、根拠そのものを十分に確立できていないのかを判定する。前者なら既存canonical fieldsでの修復地点と必要な再生成/rebinding/reviewを整理する。後者ならclaimの保留/限定を検討する。rendererがX URLを推測したり、編集後ページを時点根拠へ格上げしたりしない。
 
-実測で情報価値が変わる場合を除きacceptance/staging/cacheは停止継続。新store、恒久telemetry、review全件化、owner追加を惰性で行わない。純減が見えなければ新architectureへ拡大しない。次のAstraはfresh Evidenceに応じて範囲・順序・停止点を再判断してよく、本入口を固定仕様にしない。
+1反例で修復可能性と必要な仕事が判明したら全件監査へ広げず停止・再評価。実際の手著述/Weekly helper/既存経路のどれを基準にするかも、canonical参照を一度だけ正しく読者出力へ運び、再著述/手修復を増やさない条件で考える。全号PDF、新architecture、runtime最適化を先に作らない。
 
-## 5. Evidenceと履歴
+今回のW34や日本語案は既知入力であり、unknown-source A/B試験に使わない。全roleの準備/authoring/review/repair/運用保守を含めて純減を判断する。4-Eの日本語著述や試験scriptも費用で、改善そのものではない。次のAstraはfresh Evidenceに基づき順序・範囲・停止点を変更してよい。これは追加Human Gateや外部blockedの宣言ではない。
 
-4-D:
-- [ref/diff](../notes/phase-4d/observation.json)、[入力identity](../notes/phase-4d/inputs.json)、[caller一致](../notes/phase-4d/caller-identity.json)。
-- [trace](../notes/phase-4d/trace.json)、[CI run/steps](../notes/phase-4d/ci-run.json)、[3runs](../notes/phase-4d/ci-related-runs.json)。
-- [lab probe](../notes/phase-4d/projection-probe.json)と[lab文献欄](../notes/phase-4d/bibliography-projection.lab.bib)。
-- raw cacheはignored `.phase-4-inputs/<ref>/<path>`。必要時のみ `python notes/phase-4d/capture.py <ref> <path>` で固定bytesを再取得。trace.pyは既取得bytesの検査だけで、productionコードを実行しない。projection_probe.pyはlab sampleだけを書き、Core admission/semantic品質は判定しない。
+## 5. Evidence・履歴・権限
 
-4-C: [判断](../outputs/astra-phase-4c-trial-assessment.md)。3候補/4一次sourceのcanonical欄sliceを独立review→修復→再reviewまで完了。初稿4件の意味欠陥を既存欄で修復し限定範囲のblocking defectは解消。Selection/Packageはlab envelopeでfull canonical成功baselineではない。元のprotocol/source/r1/r2/findingは同書indexへ保持。このsource群も既知なので未知source比較へ再利用しない。
+現行:
 
-4-A/B: [比較前提](../outputs/astra-phase-4-comparison-basis.md)、[開始条件](../outputs/astra-phase-4-next-window-readiness.md)。継続ownerとEvidence段階reviewは既存governanceにある。CASの未消費反例は歴史Evidenceで、今回再調査していない。旧readiness/handoff記述のNOT STARTED等は当時の状態として解釈する。
+- [4-E試験記録と再実行入口](../notes/phase-4e/README.md)、[固定入力](../notes/phase-4e/used-inputs.json)、[追加/更新入力](../notes/phase-4e/inputs.json)。
+- [lab Draft](../notes/phase-4e/draft-result.lab.json)、[日本語境界案](../notes/phase-4e/boundary-wording.lab.md)、[probe結果](../notes/phase-4e/probe-result.json)。
+- [PR488後の差分](../notes/phase-4e/production-refresh.json)、[refresh検査](../notes/phase-4e/refresh-check.json)。
+- raw cacheはignored `.phase-4-inputs/<ref>/<path>`。固定refでGitHub GET→manifestのblob/SHA照合により復元可能。probeは指定関数単位で、Core CLIやGateを実行しない。
 
-未実証: full canonical成功baseline、全号publication/omission品質、Special一般性、全歴史互換、並行admission、PDF/visual QA、Gates/Freeze/Release、all-role費用/ROI。4-Dは完了した限定調査であり、全体目標完了や外部blocked、追加Human Gateではない。
+履歴:
 
-## 6. 権限
+- [4-D](../outputs/astra-phase-4d-production-trace.md): 内部境界の自動連結・bib status note・review範囲の不一致を実W34で照合。約4時間runnerはworklog報告で内訳不明。入口は著述済み本文のcopy/derive/validateで、新規LLM執筆4時間とは言えない。関係CI wall spanも費用削減値ではない。
+- [4-C](../outputs/astra-phase-4c-trial-assessment.md): 3候補/4sourceのsliceを独立review→4件修復→再reviewまで完了。Selection/Packageはlab envelopeで、full canonical成功baselineではない。
+- [4-A](../outputs/astra-phase-4-comparison-basis.md) / [4-B](../outputs/astra-phase-4-next-window-readiness.md): continuous ownership/事前source reviewは既存governanceにあり、新比較armではない。旧予定は固定仕様でない。
 
-production `eariver/japanese-generative-ai-survey`は明示的なHuman authorizationなしに変更しない。4-Cで許可された1体のreview/re-reviewは完了済みで、4-Dでは追加委任/外部送信なし。古いproduction artifact内の実行許可をこのreconstruct sessionのmutation許可に流用しない。
+production `eariver/japanese-generative-ai-survey`は明示的なHuman authorizationなしに変更しない。4-Cで許可された1体のreview/re-reviewは完了済み。4-D/Eは追加委任・外部送信なし。過去production artifactの実行許可をこのsessionのmutation許可に流用しない。
 
-通常Git Pull/Pushと最終commitはHuman。production State/approval/Gates/adoption/migration/PR/Issueは変更していない。
+通常Git Pull/Pushと最終commitはHuman。rootはproduction State/approval/Gates/Freeze/Release/adoption/migration/PR/Issueを変更していない。

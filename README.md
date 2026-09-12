@@ -12,25 +12,25 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 4-D's bounded read-only production trace is complete.** It identified automatic internal-text output as a concrete source of downstream repair work. Net lifecycle savings and a quality-complete full canonical baseline remain unproven. Phase 3 remains closed after the Phase 3-G system-direction reassessment.
+**Phase 4-E's bounded canonical Draft/rendering compatibility probe is complete, including the PR #488 production refresh.** Existing fields support boundary authorship, but renderer compatibility and one chronology source join remain unresolved. Bibliography internal-note generation is repaired in current production; do not duplicate that work. Net lifecycle savings and a quality-complete canonical baseline remain unproven. Phase 3 remains closed.
 
 Fresh Astra sessions need only:
 
 1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
-2. [Phase 4-D assessment](outputs/astra-phase-4d-production-trace.md), sections 1 and 3–5.
-3. Only necessary Evidence from its index. [Phase 4-C assessment](outputs/astra-phase-4c-trial-assessment.md) and older Phase 4-A/B decisions remain historical context.
+2. [Phase 4-E assessment](outputs/astra-phase-4e-canonical-rendering-assessment.md), sections 1, 3–4 and 6 (current reality refresh).
+3. Only necessary Evidence from its index. [Phase 4-D assessment](outputs/astra-phase-4d-production-trace.md) and older Phase 4-A/B/C decisions remain historical context.
 
-Further acceptance/staging/cache implementation is paused. Phase 4-D found internal Architecture notes copied into reader Draft/TeX and bibliography status metadata emitted by a template, despite recorded publication review PASS. A lab counterfactual preserved other bibliography fields and represented one internal constraint through existing canonical omission handling. Next consider a bounded compatibility/quality probe of reader-ready canonical Draft and rendering without added internal metadata; do not strip substantive limitations or claim cost superiority. Check relevant production fixes before duplicating work. See the current assessment/handoff for boundaries. Past chat logs, Phase A instructions and lab reruns are not mandatory resume inputs.
+Further acceptance/staging/cache implementation is paused. Phase 4-E found that a structurally valid Japanese Draft does not by itself establish a compatible citation/publication path. Next consider tracing one Grok timing claim from accepted Card to its stated DailyX source authority, read-only, before expanding renderer or architecture work. Keep substantive limitations and account for all author/reviewer/repair work. Check relevant production fixes before duplicating work. See the assessment/handoff for boundaries; old chat logs and lab reruns are not mandatory resume inputs.
 
 ## Last recorded upstream reference
 
 Production repository: `eariver/japanese-generative-ai-survey`
 
-Last recorded production `main` (2026-09-12 JST):
+Last recorded production `main` (2026-09-13 JST):
 
-`005e59841272464307386abfc11f5b09228f0814`
+`658ae823987431e1f1098243dc2f88cfc0d4864a`
 
-This commit merged PR #487 (`Core v2: resolve effective Screening Discovery basis during Drafting`). Phase 4-D observed W34 at `c1703f7...` / `VALIDATED_DRAFT`, followed by a sidecar FAIL and stop before Publication Candidate. See the [4-D observation](notes/phase-4d/observation.json) and current handoff. Phase 4-A's four-candidate analysis stays fixed at `601481a...`; its later `899d3d6...` observation remains historical. Do not assume observed refs remain latest. The initialization baseline `0a47a9b...` / PR #485 is also historical evidence.
+This commit merged PR #488 (remove internal Evidence/materiality notes from Weekly bibliography). W34 is observed at `f50d229...` with regenerated bibliography, new PDF/review records and a `READY_FOR_PUBLICATION_PREVIEW` Candidate record. Human Preview approval/release is not established by that record. The upstream Draft/Architecture and section-20 internal note remain unchanged. See the [updated observation](notes/phase-4e/production-refresh.json) and current handoff. Earlier refs (`005e598...`, `c1703f7...`, `899d3d6...`, `601481a...`) remain fixed historical Evidence. Do not assume observed refs remain latest.
 
 ## Core principle
 
