@@ -4,12 +4,13 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-Phase 4 has started; its first bounded investigation is complete. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
+Phase 4-A and preparation for the next usage window are complete; the main trial has not started. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
 
 For a new Astra session, read first:
 
 1. `handoff/astra-phase-4-continuation.md`
-2. `outputs/astra-phase-4-comparison-basis.md` — §1, §3, §5, §7; other sections only as needed
+2. `outputs/astra-phase-4-next-window-readiness.md` — §1, §3–6
+3. `outputs/astra-phase-4-comparison-basis.md` — §1, §3 only when the Phase 4-A evidence is needed
 
 Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
 
@@ -51,7 +52,7 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-Current decision: `outputs/astra-phase-4-comparison-basis.md`. Phase 3-G objective and safety constraints remain applicable.
+Current decision: `outputs/astra-phase-4-comparison-basis.md`; next-window execution conditions: `outputs/astra-phase-4-next-window-readiness.md`. An A-only trial establishes slice feasibility and work distribution, not comparative lifecycle savings. Phase 3-G objective and safety constraints remain applicable.
 
 Current handoff: `handoff/astra-phase-4-continuation.md`.
 

@@ -12,12 +12,13 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 4 has started; its first bounded investigation is complete.** Phase 3 remains closed after the Phase 3-G system-direction reassessment.
+**Phase 4-A and next-window preparation are complete; the main trial has not started.** Phase 3 remains closed after the Phase 3-G system-direction reassessment.
 
 Fresh Astra sessions need only:
 
 1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
-2. [Phase 4 comparison basis](outputs/astra-phase-4-comparison-basis.md), sections 1, 3, 5, and 7.
+2. [Next-window start conditions](outputs/astra-phase-4-next-window-readiness.md), sections 1 and 3–6.
+3. [Phase 4-A comparison basis](outputs/astra-phase-4-comparison-basis.md), sections 1 and 3 only when evidence is needed.
 
 Further acceptance/staging/cache implementation is paused. Current governance already assigns continuous supervisory/editorial responsibility; adding an owner alone is not a distinct alternative. Phase 4 traced four existing candidates and checked one unselected paper against its captured body, finding substantive consumption gaps. The next priority is a small quality-complete canonical baseline through reader-facing text, non-author review, and repair, with all-role work accounting. Quality/cost superiority is not established. Past Human-Sol logs, previous chat history, Phase A instructions, and lab reruns are not mandatory resume inputs. Historical decisions remain available for selective provenance reads.
 

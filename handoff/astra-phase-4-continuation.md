@@ -1,12 +1,13 @@
 # Phase 4 — fresh-session continuation
 
 日付: 2026-09-12 JST  
-状態: **CURRENT RESUME ENTRY / PHASE 4 STARTED / FIRST BOUNDED INVESTIGATION COMPLETE**
+状態: **CURRENT RESUME ENTRY / PHASE 4-A COMPLETE / NEXT-WINDOW PREPARATION COMPLETE / MAIN TRIAL NOT STARTED**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [Phase 4判断](../outputs/astra-phase-4-comparison-basis.md) §1・§3・§5・§7。費用条件が必要なら§6。
+2. [次の5時間枠の開始条件](../outputs/astra-phase-4-next-window-readiness.md) §1・§3–6。
+3. source反例・比較基準の根拠が必要なときに[Phase 4-A判断](../outputs/astra-phase-4-comparison-basis.md) §1・§3。全資料の再読は不要。
 
 Phase 3-Gの全体目標・安全制約は継承済み。過去chat、Human-Sol logs、Phase A、旧labの再実行を開始条件にしない。`notes/phase4-*`等はPhase 3中の歴史probeであり、新Phase 4の資料は`notes/phase-4/`にある。
 
@@ -48,15 +49,19 @@ CASのRawはhash確認済み。本文§3.2、§3.4、§4.1–4.2、§7を対象�
 
 ## 5. 次の入口・未実証・停止条件
 
-次の最小作業は判断書§5。まだ答えを作っていない3–4候補を一つのWeekly reader questionで選び、source/時点/品質条件/費用記録を**出力前**に固定する。paperとproductの異なる主張、強い未選択/未解決の対照を含める。全号/全Profileに広げない。採用/HOLDを事前の正答として割り当てない。
+残り枠では主比較を始めず、[開始条件](../outputs/astra-phase-4-next-window-readiness.md)を整理して停止した。追加source/candidate/本文/review/repairは未着手。新しいremote観測もしていない。取得済みDrafting helperの静的確認で、compact参照生成にMETRIC列挙がなく、must-coverへ全content blockが付く点を確認した。full canonicalの能力と補助の能力、欄の存在と意味品質を区別する。補助の改修はしていない。
+
+次の最小作業は開始条件§3–5。まず出力経路・非著者review・取得可能な費用ログを確認し、review/repairまでの一往復を完了できる構成を整える。そのうえで未知の原則3候補（必要なら出力前に4候補）を一つのWeekly reader questionで選び、source/時点/品質条件/費用記録を**出力前**に固定する。paperとproductの異なる主張、強い未選択/未解決の対照を含める。全号/全Profileに広げず、採用/HOLDを正答として割り当てない。
+
+最初のA単独試験は成立性と仕事の所在の観測であり、対案に対する費用優位は判定できない。研究・編集sliceの完了と、全号のadmission/Human Gates/PDF/visual QA/歴史保証まで含むproduction完了も区別する。未実行の工程は費用0にしない。scopeの後付け縮小で未完を成功に見せない。
 
 非著者reviewとrole別usageの取得方法は実行前に確認する。自分の再読を新candidateの独立reviewに数えず、取得できない値はunknown。Humanを追加reviewerや計測係へ無償で割り当てない。本sessionでは別agentへの委任・外部送信は行っていない。本handoffはそれらの包括的な実行許可でもない。
 
 未実証: Aのpublication品質、omission reviewの十分性、all-role費用、未知sourceでの再現、repair完了、Specialの一般性、全歴史互換、ROI。今回の反例の存在から率や総額を推計しない。
 
-品質条件を満たせないなら問い/source/表現/reviewを見直す。完了できても消えた仕事がなければ対案の拡張/計測基盤投資を止める。純削減が見えれば他Profile/失敗条件で反証する。runtime支配等の実測が出れば保留領域を再評価してよい。
+品質条件を満たせないなら問い/source/表現/reviewを見直す。Aを完了しても外せる具体的作業の仮説がなければ対案の拡張/計測基盤投資を止める。同条件の比較で純削減が見えれば他Profile/失敗条件で反証する。runtime支配等の実測が出れば保留領域を再評価してよい。
 
-このsessionは比較の前提を変えるEvidenceが得られた判断面で区切った。Phase 4全体の完了、外部要因によるblocked、Humanの追加採用判断待ちではない。続行指示では旧decision-only承認手順を再演しない。
+Phase 4-Aは比較の前提を変えるEvidenceが得られた判断面で区切り、その後の残り枠はHuman指示に従って次枠の成立条件を整えて停止した。Phase 4全体の完了、外部要因によるblocked、Humanの追加採用判断待ちではない。続行指示では旧decision-only承認手順を再演しない。
 
 ## 6. 権限
 
