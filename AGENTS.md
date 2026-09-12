@@ -4,19 +4,18 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-Phase 3 is closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
+Phase 4 has started; its first bounded investigation is complete. Phase 3 remains closed after the Phase 3-G system-direction reassessment. Do **not** restart Phase A, the former next-phase decision step, or the acceptance/staging experiments as the default task.
 
 For a new Astra session, read first:
 
-1. `instructions/ASTRA_POST_PHASE_3_BOOTSTRAP.md`
-2. `handoff/astra-phase-3-session-closeout.md`
-3. `outputs/astra-system-direction-reassessment.md` — §1, §5, §7; other sections only as needed
+1. `handoff/astra-phase-4-continuation.md`
+2. `outputs/astra-phase-4-comparison-basis.md` — §1, §3, §5, §7; other sections only as needed
 
 Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
 
 The objective is to minimize total lifecycle work across production, supervisory reasoning/review, repair/regeneration, CI/runtime, LLM usage, operational complexity, and Human handoff, while preserving at least intended publication quality, provenance correctness, fail-close safety, Human authority, Weekly/Special generality, and historical reproducibility. Moving work between roles is not a saving; justified long-term investment is allowed.
 
-The current priority is research-question-to-publication/review/repair comparison with all-role cost accounting. Additional acceptance/staging/cache implementation is paused, including the previously proposed internal-staging alternative. Canonical direct authoring plus mechanical assistance is a comparator, not a proven final architecture. On a new continuation instruction, choose the next bounded work from the current evidence; do not replay the former decision-only/same-session approval step. During a closeout-only request, update durable handoff and stop.
+The current priority is research-question-to-publication/review/repair comparison with all-role cost accounting. Phase 4 found that continuous supervisory/editorial responsibility already exists in current governance and selected artifacts; merely adding an owner is not a distinct comparison arm. Source-specific consumption and omission sufficiency remain unproven, with a concrete unselected-paper counterexample. Next prepare a small quality-complete canonical baseline run before attributing benefit to changes in work order/unit. Additional acceptance/staging/cache implementation is paused, including the previously proposed internal-staging alternative. Canonical direct authoring plus mechanical assistance is a comparator, not a proven final architecture. On a new continuation instruction, choose the next bounded work from the current evidence; do not replay the former decision-only/same-session approval step. During a closeout-only request, update durable handoff and stop.
 
 Historical task files remain useful provenance and context but are not the active task unless explicitly reactivated.
 
@@ -52,8 +51,8 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-Current decision: `outputs/astra-system-direction-reassessment.md`.
+Current decision: `outputs/astra-phase-4-comparison-basis.md`. Phase 3-G objective and safety constraints remain applicable.
 
-Current handoff: `handoff/astra-phase-3-session-closeout.md`.
+Current handoff: `handoff/astra-phase-4-continuation.md`.
 
 Do not overwrite historical decisions or recreate the old bootstrap output by default. Keep new durable artifacts minimal, preserve evidence scope and unresolved conditions, and stop at a supported decision surface or the Human's specified boundary.

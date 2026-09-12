@@ -1,7 +1,9 @@
 # Fresh Astra session after Phase 3-G
 
 Date: 2026-09-12 JST  
-Status: **CURRENT RESUME ENTRY / PHASE 3 CLOSED / NO PRODUCTION ADOPTION**
+Status: **HISTORICAL PHASE 4 START BOOTSTRAP / PHASE 3 CLOSED / NO PRODUCTION ADOPTION**
+
+Phase 4 has now started. For a fresh continuation, use [Phase 4 handoff](../handoff/astra-phase-4-continuation.md) and the current entry in `AGENTS.md`. The text below preserves the bootstrap used at the start of Phase 4; it is not the latest comparison decision.
 
 Read [Phase 3 closeout](../handoff/astra-phase-3-session-closeout.md), then [system direction reassessment](../outputs/astra-system-direction-reassessment.md) sections 1, 5, and 7. Read other evidence only when it can change a concrete decision. Past Human-Sol conversation logs and previous chat history are not required inputs.
 

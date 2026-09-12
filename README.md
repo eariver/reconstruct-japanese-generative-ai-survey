@@ -12,15 +12,14 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 3 is closed after the Phase 3-G system-direction reassessment.** New main work has not started.
+**Phase 4 has started; its first bounded investigation is complete.** Phase 3 remains closed after the Phase 3-G system-direction reassessment.
 
 Fresh Astra sessions need only:
 
-1. [Current bootstrap](instructions/ASTRA_POST_PHASE_3_BOOTSTRAP.md).
-2. [Phase 3 durable handoff](handoff/astra-phase-3-session-closeout.md).
-3. [System direction reassessment](outputs/astra-system-direction-reassessment.md), sections 1, 5, and 7.
+1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
+2. [Phase 4 comparison basis](outputs/astra-phase-4-comparison-basis.md), sections 1, 3, 5, and 7.
 
-Further acceptance/staging/cache implementation is paused. The next priority is publication-quality and total-work comparison across research questions, editorial decisions, reader-facing text, review, and repair. The handoff separates current decisions, unproven claims, and historical experiment references. Past Human-Sol logs, previous chat history, Phase A instructions, and lab reruns are not mandatory resume inputs. Other briefs and historical decisions remain available for selective provenance reads.
+Further acceptance/staging/cache implementation is paused. Current governance already assigns continuous supervisory/editorial responsibility; adding an owner alone is not a distinct alternative. Phase 4 traced four existing candidates and checked one unselected paper against its captured body, finding substantive consumption gaps. The next priority is a small quality-complete canonical baseline through reader-facing text, non-author review, and repair, with all-role work accounting. Quality/cost superiority is not established. Past Human-Sol logs, previous chat history, Phase A instructions, and lab reruns are not mandatory resume inputs. Historical decisions remain available for selective provenance reads.
 
 ## Last recorded upstream reference
 
@@ -30,7 +29,7 @@ Last recorded production `main` (2026-09-12 JST):
 
 `005e59841272464307386abfc11f5b09228f0814`
 
-This commit merged PR #487 (`Core v2: resolve effective Screening Discovery basis during Drafting`). See the [fixed observation](notes/phase6-production-reality.json) and handoff for edition state and limitations. It was not re-observed during closeout and must not be assumed to remain latest. The initialization baseline `0a47a9b...` / PR #485 remains historical evidence.
+This commit merged PR #487 (`Core v2: resolve effective Screening Discovery basis during Drafting`). Phase 4 initially re-observed the same refs, then detected W34 advancing to `899d3d6...` / `DRAFT_COMPLETE`. Its fixed four-candidate analysis remains at `601481a...`; Evidence/Selection/Architecture did not change in that advance. See the [fixed inputs](notes/phase-4/basis.json), [late observation](notes/phase-4/late-observation.json), and current handoff. Do not assume observed refs remain latest. The initialization baseline `0a47a9b...` / PR #485 remains historical evidence.
 
 ## Core principle
 
