@@ -1,0 +1,47 @@
+{
+  "observed_at_utc": "2026-09-13T16:56:39.440346+00:00",
+  "ref": "3e3eebe0cda3a32ac88ae764d279b37768f6bfca",
+  "status": "KNOWN_RUNTIME_CONTRACT_MISMATCHES_REPRODUCED_LOCALLY_NOT_REPAIRED",
+  "captured_input_sha256": {
+    "scripts/survey_stage_validation_v2.py": "9c3d0faf3c77e001d312f3f988dc8b56897e79fde72b5bcfb048cb568ac5a6bb",
+    "schemas/stage-checkpoint-v2.schema.json": "50e818c1416a422c0c604ea07bcf8872e45061f6d4f81c016ecd88567c670caa",
+    "scripts/survey_release_checkpoint_v2.py": "0b54554de79d2d51a8161ffaa89d323c617ab003ea992ec204625551beef0a9b",
+    "scripts/survey_agent_control_v2.py": "c3842fd254cb4ea0803f95cc3be06779cb8ea4b183c9c830f90fbbdaca8f4e08",
+    "sources/2026-W34/gates/publication-preview-approval.json": "80e90446ee1ad4d4630ff6e3d85f1656bbeacc807862401d5f380e2b7846b789"
+  },
+  "freeze_schema_required_names": [
+    "freeze-record",
+    "release-manifest",
+    "visual-review-record"
+  ],
+  "freeze_runtime_required_names": [
+    "freeze-record",
+    "release-manifest"
+  ],
+  "exact_runtime_admission_error": "unexpected current stage artifacts: visual-review-record",
+  "file_validation_called_during_rejection": false,
+  "approval_missing_stage_checkpoint_required_fields": [
+    "artifacts",
+    "checkpoints",
+    "contract",
+    "from_state",
+    "implementation",
+    "recorded_at",
+    "reviews",
+    "summary",
+    "to_state"
+  ],
+  "prior_loader_schema_conflict": "STATIC_REQUIRED_FIELD_WITNESS_NOT_FULL_PRIOR_LOADER_EXECUTION",
+  "release_producer_review_ids": [
+    "RELEASE_EXACT_BYTE_RECONCILIATION"
+  ],
+  "exact_controller_guard_error": "local Stage Checkpoint requires exactly one CORE_STAGE_CONTRACT review",
+  "compact_stage_validator_supports_frozen": false,
+  "limits": [
+    "Extracted fixed functions exercise only two early rejection guards, not the production module graph.",
+    "Minimal state/review inputs isolate shape errors; no claim these fixtures are full valid production states.",
+    "No candidate resolution/revalidation, full schema validation, workflow, release, gate mutation or repair implementation ran.",
+    "Reported W33/SP001 recurrence is not independently replayed here.",
+    "This evidence identifies repair work; it does not measure total lifecycle savings."
+  ]
+}

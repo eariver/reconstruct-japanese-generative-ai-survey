@@ -1,15 +1,15 @@
 # J-GAS — Phase 5 continuation
 
 日付: 2026-09-14 JST
-状態: **PHASE 5 ACTIVE / PUBLICATION REVIEW CASE TRACED / 5-B COMPLETE / NO 5-C TRIAL / NO ADOPTION**
+状態: **PHASE 5 ACTIVE / REVIEW PLAN CONCRETIZED / RUNTIME MISMATCH WITNESSES / NO 5-C TRIAL / NO ADOPTION**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [publication review境界の判断](../outputs/astra-phase-5-publication-review-boundary-decision.md) §1・§4–6。
-3. 必要時のみ[今回Evidence](../notes/phase-5-review-boundary/evidence.md)。5-Bの判断は[5-B評価](../outputs/astra-phase-5b-work-observation-assessment.md)に保持。Phase 4の復元は[5-A判断](../outputs/astra-phase-5a-work-unit-decision.md) §2で足りる。全chat/旧lab再読・再実行は不要。
+2. [review実行計画とruntime優先順位](../outputs/astra-phase-5-review-plan-and-runtime-priority.md) §1・§2・§4–6。reader計画を使う場合は§3。
+3. 必要時のみ[今回Evidence](../notes/phase-5-review-plan/evidence.md)。[前回publication review境界調査](../outputs/astra-phase-5-publication-review-boundary-decision.md)と[5-B評価](../outputs/astra-phase-5b-work-observation-assessment.md)は歴史判断として保持。Phase 4の復元は[5-A判断](../outputs/astra-phase-5a-work-unit-decision.md) §2で足りる。全chat/旧lab再読・再実行は不要。
 
-今回の開始時Push済みreconstruct local/remote mainは`4504d4c1c52d9fcda75e20803b72d470c67a74be`で一致・clean。5-Bはこの基準へ取り込まれた。今回のpublication review境界調査はHumanのcommit/Push対象であり、commit済みとは扱わない。次sessionではその時のPush済み状態を確認する。
+今回の開始reconstruct local/remote mainは`0118a7c22291a026835c5ae1630695a4c057f2cf`で一致・clean。commit title `Astra work Phase 5-C (human commit)`はHumanの明示補足によりphase authorityではない。前回はpublication review boundary investigation、conditional 5-C A/Bは未開始。commit改名/履歴書換はしない。今回変更の通常commit/PushはHumanが行う。
 
 全体目的: publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを意図した水準以上に保ち、production・supervision/review/reasoning・repair/regeneration・CI/runtime・LLM・complexity・Human handoff/manual burdenを含むtotal lifecycle workを最小化する。移転は削減ではない。初期投資/移行/歴史互換/二重保守込みで判断する。
 
@@ -27,29 +27,29 @@
 
 ## 3. 今回の判断と次の入口
 
-5-Bの次入口を、W34 Human Preview r2の一件で確認した。**問題のTeX/bibはreview対象manuscriptに正しくbindされ、semanticは内部用語なし、visualはclaim boundariesを含むexact PDF確認を宣言していたが、Humanが同じ版から問題を発見した。** 新しいcheck IDや対象ファイルを足すだけでは解けない実例である。
+前回のpublication review境界調査は、問題のTeX/bibが正しくbindされ、同じ版のPASS宣言でもHuman修復を防げなかった実例。独立supervisory消費は調べた記録では実証されず、他の場所にも無かったとは断定しない。5-Bの「除ける意味再構成」の支持例ではない。
 
-二原因を分離した。claim boundary末尾の内部編集理由は読者向け節範囲へ正規化する編集判断が必要だった。41件のaccess日はgeneratorがcutoffを流用した機械処理の誤りで、PR #492により修復済み。現W34のTeXは一置換で修復され他の限界は保持、bibは41日付以外不変。通常PDF rebuildと旧Draftからの再著述を混同しない。
+今回、Freeze worklog経由で必要となったHuman承認コメント一件を確認した。HumanはW34残存audit語彙をnon-blocking debtとして受容し、W35+に狭いreader-field lint・同じ文章のsemantic review・位置付きfindings・下流開始前PASSをcarry-forwardしていた。**pre-TeXが入口であり、前回の完成TeX後/pre-build案は遅い。** 無差別な全文ブラックリストと、Humanが勧める正当語の例外処理付きの狭いlintは別。これは既存production要求でreconstructの新発案ではない。W34再修復は要求しない。
 
-governanceは独立したsupervisory editorial/semantic/visual責務を既に持つ。旧manifest/semantic/visualと実行worklogは同じ実行側名義で、調べた記録ではexact版の独立supervisory消費を実証できなかった。他の場所/会話にreviewが無かったとまでは言わない。reviewの実読解量、見逃しの内部認知原因、全role費用はunknown。
+一回のreader review計画は[現判断§3](../outputs/astra-phase-5-review-plan-and-runtime-priority.md)に具体化済み。公開欄をcallerから確定→固定reader入力のlint→既存独立review→author repair→現入力に対する解決確認→TeX/PDFと最終exact review/Human Gate。publication全体の未完成欄をPASSせず、後段で新しい本文を足した場合も再適用する。現post-PDF review recordを早期PASSに偽装しない。実装には最小の結果表現とcallerの開始抑止が要るが、新しいclaim正本/Human Gateは不要。対象新run/担当者は未束縛、実行・比較・新agent起動なし。この計画を次turnで作り直す必要はない。
 
-**改善候補は既存publication reviewの主たる意味判断を完成した読者向けsource一式へ揃え、最初の高コストbuild/Candidateより前に置けるか。** 最終exact PDF/全体review責務とHuman Gateは残す。既存manifest/detail/evidence_locationsを使い、新store/追加reviewer/恒久coverage ledger/full rendererを既定解にしない。前倒しだけは仕事の移転であり、回避できる追加build/再記録/Human再確認より追加確認・同期・保守費が小さいかを判断する。旧r2は二原因を同時修復したため、片方の早期検出だけで全周回が消えたとは言えない。#492後のbaselineに過去と同じ発生率も仮定しない。
+**次の優先作業はreconstruct内のisolated Freeze/Release runtime修復候補。** current codeでschemaが要求するvisual-review-recordをfreeze runtimeが拒否し、release producerにないCORE_STAGE_CONTRACTをcontrollerが要求することを、抽出した実関数の早期guardで再現。Human approvalをStage schemaへ読む構造矛盾、FROZENのcompact validator未対応も確認。productionには実行時freeze調整と外部Release成立後のcheckpoint復旧の記録があり、投資対象としてreader gate費用試験より直接的である。
 
-今回の一件調査はこの判断面で完了。**次に進めるなら、既存の誰が・何を入力に・いつ独立消費するかを示す一回分の実行計画を具体化する。** 既に同じ適切なreviewがあるなら追加案を捨て、見逃し/残存頻度を再評価。共通Core、同等品質、exact binding、全role費を観測できる条件が揃った時だけ新たな比較実行を選ぶ。既知r2を見つけ直す自己試験は不可。条件がなければ保守候補に留め全体優先順位を再評価する。[現在判断§4–6](../outputs/astra-phase-5-publication-review-boundary-decision.md)参照。
+次にすること: current Shared Coreに同じ修復が既に入ったか必要な範囲で確認し、未修復なら[現判断§5](../outputs/astra-phase-5-review-plan-and-runtime-priority.md)に従い小さい候補をreconstruct内で実装・検証する。approval→exact Candidate/pre-preview VISUAL/PDFのtyped解決、freeze artifact集合、外部Release reconciliationとCore reportのproducer/consumerを揃える。guard削除/偽PASS/承認後の新VISUAL/最新Candidate推測/公開Release再作成は禁止。既存Shared修復と重複すれば作り直さない。正常・drift・未承認・別profile・再実行・外部成功/local失敗のfixtureを使い、歴史chainを書き換えない。
 
-5-Bの旧仮説/条件付き5-Cは引き続き非開始。同じ小記事を増やしてBを探さない。再開条件は、固定比較結論がhandoff先で利用できず同じsubject/source版/条件を再研究した名指せる実例、または全role差を識別できる環境。今回のpublication repairはその支持例ではない。4-C/5-Bの一体review許可は完了。今回追加agentなし。
+今回のwitnessは最小入力で二つのearly guardを実行したもので、全Core/State/実workflowの再現ではない。修復実装・全profile互換・純削減は未実証。W33/SP001反復はproduction auditの報告で、rootが先行二号を再実行したわけではない。source/citation/full rendererやconditional 5-Cは再開しない。4-C/5-Bの委任許可は完了、今回追加agentなし。
 
 ## 4. Last observed production realityと保留
 
-[今回GET観測](../notes/phase-5-review-boundary/observation.json): main `74708eb26a357ec11a839a59de62ab62cd246eef`、W34 `6be0f462d8f02284f8513d7165c778c3797dcaf4`。Human r2 REQUEST_CHANGES→PR #492統合/edition修復→fresh publication→**canonical Human Preview APPROVE r3**。現在`RELEASE_CANDIDATE`、`next_action: stage:freeze`、Freeze/Release pending。5-B時のPreview pending/nullを現在へ流用しない。
+[GET観測](../notes/phase-5-review-plan/observation.json): main `3e3eebe0cda3a32ac88ae764d279b37768f6bfca`、W34 branch `3bad8a57cf2b246c7f71cb749ba3105fa318b073`。branchはFROZEN / stage:release、mainはPR #493でfrozen authority統合後、**RELEASED / next null / terminal COMPLETE**。mainをfreeze待ち/Release待ちとしない。
 
-現Candidate raw SHA `df376f474acf5fafa14f9af5196727858b1dd76f5c7d17664fa52ba784e32061`とpayload digest `52c8d0bcc85140a2727d1867a908d7077d40c7088a7c1e83f10b66044c50f3ba`は別。PDF raw `e93db71a5be8249d65d66c5f3b0284875447d953eeadf3b66ca23a9318bd06de`。旧値は歴史値。
+Candidate raw SHA `df376f474acf5fafa14f9af5196727858b1dd76f5c7d17664fa52ba784e32061`、payload digest `52c8d0bcc85140a2727d1867a908d7077d40c7088a7c1e83f10b66044c50f3ba`、PDF `e93db71a5be8249d65d66c5f3b0284875447d953eeadf3b66ca23a9318bd06de`。Human r3 approved bytesを保持。Freeze record raw `ba5d76d3…`、Release manifest `921803d4…`、Release record `6808dbb0…`。
 
-r3はreviewed commit `f9f3e040…`、そのpre-approval Stateをbindし、現在のCandidate/PDF bytesにも一致。State→approval/checkpoint、immutable approvalとr3の局所bindingを[check](../notes/phase-5-review-boundary/check.json)で確認。全State validation・依存閉包・PDF目視/全号品質reviewは再実施していない。Human承認を尊重し、追加承認要求/取消/freezeはしない。
+[局所check](../notes/phase-5-review-plan/check.json)はState/Freeze/Manifest/Release/checkpointとCandidate/approval/PDFを照合。公開Release weekly/2026-W34はnon-draft/non-prerelease、asset338722 bytes、server digestも同じ。公開assetの独立download、全State/依存閉包、source TeX/visual実bytes、PDF目視/全号品質reviewは再実施していない。既存承認/Releaseの取消や再生成はしない。
 
-#492はWeekly cutoff/Special as_ofの一律urldateをcanonical accessへ変更。sourceの未確定/曖昧性を推測で埋めない。main diffはbibliography修復でeditorial review責務/Task単位は不変。W34のEvidence/Selection/Architecture/canonical Draft pathsは今回diffで不変。修復を全source意味/引用反例の解消へ広げない。PR #488/#489/#490/#492は既存baseline保守でreconstruct成果ではない。Issue本文/コメントは今回不要で未取得。観測refが今後も最新とは仮定しない。
+mainへのmerge compareは112 commits/返却300 files上限のため全差分監査には使わない。必要なreader publication、Weekly publisher、review contract、governanceは旧main74708eb2とbyte-identicalを確認した。旧作業指示を新authorityとして再実行しない。#492の書誌修復と#493のfrozen authority統合/Releaseは既存production成果でreconstructの純削減ではない。既知source意味/引用反例全般の解消は認定しない。
 
-Phase 4はclosed。4-Hはsection出力前にlab URL集約guardで停止しrepair未実行。production schema違反/source矛盾/publication成功ではない。historical Packageとlab修正Cardは別。renderer/citation/source-identity、acceptance/staging/cache、新store/恒久telemetryは保留。#492の存在だけでそれらの再開や普遍的source identity完成を意味しない。
+Phase 4はclosed。4-Hはsection出力前のlab URL集約guardで停止しrepair未実行。historical Packageとlab修正Cardは別。renderer/citation/source-identity、acceptance/staging/cache、新meaning store/恒久telemetryは保留。このruntime契約調査はそれらの再開ではない。
 
 ## 5. 未実証と権限
 
