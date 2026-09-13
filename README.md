@@ -12,15 +12,15 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 4-E's bounded canonical Draft/rendering compatibility probe is complete, including the PR #488 production refresh.** Existing fields support boundary authorship, but renderer compatibility and one chronology source join remain unresolved. Bibliography internal-note generation is repaired in current production; do not duplicate that work. Net lifecycle savings and a quality-complete canonical baseline remain unproven. Phase 3 remains closed.
+**Phase 4-F's bounded source-join trace is complete, including the PR #489 production refresh.** The archived timing report already exists; compact authoring and Card generation lose its statement-specific source binding. Existing canonical fields can express a reference repair. Full publication quality and net lifecycle savings remain unproven. Phase 3 remains closed.
 
 Fresh Astra sessions need only:
 
 1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
-2. [Phase 4-E assessment](outputs/astra-phase-4e-canonical-rendering-assessment.md), sections 1, 3–4 and 6 (current reality refresh).
-3. Only necessary Evidence from its index. [Phase 4-D assessment](outputs/astra-phase-4d-production-trace.md) and older Phase 4-A/B/C decisions remain historical context.
+2. [Phase 4-F assessment](outputs/astra-phase-4f-source-join-assessment.md), sections 1 and 3–6.
+3. Only necessary Evidence from its index. Earlier Phase 4 decisions remain historical context.
 
-Further acceptance/staging/cache implementation is paused. Phase 4-E found that a structurally valid Japanese Draft does not by itself establish a compatible citation/publication path. Next consider tracing one Grok timing claim from accepted Card to its stated DailyX source authority, read-only, before expanding renderer or architecture work. Keep substantive limitations and account for all author/reviewer/repair work. Check relevant production fixes before duplicating work. See the assessment/handoff for boundaries; old chat logs and lab reruns are not mandatory resume inputs.
+Next compare the concrete authoring, transform, review and repair work of extending compact helpers versus authoring existing canonical artifacts directly and deriving presentation data. Use the known source-binding and Draft/renderer examples to identify removable duplication; do not count transferred work as savings. Further acceptance/staging/cache implementation remains paused. Old chat logs, repeated source searches and lab reruns are not mandatory resume inputs.
 
 ## Last recorded upstream reference
 
@@ -28,9 +28,11 @@ Production repository: `eariver/japanese-generative-ai-survey`
 
 Last recorded production `main` (2026-09-13 JST):
 
-`658ae823987431e1f1098243dc2f88cfc0d4864a`
+`14781409f6fb8d79e3eb4ad6b4c457764a038fde`
 
-This commit merged PR #488 (remove internal Evidence/materiality notes from Weekly bibliography). W34 is observed at `f50d229...` with regenerated bibliography, new PDF/review records and a `READY_FOR_PUBLICATION_PREVIEW` Candidate record. Human Preview approval/release is not established by that record. The upstream Draft/Architecture and section-20 internal note remain unchanged. See the [updated observation](notes/phase-4e/production-refresh.json) and current handoff. Earlier refs (`005e598...`, `c1703f7...`, `899d3d6...`, `601481a...`) remain fixed historical Evidence. Do not assume observed refs remain latest.
+PR #488 repaired bibliography internal-note generation. PR #489 adds a State-bound immutable publication-only revalidation path after reviewed Core changes, preserving upstream checkpoint-bound bytes. Include these repairs in the comparison baseline. They do not repair the source bindings or the upstream Draft boundary example.
+
+W34 remains at `f50d229...`, with a `READY_FOR_PUBLICATION_PREVIEW` Candidate record and observed State `VALIDATED_DRAFT`. The PR's disposable-copy advance is not a real W34 advance or Human approval. See the [current observation](notes/phase-4f/production-refresh-489.json) and handoff. Earlier refs remain fixed historical Evidence; do not assume observed refs remain latest.
 
 ## Core principle
 

@@ -1,0 +1,67 @@
+{
+  "observed_at": "2026-09-13T05:33:31.674389+00:00",
+  "scope": "READ_ONLY_PR489_REFRESH",
+  "reconstruct_head": "512f32cda854a19b25ae9a5dd5fef164e6d6ee68",
+  "main": "14781409f6fb8d79e3eb4ad6b4c457764a038fde",
+  "weekly_head": "f50d229162b7402c504c0978f72dab4b33052f5e",
+  "pr": {
+    "number": 489,
+    "title": "Core v2: post-VALIDATED_DRAFT publication-surface revalidation / authority rebind",
+    "state": "closed",
+    "merged": true,
+    "merged_at": "2026-09-13T05:25:00Z",
+    "merge_commit_sha": "14781409f6fb8d79e3eb4ad6b4c457764a038fde",
+    "html_url": "https://github.com/eariver/japanese-generative-ai-survey/pull/489",
+    "body": "## Status\n\n`HUMAN_FULL_CANDIDATE_REVIEW_APPROVED / READY_TO_MERGE`\n\nHuman approval was given for frozen candidate `f3cdd485fe3d2ba922846b8e6cfc81d46f5bf259` / tree `91b6b0a2e00faa106769ad4dd4282ded7d90e56c` under the project threat model: repository, GitHub account, and authorized operator are trusted; intentional malicious repository/state tampering is outside scope. The protected scope is accidental drift, stale authority, workflow inconsistency, improper lifecycle progression, and unintended Human Gate bypass.\n\n## Reproduced defect\n\nAt `VALIDATED_DRAFT`, legitimately regenerated publication-facing bytes after a reviewed shared-Core change caused fail-closed drift against the historical `DRAFT_COMPLETE` validation checkpoint. There was no sanctioned way to establish a new active publication basis without rewriting history or fabricating a Human decision.\n\n## Repair\n\nAdds generic `revalidate-publication-surface` authority rebinding for legitimately regenerated publication bytes while preserving historical checkpoints unchanged.\n\nThe hardened design uses:\n\n- Production State `publication_revalidation_provenance: {path, sha256}` as the sole active-authority pointer.\n- Versioned immutable records `publication-surface-revalidation-rN.json`.\n- Exact `{path, sha256}` `supersedes` links between rounds; prior records remain byte-identical on disk.\n- Establishment metadata for the sanctioned pre-decision state.\n- Publication-surface-only supersession; all upstream checkpoint-bound bytes must remain exact.\n- Existing manuscript, quality-bundle, semantic-review, visual-review, and PDF validation rerun on the new bytes.\n- Post-decision agreement checks against Human-approved/freeze/release PDF bytes.\n- No force/skip path, no W34-specific conditional, no Human decision generation.\n\nRevalidation may be established only at `VALIDATED_DRAFT` with Architecture approved, Publication Preview pending, freeze/release pending, and Exception Gate inactive.\n\n## Human Gates\n\nThe operation is machine authority maintenance only. It does not approve Publication Preview, freeze, release, or any other Human decision. Architecture approval provenance remains intact.\n\n## Regression evidence\n\n- Publication revalidation suite: 23/23 PASS (original T-cases plus N1-N10 authority-hardening coverage).\n- Full `test_survey_*_v2.py` contract: 342 tests, 0 failures, 6 intentional legacy skips.\n- Unreferenced records are inert; State SHA mismatch and record tamper fail closed.\n- Multi-round immutable chain and historical-record tamper detection covered synthetically.\n- Weekly and Special genericity coverage PASS.\n\n## W34 disposable proof\n\nOn an exact disposable copy of `weekly/2026-W34-v2-work@f50d229162b7402c504c0978f72dab4b33052f5e`:\n\n`VALIDATED_DRAFT -> revalidation authority establishment -> State validation PASS -> stage validation PASS -> RELEASE_CANDIDATE`, with Publication Preview still pending and historical `DRAFT_COMPLETE.json` byte-identical. The real W34 branch was not modified.\n\n## Exact-head CI\n\nFrozen candidate `f3cdd485fe3d2ba922846b8e6cfc81d46f5bf259`:\n\n- Survey Production Core v2 CI `34716001580` — SUCCESS\n- Pipeline contract tests `34716001746` — SUCCESS\n\nFresh seven-point fixed-head audit for the hardened candidate: 7/7 PASS. The prior `2d8f7d2f...` audit was not reused.\n\n## Residuals accepted by Human review\n\n- Multi-round operation is synthetically covered but has no production second-round experience yet.\n- `reason_class` currently supports `REVIEWED_CORE_CHANGE` only.\n- Intentional malicious tampering by a trusted operator is outside the project threat model.\n\nApproved candidate: `f3cdd485fe3d2ba922846b8e6cfc81d46f5bf259`."
+  },
+  "files": [
+    {
+      "filename": "docs/checkpoints/core-v2-post-validated-draft-publication-revalidation-20260912.md",
+      "status": "added",
+      "additions": 159,
+      "deletions": 0
+    },
+    {
+      "filename": "docs/checkpoints/survey-production-core-v2-worklog.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "filename": "docs/survey-production-core-v2-authority.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/publication-surface-revalidation.schema.json",
+      "status": "added",
+      "additions": 161,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/survey-production-state.schema.json",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "filename": "scripts/survey_agent_control_v2.py",
+      "status": "modified",
+      "additions": 617,
+      "deletions": 3
+    },
+    {
+      "filename": "scripts/survey_stage_validation_v2.py",
+      "status": "modified",
+      "additions": 17,
+      "deletions": 3
+    },
+    {
+      "filename": "tests/test_survey_publication_revalidation_v2.py",
+      "status": "added",
+      "additions": 1007,
+      "deletions": 0
+    }
+  ]
+}

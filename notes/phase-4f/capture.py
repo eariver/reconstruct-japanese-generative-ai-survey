@@ -21,5 +21,10 @@ HEAD = 'f50d229162b7402c504c0978f72dab4b33052f5e'
 MAIN = '658ae823987431e1f1098243dc2f88cfc0d4864a'
 
 if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('path')
+    parser.add_argument('--ref', default=HEAD, help='Fixed commit from inputs.json; default is the historical W34 fixture')
+    args = parser.parse_args()
     sys.stdout.reconfigure(encoding='utf-8')
-    print(get(HEAD, sys.argv[1]).decode('utf-8'))
+    print(get(args.ref, args.path).decode('utf-8'))

@@ -7,7 +7,7 @@
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [4-Fの判断](../outputs/astra-phase-4f-source-join-assessment.md) §1・§3–5。
+2. [4-Fの判断](../outputs/astra-phase-4f-source-join-assessment.md) §1・§3–6（PR #489反映）。
 3. 必要なEvidenceだけ同書indexから読む。過去chat、全source、旧labの再読/再実行は不要。
 
 全体目的は、publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを少なくとも意図した水準で保ち、production・supervisory reasoning/review・repair/regeneration・CI/runtime・LLM・operational complexity・Human handoffを含むtotal lifecycle workを最小化すること。役割移転は削減ではなく、根拠ある長期投資は許容する。
@@ -40,19 +40,22 @@ specimenはsource row追加と3つのsource_idsだけを変更し、他のtext/s
 
 Card source修復でもSHAが変わり、Evidence acceptance/View/Matrix、Selection/Architecture、Draft/Synthesis、reader/Candidateの名指しbindingへ影響する。意味上の判断が同じことと、旧承認が新bytesを許可することを混同しない。正規の再生成/review/Human authorityを保持し、hash再計算と意味reviewの仕事を区別する。全source再調査やLLM再執筆を無条件に要求するという意味でもない。
 
+PR #489が加えたpublication-only revalidationを現在のbaselineへ含める。review済みCore変更による表示側再生成には正規rebindがある一方、Card/Draft等の上流変更は対象外。同じ修復を再設計せず、publication regenerationと上流の意味/参照repairを分けて比較する。
+
 実装・独立review・repair込みの試験が必要になったら一まとまりの範囲を決める。schema PASSを品質/費用勝利と扱わない。これは既存canonical baselineの整備候補であり、まだ新architecture B/adoptionではない。Phase 3-G以降のacceptance/staging/cache停止、owner追加・新store・恒久telemetryの保留は維持する。新Evidenceが判断を変える場合は順序/範囲/停止点を変更してよい。
 
 ## 4. Current production reality
 
-[4-F観測](../notes/phase-4f/observation.json)（2026-09-12 17:23 UTC / 09-13 02:23 JST）で前回と同一:
+[途中Push後の4-F観測](../notes/phase-4f/production-refresh-489.json)で確認:
 
-- main `658ae823987431e1f1098243dc2f88cfc0d4864a`（PR #488 merged）。
+- main `14781409f6fb8d79e3eb4ad6b4c457764a038fde`（PR #489 merged）。調査開始時の658ae823は[元観測](../notes/phase-4f/observation.json)へ保持。
 - W34 `f50d229162b7402c504c0978f72dab4b33052f5e`。
 - bibliographyの内部status/materiality noteは修復済み。41 key/順序/他field値保持を4-Eで確認。重複実装しない。
 - Candidate recordはREADY_FOR_PUBLICATION_PREVIEW、candidate SHA `dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`。Production Stateは同refでVALIDATED_DRAFT。Human Preview承認/Release/full admissionの整合は未確認。
 - 新PDF/review records、sidecar hard fail 164→0と既知REVIEW_REQUIRED 1件がある一方、section20の内部配置注記とPUBLICATION_BOUNDARY PASSの不一致は残る。
+- PR #489: State path/SHA-bound active revalidation、immutable versioned records、exact supersedes chain、全非superseded checkpoint bytes保持、既存QA再検証。reason_classはREVIEWED_CORE_CHANGEのみ。報告されたW34 disposable copyのRELEASE_CANDIDATE到達を実branchの状態と混同しない。rootは関係code/schemaを読み、production testsやfull admissionは再実行していない。
 
-詳しい関係差分と4ファイルbinding検査は[4-E更新記録](../notes/phase-4e/refresh-check.json)。今回は同じrefを確認したため再build/全号reviewを繰り返していない。current realityが次の判断に影響する場合だけ関係差分を読む。
+PR #488の関係差分と4ファイルbinding検査は[4-E更新記録](../notes/phase-4e/refresh-check.json)。PR #489の費用前提・上流修復との境界は4-F判断§6。実W34は同じrefなので再build/全号reviewを繰り返していない。current realityが次の判断に影響する場合だけ関係差分を読む。
 
 ## 5. Evidenceと権限
 

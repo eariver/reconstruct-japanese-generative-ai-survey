@@ -92,3 +92,28 @@ readerのURLだけを直してもcanonicalの誤対応は残る。逆にCardだ�
 まず具体的に消せる重複変換/著述があるかを設計上で絞る。作業が別の欄や役割へ移るだけなら候補を止める。実装・独立review・repair込みの試験が必要になった時点で一まとまりの範囲を定め、途中のschema PASSを費用/品質勝利にしない。既存sourceの再読やhelperへの継ぎ足しを進捗の代用にしない。
 
 rootのactive time/token/料金、全roleの純費用、full canonical品質、Special実行、PDF/visual QA、未知sourceのomission sufficiencyは未実証。4-Cの1体のreview許可は完了済みで、今回追加委任はない。productionはread-only、State/Gates/承認/PR/Issue/adoption/migrationに変更なし。Pull/Push/最終commitはHumanが行う。
+
+## 6. PR #489 merge後の判断更新 — 2026-09-13 JST
+
+途中Push後の[read-only観測](../notes/phase-4f/production-refresh-489.json)でmain `14781409f6fb8d79e3eb4ad6b4c457764a038fde`、W34 `f50d229162b7402c504c0978f72dab4b33052f5e`を確認した。§2の658ae823は調査開始時の固定Evidenceとして保持する。PR #489はpublication-surface revalidation / authority rebindを追加し、Evidence入力/helperやW34 artifactsは変更していない。
+
+### 変わった費用前提
+
+productionには、review済みCore変更によるpublication側だけの再生成を、歴史DRAFT_COMPLETEを書き換えずに再検証する正規経路ができた。`REVIEWED_CORE_CHANGE`のみ、VALIDATED_DRAFT・Architecture承認済み・Preview未決定・freeze/release pending・Exception inactiveが入口。Stateの`publication_revalidation_provenance`がpath/SHAでactive recordを指定し、版付きのimmutable recordと`supersedes`リンクを保持する。後のHuman承認/Freeze/ReleaseとのPDF一致も検査する。
+
+固定mainの`survey_agent_control_v2.py`を選択読解した。`revalidate_publication_surface`（1224行以降）はpublication/survey surfaceの変更だけを候補にし、`_verify_preserved_provenance`（1168行付近）は全checkpoint provenanceの非superseded bytesを照合する。manuscript・quality bundle・semantic/visual review等の既存validatorを再実行する。`survey_stage_validation_v2.py`も同じactive basisを利用する。これはreview文章の意味品質を自動的に証明する変更ではない。
+
+したがって§4の費用分類は二つに分ける:
+
+| 修復対象 | 現在の前提 |
+|---|---|
+| review済みCore変更によるpublication-only再生成 | PR #489の正規revalidationを比較baselineへ含める。旧checkpoint driftを未修復と数えず、同じrebindを再実装しない。ただし新publication bytes・review records・QA・Candidate更新等の仕事は残る |
+| 今回のCard source参照、canonical Draft境界など上流bytesの修復 | publication-only例外の対象外。Evidence/Architecture/Draft等のbinding・影響review・正規authority処理が必要という§4の分類は維持する。単なる表示修復としてこのoperationへ押し込まない |
+
+### 確認範囲と残る条件
+
+mainの5ファイルを固定refで保存し、Git blob/SHA-256を照合した。PR metadata/8変更path、最終schema、関係control flowを読んだ限定調査であり、独立した全PR監査ではない。23件focused/342件全体（6 legacy skips）のPASSとW34 disposable copyでのRELEASE_CANDIDATE到達はproduction側の報告で、rootは再実行していない。実W34はf50d229のままであり、その到達や新Human承認を実号の事実にしない。
+
+checkpoint文書の§4–7には旧singleton/State無変更の設計が履歴として残る。最終仕様の判断には§8・merge済みcode/schemaを使う。repository/account/authorized operatorを信頼し、偶発drift/stale authority/不適切な進行を対象とするproductionの明示threat modelを確認した。新たな攻撃者モデルを追加したり、過去Human承認をrootのproduction操作許可へ転用したりしない。
+
+**方針は維持し、比較baselineだけを更新する。** source対応を取り落とす著述経路、4-Eのrenderer互換、W34の内部配置注記はこのPRで解消していない。次は§5の限定設計比較で、既存canonicalへ一度記す案が実際に消せる変換/著述を特定する。新revalidationの存在だけでacceptance/staging投資を再開しない。全品質・全role純費用・実号の複数round運用は引き続き未実証である。

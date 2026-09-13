@@ -4,6 +4,8 @@
 
 [判断書](../../outputs/astra-phase-4f-source-join-assessment.md)が決定記録。[observation.json](observation.json)のmain/W34は4-E更新時と同一。
 
+途中Push後の[PR #489観測](production-refresh-489.json)と判断書§6でmainを14781409へ更新。W34はf50d229のまま。publication-only revalidationは修復済みのbaselineへ含めるが、今回の上流Card参照修復へ適用できるとは扱わない。最終schema/control flowを選択読解し、production側が報告するtests/disposable proofとrootの確認範囲を分けた。
+
 ## Evidence
 
 - [inputs.json](inputs.json): 取得した固定ref/path、Git blob SHA-1、SHA-256、byte count。rawはignored `.phase-4-inputs/<ref>/<path>`。
@@ -22,10 +24,10 @@ python -X utf8 notes/phase-4f/trace.py
 rawが無い場合は`inputs.json`の各固定pathを次で再取得し、同manifestのhashを照合する。
 
 ```
-python -X utf8 notes/phase-4f/capture.py <repository-relative-path>
+python -X utf8 notes/phase-4f/capture.py <repository-relative-path> --ref <manifest-fixed-commit>
 ```
 
-capture.pyは4-DのGit blob/hash検証を再利用し、出力先を4-Fへ限定する。JSONは明示UTF-8/LFで保存。ネットワーク操作はGitHub GETのみ。
+capture.pyは4-DのGit blob/hash検証を再利用し、出力先を4-Fへ限定する。ref省略時は歴史W34 f50d229。manifestはmainのPR #489入力も含むので、復元では各rowのrefを指定する。JSONは明示UTF-8/LFで保存。ネットワーク操作はGitHub GETのみ。
 
 trace.pyは入力identityとschema/local source bindingを検査し、固定`_build_card`関数だけを呼ぶ。その単体fixtureではtask/supplementから読んだ二つのsource authorityを供給する。full `task_authority_sources`/supplement validatorを実行したという意味ではない。
 
