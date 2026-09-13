@@ -1,0 +1,405 @@
+{
+  "scope": "LAB_SEMANTIC_PARTIAL_STRUCTURES_NOT_PRODUCTION_ADMISSION",
+  "revision": "r2",
+  "source_basis": "../source-manifest.json",
+  "active_source_versions": {
+    "S1": "mem0/2504.19413v1",
+    "S2": "a-mem/2502.12110v5",
+    "S3": "memos/2507.03724v1"
+  },
+  "cards": [
+    {
+      "card_id": "C1",
+      "primary_subject": "Mem0",
+      "related_subjects": [
+        "Mem0g",
+        "A-Mem-published",
+        "A-Mem-rerun",
+        "Full-context",
+        "OpenAI-memory-baseline",
+        "Zep-baseline"
+      ],
+      "source": "S1",
+      "attribution": "Prateek Chhikara, Dev Khant, Saket Aryan, Taranjeet Singh, Deshraj Yadav",
+      "published_at": "2025-04-28T01:46:35Z",
+      "verification_targets": [
+        "メモリ生成/更新/検索の機構",
+        "品質とquery時負担の比較条件",
+        "全方式/全質問での優位を主張できるか",
+        "A-MEM原報告と再実行の対応",
+        "総運用費まで測っているか"
+      ],
+      "claims": [
+        {
+          "id": "C1.c1",
+          "subject": "Mem0",
+          "class": "AUTHOR_CLAIM",
+          "text": "会話の新しいメッセージ対から、要約と直近メッセージを参照してfactを抽出し、類似メモリと照合してADD/UPDATE/DELETE/NOOPを選択する。実験では直近m=10、類似s=10、LLM操作にGPT-4o-miniを用いる。m/sをquery時のtop-kと同一視しない。",
+          "locators": [
+            "S2.SS1"
+          ]
+        },
+        {
+          "id": "C1.c2",
+          "subject": "Mem0g",
+          "class": "AUTHOR_CLAIM",
+          "text": "graph版はentityとrelationshipを抽出し、Neo4jを用いる。矛盾する関係を無効化して時系列を扱い、entity中心とsemantic tripletによる検索を組み合わせる。",
+          "locators": [
+            "S2.SS2"
+          ]
+        },
+        {
+          "id": "C1.c3",
+          "subject": "evaluation",
+          "class": "AUTHOR_CLAIM",
+          "text": "LOCOMOの10会話、1会話平均約26k tokens/約200問を四質問種別で評価。single-hopは単一の会話箇所の事実、multi-hopは複数箇所の統合、temporalは時系列、open-domainは会話と一般知識の組合せを問う。adversarialは除外。F1/BLEU-1は主に語彙一致を測る。別のLLMによるJudge評価は10回の平均±1SDと報告。Appendix Aの二値CORRECT/WRONG promptは、参照回答と同じ話題/時点を含む回答を寛容に正解とするよう指示する。厳密な事実確認や人間による品質保証ではない。",
+          "locators": [
+            "S3.SS1",
+            "S3.SS2.SSS0.Px1",
+            "S4.SS1",
+            "A1"
+          ]
+        },
+        {
+          "id": "C1.c4",
+          "subject": "deployment-metrics",
+          "class": "AUTHOR_CLAIM",
+          "text": "token指標は回答時に検索してcontextとして使うメモリ/chunk量。total latencyは検索+回答生成。別の§4.5にstore token footprintと構築の観測があるが、これを全LLM呼出し/総料金/運用保守の集計とはしない。",
+          "locators": [
+            "S3.SS2.SSS0.Px2",
+            "S4.T2",
+            "S4.SS5"
+          ]
+        },
+        {
+          "id": "C1.c5",
+          "subject": "A-Mem-rerun",
+          "class": "AUTHOR_CLAIM",
+          "text": "Table 1のA-Mem（既報値）とA-Mem*（著者がtemperature=0でJを得るため再実行）は別。Table 2のA-Mem overall Jを原A-MEM論文のJスコアと呼ばない。再実行のexact commit、全categoryのk、judge実装の同一性はこの読解で確定していない。",
+          "locators": [
+            "S3.SS3.SSS0.Px1",
+            "S3.T1",
+            "S4.T2",
+            "A3.SS0.SSS0.Px5"
+          ]
+        },
+        {
+          "id": "C1.c6",
+          "subject": "OpenAI-memory-baseline",
+          "class": "AUTHOR_CLAIM",
+          "text": "著者はChatGPT interfaceで会話からメモリを抽出し、その全メモリを回答contextに使う独自の比較手順を記す。一般のChatGPT製品全体やFull-context baselineと同一ではない。",
+          "locators": [
+            "S3.SS3.SSS0.Px5",
+            "S4.SS4.p1.1"
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "id": "C1.m1",
+          "subject": "Mem0",
+          "metric": "overall J percent / total p95 seconds / retrieved context tokens",
+          "values": [
+            66.88,
+            1.44,
+            1764
+          ],
+          "j_sd": 0.15,
+          "locator": "S4.T2",
+          "class": "AUTHOR_REPORTED"
+        },
+        {
+          "id": "C1.m2",
+          "subject": "Mem0g",
+          "metric": "overall J percent / total p95 seconds / retrieved context tokens",
+          "values": [
+            68.44,
+            2.59,
+            3616
+          ],
+          "j_sd": 0.17,
+          "locator": "S4.T2",
+          "class": "AUTHOR_REPORTED"
+        },
+        {
+          "id": "C1.m3",
+          "subject": "Full-context",
+          "metric": "overall J percent / total p95 seconds / input context tokens",
+          "values": [
+            72.9,
+            17.117,
+            26031
+          ],
+          "j_sd": 0.19,
+          "locator": "S4.T2",
+          "class": "AUTHOR_REPORTED"
+        },
+        {
+          "id": "C1.m4",
+          "subject": "OpenAI-memory-baseline",
+          "metric": "overall J percent",
+          "value": 52.9,
+          "j_sd": 0.14,
+          "locator": "S4.T2",
+          "class": "AUTHOR_REPORTED"
+        },
+        {
+          "id": "C1.m5",
+          "subject": "Mem0 / Mem0g / Zep-baseline",
+          "metric": "open-domain J percent",
+          "values": [
+            72.93,
+            75.71,
+            76.6
+          ],
+          "locator": "S3.T1",
+          "class": "AUTHOR_REPORTED"
+        },
+        {
+          "id": "C1.m6",
+          "subject": "A-Mem-published",
+          "metric": "Table 1 labelled multi-hop F1 / temporal F1",
+          "values": [
+            12.14,
+            45.85
+          ],
+          "locator": "S3.T1",
+          "class": "SOURCE_TABLE_LABELS_ONLY_CROSS_SOURCE_MAPPING_UNRESOLVED"
+        },
+        {
+          "id": "C1.m7",
+          "subject": "Mem0g / Mem0 within Mem0 paper",
+          "metric": "single-hop J percent / multi-hop J percent",
+          "values": [
+            [
+              65.71,
+              47.19
+            ],
+            [
+              67.13,
+              51.15
+            ]
+          ],
+          "locator": "S3.T1",
+          "class": "AUTHOR_REPORTED"
+        }
+      ],
+      "limitations": [
+        {
+          "id": "C1.l1",
+          "text": "全contextはoverall Jで上回り、Zepはopen-domain Jで上回る。Mem0gはMem0よりsingle-hop/multi-hopのJが低い。全手法/全質問の優位やgraphによる多段推論の必然的改善とはしない。",
+          "refs": [
+            "C1.m1",
+            "C1.m2",
+            "C1.m3",
+            "C1.m5",
+            "C1.m7"
+          ]
+        },
+        {
+          "id": "C1.l2",
+          "text": "adversarial除外のため、答えられない問いへの対応能力はこの実験で確立しない。手続き的推論/マルチモーダルはfuture work。",
+          "locators": [
+            "S3.SS1",
+            "S5.p2.1"
+          ]
+        },
+        {
+          "id": "C1.l3",
+          "text": "Judgeは別のより強いLLMと記述されるが、読んだv1本文/Appendix Aではexact judge model/versionを確定できない。GPT-4o-miniをJudgeと推測しない。",
+          "locators": [
+            "S3.SS2.SSS0.Px1",
+            "A1"
+          ]
+        },
+        {
+          "id": "C1.l4",
+          "text": "query時token/latencyは、抽出・更新・summary生成・保存・削除訂正・保守を含むtotal lifecycle costを確立しない。",
+          "refs": [
+            "C1.c1",
+            "C1.c4"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C2",
+      "primary_subject": "A-MEM",
+      "source": "S2",
+      "attribution": "Wujiang Xu, Kai Mei, Hang Gao, Juntao Tan, Zujie Liang, Yongfeng Zhang",
+      "first_published_at": "2025-02-17T18:36:14Z",
+      "version_published_at": "2025-04-18T17:26:57Z",
+      "verification_targets": [
+        "Mem0と異なるmemory機構",
+        "評価尺度/対象/検索条件の対応",
+        "論文間で比較数値を転用できるか"
+      ],
+      "claims": [
+        {
+          "id": "C2.c1",
+          "subject": "A-MEM",
+          "class": "AUTHOR_CLAIM",
+          "text": "新しいnoteにcontent/time/keywords/tags/context/embedding/linksを持たせ、類似noteとのlinkを生成し、既存noteのcontext/keywords/tagsを更新する。query時はembeddingから関連noteを検索する。",
+          "locators": [
+            "S3.SS1",
+            "S3.SS2",
+            "S3.SS3",
+            "S3.SS4"
+          ]
+        },
+        {
+          "id": "C2.c2",
+          "subject": "evaluation",
+          "class": "AUTHOR_CLAIM",
+          "text": "LoCoMoを五category（adversarial含む）、7,512 QA pairs、平均9k tokens/最大35 sessionsとして説明。主要指標は語彙の重なりに基づくF1/BLEU-1、appendixに追加四尺度。Mem0側の四categoryのJ集計と同一の評価ではなく、両論文の評価集合の完全な同一性も確定していない。",
+          "locators": [
+            "S4.SS1",
+            "S4.T1",
+            "A2.SS1"
+          ]
+        },
+        {
+          "id": "C2.c3",
+          "subject": "A-MEM",
+          "class": "AUTHOR_CLAIM",
+          "text": "六backboneを評価し、all-minilm-l6-v2をembeddingに用いる。GPT-4o-miniのcategory別kは40/40/50/50/40（single/multi/temporal/open/adversarial）。本文の主にk=10という説明だけで固定しない。",
+          "locators": [
+            "S4.SS2",
+            "A2.SS4"
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "id": "C2.m1",
+          "subject": "A-MEM using GPT-4o-mini",
+          "metric": "Table 1 labelled multi-hop F1 / temporal F1",
+          "values": [
+            45.85,
+            12.14
+          ],
+          "locator": "S4.T1",
+          "class": "SOURCE_TABLE_LABELS_ONLY_CROSS_SOURCE_MAPPING_UNRESOLVED"
+        },
+        {
+          "id": "C2.m2",
+          "subject": "A-MEM using GPT-4o-mini",
+          "metric": "Table 1 average token length for answering one question",
+          "value": 2520,
+          "locator": "S4.T1",
+          "class": "AUTHOR_REPORTED_NOT_TOTAL_SYSTEM_TOKENS"
+        }
+      ],
+      "limitations": [
+        {
+          "id": "C2.l1",
+          "text": "著者はmemory organizationの品質がbackboneの生成能力に左右され得ることと、現実装がtext中心でmultimodalは今後の課題であることを認める。",
+          "locators": [
+            "S6"
+          ]
+        },
+        {
+          "id": "C2.l2",
+          "text": "Mem0の既報A-Mem行と、本v5原報告のmulti-hop/temporal欄の対応は一致しない。原値を勝手に訂正せず、性能ランキングの根拠への統合を保留する。",
+          "refs": [
+            "C2.m1",
+            "C1.m6"
+          ]
+        }
+      ]
+    },
+    {
+      "card_id": "C3",
+      "primary_subject": "MemOS",
+      "source": "S3",
+      "attribution": "Zhiyu Li et al.（全著者は固定abs metadata参照）",
+      "published_at": "2025-07-04T17:21:46Z",
+      "verification_targets": [
+        "同じ読者問題への実質的関連",
+        "cutoff時点で根拠にできるか",
+        "評価/latencyがどの条件の報告か"
+      ],
+      "claims": [
+        {
+          "id": "C3.c1",
+          "subject": "MemOS",
+          "class": "AUTHOR_CLAIM",
+          "text": "plaintext/activation/parameterの三memory形態をMemCubeで扱い、scheduling/lifecycle/governanceを統合する設計を提案する。機構の提案と全機能の運用実証を分ける。",
+          "locators": [
+            "S4.SS1",
+            "S4.SS2",
+            "S5.SS1"
+          ]
+        },
+        {
+          "id": "C3.c2",
+          "subject": "MemOS evaluation",
+          "class": "AUTHOR_CLAIM",
+          "text": "LOCOMO上でMem0等を再評価しGPT-4o-miniを共通backboneとする。sourceはH800 80GB、best validationによりconfiguration選択と記述する。Mem0 v1の同名baseline数値をこの別実行へ流用しない。",
+          "locators": [
+            "S6.SS1"
+          ]
+        },
+        {
+          "id": "C3.c3",
+          "subject": "MemOS KV evaluation",
+          "class": "AUTHOR_CLAIM",
+          "text": "KV acceleration試験はmemoryが既にpreprocess/cacheされGPUにある条件。Build時間とTTFTを別に扱い、LOCOMO queryのp95や全運用費と合算しない。",
+          "locators": [
+            "S6.SS3"
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "id": "C3.m1",
+          "subject": "memos-0630 / mem0 / Full-Context within MemOS paper",
+          "metric": "overall LLMJudge percent / total p95 milliseconds",
+          "values": [
+            [
+              73.31,
+              7937
+            ],
+            [
+              64.57,
+              5962
+            ],
+            [
+              71.58,
+              7016
+            ]
+          ],
+          "locators": [
+            "S6.T3",
+            "S6.T4"
+          ],
+          "class": "AUTHOR_REPORTED_LATER_EXPERIMENT"
+        }
+      ],
+      "limitations": [
+        {
+          "id": "C3.l1",
+          "text": "公開v1がWeekly cutoffより後。根拠を先取りして本文の当時の判断を補強しない。7月以前に同じ実装/結果が存在しなかったとも断定しない。",
+          "locators": [
+            "abs:submission-history"
+          ]
+        },
+        {
+          "id": "C3.l2",
+          "text": "§6.2の全contextより低latencyという説明とTable 4のtotal p95（7937対7016 ms）はそのまま一致しない。総じて速いとは確定しない。",
+          "locators": [
+            "S6.SS2.p4.1",
+            "S6.T4"
+          ]
+        },
+        {
+          "id": "C3.l3",
+          "text": "cross-LLM memory sharing、self-evolving blocks等はfuture directionsとして挙げられる。全て実運用完成済みとはしない。",
+          "locators": [
+            "S8"
+          ]
+        }
+      ]
+    }
+  ]
+}

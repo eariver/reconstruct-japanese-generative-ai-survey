@@ -1,0 +1,75 @@
+{
+  "scope": "READ_ONLY_FIXED_CHANGE_AND_CANDIDATE_IDENTITY_NOT_STATE_CLOSURE_OR_QUALITY_REVIEW",
+  "base_main": "14781409f6fb8d79e3eb4ad6b4c457764a038fde",
+  "main": "79a0ddea948af18ef02ec63184e67f99ad7f8e09",
+  "total_commits": 3,
+  "files": [
+    {
+      "filename": "scripts/survey_human_gate_v2.py",
+      "status": "modified",
+      "additions": 6,
+      "deletions": 0,
+      "patch": "@@ -893,6 +893,12 @@ def _revised_state(\n             continue\n         updated[\"machine_checkpoints\"][checkpoint] = \"pending\"\n         updated[\"checkpoint_provenance\"][checkpoint] = None\n+    if \"validation\" not in keep:\n+        # The active revalidation basis is bound to the validation checkpoint.\n+        # Invalidating that checkpoint orphans the pointer, so revision clears it\n+        # deterministically. The historical record file itself is never touched\n+        # here; unreferenced it is inert historical evidence.\n+        updated[\"publication_revalidation_provenance\"] = None\n     updated[\"lifecycle_state\"] = regeneration_boundary\n     updated[\"history\"] = updated[\"history\"][: target_index + 1]\n "
+    }
+  ],
+  "all_changed_paths": [
+    "scripts/survey_human_gate_v2.py",
+    "tests/test_survey_human_gate_revalidation_revision_v2.py"
+  ],
+  "pr": {
+    "number": 490,
+    "title": "Core v2: Human Gate revision clears orphaned publication revalidation pointer",
+    "state": "closed",
+    "merged_at": "2026-09-13T08:42:47Z",
+    "merge_commit_sha": "79a0ddea948af18ef02ec63184e67f99ad7f8e09",
+    "body": "Shared Core v2 maintenance: fixes the generic lifecycle-integration defect where Publication Preview REQUEST_CHANGES to DRAFT_COMPLETE (or any boundary invalidating validation) left orphaned active publication_revalidation_provenance, making legitimate rollback impossible.\n\nSemantics:\n- clears only the active State pointer when the selected Human revision invalidates the validation checkpoint, derived from lifecycle keep semantics\n- preserves active revalidation when validation remains active\n- preserves immutable historical publication-surface-revalidation-rN records\n- preserves fail-closed current-State preflight\n- preserves Human Gate provenance and allowed-boundary semantics\n- no edition-specific / W34 conditional\n\nRegression coverage R1-R7 includes DRAFT_COMPLETE rollback, VALIDATED_DRAFT preservation, earlier-boundary clearing, corrupt-pointer no-write preflight, historical r1 byte identity, rollback-to-forward recovery, and later revalidation compatibility.\n\nLatest candidate frozen at:\nHEAD 6be850c10fe056d7e9c58723d617de01cd365ea7\nTree 5534594bfc172044a7b8bbd685f0c9fef016e78b\n\nFresh exact-head CI:\n- Survey Production Core v2 CI: SUCCESS\n- Pipeline contract tests: SUCCESS\n\nW34 remained read-only during Core maintenance. Human Full Candidate Review: APPROVE.",
+    "html_url": "https://github.com/eariver/japanese-generative-ai-survey/pull/490"
+  },
+  "candidate": {
+    "ref": "c7faf207515e7429dd74abd5adaf2962725587ef",
+    "raw_sha256": "6d18b4962ad51bfa974fd4d814a61a070dcab36a0bff8499d11d5821c28dff7a",
+    "payload_candidate_sha256": "d0af4c9ca917ce3a51d58fcd213846c4d49cb8d3a9334501484ec798970de429",
+    "content": {
+      "schema_version": "2.0-rc1",
+      "issue_id": "2026-W34",
+      "publication_profile": "WEEKLY_MAGAZINE",
+      "status": "READY_FOR_PUBLICATION_PREVIEW",
+      "reader_manuscript": {
+        "path": "sources/2026-W34/publication/v2/reader-manuscript-v2.json",
+        "sha256": "6a60e95cc27dbf676d2e86689d2392e392ab8100d1bf059d1722e9e4182a6523",
+        "byte_count": 17984
+      },
+      "source": {
+        "path": "surveys/weekly/2026-W34/main.tex",
+        "sha256": "9d320a62a3ee8cb00262d214bc7b309c830dcd66a1f77e2c31285846a166e197",
+        "byte_count": 1262
+      },
+      "pdf": {
+        "storage": "REPOSITORY_FILE",
+        "path": "surveys/weekly/2026-W34/main.pdf",
+        "sha256": "1818e8669963a0d965966b6d2f4a0ef4cc8df2bdf9ed129c64fa96be7c28ed84",
+        "byte_count": 338707,
+        "actions_artifact": null,
+        "page_count": 12
+      },
+      "quality_bundle": {
+        "path": "sources/2026-W34/publication/v2/quality-regression-bundle-v2.json",
+        "sha256": "c2064baf47bbff298b3176238766fc2137b1929335e5c22957b34b312144a04b",
+        "byte_count": 2772
+      },
+      "semantic_review": {
+        "path": "sources/2026-W34/publication/v2/semantic-editorial-review-v2.json",
+        "sha256": "acd6e252befdd7929bb71676d6e43506d88f6040f994a957ae0de9bd2a4064f6",
+        "byte_count": 8112
+      },
+      "visual_review": {
+        "path": "sources/2026-W34/publication/v2/visual-review-v2.json",
+        "sha256": "ad16574c6d6e0bf7f4aa865a36ef69db6fc5983839bee9736abca792ff719f26",
+        "byte_count": 2024
+      },
+      "candidate_sha256": "d0af4c9ca917ce3a51d58fcd213846c4d49cb8d3a9334501484ec798970de429"
+    }
+  },
+  "remaining_issues_checked": false,
+  "reason_not_checking_issues": "Observed follow-up is Human-revision pointer invalidation, not changed research/editorial Task units. The bounded typography repair adds Japanese quality evidence but does not warrant an issue crawl or reopening acceptance/cache."
+}

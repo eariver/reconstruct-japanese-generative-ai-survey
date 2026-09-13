@@ -1,0 +1,164 @@
+{
+  "scope": "LAB_EDITORIAL_PARTIAL_STRUCTURE_NO_HUMAN_GATE_OR_PRODUCTION_ACCEPTANCE",
+  "revision": "r2",
+  "research_basis": "research.json",
+  "question": "長期会話LLMエージェントの外部メモリについて、Mem0の報告から品質と処理負担の何が分かり、他方式との比較・導入判断にはどの条件確認が残るか。",
+  "window": {
+    "start_utc": "2025-04-28T00:00:00Z",
+    "cutoff_exclusive_utc": "2025-05-05T00:00:00Z",
+    "coverage": "PURPOSIVE_THREE_CANDIDATE_SLICE_NOT_FULL_WEEKLY_DISCOVERY"
+  },
+  "selection": [
+    {
+      "candidate": "C1",
+      "disposition": "SELECTED",
+      "usage": "PRIMARY",
+      "rationale": "窓内の新しい報告。qualityとquery latency/context量を併記でき、抽出/更新の機構を説明できる。ただし総費用や一般的な優位を主張しない。",
+      "refs": [
+        "C1.c1",
+        "C1.c2",
+        "C1.c3",
+        "C1.c4",
+        "C1.m1",
+        "C1.m2",
+        "C1.m3"
+      ]
+    },
+    {
+      "candidate": "C2",
+      "disposition": "SELECTED",
+      "usage": "BACKGROUND_COMPARISON_BOUNDARY",
+      "rationale": "先行研究として方式の違いと、同名benchmarkでも比較条件が揃わないことを示す。今週の新規発表とせず、矛盾するcategory対応を使った直接順位付けは保留。",
+      "refs": [
+        "C2.c1",
+        "C2.c2",
+        "C2.c3",
+        "C2.l1",
+        "C2.l2"
+      ]
+    },
+    {
+      "candidate": "C3",
+      "disposition": "HOLD",
+      "usage": "NO_READER_EVIDENCE",
+      "rationale": "同じmemory問題と比較対象を持つ強い関連候補だが、固定v1はcutoff後。このWeekly sliceの事実・比較根拠には使わず調査履歴へ保持する。後日比較ならsource固有のlatency不一致/評価条件を解決する必要がある。",
+      "refs": [
+        "C3.c1",
+        "C3.c2",
+        "C3.l1",
+        "C3.l2"
+      ]
+    }
+  ],
+  "package": {
+    "purpose": "memoryの効率化を、品質を含む条件付きtradeoffとして読者が理解できる短い記事にする。",
+    "must_cover": [
+      "生成/更新機構",
+      "full-contextに対するqualityとquery負担の両面",
+      "graph版の追加負担",
+      "source/metric/質問category/再実行の区別",
+      "導入時に未測定の費用・安全課題",
+      "評価標本の規模・質問種別・Jの採点条件と語彙指標との違い"
+    ],
+    "boundaries": [
+      {
+        "id": "B1",
+        "handling": "EXPLICIT",
+        "text": "著者報告、独立再現ではない。",
+        "refs": [
+          "C1.c3"
+        ]
+      },
+      {
+        "id": "B2",
+        "handling": "EXPLICIT",
+        "text": "adversarial除外と全手法/全質問優位の不成立。",
+        "refs": [
+          "C1.l1",
+          "C1.l2"
+        ]
+      },
+      {
+        "id": "B3",
+        "handling": "EXPLICIT",
+        "text": "A-MEM原報告と再実行を分離し、raw表のcategory不一致は未解決。",
+        "refs": [
+          "C1.c5",
+          "C1.m6",
+          "C2.m1",
+          "C2.c3"
+        ]
+      },
+      {
+        "id": "B4",
+        "handling": "EXPLICIT",
+        "text": "query時metricsを全lifecycle料金に換算しない。",
+        "refs": [
+          "C1.c4",
+          "C1.l4"
+        ]
+      },
+      {
+        "id": "B5",
+        "handling": "RESPECTED_BY_OMISSION",
+        "text": "後日MemOSを当時の本文根拠へ入れない。",
+        "refs": [
+          "C3.l1"
+        ]
+      }
+    ]
+  },
+  "draft_support": [
+    {
+      "block": "mechanism",
+      "refs": [
+        "C1.c1",
+        "C1.c2"
+      ]
+    },
+    {
+      "block": "quality-and-query-cost",
+      "refs": [
+        "C1.c3",
+        "C1.c4",
+        "C1.m1",
+        "C1.m2",
+        "C1.m3",
+        "C1.m4",
+        "C1.m5",
+        "C1.c6",
+        "C1.l3",
+        "C1.m7"
+      ]
+    },
+    {
+      "block": "comparison-boundary",
+      "refs": [
+        "C2.c1",
+        "C2.c2",
+        "C2.c3",
+        "C1.c5",
+        "C1.m6",
+        "C2.m1",
+        "C2.l1"
+      ]
+    },
+    {
+      "block": "deployment-boundary",
+      "refs": [
+        "C1.l2",
+        "C1.l4",
+        "C2.l1"
+      ]
+    }
+  ],
+  "production_omissions": [
+    "Full Discovery/coverage",
+    "Full canonical schema/admission/State closure",
+    "Human Architecture/Preview Gates",
+    "Full issue synthesis and page balance",
+    "PDF/visual QA and CI",
+    "Freeze/Release",
+    "Historical caller/repair compatibility"
+  ]
+}
