@@ -12,15 +12,15 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 4-F's bounded source-join trace is complete, including the PR #489 production refresh.** The archived timing report already exists; compact authoring and Card generation lose its statement-specific source binding. Existing canonical fields can express a reference repair. Full publication quality and net lifecycle savings remain unproven. Phase 3 remains closed.
+**Phase 4-G's bounded authoring design comparison is complete.** Lossless compact input and assisted canonical authoring can converge on the same semantic fields. Direct authoring has no proven cost advantage. Both need publication to consume canonical text and individual references without returning to a compact meaning archive. Full quality and net lifecycle savings remain unproven; Phase 3 remains closed.
 
 Fresh Astra sessions need only:
 
 1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
-2. [Phase 4-F assessment](outputs/astra-phase-4f-source-join-assessment.md), sections 1 and 3–6.
+2. [Phase 4-G assessment](outputs/astra-phase-4g-authoring-design-assessment.md), sections 1 and 4–6; section 3 for concrete Evidence.
 3. Only necessary Evidence from its index. Earlier Phase 4 decisions remain historical context.
 
-Next compare the concrete authoring, transform, review and repair work of extending compact helpers versus authoring existing canonical artifacts directly and deriving presentation data. Use the known source-binding and Draft/renderer examples to identify removable duplication; do not count transferred work as savings. Further acceptance/staging/cache implementation remains paused. Old chat logs, repeated source searches and lab reruns are not mandatory resume inputs.
+Next consider one package's canonical-to-publication connection and one repair/regeneration witness. Keep historical admitted inputs and lab reference corrections separate. Identify removable semantic reconstruction and synchronization duties; automatic copies, file counts and transferred work are not measured savings. Further acceptance/staging/cache implementation remains paused. Old chat logs and lab reruns are not mandatory resume inputs.
 
 ## Last recorded upstream reference
 
@@ -32,7 +32,7 @@ Last recorded production `main` (2026-09-13 JST):
 
 PR #488 repaired bibliography internal-note generation. PR #489 adds a State-bound immutable publication-only revalidation path after reviewed Core changes, preserving upstream checkpoint-bound bytes. Include these repairs in the comparison baseline. They do not repair the source bindings or the upstream Draft boundary example.
 
-W34 remains at `f50d229...`, with a `READY_FOR_PUBLICATION_PREVIEW` Candidate record and observed State `VALIDATED_DRAFT`. The PR's disposable-copy advance is not a real W34 advance or Human approval. See the [current observation](notes/phase-4f/production-refresh-489.json) and handoff. Earlier refs remain fixed historical Evidence; do not assume observed refs remain latest.
+W34 remains at `f50d229...`, with a `READY_FOR_PUBLICATION_PREVIEW` Candidate record and observed State `VALIDATED_DRAFT`. The PR's disposable-copy advance is not a real W34 advance or Human approval. See the [current observation](notes/phase-4g/observation.json) and handoff. Earlier refs remain fixed historical Evidence; do not assume observed refs remain latest.
 
 ## Core principle
 

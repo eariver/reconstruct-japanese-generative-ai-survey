@@ -4,19 +4,21 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-Phase 4-F's bounded source-join trace is complete, including the post-PR #489 production refresh. The archived DailyX report exists in accepted task authority; the compact authoring/helper path loses statement-specific source bindings. Existing canonical Card fields can express the reference repair, but the specimen is not full quality review or admission. Net lifecycle savings and a quality-complete full canonical baseline remain unproven. Phase 3 remains closed after Phase 3-G. Do **not** restart Phase A, the former decision step, or acceptance/staging experiments as the default task.
+Phase 4-G's bounded authoring design comparison is complete. Treat lossless compact authoring and assisted canonical authoring as potentially convergent interfaces, not yet distinct architecture arms. The common removable dependency is publication reading compact semantic archives instead of canonical text/individual references. Direct canonical authoring has no proven cost advantage. Net lifecycle savings and a quality-complete full canonical baseline remain unproven. Phase 3 remains closed after Phase 3-G. Do **not** restart Phase A, the former decision step, or acceptance/staging experiments as the default task.
 
 For a new Astra session, read first:
 
 1. `handoff/astra-phase-4-continuation.md`
-2. `outputs/astra-phase-4f-source-join-assessment.md` — §1, §3–6 (PR #489 reality refresh)
-3. Only the Evidence needed from that assessment's index; older Phase 4-A/B/C/D/E decisions remain historical context.
+2. `outputs/astra-phase-4g-authoring-design-assessment.md` — §1, §4–6; §3 for concrete Evidence
+3. Only the Evidence needed from that assessment's index; older Phase 4-A/B/C/D/E/F decisions remain historical context.
 
 Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
 
 The objective is to minimize total lifecycle work across production, supervisory reasoning/review, repair/regeneration, CI/runtime, LLM usage, operational complexity, and Human handoff, while preserving at least intended publication quality, provenance correctness, fail-close safety, Human authority, Weekly/Special generality, and historical reproducibility. Moving work between roles is not a saving; justified long-term investment is allowed.
 
-The priority remains research-question-to-publication/review/repair with all-role work accounting. Next consider a bounded design comparison of extending compact helpers versus authoring existing canonical artifacts directly and deriving presentation data. Identify concrete duplicate authoring/transforms that can be removed; moved work is not savings. Use 4-F's statement-source case, 4-E's Draft boundary/renderer constraints and 4-C's repaired canonical slice as known calibration inputs, not unknown-source quality tests. Do not continue Grok/all-source tracing by default. The existing bounded chronology review is not automatically overturned by one current X fetch returning 403; do not impose a new universal original-X-HTTP requirement. The lab Card preserves historical VERIFIED without claiming new review or admission.
+The priority remains research-question-to-publication/review/repair with all-role work accounting. Next consider one package's canonical-to-publication connection and one repair/regeneration witness, without compact archive or hand-authored citation mapping as a second meaning input. Both authoring approaches need this same consumer, so do not credit its benefit to direct authoring alone. Keep mechanical scaffolding for IDs/basis separate from semantic decisions. File counts, automatic copies and relocated work are not lifecycle savings.
+
+Use 4-E's Draft/Package and 4-F's source repair specimen as separate known fixtures; never silently replace an accepted embedded Card or treat the combined lab inputs as an admitted chain. Preserve text, statement-specific references, source classes and substantive boundaries. Stop on the smallest preservation/compatibility counterexample before expanding into full Core/PDF. Full quality/cost trials still need bounded caller/authority closure, Weekly/Special coverage and completed independent review/repair. The known 4-C repair is calibration, not fresh source evidence. Do not resume Grok/all-source tracing by default or turn one X 403 into a universal HTTP-capture requirement.
 
 Production main is observed at 14781409 (PR #489 merged), W34 at f50d229. PR #488 repaired bibliography internal-note generation. PR #489 adds State-bound immutable publication-only revalidation for REVIEWED_CORE_CHANGE with all non-superseded checkpoint bytes preserved. Include both repairs in the baseline and do not duplicate them. Card/Draft upstream changes are outside the publication-only rebind scope. The reported disposable W34 advance is not the real branch state or Human approval. Real W34 remains at the observed VALIDATED_DRAFT with a READY_FOR_PUBLICATION_PREVIEW Candidate record; the section note/source-binding example remains unresolved. No full quality or lifecycle savings claim follows.
 
@@ -56,7 +58,7 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-Current decision: `outputs/astra-phase-4f-source-join-assessment.md`, including §6's post-PR489 refresh. Phase 4-A/B/C/D/E decisions remain historical Evidence. Function-unit reproduction, schema/source checks, production repairs and a Candidate record do not establish net lifecycle savings, full publication quality or adoption. Phase 3-G objective and safety constraints remain applicable.
+Current decision: `outputs/astra-phase-4g-authoring-design-assessment.md`. Phase 4-A/B/C/D/E/F decisions remain historical Evidence. Function-unit expressiveness witnesses, schema checks, production repairs and a Candidate record do not establish net lifecycle savings, full publication quality or adoption. Phase 3-G objective and safety constraints remain applicable.
 
 Current handoff: `handoff/astra-phase-4-continuation.md`.
 

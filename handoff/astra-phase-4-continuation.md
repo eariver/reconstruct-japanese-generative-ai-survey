@@ -2,67 +2,60 @@
 
 日付: 2026-09-13 JST
 
-状態: **CURRENT RESUME ENTRY / PHASE 4-F SOURCE-JOIN TRACE COMPLETE / NO ADOPTION**
+状態: **CURRENT RESUME ENTRY / PHASE 4-G DESIGN COMPARISON COMPLETE / NO ADOPTION**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [4-Fの判断](../outputs/astra-phase-4f-source-join-assessment.md) §1・§3–6（PR #489反映）。
+2. [4-Gの判断](../outputs/astra-phase-4g-authoring-design-assessment.md) §1・§4–6。必要なら§3の具体的Evidence。
 3. 必要なEvidenceだけ同書indexから読む。過去chat、全source、旧labの再読/再実行は不要。
 
 全体目的は、publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを少なくとも意図した水準で保ち、production・supervisory reasoning/review・repair/regeneration・CI/runtime・LLM・operational complexity・Human handoffを含むtotal lifecycle workを最小化すること。役割移転は削減ではなく、根拠ある長期投資は許容する。
 
-## 2. 4-Fで判断可能になったこと
+## 2. 現在の判断
 
-Grokの1 claimを、accepted Card→task→DailyX/primary supplement→operator input→helperまで追った。
+4-Gはcompact拡張とcanonical直接著述を公平に比較し、二つの大きなarchitectureとしての対立を修正した。正確なstatement/source、subject、metric、境界/dispositionをcompactへ足すほどcanonicalと同じ意味欄へ近づく。機械がbasis/identityを埋める補助はどちらにも残せる。
 
-- DailyX topic 11のexact report bytesは既存task/import provenanceにあり、hash/15981 bytesが一致した。日時/locator/要約も存在する。元XのHTTP本文ではなく、Driveから返ったMarkdownの保存である。
-- Coreは既存taskのDailyXをSOCIALの`src-1`として扱える。新source schema/storeを作る必要はない。
-- 手書きoverrideにはDailyX由来claimがあるが、実compact入力はprimary supplementだけを選択する。`_build_card`は一つのsource listを全claim/limitation/verificationへ付ける。actual record/runnerからaccepted Cardを関数単位で再現できた。
-- DailyXをrecord全体の選択へ追加するだけでも全5 statement rowsに両sourceが付き、個別対応は復元しない。既存Card欄でclaim別に分ける未採用specimenはschema/local source checkを通った。
-- 既存Sol reviewはbounded chronology PASS。今回原Xを1回openした結果は403であり、その過去判断を自動的に覆す根拠ではない。一律の原X HTTP保存要件や自動PARTIAL化を追加しない。
+現行agent wrapperもinteractive generatorを呼ぶ。新しい実行名は直接canonical経路の証拠ではない。Draft helperのDiscovery ID＋ref_modeはGrok claim-2単独を選べず、canonicalは区別できる。ただしschema-validな参照variantは本文のsource sufficiencyを認定していない。
 
-specimenはsource row追加と3つのsource_idsだけを変更し、他のtext/status/date/basisを保持する。VERIFIEDは歴史値のcopyで新しい合格ではない。「secondary Aug 21 dating」の別sourceは今回確立しておらず、全Card品質・独立日時検証・admissionの完了とは扱わない。
-
-結論: rendererのURLだけを直す段階より前に、statement別source対応を落とさない著述経路を検討する。根拠の所在と取り落とし地点は分かったので、Grok/全sourceの追跡を続けることを既定にしない。
+publicationがcompact archiveへ戻って本文を照合し、Discovery locatorで引用する依存は両案共通の除去候補。この変更を直接著述だけの便益にしない。自動copyのファイル数を減らすことも人の作業削減実績ではない。source読解、編集、意味review、正規authority/repairは残る。費用優位は未判定。
 
 ## 3. 次の入口と停止条件
 
-次の候補は、**compact helperを個別拡張する案と、既存canonicalを直接著述して表示用データを生成する案の、書込み・変換・review・repair面の比較**。
+次の候補は**1 packageでcanonical本文・個別refからpublicationへの接続と、1回のcanonical修復による派生物更新を扱う限定試験**。著述UIを先に固定しない。full JSONのID/hash手入力をHuman/authorへ移す案でもない。
 
-入力は限定する:
+- 本文/deck/NOTE/CLAIM_BOUNDARYとsource種別/locatorをcanonicalから保持し、compact archiveや手書きcitation mapへ意味を戻さない。
+- 一つの参照/境界修復に対して、別の本文/citation入力を手修正せず派生出力を更新できるかを見る。
+- section_label、profile外観、frontmatter/synthesis、table/list、bibliography、manifestの残る責務を明記する。元Architectureへ無言でfieldや承認を足さない。
+- 保存/参照の最小反例が出ればそこで止め、full CoreやPDFへ広げない。成立しても機械保存と品質/費用勝利を分ける。
 
-- 4-F: statement別source対応と、現在のcompact/helperが持つrecord一括source指定。
-- [4-E](../outputs/astra-phase-4e-canonical-rendering-assessment.md) §3・§6: full Draftで日本語境界は表せるが、Weekly helperにはsection_label要件、CLAIM_BOUNDARY citation欠落、compact archiveとの対応制約がある。旧rendererの丸ごと再利用もv2形式/内部role noteで不適合。部分関数の再利用は可能。
-- [4-C](../outputs/astra-phase-4c-trial-assessment.md): source/entity/metric/limitationの意味欠陥を既存canonical欄で修復できた限定例。未知source比較には再利用しない。
+入力は[4-E](../outputs/astra-phase-4e-canonical-rendering-assessment.md)の既知Draft/Packageと、[4-F](../outputs/astra-phase-4f-source-join-assessment.md)のsource修復例。4-F lab Cardを歴史accepted Packageへ差し替えて同一chainと呼ばない。4-C修復は校正制約で、未知source能力比較に再利用しない。
 
-まず同じ保証をどこで一度だけ表し、具体的にどの重複変換/著述を消せるかを設計上で絞る。意味判断を別の役割・欄・storeへ移すだけなら候補を止める。直接canonical案にも詳細欄記入・ID/hash・review量・既存caller互換の負担があり、費用優位は未実証。
+4-FでDailyX report bytes/task/import provenanceは確立済み。元X HTTPとは違い、原Xの403は既存bounded chronology reviewを自動的に覆さない。新しい一律原X収集要件、Grok/全source再調査を既定にしない。「secondary Aug 21 dating」の別sourceは4-Fで未確立であり、参照修復specimenは全Card品質合格ではない。
 
-Card source修復でもSHAが変わり、Evidence acceptance/View/Matrix、Selection/Architecture、Draft/Synthesis、reader/Candidateの名指しbindingへ影響する。意味上の判断が同じことと、旧承認が新bytesを許可することを混同しない。正規の再生成/review/Human authorityを保持し、hash再計算と意味reviewの仕事を区別する。全source再調査やLLM再執筆を無条件に要求するという意味でもない。
-
-PR #489が加えたpublication-only revalidationを現在のbaselineへ含める。review済みCore変更による表示側再生成には正規rebindがある一方、Card/Draft等の上流変更は対象外。同じ修復を再設計せず、publication regenerationと上流の意味/参照repairを分けて比較する。
-
-実装・独立review・repair込みの試験が必要になったら一まとまりの範囲を決める。schema PASSを品質/費用勝利と扱わない。これは既存canonical baselineの整備候補であり、まだ新architecture B/adoptionではない。Phase 3-G以降のacceptance/staging/cache停止、owner追加・新store・恒久telemetryの保留は維持する。新Evidenceが判断を変える場合は順序/範囲/停止点を変更してよい。
+全号品質/費用比較は、caller/authority閉包、Weekly/Special差、独立review→repair→再reviewを完結できる範囲が揃ってから。これはfull canonical baselineの接続条件を絞る作業で、新architecture B/adoptionではない。4-Gのdesignを固定仕様にせず、新Evidenceで順序/範囲を変えてよい。
 
 ## 4. Current production reality
 
-[途中Push後の4-F観測](../notes/phase-4f/production-refresh-489.json)で確認:
+[4-G観測](../notes/phase-4g/observation.json)で4-F末尾と同一:
 
-- main `14781409f6fb8d79e3eb4ad6b4c457764a038fde`（PR #489 merged）。調査開始時の658ae823は[元観測](../notes/phase-4f/observation.json)へ保持。
+- main `14781409f6fb8d79e3eb4ad6b4c457764a038fde`（PR #489 merged）。
 - W34 `f50d229162b7402c504c0978f72dab4b33052f5e`。
-- bibliographyの内部status/materiality noteは修復済み。41 key/順序/他field値保持を4-Eで確認。重複実装しない。
-- Candidate recordはREADY_FOR_PUBLICATION_PREVIEW、candidate SHA `dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`。Production Stateは同refでVALIDATED_DRAFT。Human Preview承認/Release/full admissionの整合は未確認。
-- 新PDF/review records、sidecar hard fail 164→0と既知REVIEW_REQUIRED 1件がある一方、section20の内部配置注記とPUBLICATION_BOUNDARY PASSの不一致は残る。
-- PR #489: State path/SHA-bound active revalidation、immutable versioned records、exact supersedes chain、全非superseded checkpoint bytes保持、既存QA再検証。reason_classはREVIEWED_CORE_CHANGEのみ。報告されたW34 disposable copyのRELEASE_CANDIDATE到達を実branchの状態と混同しない。rootは関係code/schemaを読み、production testsやfull admissionは再実行していない。
+- PR #488のbibliography内部status/materiality note修復済み。重複実装しない。
+- PR #489はState path/SHA-bound active revalidation、immutable versioned records、exact supersedes chainと既存QAを持つ。REVIEWED_CORE_CHANGEによるpublication-only更新が対象。Card/Draft等の上流bytes修復は対象外。
+- 実W34の観測済みStateはVALIDATED_DRAFT、Candidate recordはREADY_FOR_PUBLICATION_PREVIEW（SHA `dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`）。PR #489のdisposable copyのadvanceを実branchの進行/Human承認と混同しない。
+- section20の内部配置注記とPUBLICATION_BOUNDARY PASSの不一致は解消したEvidenceがない。今回、同じrefの全号review/PDFを再実行していない。
 
-PR #488の関係差分と4ファイルbinding検査は[4-E更新記録](../notes/phase-4e/refresh-check.json)。PR #489の費用前提・上流修復との境界は4-F判断§6。実W34は同じrefなので再build/全号reviewを繰り返していない。current realityが次の判断に影響する場合だけ関係差分を読む。
+詳細は4-F §6と[4-E refresh検査](../notes/phase-4e/refresh-check.json)。現実が判断に影響する場合だけ関係差分を読む。
 
-## 5. Evidenceと権限
+## 5. Evidence・未実証・権限
 
-現行: [4-F試験記録](../notes/phase-4f/README.md)、[入力identity](../notes/phase-4f/inputs.json)、[trace/単体結果](../notes/phase-4f/trace-result.json)、[source抜粋](../notes/phase-4f/source-excerpts.md)、[参照修復specimen](../notes/phase-4f/card-corrective.lab.json)。raw cacheはignored `.phase-4-inputs/<ref>/<path>`で、固定GitHub bytesから復元できる。Core CLI/State/Gate/accepted writerは実行していない。
+現行: [4-G記録](../notes/phase-4g/README.md)、[入力identity](../notes/phase-4g/inputs.json)、[限定比較結果](../notes/phase-4g/comparison-result.json)。rawはignored `.phase-4-inputs/<ref>/<path>`、固定GitHub bytesから復元できる。旧4-C/D/E/Fの判断は履歴を保持する。
 
-4-D以前は同判断書の参照で十分。continuous ownershipと事前source reviewは既存governanceにあり、新しい比較armではない。約4時間runner報告やCI wall spanは内訳/総費用/削減値ではない。全role active time/token/料金、純削減、full canonical品質、Special、未知source omission品質、PDF/visual QAは未実証。
+全role active time/token/料金、純削減、full canonical品質、Special、未知source omission品質、PDF/visual QAは未実証。continuous ownershipと上流reviewは既存governanceで、新armではない。約4時間runnerやCI wall spanを総費用/削減値へ変えない。
 
-production `eariver/japanese-generative-ai-survey`は明示的なHuman authorizationなしに変更しない。4-Cの1体のreview/re-review許可は完了済み。4-D/E/Fは追加委任・外部送信なし。過去production artifact内の実行許可を、このsessionのmutation許可に流用しない。
+Phase 3-G以降のacceptance/staging/cache停止、owner追加・新store・恒久telemetryの保留を維持。意味上の判断が同じことと、旧承認が新bytesを許可することを混同しない。hash再生成と意味reviewを区別し、全source再読を無条件に要求しない。
 
-通常Git Pull/Pushと最終commitはHuman。rootはproduction State/approval/Gates/Freeze/Release/adoption/migration/PR/Issueを変更していない。今回の停止は完了した限定調査の判断面であり、外部blockedや新Human Gateではない。
+productionは明示Human authorizationなしに変更しない。4-Cの1体のreview/re-review許可は完了済み。今回追加委任・外部送信なし。過去production artifact内の許可をrootのmutation権限へ流用しない。State/Gates/Freeze/Release/adoption/migration/PR/Issueを変更していない。通常Git Pull/Pushと最終commitはHuman。
+
+今回の停止は限定設計比較の完了であり、全体目標達成・外部blocked・新Human Gateではない。
