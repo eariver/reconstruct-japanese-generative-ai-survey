@@ -1,15 +1,15 @@
 # J-GAS — Phase 5 continuation
 
-日付: 2026-09-13 JST  
-状態: **PHASE 5 ACTIVE / 5-B BOUNDED CHAIN COMPLETE AFTER REPAIR / NO 5-C TRIAL / NO ADOPTION**
+日付: 2026-09-14 JST
+状態: **PHASE 5 ACTIVE / PUBLICATION REVIEW CASE TRACED / 5-B COMPLETE / NO 5-C TRIAL / NO ADOPTION**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [5-B判断](../outputs/astra-phase-5b-work-observation-assessment.md) §1・§5–8。
-3. 必要時のみ[5-B Evidence index](../notes/phase-5b/README.md)。5-Aの経緯は[5-A判断](../outputs/astra-phase-5a-work-unit-decision.md)、Phase 4の復元はその§2で足りる。全chat/旧lab再読・再実行は不要。
+2. [publication review境界の判断](../outputs/astra-phase-5-publication-review-boundary-decision.md) §1・§4–6。
+3. 必要時のみ[今回Evidence](../notes/phase-5-review-boundary/evidence.md)。5-Bの判断は[5-B評価](../outputs/astra-phase-5b-work-observation-assessment.md)に保持。Phase 4の復元は[5-A判断](../outputs/astra-phase-5a-work-unit-decision.md) §2で足りる。全chat/旧lab再読・再実行は不要。
 
-5-B開始時のPush済みreconstruct local/remote mainは`cc530fea883a66049b8ab4a9ea3f112da34c4fab`で一致・clean。今回の5-B変更はHumanのcommit/Push対象であり、commit済みとは扱わない。次sessionではその時のPush済み状態を確認する。
+今回の開始時Push済みreconstruct local/remote mainは`4504d4c1c52d9fcda75e20803b72d470c67a74be`で一致・clean。5-Bはこの基準へ取り込まれた。今回のpublication review境界調査はHumanのcommit/Push対象であり、commit済みとは扱わない。次sessionではその時のPush済み状態を確認する。
 
 全体目的: publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを意図した水準以上に保ち、production・supervision/review/reasoning・repair/regeneration・CI/runtime・LLM・complexity・Human handoff/manual burdenを含むtotal lifecycle workを最小化する。移転は削減ではない。初期投資/移行/歴史互換/二重保守込みで判断する。
 
@@ -25,25 +25,31 @@
 
 **非支持と識別不能を分ける。** W06/W08のraw再訪理由は合理的だが、各時点の既存結論の完成度・再確認の内訳・除去可能量は識別不能。role別active time/token/料金もunknown。反復ゼロの実測でも全productionでの不存在証明でもない。5-Aの「仮説棄却」は今回の比較投資停止として適用し、一般仮説の否定へ強めない。単一rootが研究/編集/本文を続ける観測であり、実運用の別session/roleへのhandoff損失を十分に励起したかも不明。
 
-## 3. 次の具体的入口と停止条件
+## 3. 今回の判断と次の入口
 
-**同じ小記事自己観測を増やして5-Cを探さない。** この仮説を再開する条件は、実運用で正しく固定された比較結論がhandoff先で利用できず同じsubject/source版/条件を再調査したと名指せる例、または準備/保持/独立review費込みの差を識別できる実行環境。複数ファイル/別role/再訪だけでは足りない。恒久telemetryを埋め合わせに作らない。
+5-Bの次入口を、W34 Human Preview r2の一件で確認した。**問題のTeX/bibはreview対象manuscriptに正しくbindされ、semanticは内部用語なし、visualはclaim boundariesを含むexact PDF確認を宣言していたが、Humanが同じ版から問題を発見した。** 新しいcheck IDや対象ファイルを足すだけでは解けない実例である。
 
-全体再構築はこの仮説待ちに固定しない。**次の優先順位判断の入口は、読者原稿の完了判定と実際のreview範囲がHuman修復負担をどこで防げていないかの限定確認。** 今回B1/N3とW34用語修復が候補信号。既存editorial reviewがあるため、reviewer/意味欄/renderer追加を既定解にしない。一つの実publication修復について、誰がどの版/公開要素を既に読んだか、欠けた判断、追加確認費を特定し、除去/前倒し/共通化可能な実仕事差があるかで止める。全W34再監査や小記事との擬似費用比較へ広げない。新trial/実装は未選定。[5-B判断§8](../outputs/astra-phase-5b-work-observation-assessment.md#8-次の入口と権限)が詳細。
+二原因を分離した。claim boundary末尾の内部編集理由は読者向け節範囲へ正規化する編集判断が必要だった。41件のaccess日はgeneratorがcutoffを流用した機械処理の誤りで、PR #492により修復済み。現W34のTeXは一置換で修復され他の限界は保持、bibは41日付以外不変。通常PDF rebuildと旧Draftからの再著述を混同しない。
 
-5-Bは外部blockedや新Human Gate待ちではなく、支持する判断面で完了。今回許可された一体の非著者reviewerは事前評価・初稿review・一度の再reviewまで完了。旧4-Cと今回の許可は将来の一般的委任に使わない。
+governanceは独立したsupervisory editorial/semantic/visual責務を既に持つ。旧manifest/semantic/visualと実行worklogは同じ実行側名義で、調べた記録ではexact版の独立supervisory消費を実証できなかった。他の場所/会話にreviewが無かったとまでは言わない。reviewの実読解量、見逃しの内部認知原因、全role費用はunknown。
+
+**改善候補は既存publication reviewの主たる意味判断を完成した読者向けsource一式へ揃え、最初の高コストbuild/Candidateより前に置けるか。** 最終exact PDF/全体review責務とHuman Gateは残す。既存manifest/detail/evidence_locationsを使い、新store/追加reviewer/恒久coverage ledger/full rendererを既定解にしない。前倒しだけは仕事の移転であり、回避できる追加build/再記録/Human再確認より追加確認・同期・保守費が小さいかを判断する。旧r2は二原因を同時修復したため、片方の早期検出だけで全周回が消えたとは言えない。#492後のbaselineに過去と同じ発生率も仮定しない。
+
+今回の一件調査はこの判断面で完了。**次に進めるなら、既存の誰が・何を入力に・いつ独立消費するかを示す一回分の実行計画を具体化する。** 既に同じ適切なreviewがあるなら追加案を捨て、見逃し/残存頻度を再評価。共通Core、同等品質、exact binding、全role費を観測できる条件が揃った時だけ新たな比較実行を選ぶ。既知r2を見つけ直す自己試験は不可。条件がなければ保守候補に留め全体優先順位を再評価する。[現在判断§4–6](../outputs/astra-phase-5-publication-review-boundary-decision.md)参照。
+
+5-Bの旧仮説/条件付き5-Cは引き続き非開始。同じ小記事を増やしてBを探さない。再開条件は、固定比較結論がhandoff先で利用できず同じsubject/source版/条件を再研究した名指せる実例、または全role差を識別できる環境。今回のpublication repairはその支持例ではない。4-C/5-Bの一体review許可は完了。今回追加agentなし。
 
 ## 4. Last observed production realityと保留
 
-[5-B GET観測](../notes/phase-5b/observation.json): main `79a0ddea948af18ef02ec63184e67f99ad7f8e09`、W34 `c7faf207515e7429dd74abd5adaf2962725587ef`。mainのPR #490はHuman revisionによるvalidation無効化時にactive revalidation pointerを解除する修復で、研究/編集Task単位は不変。
+[今回GET観測](../notes/phase-5-review-boundary/observation.json): main `74708eb26a357ec11a839a59de62ab62cd246eef`、W34 `6be0f462d8f02284f8513d7165c778c3797dcaf4`。Human r2 REQUEST_CHANGES→PR #492統合/edition修復→fresh publication→**canonical Human Preview APPROVE r3**。現在`RELEASE_CANDIDATE`、`next_action: stage:freeze`、Freeze/Release pending。5-B時のPreview pending/nullを現在へ流用しない。
 
-W34は旧`5561e232…`へのHuman Preview REQUEST_CHANGES、修復Core統合、正式なDRAFT_COMPLETEでの用語修正、fresh publication生成を経た。**新RELEASE_CANDIDATE / PUBLICATION_PREVIEW pending**、Human Preview provenance null、Freeze/Release pending、active revalidation pointer null。旧Human判断は新exact bytesの承認ではない。
+現Candidate raw SHA `df376f474acf5fafa14f9af5196727858b1dd76f5c7d17664fa52ba784e32061`とpayload digest `52c8d0bcc85140a2727d1867a908d7077d40c7088a7c1e83f10b66044c50f3ba`は別。PDF raw `e93db71a5be8249d65d66c5f3b0284875447d953eeadf3b66ca23a9318bd06de`。旧値は歴史値。
 
-現Candidate payload digest `d0af4c9ca917ce3a51d58fcd213846c4d49cb8d3a9334501484ec798970de429`とraw SHA `6d18b4962ad51bfa974fd4d814a61a070dcab36a0bff8499d11d5821c28dff7a`は別。rawを取得・再hashした。旧`dbd4c783…`/`c45adaf7…`は歴史値。[差分Evidence](../notes/phase-5b/production-change.json)参照。
+r3はreviewed commit `f9f3e040…`、そのpre-approval Stateをbindし、現在のCandidate/PDF bytesにも一致。State→approval/checkpoint、immutable approvalとr3の局所bindingを[check](../notes/phase-5-review-boundary/check.json)で確認。全State validation・依存閉包・PDF目視/全号品質reviewは再実施していない。Human承認を尊重し、追加承認要求/取消/freezeはしない。
 
-reader/品質bundle/review/PDF/checkpoints等は更新。Evidence/Selection/Architecture/canonical Draft pathsは今回diffで不変。用語修復を既知source意味/引用反例の解消としない。full State validation・全binding閉包・PDF/全号品質reviewは再実施していない。残Issueはこの判断に不要で未読。PR #488/#489/#490は既存baseline保守でreconstruct成果ではない。Card/Draft修復をpublication-only rebindへ押し込まない。観測refが今後も最新とは仮定しない。
+#492はWeekly cutoff/Special as_ofの一律urldateをcanonical accessへ変更。sourceの未確定/曖昧性を推測で埋めない。main diffはbibliography修復でeditorial review責務/Task単位は不変。W34のEvidence/Selection/Architecture/canonical Draft pathsは今回diffで不変。修復を全source意味/引用反例の解消へ広げない。PR #488/#489/#490/#492は既存baseline保守でreconstruct成果ではない。Issue本文/コメントは今回不要で未取得。観測refが今後も最新とは仮定しない。
 
-Phase 4はclosed。4-Hはsection出力前にlab URL集約guardで停止しrepair未実行。production schema違反/source矛盾/publication成功ではない。historical Packageとlab修正Cardは別。renderer/citation/source-identity、acceptance/staging/cache、新store/恒久telemetryは保留。正規採用接続や実反復負担の新Evidenceが出た時に再評価する。
+Phase 4はclosed。4-Hはsection出力前にlab URL集約guardで停止しrepair未実行。production schema違反/source矛盾/publication成功ではない。historical Packageとlab修正Cardは別。renderer/citation/source-identity、acceptance/staging/cache、新store/恒久telemetryは保留。#492の存在だけでそれらの再開や普遍的source identity完成を意味しない。
 
 ## 5. 未実証と権限
 

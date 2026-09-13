@@ -12,25 +12,25 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 5 is active; Phase 5-B is complete after independent review and repair.** No supported concrete case of removable reconstruction of comparison conditions was found; part of the observed work remains non-identifiable. Conditional Phase 5-C is not started. A real work difference and net savings remain unproven; no new architecture B or A/B cost trial has been selected. Phase 4 remains closed, and its renderer probe is not the default route.
+**Phase 5 is active; Phase 5-B and a follow-on investigation of one W34 publication repair are complete.** The repair case exposed a gap between correctly bound review declarations and effective assessment of the reader-facing output. It does not support the earlier comparison-condition reconstruction hypothesis: conditional Phase 5-C remains unstarted. Net savings and architecture adoption remain unproven. Phase 4 stays closed.
 
 Fresh sessions need only:
 
 1. [Current Phase 5 continuation](handoff/astra-phase-5-continuation.md).
-2. [Phase 5-B work observation assessment](outputs/astra-phase-5b-work-observation-assessment.md), sections 1 and 5–8.
-3. Only necessary Evidence from the [5-B index](notes/phase-5b/README.md). Older decisions and lab probes remain historical evidence; the 5-A decision's section 2 restores Phase 4 conclusions.
+2. [Publication review boundary decision](outputs/astra-phase-5-publication-review-boundary-decision.md), sections 1 and 4–6.
+3. Only necessary [case Evidence](notes/phase-5-review-boundary/evidence.md). The 5-B assessment and older decisions remain historical evidence; the 5-A decision's section 2 restores Phase 4 conclusions.
 
-Phase 5-B preserved fresh fixed sources, a strong post-cutoff HOLD, initial and repaired prose, independent source-first expectations/reviews and work observations. Its findings do not measure zero duplication or disprove the hypothesis across production. Do not repeat miniature articles to invent a comparison arm or count relocated work as saving. The next prioritization entry is one actual publication repair: which exact manuscript/public elements were reviewed, what reader-facing judgment was missed, and what checking costs. Existing editorial review must be considered before any new role or layer; no new trial/implementation is selected.
+The next candidate is applying existing editorial review to the complete reader-facing source before costly build/Candidate work, while retaining final exact PDF review and Human authority. Moving work is not saving: any avoided late repair cycles must exceed extra preparation, review and coordination costs. First concretize who already reviews what and when; do not duplicate that work or add a new role/store by default. No new trial/implementation is selected. The 5-B no-support/identification limits remain, and known-case rediscovery is not a fresh cost trial.
 
 ## Last recorded upstream reference
 
 Production repository: `eariver/japanese-generative-ai-survey`
 
-Observed 2026-09-13 JST: main `79a0ddea948af18ef02ec63184e67f99ad7f8e09`; W34 `c7faf207515e7429dd74abd5adaf2962725587ef`.
+Observed 2026-09-14 JST: main `74708eb26a357ec11a839a59de62ab62cd246eef`; W34 `6be0f462d8f02284f8513d7165c778c3797dcaf4`.
 
-W34 had Human REQUEST_CHANGES, PR #490 integration, formal terminology repair and fresh publication generation. It is a **new RELEASE_CANDIDATE / Publication Preview pending**. Reader/Candidate bytes changed; old Human decisions do not approve the new bytes. Human Preview provenance is null and Freeze/Release remain pending. Terminology repair does not establish repair of earlier source/citation findings. PR #488/#489/#490 are existing baseline maintenance, not reconstruct achievements.
+W34 has **canonical Human Publication Preview APPROVE r3**, following r2 repair, Core #492 integration and fresh publication. It remains RELEASE_CANDIDATE; next is `stage:freeze`, with Freeze/Release pending. Core #492 repaired bibliography access provenance in Weekly/Special. This does not resolve every earlier source/citation finding. PR #488/#489/#490/#492 are existing baseline maintenance, not reconstruct achievements.
 
-See the [5-B observation](notes/phase-5b/observation.json) and [limited change evidence](notes/phase-5b/production-change.json). The current Candidate raw SHA begins `6d18b496`, distinct from payload digest `d0af4c9c`. Full State validation, binding closure and PDF/full-edition quality review were not repeated. Do not assume the observed refs remain latest.
+See the [current observation](notes/phase-5-review-boundary/observation.json) and [local binding checks](notes/phase-5-review-boundary/check.json). Candidate raw SHA begins `df376f47`, distinct from payload digest `52c8d0bc`; PDF SHA begins `e93db71a`. Approval/current Candidate/PDF bindings were checked, but full State validation, dependency closure and PDF/full-edition quality review were not repeated. Do not assume the observed refs remain latest.
 
 ## Core principle
 
