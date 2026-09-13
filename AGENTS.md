@@ -4,25 +4,23 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current primary task
 
-Phase 4-G's bounded authoring design comparison is complete. Treat lossless compact authoring and assisted canonical authoring as potentially convergent interfaces, not yet distinct architecture arms. The common removable dependency is publication reading compact semantic archives instead of canonical text/individual references. Direct canonical authoring has no proven cost advantage. Net lifecycle savings and a quality-complete full canonical baseline remain unproven. Phase 3 remains closed after Phase 3-G. Do **not** restart Phase A, the former decision step, or acceptance/staging experiments as the default task.
+Phase 4 is **closed** after the Phase 4-H connection counterexample and system-level reassessment. The reconstruction objective continues; no architecture adoption, full canonical baseline, publication-quality completion or net lifecycle saving has been established. Do **not** restart Phase A, the former decision step, acceptance/staging/cache experiments, or the Phase 4-H renderer probe as the default task.
 
-For a new Astra session, read first:
+For a fresh session, read first:
 
-1. `handoff/astra-phase-4-continuation.md`
-2. `outputs/astra-phase-4g-authoring-design-assessment.md` — §1, §4–6; §3 for concrete Evidence
-3. Only the Evidence needed from that assessment's index; older Phase 4-A/B/C/D/E/F decisions remain historical context.
+1. `handoff/astra-phase-4-continuation.md` (now the Phase 4 closeout/current continuation)
+2. `outputs/astra-phase-4h-connection-and-closeout.md` — §1, §4–6; §2 for current W34; §3 for the counterexample
+3. Only necessary Evidence from its index. Prior Phase 4 decisions remain historical.
 
-Past Human-Sol conversation logs and previous session history are not required inputs. Use the handoff's evidence index and selective production reality checks when they materially affect the decision.
+Past chat/session logs and exhaustive source rereads are not required. The objective remains minimizing total lifecycle work across production, supervision/review/reasoning, repair, CI/runtime, LLM usage, complexity and Human handoff while preserving publication quality, provenance, fail-close, Human authority, Weekly/Special generality and historical reproducibility. Moving work is not saving; justified long-term architecture investment is allowed.
 
-The objective is to minimize total lifecycle work across production, supervisory reasoning/review, repair/regeneration, CI/runtime, LLM usage, operational complexity, and Human handoff, while preserving at least intended publication quality, provenance correctness, fail-close safety, Human authority, Weekly/Special generality, and historical reproducibility. Moving work between roles is not a saving; justified long-term investment is allowed.
+Next determine one concrete difference in actual research/editorial work units that could support a question-to-publication/review/repair comparison. Do not make full Core/renderer implementation a prerequisite. Continuous ownership and prior source review already exist; lossless compact and assisted canonical authorship can converge on the same semantic fields. Do not invent distinct arms, count automatic copies/file counts as savings, or transfer effort to another role. If a real difference exists, fix shared quality/coverage, fresh sources including HOLD/exclusion, independent review/repair and all-role cost accounting before execution. No new B or Phase 5 trial is already selected.
 
-The priority remains research-question-to-publication/review/repair with all-role work accounting. Next consider one package's canonical-to-publication connection and one repair/regeneration witness, without compact archive or hand-authored citation mapping as a second meaning input. Both authoring approaches need this same consumer, so do not credit its benefit to direct authoring alone. Keep mechanical scaffolding for IDs/basis separate from semantic decisions. File counts, automatic copies and relocated work are not lifecycle savings.
+Phase 4-H stopped before initial section output and repair/regeneration. Two Cards cite the same release-notes URL with different title/publication/access metadata. The fail-close guard was a LAB choice against silent first-wins URL deduplication, not a production schema rule or proof of contradictory sources. Do not conflate a reproduced counterexample with successful publication. Keep the historical Package and lab corrected Card separate; no accepted chain was modified. Retain source/citation/renderer findings as maintenance candidates, reopening them only for justified adoption integration or actual repeated operational burden.
 
-Use 4-E's Draft/Package and 4-F's source repair specimen as separate known fixtures; never silently replace an accepted embedded Card or treat the combined lab inputs as an admitted chain. Preserve text, statement-specific references, source classes and substantive boundaries. Stop on the smallest preservation/compatibility counterexample before expanding into full Core/PDF. Full quality/cost trials still need bounded caller/authority closure, Weekly/Special coverage and completed independent review/repair. The known 4-C repair is calibration, not fresh source evidence. Do not resume Grok/all-source tracing by default or turn one X 403 into a universal HTTP-capture requirement.
+Production main is observed at 14781409, W34 at 8480f4df: actual RELEASE_CANDIDATE / PUBLICATION_PREVIEW pending, Human provenance null, Freeze/Release pending. State-bound revalidation and new checkpoint/Candidate bindings were checked read-only; full State validation and PDF/quality review were not repeated. Candidate payload digest dbd4c783 differs from its raw file hash c45adaf7. Evidence/Selection/Architecture/Draft/reader paths are unchanged from f50d229; the internal note/source-binding examples are not repaired by the advance. PR #488/#489 are existing baseline repairs, not reconstruct achievements. Card/Draft upstream changes remain outside publication-only rebind scope. Do not claim Preview approval or release.
 
-Production main is observed at 14781409 (PR #489 merged), W34 at f50d229. PR #488 repaired bibliography internal-note generation. PR #489 adds State-bound immutable publication-only revalidation for REVIEWED_CORE_CHANGE with all non-superseded checkpoint bytes preserved. Include both repairs in the baseline and do not duplicate them. Card/Draft upstream changes are outside the publication-only rebind scope. The reported disposable W34 advance is not the real branch state or Human approval. Real W34 remains at the observed VALIDATED_DRAFT with a READY_FOR_PUBLICATION_PREVIEW Candidate record; the section note/source-binding example remains unresolved. No full quality or lifecycle savings claim follows.
-
-Do not strip substantive limitations. Continuous ownership and upstream review already exist and are not new comparison arms. Macro architecture comparison, new meaning stores, telemetry, and acceptance/staging/cache remain paused unless evidence warrants reassessment. Do not replay old approvals. The one-agent Phase 4-C review/re-review authorization is completed, not general ongoing delegation. During closeout-only requests update handoff and stop.
+Full canonical quality, Special/general historical execution and net lifecycle savings remain unproven. Do not strip substantive limitations or turn one X 403 into a universal original-HTTP requirement. Architecture is not permanently fixed. New meaning stores, telemetry, acceptance/staging/cache remain paused unless evidence warrants reassessment. Old approvals are not new authority. The one-agent Phase 4-C review permission is completed, not general ongoing delegation. During closeout-only requests update handoff and stop.
 
 Historical task files remain useful provenance and context but are not the active task unless explicitly reactivated.
 
@@ -58,7 +56,7 @@ Astra may revise the role decomposition if justified. Human authority over adopt
 
 ## Current output boundary
 
-Current decision: `outputs/astra-phase-4g-authoring-design-assessment.md`. Phase 4-A/B/C/D/E/F decisions remain historical Evidence. Function-unit expressiveness witnesses, schema checks, production repairs and a Candidate record do not establish net lifecycle savings, full publication quality or adoption. Phase 3-G objective and safety constraints remain applicable.
+Current decision: `outputs/astra-phase-4h-connection-and-closeout.md`. Phase 4 is closed, overall reconstruction remains open. Historical Phase 4-A/B/C/D/E/F/G Evidence is preserved. Local counterexamples and production Candidate progression do not establish net savings, full quality or adoption. Phase 3-G objective/safety constraints remain applicable.
 
 Current handoff: `handoff/astra-phase-4-continuation.md`.
 

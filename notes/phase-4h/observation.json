@@ -1,0 +1,120 @@
+{
+  "observed_at": "2026-09-13T06:09:06.781340+00:00",
+  "reconstruct_head": "7168e0f4b66e2d36f8081952f6a57f25418543f2",
+  "main": "14781409f6fb8d79e3eb4ad6b4c457764a038fde",
+  "weekly_head": "8480f4dfffb57b456d1147fcc5360f7864bb19df",
+  "previous_weekly_head": "f50d229162b7402c504c0978f72dab4b33052f5e",
+  "total_commits": 6,
+  "files": [
+    {
+      "filename": "docs/checkpoints/core-v2-post-validated-draft-publication-revalidation-20260912.md",
+      "status": "added",
+      "additions": 159,
+      "deletions": 0
+    },
+    {
+      "filename": "docs/checkpoints/survey-production-core-v2-worklog.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "filename": "docs/survey-production-core-v2-authority.md",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/publication-surface-revalidation.schema.json",
+      "status": "added",
+      "additions": 161,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/survey-production-state.schema.json",
+      "status": "modified",
+      "additions": 2,
+      "deletions": 2
+    },
+    {
+      "filename": "scripts/survey_agent_control_v2.py",
+      "status": "modified",
+      "additions": 617,
+      "deletions": 3
+    },
+    {
+      "filename": "scripts/survey_stage_validation_v2.py",
+      "status": "modified",
+      "additions": 17,
+      "deletions": 3
+    },
+    {
+      "filename": "sources/2026-W34/execution/luna/w34-post-core489-candidate-r2/session-worklog.md",
+      "status": "added",
+      "additions": 35,
+      "deletions": 0
+    },
+    {
+      "filename": "sources/2026-W34/execution/luna/w34-post-core489-candidate-r2/validation/publication-candidate-stage-validation-r2.json",
+      "status": "added",
+      "additions": 35,
+      "deletions": 0
+    },
+    {
+      "filename": "sources/2026-W34/execution/luna/w34-post-core489-candidate-r2/validation/stage-reviews-r2.json",
+      "status": "added",
+      "additions": 1,
+      "deletions": 0
+    },
+    {
+      "filename": "sources/2026-W34/orchestration/v2/checkpoints/VALIDATED_DRAFT.json",
+      "status": "added",
+      "additions": 43,
+      "deletions": 0
+    },
+    {
+      "filename": "sources/2026-W34/production-state.json",
+      "status": "modified",
+      "additions": 14,
+      "deletions": 4
+    },
+    {
+      "filename": "sources/2026-W34/publication/v2/publication-surface-revalidation-r1.json",
+      "status": "added",
+      "additions": 120,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/test_survey_publication_revalidation_v2.py",
+      "status": "added",
+      "additions": 1007,
+      "deletions": 0
+    }
+  ],
+  "commits": [
+    {
+      "sha": "802cda6c79b31c719b68f9600eb3e4d71d044390",
+      "message": "Core v2: generic post-VALIDATED_DRAFT publication-surface revalidation/authority-rebind\n\nCase-B repair for the fail-closed drift after legitimate publication regen:\nnew immutable revalidation authority (prior checkpoints never rewritten),\nactive-basis consultation in agent state + stage validation, CLI operation,\nschema, T1-T13 regression tests, bounded authority prose."
+    },
+    {
+      "sha": "2d8f7d2f4640d7407c75abe2c0c096a039ac0450",
+      "message": "Core v2 revalidation repair: pre-freeze worklog finalization (no code change)"
+    },
+    {
+      "sha": "f3cdd485fe3d2ba922846b8e6cfc81d46f5bf259",
+      "message": "Core v2 revalidation hardening: State-bound active authority + versioned chain (Human REQUEST_CHANGES)"
+    },
+    {
+      "sha": "14781409f6fb8d79e3eb4ad6b4c457764a038fde",
+      "message": "Merge pull request #489 from eariver/fix/core-v2-post-validated-draft-publication-revalidation-20260912\n\nCore v2: post-VALIDATED_DRAFT publication-surface revalidation / authority rebind"
+    },
+    {
+      "sha": "39ced1de8a58661128ad6da409a8a39658444bfb",
+      "message": "W34: integrate reviewed Core v2 post-VALIDATED_DRAFT publication revalidation (main@14781409, PR #489)"
+    },
+    {
+      "sha": "8480f4dfffb57b456d1147fcc5360f7864bb19df",
+      "message": "W34: post-Core-#489 publication revalidation + advance to RELEASE_CANDIDATE\n\nSanctioned revalidate-publication-surface (r1, State-bound), existing\ncandidate dbd4c783 validated as-is, canonical stage validation PASS,\nadvance to RELEASE_CANDIDATE (preview pending, no Human decision)."
+    }
+  ]
+}

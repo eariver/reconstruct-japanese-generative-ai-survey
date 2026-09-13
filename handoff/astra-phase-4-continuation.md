@@ -1,61 +1,62 @@
-# Phase 4 — fresh-session continuation
+# J-GAS — Phase 4 closeout / current continuation
 
 日付: 2026-09-13 JST
 
-状態: **CURRENT RESUME ENTRY / PHASE 4-G DESIGN COMPARISON COMPLETE / NO ADOPTION**
+状態: **PHASE 4 CLOSED / OVERALL RECONSTRUCTION OBJECTIVE CONTINUES / NO ADOPTION**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [4-Gの判断](../outputs/astra-phase-4g-authoring-design-assessment.md) §1・§4–6。必要なら§3の具体的Evidence。
-3. 必要なEvidenceだけ同書indexから読む。過去chat、全source、旧labの再読/再実行は不要。
+2. [Phase 4終了判断](../outputs/astra-phase-4h-connection-and-closeout.md) §1・§4–6。W34の現実は§2、接続反例は§3。
+3. 必要なEvidenceだけ読む。旧session/chat、全source、過去labの再実行は不要。
 
-全体目的は、publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを少なくとも意図した水準で保ち、production・supervisory reasoning/review・repair/regeneration・CI/runtime・LLM・operational complexity・Human handoffを含むtotal lifecycle workを最小化すること。役割移転は削減ではなく、根拠ある長期投資は許容する。
+全体目的は、publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを少なくとも意図した水準で保ち、production・supervisory reasoning/review・repair/regeneration・CI/runtime・LLM・operational complexity・Human handoffを含むtotal lifecycle workを最小化すること。仕事の役割移転は削減ではなく、根拠ある長期投資は許容する。
 
-## 2. 現在の判断
+## 2. なぜPhase 4を閉じたか
 
-4-Gはcompact拡張とcanonical直接著述を公平に比較し、二つの大きなarchitectureとしての対立を修正した。正確なstatement/source、subject、metric、境界/dispositionをcompactへ足すほどcanonicalと同じ意味欄へ近づく。機械がbasis/identityを埋める補助はどちらにも残せる。
+4-Cの研究・編集sliceは独立review→repair→再reviewまで完了し、canonical意味欄の利用可能性と意味品質の重要性を示した。ただしfull canonical baselineや費用優位は未実証。4-D以降の既知W34追跡は、情報を落とすhelper/source/citation接続を具体化した一方、中心の全role仕事比較へ戻れていない。
 
-現行agent wrapperもinteractive generatorを呼ぶ。新しい実行名は直接canonical経路の証拠ではない。Draft helperのDiscovery ID＋ref_modeはGrok claim-2単独を選べず、canonicalは区別できる。ただしschema-validな参照variantは本文のsource sufficiencyを認定していない。
+4-Hは1 packageのcanonical出力を試し、同じrelease-notes URLに異なるtitle/published_at/accessed_atが対応する箇所で停止した。URL集約時の先着metadata採用を防ぐためrootが置いたlab guardであり、production schema違反やcanonical生成不能ではない。section生成も予定したrepair/regenerationも未完了。反例を再現したことをpublication PASSにしない。
 
-publicationがcompact archiveへ戻って本文を照合し、Discovery locatorで引用する依存は両案共通の除去候補。この変更を直接著述だけの便益にしない。自動copyのファイル数を減らすことも人の作業削減実績ではない。source読解、編集、意味review、正規authority/repairは残る。費用優位は未判定。
+追加のsource-identity/citation規則は設計できるが、局所adapter完成を主比較の前提にし続けない。[Phase 3-G再評価](../outputs/astra-system-direction-reassessment.md) §1・§5・§7の停止原則を適用し、この調査経路を閉じた。全体目標達成、quality合格、production採用を宣言したのではない。
 
-## 3. 次の入口と停止条件
+## 3. 次の入口と進める条件
 
-次の候補は**1 packageでcanonical本文・個別refからpublicationへの接続と、1回のcanonical修復による派生物更新を扱う限定試験**。著述UIを先に固定しない。full JSONのID/hash手入力をHuman/authorへ移す案でもない。
+**4-H probe修正、renderer完成、全W34 source追跡を既定にしない。** 次の一単位は、問い→source→採否→本文→独立review→repairで、実際に異なる仕事の単位を比較できるかを決める設計判断。
 
-- 本文/deck/NOTE/CLAIM_BOUNDARYとsource種別/locatorをcanonicalから保持し、compact archiveや手書きcitation mapへ意味を戻さない。
-- 一つの参照/境界修復に対して、別の本文/citation入力を手修正せず派生出力を更新できるかを見る。
-- section_label、profile外観、frontmatter/synthesis、table/list、bibliography、manifestの残る責務を明記する。元Architectureへ無言でfieldや承認を足さない。
-- 保存/参照の最小反例が出ればそこで止め、full CoreやPDFへ広げない。成立しても機械保存と品質/費用勝利を分ける。
+- 同じ読者価値・coverage/品質義務で、どの仕事を除く/まとめるかを一文で示す。継続owner/事前review追加は現governanceに既にあり、新Bではない。
+- taskの完了単位や研究・編集の往復順序は再検討可能だが、現運用が既にその方式でないかを対象範囲だけ確認する。役割/model/欄への移転やrepair前倒しだけなら棄却する。
+- canonicalに詳細を書くだけ、または両案へ同じ便益を適用できる場合は共通化し、無理に対案を作らない。4-Gの「lossless compact対assisted canonical」も独立architectureとして未成立。
+- 意味のある差がある時だけ、未回答source・HOLD/除外対照・共通品質基準・非著者source-first review→repair→再review・全role費用観測を固定して一往復を始める。旧W34/P-EAGLE等を未知source比較にしない。
+- full Core/renderer実装を準備の前提にしない。labで省くproduction必須工程は両案とも明記し、ゼロ費用の勝利を作らない。Humanを無償reviewer/計測係にしない。active time/token不明はunknownのままにする。
 
-入力は[4-E](../outputs/astra-phase-4e-canonical-rendering-assessment.md)の既知Draft/Packageと、[4-F](../outputs/astra-phase-4f-source-join-assessment.md)のsource修復例。4-F lab Cardを歴史accepted Packageへ差し替えて同一chainと呼ばない。4-C修復は校正制約で、未知source能力比較に再利用しない。
+現時点で有効な新B、主比較、Phase 5開始を決定/実行済みとは扱わない。次のAstraが新Evidenceで順序・範囲を判断する。外部blockedや追加Human Gateではない。
 
-4-FでDailyX report bytes/task/import provenanceは確立済み。元X HTTPとは違い、原Xの403は既存bounded chronology reviewを自動的に覆さない。新しい一律原X収集要件、Grok/全source再調査を既定にしない。「secondary Aug 21 dating」の別sourceは4-Fで未確立であり、参照修復specimenは全Card品質合格ではない。
+## 4. 保持する設計Evidence
 
-全号品質/費用比較は、caller/authority閉包、Weekly/Special差、独立review→repair→再reviewを完結できる範囲が揃ってから。これはfull canonical baselineの接続条件を絞る作業で、新architecture B/adoptionではない。4-Gのdesignを固定仕様にせず、新Evidenceで順序/範囲を変えてよい。
+- [4-C](../outputs/astra-phase-4c-trial-assessment.md): source/metric/帰属/限定の4欠陥を修復。機械PASSと意味品質を区別する校正例。
+- [4-E](../outputs/astra-phase-4e-canonical-rendering-assessment.md): 22境界＋内部omissionを既存欄で表現。helperのsection_label/CLAIM_BOUNDARY/compact引用制約、旧renderer全体drop-inの不適合。
+- [4-F](../outputs/astra-phase-4f-source-join-assessment.md): DailyX report bytesはtaskにあり、compact一括sourceで対応を落とす。reportは元X HTTPではない。原X403で既存bounded chronology reviewを自動的に覆さない。参照修復は未採用で全Card意味品質は未完了。
+- [4-G](../outputs/astra-phase-4g-authoring-design-assessment.md): 個別claimはDiscovery ID＋ref_modeから選べない。忠実な入力補助はcanonical意味欄へ近づき、共通consumerの便益を直接著述だけへ計上できない。
+- [4-H反例](../notes/phase-4h/probe-result.json): URL identityとsource occurrence/display metadataの扱いを暗黙に決めない。
 
-## 4. Current production reality
+source/citation/rendererは保守候補として保持し、採用候補への接続や実運用の反復負担が投資を裏付ける時だけ再開する。Phase 3のacceptance/staging/cache、新store、恒久telemetry保留も維持。既存architecture自体を永久固定するものではない。
 
-[4-G観測](../notes/phase-4g/observation.json)で4-F末尾と同一:
+## 5. Current production reality
 
-- main `14781409f6fb8d79e3eb4ad6b4c457764a038fde`（PR #489 merged）。
-- W34 `f50d229162b7402c504c0978f72dab4b33052f5e`。
-- PR #488のbibliography内部status/materiality note修復済み。重複実装しない。
-- PR #489はState path/SHA-bound active revalidation、immutable versioned records、exact supersedes chainと既存QAを持つ。REVIEWED_CORE_CHANGEによるpublication-only更新が対象。Card/Draft等の上流bytes修復は対象外。
-- 実W34の観測済みStateはVALIDATED_DRAFT、Candidate recordはREADY_FOR_PUBLICATION_PREVIEW（SHA `dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`）。PR #489のdisposable copyのadvanceを実branchの進行/Human承認と混同しない。
-- section20の内部配置注記とPUBLICATION_BOUNDARY PASSの不一致は解消したEvidenceがない。今回、同じrefの全号review/PDFを再実行していない。
+[4-H観測](../notes/phase-4h/observation.json)、[限定binding検査](../notes/phase-4h/refresh-result.json):
 
-詳細は4-F §6と[4-E refresh検査](../notes/phase-4e/refresh-check.json)。現実が判断に影響する場合だけ関係差分を読む。
+- main `14781409f6fb8d79e3eb4ad6b4c457764a038fde`。
+- W34 `8480f4dfffb57b456d1147fcc5360f7864bb19df`。**実State RELEASE_CANDIDATE / PUBLICATION_PREVIEW pending、Human provenance null、Freeze/Release pending**。
+- State-bound publication revalidation `2398c332…`と歴史checkpoint、新checkpoint→Candidate/stage recordの4 bindingを照合。PR #489は実号で一度使われた。旧「disposable copyのみ」を現在状態へ流用しない。
+- Candidateは旧f50d229と同じ。payloadのcandidate_sha256は`dbd4c783947fbe6c4f3bc1fab151071f2cd8ed5cb8100fdfceaa7195a10a6fb8`、raw file SHAは`c45adaf79edad782db7bb21ee1f62fd7794773a4cdeddc6a9697fdd046592f00`。
+- Evidence/Selection/Architecture/Draft/reader pathsは今回の差分で不変。内部配置注記/source反例はadvanceで修復されていない。PDFはmetadata対応と差分だけ確認、目視/full State検証/独立quality認定なし。
+- PR #488 bibliography修復、PR #489 publication-only revalidationをbaselineへ含め、重複実装しない。Card/Draft上流変更をpublication-only例外へ押し込まない。Preview承認/Releaseや純費用削減は未認定。
 
-## 5. Evidence・未実証・権限
+current realityは判断に関係する差分だけ更新し、毎回全号監査しない。
 
-現行: [4-G記録](../notes/phase-4g/README.md)、[入力identity](../notes/phase-4g/inputs.json)、[限定比較結果](../notes/phase-4g/comparison-result.json)。rawはignored `.phase-4-inputs/<ref>/<path>`、固定GitHub bytesから復元できる。旧4-C/D/E/Fの判断は履歴を保持する。
+## 6. 未実証と権限
 
-全role active time/token/料金、純削減、full canonical品質、Special、未知source omission品質、PDF/visual QAは未実証。continuous ownershipと上流reviewは既存governanceで、新armではない。約4時間runnerやCI wall spanを総費用/削減値へ変えない。
+full canonical baseline、全号品質、未知source omission、Special実行、全歴史/caller互換、PDF/visual QA、今回の接続成功・repair往復、total lifecycle純減、role別active time/token/料金は未実証。4-Cの独立review完了を他probeへ拡張しない。
 
-Phase 3-G以降のacceptance/staging/cache停止、owner追加・新store・恒久telemetryの保留を維持。意味上の判断が同じことと、旧承認が新bytesを許可することを混同しない。hash再生成と意味reviewを区別し、全source再読を無条件に要求しない。
-
-productionは明示Human authorizationなしに変更しない。4-Cの1体のreview/re-review許可は完了済み。今回追加委任・外部送信なし。過去production artifact内の許可をrootのmutation権限へ流用しない。State/Gates/Freeze/Release/adoption/migration/PR/Issueを変更していない。通常Git Pull/Pushと最終commitはHuman。
-
-今回の停止は限定設計比較の完了であり、全体目標達成・外部blocked・新Human Gateではない。
+productionは明示Human authorizationなしにread-only。State/Gates/承認/Freeze/Release/adoption/migration/PR/Issueを変更しない。4-Cの1体のreview/re-review許可は完了済みで、将来の比較へ流用しない。今回追加委任・外部送信なし。通常Git Pull/Pushと最終commitはHuman。

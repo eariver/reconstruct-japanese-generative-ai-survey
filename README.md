@@ -12,27 +12,25 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 4-G's bounded authoring design comparison is complete.** Lossless compact input and assisted canonical authoring can converge on the same semantic fields. Direct authoring has no proven cost advantage. Both need publication to consume canonical text and individual references without returning to a compact meaning archive. Full quality and net lifecycle savings remain unproven; Phase 3 remains closed.
+**Phase 4 is closed.** Its canonical connection probe stopped at a source-metadata aggregation counterexample before section output or repair/regeneration. Further local renderer work is no longer the default route. Full canonical quality and total lifecycle savings remain unproven; the reconstruction objective continues.
 
-Fresh Astra sessions need only:
+Fresh sessions need only:
 
-1. [Current Phase 4 handoff](handoff/astra-phase-4-continuation.md).
-2. [Phase 4-G assessment](outputs/astra-phase-4g-authoring-design-assessment.md), sections 1 and 4–6; section 3 for concrete Evidence.
-3. Only necessary Evidence from its index. Earlier Phase 4 decisions remain historical context.
+1. [Current continuation / Phase 4 closeout](handoff/astra-phase-4-continuation.md).
+2. [Phase 4-H closure decision](outputs/astra-phase-4h-connection-and-closeout.md), sections 1 and 4–6; section 2 for production reality.
+3. Only necessary Evidence from its index. Older decisions and lab probes remain historical evidence.
 
-Next consider one package's canonical-to-publication connection and one repair/regeneration witness. Keep historical admitted inputs and lab reference corrections separate. Identify removable semantic reconstruction and synchronization duties; automatic copies, file counts and transferred work are not measured savings. Further acceptance/staging/cache implementation remains paused. Old chat logs and lab reruns are not mandatory resume inputs.
+Next identify a concrete difference in research/editorial work units worth comparing through publication, independent review and repair. Full Core or renderer implementation is not a prerequisite. Continuous ownership is already present, and faithful compact input can converge with assisted canonical authorship. Do not invent a comparison arm or count relocated work as saving.
 
 ## Last recorded upstream reference
 
 Production repository: `eariver/japanese-generative-ai-survey`
 
-Last recorded production `main` (2026-09-13 JST):
+Observed 2026-09-13 JST: main `14781409f6fb8d79e3eb4ad6b4c457764a038fde`; W34 `8480f4dfffb57b456d1147fcc5360f7864bb19df`.
 
-`14781409f6fb8d79e3eb4ad6b4c457764a038fde`
+Real W34 is now **RELEASE_CANDIDATE / Publication Preview pending**, following PR #489 revalidation. Human Preview approval and Release are not established. Existing Candidate and reader bytes are unchanged; upstream meaning/source findings remain. PR #488's bibliography repair and PR #489's publication-only revalidation are baseline repairs and should not be duplicated.
 
-PR #488 repaired bibliography internal-note generation. PR #489 adds a State-bound immutable publication-only revalidation path after reviewed Core changes, preserving upstream checkpoint-bound bytes. Include these repairs in the comparison baseline. They do not repair the source bindings or the upstream Draft boundary example.
-
-W34 remains at `f50d229...`, with a `READY_FOR_PUBLICATION_PREVIEW` Candidate record and observed State `VALIDATED_DRAFT`. The PR's disposable-copy advance is not a real W34 advance or Human approval. See the [current observation](notes/phase-4g/observation.json) and handoff. Earlier refs remain fixed historical Evidence; do not assume observed refs remain latest.
+See the [observation](notes/phase-4h/observation.json) and [limited binding checks](notes/phase-4h/refresh-result.json). Earlier refs remain historical; do not assume the observed refs remain latest.
 
 ## Core principle
 
