@@ -1,0 +1,47 @@
+test_weekly_special_freeze_release_and_retry_after_local_failure (tests.test_runtime_repair.RuntimeRepairTests) ... 
+======================================================================
+ERROR: test_weekly_special_freeze_release_and_retry_after_local_failure (tests.test_runtime_repair.RuntimeRepairTests) (profile=('WEEKLY', 'WEEKLY_MAGAZINE'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/tests/test_runtime_repair.py", line 143, in test_weekly_special_freeze_release_and_retry_after_local_failure
+    p=self.edition(research,profile); self.freeze(p)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/tests/test_runtime_repair.py", line 123, in freeze
+    stage.validate_stage(self.root,self.cfg,p["state"],supplied,report,self.now)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/scripts/survey_stage_validation_v2.py", line 540, in validate_stage
+    current = _current_artifacts(repo_root, state, supplied)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/scripts/survey_stage_validation_v2.py", line 174, in _current_artifacts
+    raise StageValidationError("unexpected current stage artifacts: " + ", ".join(extra))
+scripts.survey_stage_validation_v2.StageValidationError: unexpected current stage artifacts: visual-review-record
+
+======================================================================
+ERROR: test_weekly_special_freeze_release_and_retry_after_local_failure (tests.test_runtime_repair.RuntimeRepairTests) (profile=('THEMATIC', 'LONGFORM_SPECIAL'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/tests/test_runtime_repair.py", line 143, in test_weekly_special_freeze_release_and_retry_after_local_failure
+    p=self.edition(research,profile); self.freeze(p)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/tests/test_runtime_repair.py", line 123, in freeze
+    stage.validate_stage(self.root,self.cfg,p["state"],supplied,report,self.now)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/scripts/survey_stage_validation_v2.py", line 540, in validate_stage
+    current = _current_artifacts(repo_root, state, supplied)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/scripts/survey_stage_validation_v2.py", line 174, in _current_artifacts
+    raise StageValidationError("unexpected current stage artifacts: " + ", ".join(extra))
+scripts.survey_stage_validation_v2.StageValidationError: unexpected current stage artifacts: visual-review-record
+
+======================================================================
+ERROR: test_weekly_special_freeze_release_and_retry_after_local_failure (tests.test_runtime_repair.RuntimeRepairTests) (profile=('RETROSPECTIVE_PERIOD', 'LONGFORM_SPECIAL'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/tests/test_runtime_repair.py", line 143, in test_weekly_special_freeze_release_and_retry_after_local_failure
+    p=self.edition(research,profile); self.freeze(p)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/tests/test_runtime_repair.py", line 123, in freeze
+    stage.validate_stage(self.root,self.cfg,p["state"],supplied,report,self.now)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/scripts/survey_stage_validation_v2.py", line 540, in validate_stage
+    current = _current_artifacts(repo_root, state, supplied)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-baseline/scripts/survey_stage_validation_v2.py", line 174, in _current_artifacts
+    raise StageValidationError("unexpected current stage artifacts: " + ", ".join(extra))
+scripts.survey_stage_validation_v2.StageValidationError: unexpected current stage artifacts: visual-review-record
+
+----------------------------------------------------------------------
+Ran 1 test in 54.535s
+
+FAILED (errors=3)

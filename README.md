@@ -12,15 +12,15 @@ The immediate external architect is **Astra**, running through the official Code
 
 ## Start here
 
-**Phase 5 is active.** The reader-review execution plan is concrete, and current Freeze/Release runtime contract mismatches have limited local witnesses. The next candidate is an isolated repair of those producer/validator boundaries. Conditional Phase 5-C remains unstarted; the Human corrected the misleading `Astra work Phase 5-C` commit title. Net savings and architecture adoption remain unproven. Phase 4 stays closed.
+**Phase 5 is active.** An isolated Freeze/Release repair candidate is implemented and tested against synthetic publication authority chains. Independent review, adoption and net lifecycle savings remain unproven. Conditional Phase 5-C remains unstarted, regardless of the corrected historical commit title. Phase 4 stays closed.
 
 Fresh sessions need only:
 
 1. [Current Phase 5 continuation](handoff/astra-phase-5-continuation.md).
-2. [Review plan and runtime priority](outputs/astra-phase-5-review-plan-and-runtime-priority.md), sections 1–2 and 4–6; section 3 contains the completed reader-review plan.
-3. Only necessary [Evidence](notes/phase-5-review-plan/evidence.md). The publication review boundary investigation, 5-B assessment and older decisions remain historical; the 5-A decision's section 2 restores Phase 4 conclusions.
+2. [Runtime repair assessment](outputs/astra-phase-5-runtime-repair-assessment.md), sections 1 and 3–5; section 2 describes the patch.
+3. Necessary [Evidence](notes/phase-5-runtime-repair/README.md), including the distinction between the first regression run and isolated Git-aware follow-up. Earlier decisions remain historical.
 
-Human already carried a scoped pre-TeX reader-surface gate forward to W35+. The plan now aligns with that request, preserves final PDF/Human review, and does not reopen W34's accepted editorial debt. No new reader trial ran. Fresh production evidence also exposed deterministic freeze/release contract mismatches requiring runtime adjustment/recovery. A small isolated repair is now the next priority; no repair implementation or production mutation has occurred. Moving work to another role or merely writing PASS is not saving.
+The candidate resolves approved Candidate/visual authority and Freeze/Release producer–controller agreement. Next is bounded review and Shared Core maintenance disposition, checking for an existing upstream fix first. No production change or new independent agent was executed. The reader-review plan is complete; no reader trial or conditional 5-C ran. Local retry tests are not a complete Actions redispatch or lifecycle-cost proof.
 
 ## Last recorded upstream reference
 

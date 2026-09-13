@@ -1,0 +1,61 @@
+{
+  "mode": "candidate",
+  "suite_names": [
+    "tests.test_runtime_repair.RuntimeRepairTests",
+    "tests.test_runtime_repair.RevalidatedFreezeTests",
+    "tests.test_survey_publication_v2",
+    "tests.test_survey_stage_validation_v2",
+    "tests.test_survey_release_checkpoint_v2",
+    "tests.test_survey_agent_control_v2",
+    "tests.test_survey_publication_revalidation_v2",
+    "tests.test_survey_human_gate_revalidation_revision_v2"
+  ],
+  "tests_run": 58,
+  "successful": false,
+  "failures": [],
+  "errors": [
+    {
+      "test": "test_r1_draft_complete_clears_pointer (tests.test_survey_human_gate_revalidation_revision_v2.RevalidationRevisionTests)",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 148, in test_r1_draft_complete_clears_pointer\n    state, record_path, index_path, _, commit = self._request(fix, \"DRAFT_COMPLETE\")\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 135, in _request\n    return human_gate.request_publication_preview_revision(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1393, in request_publication_preview_revision\n    return request_changes(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1308, in request_changes\n    commit_sha = _review_commit(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 574, in _review_commit\n    committed = _committed_file_bytes(repo_root, commit_sha, rel)\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 525, in _committed_file_bytes\n    raise HumanGateError(\nscripts.survey_human_gate_v2.HumanGateError: Human Gate reviewed repository commit is missing reviewed path: tmpy1hriti8/src/production-state.json\n"
+    },
+    {
+      "test": "test_r2_validated_draft_preserves_pointer (tests.test_survey_human_gate_revalidation_revision_v2.RevalidationRevisionTests)",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 171, in test_r2_validated_draft_preserves_pointer\n    state, _, _, _, _ = self._request(fix, \"VALIDATED_DRAFT\")\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 135, in _request\n    return human_gate.request_publication_preview_revision(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1393, in request_publication_preview_revision\n    return request_changes(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1308, in request_changes\n    commit_sha = _review_commit(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 574, in _review_commit\n    committed = _committed_file_bytes(repo_root, commit_sha, rel)\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 525, in _committed_file_bytes\n    raise HumanGateError(\nscripts.survey_human_gate_v2.HumanGateError: Human Gate reviewed repository commit is missing reviewed path: tmp319db8hy/src/production-state.json\n"
+    },
+    {
+      "test": "test_r3_earlier_boundary_clears_pointer (tests.test_survey_human_gate_revalidation_revision_v2.RevalidationRevisionTests)",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 181, in test_r3_earlier_boundary_clears_pointer\n    state, _, _, _, _ = self._request(fix, \"ARCHITECTURE_ESTABLISHED\")\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 135, in _request\n    return human_gate.request_publication_preview_revision(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1393, in request_publication_preview_revision\n    return request_changes(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1308, in request_changes\n    commit_sha = _review_commit(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 574, in _review_commit\n    committed = _committed_file_bytes(repo_root, commit_sha, rel)\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 525, in _committed_file_bytes\n    raise HumanGateError(\nscripts.survey_human_gate_v2.HumanGateError: Human Gate reviewed repository commit is missing reviewed path: tmpcbl1pavj/src/production-state.json\n"
+    },
+    {
+      "test": "test_r5_historical_record_retained_byte_identical (tests.test_survey_human_gate_revalidation_revision_v2.RevalidationRevisionTests)",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 229, in test_r5_historical_record_retained_byte_identical\n    self._request(fix, \"DRAFT_COMPLETE\")\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 135, in _request\n    return human_gate.request_publication_preview_revision(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1393, in request_publication_preview_revision\n    return request_changes(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1308, in request_changes\n    commit_sha = _review_commit(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 574, in _review_commit\n    committed = _committed_file_bytes(repo_root, commit_sha, rel)\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 525, in _committed_file_bytes\n    raise HumanGateError(\nscripts.survey_human_gate_v2.HumanGateError: Human Gate reviewed repository commit is missing reviewed path: tmpg56osbcs/src/production-state.json\n"
+    },
+    {
+      "test": "test_r6_forward_recovery_roundtrip (tests.test_survey_human_gate_revalidation_revision_v2.RevalidationRevisionTests)",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 292, in test_r6_forward_recovery_roundtrip\n    rolled, _, _, _, _ = self._request(fix, \"DRAFT_COMPLETE\")\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 135, in _request\n    return human_gate.request_publication_preview_revision(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1393, in request_publication_preview_revision\n    return request_changes(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1308, in request_changes\n    commit_sha = _review_commit(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 574, in _review_commit\n    committed = _committed_file_bytes(repo_root, commit_sha, rel)\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 525, in _committed_file_bytes\n    raise HumanGateError(\nscripts.survey_human_gate_v2.HumanGateError: Human Gate reviewed repository commit is missing reviewed path: tmpkpeldwt8/src/production-state.json\n"
+    },
+    {
+      "test": "test_r7_later_revalidation_sequence_usable (tests.test_survey_human_gate_revalidation_revision_v2.RevalidationRevisionTests)",
+      "traceback": "Traceback (most recent call last):\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 306, in test_r7_later_revalidation_sequence_usable\n    self._request(fix, \"DRAFT_COMPLETE\")\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/tests/test_survey_human_gate_revalidation_revision_v2.py\", line 135, in _request\n    return human_gate.request_publication_preview_revision(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1393, in request_publication_preview_revision\n    return request_changes(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 1308, in request_changes\n    commit_sha = _review_commit(\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 574, in _review_commit\n    committed = _committed_file_bytes(repo_root, commit_sha, rel)\n  File \"/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.phase-5-inputs/runtime-repair-candidate/scripts/survey_human_gate_v2.py\", line 525, in _committed_file_bytes\n    raise HumanGateError(\nscripts.survey_human_gate_v2.HumanGateError: Human Gate reviewed repository commit is missing reviewed path: tmpxy3xmval/src/production-state.json\n"
+    }
+  ],
+  "skipped": [],
+  "elapsed_seconds": 841.653,
+  "python": "3.10.6",
+  "platform": "Linux-6.18.33.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "dependencies": {
+    "jsonschema": "4.23.0",
+    "pypdf": "6.16.2"
+  },
+  "input_sha256": {
+    "scripts/survey_stage_validation_v2.py": "166c8a9467da9f59f0b18a177a57a38aaaed598a8141108e431b5c80715ffa82",
+    "scripts/survey_release_checkpoint_v2.py": "4886d1ce99aa15010e8e80bb0da35706d2e0ed010caaed625755da56c4e74c64",
+    "tests/test_runtime_repair.py": "c02832f30e8564ba322af9b2fd4c424a0053fbfe681da28060070b9546ee6603",
+    "tests/test_survey_release_checkpoint_v2.py": "c381cb4264707514aba96fa6865296e075a849c5a8e960d97888a425372f36ae"
+  },
+  "limits": [
+    "Synthetic upstream research artifacts/reviewer decisions; no quality certification.",
+    "No production or external Release mutation; no live Actions replay.",
+    "Test elapsed time is not active-role work or lifecycle savings."
+  ]
+}

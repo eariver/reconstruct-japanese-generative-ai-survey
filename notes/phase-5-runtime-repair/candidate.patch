@@ -1,0 +1,294 @@
+--- a/scripts/survey_stage_validation_v2.py
++++ b/scripts/survey_stage_validation_v2.py
+@@ -44,6 +44,7 @@
+     "DRAFT_COMPLETE",
+     "VALIDATED_DRAFT",
+     "RELEASE_CANDIDATE",
++    "FROZEN",
+ }
+ 
+ REQUIRED_CURRENT = {
+@@ -71,7 +72,8 @@
+         "visual-review",
+     },
+     "VALIDATED_DRAFT": {"publication-candidate"},
+-    "RELEASE_CANDIDATE": {"freeze-record", "release-manifest"},
++    "RELEASE_CANDIDATE": {"freeze-record", "release-manifest", "visual-review-record"},
++    "FROZEN": {"merge-verification", "release-record"},
+ }
+ 
+ 
+@@ -121,8 +123,35 @@
+     return path, payload
+ 
+ 
++def _approved_publication_artifacts(repo_root: Path, state: dict[str, Any]) -> dict[str, Path]:
++    """Resolve typed Human authority, never a guessed/latest Candidate."""
++    gate = state.get("human_gates", {}).get("publication_preview")
++    human = state.get("human_gate_provenance", {}).get("publication_preview")
++    checkpoint = state.get("checkpoint_provenance", {}).get("publication_preview")
++    required = state.get("lifecycle_state") in {"RELEASE_CANDIDATE", "FROZEN"}
++    if gate != "approved":
++        if required or human is not None or checkpoint is not None:
++            raise StageValidationError("publication transition requires approved Human Preview authority")
++        return {}
++    if human != checkpoint or human is None:
++        raise StageValidationError("Human Preview and checkpoint approval authorities disagree")
++    approval_path = _authority_ref_path(repo_root, human, "Publication Preview Approval")
++    approval = publication.validate_preview_approval(repo_root, approval_path, issue_id=state["issue_id"])
++    candidate_path = _authority_ref_path(repo_root, {
++        "path": approval["publication_candidate_path"],
++        "sha256": approval["publication_candidate_sha256"],
++    }, "approved Publication Candidate")
++    candidate = core.load_json(candidate_path)  # validated recursively by approval validator
++    if candidate["publication_profile"] != state["publication_profile"]:
++        raise StageValidationError("approved Candidate publication Profile mismatch")
++    manuscript = core.load_json(repo_root / candidate["reader_manuscript"]["path"])
++    if manuscript["research_profile"] != state["research_profile"]:
++        raise StageValidationError("approved Candidate research Profile mismatch")
++    return {"publication-candidate": candidate_path}
++
++
+ def _prior_artifacts(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> dict[str, Path]:
+-    result: dict[str, Path] = {}
++    result = _approved_publication_artifacts(repo_root, state)
+     seen_checkpoint_paths: set[str] = set()
+     revalidation, revalidation_errors = agent.resolve_active_publication_revalidation(repo_root, cfg, state)
+     if revalidation_errors:
+@@ -135,7 +164,10 @@
+             (row["name"], row["path"]): row["new_sha256"]
+             for row in revalidation.get("superseded_artifacts", [])
+         }
+-    for ref in state.get("checkpoint_provenance", {}).values():
++    for name, ref in state.get("checkpoint_provenance", {}).items():
++        # The approval has already been validated through its own typed schema.
++        if name == "publication_preview":
++            continue
+         if ref is None:
+             continue
+         path = _authority_ref_path(repo_root, ref, "prior Stage Checkpoint")
+@@ -493,41 +525,77 @@
+             raise StageValidationError("Publication Candidate does not bind exact publication PDF bytes")
+         return
+ 
+-    if lifecycle == "RELEASE_CANDIDATE":
+-        (candidate_path,) = _require(artifacts, "publication-candidate")
+-        freeze_path, manifest_path = _require(current, "freeze-record", "release-manifest")
+-        approval_ref = state.get("human_gate_provenance", {}).get("publication_preview")
+-        approval_path = _authority_ref_path(repo_root, approval_ref, "Publication Preview Approval")
+-        approval = publication.validate_preview_approval(repo_root, approval_path, issue_id=state["issue_id"])
+-        candidate = publication.validate_candidate(repo_root, candidate_path, issue_id=state["issue_id"])
+-        candidate_visual_path = core.repo_local_path(repo_root, candidate["visual_review"]["path"], "Candidate Visual Review")
+-        visual = reader.validate_review_record(repo_root, candidate_visual_path, issue_id=state["issue_id"], expected_kind="VISUAL")
+-        freeze = schema_gate.load_and_validate_json(freeze_path, repo_root / publication.FREEZE_SCHEMA, label="Freeze record")
+-        manifest = publication.validate_release_manifest(repo_root, manifest_path)
+-        if freeze.get("publication_candidate_path") != _rel(repo_root, candidate_path) or freeze.get("publication_candidate_sha256") != core.sha256_file(candidate_path):
+-            raise StageValidationError("Freeze record does not bind exact Publication Candidate")
+-        if freeze.get("publication_preview_approval_path") != _rel(repo_root, approval_path) or freeze.get("publication_preview_approval_sha256") != core.sha256_file(approval_path):
+-            raise StageValidationError("Freeze record does not bind exact Publication Preview approval")
+-        if freeze.get("visual_review_path") != _rel(repo_root, candidate_visual_path) or freeze.get("visual_review_sha256") != core.sha256_file(candidate_visual_path):
+-            raise StageValidationError("Freeze record does not bind Candidate pre-preview Visual Review")
+-        if candidate["pdf"]["sha256"] != approval["pdf_sha256"] or visual["pdf"]["sha256"] != approval["pdf_sha256"] or manifest["pdf_sha256"] != approval["pdf_sha256"]:
+-            raise StageValidationError("Publication Preview/Candidate Visual/Freeze/Manifest PDF authority diverged")
++    if lifecycle in {"RELEASE_CANDIDATE", "FROZEN"}:
++        _validate_frozen_authority(repo_root, state, artifacts)
++        if lifecycle == "FROZEN":
++            verification_path, release_path = _require(current, "merge-verification", "release-record")
++            (manifest_path,) = _require(artifacts, "release-manifest")
++            release = publication.validate_release_record(repo_root, release_path)
++            verification = schema_gate.load_and_validate_json(
++                verification_path, repo_root / publication.MERGE_VERIFICATION_SCHEMA, label="Merge Verification")
++            manifest = core.load_json(manifest_path)
++            if release["issue_id"] != state["issue_id"] or verification["issue_id"] != state["issue_id"]:
++                raise StageValidationError("Release/Merge Verification issue identity mismatch")
++            for label, record in (("Release", release), ("Merge Verification", verification)):
++                if (record["release_manifest_path"] != _rel(repo_root, manifest_path)
++                        or record["release_manifest_sha256"] != core.sha256_file(manifest_path)):
++                    raise StageValidationError(f"{label} does not bind accepted Release Manifest")
++            if (release["merge_verification_path"] != _rel(repo_root, verification_path)
++                    or release["merge_verification_sha256"] != core.sha256_file(verification_path)):
++                raise StageValidationError("Release does not bind supplied Merge Verification")
++            if verification["source_sha256"] != manifest["source_sha256"]:
++                raise StageValidationError("Merge Verification frozen source mismatch")
+         return
+ 
+     raise StageValidationError(f"unsupported local lifecycle: {lifecycle}")
+ 
+ 
+-def validate_stage(
++def _validate_frozen_authority(repo_root: Path, state: dict[str, Any], artifacts: dict[str, Path]) -> None:
++    approved = _approved_publication_artifacts(repo_root, state)
++    (candidate_path,) = _require(artifacts, "publication-candidate")
++    if candidate_path.resolve() != approved["publication-candidate"].resolve():
++        raise StageValidationError("Freeze Candidate differs from Human-approved Candidate")
++    freeze_path, manifest_path, visual_path = _require(
++        artifacts, "freeze-record", "release-manifest", "visual-review-record")
++    candidate = core.load_json(candidate_path)
++    approval_path = _authority_ref_path(
++        repo_root, state["human_gate_provenance"]["publication_preview"], "Publication Preview Approval")
++    freeze = schema_gate.load_and_validate_json(freeze_path, repo_root / publication.FREEZE_SCHEMA, label="Freeze record")
++    manifest = publication.validate_release_manifest(repo_root, manifest_path)
++    if freeze["issue_id"] != state["issue_id"] or manifest["issue_id"] != state["issue_id"]:
++        raise StageValidationError("Freeze/Manifest issue identity mismatch")
++    expected_identity = publication.release_identity(state["publication_profile"], state["issue_id"])
++    if manifest["release_identity"] != expected_identity:
++        raise StageValidationError("Release Manifest Profile identity mismatch")
++    for field, expected_path in (("publication_candidate", candidate_path),
++                                 ("publication_preview_approval", approval_path),
++                                 ("visual_review", visual_path)):
++        if (freeze[field + "_path"] != _rel(repo_root, expected_path)
++                or freeze[field + "_sha256"] != core.sha256_file(expected_path)):
++            raise StageValidationError(f"Freeze does not bind exact {field}")
++    if {"path": _rel(repo_root, visual_path), "sha256": core.sha256_file(visual_path),
++        "byte_count": visual_path.stat().st_size} != candidate["visual_review"]:
++        raise StageValidationError("Freeze visual is not Candidate pre-preview Visual Review")
++    if (manifest["freeze_record_path"] != _rel(repo_root, freeze_path)
++            or manifest["freeze_record_sha256"] != core.sha256_file(freeze_path)):
++        raise StageValidationError("Release Manifest does not bind supplied Freeze record")
++    for key in ("source", "pdf"):
++        if freeze[key + "_path"] != candidate[key]["path"] or freeze[key + "_sha256"] != candidate[key]["sha256"]:
++            raise StageValidationError(f"Freeze {key} differs from approved Candidate")
++    if freeze["page_count"] != candidate["pdf"]["page_count"]:
++        raise StageValidationError("Freeze page count differs from approved Candidate")
++
++
++def build_stage_report(
+     repo_root: Path,
+     cfg: dict[str, Any],
+     state_path: Path,
+     supplied: dict[str, Path],
+-    output_path: Path,
+     recorded_at: datetime,
+-) -> Path:
++) -> dict[str, Any]:
+     state = core.load_json(state_path)
+     if state.get("lifecycle_state") not in LOCAL_STAGES:
+-        raise StageValidationError("stage-contract validation is only for local pre-release lifecycle stages")
++        raise StageValidationError("unsupported stage-contract lifecycle")
+     errors = agent.validate_agent_state(repo_root, cfg, state)
+     if errors:
+         raise StageValidationError("Production State invalid before stage validation: " + "; ".join(errors))
+@@ -560,6 +628,18 @@
+         "artifacts": sorted((_authority(repo_root, name, path) for name, path in current.items()), key=lambda row: row["name"]),
+         "recorded_at": core.iso_utc(recorded_at),
+     }
++    return report
++
++
++def validate_stage(
++    repo_root: Path,
++    cfg: dict[str, Any],
++    state_path: Path,
++    supplied: dict[str, Path],
++    output_path: Path,
++    recorded_at: datetime,
++) -> Path:
++    report = build_stage_report(repo_root, cfg, state_path, supplied, recorded_at)
+     if output_path.exists():
+         raise StageValidationError(f"refusing to overwrite stage validation report: {output_path}")
+     core.write_json(output_path, report)
+--- a/scripts/survey_release_checkpoint_v2.py
++++ b/scripts/survey_release_checkpoint_v2.py
+@@ -17,6 +17,7 @@
+ from scripts import survey_production_v2 as core
+ from scripts import survey_publication_v2 as publication
+ from scripts import survey_schema_v2 as schema_gate
++from scripts import survey_stage_validation_v2 as stage_validation
+ 
+ 
+ def build_release_checkpoint(
+@@ -50,13 +51,28 @@
+     agent._validate_stage_artifacts(repo_root, cfg, state, profile, artifacts)
+     impl = core.repository_commit_sha(repo_root)
+     result_authority = agent._authority(repo_root, release_record, "Release Record")
++    # Revalidate the real frozen publication chain and bind its exact current
++    # State/Profile/tool/artifacts before creating a controller-consumable report.
++    path = agent.canonical_checkpoint_path(repo_root, cfg, state)
++    report_path = path.with_name("FROZEN-core-stage-contract.json")
++    report = stage_validation.build_stage_report(
++        repo_root, cfg, state_path,
++        {"merge-verification": merge_verification, "release-record": release_record}, recorded_at)
++    if report_path.exists():
++        old = core.load_json(report_path)
++        core.parse_instant(str(old.get("recorded_at", "")))
++        if {k: v for k, v in old.items() if k != "recorded_at"} != {k: v for k, v in report.items() if k != "recorded_at"}:
++            raise ValueError("refusing divergent Release Core report overwrite")
++        report = old  # Retry after report/checkpoint write: preserve first adoption time.
++    else:
++        core.write_json(report_path, report)
+     payload = {
+         "schema_version": "2.0-rc1",
+         "issue_id": state["issue_id"],
+         "from_state": "FROZEN",
+         "to_state": "RELEASED",
+         "checkpoints": ["release"],
+-        "recorded_at": core.iso_utc(recorded_at),
++        "recorded_at": report["recorded_at"],
+         "implementation": {
+             "repository_commit_sha": impl,
+             "orchestrator_version": cfg["orchestrator_version"],
+@@ -71,10 +87,21 @@
+                 "executor": "survey-production-v2-release.yml",
+                 "evidence": "Public issue-only Release identity, target and downloaded asset bytes were reconciled against the frozen Release Manifest before adoption.",
+                 "result": result_authority,
+-            }
++            },
++            {
++                "check_id": agent.CORE_STAGE_REVIEW_ID,
++                "kind": "DETERMINISTIC",
++                "status": "PASS",
++                "executor": "survey_stage_validation_v2",
++                "evidence": "Validated exact approved frozen chain and local release adoption basis; external reconciliation remains bound by the Release Record.",
++                "result": agent._authority(repo_root, report_path, "Release Core report"),
++            },
+         ],
+         "summary": "Exact frozen publication bytes were released or reconciled idempotently and the immutable Release Record was validated.",
+     }
++    agent._validate_core_stage_report(
++        repo_root, cfg, state, artifacts, payload["reviews"], state_path=state_path,
++        expected_contract=payload["contract"], expected_implementation_sha=impl)
+     schema_gate.validate_instance(payload, repo_root / agent.CHECKPOINT_SCHEMA, label="Release Stage Checkpoint")
+     path = agent.canonical_checkpoint_path(repo_root, cfg, state)
+     if path.exists():
+--- a/tests/test_survey_release_checkpoint_v2.py
++++ b/tests/test_survey_release_checkpoint_v2.py
+@@ -41,7 +41,23 @@
+                 "work_branch": "test/release-checkpoint",
+             }
+         }
++        core.write_json(source / "production-profile.json", profile)
+         return source, profile, state_path, verification, release
++
++    def fixture_report(self, root, cfg, state_path, supplied, recorded_at):
++        # Structural producer unit test only. Real stage/controller integration
++        # with unmocked validators is covered in test_runtime_repair.py.
++        state = core.load_json(state_path)
++        return {
++            "schema_version": "2.0-rc1", "check_id": "CORE_STAGE_CONTRACT", "status": "PASS",
++            "issue_id": state["issue_id"], "from_state": "FROZEN", "to_state": "RELEASED",
++            "production_state": agent._authority(root, state_path, "fixture State"),
++            "production_profile": agent._authority(root, state_path.parent / "production-profile.json", "fixture Profile"),
++            "implementation_commit_sha": core.repository_commit_sha(root),
++            "contract": core.contract_identity(root, cfg, state["research_profile"], state["publication_profile"]),
++            "artifacts": [agent._named_authority(root, name, path) for name, path in sorted(supplied.items())],
++            "recorded_at": core.iso_utc(recorded_at),
++        }
+ 
+     def test_release_boundary_uses_one_compact_checkpoint_with_current_tool_identity(self) -> None:
+         source, profile, state_path, verification, release = self.fixture()
+@@ -54,6 +70,7 @@
+             mock.patch.object(agent, "verify_agent_state_basis"),
+             mock.patch.object(agent, "_profile_and_source", return_value=(source / "production-profile.json", profile, source)),
+             mock.patch("scripts.survey_release_checkpoint_v2.publication.validate_release_record", return_value=release_payload),
++            mock.patch("scripts.survey_release_checkpoint_v2.stage_validation.build_stage_report", side_effect=self.fixture_report),
+         ):
+             checkpoint = release_checkpoint.build_release_checkpoint(
+                 self.root,
+@@ -71,6 +88,7 @@
+         self.assertEqual(record["implementation"]["repository_commit_sha"], core.repository_commit_sha(self.root))
+         self.assertEqual(record["implementation"]["orchestrator_version"], self.cfg["orchestrator_version"])
+         self.assertEqual([row["name"] for row in record["artifacts"]], ["merge-verification", "release-record"])
++        self.assertEqual([r["check_id"] for r in record["reviews"]], ["RELEASE_EXACT_BYTE_RECONCILIATION", "CORE_STAGE_CONTRACT"])
+         self.assertEqual(record["reviews"][0]["kind"], "DETERMINISTIC")
+         self.assertEqual(record["reviews"][0]["result"]["sha256"], core.sha256_file(release))
+ 
