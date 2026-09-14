@@ -1,0 +1,140 @@
+{
+  "observed_at_utc": "2026-09-14T16:38:35.488479+00:00",
+  "reconstruct_head": "b8bdf9821a48d22b2db840458b1b385f1c744bdb",
+  "start_clean": true,
+  "production_main": "774dd39a951c9ac3818e83dfffd4c7666efb0a20",
+  "base": "3e3eebe0cda3a32ac88ae764d279b37768f6bfca",
+  "total_commits": 8,
+  "commits": [
+    {
+      "sha": "396dc99abaff784c37ab364c6e7abc4edeaff345",
+      "message": "fix(core-v2): repair FROZEN to RELEASED checkpoint contract\n\nAddresses #494.\n\n- Build and bind deterministic CORE_STAGE_CONTRACT report in survey_release_checkpoint_v2.py\n- Preserve independent RELEASE_EXACT_BYTE_RECONCILIATION deterministic review\n- Enforce dual deterministic authority (CORE_STAGE_CONTRACT + RELEASE_EXACT_BYTE_RECONCILIATION) in stage-checkpoint-v2.schema.json and advance_with_checkpoint()\n- Remove historical skip for FROZEN in _validate_checkpoint_record()\n- Add comprehensive regression test suite covering missing/drifted authorities, idempotency, and clean terminal progression\n- Keep W34 frozen and released bytes completely untouched"
+    },
+    {
+      "sha": "83126bf8d6b8700c96d24069ecaa66a1cca6fb78",
+      "message": "fix(core-v2): add pre-publication reader-surface gate (#434)\n\nImplement fail-fast pre-publication reader-surface validation to prevent\ninternal production, architecture, screening, and review language from\nleaking into reader-facing prose before TeX compilation, manifest creation,\nand candidate assembly.\n\n- Add schemas/reader-surface-gate-v2.schema.json\n- Add scripts/survey_reader_surface_gate_v2.py with deterministic lexical\n  linter, TeX/BibTeX scanner, narrow allowlist engine, and semantic layer\n- Integrate reader-surface gate into scripts/survey_reader_publication_v2.py,\n  scripts/survey_longform_publication_v2.py,\n  scripts/survey_weekly_semantic_publication_v2.py, and\n  scripts/survey_stage_validation_v2.py\n- Add tests/test_survey_reader_surface_gate_v2.py with 9 comprehensive tests\n- Clean fixture text in tests/test_survey_human_gate_v2.py"
+    },
+    {
+      "sha": "4cbf34191668ccc033560611f103c15bc4ce84d3",
+      "message": "Merge pull request #495 from eariver/fix/core-v2-release-stage-contract-20260914\n\nfix(core-v2): repair FROZEN to RELEASED checkpoint contract"
+    },
+    {
+      "sha": "e230be5b608aaaee5a75fd337ac3f220b0d4acef",
+      "message": "Merge branch 'main' into fix/core-v2-prepublication-reader-surface-gate-20260914"
+    },
+    {
+      "sha": "b3b8ecfd9df6ca40714c2562c0089d16350ebf5c",
+      "message": "fix(core-v2): address Sol review findings on pre-publication reader-surface gate (Issue #434)\n\n- Weekly reader-facing synthesis: require authoritative publication_payload,\n  refusing fallback to internal profile_payload.current_interpretation.\n- Semantic reader-facing review: enforce mandatory machine-checkable semantic\n  PASS review authority bound to exact reader-facing surface bytes (surface_sha256).\n- Applicable publication boundary: require reader-surface-gate artifact at\n  DRAFT_COMPLETE and VALIDATED_DRAFT stage validations.\n- Independent re-validator: implement validate_reader_surface_gate verifying\n  gate_sha256 digest, scanned surface bytes/SHA on disk, required semantic authority,\n  and profile/issue identity, plus validate-gate CLI command.\n- Gate ordering: validate canonical structured reader-facing payload (closing\n  synthesis and draft blocks) before TeX materialization.\n- Update and expand test coverage for all 5 review findings."
+    },
+    {
+      "sha": "66dc98f61c0c3bb58c8e3039eb79199014a87d95",
+      "message": "fix(core-v2): authentic pre-TeX semantic review authority for reader-surface gate (#496)"
+    },
+    {
+      "sha": "0f6f84fd13803f834da196f7964e1080f00690db",
+      "message": "fix(core-v2): eliminate synthetic semantic PASS and legacy fallback for reader-surface gate (#496)"
+    },
+    {
+      "sha": "774dd39a951c9ac3818e83dfffd4c7666efb0a20",
+      "message": "Merge pull request #496 from eariver/fix/core-v2-prepublication-reader-surface-gate-20260914\n\nfix(core-v2): add pre-publication reader-surface gate (#434)"
+    }
+  ],
+  "files": [
+    {
+      "filename": "schemas/reader-surface-gate-v2.schema.json",
+      "status": "added",
+      "additions": 163,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/reader-surface-input-v2.schema.json",
+      "status": "added",
+      "additions": 53,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/reader-surface-semantic-review-v2.schema.json",
+      "status": "added",
+      "additions": 98,
+      "deletions": 0
+    },
+    {
+      "filename": "schemas/stage-checkpoint-v2.schema.json",
+      "status": "modified",
+      "additions": 23,
+      "deletions": 2
+    },
+    {
+      "filename": "scripts/survey_agent_control_v2.py",
+      "status": "modified",
+      "additions": 62,
+      "deletions": 7
+    },
+    {
+      "filename": "scripts/survey_longform_publication_v2.py",
+      "status": "modified",
+      "additions": 15,
+      "deletions": 0
+    },
+    {
+      "filename": "scripts/survey_reader_publication_v2.py",
+      "status": "modified",
+      "additions": 96,
+      "deletions": 2
+    },
+    {
+      "filename": "scripts/survey_reader_surface_gate_v2.py",
+      "status": "added",
+      "additions": 1817,
+      "deletions": 0
+    },
+    {
+      "filename": "scripts/survey_release_checkpoint_v2.py",
+      "status": "modified",
+      "additions": 55,
+      "deletions": 7
+    },
+    {
+      "filename": "scripts/survey_stage_validation_v2.py",
+      "status": "modified",
+      "additions": 40,
+      "deletions": 2
+    },
+    {
+      "filename": "scripts/survey_weekly_semantic_publication_v2.py",
+      "status": "modified",
+      "additions": 118,
+      "deletions": 7
+    },
+    {
+      "filename": "tests/test_survey_human_gate_revalidation_revision_v2.py",
+      "status": "modified",
+      "additions": 6,
+      "deletions": 2
+    },
+    {
+      "filename": "tests/test_survey_human_gate_v2.py",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1
+    },
+    {
+      "filename": "tests/test_survey_publication_revalidation_v2.py",
+      "status": "modified",
+      "additions": 53,
+      "deletions": 2
+    },
+    {
+      "filename": "tests/test_survey_reader_surface_gate_v2.py",
+      "status": "added",
+      "additions": 1519,
+      "deletions": 0
+    },
+    {
+      "filename": "tests/test_survey_release_checkpoint_v2.py",
+      "status": "modified",
+      "additions": 271,
+      "deletions": 10
+    }
+  ]
+}

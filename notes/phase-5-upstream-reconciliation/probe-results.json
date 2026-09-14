@@ -1,0 +1,50 @@
+{
+  "production_ref": "774dd39a951c9ac3818e83dfffd4c7666efb0a20",
+  "support_files_verified": 307,
+  "scope": "FUNCTION_AND_SCHEMA_WITNESSES_NOT_FULL_WORKFLOW_OR_INDEPENDENT_REVIEW",
+  "reader_binding": {
+    "baseline_gate": "PASSED",
+    "reviewed_file_drift_control": {
+      "rejected": true,
+      "error": "Reader-Surface Gate scanned surface bytes drifted for sources/2026-W35/publication/v2/reader-surface-input-v2.json: recorded 5cf3ae8576818eaff3c67ef3296145e312ea891c5fc95487faf8d5ed85c0aa3d, current disk 8ea785db2fa712306b87500d8c5eb63aa7459f33d83c67c4d02415934f6ee49f"
+    },
+    "primary_before_sha256": "e8c6bd360f64e47390185880faf67c959eb4f8a6f1904613bb57ceaa6700fbb5",
+    "primary_after_sha256": "4123dbe2da77e48f23aedee68d681c7bad1b5b89d9cf1099fc4a8a2e0331f1fe",
+    "unchanged_reviewed_surface_sha256": "5cf3ae8576818eaff3c67ef3296145e312ea891c5fc95487faf8d5ed85c0aa3d",
+    "changed_manuscript_gate": "PASSED",
+    "changed_manuscript_gate_revalidation": "ACCEPTED",
+    "boundary": "Persisted same-issue review and all hashes valid, but reviewed JSON and current TeX have different prose. No full stage advance attempted."
+  },
+  "pre_tex_coverage": {
+    "changed_field": "frontmatter.lede",
+    "surface_sha256_unchanged": "68039ccb4571b1649aa1b54af4e44d8c5d2603c4074d5f79f4463a78ac2a7f43",
+    "rendered_tex_changed": true,
+    "omitted_text_would_be_lexically_blocking": true,
+    "boundary": "Actual projection/render functions only; empty packages are not a full edition or CLI trial."
+  },
+  "audit_field_scope": {
+    "reader_bytes_unchanged": true,
+    "changed_field": "architecture_coverage[0].detail",
+    "result": {
+      "rejected": true,
+      "error": "Pre-Publication Reader-Surface Gate FAILED: 1 blocking finding(s) detected:\n  [1] RSG-LEX-DISCOVERY-INTAKE at sources/2026-W35/production-profile.json (Line 1, coverage:PKG-1/Explain agent workflows): leaked 'Discovery observation' - Leaks internal Discovery observation terminology into reader prose. Normalization: Attribute observations to public posts, repository activity, or changelogs"
+    }
+  },
+  "freeze_artifact_set": {
+    "rejected": true,
+    "error": "unexpected current stage artifacts: visual-review-record"
+  },
+  "approval_type": {
+    "actual_w34_pointer_sha_verified": true,
+    "stage_schema_rejects_approval": {
+      "rejected": true,
+      "error": "prior Stage Checkpoint fails D:\\Git\\reconstruct-japanese-generative-ai-survey\\.phase-5-inputs\\upstream-reconciliation\\schemas\\stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property"
+    }
+  },
+  "historical_w34": {
+    "lifecycle_state": "RELEASED",
+    "next_action": null,
+    "actual_release_checkpoint_current_schema": "ACCEPTED",
+    "scope": "Schema and State pointer raw SHA only; no full State/report dependency validation or PDF review."
+  }
+}

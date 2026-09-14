@@ -1,17 +1,17 @@
 # J-GAS — Phase 5 continuation
 
-日付: 2026-09-14 JST
-状態: **PHASE 5 ACTIVE / ISOLATED RUNTIME REPAIR CANDIDATE / REGRESSION CLOSEOUT / NO 5-C TRIAL / NO ADOPTION**
+日付: 2026-09-15 JST
+状態: **PHASE 5 ACTIVE / CURRENT UPSTREAM RECONCILED / RESIDUAL MAINTENANCE / NO 5-C TRIAL / NO ADOPTION**
 
 ## 1. 最小の再開入力
 
 1. 本handoff。
-2. [runtime修復候補評価](../outputs/astra-phase-5-runtime-repair-assessment.md) §1・§3–5。patch内容は§2。
-3. 必要時のみ[今回Evidence](../notes/phase-5-runtime-repair/README.md)。reader計画は[前回判断§3](../outputs/astra-phase-5-review-plan-and-runtime-priority.md)に完成済み。[前回publication review境界調査](../outputs/astra-phase-5-publication-review-boundary-decision.md)と[5-B評価](../outputs/astra-phase-5b-work-observation-assessment.md)は歴史判断として保持。Phase 4の復元は[5-A判断](../outputs/astra-phase-5a-work-unit-decision.md) §2で足りる。全chat/旧lab再読・再実行は不要。
+2. [current Core照合判断](../outputs/astra-phase-5-upstream-reconciliation-assessment.md) §1–4。限界は§5。
+3. 必要時だけ[今回Evidence](../notes/phase-5-upstream-reconciliation/README.md)。[旧runtime候補](../outputs/astra-phase-5-runtime-repair-assessment.md)と[reader計画](../outputs/astra-phase-5-review-plan-and-runtime-priority.md)は再利用用の歴史入力。全chat/旧lab/全source再読・全test再実行は不要。Phase 4の復元は[5-A判断](../outputs/astra-phase-5a-work-unit-decision.md) §2で足りる。
 
-今回の開始reconstruct local/remote mainは`f5dffe5c3c748a545437b21f1e43a145a041ba4d`で一致・clean。commit title `Astra work Phase 5-C (human commit)`はHumanの明示補足によりphase authorityではない。前回はpublication review boundary investigation、conditional 5-C A/Bは未開始。commit改名/履歴書換はしない。今回変更の通常commit/PushはHumanが行う。
+今回の開始reconstruct local/remote mainは`b8bdf9821a48d22b2db840458b1b385f1c744bdb`で一致・clean。productionのHuman指定main `774dd39a951c9ac3818e83dfffd4c7666efb0a20`をGET確認し固定した。通常Pull/Push/最終commitはHuman。旧commit名`Astra work Phase 5-C`はHuman補足によりphase authorityではない。publication review boundary investigationとconditional 5-C A/Bを混同しない。
 
-全体目的: publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを意図した水準以上に保ち、production・supervision/review/reasoning・repair/regeneration・CI/runtime・LLM・complexity・Human handoff/manual burdenを含むtotal lifecycle workを最小化する。移転は削減ではない。初期投資/移行/歴史互換/二重保守込みで判断する。
+全体目的: publication quality、provenance correctness、fail-close safety、Human authority、Weekly/Special generality、historical reproducibilityを維持し、production・supervision/review/reasoning・repair/regeneration・CI/runtime・LLM・complexity・Human handoff/manual burdenを含むtotal lifecycle workを最小化する。移転は削減ではない。初期投資/移行/歴史互換/二重保守込みで判断する。
 
 ## 2. 5-Bで判断可能になったこと
 
@@ -27,29 +27,37 @@
 
 ## 3. 今回の判断と次の入口
 
-**Freeze/Releaseの限定修復候補をreconstruct内で実装した。** Human approvalを専用の型で解決してexact Candidateへ進む、Freeze runtimeのartifact集合をschemaと揃える、FROZENのlocal adoption検証結果をrelease producerから既存CORE_STAGE_CONTRACTとして出す、同一basisのlocal再試行でreport/checkpoint bytesを保持する変更。guard削除/偽PASS/新Human Gate/承認後の新VISUAL/最新Candidate推測/公開Release再作成はしない。
+**current upstream照合とrootの限定reviewを完了。旧patch一式のreview/適用を次の入口にしない。** #495がRelease helperのCORE report欠落を修復し、dual reviewとcontroller照合も実装した。旧候補とはFROZEN semanticsやtimestamp再利用の設計が異なる。旧候補の試験成功をcurrentへ移さない。
 
-実State/schema/publication/approval/stage/controllerを使う合成Weekly/Thematic/Retrospective fixtureで、未修復baselineの三条件はunexpected visual-review-recordで失敗し、候補は承認→Freeze→Releaseへ進む。drift/別号/別profile/曖昧なpointer/別path・manifest/report basis改変を拒否。active revalidation履歴を保持して承認→Freezeへ進むケースも通過した。上流研究本文・review判断はfixtureであり、実研究・独立QA・全号品質の実証ではない。
+Freezeは未解消: runtimeがschema-required visual-review-recordをextraとして拒否し、`_prior_artifacts`はHuman approvalをStage Checkpoint型で読む。前者はcurrent関数、後者はcurrent実W34 approvalのpointer/hashと当該schemaで確認。以前の合成全chain試験は[旧Evidence](../notes/phase-5-runtime-repair/README.md)に保持し、今回全chainを再実行したとは言わない。
 
-関連回帰は[初回結果](../notes/phase-5-runtime-repair/test-results.json)と[Git-aware再確認](../notes/phase-5-runtime-repair/git-aware-results.json)を合わせて読む。初回58件中52件PASS、6件のGit root不足errorsを成功へ上書きしない。Git隔離の不備・対処・fixture objectsの生成も[Evidence](../notes/phase-5-runtime-repair/README.md)に記録。成果のHEAD/index/mainは維持し、通常Pull/Push/最終commitはしていない。
+#496でpre-TeX structured input/persisted semantic review/下流gateが実装されたため、前回の新規入口実装計画は更新が必要。限定probeは次を再現した:
 
-**次は具体的patchの限定reviewとShared Core保守への還元判断。** [現判断§5](../outputs/astra-phase-5-runtime-repair-assessment.md)に従い、current Shared Coreに同修復が入っていれば重複実装せず差分評価する。独立非著者reviewは未実施で、新agentを使う場合はこの具体物について新しい明示許可が必要。4-C/5-B許可を再利用しない。productionへの提案投稿/適用/採用は別の明示Human authorizationが必要。
+- review済みJSON/reviewを固定し、現在のprimary TeXとmanifest hashを別の読者本文へ変更しても、gate生成・再検証がPASS。review対象ファイル自体のdriftは拒否される。個々のhash検証とrender導出関係は別。
+- `frontmatter.lede`変更でTeXは変わるがpre-TeX review input hashは同じ。cover anchors、frontmatter、summary heading等のrender入力がprojectionから落ちる。後段lintは早期reviewの網羅を代替しない。
+- TeX/Bib不変でもmanifestのaudit説明`architecture_coverage.detail`だけでlintが停止。読者本文に出ない説明を修復/例外管理する仕事へ移さない。
 
-local retryの実証は「外部成功の固定Release Recordから、State advance前に残ったreport/checkpointを再検証して継続」の範囲。Actions全体の再dispatch、builderの時刻付きimmutable record再利用、main更新後のtarget、RELEASED後の再実行、legacy Action/Handoff経路は未実証/対象外。正当な最終quality/Human工程を省略せず、追加検証/実装/保守費も含む純削減はunknown。
+これらはcurrent実関数/schemaと合成reviewのwitnessで、実editorial判断や全stage/Human Gate突破の証明ではない。全Specialのrender網羅、全CLI/歴史互換は未検証。今回agent起動なし、独立reviewなし。
 
-前回のreader review計画はHumanのW35+ pre-TeX carry-forwardに沿って完成済み。計画を作り直さず、W34の受容済みdebtを再修復しない。reader trial・conditional 5-Cは未実行。旧renderer/citation/source-identity、acceptance/staging/cache、新meaning store/telemetryは保留。今回追加agentなし。次turnでpatchや成功済みテスト一式を最初から作り直さない。
+**次は現判断§4に沿ったreconstruct-onlyの限定修復。** 最初はFreezeのartifact集合とtyped approval解決を、current reader gateと上流Release producerを保持して修復。旧候補の該当部分/negativeを再利用する。その後、別差分でreaderの完全なprojection・現在のmanuscript/出力への結合・audit除外を扱う。既知不整合が残る旧patchの独立reviewやreader実運用trialを先行させず、前回計画そのものを再執筆しない。上流が進んでいれば当該残差だけ再照合する。
 
-## 4. Last observed production realityと保留
+各単位は失敗再現、修復後正常系/authority negatives、関連回帰、未実証の記録をreview可能にして止める。新agentは具体物について新しい明示許可が必要。4-C/5-B許可を再利用しない。production posting/application/adoptionは別権限。今回の停止は許可待ちではなく、upstream照合と残差処遇を揃えた判断面による。
 
-前回の[GET観測](../notes/phase-5-review-plan/observation.json): main `3e3eebe0cda3a32ac88ae764d279b37768f6bfca`、W34 branch `3bad8a57cf2b246c7f71cb749ba3105fa318b073`。branchはFROZEN / stage:release、mainはPR #493でfrozen authority統合後、**RELEASED / next null / terminal COMPLETE**。mainをfreeze待ち/Release待ちとしない。今回main refだけfreshに確認して同じSHAだった。W34 branch/State/PDF/公開assetの再取得や全検証はしていない。
+[旧runtime候補](../notes/phase-5-runtime-repair/candidate.patch)は未変更。初回58 testsの52 PASS / 6 Git-root errorsと隔離後8 PASSを合成して初回全成功にしない。最初のfixture objects/test ref生成とcleanup履歴を消さず、後続Git-aware testは独立Git rootでのみ実行する。今回はhash確認したsupport 307filesとcurrent変更をignored labへコピーし、Git非使用の関数/schema probeだけを実行した。最初のPath引数によるprobe二回停止と修正もEvidenceに記録。
 
-Candidate raw SHA `df376f474acf5fafa14f9af5196727858b1dd76f5c7d17664fa52ba784e32061`、payload digest `52c8d0bcc85140a2727d1867a908d7077d40c7088a7c1e83f10b66044c50f3ba`、PDF `e93db71a5be8249d65d66c5f3b0284875447d953eeadf3b66ca23a9318bd06de`。Human r3 approved bytesを保持。Freeze record raw `ba5d76d3…`、Release manifest `921803d4…`、Release record `6808dbb0…`。
+local retryの旧実証は固定済み外部成功Release RecordからState advance前に再開する範囲。current producerのtimestamp equality、Actions全dispatch、record builder再利用、main変化、RELEASED後、legacy caller互換は未実証。必要なsource/独立review/PDF/Human工程を省略せず、追加の検証/保守/引継ぎ費を含む純削減はunknown。
 
-[局所check](../notes/phase-5-review-plan/check.json)はState/Freeze/Manifest/Release/checkpointとCandidate/approval/PDFを照合。公開Release weekly/2026-W34はnon-draft/non-prerelease、asset338722 bytes、server digestも同じ。公開assetの独立download、全State/依存閉包、source TeX/visual実bytes、PDF目視/全号品質reviewは再実施していない。既存承認/Releaseの取消や再生成はしない。
+## 4. Last observed production reality
 
-mainへのmerge compareは112 commits/返却300 files上限のため全差分監査には使わない。必要なreader publication、Weekly publisher、review contract、governanceは旧main74708eb2とbyte-identicalを確認した。旧作業指示を新authorityとして再実行しない。#492の書誌修復と#493のfrozen authority統合/Releaseは既存production成果でreconstructの純削減ではない。既知source意味/引用反例全般の解消は認定しない。
+今回mainは`774dd39a951c9ac3818e83dfffd4c7666efb0a20`。3e3eebe0から8 commits / 16 changed filesで返却capなし。変更script/schemaを取得したが全Core監査ではない。旧112-commit/300-file打切り比較とは区別する。[current観測](../notes/phase-5-upstream-reconciliation/observation.json)。open Issueタイトル5件のindexは取得したが、全本文/closed Issue/PR reviewのinventoryではない。
 
-Phase 4はclosed。4-Hはsection出力前のlab URL集約guardで停止しrepair未実行。historical Packageとlab修正Cardは別。renderer/citation/source-identity、acceptance/staging/cache、新meaning store/恒久telemetryは保留。このruntime契約調査はそれらの再開ではない。
+実W34 main Stateは**RELEASED / next null**。Release checkpoint raw SHAはState pointerと一致し、新schemaでも受容。既にCORE_STAGE_CONTRACTとRELEASE_EXACT_BYTE_RECONCILIATIONを持っていたので、schema強化だけからW34 historical breakageを推定しない。全State/report依存閉包の再検証ではない。
+
+前回観測ではW34 branch `3bad8a57cf2b246c7f71cb749ba3105fa318b073`がFROZEN / stage:release、main 3e3eebe0がRELEASED / COMPLETE。今回branch/公開asset/PDFはfresh確認していない。旧観測のCandidate raw SHA `df376f474acf5fafa14f9af5196727858b1dd76f5c7d17664fa52ba784e32061`とpayload `52c8d0bcc85140a2727d1867a908d7077d40c7088a7c1e83f10b66044c50f3ba`を区別。PDF `e93db71a5be8249d65d66c5f3b0284875447d953eeadf3b66ca23a9318bd06de`、public server digest/338722bytes等の[旧局所check](../notes/phase-5-review-plan/check.json)は歴史Evidenceである。
+
+#492書誌access provenance、#493 frozen authority/Release recovery、#495/#496のCore改修はproduction成果で、reconstruct採用/純削減ではない。全source/citation問題の解消認定でもない。Human #491/5654102081のW35+早期reader gate方向を保持し、Humanが受容したW34残余audit語彙を再生成しない。
+
+Phase 4はclosed。4-Hはsection出力前のlab URL集約guardで停止しrepair未実行。historical Packageとlab修正Cardを分ける。renderer/citation/source-identity、acceptance/staging/cache、新meaning store/恒久telemetryは保留。この限定保守はconditional 5-Cではない。
 
 ## 5. 未実証と権限
 
