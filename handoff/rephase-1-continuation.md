@@ -1,39 +1,53 @@
 # J-GAS reconstruction — Re:Phase 1 continuation
 
 日付: 2026-09-15 JST  
-状態: **RE:PHASE 1 方針再評価完了 / CURRENT再baseline / 次単位は未実装 / NO ADOPTION**
+状態: **r2独立限定レビュー完了 / actionable findingなし / r2不変 / 実行互換・採用未認定**
 
-## 最小の再開入力
+## 再開入力とHuman制約
 
 1. 本handoff。
-2. [方針判断](../outputs/rephase-1-direction-assessment.md) §1・§6–7。根拠が必要なら§2–5と[Evidence](../notes/rephase-1/README.md)。
+2. [独立レビュー受領判断](../outputs/rephase-1-review-disposition.md)。従前の[r2接続評価](../outputs/rephase-1-connection-assessment.md)はroot根拠。
+3. 必要時だけ[r2 Evidence](../notes/rephase-1-connection/README.md)。前回の[設計/義務対応](../outputs/rephase-1-operating-contract-assessment.md)と[全体方針](../outputs/rephase-1-direction-assessment.md)は歴史入力。
 
-Humanは旧Phase構造・次作業の継続を解除し、全体目標とcurrent productionからの再評価を依頼した。旧成果はhistorical evidenceでありarchitecture authorityではない。旧「Phase 5 active / Freeze→reader」の入口は終了。旧Phaseの完了順、再開制限、修復待ちを新しい既定工程にしない。
+productionはHuman固定baseline `774dd39a951c9ac3818e83dfffd4c7666efb0a20`。明示rebaselineまで新しいmainを照会/追跡しない。旧reconstruct開始`ec6a502e`は歴史値で、現在HEADではない。
 
-## 基準と判断
+**Git操作は禁止。** status/diff/log等の読取り、init/worktree/fetch/Pull/Push/commit、Git-aware test、remote Git/ref照会も行わない。旧capture.pyのobserveを使わない。固定cacheと不足する固定commit raw GET、filesystem/hash/difflibだけを使用した。Gitのclean/HEAD/indexは確認していない。
 
-- reconstruct開始HEAD/remote main: `ec6a502e9ae37e956d677f96f29af6c4e4591fc4`。開始clean。
-- production fixed main: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`。GET確認済み。
-- 同じrepoを継続して論理Archive。旧outputs/notes/handoff/brief/instructions/patchを移動・書換えず、README/AGENTSから新入口へ接続した。
-- current Coreを暫定比較基準に部分再設計。保証・Human authority・歴史を維持して、通常運用の義務/説明/変換の重複を減らす。current Coreやrole配置を永久固定しない。全面置換の優位もまだない。
-- 全体目的は高品質Weekly/Specialのtotal lifecycle work削減。production、全role reasoning/review、repair、CI/LLM、保守/移行/二重運用、Human負担を含む。局所修復の成功は純削減と別。
+productionはread-only。投稿/dispatch/適用/adoptionは別途明示許可が必要。Humanは具体scopeを提示した許可質問に「許可します」と回答し、独立agent 1名のr2レビューを許可した。実施済みで、この具体許可は完了。Git/productionや別scope・追加agentへの許可ではない。
 
-## 次に進める場合の一単位
+## 今回の成果
 
-**currentな運用契約と現在状態表示の分離・統合案をreconstruct-onlyで作る。** 詳細な対象・終了条件は判断§7.1。
+現在の[候補差分](../notes/rephase-1-connection/candidate.patch)はr2。authority、redesign overlay、session bootstrap、execution-record policy、execution-record initializerの5ファイル。全体はignored `.rephase-1-inputs/contract-candidate-r2/`へ生成。r1との差分とhashを保存し、r1のpatch/assessment/checksは上書きしていない。
 
-current authority/overlay/bootstrapとW34 execution indexに、古いmain、保守PR状態、Architecture待ちがcurrentとして残る。StateはW34 RELEASED。通常入口でこれらを読み、優先順位で解消する構造を今回確認した。新要約の追加だけでなく、既存のcurrent記述・必読義務・手書き更新のどれを外すかを示す。義務の対応先、typed authorityからの状態表示、欠落/drift/未確認、REQUEST_CHANGES再開、Special差、contract hash/歴史移行を含む有限の案で止める。
+live State/Gate/Candidate/next actionをindexへコピーせず、run context/navigationにする方針を維持。session/正式review・Human提示・active approvalの根拠・独立reviewは維持。表示サービスを追加する案ではない。
 
-この単位では新manual一式、全Core wrapper、恒久telemetry、full shadow publicationを作らない。読みやすい資料が増えるだけなら不成立。時間/token削減や全運用PASSはこの案から主張しない。
+r2修正:
 
-## 残すEvidenceと境界
+- review index参照をCore設定に従わせ、設定欠落/最初のdecision前の不在を承認と扱わない。
+- initial objective・初期requested stop・各sessionの実行mode/transportへの案内。既存policy §5が要求するtransport見出しを生成。modeを推測しない。
+- pending review対象は版付きsession/review presentationとState-bound stage artifactsへ。旧承認から復元しない。
+- Markdown全般の更新免除に読める記述を限定。Frozen edition全体の不変宣言が正当なRelease進行を禁じないよう修正。
 
-Freeze artifact集合/typed approval、reader binding/coverage/audit-scopeの[既存反例](../notes/phase-5-upstream-reconciliation/README.md)は同じproduction基準で存続。入力hashをcurrent treeと照合したが再実行していない。通常経路の阻害となる時に必要な修復を行うbacklogであり、全体設計の前提ではない。reader検証ならreader、Freeze実行ならFreezeを先にしてよい。旧candidate.patch一括移植は不可。
+## 接続/検証範囲
 
-#492/#495/#496は上流の成果。Release report/早期reader入口を再実装しない。Release timestamp差、全dispatch/retry、legacy caller互換、Special全renderは未実証。W33/W34/SP001の保存StateはRELEASEDだが、全State依存閉包/公開PDF/全品質の再確認ではない。
+blob確認済みscripts 212件の文字列探索で外部callerはbridge。bridgeはinitialize/validateと返却pathを使いlive文字列を解析しない。専用test 5件、bridge test 2ファイル、CI 2ファイルを静的読解した。専用testは元々loaderをmockし、今回実行していない。bridge E2EはGit参照するため未実行。全tests/外部callerの網羅保証ではない。
 
-旧5-Bは除去可能な意味再構成の支持例なし・一部識別不能。一般的重複ゼロや新architectureの禁止へ強めない。旧4-Hのlab停止、旧runtime fixtureの52 PASS/6 Git-root errorsと隔離後の結果など、必要な時は元Evidenceの限界も一緒に読む。全履歴を毎回再読しない。
+[checks.json](../notes/rephase-1-connection/checks.json): 5群。5-file patch適用/hash、累計41 captured inputs不変、helperの二テンプレート以外の全AST不変、実W34/SP001 Profile形+合成session値でのtemplate確認、42非編集節の全文一致、上流の文書専用test 4件実行PASS。4件は最終auditや七観点PASSではない。
 
-production checkoutは古いHEADと開始時の削除表示があり、fixed-ref GETを使った。上流checkoutを調査目的で修復/更新しない。次にGit-aware fixtureを動かすなら独立Git root/inert originを用い、reconstruct親Gitへfixture objects/refを作らない。
+production module、initialize/validate本体、bridge、CLI、full State/contract/reviewed-commit検証は未実行。Git禁止をstubで迂回しない。実publication/PDF品質・全Profile運用・費用削減は未実証。r1の13群の表示確認をr2 full integrationへ転用しない。EXAMPLE_ONLYは実session/authorityではない。
 
-production変更・投稿・dispatch・adoptionは別途Human明示権限。通常Pull/Push/最終commitはHuman。今回追加agent/独立review/実装trialなし。独立agentは具体的な対象について新たな明示許可が必要で、旧許可は再利用しない。現判断はproductionの運用規則を上書きしない。
+## 独立レビューと受領
+
+[独立報告](../notes/rephase-1-connection/independent-review.md): 記録義務、初期化/再開/REQUEST_CHANGESの参照、active/history分離、caller/test静的整合を確認し、対象範囲にactionable findingなし。reviewerは固定baseline/r2全5hashを独自照合。新しいtest実行なし。rootは報告を受領し、修正せずr2を維持した。
+
+[入力束縛](../notes/rephase-1-connection/independent-review-input.json)と[closeout](../notes/rephase-1-connection/independent-review-closeout.json)に対象/報告hashを保存。レビュー前後で候補5ファイル・patch・元assessment/checksは不変。元r1/r2成果は履歴として保持。このレビューは既存記録validatorの意味的完全性、Core実行互換、七観点audit、publication品質、純費用削減を認定しない。
+
+## 次の判断面
+
+**運用規則/live status分離は、設計・root接続評価・許可された独立限定レビューまで完了。** 新しい反例なしに同じ成功checkやレビューを追加しない。具体候補の準備不足による残作業は今回のscope内では見つからなかった。
+
+採用へ進める場合の残条件は、許可された環境での既存Core/CLI/bridge実行検証、その後のproduction採用判断。Git禁止は維持し、reviewed-commit検証をstubで迂回しない。独立reviewとproduction適用の許可は別物。今回の1名r2レビュー許可は完了し、追加独立作業には新たな明示許可が必要。
+
+将来の採用時には既存Core review/CI/fixed-head/contract規則を適用。旧Stateのhash/approvalを付替えず、旧bytes/契約/履歴を保持する。W34/SP001の実index/State/Candidate/PDFを移行実績のために再生成しない。
+
+全体reconstructionは未完了。workspaceは継続し旧Phaseは論理Archive。目的は全role/lifecycleの仕事削減。既知bugの全消化、dashboard、新validator、全manual統合、常設telemetryを自動的な次工程にしない。Freeze/readerの固定版反例は必要経路を評価するときのmaintenance evidence。#492/#495/#496は上流成果で、reconstruct採用/節約の証拠ではない。

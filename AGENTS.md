@@ -6,21 +6,29 @@ This repository is the writable workspace for an external architecture/design re
 
 ## Current task: Re:Phase 1
 
-Human explicitly reset the reconstruction direction on 2026-09-15. Prior Phase structure, decisions and next steps are historical evidence, not architecture authority. Re:Phase 1 direction reassessment is complete; reconstruction overall remains open. No production adoption or net lifecycle saving is established.
+Human explicitly reset the reconstruction direction on 2026-09-15. Prior Phase structure, decisions and next steps are historical evidence, not architecture authority. Re:Phase 1 direction reassessment and the bounded operating-rule/live-status separation proposal are complete; reconstruction overall remains open. The five-file r2 candidate has completed bounded root caller/test and edited-rule review, with local repairs and document-only checks. One explicitly authorized independent review of r2 is complete with no actionable findings in its bounded scope. Root retained r2 unchanged. No production adoption or net lifecycle saving is established.
 
 Read first:
 
 1. `handoff/rephase-1-continuation.md`
-2. `outputs/rephase-1-direction-assessment.md` — sections 1 and 6–7; sections 2–5 for evidence and disposition when needed.
-3. Necessary evidence only from `notes/rephase-1/README.md`.
+2. `outputs/rephase-1-review-disposition.md` — current independent-review disposition and remaining boundaries. The prior `outputs/rephase-1-connection-assessment.md` retains root connection evidence.
+3. Necessary evidence only from `notes/rephase-1-connection/README.md`. Prior design/obligation map: `outputs/rephase-1-operating-contract-assessment.md`; r1 evidence remains historical. The broader direction remains in `outputs/rephase-1-direction-assessment.md`.
 
-Reconstruct baseline: `ec6a502e9ae37e956d677f96f29af6c4e4591fc4`.
-Production baseline: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`.
-Both remote main refs were GET-confirmed. These are fixed observations, not a promise of future currentness.
+Historical reconstruct starting baseline: `ec6a502e9ae37e956d677f96f29af6c4e4591fc4`; this is not a claim about the present HEAD.
+Human-fixed production baseline: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`.
+Do not change this baseline or follow/inspect newer production main unless Human explicitly requests rebaselining. The previous remote observations are historical. Use the captured fixed-ref inputs and only retrieve missing fixed-ref blobs when necessary.
+
+Current Human instruction: **No Git operations.** Do not run even read-only Git status/diff/log/rev-parse, fetch, worktree/init or Git-aware tests. Do not query remote Git/ref endpoints. Use filesystem reads/hash/difflib and Git-free offline checks. Do not invoke older capture/observe helpers that contain Git or ref lookups.
 
 Selected direction: retain this workspace, logically archive prior work, and rebaseline against current production. Evaluate partial redesign by naming work that can actually be removed while retaining required guarantees. Current Core, canonical schemas, role assignments and audit implementation are comparison starting points, not permanently fixed architecture.
 
-If asked to continue, the selected next bounded unit is a reconstruct-only proposal separating current operational rules from live status, with an explicit retirement mapping for duplicate current statements and reading/update obligations. Use the concrete scope and stop conditions in assessment section 7.1. A new summary added on top of all existing obligations is not success. This unit is not implemented yet. Do not automatically start a full manual rewrite, wrapper framework, telemetry system, source-to-PDF shadow execution or cost trial.
+The bounded proposal removes copied live status from authority/index documents and the execution-record initializer, together with the policy requiring those copies to be maintained. It retains substantive mandatory reading/review obligations and session history. Current candidate: `notes/rephase-1-connection/candidate.patch` (r2); r1 is preserved. The r2 follow-up repaired configuration-driven review navigation, objective/mode/transport navigation, pending-review guidance, and overly broad Markdown/Frozen wording. It remains a reconstruct proposal, not a ready-to-adopt production patch.
+
+Root caller/test and edited-rule review is complete. Five grouped r2 checks include four actual upstream document-only tests; 42 normative sections and all helper AST outside two templates are unchanged. Execution-record tests were statically inspected, not executed. The completed independent review supports bounded rule/navigation/static compatibility only. No full initializer/CLI/bridge/Core integration or savings is established. The earlier display experiment is not a new Core validator and must not be installed wholesale.
+
+The authorized r2 independent review is complete. Report: `notes/rephase-1-connection/independent-review.md`; input/closeout records bind it to unchanged candidate hashes. No candidate repair was requested. The operating-rule/live-status separation unit is now complete through bounded independent review. Do not repeat root checks or independent review without new evidence.
+
+The remaining path toward adoption is existing integration verification in an explicitly permitted environment, then a separate production-adoption decision under normal Core review/CI/contract rules. Git remains prohibited, and this review is not seven-point audit PASS or execution compatibility certification. Do not weaken reviewed-commit verification or call stubbed runs full Core validation. This one-agent r2 permission is completed; it is not general delegation permission. Stop at this supported decision surface rather than expanding into a dashboard, manual framework, telemetry or another resolver.
 
 The old default sequence of Freeze repair followed by reader repair is superseded as reconstruction's work order. Their fixed-ref counterexamples remain maintenance evidence; fix a defect when it is a prerequisite for the particular route being evaluated. Do not make every maintenance item a prerequisite to architecture work. Do not transplant the whole old runtime patch over current #495/#496.
 
@@ -38,10 +46,10 @@ Prior outputs, notes, handoffs, instructions, brief and patches stay in place as
 
 - `eariver/japanese-generative-ai-survey` is READ ONLY unless Human explicitly authorizes a production mutation. No production branches, PRs, Issues/comments, State, decisions, Gates, Freeze/Release, adoption or migration changes.
 - `eariver/reconstruct-japanese-generative-ai-survey` is writable for analysis, proposals and bounded isolated probes/candidates within the current request.
-- Ordinary Git Pull/Push and final commit are Human-owned. Do not perform them.
-- New independent-agent work requires fresh explicit permission for the concrete scope. Prior Phase 4-C/5-B permissions are exhausted. No delegation was performed in Re:Phase 1.
+- All Git operations are currently prohibited by Human, including read-only inspection. Ordinary Git Pull/Push and final commit remain Human-owned.
+- New independent-agent work requires fresh explicit permission for the concrete scope. Prior Phase 4-C/5-B permissions are exhausted. One r2 independent review was explicitly authorized and completed with no actionable findings in scope; this is not general delegation permission.
 - Do not fix or update a stale/dirty production checkout for investigation. Read fixed source through read-only APIs when needed.
-- Git-aware fixtures must use an independent isolated Git root and inert origin. Never let fixture object/ref creation inherit reconstruct's Git database. Preserve the historical distinction between the old first run's 52 passes/6 Git-root errors and its isolated follow-up.
+- Git-aware fixtures are not allowed under the current instruction. If Human later authorizes Git work, they must use an independent isolated Git root and inert origin. Never let fixture object/ref creation inherit reconstruct's Git database. Preserve the historical distinction between the old first run's 52 passes/6 Git-root errors and its isolated follow-up.
 
 Choose targeted, cost-aware reads and stop when additional evidence is unlikely to change the decision. External tools/OSS are options when a concrete replacement boundary warrants comparison; do not conduct broad research merely for coverage. Production's current operating constraints remain effective until explicitly changed, even when reconstruct proposes alternatives.
 

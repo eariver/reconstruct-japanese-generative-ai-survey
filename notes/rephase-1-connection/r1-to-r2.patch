@@ -1,0 +1,75 @@
+--- r1/docs/survey-production-core-v2-authority.md
++++ r2/docs/survey-production-core-v2-authority.md
+@@ -348,7 +348,7 @@
+ 
+ ## 13. Pre-audit handoff and production boundary
+ 
+-Frozen/released editions remain immutable. Active edition sessions do not edit shared Core in place. A Core candidate must name its production scope and keep edition mutation separately authorized; neither a branch name nor an implementation summary implies adoption or approval.
++Released editions remain immutable. Frozen Candidate authority remains subject to the existing Freeze/Release rules; this index does not prohibit an authorized lifecycle advance. Active edition sessions do not edit shared Core in place. A Core candidate must name its production scope and keep edition mutation separately authorized; neither a branch name nor an implementation summary implies adoption or approval.
+ 
+ Edition status and candidate acceptance are read from their named machine/review authority. Previously recorded W33/W34/SP001/SP002/SP003 and maintenance-PR status is historical context available in the linked prior version, not a current work order.
+ 
+--- r1/docs/survey-production-core-v2-session-bootstrap.md
++++ r2/docs/survey-production-core-v2-session-bootstrap.md
+@@ -42,7 +42,7 @@
+ 
+ The Sol/Luna governance document is mandatory for every Weekly/Special start or resume. Do not treat it as optional background reading.
+ 
+-Repository state outranks chat history. Read lifecycle/next action, active approvals and Candidate pointers from the named snapshot's machine records; do not reconcile or update duplicated current values in Markdown. An execution index supplies run context and navigation, not current machine facts. Its historical session summaries remain tied to their recorded State/commit.
++Repository state outranks chat history. Read lifecycle/next action, active approvals and Candidate pointers from the named snapshot's machine records; do not maintain duplicate live values in the authority index or execution navigation index. Continue required version-bound session/review records and Human review presentations; repair a misleading handoff before using it. An execution index supplies run context and navigation, not current machine facts. Its historical session summaries remain tied to their recorded State/commit.
+ 
+ The authority index, redesign constraints, governance and applicable detailed policies above remain required. This change does not retire their substantive reading obligations or the independent reviews. A snapshot display is not a full State/contract/reviewed-commit validation or permission to execute.
+ 
+--- r1/docs/survey-production-core-v2-execution-record-policy.md
++++ r2/docs/survey-production-core-v2-execution-record-policy.md
+@@ -64,13 +64,13 @@
+ Record:
+ 
+ - issue/Profile identity and canonical work branch/source root, with Profile/State paths;
+-- start-of-run reviewed baseline, start/objective/requested stop, explicitly historical run context;
++- start-of-run reviewed baseline, start/requested stop and a pointer to the initial session objective, explicitly historical run context;
+ - stable paths to machine review index, active approval/checkpoint authority and publication records;
+-- pointers to Grok/X task/result disposition and execution-mode/transport records when applicable;
++- pointers to each session's execution mode/transport record, and Grok/X task/result disposition when applicable;
+ - known edition-local deviations/shared-Core defects and their evidence pointers;
+ - session/review/defect/receipt pointers, including the session that records final disposition.
+ 
+-Read live lifecycle, next action, stop reason, State hash, Gate status and Candidate/PDF identity directly from the named Profile/State and its typed pointers. A machine review index names historical rN records; its newest approval is not automatically active approval. A snapshot display must identify the inspected bytes and separate stored facts, checked direct links and unverified dependencies. It must not infer Human decisions, select a regeneration boundary, or authorize execution.
++Read live lifecycle, next action, stop reason, State hash, Gate status and Candidate/PDF identity directly from the named Profile/State and its typed pointers. Resolve the machine review index path from the reviewed Core configuration relative to the Profile source root. It may not exist before the first decision; absence is not approval. Pending Human review targets remain in the required version-bound session/review presentation and State-bound stage artifacts, and are not inferred from an old approval. A machine review index names historical rN records; its newest approval is not automatically active approval. A snapshot display must identify the inspected bytes and separate stored facts, checked direct links and unverified dependencies. It must not infer Human decisions, select a regeneration boundary, or authorize execution.
+ 
+ Update the index when run context or navigation changes, or new handoff/defect information must be discoverable. Do not rewrite it merely because Gate/revision/Candidate/final State changed. Record actions, end state and decisions once in their existing session and machine records. Preserve older edition indexes as historical navigation; do not regenerate frozen/released editions to conform to this layout.
+ 
+--- r1/scripts/survey_execution_record_v2.py
++++ r2/scripts/survey_execution_record_v2.py
+@@ -180,13 +180,17 @@
+ - Work branch: `{branch}`
+ - Start-of-run reviewed `main`: `{main_sha}`
+ - Run started: `{started_utc}`
+-- Requested stop: `{requested_stop}`
++- Initial requested stop (historical): `{requested_stop}`
++- Initial objective: see `sessions/{session_id}.md`, Starting authority.
++- Execution mode/transport: see each session's Deterministic execution transport section.
+ - Production Profile: `{profile_rel}`
+ - Production State: `{state_rel}`
+ 
+ ## Human Gates
+ 
+-- Machine review history: `{profile['paths']['source_root']}/gates/review-index.json`
++- Machine review history path, relative to `{profile['paths']['source_root']}`: `{cfg.get('state_authority', {}).get('human_review_index_path', 'NOT_CONFIGURED')}`
++- Before the first decision, the history may be absent; absence or NOT_CONFIGURED is not approval.
++- Pending review target: follow the version-bound session/review presentation and State-bound stage artifacts; do not infer it from an old approval.
+ - Active approvals: follow `human_gate_provenance` in Production State, not the newest historical approval.
+ 
+ ## Publication Candidate
+@@ -244,6 +248,11 @@
+ ## External handoff
+ 
+ - None recorded yet. When Grok/X is used, record only the exact Drive task-file path/reference, returned result reference, imported Raw authority and disposition.
++
++## Deterministic execution transport
++
++- Record this session's actual execution mode. For bridge execution, retain the distinct request, reviewed commit, executor and receipt references required by execution-record policy section 5.
++- Mode and transport evidence are not inferred from initialization.
+ 
+ ## Deviations / failures
+ 

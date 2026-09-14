@@ -4,18 +4,22 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
-**Direction reassessment is complete.** Continue in this repository, treat prior Phases as historical evidence, and use current production as the new comparison baseline. The old Phase 5 work order is superseded.
+**Direction reassessment and the bounded r2 independent review are complete.** Continue in this repository and treat prior Phases as historical evidence. The old Phase 5 work order is superseded.
 
 1. [Re:Phase 1 handoff](handoff/rephase-1-continuation.md)
-2. [Direction assessment](outputs/rephase-1-direction-assessment.md), especially sections 1 and 6–7
-3. [Evidence and verification scope](notes/rephase-1/README.md), only as needed
+2. [Independent-review disposition](outputs/rephase-1-review-disposition.md); [prior r2 connection assessment](outputs/rephase-1-connection-assessment.md)
+3. [r2 candidate and evidence](notes/rephase-1-connection/README.md), only as needed; [prior design](outputs/rephase-1-operating-contract-assessment.md) remains historical context
 
-Fixed baselines, confirmed through read-only GitHub APIs on 2026-09-15 JST:
+Baselines:
 
-- reconstruct: `ec6a502e9ae37e956d677f96f29af6c4e4591fc4`
-- production main: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`
+- historical reconstruct starting point: `ec6a502e9ae37e956d677f96f29af6c4e4591fc4`
+- Human-fixed production baseline: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`
 
-Selected direction: partial redesign around current production, removing identifiable operational work while preserving quality, authority and history. The next bounded proposal separates effective operating rules from live status and names the duplicate current statements and reading/update obligations it would retire. It is not yet implemented. Known Freeze/reader defects remain maintenance evidence, not an automatic reconstruction roadmap.
+Do not follow newer production main or rebaseline without explicit Human instruction. **Git operations are currently prohibited**, including read-only inspection and Git-aware tests.
+
+The [broader direction](outputs/rephase-1-direction-assessment.md) remains partial redesign that removes identifiable work while preserving quality, authority and history. The [five-file r2 candidate](notes/rephase-1-connection/candidate.patch) removes copied live status and its maintenance obligation, with caller/test and edited-rule review completed at root. It repairs navigation and scope wording while retaining mandatory reading and review. Five grouped r2 checks include four executed document-only upstream tests; one authorized independent review found no actionable issues in scope and r2 was retained unchanged. Full Core/CLI/bridge integration remains unperformed.
+
+The separation proposal is complete through bounded independent review. Remaining adoption conditions are integration checks in a permitted environment and a separate production decision. This review is not final audit or adoption approval; its one-agent authorization is completed. Do not repeat completed work without new evidence. Known Freeze/reader defects remain maintenance evidence, not an automatic roadmap.
 
 ## Purpose
 
@@ -29,4 +33,4 @@ Prior `outputs/`, `notes/`, `handoff/`, `instructions/` and `brief/` remain at t
 
 The [last Phase 5 assessment](outputs/astra-phase-5-upstream-reconciliation-assessment.md) and [old handoff](handoff/astra-phase-5-continuation.md) retain the prior disposition and limits. Consult a historical result only when it has information value for the current decision. The pre-reset repository, including its old entry documents, remains available at `ec6a502e`.
 
-The Human handles ordinary Git Pull/Push and final commit. Production posting, application and adoption require separate explicit authorization.
+The Human handles ordinary Git Pull/Push and final commit. No Git operations are authorized in the current continuation. Production posting, application and adoption require separate explicit authorization.
