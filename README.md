@@ -1,45 +1,32 @@
 # reconstruct-japanese-generative-ai-survey
 
-This repository is a dedicated working area for an external architecture review and possible reconstruction of `eariver/japanese-generative-ai-survey`.
+External architecture review and reconstruction workspace for `eariver/japanese-generative-ai-survey`. Production remains read-only until the Human explicitly authorizes a change.
 
-The production repository is **not** this repository. Treat the upstream survey repository as an authority/reference source and keep it read-only during this exercise.
+## Re:Phase 1 — start here
+
+**Direction reassessment is complete.** Continue in this repository, treat prior Phases as historical evidence, and use current production as the new comparison baseline. The old Phase 5 work order is superseded.
+
+1. [Re:Phase 1 handoff](handoff/rephase-1-continuation.md)
+2. [Direction assessment](outputs/rephase-1-direction-assessment.md), especially sections 1 and 6–7
+3. [Evidence and verification scope](notes/rephase-1/README.md), only as needed
+
+Fixed baselines, confirmed through read-only GitHub APIs on 2026-09-15 JST:
+
+- reconstruct: `ec6a502e9ae37e956d677f96f29af6c4e4591fc4`
+- production main: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`
+
+Selected direction: partial redesign around current production, removing identifiable operational work while preserving quality, authority and history. The next bounded proposal separates effective operating rules from live status and names the duplicate current statements and reading/update obligations it would retire. It is not yet implemented. Known Freeze/reader defects remain maintenance evidence, not an automatic reconstruction roadmap.
 
 ## Purpose
 
-The current Generative AI Survey production system has become increasingly expensive to operate in both wall-clock time and LLM usage. Recent failures also showed that more process and more validation do not automatically produce better reader-facing results. The goal of this workspace is to let an external architecture reasoner examine the system from first principles and propose a simpler, cheaper, higher-quality operating model.
+Produce high-quality Weekly and Special editions with substantially less total lifecycle work: production, research, supervisory reasoning and independent review, repair, CI/runtime, LLM usage, maintenance/migration and Human effort. Moving work between roles is not saving. Current Core and role assignments may be reconsidered; their existing guarantees must be accounted for.
 
-The immediate external architect is **Astra**, running through the official Codex harness. Astra is not being asked to become the production operator. The current production roles remain filled by the existing supervisory and operations agents until a redesigned architecture is reviewed and deliberately adopted.
+No architecture adoption, full current-production quality certification or net saving has been established. W33/W34/SP001 saved States are RELEASED; this is not a new full-chain or PDF quality validation.
 
-## Start here
+## Historical archive
 
-**Phase 5 is active.** Current upstream reconciliation and bounded root review are complete. Production supersedes the old missing Release report repair; two Freeze mismatches and reader binding/coverage/scope gaps remain. Independent review, adoption and net lifecycle savings remain unproven. Conditional Phase 5-C remains unstarted, regardless of the corrected historical commit title. Phase 4 stays closed.
+Prior `outputs/`, `notes/`, `handoff/`, `instructions/` and `brief/` remain at their original paths for provenance and reproducibility. Archive is logical: no historical files were moved or rewritten. Their old current/next/Phase instructions are historical and do not govern new work.
 
-Fresh sessions need only:
+The [last Phase 5 assessment](outputs/astra-phase-5-upstream-reconciliation-assessment.md) and [old handoff](handoff/astra-phase-5-continuation.md) retain the prior disposition and limits. Consult a historical result only when it has information value for the current decision. The pre-reset repository, including its old entry documents, remains available at `ec6a502e`.
 
-1. [Current Phase 5 continuation](handoff/astra-phase-5-continuation.md).
-2. [Current upstream assessment](outputs/astra-phase-5-upstream-reconciliation-assessment.md), sections 1–4 for disposition and next scope, section 5 for limits.
-3. Necessary [Evidence](notes/phase-5-upstream-reconciliation/README.md). Earlier decisions and the old candidate/test results remain historical.
-
-Next is current-Core residual Freeze repair, followed by a separate reader projection/binding/scope repair. Do not apply or review the old patch wholesale over the upstream fixes. No production change or new independent agent was executed. No reader trial or conditional 5-C ran. Function/schema witnesses and old local retry tests are not full workflow, publication-quality or lifecycle-cost proof.
-
-## Last recorded upstream reference
-
-Production repository: `eariver/japanese-generative-ai-survey`
-
-Observed 2026-09-15 JST: main `774dd39a951c9ac3818e83dfffd4c7666efb0a20`. Current compare: 8 commits / 16 changed files from `3e3eebe0`.
-
-W34 is **RELEASED / next null on main**. Its actual Release checkpoint matches the State pointer and passes the current schema. #495 implements Release dual-review authority, and #496 adds the reader gate. #492 remains the bibliography access-provenance baseline. These are upstream achievements, not reconstruct adoption or savings.
-
-See the [current observation](notes/phase-5-upstream-reconciliation/observation.json) and [bounded witnesses](notes/phase-5-upstream-reconciliation/probe-results.json). Branch/public asset/PDF and full State/dependency validation were not refreshed. Earlier exact-byte checks and branch FROZEN status remain historical in the handoff. Do not assume the observed refs remain latest.
-
-## Core principle
-
-**Do not optimize one agent in isolation. Optimize total system work.**
-
-The target system should reduce total Human + supervisory reasoning + production operations + CI/tooling work while preserving or improving publication quality, research sufficiency, provenance correctness, fail-close safety, and reproducibility.
-
-## Working freedom
-
-Astra may write analysis, notes, diagrams, and proposals in this repository. The upstream production repository must remain read-only during this architecture-review exercise.
-
-Small read-only analytical probes are acceptable when they are cheaper than extended manual reasoning. Large replacement implementations, broad simulations, or production mutations are not the objective of the initial review and should not be undertaken unless Astra can justify that they are necessary to resolve a decisive architectural question.
+The Human handles ordinary Git Pull/Push and final commit. Production posting, application and adoption require separate explicit authorization.
