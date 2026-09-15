@@ -1,13 +1,13 @@
 # J-GAS reconstruction — Re:Phase 1 continuation
 
 日付: 2026-09-15 JST  
-状態: **r2独立限定レビュー完了 / actionable findingなし / r2不変 / 実行互換・採用未認定**
+状態: **r2既存単体test 5件PASS / 独立限定レビュー完了 / r2不変 / full実行互換・採用未認定**
 
 ## 再開入力とHuman制約
 
 1. 本handoff。
-2. [独立レビュー受領判断](../outputs/rephase-1-review-disposition.md)。従前の[r2接続評価](../outputs/rephase-1-connection-assessment.md)はroot根拠。
-3. 必要時だけ[r2 Evidence](../notes/rephase-1-connection/README.md)。前回の[設計/義務対応](../outputs/rephase-1-operating-contract-assessment.md)と[全体方針](../outputs/rephase-1-direction-assessment.md)は歴史入力。
+2. [今回の単体実行評価](../outputs/rephase-1-runtime-assessment.md)。[独立レビュー受領判断](../outputs/rephase-1-review-disposition.md)・従前の接続評価は履歴根拠。
+3. 必要時だけ[単体実行Evidence](../notes/rephase-1-runtime/README.md)・[r2 Evidence](../notes/rephase-1-connection/README.md)。前回の[設計/義務対応](../outputs/rephase-1-operating-contract-assessment.md)と[全体方針](../outputs/rephase-1-direction-assessment.md)は歴史入力。
 
 productionはHuman固定baseline `774dd39a951c9ac3818e83dfffd4c7666efb0a20`。明示rebaselineまで新しいmainを照会/追跡しない。旧reconstruct開始`ec6a502e`は歴史値で、現在HEADではない。
 
@@ -30,11 +30,11 @@ r2修正:
 
 ## 接続/検証範囲
 
-blob確認済みscripts 212件の文字列探索で外部callerはbridge。bridgeはinitialize/validateと返却pathを使いlive文字列を解析しない。専用test 5件、bridge test 2ファイル、CI 2ファイルを静的読解した。専用testは元々loaderをmockし、今回実行していない。bridge E2EはGit参照するため未実行。全tests/外部callerの網羅保証ではない。
+blob確認済みscripts 212件の文字列探索で外部callerはbridge。bridgeはinitialize/validateと返却pathを使いlive文字列を解析しない。専用test 5件、bridge test 2ファイル、CI 2ファイルを静的読解した。この接続評価時点では専用testは未実行だった。その後、元のloader mockを変えず5件を実行し、全件PASS（下記）。bridge E2EはGit参照するため未実行。全tests/外部callerの網羅保証ではない。
 
 [checks.json](../notes/rephase-1-connection/checks.json): 5群。5-file patch適用/hash、累計41 captured inputs不変、helperの二テンプレート以外の全AST不変、実W34/SP001 Profile形+合成session値でのtemplate確認、42非編集節の全文一致、上流の文書専用test 4件実行PASS。4件は最終auditや七観点PASSではない。
 
-production module、initialize/validate本体、bridge、CLI、full State/contract/reviewed-commit検証は未実行。Git禁止をstubで迂回しない。実publication/PDF品質・全Profile運用・費用削減は未実証。r1の13群の表示確認をr2 full integrationへ転用しない。EXAMPLE_ONLYは実session/authorityではない。
+上記の静的確認時点ではproduction moduleのimportもなかった。その後、固定コードcopyをimportしinitialize/validate本体を元testのmock境界で実行した。bridge、CLI、full State/contract/reviewed-commit検証は未実行。Git禁止をstubで迂回しない。実publication/PDF品質・全Profile運用・費用削減は未実証。r1の13群の表示確認をr2 full integrationへ転用しない。EXAMPLE_ONLYは実session/authorityではない。
 
 ## 独立レビューと受領
 
@@ -42,11 +42,19 @@ production module、initialize/validate本体、bridge、CLI、full State/contra
 
 [入力束縛](../notes/rephase-1-connection/independent-review-input.json)と[closeout](../notes/rephase-1-connection/independent-review-closeout.json)に対象/報告hashを保存。レビュー前後で候補5ファイル・patch・元assessment/checksは不変。元r1/r2成果は履歴として保持。このレビューは既存記録validatorの意味的完全性、Core実行互換、七観点audit、publication品質、純費用削減を認定しない。
 
+## 追加したGit-free単体実行
+
+Humanの続行指示により、未実行だった既存execution-record単体test 5件を初めて実行し、すべてPASS。対象はcanonical tree/navigation、非破壊性、session掲載、review/defect見出し、session/commit形式。実際のinitializerがfixtureファイルを生成しstructural validatorが検査した。
+
+元testの`_load_profile`/`_load_state` mockはそのまま。新しいauthority mockやGit成功応答は追加していない。したがって実Profile/State/contract/approval/commitの検証ではない。結果は[unit-results.json](../notes/rephase-1-runtime/unit-results.json)と[ログ](../notes/rephase-1-runtime/unit-tests.txt)。r2候補bytesは不変で独立レビューの対象も変わらない。
+
+固定版のtest/import依存19ファイルとr2 helperだけをignored内の一時directoryへcopyし、`python -I -B`で実行。process/network/.gitアクセスを事前拒否するaudit hookを設定し、要求0件。importしたscriptはcopy由来を確認し、一時fixtureは終了時に除去。Git、main/ref、production checkout/実edition操作、投稿、追加agentなし。
+
 ## 次の判断面
 
-**運用規則/live status分離は、設計・root接続評価・許可された独立限定レビューまで完了。** 新しい反例なしに同じ成功checkやレビューを追加しない。具体候補の準備不足による残作業は今回のscope内では見つからなかった。
+**運用規則/live status分離は、設計・root接続評価・許可された独立限定レビュー・既存helper単体回帰まで完了。** 新しい反例なしに同じ成功checkやレビューを追加しない。具体候補の準備不足による残作業は今回のscope内では見つからなかった。
 
-採用へ進める場合の残条件は、許可された環境での既存Core/CLI/bridge実行検証、その後のproduction採用判断。Git禁止は維持し、reviewed-commit検証をstubで迂回しない。独立reviewとproduction適用の許可は別物。今回の1名r2レビュー許可は完了し、追加独立作業には新たな明示許可が必要。
+採用へ進める場合の残条件は、許可された環境での既存Core/CLI/bridge統合検証、その後のproduction採用判断。既存bridge E2Eはrepository_commit_shaからGit subprocessへ至るため未実行。全Core関数が常にGit必須という主張ではないが、今回のmock単体testをfull統合へ言い換えない。Git禁止は維持し、reviewed-commit検証をstubで迂回しない。独立reviewとproduction適用の許可は別物。今回の1名r2レビュー許可は完了し、追加独立作業には新たな明示許可が必要。
 
 将来の採用時には既存Core review/CI/fixed-head/contract規則を適用。旧Stateのhash/approvalを付替えず、旧bytes/契約/履歴を保持する。W34/SP001の実index/State/Candidate/PDFを移行実績のために再生成しない。
 

@@ -4,11 +4,11 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
-**Direction reassessment and the bounded r2 independent review are complete.** Continue in this repository and treat prior Phases as historical evidence. The old Phase 5 work order is superseded.
+**The r2 proposal, bounded independent review and Git-free helper unit regression are complete.** Continue in this repository and treat prior Phases as historical evidence. The old Phase 5 work order is superseded.
 
 1. [Re:Phase 1 handoff](handoff/rephase-1-continuation.md)
-2. [Independent-review disposition](outputs/rephase-1-review-disposition.md); [prior r2 connection assessment](outputs/rephase-1-connection-assessment.md)
-3. [r2 candidate and evidence](notes/rephase-1-connection/README.md), only as needed; [prior design](outputs/rephase-1-operating-contract-assessment.md) remains historical context
+2. [Current unit-runtime assessment](outputs/rephase-1-runtime-assessment.md); [independent-review disposition](outputs/rephase-1-review-disposition.md)
+3. [Runtime evidence](notes/rephase-1-runtime/README.md) and [r2 candidate/review evidence](notes/rephase-1-connection/README.md), only as needed; [prior design](outputs/rephase-1-operating-contract-assessment.md) remains historical context
 
 Baselines:
 
@@ -17,9 +17,9 @@ Baselines:
 
 Do not follow newer production main or rebaseline without explicit Human instruction. **Git operations are currently prohibited**, including read-only inspection and Git-aware tests.
 
-The [broader direction](outputs/rephase-1-direction-assessment.md) remains partial redesign that removes identifiable work while preserving quality, authority and history. The [five-file r2 candidate](notes/rephase-1-connection/candidate.patch) removes copied live status and its maintenance obligation, with caller/test and edited-rule review completed at root. It repairs navigation and scope wording while retaining mandatory reading and review. Five grouped r2 checks include four executed document-only upstream tests; one authorized independent review found no actionable issues in scope and r2 was retained unchanged. Full Core/CLI/bridge integration remains unperformed.
+The [broader direction](outputs/rephase-1-direction-assessment.md) remains partial redesign that removes identifiable work while preserving quality, authority and history. The [five-file r2 candidate](notes/rephase-1-connection/candidate.patch) removes copied live status and its maintenance obligation, with caller/test and edited-rule review completed at root. It repairs navigation and scope wording while retaining mandatory reading and review. Five grouped r2 checks include four executed document-only upstream tests; one authorized independent review found no actionable issues in scope and r2 was retained unchanged. The five existing execution-record unit tests now pass against r2 in an isolated copy with their original Profile/State loader mocks. Full Core/CLI/bridge integration remains unperformed.
 
-The separation proposal is complete through bounded independent review. Remaining adoption conditions are integration checks in a permitted environment and a separate production decision. This review is not final audit or adoption approval; its one-agent authorization is completed. Do not repeat completed work without new evidence. Known Freeze/reader defects remain maintenance evidence, not an automatic roadmap.
+The separation proposal is complete through bounded independent review and the existing helper unit regression. Remaining adoption conditions are integration checks in a permitted environment and a separate production decision. This review is not final audit or adoption approval; its one-agent authorization is completed. Do not repeat completed work without new evidence. Known Freeze/reader defects remain maintenance evidence, not an automatic roadmap.
 
 ## Purpose
 

@@ -1,0 +1,668 @@
+{
+  "files": [
+    "scripts/survey_execution_record_v2.py",
+    "tests/test_survey_execution_record_v2.py",
+    "scripts/survey_agent_control_v2.py",
+    "scripts/survey_production_v2.py",
+    "scripts/survey_drafting_v2.py",
+    "scripts/survey_publication_v2.py",
+    "scripts/survey_quality_v2.py",
+    "scripts/survey_reader_publication_v2.py",
+    "scripts/survey_review_attention_v2.py",
+    "scripts/survey_schema_v2.py",
+    "scripts/weekly_pipeline.py",
+    "scripts/survey_drafting_v2_base.py",
+    "scripts/survey_reader_fidelity_v2.py",
+    "scripts/survey_reader_surface_gate_v2.py",
+    "scripts/survey_architecture_v2.py",
+    "scripts/survey_evidence_v2.py",
+    "scripts/survey_screening_v2.py",
+    "scripts/survey_architecture_v2_base.py",
+    "scripts/survey_completeness_v2.py"
+  ],
+  "external_imports": [
+    "__future__",
+    "argparse",
+    "collections",
+    "copy",
+    "dataclasses",
+    "datetime",
+    "hashlib",
+    "json",
+    "jsonschema",
+    "math",
+    "os",
+    "pathlib",
+    "pypdf",
+    "re",
+    "shutil",
+    "subprocess",
+    "sys",
+    "tempfile",
+    "typing",
+    "unittest",
+    "zoneinfo"
+  ],
+  "non_definition_statements": [
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 19,
+      "code": "SESSION_ID_RE = re.compile(r\"^[A-Za-z0-9][A-Za-z0-9._-]*$\")"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 20,
+      "code": "SHA40_RE = re.compile(r\"^[0-9a-f]{40}$\")"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 21,
+      "code": "EXECUTION_DIR = \"execution\""
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 22,
+      "code": "INDEX_FILE = \"index.md\""
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 23,
+      "code": "REQUIRED_DIRS = (\"sessions\", \"reviews\", \"defects\")"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 24,
+      "code": "INDEX_HEADINGS = (\n    \"## Current authority\",\n    \"## Human Gates\",\n    \"## Publication Candidate\",\n    \"## Grok/X\",\n    \"## Deviations\",\n    \"## Shared Core defects\",\n    \"## Sessions\",\n    \"## Final disposition\",\n)"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 34,
+      "code": "SESSION_HEADINGS = (\n    \"## Starting authority\",\n    \"## Actions actually performed\",\n    \"## External handoff\",\n    \"## Deviations / failures\",\n    \"## End state\",\n)"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 41,
+      "code": "REVIEW_HEADINGS = (\n    \"## Reviewed authority\",\n    \"## Human decision\",\n    \"## Requested changes\",\n    \"## Regeneration boundary\",\n    \"## Shared-Core implication\",\n)"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 48,
+      "code": "DEFECT_HEADINGS = (\n    \"## Observation\",\n    \"## Reproduction boundary\",\n    \"## Impact\",\n    \"## Safe edition-local workaround\",\n    \"## Core-maintenance pointer\",\n    \"## Production disposition\",\n)"
+    },
+    {
+      "path": "scripts/survey_execution_record_v2.py",
+      "line": 386,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "tests/test_survey_execution_record_v2.py",
+      "line": 161,
+      "code": "unittest.main()"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 38,
+      "code": "CHECKPOINT_SCHEMA = Path(\"schemas/stage-checkpoint-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 39,
+      "code": "STATE_SCHEMA = Path(\"schemas/survey-production-state.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 40,
+      "code": "REVALIDATION_SCHEMA = Path(\"schemas/publication-surface-revalidation.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 41,
+      "code": "REVALIDATION_BASENAME = \"publication-surface-revalidation\""
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 42,
+      "code": "REVALIDATION_REASON_CLASSES = {\"REVIEWED_CORE_CHANGE\"}"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 43,
+      "code": "REVALIDATION_CHAIN_LIMIT = 32"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 44,
+      "code": "REVIEW_KINDS = {\"DETERMINISTIC\", \"AGENT_RESEARCH\", \"AGENT_EDITORIAL\", \"AGENT_VISUAL\"}"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 45,
+      "code": "CORE_STAGE_REVIEW_ID = \"CORE_STAGE_CONTRACT\""
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 46,
+      "code": "RELEASE_RECONCILIATION_REVIEW_ID = \"RELEASE_EXACT_BYTE_RECONCILIATION\""
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "line": 1611,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 26,
+      "code": "DEFAULT_CONFIG = Path(\"config/survey-production-v2.json\")"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 27,
+      "code": "PROFILE_SCHEMA = Path(\"schemas/survey-production-profile.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 28,
+      "code": "STATE_SCHEMA = Path(\"schemas/survey-production-state.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 29,
+      "code": "WEEKLY_ISSUE_RE = re.compile(r\"^(?P<year>\\d{4})-W(?P<week>\\d{2})$\")"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 30,
+      "code": "ISSUE_ID_RE = re.compile(r\"^[A-Za-z0-9][A-Za-z0-9._-]*$\")"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 32,
+      "code": "LIFECYCLE = (\n    \"ISSUE_INITIALIZED\",\n    \"DISCOVERY_COLLECTED\",\n    \"CANDIDATES_NORMALIZED\",\n    \"EVIDENCE_REVIEWED\",\n    \"SELECTION_COMPLETE\",\n    \"ARCHITECTURE_ESTABLISHED\",\n    \"DRAFT_COMPLETE\",\n    \"VALIDATED_DRAFT\",\n    \"RELEASE_CANDIDATE\",\n    \"FROZEN\",\n    \"RELEASED\",\n)"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 46,
+      "code": "CHECKPOINTS = (\n    \"discovery\",\n    \"screening\",\n    \"evidence\",\n    \"materiality\",\n    \"completeness\",\n    \"selection\",\n    \"architecture\",\n    \"draft\",\n    \"validation\",\n    \"publication_preview\",\n    \"freeze\",\n    \"release\",\n)"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 61,
+      "code": "CONTRACT_KEYS = {\n    \"pipeline_contract_version\",\n    \"pipeline_contract_sha256\",\n    \"quality_contract_version\",\n    \"quality_contract_sha256\",\n    \"research_profile_version\",\n    \"research_profile_sha256\",\n    \"publication_profile_version\",\n    \"publication_profile_sha256\",\n}"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 72,
+      "code": "GATE_KEYS = {\n    \"ARCHITECTURE_REVIEW\": \"architecture_review\",\n    \"PUBLICATION_PREVIEW\": \"publication_preview\",\n}"
+    },
+    {
+      "path": "scripts/survey_production_v2.py",
+      "line": 1137,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_drafting_v2.py",
+      "line": 32,
+      "code": "_ORIGINAL_DERIVE_DRAFT_PACKAGE = _base.derive_draft_package"
+    },
+    {
+      "path": "scripts/survey_drafting_v2.py",
+      "line": 33,
+      "code": "_ORIGINAL_VALIDATE_SELF_CONTAINED = _base.validate_self_contained_draft_package"
+    },
+    {
+      "path": "scripts/survey_drafting_v2.py",
+      "line": 452,
+      "code": "_base.derive_draft_package = derive_draft_package"
+    },
+    {
+      "path": "scripts/survey_drafting_v2.py",
+      "line": 453,
+      "code": "_base.validate_self_contained_draft_package = validate_self_contained_draft_package"
+    },
+    {
+      "path": "scripts/survey_drafting_v2.py",
+      "line": 465,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 22,
+      "code": "CANDIDATE_SCHEMA = Path(\"schemas/publication-candidate-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 23,
+      "code": "PREVIEW_APPROVAL_SCHEMA = Path(\"schemas/publication-preview-approval-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 24,
+      "code": "VISUAL_REVIEW_SCHEMA = Path(\"schemas/visual-review-record-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 25,
+      "code": "FREEZE_SCHEMA = Path(\"schemas/freeze-record-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 26,
+      "code": "RELEASE_MANIFEST_SCHEMA = Path(\"schemas/release-manifest-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 27,
+      "code": "MERGE_VERIFICATION_SCHEMA = Path(\"schemas/merge-verification-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_publication_v2.py",
+      "line": 28,
+      "code": "RELEASE_RECORD_SCHEMA = Path(\"schemas/release-record-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_quality_v2.py",
+      "line": 21,
+      "code": "QUALITY_SCHEMA = Path(\"schemas/quality-regression-bundle-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_quality_v2.py",
+      "line": 22,
+      "code": "VALID_KINDS = {\"DETERMINISTIC\", \"AGENT_SEMANTIC\", \"AGENT_VISUAL\"}"
+    },
+    {
+      "path": "scripts/survey_reader_publication_v2.py",
+      "line": 25,
+      "code": "MANUSCRIPT_SCHEMA = Path(\"schemas/reader-manuscript-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_publication_v2.py",
+      "line": 26,
+      "code": "REVIEW_SCHEMA = Path(\"schemas/publication-review-record-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_publication_v2.py",
+      "line": 27,
+      "code": "ARCHITECTURE_SCHEMA = Path(\"schemas/issue-architecture-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_publication_v2.py",
+      "line": 28,
+      "code": "ARCHITECTURE_APPROVAL_SCHEMA = Path(\"schemas/architecture-approval-record-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_publication_v2.py",
+      "line": 29,
+      "code": "REVIEW_CONTRACT = Path(\"config/publication-review-v2.json\")"
+    },
+    {
+      "path": "scripts/survey_review_attention_v2.py",
+      "line": 13,
+      "code": "ATTENTION_SCHEMA = Path(\"schemas/architecture-review-attention-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_schema_v2.py",
+      "line": 18,
+      "code": "raise RuntimeError(\n        \"Survey Production Core v2 requires jsonschema; install config/survey-production-v2-requirements.txt\"\n    ) from exc"
+    },
+    {
+      "path": "scripts/weekly_pipeline.py",
+      "line": 20,
+      "code": "DEFAULT_CONFIG = Path(\"config/weekly-pipeline.json\")"
+    },
+    {
+      "path": "scripts/weekly_pipeline.py",
+      "line": 21,
+      "code": "INTAKE_SEGMENTS = (\"full\", \"front\", \"back\")"
+    },
+    {
+      "path": "scripts/weekly_pipeline.py",
+      "line": 494,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 24,
+      "code": "APPROVAL_SCHEMA = Path(\"schemas/architecture-approval-record-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 25,
+      "code": "DRAFT_PACKAGE_SCHEMA = Path(\"schemas/draft-v2-package.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 26,
+      "code": "DRAFT_RESULT_SCHEMA = Path(\"schemas/draft-v2-result.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 27,
+      "code": "SYNTHESIS_INPUT_SCHEMA = Path(\"schemas/profile-synthesis-v2-input.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 28,
+      "code": "SYNTHESIS_RESULT_SCHEMA = Path(\"schemas/profile-synthesis-v2-result.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 29,
+      "code": "DRAFT_PROMPT = Path(\"config/prompts/article-drafting-v2.md\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 30,
+      "code": "SYNTHESIS_PROMPT = Path(\"config/prompts/profile-synthesis-v2.md\")"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 32,
+      "code": "DRAFT_PACKAGE_FIELDS = {\n    \"schema_version\", \"issue_id\", \"research_profile\", \"publication_profile\",\n    \"package_id\", \"basis\", \"package\", \"candidate_matrix\",\n    \"evidence_acceptance\", \"evidence_inputs\", \"drafting_constraints\",\n    \"profile_extensions\", \"publication_extensions\",\n}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 38,
+      "code": "DRAFT_RESULT_FIELDS = {\n    \"schema_version\", \"issue_id\", \"research_profile\", \"publication_profile\",\n    \"package_id\", \"draft_version\", \"status\", \"basis\", \"runner\", \"headline\",\n    \"deck\", \"deck_attribution_mode\", \"deck_evidence_refs\", \"blocks\",\n    \"must_cover_coverage\", \"boundary_dispositions\", \"profile_extensions\",\n    \"publication_extensions\",\n}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 45,
+      "code": "APPROVAL_FIELDS = {\n    \"schema_version\", \"approval_id\", \"issue_id\", \"gate\", \"decision\",\n    \"architecture_sha256\", \"architecture_review_summary_sha256\",\n    \"architecture_review_attention_sha256\", \"reviewed_by\",\n    \"reviewed_at\", \"review_reference\",\n}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 51,
+      "code": "ATTRIBUTION_MODES = {\"NONE\", \"FACTUAL\", \"ATTRIBUTED\", \"SOCIAL\", \"INFERENCE\", \"MIXED\"}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 52,
+      "code": "BLOCK_TYPES = {\"HEADING\", \"PARAGRAPH\", \"BULLET_LIST\", \"TABLE\", \"CLAIM_BOUNDARY\", \"NOTE\"}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 53,
+      "code": "SUBJECT_ROLES = {\"PRIMARY_SUBJECT\", \"COMPARATOR\", \"RELATED\"}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 54,
+      "code": "REF_KINDS = {\"EVENT\", \"CLAIM\", \"METRIC\", \"LIMITATION\"}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 55,
+      "code": "BOUNDARY_HANDLING = {\"EXPLICITLY_STATED\", \"RESPECTED_BY_OMISSION\"}"
+    },
+    {
+      "path": "scripts/survey_drafting_v2_base.py",
+      "line": 931,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_reader_fidelity_v2.py",
+      "line": 23,
+      "code": "_HEADING = re.compile(r\"\\\\(?P<kind>section|subsection)(?P<star>\\*)?\\{(?P<title>[^{}]+)\\}\")"
+    },
+    {
+      "path": "scripts/survey_reader_fidelity_v2.py",
+      "line": 24,
+      "code": "_CITATION = re.compile(r\"\\\\(?:auto|text|paren)?cite\\w*\\{([^{}]+)\\}\")"
+    },
+    {
+      "path": "scripts/survey_reader_fidelity_v2.py",
+      "line": 25,
+      "code": "_LOCATION = re.compile(\n    r\"^(?P<kind>Section|Subsection)\\s+(?P<number>\\d+(?:\\.\\d+)?)\\s*(?:—|–|-|:)\\s*(?P<title>.+)$\",\n    re.IGNORECASE,\n)"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 36,
+      "code": "SURFACE_GATE_SCHEMA = Path(\"schemas/reader-surface-gate-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 37,
+      "code": "MANUSCRIPT_SCHEMA = Path(\"schemas/reader-manuscript-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 38,
+      "code": "SURFACE_INPUT_SCHEMA = Path(\"schemas/reader-surface-input-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 39,
+      "code": "SEMANTIC_REVIEW_SCHEMA = Path(\"schemas/reader-surface-semantic-review-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 68,
+      "code": "RULES: list[RuleDefinition] = [\n    RuleDefinition(\n        rule_id=\"RSG-LEX-CORE-VOCAB\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Core v2 pipeline and architecture internal terminology in reader-facing prose\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-SELECTION-SCREENING\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Candidate screening, selection rounds, and negative selection decisions in reader prose\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-DISCOVERY-INTAKE\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Discovery intake, observation metadata, and candidate reviews in reader prose\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-VERIFICATION-MATERIALITY\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Internal verification obligations and materiality markers in reader prose\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-INTERNAL-IDENTIFIERS\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Internal package identifiers and raw evidence IDs in reader prose\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-STAGE-LIFECYCLE\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Internal stage and checkpoint lifecycle names used as publication prose\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-INTERNAL-PATHS\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Internal repository, transport, or Grok paths in reader prose or URLs\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-BIBLIOGRAPHY-LEAKAGE\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Internal evidence tags and materiality leaked into bibliography records\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-EDITORIAL-PROCESS\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Internal editorial operations explained as prose rather than underlying facts\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-LEX-REVIEW-RATIONALE-COP-OUT\",\n        layer=\"LEXICAL_LINT\",\n        description=\"Architecture review meta-rebuttals and cop-out coverage assertions\",\n        severity=\"BLOCKING\",\n    ),\n    RuleDefinition(\n        rule_id=\"RSG-SEM-PROCESS-LEAKAGE\",\n        layer=\"SEMANTIC_REVIEW\",\n        description=\"Reader-facing sentence requiring internal pipeline knowledg"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 137,
+      "code": "RULE_BY_ID = {rule.rule_id: rule for rule in RULES}"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 141,
+      "code": "LEXICAL_PATTERNS: list[tuple[str, re.Pattern[str], str, str]] = [\n    # RSG-LEX-CORE-VOCAB\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"承認済み\\s*Architecture\", re.IGNORECASE),\n        \"Leaks internal approved Architecture status into reader prose\",\n        \"Explain the survey structure or topic directly without citing approval state\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"\\bapproved\\s+architecture\\b\", re.IGNORECASE),\n        \"Leaks internal Architecture approval phrasing into reader prose\",\n        \"State the editorial focus or topic structure directly\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"Core\\s*v2\\s*contract\", re.IGNORECASE),\n        \"Leaks Core v2 contract into reader prose\",\n        \"Remove pipeline contract reference\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"Core\\s*v2\\s*Evidence\", re.IGNORECASE),\n        \"Leaks Core v2 Evidence terminology into reader prose\",\n        \"Refer to the underlying sources or factual claims directly\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"\\bCore\\s+v2\\b\", re.IGNORECASE),\n        \"Leaks Core v2 repository engine name into reader prose\",\n        \"Remove Core v2 reference from publication text\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"Evidence\\s+Card\", re.IGNORECASE),\n        \"Leaks internal Evidence Card artifact name into reader prose\",\n        \"Refer to primary documentation or vendor specifications\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"本\\s*Evidence\"),\n        \"Leaks internal Evidence artifact reference into reader prose\",\n        \"Refer to the source, benchmark, or announcement directly\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"Evidence\\s+pass\", re.IGNORECASE),\n        \"Leaks internal Evidence pass evaluation into reader prose\",\n        \"State the verified technical findings directly\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"Selection\\s*済み\\s*Evidence\"),\n        \"Leaks Selection-bound Evidence metadata into reader prose\",\n        \"Discuss the selected systems or models on their factual merits\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"\\bnormalized\\s+claim\\b\", re.IGNORECASE),\n        \"Leaks internal claim normalization vocabulary into reader prose\",\n        \"State the claim in natural reader-facing prose\",\n    ),\n    (\n        \"RSG-LEX-CORE-VOCAB\",\n        re.compile(r\"\\bSource-bound\\s+record\\b"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 1059,
+      "code": "load_and_validate_semantic_review = load_and_validate_reader_surface_semantic_review"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "line": 1817,
+      "code": "sys.exit(main())"
+    },
+    {
+      "path": "scripts/survey_architecture_v2.py",
+      "line": 25,
+      "code": "_ORIGINAL_VALIDATE_ARCHITECTURE = _base.validate_architecture"
+    },
+    {
+      "path": "scripts/survey_architecture_v2.py",
+      "line": 124,
+      "code": "_base.validate_architecture = validate_architecture"
+    },
+    {
+      "path": "scripts/survey_architecture_v2.py",
+      "line": 136,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 23,
+      "code": "PROMPT_PATH = Path(\"config/prompts/evidence-verification-v2.md\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 24,
+      "code": "PACKAGE_SCHEMA = Path(\"schemas/evidence-v2-run-package.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 25,
+      "code": "TASK_SCHEMA = Path(\"schemas/evidence-v2-task.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 26,
+      "code": "CARD_SCHEMA = Path(\"schemas/evidence-v2-card.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 27,
+      "code": "VIEW_SCHEMA = Path(\"schemas/edition-evidence-view.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 28,
+      "code": "SUPPLEMENT_SCHEMA = Path(\"schemas/evidence-authority-supplement-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 29,
+      "code": "LEDGER_SCHEMA = Path(\"schemas/materiality-ledger.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 30,
+      "code": "COMPLETENESS_SCHEMA = Path(\"schemas/profile-completeness-result.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 32,
+      "code": "CARD_KEYS = {\n    \"schema_version\", \"issue_id\", \"evidence_task_id\", \"basis\", \"status\",\n    \"entities\", \"artifact\", \"temporal\", \"sources\", \"claims\", \"metrics\",\n    \"limitations\", \"verification\",\n}"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 37,
+      "code": "EVIDENCE_CLASSES = {\n    \"PRIMARY_FACT\", \"VENDOR_CLAIM\", \"PROJECT_CLAIM\", \"AUTHOR_CLAIM\",\n    \"SOCIAL_OBSERVATION\", \"INFERENCE\",\n}"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 41,
+      "code": "SUBJECT_ROLES = {\"PRIMARY_SUBJECT\", \"COMPARATOR\", \"RELATED\"}"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 42,
+      "code": "VIEW_MATERIALITY = {\"MATERIAL\", \"CONTEXT\", \"NON_MATERIAL\", \"HOLD\"}"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 43,
+      "code": "OBLIGATION_STATUS = {\"SATISFIED\", \"LIMITATION\", \"NEEDS_RESEARCH\", \"NOT_APPLICABLE\"}"
+    },
+    {
+      "path": "scripts/survey_evidence_v2.py",
+      "line": 44,
+      "code": "SOURCE_CLASS_MAP = {\n    \"PRIMARY_OFFICIAL\": \"PRIMARY_OFFICIAL\",\n    \"PRIMARY_PAPER\": \"PRIMARY_PAPER\",\n    \"PRIMARY_REPOSITORY\": \"PRIMARY_REPOSITORY\",\n    \"SOCIAL\": \"SOCIAL\",\n    \"SECONDARY\": \"SECONDARY\",\n    \"SECONDARY_INVESTOR_ACCOUNT\": \"SECONDARY\",\n    \"paper\": \"PRIMARY_PAPER\",\n    \"github-release\": \"PRIMARY_REPOSITORY\",\n    \"official-feed-item\": \"PRIMARY_OFFICIAL\",\n    \"official-index\": \"PRIMARY_OFFICIAL\",\n    \"first_party_release_or_docs\": \"PRIMARY_OFFICIAL\",\n    \"first_party_official\": \"PRIMARY_OFFICIAL\",\n    \"government_security_authority\": \"PRIMARY_OFFICIAL\",\n    \"vendor_technical\": \"PRIMARY_OFFICIAL\",\n    \"repository_release\": \"PRIMARY_REPOSITORY\",\n    \"arxiv_primary\": \"PRIMARY_PAPER\",\n    \"dailyx_x_observation\": \"SOCIAL\",\n    \"github_release_api_response\": \"PRIMARY_REPOSITORY\",\n    \"official_project_repo\": \"PRIMARY_REPOSITORY\",\n    \"official_publisher_page\": \"PRIMARY_OFFICIAL\",\n    \"sol_working_set_observation\": \"SECONDARY\",\n    # These values are part of the existing Weekly fixtures.  They are\n    # deliberately classified by their established provenance, rather than\n    # by words appearing in the value itself.\n    \"github-changelog\": \"PRIMARY_OFFICIAL\",\n    \"github-repository\": \"PRIMARY_REPOSITORY\",\n    \"official-index-snapshot\": \"PRIMARY_OFFICIAL\",\n    \"official-page\": \"PRIMARY_OFFICIAL\",\n    \"prior-week-authority\": \"SECONDARY\",\n    \"x-community-signal\": \"SOCIAL\",\n    # W34's Discovery vocabulary includes these edition-local observations.\n    \"carryover_recheck\": \"SECONDARY\",\n    \"grok_x_observation_corrected_r2\": \"SOCIAL\",\n    \"sol_discovery_working_record\": \"SECONDARY\",\n    # W34 fresh gap-fill Discovery collectors (accepted canonical Discovery).\n    # Added 2026-09-09 after edition-found fail-closed gap blocked fresh\n    # Evidence (see sources/2026-W34/execution/luna/\n    # w34-screening-evidence-after-sol-discovery-r2/defects/\n    # shared-core-evidence-source-map-gap.md). Classes mirror siblings.\n    \"arxiv_atom_snapshot\": \"PRIMARY_PAPER\",\n    \"official_web_fallback_observation\": \"PRIMARY_OFFICIAL\",\n    \"official_release_notes_snapshot\": \"PRIMARY_OFFICIAL\",\n    \"official_rss_index_snapshot\": \"PRIMARY_OFFICIAL\",\n    \"official_research_index_snapshot\": \"PRIMARY_OFFICIAL\",\n    # Exact source_type values used by the W34 post-Screening supplement.\n    \"first_party_product_release\": \"PRIMARY_OFFICIAL\",\n    \"first_party_product_changelog\": \"PRIMARY_OFFICIAL\",\n    \"first_party_product_docs\": \"PRIMARY_OFFICIAL\",\n    \"first_party_repository\": \"PR"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 22,
+      "code": "DISCOVERY_SCHEMA = Path(\"schemas/survey-discovery-record.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 23,
+      "code": "RUN_PACKAGE_SCHEMA = Path(\"schemas/screening-v2-run-package.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 24,
+      "code": "RESULT_SCHEMA = Path(\"schemas/screening-v2-batch-result.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 25,
+      "code": "PROMPT_PATH = Path(\"config/prompts/source-screening-v2.md\")"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 27,
+      "code": "ORIGINS = {\n    \"BASE\",\n    \"CARRY_OVER\",\n    \"REFERENCE_EXPANSION\",\n    \"SUCCESSOR_EXPANSION\",\n    \"PARALLEL_EXPANSION\",\n    \"COMPETING_EXPANSION\",\n    \"BRIDGE_EXPANSION\",\n    \"GAP_FILL\",\n}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 37,
+      "code": "EXPANSION_REQUIRING_PARENT = {\n    \"REFERENCE_EXPANSION\",\n    \"SUCCESSOR_EXPANSION\",\n    \"PARALLEL_EXPANSION\",\n    \"COMPETING_EXPANSION\",\n    \"BRIDGE_EXPANSION\",\n}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 44,
+      "code": "DECISIONS = {\"KEEP\", \"MAYBE\", \"DROP\", \"INSPECT\"}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 45,
+      "code": "CONFIDENCE = {\"low\", \"medium\", \"high\"}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 47,
+      "code": "DISCOVERY_KEYS = {\"schema_version\", \"issue_id\", \"discovery_id\", \"provenance\", \"source\"}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 48,
+      "code": "PROVENANCE_KEYS = {\"origin\", \"research_pass\", \"parent_refs\", \"obligation_ids\", \"reason\"}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 49,
+      "code": "SOURCE_KEYS = {\n    \"source_type\",\n    \"collector_id\",\n    \"collector_run_id\",\n    \"observed_at\",\n    \"title\",\n    \"locator\",\n    \"raw_paths\",\n    \"published_at\",\n    \"summary_text\",\n    \"metadata\",\n}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 61,
+      "code": "DECISION_KEYS = {\n    \"discovery_id\",\n    \"decision\",\n    \"reason\",\n    \"scope_tags\",\n    \"duplicate_group\",\n    \"verification_targets\",\n    \"confidence\",\n}"
+    },
+    {
+      "path": "scripts/survey_screening_v2.py",
+      "line": 901,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 19,
+      "code": "MATRIX_SCHEMA = Path(\"schemas/candidate-matrix-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 20,
+      "code": "SELECTION_SCHEMA = Path(\"schemas/candidate-selection-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 21,
+      "code": "ARCHITECTURE_SCHEMA = Path(\"schemas/issue-architecture-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 22,
+      "code": "REVIEW_SCHEMA = Path(\"schemas/architecture-review-summary-v2.schema.json\")"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 23,
+      "code": "DISPOSITIONS = {\"SELECTED\", \"HOLD\", \"REJECT\", \"INSPECT\"}"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 24,
+      "code": "USAGES = {\"PRIMARY\", \"SUPPORTING\", \"NONE\"}"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 25,
+      "code": "MATERIAL_REVIEW = {\"MATERIAL\", \"CONTEXT\"}"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "line": 1083,
+      "code": "raise SystemExit(main())"
+    },
+    {
+      "path": "scripts/survey_completeness_v2.py",
+      "line": 25,
+      "code": "OBLIGATION_KEYS = {\n    \"obligation_id\",\n    \"dimension\",\n    \"description\",\n    \"status\",\n    \"discovery_ids\",\n    \"evidence_task_ids\",\n    \"rationale\",\n}"
+    },
+    {
+      "path": "scripts/survey_completeness_v2.py",
+      "line": 34,
+      "code": "OBLIGATION_STATUS = {\"SATISFIED\", \"LIMITATION\", \"NEEDS_RESEARCH\", \"NOT_APPLICABLE\"}"
+    },
+    {
+      "path": "scripts/survey_completeness_v2.py",
+      "line": 35,
+      "code": "MATERIAL_OBLIGATION_STATUS = {\"SATISFIED\", \"LIMITATION\", \"NEEDS_RESEARCH\"}"
+    }
+  ]
+}
