@@ -1,61 +1,59 @@
 # J-GAS reconstruction — Re:Phase 1 continuation
 
-日付: 2026-09-15 JST  
-状態: **r2既存単体test 5件PASS / 独立限定レビュー完了 / r2不変 / full実行互換・採用未認定**
+日付: 2026-09-16 JST
 
-## 再開入力とHuman制約
+状態: **r2限定Git-aware統合検証完了 / r2不変 / production採用・七観点audit・純削減は未認定**
+
+## 再開入力と権限
 
 1. 本handoff。
-2. [今回の単体実行評価](../outputs/rephase-1-runtime-assessment.md)。[独立レビュー受領判断](../outputs/rephase-1-review-disposition.md)・従前の接続評価は履歴根拠。
-3. 必要時だけ[単体実行Evidence](../notes/rephase-1-runtime/README.md)・[r2 Evidence](../notes/rephase-1-connection/README.md)。前回の[設計/義務対応](../outputs/rephase-1-operating-contract-assessment.md)と[全体方針](../outputs/rephase-1-direction-assessment.md)は歴史入力。
+2. [最新の統合判断](../outputs/rephase-1-integration-assessment.md)。
+3. 必要時だけ[統合Evidence](../notes/rephase-1-integration/README.md)。候補/独立reviewは[r2 Evidence](../notes/rephase-1-connection/README.md)。全体方針は[方向再評価](../outputs/rephase-1-direction-assessment.md)。
 
-productionはHuman固定baseline `774dd39a951c9ac3818e83dfffd4c7666efb0a20`。明示rebaselineまで新しいmainを照会/追跡しない。旧reconstruct開始`ec6a502e`は歴史値で、現在HEADではない。
+production baselineはHuman固定`774dd39a951c9ac3818e83dfffd4c7666efb0a20`。明示rebaselineまで新しいmainへ追従/照会しない。旧reconstruct開始`ec6a502e`は歴史値。
 
-**Git操作は禁止。** status/diff/log等の読取り、init/worktree/fetch/Pull/Push/commit、Git-aware test、remote Git/ref照会も行わない。旧capture.pyのobserveを使わない。固定cacheと不足する固定commit raw GET、filesystem/hash/difflibだけを使用した。Gitのclean/HEAD/indexは確認していない。
+**HumanはGit操作禁止を解除した。** 必要なGit操作とGit-aware検証は許可済み。fixtureは独立Git root/databaseとinert originを用い、reconstructのobjects/refs/indexを継承しない。productionへの変更・投稿・適用・採用は明示判断まで行わない。通常のreconstruct最終commit/Pull/Pushは引き続きHuman担当。今回それらは行っていない。
 
-productionはread-only。投稿/dispatch/適用/adoptionは別途明示許可が必要。Humanは具体scopeを提示した許可質問に「許可します」と回答し、独立agent 1名のr2レビューを許可した。実施済みで、この具体許可は完了。Git/productionや別scope・追加agentへの許可ではない。
+独立agent 1名のr2具体scopeは以前に許可され完了。今回の統合はrootのみで、追加reviewの許可に拡張していない。
 
-## 今回の成果
+## 現在の候補と既存Evidence
 
-現在の[候補差分](../notes/rephase-1-connection/candidate.patch)はr2。authority、redesign overlay、session bootstrap、execution-record policy、execution-record initializerの5ファイル。全体はignored `.rephase-1-inputs/contract-candidate-r2/`へ生成。r1との差分とhashを保存し、r1のpatch/assessment/checksは上書きしていない。
+[5-file候補差分](../notes/rephase-1-connection/candidate.patch)はr2のまま。authority、redesign overlay、session bootstrap、execution-record policy、execution-record initializer。規範/indexのlive State/Gate/Candidate/next actionコピーと更新義務を外し、run context/navigation・版付きsession/review・Human提示・active authorityを保持する案。
 
-live State/Gate/Candidate/next actionをindexへコピーせず、run context/navigationにする方針を維持。session/正式review・Human提示・active approvalの根拠・独立reviewは維持。表示サービスを追加する案ではない。
+r2はCore設定に従うreview index参照、初期objective/stop・各sessionのmode/transport案内、pending/active/historyの分離、広すぎたMarkdown/Frozen表現の修正を含む。表示probeや第二のState validatorをproductionへ入れる案ではない。
 
-r2修正:
+rootの42節全文保持、二テンプレート以外のhelper AST不変、文書test 4件、元loader mockを使う単体test 5件、独立限定reviewのactionable findingなしは、それぞれ元のscopeで保持する。既存assessment/checks/独立reportの上書きや、full auditへの読み替えはしない。
 
-- review index参照をCore設定に従わせ、設定欠落/最初のdecision前の不在を承認と扱わない。
-- initial objective・初期requested stop・各sessionの実行mode/transportへの案内。既存policy §5が要求するtransport見出しを生成。modeを推測しない。
-- pending review対象は版付きsession/review presentationとState-bound stage artifactsへ。旧承認から復元しない。
-- Markdown全般の更新免除に読める記述を限定。Frozen edition全体の不変宣言が正当なRelease進行を禁じないよう修正。
+## 今回確認した統合範囲
 
-## 接続/検証範囲
+[results.json](../notes/rephase-1-integration/results.json)に集約。
 
-blob確認済みscripts 212件の文字列探索で外部callerはbridge。bridgeはinitialize/validateと返却pathを使いlive文字列を解析しない。専用test 5件、bridge test 2ファイル、CI 2ファイルを静的読解した。この接続評価時点では専用testは未実行だった。その後、元のloader mockを変えず5件を実行し、全件PASS（下記）。bridge E2EはGit参照するため未実行。全tests/外部callerの網羅保証ではない。
+- 固定版のbridge/Human Gate上流test 3クラス、27個の異なるtestを確認。Linux初回18 PASSと、test guard修正後の未完了9件PASS。初期化→Discovery、Architecture/Publicationのrevision/approval、cross-gate再開、歴史保持、実Git commitの不存在/到達不能/対象bytes不一致の拒否を含む。
+- Weekly・Thematic/LONGFORM・設定済monthly Retrospectiveで、実Core CLI初期化→State検証→execution-record init/validate。loader mockなし。合計21コマンド呼出し。Profile bytes driftはindex生成前に拒否、既存index再初期化とissue不一致も拒否。
+- 合成Architecture fixtureでINITIALIZED→pending r1→REQUEST_CHANGES r1→pending r2→APPROVED r2を進め、index bytes不変のまま実loader/validatorが通過。active承認ファイルの欠落は過去APPROVEDがあっても拒否し、元bytesを戻すと通過。
 
-[checks.json](../notes/rephase-1-connection/checks.json): 5群。5-file patch適用/hash、累計41 captured inputs不変、helperの二テンプレート以外の全AST不変、実W34/SP001 Profile形+合成session値でのtemplate確認、42非編集節の全文一致、上流の文書専用test 4件実行PASS。4件は最終auditや七観点PASSではない。
+新しいauthority mockやGitの成功stubは使用していない。ただしfixtureの研究・semantic/visual review・Human decisionは合成であり、実品質/承認Evidenceではない。session/review proseの義務充足を認定していない。
 
-上記の静的確認時点ではproduction moduleのimportもなかった。その後、固定コードcopyをimportしinitialize/validate本体を元testのmock境界で実行した。bridge、CLI、full State/contract/reviewed-commit検証は未実行。Git禁止をstubで迂回しない。実publication/PDF品質・全Profile運用・費用削減は未実証。r1の13群の表示確認をr2 full integrationへ転用しない。EXAMPLE_ONLYは実session/authorityではない。
+## 環境・初期失敗を混同しない
 
-## 独立レビューと受領
+固定tree/blob hashに照合した485ファイルのCore部分snapshot。463はcache、22は固定raw GET。production sources/surveysの全履歴を複製していない。
 
-[独立報告](../notes/rephase-1-connection/independent-review.md): 記録義務、初期化/再開/REQUEST_CHANGESの参照、active/history分離、caller/test静的整合を確認し、対象範囲にactionable findingなし。reviewerは固定baseline/r2全5hashを独自照合。新しいtest実行なし。rootは報告を受領し、修正せずr2を維持した。
+- `.rephase-1-inputs/integration-r2/`に独立repositoryを作り、合成baseline `270050797c3a28861f05cffae1c142fc9b9271bc`、合成r2 `502b3781c58a1b453f5d9389caef32f3a7866524`を作成。productionの実commitそのものではない。
+- 最終9件・CLI・navigationはUbuntu `/tmp/jgas-rephase-r2-502b3781`。`--no-local`で複製しalternatesなし、originは`https://example.invalid/rephase-fixture.git`。testのGit objects/commitsはここだけに作成。remote test refsはcleanup済み。/tmpが失われてもdurable manifest/scriptを起点に再準備する。
+- Windows初回はaudit引数処理誤り。その修正後も固定Coreのbackslash生成/拒否とtzdata不足により11 errors。Windows互換は未成立。
+- Linux初回9 errorsと次の9 errorsはtest側allowlistの`check-ref-format`/`ls-tree`不足。ローカル照合を正しく許可し、残り9件のみ再実行して通過。Core検証の弱体化ではない。
+- CLIの最初のWeekly日時はcutoff前で正しく拒否。fixture日時だけを後ろへ直した。
 
-[入力束縛](../notes/rephase-1-connection/independent-review-input.json)と[closeout](../notes/rephase-1-connection/independent-review-closeout.json)に対象/報告hashを保存。レビュー前後で候補5ファイル・patch・元assessment/checksは不変。元r1/r2成果は履歴として保持。このレビューは既存記録validatorの意味的完全性、Core実行互換、七観点audit、publication品質、純費用削減を認定しない。
+試行ログ、dependency versions、setup/再現手順はEvidence READMEを参照。初回から27/27 PASSだったと記述しない。
 
-## 追加したGit-free単体実行
-
-Humanの続行指示により、未実行だった既存execution-record単体test 5件を初めて実行し、すべてPASS。対象はcanonical tree/navigation、非破壊性、session掲載、review/defect見出し、session/commit形式。実際のinitializerがfixtureファイルを生成しstructural validatorが検査した。
-
-元testの`_load_profile`/`_load_state` mockはそのまま。新しいauthority mockやGit成功応答は追加していない。したがって実Profile/State/contract/approval/commitの検証ではない。結果は[unit-results.json](../notes/rephase-1-runtime/unit-results.json)と[ログ](../notes/rephase-1-runtime/unit-tests.txt)。r2候補bytesは不変で独立レビューの対象も変わらない。
-
-固定版のtest/import依存19ファイルとr2 helperだけをignored内の一時directoryへcopyし、`python -I -B`で実行。process/network/.gitアクセスを事前拒否するaudit hookを設定し、要求0件。importしたscriptはcopy由来を確認し、一時fixtureは終了時に除去。Git、main/ref、production checkout/実edition操作、投稿、追加agentなし。
+終了時に、fixture HEAD/通常index、485入力bytes、元r2/独立review packet不変を確認。reconstruct HEADの今回観測は`388d827922459c2130512513148613657d0deede`。Git cleanの永久宣言ではない。production checkout/refs/State等への変更、production network fetch/push、Actions dispatch、投稿は行っていない。
 
 ## 次の判断面
 
-**運用規則/live status分離は、設計・root接続評価・許可された独立限定レビュー・既存helper単体回帰まで完了。** 新しい反例なしに同じ成功checkやレビューを追加しない。具体候補の準備不足による残作業は今回のscope内では見つからなかった。
+**この候補の設計・root接続・許可済み独立限定review・単体回帰・限定統合は完了。** 新たな具体的懸念がない限り成功test/レビューを増やさない。
 
-採用へ進める場合の残条件は、許可された環境での既存Core/CLI/bridge統合検証、その後のproduction採用判断。既存bridge E2Eはrepository_commit_shaからGit subprocessへ至るため未実行。全Core関数が常にGit必須という主張ではないが、今回のmock単体testをfull統合へ言い換えない。Git禁止は維持し、reviewed-commit検証をstubで迂回しない。独立reviewとproduction適用の許可は別物。今回の1名r2レビュー許可は完了し、追加独立作業には新たな明示許可が必要。
+次はr2をproductionへの適用審査に進めるかというHuman判断が妥当。適用を許可された場合も、実candidate treeに対する既存Core/CI/fixed-head七観点audit・contract変更規則は別途必要。今回の統合結果だけでready-to-adoptと認定しない。旧State/approval/hashを付替えず、旧bytes/契約/履歴を保持し、released editionを移行実績のために再生成しない。
 
-将来の採用時には既存Core review/CI/fixed-head/contract規則を適用。旧Stateのhash/approvalを付替えず、旧bytes/契約/履歴を保持する。W34/SP001の実index/State/Candidate/PDFを移行実績のために再生成しない。
+未確認: full upstream CI、実Actions輸送、実adoption/既存editionとの契約互換、全Profile公開完走とpublication品質、全roleの純lifecycle work差。原記録探索やHuman/reviewerへの仕事移動も費用に含める。全体reconstructionは未完了。
 
-全体reconstructionは未完了。workspaceは継続し旧Phaseは論理Archive。目的は全role/lifecycleの仕事削減。既知bugの全消化、dashboard、新validator、全manual統合、常設telemetryを自動的な次工程にしない。Freeze/readerの固定版反例は必要経路を評価するときのmaintenance evidence。#492/#495/#496は上流成果で、reconstruct採用/節約の証拠ではない。
+旧Phaseは論理Archive。Freeze/readerの固定版反例は必要経路のmaintenance evidenceであり、自動的な次工程ではない。全manual統合、dashboard、新resolver、常設telemetryへ拡張しない。#492/#495/#496は上流成果で、reconstruct採用/節約の証拠ではない。

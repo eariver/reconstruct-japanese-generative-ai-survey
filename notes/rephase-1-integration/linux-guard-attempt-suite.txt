@@ -1,0 +1,272 @@
+test_advance_request_cannot_claim_deterministic_agent_review (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_bridge_executes_thematic_init_then_discovery_advance_end_to_end (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_bridge_has_no_request_driven_shell_or_subprocess_surface (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_current_bridge_authority_names_all_initialization_profiles (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_operator_transport_has_default_branch_trust_root (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_request_schema_accepts_bounded_weekly_initialization (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_request_schema_accepts_configured_retrospective_initialization (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_request_schema_accepts_profile_bound_nested_source_root (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_request_schema_rejects_arbitrary_command_surface (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_request_schema_requires_reviewed_main_for_every_operation (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_retrospective_request_identity_matches_existing_period_builder (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_source_root_must_stay_under_sources (tests.test_survey_core_execution_bridge_v2.SurveyCoreExecutionBridgeV2Tests) ... ok
+test_bridge_dispatches_only_to_canonical_human_gate_protocol (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ok
+test_bridge_executes_architecture_revision_then_r2_approval (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ERROR
+test_bridge_executes_publication_revision_then_r2_approval (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ERROR
+test_bridge_publication_revision_can_reopen_architecture (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ERROR
+test_schema_accepts_all_explicit_human_gate_operations (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ok
+test_schema_does_not_offer_generic_human_decision_or_rejection_surface (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ok
+test_schema_keeps_gate_specific_regeneration_boundaries (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ok
+test_schema_requires_explicit_human_provenance (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ok
+test_trusted_workflow_owns_human_gate_request_parent_binding (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests) ... ok
+test_architecture_request_changes_regenerates_r2_then_approves (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests) ... ERROR
+test_architecture_revision_rejects_invalid_boundary_and_changed_review_bytes (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests) ... ERROR
+test_publication_preview_request_changes_regenerates_r2_then_approves (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests) ... ERROR
+test_publication_rejection_records_historical_candidate_rejected_by_current_validator (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests) ... ERROR
+test_publication_revision_reopens_architecture_and_preserves_approval_history (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests) ... ERROR
+test_review_commit_must_exist_reachable_and_bind_current_gate_bytes (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests) ... ERROR
+
+======================================================================
+ERROR: test_bridge_executes_architecture_revision_then_r2_approval (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_core_execution_bridge_human_gate_v2.py", line 227, in test_bridge_executes_architecture_revision_then_r2_approval
+    revised = self._execute(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_core_execution_bridge_human_gate_v2.py", line 82, in _execute
+    return bridge.execute_request(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_core_execution_bridge_v2.py", line 516, in execute_request
+    state_path, gate_paths, removed, lifecycle, terminal_reason = _human_gate_operation(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_core_execution_bridge_v2.py", line 440, in _human_gate_operation
+    updated, record_path, index_path, removed = human_gate.request_architecture_revision(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 1365, in request_architecture_revision
+    return request_changes(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 1308, in request_changes
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_bridge_executes_publication_revision_then_r2_approval (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_core_execution_bridge_human_gate_v2.py", line 310, in test_bridge_executes_publication_revision_then_r2_approval
+    architecture_approved = self._execute(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_core_execution_bridge_human_gate_v2.py", line 82, in _execute
+    return bridge.execute_request(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_core_execution_bridge_v2.py", line 516, in execute_request
+    state_path, gate_paths, removed, lifecycle, terminal_reason = _human_gate_operation(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_core_execution_bridge_v2.py", line 427, in _human_gate_operation
+    updated, record_path, index_path = human_gate.record_architecture_approval(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 622, in record_architecture_approval
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_bridge_publication_revision_can_reopen_architecture (tests.test_survey_core_execution_bridge_human_gate_v2.SurveyCoreExecutionBridgeHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_core_execution_bridge_human_gate_v2.py", line 409, in test_bridge_publication_revision_can_reopen_architecture
+    self._execute(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_core_execution_bridge_human_gate_v2.py", line 82, in _execute
+    return bridge.execute_request(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_core_execution_bridge_v2.py", line 516, in execute_request
+    state_path, gate_paths, removed, lifecycle, terminal_reason = _human_gate_operation(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_core_execution_bridge_v2.py", line 427, in _human_gate_operation
+    updated, record_path, index_path = human_gate.record_architecture_approval(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 622, in record_architecture_approval
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_architecture_request_changes_regenerates_r2_then_approves (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_human_gate_v2.py", line 575, in test_architecture_request_changes_regenerates_r2_then_approves
+    state, record_r1, index, removed = human_gate.request_architecture_revision(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 1365, in request_architecture_revision
+    return request_changes(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 1308, in request_changes
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_architecture_revision_rejects_invalid_boundary_and_changed_review_bytes (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_human_gate_v2.py", line 710, in test_architecture_revision_rejects_invalid_boundary_and_changed_review_bytes
+    human_gate.request_architecture_revision(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 1365, in request_architecture_revision
+    return request_changes(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 1308, in request_changes
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_publication_preview_request_changes_regenerates_r2_then_approves (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_human_gate_v2.py", line 743, in test_publication_preview_request_changes_regenerates_r2_then_approves
+    human_gate.record_architecture_approval(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 622, in record_architecture_approval
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_publication_rejection_records_historical_candidate_rejected_by_current_validator (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_human_gate_v2.py", line 854, in test_publication_rejection_records_historical_candidate_rejected_by_current_validator
+    human_gate.record_architecture_approval(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 622, in record_architecture_approval
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_publication_revision_reopens_architecture_and_preserves_approval_history (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_human_gate_v2.py", line 932, in test_publication_revision_reopens_architecture_and_preserves_approval_history
+    _, architecture_record_r1, _ = human_gate.record_architecture_approval(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 622, in record_architecture_approval
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+======================================================================
+ERROR: test_review_commit_must_exist_reachable_and_bind_current_gate_bytes (tests.test_survey_human_gate_v2.SurveyHumanGateV2Tests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/tests/test_survey_human_gate_v2.py", line 646, in test_review_commit_must_exist_reachable_and_bind_current_gate_bytes
+    human_gate.record_architecture_approval(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 622, in record_architecture_approval
+    commit_sha = _review_commit(
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 563, in _review_commit
+    _require_review_commit_reachable(repo_root, commit_sha, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 446, in _require_review_commit_reachable
+    ref, label = _work_branch_ref(repo_root, work_branch)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/integration-r2/scripts/survey_human_gate_v2.py", line 459, in _work_branch_ref
+    subprocess.run(
+  File "/usr/lib/python3.10/subprocess.py", line 501, in run
+    with Popen(*popenargs, **kwargs) as process:
+  File "/usr/lib/python3.10/subprocess.py", line 969, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.10/subprocess.py", line 1717, in _execute_child
+    sys.audit("subprocess.Popen", executable, args, cwd, env)
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-integration/run_suite.py", line 51, in audit
+    blocked.append(verb); raise RuntimeError('Unexpected Git operation: '+verb)
+RuntimeError: Unexpected Git operation: check-ref-format
+
+----------------------------------------------------------------------
+Ran 27 tests in 161.339s
+
+FAILED (errors=9)

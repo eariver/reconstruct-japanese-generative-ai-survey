@@ -1,0 +1,398 @@
+[
+  {
+    "module": "survey_production_v2",
+    "args": [
+      "init-weekly",
+      "--now",
+      "2026-09-08T00:00:00Z",
+      "--issue-id",
+      "2026-W36"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "{\n  \"profile\": \"sources/2026-W36/production-profile.json\",\n  \"state\": \"sources/2026-W36/production-state.json\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_production_v2",
+    "args": [
+      "validate-state",
+      "--state",
+      "sources/2026-W36/production-state.json"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"errors\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/2026-W36/production-profile.json",
+      "--state",
+      "sources/2026-W36/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "Production State invalid: Production Profile bytes differ from initialized State authority\n"
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/2026-W36/production-profile.json",
+      "--state",
+      "sources/2026-W36/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "sources/2026-W36/execution/index.md\nsources/2026-W36/execution/sessions/integration-session.md\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "validate",
+      "--profile",
+      "sources/2026-W36/production-profile.json",
+      "--state",
+      "sources/2026-W36/production-state.json"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "execution record validation PASS\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/2026-W36/production-profile.json",
+      "--state",
+      "sources/2026-W36/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "execution index already exists: sources/2026-W36/execution/index.md\n"
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "validate",
+      "--profile",
+      "sources/2026-W36/production-profile.json",
+      "--state",
+      "sources/2026-W36/production-state.json"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "Production State invalid: Production Profile/State issue identity mismatch\n"
+  },
+  {
+    "module": "survey_production_v2",
+    "args": [
+      "init-thematic",
+      "--spec",
+      ".fixture-scratch/thematic-spec.json",
+      "--recorded-at",
+      "2026-09-15T00:00:00Z"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "{\n  \"profile\": \"sources/REPHASE-CLI/production-profile.json\",\n  \"state\": \"sources/REPHASE-CLI/production-state.json\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_production_v2",
+    "args": [
+      "validate-state",
+      "--state",
+      "sources/REPHASE-CLI/production-state.json"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"errors\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/REPHASE-CLI/production-profile.json",
+      "--state",
+      "sources/REPHASE-CLI/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "Production State invalid: Production Profile bytes differ from initialized State authority\n"
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/REPHASE-CLI/production-profile.json",
+      "--state",
+      "sources/REPHASE-CLI/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "sources/REPHASE-CLI/execution/index.md\nsources/REPHASE-CLI/execution/sessions/integration-session.md\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "validate",
+      "--profile",
+      "sources/REPHASE-CLI/production-profile.json",
+      "--state",
+      "sources/REPHASE-CLI/production-state.json"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "execution record validation PASS\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/REPHASE-CLI/production-profile.json",
+      "--state",
+      "sources/REPHASE-CLI/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "execution index already exists: sources/REPHASE-CLI/execution/index.md\n"
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "validate",
+      "--profile",
+      "sources/REPHASE-CLI/production-profile.json",
+      "--state",
+      "sources/REPHASE-CLI/production-state.json"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "Production State invalid: Production Profile/State issue identity mismatch\n"
+  },
+  {
+    "module": "survey_period_v2",
+    "args": [
+      "initialize",
+      "--special-slug",
+      "2026-M07",
+      "--recorded-at",
+      "2026-09-15T00:00:00Z"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "{\n  \"profile\": \"sources/SP-2026-M07/production-profile.json\",\n  \"state\": \"sources/SP-2026-M07/production-state.json\",\n  \"guide\": \"docs/special-editions.md\"\n}\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_production_v2",
+    "args": [
+      "validate-state",
+      "--state",
+      "sources/SP-2026-M07/production-state.json"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "{\n  \"passed\": true,\n  \"errors\": []\n}\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/SP-2026-M07/production-profile.json",
+      "--state",
+      "sources/SP-2026-M07/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "Production State invalid: Production Profile bytes differ from initialized State authority\n"
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/SP-2026-M07/production-profile.json",
+      "--state",
+      "sources/SP-2026-M07/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "sources/SP-2026-M07/execution/index.md\nsources/SP-2026-M07/execution/sessions/integration-session.md\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "validate",
+      "--profile",
+      "sources/SP-2026-M07/production-profile.json",
+      "--state",
+      "sources/SP-2026-M07/production-state.json"
+    ],
+    "expected": 0,
+    "returncode": 0,
+    "stdout": "execution record validation PASS\n",
+    "stderr": ""
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "init",
+      "--profile",
+      "sources/SP-2026-M07/production-profile.json",
+      "--state",
+      "sources/SP-2026-M07/production-state.json",
+      "--session-id",
+      "integration-session",
+      "--started-at",
+      "2026-09-15T00:00:00Z",
+      "--main-sha",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--branch-head",
+      "502b3781c58a1b453f5d9389caef32f3a7866524",
+      "--objective",
+      "SYNTHETIC integration verification, not a production session.",
+      "--requested-stop",
+      "ARCHITECTURE_REVIEW"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "execution index already exists: sources/SP-2026-M07/execution/index.md\n"
+  },
+  {
+    "module": "survey_execution_record_v2",
+    "args": [
+      "validate",
+      "--profile",
+      "sources/SP-2026-M07/production-profile.json",
+      "--state",
+      "sources/SP-2026-M07/production-state.json"
+    ],
+    "expected": 2,
+    "returncode": 2,
+    "stdout": "",
+    "stderr": "Production State invalid: Production Profile/State issue identity mismatch\n"
+  }
+]
