@@ -4,11 +4,11 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
-**B3 boundary design and function experiment are complete; B3 implementation remains open; whole-candidate readiness is NOT_READY.** Candidate f1 and production remain unchanged. The experiment rejects a full-render-input review format because it binds reader judgment to internal metadata changes. Canonical final seven-point audit has not started. Prior Phases remain historical evidence.
+**Next-session preparation is complete; no implementation or tests were started in this preparation.** B3 remains open, f1 unchanged, whole candidate NOT_READY. The selected first implementation increment is exact stage-selected Reader Manuscript binding, delegated to a Sol Co-Worker; Astra plans/reviews. Canonical seven-point audit has not started.
 
 1. [Re:Phase 1 handoff](handoff/rephase-1-continuation.md)
-2. [Current reader boundary assessment](outputs/rephase-1-reader-boundary-assessment.md)
-3. [B3 implementation contract](notes/rephase-1-reader/contract-decision.md) and [design evidence/reviews](notes/rephase-1-reader/README.md), only as needed; [Freeze repair](outputs/rephase-1-freeze-assessment.md) and [prior application assessment](outputs/rephase-1-application-assessment.md) retain their original scope
+2. [Implementation plan and first Co-Worker task](outputs/rephase-1-implementation-plan.md)
+3. [Session-transition assessment](outputs/rephase-1-session-transition-assessment.md), [later Summary intake](notes/rephase-1-session-transition/deferred-intake.md), and [restart context](notes/rephase-1-session-transition/restart-context.md), as needed; prior [B3 design](outputs/rephase-1-reader-boundary-assessment.md), [Freeze repair](outputs/rephase-1-freeze-assessment.md) and [application assessment](outputs/rephase-1-application-assessment.md) retain their scope
 
 Baselines:
 
@@ -16,6 +16,8 @@ Baselines:
 - Human-fixed production baseline: `774dd39a951c9ac3818e83dfffd4c7666efb0a20`
 
 Do not follow newer production main or rebaseline without explicit Human instruction. **Necessary Git operations and Git-aware tests are now authorized.** Use independent fixture repositories; production changes/adoption remain separately unauthorized.
+
+Human authorized one later read-only Summary capture from main: `docs/core-v2-deferred-maintenance-summary.md`. It is pinned in the transition packet, not a new baseline or standing tracking permission. All 15 items received a scope disposition; none is automatically added to B3 or marked CORE_FIXED. DM-014 informs r2's existing alternative to status-copy maintenance.
 
 The [broader direction](outputs/rephase-1-direction-assessment.md) remains partial redesign that removes identifiable work while preserving quality, authority and history. The [five-file r2 candidate](notes/rephase-1-connection/candidate.patch) removes copied live status and its maintenance obligation while retaining substantive reading/review. Its bytes remain unchanged after one bounded independent review and integration.
 
