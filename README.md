@@ -4,11 +4,11 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
-**The r2 proposal, bounded independent review and bounded Git-aware integration are complete.** Continue in this repository and treat prior Phases as historical evidence. The old Phase 5 work order is superseded.
+**B3 boundary design and function experiment are complete; B3 implementation remains open; whole-candidate readiness is NOT_READY.** Candidate f1 and production remain unchanged. The experiment rejects a full-render-input review format because it binds reader judgment to internal metadata changes. Canonical final seven-point audit has not started. Prior Phases remain historical evidence.
 
 1. [Re:Phase 1 handoff](handoff/rephase-1-continuation.md)
-2. [Current integration assessment](outputs/rephase-1-integration-assessment.md); prior assessments retain their original scope
-3. [Integration evidence](notes/rephase-1-integration/README.md) and [r2 candidate/review evidence](notes/rephase-1-connection/README.md), only as needed; [prior design](outputs/rephase-1-operating-contract-assessment.md) remains historical context
+2. [Current reader boundary assessment](outputs/rephase-1-reader-boundary-assessment.md)
+3. [B3 implementation contract](notes/rephase-1-reader/contract-decision.md) and [design evidence/reviews](notes/rephase-1-reader/README.md), only as needed; [Freeze repair](outputs/rephase-1-freeze-assessment.md) and [prior application assessment](outputs/rephase-1-application-assessment.md) retain their original scope
 
 Baselines:
 
@@ -19,9 +19,9 @@ Do not follow newer production main or rebaseline without explicit Human instruc
 
 The [broader direction](outputs/rephase-1-direction-assessment.md) remains partial redesign that removes identifiable work while preserving quality, authority and history. The [five-file r2 candidate](notes/rephase-1-connection/candidate.patch) removes copied live status and its maintenance obligation while retaining substantive reading/review. Its bytes remain unchanged after one bounded independent review and integration.
 
-The latest evidence covers 27 distinct upstream bridge/Human Gate tests (18 initial Linux passes + 9 after test-guard repairs), real-loader CLI scenarios for Weekly/Thematic/Retrospective, and an unchanged-navigation revision/approval chain. The isolated Git commits and research/Human records are synthetic fixtures. Full CI/Actions/publication, final audit, adoption and net savings are not established.
+Application candidate a1 is `d38f023ce200619f7f49ce17a348755f05e0e021`, with the authentic fixed production parent in an independent sparse Git repository. Local Python 3.12 compile/JSON checks passed; three sparse-asset-blocked tests passed after exact input hydration. The broad unittest diagnostic is incomplete and is not full CI PASS. See the evidence for initial failures, skips and scope. Earlier synthetic integration results are retained separately.
 
-The bounded candidate work is complete. Next is Human's decision whether to advance it toward production application review under existing Core/CI/fixed-head/contract rules. Do not rerun successes or add another independent review without a new concern/required authorization. Known Freeze/reader defects remain maintenance evidence, not an automatic roadmap.
+The B1/B2 successor f1 is `bf32edf98ba8f605169d7188bbc764de74ee4f6e`, parent a1. Its 24 targeted tests passed; separate before witnesses failed at the identified baseline defects. The independent review is scoped to this repair. The next adoption prerequisite is B3 reader coverage/derivation, not another run of successful Freeze tests. Do not transplant old repairs. Full CI/Actions/publication, final seven-point audit, adoption and net savings remain unestablished.
 
 ## Purpose
 

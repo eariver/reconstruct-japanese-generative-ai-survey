@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/usr/lib/python3.10/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+  File "/usr/lib/python3.10/unittest/main.py", line 100, in __init__
+    self.parseArgs(argv)
+  File "/usr/lib/python3.10/unittest/main.py", line 147, in parseArgs
+    self.createTests()
+  File "/usr/lib/python3.10/unittest/main.py", line 158, in createTests
+    self.test = self.testLoader.loadTestsFromNames(self.testNames,
+  File "/usr/lib/python3.10/unittest/loader.py", line 220, in loadTestsFromNames
+    suites = [self.loadTestsFromName(name, module) for name in names]
+  File "/usr/lib/python3.10/unittest/loader.py", line 220, in <listcomp>
+    suites = [self.loadTestsFromName(name, module) for name in names]
+  File "/usr/lib/python3.10/unittest/loader.py", line 154, in loadTestsFromName
+    module = __import__(module_name)
+  File "/tmp/jgas-rephase-application-r2/tests/test_survey_bibliography_access_provenance_v2.py", line 9, in <module>
+    from scripts import run_semantic_publication_v2_interactive_base as special_pub
+  File "/tmp/jgas-rephase-application-r2/scripts/run_semantic_publication_v2_interactive_base.py", line 14, in <module>
+    from scripts import survey_longform_publication_v2 as longform
+  File "/tmp/jgas-rephase-application-r2/scripts/survey_longform_publication_v2.py", line 12, in <module>
+    from scripts import survey_longform_publication_v2_base as _base
+  File "/tmp/jgas-rephase-application-r2/scripts/survey_longform_publication_v2_base.py", line 317
+    findings.append(f"too many unconditional clearpage commands for LONGFORM_SPECIAL: {tex.count('\\\\clearpage')}")
+                                                                                                                   ^
+SyntaxError: f-string expression part cannot include a backslash

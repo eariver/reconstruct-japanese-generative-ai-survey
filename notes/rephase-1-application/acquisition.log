@@ -1,0 +1,148 @@
+["init", "-b", "codex/rephase-application-r2"]
+Initialized empty Git repository in /tmp/jgas-rephase-application-r2/.git/
+["rev-parse", "--absolute-git-dir"]
+/tmp/jgas-rephase-application-r2/.git
+["config", "user.name", "Rephase Application Review Fixture"]
+["config", "user.email", "rephase-fixture@example.invalid"]
+["config", "commit.gpgsign", "false"]
+["config", "core.autocrlf", "false"]
+["remote", "add", "fixed-input", "https://github.com/eariver/japanese-generative-ai-survey.git"]
+["config", "remote.fixed-input.promisor", "true"]
+["config", "remote.fixed-input.partialclonefilter", "blob:none"]
+["fetch", "--no-tags", "--depth=1", "--filter=blob:none", "fixed-input", "774dd39a951c9ac3818e83dfffd4c7666efb0a20"]
+From https://github.com/eariver/japanese-generative-ai-survey
+ * branch            774dd39a951c9ac3818e83dfffd4c7666efb0a20 -> FETCH_HEAD
+["rev-parse", "FETCH_HEAD"]
+774dd39a951c9ac3818e83dfffd4c7666efb0a20
+["sparse-checkout", "init", "--cone"]
+["sparse-checkout", "set", ".github", "config", "docs", "schemas", "scripts", "tests", "templates", "specials"]
+["reset", "--hard", "774dd39a951c9ac3818e83dfffd4c7666efb0a20"]
+HEAD is now at 774dd39 Merge pull request #496 from eariver/fix/core-v2-prepublication-reader-surface-gate-20260914
+Updating files:   0% (2/675)
+Updating files:   1% (7/675)
+Updating files:   2% (14/675)
+Updating files:   3% (21/675)
+Updating files:   4% (27/675)
+Updating files:   5% (34/675)
+Updating files:   6% (41/675)
+Updating files:   7% (48/675)
+Updating files:   8% (54/675)
+Updating files:   9% (61/675)
+Updating files:  10% (68/675)
+Updating files:  11% (75/675)
+Updating files:  12% (81/675)
+Updating files:  13% (88/675)
+Updating files:  14% (95/675)
+Updating files:  15% (102/675)
+Updating files:  16% (108/675)
+Updating files:  17% (115/675)
+Updating files:  18% (122/675)
+Updating files:  19% (129/675)
+Updating files:  20% (135/675)
+Updating files:  21% (142/675)
+Updating files:  22% (149/675)
+Updating files:  23% (156/675)
+Updating files:  24% (162/675)
+Updating files:  25% (169/675)
+Updating files:  26% (176/675)
+Updating files:  27% (183/675)
+Updating files:  28% (189/675)
+Updating files:  29% (196/675)
+Updating files:  30% (203/675)
+Updating files:  31% (210/675)
+Updating files:  32% (216/675)
+Updating files:  33% (223/675)
+Updating files:  34% (230/675)
+Updating files:  35% (237/675)
+Updating files:  36% (243/675)
+Updating files:  37% (250/675)
+Updating files:  38% (257/675)
+Updating files:  39% (264/675)
+Updating files:  40% (270/675)
+Updating files:  41% (277/675)
+Updating files:  42% (284/675)
+Updating files:  43% (291/675)
+Updating files:  44% (297/675)
+Updating files:  45% (304/675)
+Updating files:  46% (311/675)
+Updating files:  47% (318/675)
+Updating files:  48% (324/675)
+Updating files:  49% (331/675)
+Updating files:  50% (338/675)
+Updating files:  51% (345/675)
+Updating files:  52% (351/675)
+Updating files:  53% (358/675)
+Updating files:  54% (365/675)
+Updating files:  55% (372/675)
+Updating files:  56% (378/675)
+Updating files:  57% (385/675)
+Updating files:  58% (392/675)
+Updating files:  59% (399/675)
+Updating files:  60% (405/675)
+Updating files:  61% (412/675)
+Updating files:  62% (419/675)
+Updating files:  63% (426/675)
+Updating files:  64% (432/675)
+Updating files:  65% (439/675)
+Updating files:  66% (446/675)
+Updating files:  67% (453/675)
+Updating files:  68% (459/675)
+Updating files:  69% (466/675)
+Updating files:  70% (473/675)
+Updating files:  71% (480/675)
+Updating files:  72% (486/675)
+Updating files:  73% (493/675)
+Updating files:  74% (500/675)
+Updating files:  75% (507/675)
+Updating files:  76% (513/675)
+Updating files:  77% (520/675)
+Updating files:  78% (527/675)
+Updating files:  79% (534/675)
+Updating files:  80% (540/675)
+Updating files:  81% (547/675)
+Updating files:  82% (554/675)
+Updating files:  83% (561/675)
+Updating files:  84% (567/675)
+Updating files:  85% (574/675)
+Updating files:  86% (581/675)
+Updating files:  87% (588/675)
+Updating files:  88% (594/675)
+Updating files:  89% (601/675)
+Updating files:  90% (608/675)
+Updating files:  91% (615/675)
+Updating files:  92% (621/675)
+Updating files:  93% (628/675)
+Updating files:  94% (635/675)
+Updating files:  95% (642/675)
+Updating files:  96% (648/675)
+Updating files:  97% (655/675)
+Updating files:  98% (662/675)
+Updating files:  99% (669/675)
+Updating files: 100% (675/675)
+Updating files: 100% (675/675), done.
+["remote", "remove", "fixed-input"]
+["remote", "add", "origin", "https://example.invalid/rephase-application.git"]
+["remote", "-v"]
+origin	https://example.invalid/rephase-application.git (fetch)
+origin	https://example.invalid/rephase-application.git (push)
+["add", "--", "docs/survey-production-core-v2-authority.md", "docs/survey-production-core-v2-redesign-authority.md", "docs/survey-production-core-v2-session-bootstrap.md", "docs/survey-production-core-v2-execution-record-policy.md", "scripts/survey_execution_record_v2.py"]
+["commit", "-m", "Local review candidate: r2 operating-rule and live-status separation"]
+[codex/rephase-application-r2 46472e4] Local review candidate: r2 operating-rule and live-status separation
+ 5 files changed, 55 insertions(+), 93 deletions(-)
+["rev-parse", "HEAD"]
+46472e41e353de56685e737fc91e85fcc2005312
+["rev-parse", "HEAD^"]
+774dd39a951c9ac3818e83dfffd4c7666efb0a20
+["diff", "--name-only", "774dd39a951c9ac3818e83dfffd4c7666efb0a20", "46472e41e353de56685e737fc91e85fcc2005312"]
+docs/survey-production-core-v2-authority.md
+docs/survey-production-core-v2-execution-record-policy.md
+docs/survey-production-core-v2-redesign-authority.md
+docs/survey-production-core-v2-session-bootstrap.md
+scripts/survey_execution_record_v2.py
+["status", "--porcelain"]
+["rev-parse", "HEAD^{tree}"]
+ecda1cc21a04e2d961a6d8030035babf4e23359e
+["rev-parse", "--absolute-git-dir"]
+/tmp/jgas-rephase-application-r2/.git
+["remote", "get-url", "origin"]
+https://example.invalid/rephase-application.git

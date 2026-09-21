@@ -1,0 +1,23 @@
+test_weekly_approved_preview_advances_through_real_freeze_boundary (tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_weekly_approved_preview_advances_through_real_freeze_boundary) ... ERROR
+
+======================================================================
+ERROR: test_weekly_approved_preview_advances_through_real_freeze_boundary (tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_weekly_approved_preview_advances_through_real_freeze_boundary)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-freeze-before/tests/test_survey_freeze_stage_boundary_v2.py", line 153, in test_weekly_approved_preview_advances_through_real_freeze_boundary
+    report = self.validate_freeze_stage(fix, artifacts, "positive")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-freeze-before/tests/test_survey_freeze_stage_boundary_v2.py", line 132, in validate_freeze_stage
+    return stage_validation.validate_stage(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-freeze-before/scripts/survey_stage_validation_v2.py", line 578, in validate_stage
+    current = _current_artifacts(repo_root, state, supplied)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-freeze-before/scripts/survey_stage_validation_v2.py", line 176, in _current_artifacts
+    raise StageValidationError("unexpected current stage artifacts: " + ", ".join(extra))
+scripts.survey_stage_validation_v2.StageValidationError: unexpected current stage artifacts: visual-review-record
+
+----------------------------------------------------------------------
+Ran 1 test in 3.002s
+
+FAILED (errors=1)

@@ -1,0 +1,123 @@
+{
+  "candidate_read_only": "bf32edf98ba8f605169d7188bbc764de74ee4f6e",
+  "production_baseline": "774dd39a951c9ac3818e83dfffd4c7666efb0a20",
+  "scope": "FUNCTION_DESIGN_EXPERIMENT_NOT_CANDIDATE_REPAIR_OR_SEMANTIC_APPROVAL",
+  "inputs": [
+    {
+      "path": "scripts/survey_weekly_semantic_publication_v2.py",
+      "sha256": "90c47c86da3dcf4c25788df8adad82629ef4ca80f9734633cea9169e7584fb78"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "sha256": "cad3bcec7221d5737898ab7eb706d024beb4582aa043315a64da488ad4a3d74b"
+    },
+    {
+      "path": "schemas/reader-surface-input-v2.schema.json",
+      "sha256": "5ff08cf9f67b92a1c9362a3568a7f50e5406dea3aa322de95bf948b038985158"
+    }
+  ],
+  "mutation_matrix": [
+    {
+      "field": "cover.anchors",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "frontmatter.heading",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "frontmatter.lede",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "frontmatter.scope_notes",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "final_summary.heading",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "package.section_label",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "result.claim_boundary",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "display_date",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "window_boundary",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "citation_key",
+      "current_projection_unchanged": true,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "covered_control.cover.headline",
+      "current_projection_unchanged": false,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    },
+    {
+      "field": "covered_control.summary.paragraph",
+      "current_projection_unchanged": false,
+      "tex_changed": true,
+      "prototype_envelope_changes": true,
+      "stale_review_output_rejection": "current primary source is not derived from reviewed input"
+    }
+  ],
+  "prototype_controls": {
+    "matching_render_accepted": true,
+    "incomplete_projection_rejection": "reader projection is incomplete or inconsistent",
+    "changed_input_rejection": "reviewed input bytes changed"
+  },
+  "known_cost": {
+    "internal_annotation_changes_review_digest": true,
+    "reader_prose_unchanged": true,
+    "tex_comment_changes": true,
+    "note": "Full render-input envelope overbinds internal result metadata; do not ship as the final reader IR."
+  },
+  "limits": [
+    "One synthetic package; not a validated edition or publisher CLI",
+    "Primary TeX only; bibliography/style/support closure not demonstrated",
+    "No Special/Retrospective renderer experiment",
+    "No actual semantic/Human review, stage transition or publication",
+    "The prototype does not modify or replace the current Gate"
+  ]
+}

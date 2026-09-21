@@ -1,0 +1,424 @@
+diff --git a/scripts/survey_stage_validation_v2.py b/scripts/survey_stage_validation_v2.py
+index 29922a3..840654d 100644
+--- a/scripts/survey_stage_validation_v2.py
++++ b/scripts/survey_stage_validation_v2.py
+@@ -73,7 +73,7 @@ REQUIRED_CURRENT = {
+         "reader-surface-gate",
+     },
+     "VALIDATED_DRAFT": {"publication-candidate"},
+-    "RELEASE_CANDIDATE": {"freeze-record", "release-manifest"},
++    "RELEASE_CANDIDATE": {"freeze-record", "release-manifest", "visual-review-record"},
+ }
+ 
+ 
+@@ -123,8 +123,41 @@ def _profile(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> tup
+     return path, payload
+ 
+ 
++def _publication_approval_artifacts(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> dict[str, Path]:
++    """Resolve the typed approval also stored in checkpoint provenance.
++
++    This is Human authority, not a Stage Checkpoint. Bind its approved Candidate
++    into the same artifact map so a different prior Candidate cannot replace it.
++    """
++    human = state.get("human_gate_provenance", {}).get("publication_preview")
++    checkpoint = state.get("checkpoint_provenance", {}).get("publication_preview")
++    if state.get("human_gates", {}).get("publication_preview") != "approved":
++        if human is not None or checkpoint is not None or state.get("lifecycle_state") in {"RELEASE_CANDIDATE", "FROZEN", "RELEASED"}:
++            raise StageValidationError("publication transition requires approved Human Preview authority")
++        return {}
++    if human is None or human != checkpoint or state.get("machine_checkpoints", {}).get("publication_preview") != "passed":
++        raise StageValidationError("Human Preview and checkpoint approval authorities disagree")
++    _, _, source_root = agent._profile_and_source(repo_root, cfg, state)
++    approval_path = _authority_ref_path(repo_root, human, "Publication Preview Approval")
++    canonical = source_root / cfg["state_authority"]["publication_preview_approval_path"]
++    if human["path"] != _rel(repo_root, canonical):
++        raise StageValidationError("Publication Preview approval path is not canonical")
++    approval = publication.validate_preview_approval(repo_root, approval_path, issue_id=state["issue_id"])
++    candidate_path = _authority_ref_path(repo_root, {
++        "path": approval["publication_candidate_path"],
++        "sha256": approval["publication_candidate_sha256"],
++    }, "approved Publication Candidate")
++    candidate = core.load_json(candidate_path)  # recursively validated by approval
++    if candidate["publication_profile"] != state["publication_profile"]:
++        raise StageValidationError("approved Candidate publication Profile mismatch")
++    manuscript = core.load_json(core.repo_local_path(repo_root, candidate["reader_manuscript"]["path"], "approved Reader Manuscript"))
++    if manuscript["research_profile"] != state["research_profile"]:
++        raise StageValidationError("approved Candidate research Profile mismatch")
++    return {"publication-candidate": candidate_path}
++
++
+ def _prior_artifacts(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> dict[str, Path]:
+-    result: dict[str, Path] = {}
++    result = _publication_approval_artifacts(repo_root, cfg, state)
+     seen_checkpoint_paths: set[str] = set()
+     revalidation, revalidation_errors = agent.resolve_active_publication_revalidation(repo_root, cfg, state)
+     if revalidation_errors:
+@@ -137,7 +170,10 @@ def _prior_artifacts(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]
+             (row["name"], row["path"]): row["new_sha256"]
+             for row in revalidation.get("superseded_artifacts", [])
+         }
+-    for ref in state.get("checkpoint_provenance", {}).values():
++    for name, ref in state.get("checkpoint_provenance", {}).items():
++        if name == "publication_preview":
++            # Fully validated above through its own schema and active pointers.
++            continue
+         if ref is None:
+             continue
+         path = _authority_ref_path(repo_root, ref, "prior Stage Checkpoint")
+@@ -533,12 +569,14 @@ def _validate_stage_semantics(
+ 
+     if lifecycle == "RELEASE_CANDIDATE":
+         (candidate_path,) = _require(artifacts, "publication-candidate")
+-        freeze_path, manifest_path = _require(current, "freeze-record", "release-manifest")
++        freeze_path, manifest_path, visual_path = _require(current, "freeze-record", "release-manifest", "visual-review-record")
+         approval_ref = state.get("human_gate_provenance", {}).get("publication_preview")
+         approval_path = _authority_ref_path(repo_root, approval_ref, "Publication Preview Approval")
+         approval = publication.validate_preview_approval(repo_root, approval_path, issue_id=state["issue_id"])
+         candidate = publication.validate_candidate(repo_root, candidate_path, issue_id=state["issue_id"])
+         candidate_visual_path = core.repo_local_path(repo_root, candidate["visual_review"]["path"], "Candidate Visual Review")
++        if _rel(repo_root, visual_path) != candidate["visual_review"]["path"] or core.sha256_file(visual_path) != candidate["visual_review"]["sha256"]:
++            raise StageValidationError("Freeze visual-review-record must be the Candidate pre-preview Visual Review")
+         visual = reader.validate_review_record(repo_root, candidate_visual_path, issue_id=state["issue_id"], expected_kind="VISUAL")
+         freeze = schema_gate.load_and_validate_json(freeze_path, repo_root / publication.FREEZE_SCHEMA, label="Freeze record")
+         manifest = publication.validate_release_manifest(repo_root, manifest_path)
+diff --git a/tests/test_survey_freeze_stage_boundary_v2.py b/tests/test_survey_freeze_stage_boundary_v2.py
+new file mode 100644
+index 0000000..924e83a
+--- /dev/null
++++ b/tests/test_survey_freeze_stage_boundary_v2.py
+@@ -0,0 +1,334 @@
++"""Connected regression for the approved Publication Preview-to-Freeze boundary.
++
++All research, editorial, visual, and Human decisions in this module are
++synthetic fixture records.  The tests exercise real production validators and
++checkpoint/state transitions; they are not publication or approval evidence.
++"""
++from __future__ import annotations
++
++import importlib.util
++import json
++import tempfile
++import unittest
++from datetime import timedelta
++from pathlib import Path
++
++from scripts import survey_agent_control_v2 as agent
++from scripts import survey_production_v2 as core
++from scripts import survey_publication_v2 as publication
++from scripts import survey_stage_validation_v2 as stage_validation
++
++
++ROOT = Path(".").resolve()
++_REVALIDATION_SPEC = importlib.util.spec_from_file_location(
++    "freeze_boundary_revalidation_fixture",
++    ROOT / "tests/test_survey_publication_revalidation_v2.py",
++)
++assert _REVALIDATION_SPEC is not None and _REVALIDATION_SPEC.loader is not None
++_REVALIDATION = importlib.util.module_from_spec(_REVALIDATION_SPEC)
++_REVALIDATION_SPEC.loader.exec_module(_REVALIDATION)
++Fixture = _REVALIDATION.Fixture
++ISSUE = _REVALIDATION.ISSUE
++T0 = _REVALIDATION.T0
++
++
++class FreezeStageBoundaryV2Tests(unittest.TestCase):
++    """Real-loader boundary tests over synthetic Weekly publication authority."""
++
++    def setUp(self) -> None:
++        self.root = ROOT
++        self.cfg = core.load_json(self.root / core.DEFAULT_CONFIG)
++
++    def make_fixture(self) -> Fixture:
++        temp = tempfile.TemporaryDirectory(dir=str(self.root))
++        self.addCleanup(temp.cleanup)
++        return Fixture(self.root, Path(temp.name))
++
++    def build_candidate_and_advance(self, fix: Fixture) -> Path:
++        pub = fix.src / "publication/v2"
++        candidate = pub / "publication-candidate-v2.json"
++        publication.build_candidate(
++            self.root,
++            ISSUE,
++            "WEEKLY_MAGAZINE",
++            pub / "reader-manuscript-v2.json",
++            fix.survey / "main.tex",
++            fix.survey / "main.pdf",
++            1,
++            pub / "quality-regression-bundle-v2.json",
++            pub / "semantic-editorial-review-v2.json",
++            pub / "visual-review-v2.json",
++            candidate,
++        )
++        report = fix.src / "execution/validated-draft-stage-report.json"
++        stage_validation.validate_stage(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            {"publication-candidate": candidate},
++            report,
++            T0 + timedelta(hours=1),
++        )
++        reviews = fix.src / "execution/validated-draft-reviews.json"
++        core.write_json(
++            reviews,
++            {
++                "reviews": [
++                    {
++                        "check_id": "CORE_STAGE_CONTRACT",
++                        "kind": "DETERMINISTIC",
++                        "executor": "synthetic-freeze-boundary-fixture",
++                        "evidence": "synthetic connected stage validation",
++                        "result_path": str(report.relative_to(self.root)),
++                    }
++                ]
++            },
++        )
++        checkpoint = agent.build_stage_checkpoint(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            {"publication-candidate": candidate},
++            reviews,
++            "Synthetic Publication Candidate boundary",
++            T0 + timedelta(hours=1, minutes=1),
++        )
++        updated = agent.advance_with_checkpoint(
++            self.root, self.cfg, fix.src / "production-state.json", checkpoint
++        )
++        self.assertEqual(updated["lifecycle_state"], "RELEASE_CANDIDATE")
++        self.assertEqual(updated["terminal_reason"], "HUMAN_GATE_REACHED")
++        return candidate
++
++    def approve_and_build_freeze(self, fix: Fixture, candidate: Path) -> dict[str, Path]:
++        agent.approve_publication_preview(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            "synthetic-human-fixture",
++            T0 + timedelta(hours=2),
++            "synthetic:publication-preview",
++        )
++        pub = fix.src / "publication/v2"
++        approval = fix.src / self.cfg["state_authority"]["publication_preview_approval_path"]
++        freeze, manifest = publication.build_freeze(
++            self.root,
++            candidate,
++            approval,
++            T0 + timedelta(hours=3),
++            pub / "freeze-record-v2.json",
++            pub / "release-manifest-v2.json",
++        )
++        candidate_payload = publication.validate_candidate(self.root, candidate, issue_id=ISSUE)
++        visual = self.root / candidate_payload["visual_review"]["path"]
++        return {
++            "visual-review-record": visual,
++            "freeze-record": freeze,
++            "release-manifest": manifest,
++        }
++
++    def validate_freeze_stage(self, fix: Fixture, artifacts: dict[str, Path], suffix: str) -> Path:
++        output = fix.src / f"execution/freeze-stage-report-{suffix}.json"
++        return stage_validation.validate_stage(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            artifacts,
++            output,
++            T0 + timedelta(hours=4),
++        )
++
++    def test_approved_preview_resolves_as_typed_authority(self) -> None:
++        fix = self.make_fixture()
++        candidate = self.build_candidate_and_advance(fix)
++        self.approve_and_build_freeze(fix, candidate)
++        state = core.load_json(fix.src / "production-state.json")
++        artifacts = stage_validation._prior_artifacts(self.root, self.cfg, state)
++        self.assertEqual(artifacts["publication-candidate"], candidate)
++
++    def test_weekly_approved_preview_advances_through_real_freeze_boundary(self) -> None:
++        fix = self.make_fixture()
++        candidate = self.build_candidate_and_advance(fix)
++        artifacts = self.approve_and_build_freeze(fix, candidate)
++        report = self.validate_freeze_stage(fix, artifacts, "positive")
++        report_payload = core.load_json(report)
++        self.assertEqual(
++            {row["name"] for row in report_payload["artifacts"]},
++            {"visual-review-record", "freeze-record", "release-manifest"},
++        )
++        reviews = fix.src / "execution/freeze-reviews.json"
++        core.write_json(
++            reviews,
++            {
++                "reviews": [
++                    {
++                        "check_id": "CORE_STAGE_CONTRACT",
++                        "kind": "DETERMINISTIC",
++                        "executor": "synthetic-freeze-boundary-fixture",
++                        "evidence": "synthetic exact-authority Freeze validation",
++                        "result_path": str(report.relative_to(self.root)),
++                    }
++                ]
++            },
++        )
++        checkpoint = agent.build_stage_checkpoint(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            artifacts,
++            reviews,
++            "Synthetic exact-authority Freeze boundary",
++            T0 + timedelta(hours=4, minutes=1),
++        )
++        updated = agent.advance_with_checkpoint(
++            self.root, self.cfg, fix.src / "production-state.json", checkpoint
++        )
++        self.assertEqual(updated["lifecycle_state"], "FROZEN")
++        self.assertEqual(updated["machine_checkpoints"]["freeze"], "passed")
++        self.assertEqual(agent.validate_agent_state(self.root, self.cfg, updated), [])
++
++    def test_freeze_artifact_set_rejects_missing_extra_and_wrong_visual(self) -> None:
++        for case in ("missing", "extra", "wrong"):
++            with self.subTest(case=case):
++                fix = self.make_fixture()
++                candidate = self.build_candidate_and_advance(fix)
++                artifacts = self.approve_and_build_freeze(fix, candidate)
++                expected = ""
++                if case == "missing":
++                    artifacts.pop("visual-review-record")
++                    expected = "current stage artifacts missing: visual-review-record"
++                elif case == "extra":
++                    artifacts["legacy-postapproval-visual"] = artifacts["visual-review-record"]
++                    expected = "unexpected current stage artifacts: legacy-postapproval-visual"
++                else:
++                    alternate = fix.src / "publication/v2/copied-visual-review-v2.json"
++                    alternate.write_bytes(artifacts["visual-review-record"].read_bytes())
++                    artifacts["visual-review-record"] = alternate
++                    expected = "must be the Candidate pre-preview Visual Review"
++                with self.assertRaisesRegex(stage_validation.StageValidationError, expected):
++                    self.validate_freeze_stage(fix, artifacts, case)
++
++    def test_pending_preview_cannot_enter_freeze_even_if_approval_file_is_inert(self) -> None:
++        fix = self.make_fixture()
++        candidate = self.build_candidate_and_advance(fix)
++        approval = fix.src / self.cfg["state_authority"]["publication_preview_approval_path"]
++        publication.build_preview_approval(
++            self.root,
++            candidate,
++            approval,
++            "synthetic-human-fixture",
++            T0 + timedelta(hours=2),
++            "synthetic:inert-preview-file",
++        )
++        pub = fix.src / "publication/v2"
++        freeze, manifest = publication.build_freeze(
++            self.root,
++            candidate,
++            approval,
++            T0 + timedelta(hours=3),
++            pub / "freeze-record-v2.json",
++            pub / "release-manifest-v2.json",
++        )
++        visual = self.root / publication.validate_candidate(self.root, candidate)["visual_review"]["path"]
++        with self.assertRaisesRegex(stage_validation.StageValidationError, "waiting at a Human Gate"):
++            self.validate_freeze_stage(
++                fix,
++                {
++                    "visual-review-record": visual,
++                    "freeze-record": freeze,
++                    "release-manifest": manifest,
++                },
++                "pending",
++            )
++
++    def test_missing_and_divergent_approval_authority_fail_closed(self) -> None:
++        for case in ("missing", "divergent"):
++            with self.subTest(case=case):
++                fix = self.make_fixture()
++                candidate = self.build_candidate_and_advance(fix)
++                artifacts = self.approve_and_build_freeze(fix, candidate)
++                state_path = fix.src / "production-state.json"
++                approval = fix.src / self.cfg["state_authority"]["publication_preview_approval_path"]
++                if case == "missing":
++                    approval.unlink()
++                    expected = "approval provenance drift"
++                else:
++                    state = core.load_json(state_path)
++                    state["human_gate_provenance"]["publication_preview"] = {
++                        **state["human_gate_provenance"]["publication_preview"],
++                        "sha256": "f" * 64,
++                    }
++                    core.write_json(state_path, state)
++                    expected = "Human Preview and checkpoint approval authorities disagree"
++                with self.assertRaisesRegex(stage_validation.StageValidationError, expected):
++                    self.validate_freeze_stage(fix, artifacts, case)
++
++    def test_candidate_byte_drift_and_approval_hash_refresh_forgery_fail_closed(self) -> None:
++        for case in ("candidate-byte-drift", "approval-hash-refresh"):
++            with self.subTest(case=case):
++                fix = self.make_fixture()
++                candidate = self.build_candidate_and_advance(fix)
++                artifacts = self.approve_and_build_freeze(fix, candidate)
++                state_path = fix.src / "production-state.json"
++                approval = fix.src / self.cfg["state_authority"]["publication_preview_approval_path"]
++                if case == "candidate-byte-drift":
++                    candidate.write_bytes(candidate.read_bytes() + b"\n")
++                    expected = "approved candidate bytes drifted"
++                else:
++                    forged = core.load_json(approval)
++                    forged["publication_candidate_sha256"] = "e" * 64
++                    approval.write_text(json.dumps(forged), encoding="utf-8")
++                    refreshed = {"path": str(approval.relative_to(self.root)), "sha256": core.sha256_file(approval)}
++                    state = core.load_json(state_path)
++                    state["human_gate_provenance"]["publication_preview"] = dict(refreshed)
++                    state["checkpoint_provenance"]["publication_preview"] = dict(refreshed)
++                    core.write_json(state_path, state)
++                    expected = "approved candidate bytes drifted"
++                with self.assertRaisesRegex(stage_validation.StageValidationError, expected):
++                    self.validate_freeze_stage(fix, artifacts, case)
++
++    def test_non_publication_checkpoint_typed_record_is_not_silently_skipped(self) -> None:
++        fix = self.make_fixture()
++        candidate = self.build_candidate_and_advance(fix)
++        artifacts = self.approve_and_build_freeze(fix, candidate)
++        state_path = fix.src / "production-state.json"
++        state = core.load_json(state_path)
++        state["checkpoint_provenance"]["architecture"] = dict(
++            state["checkpoint_provenance"]["publication_preview"]
++        )
++        core.write_json(state_path, state)
++        with self.assertRaisesRegex(stage_validation.StageValidationError, "Stage Checkpoint"):
++            self.validate_freeze_stage(fix, artifacts, "typed-non-stage")
++
++    def test_active_publication_revalidation_survives_freeze_boundary(self) -> None:
++        fix = self.make_fixture()
++        pub = fix.src / "publication/v2"
++        for name in (
++            "reader-manuscript-v2.json",
++            "quality-regression-bundle-v2.json",
++            "semantic-editorial-review-v2.json",
++            "visual-review-v2.json",
++            "reader-surface-gate-v2.json",
++        ):
++            (pub / name).unlink()
++        fix._publication_files(version=2)
++        fix._publication_authority()
++        revalidation = agent.revalidate_publication_surface(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            "REVIEWED_CORE_CHANGE",
++            "synthetic reviewed rendering change",
++            "synthetic-revalidation-fixture",
++            T0 + timedelta(minutes=30),
++            None,
++        )
++        self.assertTrue(revalidation.is_file())
++        candidate = self.build_candidate_and_advance(fix)
++        artifacts = self.approve_and_build_freeze(fix, candidate)
++        report = self.validate_freeze_stage(fix, artifacts, "revalidated")
++        self.assertEqual(core.load_json(report)["status"], "PASS")
++
++
++if __name__ == "__main__":
++    unittest.main()

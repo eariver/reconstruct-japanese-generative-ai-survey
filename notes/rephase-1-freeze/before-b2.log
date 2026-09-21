@@ -1,0 +1,22 @@
+test_approved_preview_resolves_as_typed_authority (tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_approved_preview_resolves_as_typed_authority) ... ERROR
+
+======================================================================
+ERROR: test_approved_preview_resolves_as_typed_authority (tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_approved_preview_resolves_as_typed_authority)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-freeze-before/tests/test_survey_freeze_stage_boundary_v2.py", line 146, in test_approved_preview_resolves_as_typed_authority
+    artifacts = stage_validation._prior_artifacts(self.root, self.cfg, state)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-freeze-before/scripts/survey_stage_validation_v2.py", line 148, in _prior_artifacts
+    record = schema_gate.load_and_validate_json(path, repo_root / agent.CHECKPOINT_SCHEMA, label="prior Stage Checkpoint")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-freeze-before/scripts/survey_schema_v2.py", line 80, in load_and_validate_json
+    validate_instance(value, schema_path, label=label)
+  File "/tmp/jgas-rephase-freeze-before/scripts/survey_schema_v2.py", line 68, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: prior Stage Checkpoint fails /tmp/jgas-rephase-freeze-before/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property
+
+----------------------------------------------------------------------
+Ran 1 test in 2.909s
+
+FAILED (errors=1)

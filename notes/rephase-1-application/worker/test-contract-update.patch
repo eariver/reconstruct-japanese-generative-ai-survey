@@ -1,0 +1,52 @@
+diff --git a/tests/test_survey_findings_v2.py b/tests/test_survey_findings_v2.py
+index 836589f..8c044cc 100644
+--- a/tests/test_survey_findings_v2.py
++++ b/tests/test_survey_findings_v2.py
+@@ -146,7 +146,7 @@ class SurveyFindingsV2Tests(unittest.TestCase):
+         self.assertTrue(all(value["status"] == "FIXED_GENERIC" for value in audit_findings))
+         self.assertTrue(all(value["resolved_by_repair_set_id"] is None for value in audit_findings))
+ 
+-    def test_wu011_repair_set_remains_historical_and_current_release_boundary_is_repository_owned(self) -> None:
++    def test_wu011_remains_historical_and_operating_rule_status_is_separated(self) -> None:
+         audit_root = Path("docs/checkpoints/survey-production-core-v2-audit-findings")
+         audit_findings = [core.load_json(audit_root / f"AUD-{number:03d}.json") for number in range(19, 27)]
+         repair = core.load_json(audit_root / "WU-011-repair-set.json")
+@@ -165,13 +165,19 @@ class SurveyFindingsV2Tests(unittest.TestCase):
+         bootstrap = Path("docs/survey-production-core-v2-session-bootstrap.md").read_text(encoding="utf-8")
+         final_rule = Path("docs/survey-production-core-v2-final-audit-rule.md").read_text(encoding="utf-8")
+ 
+-        # WU-011 remains historical. The redesigned live bootstrap must not be
+-        # forced to preserve the W33/SP001 pilot-only CLI surface that existed
+-        # during the pre-merge validation campaign.
+-        self.assertIn("PRE-AUDIT CANDIDATE", authority)
++        # WU-011 remains historical. The operating-rule index points to immutable
++        # historical context without copying live candidate or edition status.
++        # The redesigned bootstrap must not be forced to preserve the W33/SP001
++        # pilot-only CLI surface that existed during the pre-merge campaign.
++        self.assertIn("CANONICAL CORE OPERATING RULE INDEX", authority)
++        self.assertIn("This index states operating rules.", authority)
++        self.assertIn("does not track the current main SHA", authority)
++        self.assertIn("candidate acceptance status", authority)
++        self.assertIn("Missing evidence remains unknown; do not infer approval", authority)
++        self.assertIn("blob/774dd39a951c9ac3818e83dfffd4c7666efb0a20/docs/survey-production-core-v2-authority.md", authority)
++        self.assertIn("historical context, not current operating status or reusable approval", authority)
+         self.assertIn("AUD-046", authority)
+         self.assertIn("AUD-047", authority)
+-        self.assertIn("68213aaca4ef6d47cf4c06dfe7ae501e3db78b6d", authority)
+         self.assertIn("WU-011: historical `COMPLETE", worklog)
+         self.assertIn("PRE-AUDIT", worklog)
+         self.assertIn("Human full-candidate review of PR #310", closure)
+@@ -182,8 +188,10 @@ class SurveyFindingsV2Tests(unittest.TestCase):
+         self.assertIn("Human Gate round-trip viability", final_rule)
+         self.assertIn("default-branch `issue_comment` authority", final_rule)
+-        self.assertIn("W33 is an immutable released edition", authority)
+-        self.assertIn("W34 is an active production-regression edition", authority)
+-        self.assertIn("SP001, SP002, and SP003 remain outside this Core candidate's production scope", authority)
++        self.assertIn("Released editions remain immutable.", authority)
++        self.assertIn("A Core candidate must name its production scope", authority)
++        self.assertNotIn("W33 is an immutable released edition", authority)
++        self.assertNotIn("W34 is an active production-regression edition", authority)
++        self.assertNotIn("SP001, SP002, and SP003 remain outside this Core candidate's production scope", authority)
+ 
+ 
+ if __name__ == "__main__":
