@@ -1,0 +1,20 @@
+E
+======================================================================
+ERROR: test_accepted_weekly_two_pass_publication (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_two_pass_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 318, in test_accepted_weekly_two_pass_publication
+    self.assertEqual(weekly_publication.main(), 0)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_weekly_semantic_publication_v2.py", line 70, in main
+    context = weekly.load_derivation(root, state_path, input_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_weekly_derivation_v2.py", line 491, in load_derivation
+    records, card_refs = _records_from_authorities(
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _records_from_authorities() takes 6 positional arguments but 7 were given
+
+----------------------------------------------------------------------
+Ran 1 test in 23.766s
+
+FAILED (errors=1)

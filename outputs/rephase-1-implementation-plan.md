@@ -1,6 +1,6 @@
 # Re:Phase next-session implementation plan
 
-2026-09-21 JST. **Planning complete; implementation has not started.** This is an isolated reconstruction plan, not production adoption authority. Read with the [compact handoff](../handoff/rephase-1-continuation.md) and [later Summary intake](../notes/rephase-1-session-transition/deferred-intake.md).
+Original plan: 2026-09-21 JST. Status updated 2026-09-26 JST: **Increment A complete at `1a9649129d1745fed0b98db46ef15f014407e6fc` with targeted tests and bounded independent review; Increment B complete within its selected scope at `c04f32ad46109403e8a63faaa8394a90ee6b869c`: exact-head 132 methods (131 successes, one historical skip), Astra review, independent finding resolution and a fresh final bounded implementation PASS. Whole B3/whole candidate remain OPEN/NOT_READY. Next is step 4 bounded Profile/support and application-prerequisite analysis; no further implementation is selected yet.** This is an isolated reconstruction plan, not production adoption authority. Read with the [compact handoff](../handoff/rephase-1-continuation.md), [Astra Increment A assessment](rephase-1-increment-a-assessment.md), [current B contract/task](rephase-1-increment-b-contract-decision.md), [current B assessment](rephase-1-increment-b-assessment.md), and [later Summary intake](../notes/rephase-1-session-transition/deferred-intake.md). The original starting identities and task definition below remain the historical plan; current continuation starts from A's successor candidate, and B's concrete options are resolved by the linked decision.
 
 ## Objective and fixed starting point
 
@@ -102,7 +102,7 @@ Co-Worker evidence per run: command/cwd/runtime/dependencies; exact candidate/pa
 - Net lifecycle saving remains unknown. Record concrete avoided/added work and re-review invalidation behavior; do not create telemetry infrastructure or assume extra documents prove saving.
 - Production changes/adoption, current-main tracking/rebaseline and ordinary final reconstruct commit/Pull/Push remain outside Co-Worker authority. The Summary capture is a one-document exception already consumed, not ongoing tracking permission.
 
-## Ready-to-send first Co-Worker task (next session)
+## Original first Co-Worker task — completed as Increment A
 
 Use fresh **Sol** with scope **Increment A only**. “Read `handoff/rephase-1-continuation.md`, this plan, and the referenced f1 manifest. Verify/copy f1 into an independent inert-origin Git database. Produce a short callsite inventory for exact stage-selected Reader Manuscript admission. Implement mandatory expected-manuscript binding at active stage callers and exact recorded manifest/primary checks, preserving existing authority. Add positive and wrong-same-issue/Profile-manuscript negative tests at DRAFT_COMPLETE and VALIDATED_DRAFT; run intended parent failure witnesses and affected regressions. Do not implement the reader IR, suppression overhaul, Freeze/Release backlog or production mutation. Save patch, exact-head metadata and raw test/failure/limitation evidence in a new Increment-A packet; preserve existing artifacts. Return for Astra diff/evidence review before the next increment.”
 

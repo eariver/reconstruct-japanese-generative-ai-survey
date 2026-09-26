@@ -1,0 +1,730 @@
+diff --git a/scripts/survey_agent_control_v2.py b/scripts/survey_agent_control_v2.py
+index c5feeaf..8048ba3 100644
+--- a/scripts/survey_agent_control_v2.py
++++ b/scripts/survey_agent_control_v2.py
+@@ -32,6 +32,7 @@ from scripts import survey_production_v2 as core
+ from scripts import survey_publication_v2 as publication
+ from scripts import survey_quality_v2 as quality
+ from scripts import survey_reader_publication_v2 as reader
++from scripts import survey_reader_surface_gate_v2 as surface_gate
+ from scripts import survey_review_attention_v2 as review_attention
+ from scripts import survey_schema_v2 as schema_gate
+ 
+@@ -1375,16 +1376,29 @@ def revalidate_publication_surface(
+     if not superseded:
+         raise AgentControlError("publication revalidation requires at least one regenerated publication artifact")
+     _verify_preserved_provenance(repo_root, cfg, state, validation_ref, superseded)
++    publication_rows = superseded + preserved
++
++    def unique_publication_path(name: str) -> Path:
++        matches = [row for row in publication_rows if row.get("name") == name]
++        if len(matches) != 1:
++            raise AgentControlError(
++                f"publication revalidation requires exactly one {name} artifact; found {len(matches)}"
++            )
++        return _revalidation_row_path(repo_root, matches[0]["path"], f"revalidation {name}")
++
++    manuscript_path = unique_publication_path("reader-manuscript")
++    gate_path = unique_publication_path("reader-surface-gate")
+     manuscript_doc = bundle_doc = semantic_doc = visual_doc = None
+     bundle_checks: list[dict[str, str]] = []
+     bound_paths: dict[str, Path] = {}
+     try:
+-        for row in superseded + preserved:
++        manuscript_doc = reader.validate_manuscript_manifest(
++            repo_root, manuscript_path, issue_id=state["issue_id"]
++        )
++        bound_paths["manuscript"] = manuscript_path
++        for row in publication_rows:
+             path = core.repo_local_path(repo_root, row["path"], row["name"])
+-            if row["name"] == "reader-manuscript":
+-                manuscript_doc = reader.validate_manuscript_manifest(repo_root, path, issue_id=state["issue_id"])
+-                bound_paths["manuscript"] = path
+-            elif row["name"] == "quality-regression-bundle":
++            if row["name"] == "quality-regression-bundle":
+                 bundle_doc = quality.validate_bundle(repo_root, path, issue_id=state["issue_id"])
+                 bound_paths["quality_bundle"] = path
+     except ValueError as exc:
+@@ -1392,7 +1406,7 @@ def revalidate_publication_surface(
+     if manuscript_doc is None or bundle_doc is None:
+         raise AgentControlError("publication revalidation requires bound reader manuscript and quality bundle")
+     try:
+-        for row in superseded + preserved:
++        for row in publication_rows:
+             path = core.repo_local_path(repo_root, row["path"], row["name"])
+             if row["name"] == "semantic-review":
+                 semantic_doc = reader.validate_review_record(repo_root, path, issue_id=state["issue_id"], expected_kind="SEMANTIC_EDITORIAL")
+@@ -1404,6 +1418,16 @@ def revalidate_publication_surface(
+         raise AgentControlError(f"publication revalidation QA failed: {exc}") from exc
+     if semantic_doc is None or visual_doc is None:
+         raise AgentControlError("publication revalidation requires complete semantic and visual reviews")
++    try:
++        surface_gate.validate_reader_surface_gate(
++            repo_root,
++            gate_path,
++            issue_id=state["issue_id"],
++            publication_profile=profile["publication_profile"],
++            expected_manuscript_path=manuscript_path,
++        )
++    except ValueError as exc:
++        raise AgentControlError(f"publication revalidation Reader-Surface Gate failed: {exc}") from exc
+     for check in bundle_doc.get("checks", []):
+         if check.get("status") != "PASS":
+             raise AgentControlError(f"publication revalidation quality check not PASS: {check.get('check_id')}")
+diff --git a/scripts/survey_reader_surface_gate_v2.py b/scripts/survey_reader_surface_gate_v2.py
+index 21920e5..d52c83f 100644
+--- a/scripts/survey_reader_surface_gate_v2.py
++++ b/scripts/survey_reader_surface_gate_v2.py
+@@ -1440,6 +1440,7 @@ def validate_reader_surface_gate(
+     *,
+     issue_id: str | None = None,
+     publication_profile: str | None = None,
++    expected_manuscript_path: Path | None = None,
+ ) -> dict[str, Any]:
+     """Independently validate a Reader-Surface Gate record.
+ 
+@@ -1448,10 +1449,15 @@ def validate_reader_surface_gate(
+       2. Issue identity and publication profile identity.
+       3. Report status == PASSED and summary verdict == PASSED with 0 blocking findings.
+       4. gate_sha256 recomputation over all canonical digest fields.
+-      5. Scanned surfaces existence, exact sha256 and byte counts matching current disk files.
+-      6. Required semantic review authority present, status PASSED, decision PASS,
+-         and surface_sha256 matching exact primary source bytes.
+-      7. No unresolved blocking findings.
++      5. Exactly one bound manuscript manifest and its corresponding primary source.
++      6. Scanned surfaces existence, exact sha256 and byte counts matching current disk files.
++      7. Required semantic review authority present, status PASSED, decision PASS,
++         and surface_sha256 matching the exact persisted semantic-review target.
++      8. No unresolved blocking findings.
++
++    ``expected_manuscript_path`` is mandatory for stage admission callers.  A
++    standalone inspection may omit it, in which case the validator inspects
++    the Gate's single recorded manuscript manifest as its own bound target.
+     """
+     gate_file = _safe_file(repo_root, path, "Reader-Surface Gate record")
+     payload = schema_gate.load_and_validate_json(
+@@ -1500,9 +1506,62 @@ def validate_reader_surface_gate(
+     scanned = payload.get("scanned_surfaces", [])
+     if not scanned:
+         raise ValueError("Reader-Surface Gate record contains no scanned surfaces")
++    manuscript_surfaces = [s for s in scanned if s.get("kind") == "MANUSCRIPT_MANIFEST"]
++    if len(manuscript_surfaces) != 1:
++        raise ValueError(
++            "Reader-Surface Gate must contain exactly one MANUSCRIPT_MANIFEST in scanned surfaces; "
++            f"found {len(manuscript_surfaces)}"
++        )
+     primary_surfaces = [s for s in scanned if s.get("kind") == "PRIMARY_SOURCE"]
+-    if not primary_surfaces:
+-        raise ValueError("Reader-Surface Gate lacks PRIMARY_SOURCE in scanned surfaces")
++    if len(primary_surfaces) != 1:
++        raise ValueError(
++            "Reader-Surface Gate must contain exactly one PRIMARY_SOURCE in scanned surfaces; "
++            f"found {len(primary_surfaces)}"
++        )
++
++    manuscript_surface = manuscript_surfaces[0]
++    manuscript_file = _safe_file(
++        repo_root,
++        expected_manuscript_path if expected_manuscript_path is not None else manuscript_surface["path"],
++        "expected Reader Manuscript Manifest",
++    )
++    manuscript_rel = _rel(repo_root, manuscript_file)
++    manuscript_sha = core.sha256_file(manuscript_file)
++    if (
++        manuscript_surface.get("path") != manuscript_rel
++        or manuscript_surface.get("sha256") != manuscript_sha
++    ):
++        raise ValueError(
++            "Reader-Surface Gate MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript: "
++            f"expected {manuscript_rel} ({manuscript_sha}), got "
++            f"{manuscript_surface.get('path')} ({manuscript_surface.get('sha256')})"
++        )
++    manuscript = schema_gate.load_and_validate_json(
++        manuscript_file,
++        repo_root / MANUSCRIPT_SCHEMA,
++        label="expected Reader Manuscript Manifest",
++    )
++    if manuscript.get("issue_id") != payload.get("issue_id"):
++        raise ValueError(
++            "Reader-Surface Gate/expected Reader Manuscript issue_id mismatch: "
++            f"{payload.get('issue_id')} != {manuscript.get('issue_id')}"
++        )
++    if manuscript.get("publication_profile") != payload.get("publication_profile"):
++        raise ValueError(
++            "Reader-Surface Gate/expected Reader Manuscript publication_profile mismatch: "
++            f"{payload.get('publication_profile')} != {manuscript.get('publication_profile')}"
++        )
++    primary_surface = primary_surfaces[0]
++    primary_ref = manuscript["primary_source"]
++    if (
++        primary_surface.get("path") != primary_ref.get("path")
++        or primary_surface.get("sha256") != primary_ref.get("sha256")
++    ):
++        raise ValueError(
++            "Reader-Surface Gate PRIMARY_SOURCE does not match the expected Reader Manuscript primary_source: "
++            f"expected {primary_ref.get('path')} ({primary_ref.get('sha256')}), got "
++            f"{primary_surface.get('path')} ({primary_surface.get('sha256')})"
++        )
+ 
+     for s in scanned:
+         rel = s["path"]
+diff --git a/scripts/survey_stage_validation_v2.py b/scripts/survey_stage_validation_v2.py
+index 840654d..3d8dba4 100644
+--- a/scripts/survey_stage_validation_v2.py
++++ b/scripts/survey_stage_validation_v2.py
+@@ -512,6 +512,7 @@ def _validate_stage_semantics(
+                 gate_path,
+                 issue_id=state["issue_id"],
+                 publication_profile=profile["publication_profile"],
++                expected_manuscript_path=manuscript_path,
+             )
+         except ValueError as exc:
+             raise StageValidationError(f"Reader-Surface Gate validation failed: {exc}") from exc
+@@ -562,6 +563,7 @@ def _validate_stage_semantics(
+                 gate_path,
+                 issue_id=state["issue_id"],
+                 publication_profile=profile["publication_profile"],
++                expected_manuscript_path=manuscript_path,
+             )
+         except ValueError as exc:
+             raise StageValidationError(f"Reader-Surface Gate validation failed: {exc}") from exc
+diff --git a/tests/test_survey_exact_manuscript_admission_v2.py b/tests/test_survey_exact_manuscript_admission_v2.py
+new file mode 100644
+index 0000000..49d8209
+--- /dev/null
++++ b/tests/test_survey_exact_manuscript_admission_v2.py
+@@ -0,0 +1,534 @@
++"""Increment A: exact stage-selected Reader Manuscript admission.
++
++All publication, editorial, visual, and Human authority records in this module
++are synthetic fixtures.  The tests use the real loaders, stage validator, Git
++repository, and publication revalidation path; they are not publication or
++approval evidence.
++"""
++from __future__ import annotations
++
++import importlib.util
++import tempfile
++import unittest
++from datetime import timedelta
++from pathlib import Path
++
++from scripts import survey_agent_control_v2 as agent
++from scripts import survey_production_v2 as core
++from scripts import survey_publication_v2 as publication
++from scripts import survey_reader_publication_v2 as reader
++from scripts import survey_reader_surface_gate_v2 as surface_gate
++from scripts import survey_stage_validation_v2 as stage_validation
++
++
++ROOT = Path(".").resolve()
++_FIXTURE_SPEC = importlib.util.spec_from_file_location(
++    "exact_manuscript_revalidation_fixture",
++    ROOT / "tests/test_survey_publication_revalidation_v2.py",
++)
++assert _FIXTURE_SPEC is not None and _FIXTURE_SPEC.loader is not None
++_FIXTURE_MODULE = importlib.util.module_from_spec(_FIXTURE_SPEC)
++_FIXTURE_SPEC.loader.exec_module(_FIXTURE_MODULE)
++Fixture = _FIXTURE_MODULE.Fixture
++ISSUE = _FIXTURE_MODULE.ISSUE
++T0 = _FIXTURE_MODULE.T0
++EXECUTOR = "synthetic-exact-manuscript-fixture"
++
++
++class ExactManuscriptAdmissionV2Tests(unittest.TestCase):
++    """Real-validator coverage for the bounded Increment A authority change."""
++
++    def setUp(self) -> None:
++        self.root = ROOT
++        self.cfg = core.load_json(self.root / core.DEFAULT_CONFIG)
++
++    def make_fixture(self) -> Fixture:
++        temp = tempfile.TemporaryDirectory(dir=str(self.root))
++        self.addCleanup(temp.cleanup)
++        return Fixture(self.root, Path(temp.name))
++
++    @staticmethod
++    def publication_paths(fix: Fixture) -> dict[str, Path]:
++        pub = fix.src / "publication/v2"
++        return {
++            "reader-manuscript": pub / "reader-manuscript-v2.json",
++            "validated-source": fix.survey / "main.tex",
++            "publication-pdf": fix.survey / "main.pdf",
++            "quality-regression-bundle": pub / "quality-regression-bundle-v2.json",
++            "semantic-review": pub / "semantic-editorial-review-v2.json",
++            "visual-review": pub / "visual-review-v2.json",
++            "reader-surface-gate": pub / "reader-surface-gate-v2.json",
++        }
++
++    def make_draft_complete(self, fix: Fixture) -> None:
++        state_path = fix.src / "production-state.json"
++        state = core.load_json(state_path)
++        state["lifecycle_state"] = "DRAFT_COMPLETE"
++        state["history"] = state["history"][: core.LIFECYCLE.index("DRAFT_COMPLETE") + 1]
++        completed = agent._expected_completed_checkpoints(self.cfg, "DRAFT_COMPLETE")
++        for name in core.CHECKPOINTS:
++            if name not in completed:
++                state["machine_checkpoints"][name] = "pending"
++                state["checkpoint_provenance"][name] = None
++        state.pop("publication_revalidation_provenance", None)
++        core.write_json(state_path, core.refresh_state_control(state, self.cfg))
++        self.assertEqual(agent.validate_agent_state(self.root, self.cfg, core.load_json(state_path)), [])
++
++    def build_alternate_manuscript(self, fix: Fixture, *, different_primary: bool = False) -> dict[str, Path]:
++        pub = fix.src / "publication/v2"
++        source = fix.survey / "main.tex"
++        manifest = pub / "reader-manuscript-alternate-v2.json"
++        semantic = pub / "semantic-editorial-review-alternate-v2.json"
++        visual = pub / "visual-review-alternate-v2.json"
++        original_semantic = core.load_json(pub / "semantic-editorial-review-v2.json")
++        original_visual = core.load_json(pub / "visual-review-v2.json")
++        reader.build_manuscript_manifest(
++            self.root,
++            ISSUE,
++            fix.src / "production-profile.json",
++            fix.src / "architecture-v2.json",
++            fix.src / "gates/architecture-approval.json",
++            source,
++            [{"role": "SUPPORTING_SOURCE", "path": fix.survey / "references.bib"}],
++            [
++                {
++                    "package_id": "pkg-001",
++                    "requirement": "subject identity",
++                    "status": "FULFILLED",
++                    "reader_locations": ["main.tex"],
++                    "detail": "synthetic alternate manuscript coverage",
++                }
++            ],
++            [
++                {
++                    "requirement_id": "FINAL_SYNTHESIS",
++                    "status": "FULFILLED",
++                    "reader_locations": ["main.tex"],
++                    "detail": "synthetic alternate final synthesis",
++                },
++                {
++                    "requirement_id": "WEEKLY_COMMUNITY_MOVEMENT",
++                    "status": "FULFILLED",
++                    "reader_locations": ["main.tex"],
++                    "detail": "synthetic alternate weekly movement",
++                },
++            ],
++            EXECUTOR,
++            T0 + timedelta(minutes=1),
++            manifest,
++        )
++        reader.build_review_record(
++            self.root,
++            manifest,
++            fix.survey / "main.pdf",
++            1,
++            "SEMANTIC_EDITORIAL",
++            original_semantic["checks"],
++            EXECUTOR,
++            T0 + timedelta(minutes=2),
++            semantic,
++        )
++        reader.build_review_record(
++            self.root,
++            manifest,
++            fix.survey / "main.pdf",
++            1,
++            "VISUAL",
++            original_visual["checks"],
++            EXECUTOR,
++            T0 + timedelta(minutes=3),
++            visual,
++        )
++        if different_primary:
++            source = fix.survey / "alternate-main.tex"
++            source.write_text(
++                "%% alternate schema-valid primary\n\\documentclass{article}\\begin{document}alternate\\end{document}\n",
++                encoding="utf-8",
++            )
++            manifest_doc = core.load_json(manifest)
++            manifest_doc["primary_source"] = {
++                "path": source.relative_to(self.root).as_posix(),
++                "sha256": core.sha256_file(source),
++                "byte_count": source.stat().st_size,
++            }
++            manifest_doc["manifest_sha256"] = core.sha256_object(
++                {key: value for key, value in manifest_doc.items() if key != "manifest_sha256"}
++            )
++            core.write_json(manifest, manifest_doc)
++        return {"manifest": manifest, "source": source, "semantic": semantic, "visual": visual}
++
++    def build_candidate(self, fix: Fixture, selected: dict[str, Path] | None = None) -> Path:
++        paths = self.publication_paths(fix)
++        chosen = selected or {
++            "manifest": paths["reader-manuscript"],
++            "source": paths["validated-source"],
++            "semantic": paths["semantic-review"],
++            "visual": paths["visual-review"],
++        }
++        candidate = fix.src / "publication/v2/publication-candidate-increment-a.json"
++        publication.build_candidate(
++            self.root,
++            ISSUE,
++            "WEEKLY_MAGAZINE",
++            chosen["manifest"],
++            chosen["source"],
++            paths["publication-pdf"],
++            1,
++            paths["quality-regression-bundle"],
++            chosen["semantic"],
++            chosen["visual"],
++            candidate,
++        )
++        return candidate
++
++    def validate_draft(self, fix: Fixture, artifacts: dict[str, Path], suffix: str) -> Path:
++        output = fix.src / f"execution/increment-a-draft-{suffix}.json"
++        return stage_validation.validate_stage(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            artifacts,
++            output,
++            T0 + timedelta(hours=1),
++        )
++
++    def rebind_validation_checkpoint(self, fix: Fixture, selected: dict[str, Path]) -> None:
++        """Create a synthetic historical checkpoint whose Gate selected another manifest.
++
++        This models the defect shape accepted by the parent implementation.  It
++        updates immutable fixture records before the test begins; production
++        code still performs every State/checkpoint/stage validation.
++        """
++        checkpoint_path = fix.src / "orchestration/v2/checkpoints/DRAFT_COMPLETE.json"
++        checkpoint = core.load_json(checkpoint_path)
++        replacements = {
++            "reader-manuscript": selected["manifest"],
++            "semantic-review": selected["semantic"],
++            "visual-review": selected["visual"],
++        }
++        for row in checkpoint["artifacts"]:
++            replacement = replacements.get(row["name"])
++            if replacement is not None:
++                row["path"] = replacement.relative_to(self.root).as_posix()
++                row["sha256"] = core.sha256_file(replacement)
++        core_review = next(
++            row for row in checkpoint["reviews"] if row["check_id"] == agent.CORE_STAGE_REVIEW_ID
++        )
++        report_path = self.root / core_review["result"]["path"]
++        report = core.load_json(report_path)
++        report["artifacts"] = checkpoint["artifacts"]
++        core.write_json(report_path, report)
++        core_review["result"]["sha256"] = core.sha256_file(report_path)
++        core.write_json(checkpoint_path, checkpoint)
++        state_path = fix.src / "production-state.json"
++        state = core.load_json(state_path)
++        state["checkpoint_provenance"]["validation"]["sha256"] = core.sha256_file(checkpoint_path)
++        core.write_json(state_path, state)
++        self.assertEqual(agent.validate_agent_state(self.root, self.cfg, core.load_json(state_path)), [])
++
++    @staticmethod
++    def refresh_gate_digest(gate: dict) -> None:
++        fields = (
++            "schema_version",
++            "issue_id",
++            "publication_profile",
++            "status",
++            "scanned_surfaces",
++            "rules_checked",
++            "suppressions",
++            "findings",
++            "summary",
++            "evaluated_by",
++            "recorded_at",
++            "semantic_authority",
++        )
++        gate["gate_sha256"] = core.sha256_object({key: gate[key] for key in fields})
++
++    def test_draft_complete_exact_selected_manuscript_passes(self) -> None:
++        fix = self.make_fixture()
++        self.make_draft_complete(fix)
++        report = self.validate_draft(fix, self.publication_paths(fix), "positive")
++        self.assertEqual(core.load_json(report)["status"], "PASS")
++
++    def test_draft_complete_rejects_valid_same_identity_alternate_manuscript(self) -> None:
++        fix = self.make_fixture()
++        self.make_draft_complete(fix)
++        alternate = self.build_alternate_manuscript(fix)
++        artifacts = self.publication_paths(fix)
++        artifacts["reader-manuscript"] = alternate["manifest"]
++        artifacts["semantic-review"] = alternate["semantic"]
++        artifacts["visual-review"] = alternate["visual"]
++        with self.assertRaisesRegex(
++            stage_validation.StageValidationError,
++            "MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript",
++        ):
++            self.validate_draft(fix, artifacts, "wrong-manuscript")
++
++    def test_validated_draft_exact_selected_manuscript_passes(self) -> None:
++        fix = self.make_fixture()
++        candidate = self.build_candidate(fix)
++        output = fix.src / "execution/increment-a-candidate-positive.json"
++        report = stage_validation.validate_stage(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            {"publication-candidate": candidate},
++            output,
++            T0 + timedelta(hours=1),
++        )
++        self.assertEqual(core.load_json(report)["status"], "PASS")
++
++    def test_validated_draft_rejects_valid_same_identity_alternate_manuscript(self) -> None:
++        fix = self.make_fixture()
++        alternate = self.build_alternate_manuscript(fix)
++        self.rebind_validation_checkpoint(fix, alternate)
++        candidate = self.build_candidate(fix, alternate)
++        with self.assertRaisesRegex(
++            stage_validation.StageValidationError,
++            "MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript",
++        ):
++            stage_validation.validate_stage(
++                self.root,
++                self.cfg,
++                fix.src / "production-state.json",
++                {"publication-candidate": candidate},
++                fix.src / "execution/increment-a-candidate-wrong-manuscript.json",
++                T0 + timedelta(hours=1),
++            )
++
++    def test_gate_requires_unique_manifest_and_primary_surfaces(self) -> None:
++        for case in (
++            "missing-manifest",
++            "missing-primary",
++            "duplicate-manifest",
++            "duplicate-primary",
++            "conflicting-manifest",
++            "conflicting-primary",
++        ):
++            with self.subTest(case=case):
++                fix = self.make_fixture()
++                gate_path = self.publication_paths(fix)["reader-surface-gate"]
++                gate = core.load_json(gate_path)
++                if case == "missing-manifest":
++                    gate["scanned_surfaces"] = [
++                        row for row in gate["scanned_surfaces"] if row["kind"] != "MANUSCRIPT_MANIFEST"
++                    ]
++                elif case == "missing-primary":
++                    gate["scanned_surfaces"] = [
++                        row for row in gate["scanned_surfaces"] if row["kind"] != "PRIMARY_SOURCE"
++                    ]
++                elif case == "duplicate-manifest":
++                    manifest = next(
++                        row for row in gate["scanned_surfaces"] if row["kind"] == "MANUSCRIPT_MANIFEST"
++                    )
++                    gate["scanned_surfaces"].append(dict(manifest))
++                elif case == "duplicate-primary":
++                    primary = next(
++                        row for row in gate["scanned_surfaces"] if row["kind"] == "PRIMARY_SOURCE"
++                    )
++                    gate["scanned_surfaces"].append(dict(primary))
++                elif case == "conflicting-manifest":
++                    alternate = self.build_alternate_manuscript(fix)
++                    gate["scanned_surfaces"].append(
++                        {
++                            "path": alternate["manifest"].relative_to(self.root).as_posix(),
++                            "sha256": core.sha256_file(alternate["manifest"]),
++                            "kind": "MANUSCRIPT_MANIFEST",
++                            "byte_count": alternate["manifest"].stat().st_size,
++                        }
++                    )
++                else:
++                    conflicting = fix.survey / "conflicting-primary.tex"
++                    conflicting.write_text("synthetic conflicting primary\n", encoding="utf-8")
++                    gate["scanned_surfaces"].append(
++                        {
++                            "path": conflicting.relative_to(self.root).as_posix(),
++                            "sha256": core.sha256_file(conflicting),
++                            "kind": "PRIMARY_SOURCE",
++                            "byte_count": conflicting.stat().st_size,
++                        }
++                    )
++                self.refresh_gate_digest(gate)
++                core.write_json(gate_path, gate)
++                with self.assertRaisesRegex(ValueError, "exactly one"):
++                    surface_gate.validate_reader_surface_gate(self.root, gate_path)
++
++    def test_gate_rejects_swapped_primary_from_exact_manifest(self) -> None:
++        fix = self.make_fixture()
++        paths = self.publication_paths(fix)
++        alternate = self.build_alternate_manuscript(fix, different_primary=True)
++        gate = core.load_json(paths["reader-surface-gate"])
++        manuscript_row = next(row for row in gate["scanned_surfaces"] if row["kind"] == "MANUSCRIPT_MANIFEST")
++        manuscript_row.update(
++            path=alternate["manifest"].relative_to(self.root).as_posix(),
++            sha256=core.sha256_file(alternate["manifest"]),
++            byte_count=alternate["manifest"].stat().st_size,
++        )
++        self.refresh_gate_digest(gate)
++        core.write_json(paths["reader-surface-gate"], gate)
++        with self.assertRaisesRegex(ValueError, "PRIMARY_SOURCE does not match"):
++            surface_gate.validate_reader_surface_gate(
++                self.root,
++                paths["reader-surface-gate"],
++                expected_manuscript_path=alternate["manifest"],
++            )
++
++    def test_gate_rejects_stale_selected_manifest_bytes(self) -> None:
++        fix = self.make_fixture()
++        paths = self.publication_paths(fix)
++        paths["reader-manuscript"].write_bytes(paths["reader-manuscript"].read_bytes() + b"\n")
++        with self.assertRaisesRegex(ValueError, "does not bind the exact expected Reader Manuscript"):
++            surface_gate.validate_reader_surface_gate(
++                self.root,
++                paths["reader-surface-gate"],
++                expected_manuscript_path=paths["reader-manuscript"],
++            )
++
++    def test_gate_rejects_fresh_forged_digest_for_other_valid_manifest(self) -> None:
++        fix = self.make_fixture()
++        paths = self.publication_paths(fix)
++        alternate = self.build_alternate_manuscript(fix)
++        gate = core.load_json(paths["reader-surface-gate"])
++        manuscript_row = next(row for row in gate["scanned_surfaces"] if row["kind"] == "MANUSCRIPT_MANIFEST")
++        manuscript_row.update(
++            path=alternate["manifest"].relative_to(self.root).as_posix(),
++            sha256=core.sha256_file(alternate["manifest"]),
++            byte_count=alternate["manifest"].stat().st_size,
++        )
++        self.refresh_gate_digest(gate)
++        core.write_json(paths["reader-surface-gate"], gate)
++        with self.assertRaisesRegex(ValueError, "does not bind the exact expected Reader Manuscript"):
++            surface_gate.validate_reader_surface_gate(
++                self.root,
++                paths["reader-surface-gate"],
++                expected_manuscript_path=paths["reader-manuscript"],
++            )
++
++    def regenerate(self, fix: Fixture) -> None:
++        pub = fix.src / "publication/v2"
++        for name in (
++            "reader-manuscript-v2.json",
++            "quality-regression-bundle-v2.json",
++            "semantic-editorial-review-v2.json",
++            "visual-review-v2.json",
++            "reader-surface-gate-v2.json",
++        ):
++            (pub / name).unlink()
++        fix._publication_files(version=2)
++        fix._publication_authority()
++
++    def test_revalidation_exact_gate_passes_and_later_stage_reads_it(self) -> None:
++        fix = self.make_fixture()
++        self.regenerate(fix)
++        record = agent.revalidate_publication_surface(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            "REVIEWED_CORE_CHANGE",
++            "synthetic exact-manuscript revalidation",
++            EXECUTOR,
++            T0 + timedelta(hours=1),
++            None,
++        )
++        self.assertTrue(record.is_file())
++        candidate = self.build_candidate(fix)
++        report = stage_validation.validate_stage(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            {"publication-candidate": candidate},
++            fix.src / "execution/increment-a-revalidated-stage.json",
++            T0 + timedelta(hours=2),
++        )
++        self.assertEqual(core.load_json(report)["status"], "PASS")
++
++    def test_revalidation_rejects_wrong_gate_before_authority_write(self) -> None:
++        fix = self.make_fixture()
++        self.regenerate(fix)
++        paths = self.publication_paths(fix)
++        alternate = self.build_alternate_manuscript(fix)
++        reader.build_reader_surface_gate(
++            self.root,
++            alternate["manifest"],
++            fix.src / "publication/v2/reader-surface-semantic-review-v2.json",
++            output_path=paths["reader-surface-gate"],
++            evaluated_by=EXECUTOR,
++            recorded_at=T0 + timedelta(minutes=5),
++        )
++        state_path = fix.src / "production-state.json"
++        before_state = state_path.read_bytes()
++        before_records = sorted((fix.src / "publication/v2").glob("publication-surface-revalidation-r*.json"))
++        with self.assertRaisesRegex(
++            agent.AgentControlError,
++            "MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript",
++        ):
++            agent.revalidate_publication_surface(
++                self.root,
++                self.cfg,
++                state_path,
++                "REVIEWED_CORE_CHANGE",
++                "synthetic wrong-gate revalidation",
++                EXECUTOR,
++                T0 + timedelta(hours=1),
++                None,
++            )
++        self.assertEqual(state_path.read_bytes(), before_state)
++        self.assertEqual(
++            sorted((fix.src / "publication/v2").glob("publication-surface-revalidation-r*.json")),
++            before_records,
++        )
++
++    def test_later_stage_rejects_fresh_wrong_gate_under_active_revalidation(self) -> None:
++        fix = self.make_fixture()
++        self.regenerate(fix)
++        record_path = agent.revalidate_publication_surface(
++            self.root,
++            self.cfg,
++            fix.src / "production-state.json",
++            "REVIEWED_CORE_CHANGE",
++            "synthetic exact-manuscript revalidation before adversarial replacement",
++            EXECUTOR,
++            T0 + timedelta(hours=1),
++            None,
++        )
++        paths = self.publication_paths(fix)
++        alternate = self.build_alternate_manuscript(fix)
++        reader.build_reader_surface_gate(
++            self.root,
++            alternate["manifest"],
++            fix.src / "publication/v2/reader-surface-semantic-review-v2.json",
++            output_path=paths["reader-surface-gate"],
++            evaluated_by=EXECUTOR,
++            recorded_at=T0 + timedelta(hours=1, minutes=1),
++        )
++
++        record = core.load_json(record_path)
++        gate_row = next(
++            row for row in record["superseded_artifacts"] if row["name"] == "reader-surface-gate"
++        )
++        gate_row["new_sha256"] = core.sha256_file(paths["reader-surface-gate"])
++        gate_row["byte_count"] = paths["reader-surface-gate"].stat().st_size
++        core.write_json(record_path, record)
++        state_path = fix.src / "production-state.json"
++        state = core.load_json(state_path)
++        state["publication_revalidation_provenance"]["sha256"] = core.sha256_file(record_path)
++        core.write_json(state_path, state)
++        self.assertEqual(agent.validate_agent_state(self.root, self.cfg, core.load_json(state_path)), [])
++
++        candidate = self.build_candidate(fix)
++        with self.assertRaisesRegex(
++            stage_validation.StageValidationError,
++            "MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript",
++        ):
++            stage_validation.validate_stage(
++                self.root,
++                self.cfg,
++                state_path,
++                {"publication-candidate": candidate},
++                fix.src / "execution/increment-a-active-revalidation-wrong-gate.json",
++                T0 + timedelta(hours=2),
++            )
++
++
++if __name__ == "__main__":
++    unittest.main()

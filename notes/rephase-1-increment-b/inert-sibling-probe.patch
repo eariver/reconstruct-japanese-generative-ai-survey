@@ -1,0 +1,28 @@
+diff --git a/tests/test_survey_increment_b_weekly_derivation_v2.py b/tests/test_survey_increment_b_weekly_derivation_v2.py
+index 6193ada..979e250 100644
+--- a/tests/test_survey_increment_b_weekly_derivation_v2.py
++++ b/tests/test_survey_increment_b_weekly_derivation_v2.py
+@@ -511,6 +511,23 @@ class IncrementBWeeklyDerivationV2Tests(unittest.TestCase):
+         reader_gate.validate_reader_surface_gate(
+             self.root, gate_path, expected_manuscript_path=manuscript_path, state_path=state_path,
+         )
++        # TEMPORARY AUTHOR-SIDE PROBE: inert local TeX package sibling in the
++        # real survey build directory, after valid generated receipt/Gate.
++        sibling = self.survey_root / "hyperref.sty"
++        self.assertFalse(sibling.exists())
++        sibling.write_text("% inert synthetic local package shadow probe\n", encoding="utf-8")
++        try:
++            try:
++                weekly.validate_receipt(self.root, receipt_path, state_path)
++                reader_gate.validate_reader_surface_gate(
++                    self.root, gate_path, expected_manuscript_path=manuscript_path, state_path=state_path,
++                )
++            except Exception as exc:
++                print(f"INERT_SIBLING_PROBE_REJECTED: {type(exc).__name__}: {exc}", flush=True)
++            else:
++                print("INERT_SIBLING_PROBE_ACCEPTED_BY_RECEIPT_AND_GATE: hyperref.sty", flush=True)
++        finally:
++            sibling.unlink()
+         creation_head = self.head
+         closure_before = weekly.current_closure(self.root)
+         subprocess.run(["git", "add", "--", str(surface_path.relative_to(self.root))],

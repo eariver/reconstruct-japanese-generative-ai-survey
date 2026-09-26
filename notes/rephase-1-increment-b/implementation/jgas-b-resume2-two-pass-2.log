@@ -1,0 +1,32 @@
+test_accepted_weekly_two_pass_publication (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_two_pass_publication) ... ERROR
+
+======================================================================
+ERROR: test_accepted_weekly_two_pass_publication (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_two_pass_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 335, in test_accepted_weekly_two_pass_publication
+    weekly.validate_receipt(self.root, receipt_path, state_path)
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_weekly_derivation_v2.py", line 597, in validate_receipt
+    _verify_head_bytes(root, tools["repository_commit_sha"], tools["closure"])
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_weekly_derivation_v2.py", line 519, in _verify_head_bytes
+    raise ValueError("Weekly current implementation-control roots differ from committed HEAD")
+ValueError: Weekly current implementation-control roots differ from committed HEAD
+
+----------------------------------------------------------------------
+Ran 1 test in 27.514s
+
+FAILED (errors=1)
+{
+  "issue_id": "2026-W37",
+  "source_root": "sources/2026-W37",
+  "survey_root": "surveys/weekly/2026-W37",
+  "source_manifest": "sources/2026-W37/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/weekly/2026-W37/main.tex",
+  "bibliography": "surveys/weekly/2026-W37/references.bib",
+  "style": "surveys/weekly/2026-W37/jgaisurvey.sty",
+  "subject_result": "sources/2026-W37/publication/v2/quality/subject-entity-property-binding.json",
+  "identifier_tokens": [
+    "2026-W37",
+    "Target Model"
+  ]
+}

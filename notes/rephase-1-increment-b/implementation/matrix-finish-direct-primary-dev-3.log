@@ -1,0 +1,35 @@
+test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes) ... FAIL
+
+======================================================================
+FAIL: test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_schema_v2.py", line 75, in load_and_validate_json
+    value = json.loads(path.read_text(encoding="utf-8"))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/json/__init__.py", line 346, in loads
+    return _default_decoder.decode(s)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/json/decoder.py", line 338, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/json/decoder.py", line 356, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_schema_v2.SchemaConformanceError: cannot load Weekly complete reader input /tmp/jgas-weekly-b-7p151zya/surveys/weekly/2026-W37/other-reviewed.tex: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_boundary_matrix_v2.py", line 344, in test_direct_primary_requires_exact_reviewed_primary_bytes
+    with self.assertRaisesRegex(ValueError, "canonical reader input"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "canonical reader input" does not match "cannot load Weekly complete reader input /tmp/jgas-weekly-b-7p151zya/surveys/weekly/2026-W37/other-reviewed.tex: Expecting value: line 1 column 1 (char 0)"
+
+----------------------------------------------------------------------
+Ran 1 test in 25.665s
+
+FAILED (failures=1)

@@ -1,0 +1,23 @@
+/tmp/jgas-rephase-increment-b-sol-implementation
+e0d72c7b25fcf42271c30d51073938c57f77ad27
+Python 3.12.14
+test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes) ... FAIL
+test_live_archive_none_mode_rejects_accepted_result_refs (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_live_archive_none_mode_rejects_accepted_result_refs) ... ok
+
+======================================================================
+FAIL: test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes)
+----------------------------------------------------------------------
+ValueError: Reader-Surface Gate scanned surface bytes drifted for surveys/weekly/2026-W37/main.tex: recorded ed510c486c0c5545ddaed15f468b850e235255c5dd746409cc8136682e114f5f, current disk 46fc7b4ef44820e105fbc087378c58b9e82e77fe8c1a29eb3046f9a16ef04427
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_boundary_matrix_v2.py", line 369, in test_direct_primary_requires_exact_reviewed_primary_bytes
+    with self.assertRaisesRegex(ValueError, "DIRECT_PRIMARY reviewed primary drift"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "DIRECT_PRIMARY reviewed primary drift" does not match "Reader-Surface Gate scanned surface bytes drifted for surveys/weekly/2026-W37/main.tex: recorded ed510c486c0c5545ddaed15f468b850e235255c5dd746409cc8136682e114f5f, current disk 46fc7b4ef44820e105fbc087378c58b9e82e77fe8c1a29eb3046f9a16ef04427"
+
+----------------------------------------------------------------------
+Ran 2 tests in 29.134s
+
+FAILED (failures=1)

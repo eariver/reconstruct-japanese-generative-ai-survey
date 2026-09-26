@@ -1,0 +1,52 @@
+E
+======================================================================
+ERROR: test_accepted_weekly_two_pass_publication (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_two_pass_publication)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_agent_control_v2.py", line 795, in _revalidation_row_path
+    path = core.repo_local_path(repo_root, raw, label)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_production_v2.py", line 224, in repo_local_path
+    raise ValueError(f"{label} must be a repository-relative path without traversal")
+ValueError: Production State must be a repository-relative path without traversal
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 561, in test_accepted_weekly_two_pass_publication
+    first_record = renew_publication("first", 6)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 533, in renew_publication
+    pending = agent.built_checked_pending_publication_basis(self.root, self.cfg, state_path)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_agent_control_v2.py", line 771, in built_checked_pending_publication_basis
+    state_path = _revalidation_row_path(repo_root, str(state_path), "Production State")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_agent_control_v2.py", line 797, in _revalidation_row_path
+    raise AgentControlError(f"{label} escapes repository: {raw}") from exc
+scripts.survey_agent_control_v2.AgentControlError: Production State escapes repository: /tmp/jgas-weekly-b-t9r8k2vr/sources/2026-W37/production-state.json
+
+----------------------------------------------------------------------
+Ran 1 test in 74.301s
+
+FAILED (errors=1)
+{
+  "issue_id": "2026-W37",
+  "structured_surface": "sources/2026-W37/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "2026-W37",
+  "source_root": "sources/2026-W37",
+  "survey_root": "surveys/weekly/2026-W37",
+  "source_manifest": "sources/2026-W37/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/weekly/2026-W37/main.tex",
+  "bibliography": "surveys/weekly/2026-W37/references.bib",
+  "style": "surveys/weekly/2026-W37/jgaisurvey.sty",
+  "subject_result": "sources/2026-W37/publication/v2/quality/subject-entity-property-binding.json",
+  "identifier_tokens": [
+    "2026-W37",
+    "Target Model"
+  ]
+}

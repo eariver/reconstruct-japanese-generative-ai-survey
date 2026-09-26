@@ -1,0 +1,31 @@
+test_accepted_card_bibliography_identity_and_ambiguous_capture_stop (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_accepted_card_bibliography_identity_and_ambiguous_capture_stop) ... ERROR
+test_authorized_alternate_citation_with_distinct_refs_rejects_stale_result (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_authorized_alternate_citation_with_distinct_refs_rejects_stale_result) ... ok
+test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes) ... ok
+test_generated_schema_route_profile_and_explicit_review_target_fail_before_outputs (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_generated_schema_route_profile_and_explicit_review_target_fail_before_outputs) ... ok
+test_nonreader_rationale_keeps_pure_projection_but_live_checkpoint_rejects_mutation (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_nonreader_rationale_keeps_pure_projection_but_live_checkpoint_rejects_mutation) ... FAIL
+
+======================================================================
+ERROR: test_accepted_card_bibliography_identity_and_ambiguous_capture_stop (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_accepted_card_bibliography_identity_and_ambiguous_capture_stop)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_boundary_matrix_v2.py", line 148, in test_accepted_card_bibliography_identity_and_ambiguous_capture_stop
+    accepted = evidence.accept_evidence_results(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_evidence_v2.py", line 1067, in accept_evidence_results
+    validate_evidence_package_basis(repo_root, package_path, package, implementation_sha)
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_evidence_v2.py", line 741, in validate_evidence_package_basis
+    raise ValueError(f"Evidence package basis drift: {sha_key}")
+ValueError: Evidence package basis drift: state_sha256
+
+======================================================================
+FAIL: test_nonreader_rationale_keeps_pure_projection_but_live_checkpoint_rejects_mutation (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_nonreader_rationale_keeps_pure_projection_but_live_checkpoint_rejects_mutation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_boundary_matrix_v2.py", line 76, in test_nonreader_rationale_keeps_pure_projection_but_live_checkpoint_rejects_mutation
+    self.assertTrue(result["boundary_dispositions"])
+AssertionError: [] is not true
+
+----------------------------------------------------------------------
+Ran 5 tests in 27.519s
+
+FAILED (failures=1, errors=1)

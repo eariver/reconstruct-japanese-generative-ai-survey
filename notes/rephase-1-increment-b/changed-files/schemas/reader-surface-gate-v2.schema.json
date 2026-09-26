@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/reader-surface-gate-v2.schema.json",
+  "title": "Survey Production Core v2 Pre-Publication Reader-Surface Gate Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "issue_id",
+    "publication_profile",
+    "status",
+    "scanned_surfaces",
+    "rules_checked",
+    "suppressions",
+    "findings",
+    "summary",
+    "evaluated_by",
+    "recorded_at",
+    "semantic_authority",
+    "derivation",
+    "gate_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+    "status": {"enum": ["PASSED", "FAILED"]},
+    "scanned_surfaces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "kind", "byte_count"],
+        "properties": {
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "kind": {
+            "enum": [
+              "PRIMARY_SOURCE",
+              "SUPPORTING_SOURCE",
+              "BIBLIOGRAPHY",
+              "SYNTHESIS_PAYLOAD",
+              "MANUSCRIPT_MANIFEST",
+              "STRUCTURED_READER_SURFACE"
+            ]
+          },
+          "byte_count": {"type": "integer", "minimum": 0}
+        }
+      }
+    },
+    "rules_checked": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "layer", "description", "severity"],
+        "properties": {
+          "rule_id": {"type": "string", "minLength": 1},
+          "layer": {"enum": ["LEXICAL_LINT", "SEMANTIC_REVIEW"]},
+          "description": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["BLOCKING", "WARNING"]}
+        }
+      }
+    },
+    "suppressions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["rule_id", "path", "matched_text", "reason"],
+        "properties": {
+          "rule_id": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "matched_text": {"type": "string", "minLength": 1},
+          "reason": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "finding_id",
+          "rule_id",
+          "artifact",
+          "path",
+          "field_or_block",
+          "locator",
+          "text_span",
+          "severity",
+          "reason",
+          "proposed_normalization",
+          "disposition"
+        ],
+        "properties": {
+          "finding_id": {"type": "string", "minLength": 1},
+          "rule_id": {"type": "string", "minLength": 1},
+          "artifact": {"type": "string", "minLength": 1},
+          "path": {"type": "string", "minLength": 1},
+          "field_or_block": {"type": "string", "minLength": 1},
+          "locator": {"type": "string", "minLength": 1},
+          "text_span": {"type": "string", "minLength": 1},
+          "severity": {"enum": ["BLOCKING", "WARNING", "INFO", "SUPPRESSED"]},
+          "reason": {"type": "string", "minLength": 1},
+          "proposed_normalization": {"type": "string", "minLength": 1},
+          "disposition": {"enum": ["UNRESOLVED", "SUPPRESSED", "NORMALIZED"]}
+        }
+      }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "total_findings",
+        "blocking_findings",
+        "warning_findings",
+        "suppressed_findings",
+        "normalized_findings",
+        "verdict"
+      ],
+      "properties": {
+        "total_findings": {"type": "integer", "minimum": 0},
+        "blocking_findings": {"type": "integer", "minimum": 0},
+        "warning_findings": {"type": "integer", "minimum": 0},
+        "suppressed_findings": {"type": "integer", "minimum": 0},
+        "normalized_findings": {"type": "integer", "minimum": 0},
+        "verdict": {"enum": ["PASSED", "FAILED"]}
+      }
+    },
+    "evaluated_by": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "semantic_authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "decision",
+        "reviewed_by",
+        "surface_sha256",
+        "recorded_at",
+        "review_path",
+        "review_sha256"
+      ],
+      "properties": {
+        "status": {"enum": ["PASSED", "FAILED"]},
+        "decision": {"enum": ["PASS", "FAIL"]},
+        "reviewed_by": {"type": "string", "minLength": 1},
+        "surface_path": {"type": "string", "minLength": 1},
+        "surface_sha256": {"$ref": "#/$defs/sha256"},
+        "recorded_at": {"type": "string", "format": "date-time"},
+        "reviewed_at": {"type": "string", "format": "date-time"},
+        "review_path": {"type": "string", "minLength": 1},
+        "review_sha256": {"$ref": "#/$defs/sha256"},
+        "summary": {"type": "string"}
+      }
+    },
+    "derivation": {
+      "oneOf": [
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["route", "scope"],
+          "properties": {
+            "route": {"const": "DIRECT_PRIMARY"},
+            "scope": {"const": "PRIMARY_ONLY"}
+          }
+        },
+        {
+          "type": "object", "additionalProperties": false,
+          "required": ["route", "scope", "receipt"],
+          "properties": {
+            "route": {"const": "WEEKLY_GENERATED_V2"},
+            "scope": {"const": "WEEKLY_MAIN_BIB_STYLE"},
+            "receipt": {
+              "type": "object", "additionalProperties": false,
+              "required": ["path", "sha256"],
+              "properties": {
+                "path": {"type": "string", "minLength": 1},
+                "sha256": {"$ref": "#/$defs/sha256"}
+              }
+            }
+          }
+        }
+      ]
+    },
+    "gate_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

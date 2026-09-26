@@ -1,0 +1,47 @@
+diff --git a/scripts/survey_weekly_derivation_v2.py b/scripts/survey_weekly_derivation_v2.py
+index 0778b76..3939d06 100644
+--- a/scripts/survey_weekly_derivation_v2.py
++++ b/scripts/survey_weekly_derivation_v2.py
+@@ -238,12 +238,14 @@ def build_reader_input(
+     """Purely project already validated values into the complete reader object."""
+     heading, _ = _closing_summary(architecture)
+     _validate_authored_input(authored, issue_id, heading)
+-    payload = synthesis_result.get("publication_payload")
++    # The validated WEEKLY synthesis contract owns this exact field. The
++    # WEEKLY_MAGAZINE publication payload is required to be empty.
++    payload = synthesis_result.get("profile_payload")
+     if not isinstance(payload, dict):
+-        raise ValueError("Weekly Profile Synthesis lacks publication_payload")
+-    closing_text = payload.get("closing_synthesis") or payload.get("current_interpretation")
++        raise ValueError("Weekly Profile Synthesis lacks profile_payload")
++    closing_text = payload.get("current_interpretation")
+     if not isinstance(closing_text, str) or not closing_text.strip():
+-        raise ValueError("Weekly Profile Synthesis lacks closing synthesis")
++        raise ValueError("Weekly Profile Synthesis lacks current_interpretation")
+     if closing_text not in authored["final_summary"]["paragraphs"]:
+         raise ValueError("Weekly final summary must preserve exact approved synthesis paragraph")
+     display_date, boundary = _window(profile)
+@@ -507,6 +509,23 @@ def current_closure(root: Path) -> list[dict[str, str]]:
+ def _verify_head_bytes(root: Path, commit: str, closure: list[dict[str, str]]) -> None:
+     if core.repository_commit_sha(root) != commit:
+         raise ValueError("Weekly receipt current renderer commit differs from repository HEAD")
++    # Existing implementation roots are the current-tool boundary. A dirty
++    # authority helper cannot be accepted merely by refreshing receipt hashes.
++    dirty = subprocess.run(
++        ["git", "diff", "--quiet", "HEAD", "--", "config", "schemas", "scripts", STYLE_PATH.as_posix()],
++        cwd=root, capture_output=True, check=False,
++    )
++    if dirty.returncode != 0:
++        raise ValueError("Weekly current implementation-control roots differ from committed HEAD")
++    untracked = subprocess.run(
++        ["git", "ls-files", "--others", "--exclude-standard", "--", "config", "schemas", "scripts"],
++        cwd=root, capture_output=True, text=True, check=False,
++    )
++    if untracked.returncode != 0 or any(
++        Path(row).suffix in {".py", ".json", ".sty"}
++        for row in untracked.stdout.splitlines()
++    ):
++        raise ValueError("Weekly current implementation-control roots contain uncommitted source")
+     expected_names = {path.as_posix() for path in CURRENT_CLOSURE}
+     if len(closure) != len(expected_names) or {row.get("name") for row in closure} != expected_names:
+         raise ValueError("Weekly receipt current-tool closure is incomplete or unexpected")

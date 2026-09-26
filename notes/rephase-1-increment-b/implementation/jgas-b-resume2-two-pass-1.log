@@ -1,0 +1,19 @@
+test_accepted_weekly_two_pass_publication (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_two_pass_publication) ... FAIL
+
+======================================================================
+FAIL: test_accepted_weekly_two_pass_publication (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_two_pass_publication)
+----------------------------------------------------------------------
+SystemExit: semantic publication requires DRAFT_COMPLETE State
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 304, in test_accepted_weekly_two_pass_publication
+    with self.assertRaisesRegex(SystemExit, "semantic review artifact missing"):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "semantic review artifact missing" does not match "semantic publication requires DRAFT_COMPLETE State"
+
+----------------------------------------------------------------------
+Ran 1 test in 21.137s
+
+FAILED (failures=1)

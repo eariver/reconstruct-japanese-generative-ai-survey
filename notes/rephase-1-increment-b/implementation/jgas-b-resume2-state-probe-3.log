@@ -1,0 +1,26 @@
+test_accepted_weekly_current_state_probe (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_current_state_probe) ... ERROR
+
+======================================================================
+ERROR: test_accepted_weekly_current_state_probe (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_accepted_weekly_current_state_probe)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 272, in test_accepted_weekly_current_state_probe
+    state_path = self._current_state(chain)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 256, in _current_state
+    self._advance(chain, stage, artifacts, number + 1)
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 210, in _advance
+    stage_validation.validate_stage(self.root, self.cfg, state_path, artifacts, report, stamp)
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_stage_validation_v2.py", line 627, in validate_stage
+    _validate_stage_semantics(repo_root, cfg, state, profile_path, profile, artifacts, current, current_impl, state_path)
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_stage_validation_v2.py", line 452, in _validate_stage_semantics
+    expected_input = drafting.build_synthesis_input(repo_root, profile_path, architecture_path, review_path, approval_path, draft_pairs)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_drafting_v2_base.py", line 732, in build_synthesis_input
+    raise ValueError("Draft Package invalid before Synthesis: " + "; ".join(package_errors))
+ValueError: Draft Package invalid before Synthesis: Draft Package basis drift: architecture_approval_sha256
+
+----------------------------------------------------------------------
+Ran 1 test in 20.364s
+
+FAILED (errors=1)

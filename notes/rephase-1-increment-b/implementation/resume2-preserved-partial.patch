@@ -1,0 +1,79 @@
+diff --git a/scripts/survey_weekly_derivation_v2.py b/scripts/survey_weekly_derivation_v2.py
+index 3b964f4..18140a2 100644
+--- a/scripts/survey_weekly_derivation_v2.py
++++ b/scripts/survey_weekly_derivation_v2.py
+@@ -507,25 +507,47 @@ def current_closure(root: Path) -> list[dict[str, str]]:
+ 
+ 
+ def _verify_head_bytes(root: Path, commit: str, closure: list[dict[str, str]]) -> None:
+-    if core.repository_commit_sha(root) != commit:
+-        raise ValueError("Weekly receipt current renderer commit differs from repository HEAD")
+-    # Existing implementation roots are the current-tool boundary. A dirty
+-    # authority helper cannot be accepted merely by refreshing receipt hashes.
++    head = core.repository_commit_sha(root)
++    valid_commit = subprocess.run(
++        ["git", "cat-file", "-e", f"{commit}^{{commit}}"],
++        cwd=root, capture_output=True, check=False,
++    )
++    if valid_commit.returncode != 0:
++        raise ValueError("Weekly receipt renderer commit is missing or is not a commit")
++    ancestor = subprocess.run(
++        ["git", "merge-base", "--is-ancestor", commit, head],
++        cwd=root, capture_output=True, check=False,
++    )
++    if ancestor.returncode != 0:
++        raise ValueError("Weekly receipt renderer commit is not an ancestor of current HEAD")
++    cfg = core.load_json(root / core.DEFAULT_CONFIG)
++    control_paths = list(cfg["implementation_control_roots"])
++    control_paths.append(STYLE_PATH.as_posix())
++    control_paths.extend(path for rows in cfg["contract_files"].values() for path in rows)
++    control_paths = sorted(set(control_paths))
++    # An artifact-only commit may move HEAD. Every implementation root, style,
++    # and configured contract path must still match the receipt's commit.
++    changed = subprocess.run(
++        ["git", "diff", "--quiet", commit, head, "--", *control_paths],
++        cwd=root, capture_output=True, check=False,
++    )
++    if changed.returncode != 0:
++        raise ValueError("Weekly receipt implementation or contract changed since renderer commit")
+     dirty = subprocess.run(
+-        ["git", "diff", "--quiet", "HEAD", "--", "config", "schemas", "scripts", STYLE_PATH.as_posix()],
++        ["git", "diff", "--quiet", "HEAD", "--", *control_paths],
+         cwd=root, capture_output=True, check=False,
+     )
+     if dirty.returncode != 0:
+-        raise ValueError("Weekly current implementation-control roots differ from committed HEAD")
++        raise ValueError("Weekly current implementation or contract differs from committed HEAD")
+     untracked = subprocess.run(
+-        ["git", "ls-files", "--others", "--exclude-standard", "--", "config", "schemas", "scripts"],
++        ["git", "ls-files", "--others", "--exclude-standard", "--", *control_paths],
+         cwd=root, capture_output=True, text=True, check=False,
+     )
+     if untracked.returncode != 0 or any(
+-        Path(row).suffix in {".py", ".json", ".sty"}
++        "__pycache__" not in Path(row).parts and Path(row).suffix != ".pyc"
+         for row in untracked.stdout.splitlines()
+     ):
+-        raise ValueError("Weekly current implementation-control roots contain uncommitted source")
++        raise ValueError("Weekly current implementation or contract contains uncommitted source")
+     expected_names = {path.as_posix() for path in CURRENT_CLOSURE}
+     if len(closure) != len(expected_names) or {row.get("name") for row in closure} != expected_names:
+         raise ValueError("Weekly receipt current-tool closure is incomplete or unexpected")
+@@ -533,11 +555,12 @@ def _verify_head_bytes(root: Path, commit: str, closure: list[dict[str, str]]) -
+         path = _safe(root, row["path"], f"current-tool closure {row['name']}")
+         if _rel(root, path) != row["name"] or core.sha256_file(path) != row["sha256"]:
+             raise ValueError(f"Weekly receipt current-tool closure drift: {row['name']}")
+-        result = subprocess.run(
+-            ["git", "show", f"{commit}:{row['name']}"], cwd=root, capture_output=True, check=False
+-        )
+-        if result.returncode != 0 or core.sha256_bytes(result.stdout) != row["sha256"]:
+-            raise ValueError(f"Weekly current-tool bytes are not exact committed HEAD bytes: {row['name']}")
++        for basis in (commit, head):
++            result = subprocess.run(
++                ["git", "show", f"{basis}:{row['name']}"], cwd=root, capture_output=True, check=False
++            )
++            if result.returncode != 0 or core.sha256_bytes(result.stdout) != row["sha256"]:
++                raise ValueError(f"Weekly current-tool bytes differ from exact committed basis: {row['name']}")
+ 
+ 
+ def build_receipt(

@@ -1,0 +1,20 @@
+test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes) ... ERROR
+
+======================================================================
+ERROR: test_direct_primary_requires_exact_reviewed_primary_bytes (tests.test_survey_increment_b_boundary_matrix_v2.IncrementBBoundaryMatrixV2Tests.test_direct_primary_requires_exact_reviewed_primary_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_boundary_matrix_v2.py", line 331, in test_direct_primary_requires_exact_reviewed_primary_bytes
+    report = gate.evaluate_reader_surface_gate(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_reader_surface_gate_v2.py", line 1156, in evaluate_reader_surface_gate
+    rev_file = core.repo_local_path(repo_root, semantic_review_path, "semantic review record")
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_production_v2.py", line 224, in repo_local_path
+    raise ValueError(f"{label} must be a repository-relative path without traversal")
+ValueError: semantic review record must be a repository-relative path without traversal
+
+----------------------------------------------------------------------
+Ran 1 test in 24.726s
+
+FAILED (errors=1)

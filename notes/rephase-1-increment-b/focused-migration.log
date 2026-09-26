@@ -1,0 +1,32 @@
+test_b1_weekly_per_source_access_date_differs_from_cutoff (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b1_weekly_per_source_access_date_differs_from_cutoff)
+B1: Weekly publication binds per-source access date, distinct from edition cutoff. ... ok
+test_b2_special_per_source_access_date_differs_from_as_of (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b2_special_per_source_access_date_differs_from_as_of)
+B2: Special publication binds per-source access date, distinct from retrospective as_of. ... ok
+test_b3_multiple_sources_receive_independent_access_dates (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b3_multiple_sources_receive_independent_access_dates)
+B3: Multiple sources in the same publication retain independent per-source urldates. ... ok
+test_b4_event_date_differs_from_access_date (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b4_event_date_differs_from_access_date)
+B4: Published/event date differs from retrieval/access date; urldate must bind access date. ... ok
+test_b5_revised_page_chronology_c066_class (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b5_revised_page_chronology_c066_class)
+B5: Event Aug 21, page re-dated Aug 26, canonical access Sep 8 -> urldate Sep 8. ... ok
+test_b6_missing_access_timestamp_fails_closed (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b6_missing_access_timestamp_fails_closed)
+B6: Missing or blank access timestamp fails closed with an actionable error. ... ok
+test_b7_ambiguous_access_provenance_fails_closed (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b7_ambiguous_access_provenance_fails_closed)
+B7: Ambiguous captures with conflicting access times fail closed unless explicitly disambiguated. ... ok
+test_b8_source_identity_and_citation_invariants_preserved (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b8_source_identity_and_citation_invariants_preserved)
+B8: Citation keys, URL, name, organization, status, materiality, and ordering are preserved. ... ok
+test_b9_w34_read_only_fixture_regression (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_b9_w34_read_only_fixture_regression)
+B9: Verify all 41 W34 cited records resolve canonical access provenance on 2026-09-08 and verify c066 repair. ... skipped 'W34 fixture commit 6f68fd09955302fd87e5ec0ce77ff06ccaec8448 not available'
+test_sp001_read_only_fixture_access_provenance (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceContractTests.test_sp001_read_only_fixture_access_provenance)
+SP001 fixture: all 11 accepted evidence sources resolve to 2026-08-24. ... ok
+test_parse_access_date_invalid_fails_closed (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceUnitTests.test_parse_access_date_invalid_fails_closed) ... ok
+test_parse_access_date_preserves_explicit_offset_calendar_date (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceUnitTests.test_parse_access_date_preserves_explicit_offset_calendar_date) ... ok
+test_parse_access_date_valid_instants_and_dates (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceUnitTests.test_parse_access_date_valid_instants_and_dates) ... ok
+test_resolve_source_access_provenance_selects_matching_url (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceUnitTests.test_resolve_source_access_provenance_selects_matching_url) ... ok
+test_resolve_source_access_provenance_single_source (tests.test_survey_bibliography_access_provenance_v2.BibliographyAccessProvenanceUnitTests.test_resolve_source_access_provenance_single_source) ... ok
+test_join_fails_closed_on_evidence_status_drift (tests.test_survey_weekly_evidence_authority_v2.WeeklyEvidenceAuthorityJoinTests.test_join_fails_closed_on_evidence_status_drift) ... ok
+test_join_uses_only_accepted_core_authorities (tests.test_survey_weekly_evidence_authority_v2.WeeklyEvidenceAuthorityJoinTests.test_join_uses_only_accepted_core_authorities) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 75.115s
+
+OK (skipped=1)

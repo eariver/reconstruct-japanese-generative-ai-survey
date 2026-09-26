@@ -1,20 +1,29 @@
 # J-GAS reconstruction — Re:Phase continuation
 
-更新: 2026-09-21 JST。**次セッションへの引継ぎ準備完了。今回は実装・test実行なし。B3 OPEN / f1不変 / 全候補NOT_READY。**
+更新: 2026-09-27 JST。**Increment AとBは各限定範囲で完了。B候補c04f32aは131 methods成功・1歴史skip、exit 0、独立2指摘解消と最終限定implementation PASS。B3 OPEN / f1不変 / 全候補NOT_READY。現在はA/Bの成果・証拠・引き継ぎをHumanがcommit/Pushする区切り。次の実装unitは未開始。**
 
 ## 次セッションの最初の行動
 
-1. 本handoffと[implementation plan](../outputs/rephase-1-implementation-plan.md)を読む。新しいHuman指示とworkspace statusを確認する。
-2. plan末尾のtask definitionを使い、fresh **Sol Co-Worker**へ **Increment A: exact stage-selected Reader Manuscript bindingだけ**を依頼する。まずf1のidentityと独立fixtureを確認し、両stage callerの接続を実装・検証させる。
-3. Astraは実装diff、親版の意図したfailure、新candidateのraw test evidence、失敗履歴・未検証範囲をreviewする。Co-WorkerのPASSを採用判断へ変換しない。Astra自身が実装/test runnerを兼ねない。
+1. 本handoff、[implementation plan](../outputs/rephase-1-implementation-plan.md)、[B契約判断](../outputs/rephase-1-increment-b-contract-decision.md)、[B Astra assessment](../outputs/rephase-1-increment-b-assessment.md)を入口とする。全旧履歴やproduction mainは再読しない。
+2. **次はplan step 4の限定分析。** Weekly以外のProfile/direct-primary/support、build補助ファイルの運用、Core変更後CLI再生成、DM-001/003/004の適用前提を、固定B sourceと取得済Summaryに基づいて分ける。複雑なauthority/caller調査はSol Co-Worker、契約・採否はAstra、後の独立受入れは別Auditor。まず具体的なcaller/責任/未証明事項のinventoryを返し、必要な変更を判断してから新実装へ進む。全保守項目の一括実装やproduction main再照会には進まない。
+3. **固定B候補:** `c04f32ad46109403e8a63faaa8394a90ee6b869c`、tree `7dbcbbdb499ea6c7d33417a16144107320e1fd06`、親 `cb96ab97045b0d0767f38806809d33e383bac73d`。fixture `/tmp/jgas-rephase-increment-b-sol-implementation`、branch `codex/rephase-1-increment-b`、独立Git DB/inert origin。Aから13 runtime/schema/style＋8 test paths。[manifest](../notes/rephase-1-increment-b/candidate.json) / [patch](../notes/rephase-1-increment-b/increment-b.patch)（SHA-256 `bdff2c296867b31dbc2946526ec97490c054bc48c4ab9a8473eb5ded1248ab81`）。元A/f1とcb96 attemptは保存。
+4. **最終check:** [14-module script](../notes/rephase-1-increment-b/final-matrix-c04f32a.sh) / [raw log](../notes/rephase-1-increment-b/final-matrix-c04f32a.log) / [exit](../notes/rephase-1-increment-b/final-matrix-c04f32a.exit)。132 methods / 534.724秒 / exit 0 / 131成功 / 1 skip。skipは未保存W34 commit `6f68fd09955302fd87e5ec0ce77ff06ccaec8448` が必要な既存case。source/HEAD変更がなければ成功済みchecksを繰り返さない。Solはrun開始後に利用上限停止したがprocess/結果はdurableに完了し、rootはtest実行を引き継いでいない。
+5. **Bの独立reviewは完了。** [最終implementation review](../notes/rephase-1-increment-b/independent-implementation-completion-review.md)はfresh Astra自身が全B差分とtest oracleを確認した限定PASS。[2指摘resolution](../notes/rephase-1-increment-b/independent-resolution-review.md)と[最終test report](../notes/rephase-1-increment-b/final-test-report.md)も保存済み。元の[途中review](../notes/rephase-1-increment-b/independent-review.md)はそのまま保持し、最終承認へ読み替えない。担当の二重作成や成功済みtest再実行は不要。canonical七観点audit、application-ready、production採用は未達。
 
-今回のHuman要求は計画・durable contextまでなので、ここでdispatch/実装を始めていない。次セッションの通常の続行指示で上記から再開する。巨大な会話履歴、全旧assessmentの再読、main再照会は不要。
+**独立指摘と修正:** B-IR-01は実accepted chainの2 Discovery IDを同じDraft Packageへ取り込み、archiveだけの差替えがResult refs不一致で拒否されるcaseを追加。B-IR-02は未宣言hyperref.styをreceipt/Gateが受け入れる実probeで確認し、canonical survey_rootの閉じたinventoryで修正。許可はmain.tex/references.bib/jgaisurvey.styとmain.pdf/main.log/main.pdf.sha256のみ。他entry/dir/symlink/aux/bblは拒否し、producer無書込み・receipt canonical path・Gate replayを確認する。自動削除やbuild frameworkは追加していない。実buildのaux整理/運用との接続は未証明。
+
+**証明範囲:** 実accepted producer/checkpoint列による二段階Weekly生成、complete reader object、独立receipt再導出、generated Gate、VALIDATED_DRAFT、first/repeat metadata revalidationとactive readback、限定pending contextのnegativeを含む。研究・review・PDFはsyntheticで実Human判断/実出版ではない。10 omissions＋2 controlsとnonreader annotationはpure projectionの限定証拠、曖昧Evidence variantは実acceptance loaderを通すが別Stateへ採用していない。CLIはDRAFT_COMPLETE/no-overwriteのままなのでCore変更後CLI再生成や#495全運用は未証明。全Profile/support、Windows/Actions/application、純lifecycle削減も未証明。
+
+最終runの依存一覧取得はpip不在で失敗しており、test成功とは分けて保存する。cb96の元131-method run（6 errors/1 skip/exit 1）、各fixture修正・probe・途中停止は[attempt](../notes/rephase-1-increment-b/attempts/README.md)、[B assessment](../outputs/rephase-1-increment-b-assessment.md)、implementation packetに保存。後のgreenで上書きしない。
 
 ## 固定点と権限
+
+2026-09-27 closeout: reconstructの未commit変更には入口文書・assessment・A/Bの未追跡evidence packetを含む。`.gitattributes`へA/B packetの`-text`規則を追加し、commit/checkout時にも記録済みhashの元bytesを保持する。候補コード/test結果の変更ではない。Humanは区切りのよいCommit/Push時点の通知を希望している。通常のcommit/PushはHuman担当で、通知希望は代行許可ではない。
 
 - Production baseline: **`774dd39a951c9ac3818e83dfffd4c7666efb0a20`**。明示rebaselineまで変更しない。
 - f1: `bf32edf98ba8f605169d7188bbc764de74ee4f6e` / tree `ebd351479ec222a08b8ea67ae4aae64ad0eb927e`。親a1 `d38f023ce200619f7f49ce17a348755f05e0e021`。
 - [候補manifest](../notes/rephase-1-freeze/candidate.json) / [固定baselineからの全patch](../notes/rephase-1-freeze/application.patch)。r2の5ファイル＋a1 test修正＋f1 runtime/testの計8ファイル。
+- Increment A: `1a9649129d1745fed0b98db46ef15f014407e6fc` / tree `5e933aa54034ed227216252a2c8707a59f293acf`、親f1。[manifest](../notes/rephase-1-increment-a/candidate.json) / [f1差分](../notes/rephase-1-increment-a/increment-a.patch) / [固定baselineからの全patch](../notes/rephase-1-increment-a/application.patch)。元f1と過去packetは不変。
 - 必要Git/Git-aware検証は独立DB/inert originで許可。production変更/投稿/採用/State/Gate/Release/Actions実行は未許可。通常のreconstruct最終commit/Pull/PushはHuman担当。
 - 新しいproduction mainの一般追従は禁止。今回の例外は指定Summary一文書のread-only取得だけ。取得済みcaptureを使い、定期refreshしない。
 
@@ -24,9 +33,15 @@
 
 **f1:** B1 stage/schemaの3-artifact整合、B2 typed approval接続は限定修復済み。24 testsと独立reviewの範囲を保持。Weekly合成fixtureでlow-level approval→FROZENを接続したが、profile-aware Freeze、全Release workflow、全Profile、canonical durable Human Gate全往復の証明ではない。
 
-**B3:** 設計/function experimentまで。10未投影出力変更と2対照を確認。全renderer引数をsemantic reviewへ束縛する試作は内部注記まで再review identityを変えるため不採用。complete reader inputからの単一生成・Gateのderivation検証・exact Manuscript接続が選択方向。Increment Aはこのうちexact Manuscript接続だけで、成功してもB3全体完了ではない。
+**Increment A:** 両stageとpublication revalidationのexact Manuscript接続を限定修復。固定HEADで専用11 test methods（cardinality 6 subtestsを含む）+既存61 testsが成功。別f1で4経路の誤受入れを意図したfailureとして確認。[独立implementation review](../notes/rephase-1-increment-a/independent-review.md)と、後発の証拠表記だけを検証した[resolution supplement](../notes/rephase-1-increment-a/evidence-resolution-review.md)は限定PASSを支持。Astraはraw log・diff・test oracleをreview済み。canonical七観点auditではない。
 
-Increment B以降はbibliography/style/supportと制限付き非reader provenanceを既存責任へ接続し、Weeklyとdirect-primaryの境界を実装する。LONGFORM/Retrospective全経路、レビュー責任統合、支持ソースの意味coverageは未証明。未解決を暗黙PASSにせずplanの設計停止条件へ従う。
+**B3:** Aに続くBのcomplete reader input・独立derivation・限定pending revalidationは、対象test・Astra review・独立implementation reviewまで限定完了。全renderer引数をsemantic reviewへ束縛する旧試作は内部注記まで再review identityを変えるため不採用。Bはschema-validな新canonical inputを用いる。Aの旧reader fixtureは当時のpublisherに対して非validであり、Bの証拠へ流用しない。Bの限定完了と全B3・全Profileの受入れは別。
+
+**A証拠の限界:** 初回clone失敗のexact argv/数値exit、初回fixture-error runの全文は未保存（tailは保存）。独立copyと最終test証拠は別に確認済み。full application patchはexact diff/hash一致だがtemporary-index apply checkがmissing promisor objectを出力し、exit 0でもclean適用証明としない。packet-verification.logのsize一覧は補足前のhistorical inventoryであり最終manifestではない。これらをgreen結果で上書きしない。
+
+Bでbibliography/styleと制限付き非reader provenanceを既存責任へ接続し、Weekly generatedとdirect-primaryの限定境界を実装した。次はLONGFORM/Retrospective、支援ファイルの意味coverage、build/CLI運用と適用前提の限定分析。レビュー責任統合は選択していない。未解決を暗黙PASSにせずplanの設計停止条件へ従う。
+
+**Bの選択済み契約:** routeはGate derivation blockに明示し、generated reviewed input内のroute/Profileと一致させる。既存semantic-review schema/役割を保持。既存source manifestをschema-validatedな唯一のreplay receiptとし、current State/checkpointからaccepted refsを検証してprojectionとmain/bib/styleを独立比較する（過去State hashはprovenanceのみ）。styleの表示文言もreader inputへ含め、他Profileの既存default/layoutを保持。bibliographyはacceptanceが束縛するcardだけを使い、非accepted `interactive-evidence.json`が必要な曖昧選択は停止。後段Publication Review/BIBLIOGRAPHY_METADATAをpre-TeX PASSへ流用しない。詳細・path・testsは契約判断に集約。
 
 ## 後発Summaryの扱い
 

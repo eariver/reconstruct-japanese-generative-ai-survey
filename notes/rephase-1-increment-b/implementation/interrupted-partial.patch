@@ -1,0 +1,1085 @@
+diff --git a/schemas/reader-surface-input-v2.schema.json b/schemas/reader-surface-input-v2.schema.json
+index 767ae31..5594f1e 100644
+--- a/schemas/reader-surface-input-v2.schema.json
++++ b/schemas/reader-surface-input-v2.schema.json
+@@ -1,53 +1,121 @@
+ {
+   "$schema": "https://json-schema.org/draft/2020-12/schema",
+   "$id": "https://example.invalid/schemas/reader-surface-input-v2.schema.json",
+-  "title": "Survey Production Core v2 Canonical Pre-TeX Structured Reader Surface Input",
++  "title": "Survey Production Core v2 Complete Weekly Reader Input",
+   "type": "object",
+   "additionalProperties": false,
+-  "required": [
+-    "schema_version",
+-    "issue_id",
+-    "publication_profile",
+-    "closing_synthesis",
+-    "final_summary_paragraphs",
+-    "packages"
+-  ],
++  "required": ["schema_version", "route", "issue_id", "research_profile", "publication_profile", "issue_metadata", "visible_text", "cover", "frontmatter", "closing_synthesis", "final_summary", "packages", "bibliography"],
+   "properties": {
+     "schema_version": {"const": "2.0-rc1"},
++    "route": {"const": "WEEKLY_GENERATED_V2"},
+     "issue_id": {"type": "string", "minLength": 1},
+-    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+-    "headline": {"type": "string"},
+-    "deck": {"type": "string"},
++    "research_profile": {"const": "WEEKLY"},
++    "publication_profile": {"const": "WEEKLY_MAGAZINE"},
++    "issue_metadata": {
++      "type": "object", "additionalProperties": false,
++      "required": ["title", "display_date", "window_boundary"],
++      "properties": {
++        "title": {"type": "string", "minLength": 1},
++        "display_date": {"type": "string", "format": "date"},
++        "window_boundary": {"type": "string", "minLength": 1}
++      }
++    },
++    "visible_text": {
++      "type": "object", "additionalProperties": false,
++      "required": ["frontmatter_boundary", "claim_boundary", "summary_kicker", "references_title", "cover_cutoff_label", "cover_repository_label", "cover_build_label", "repository_value", "build_value", "edition_descriptor", "strapline"],
++      "properties": {
++        "frontmatter_boundary": {"type": "string", "minLength": 1},
++        "claim_boundary": {"type": "string", "minLength": 1},
++        "summary_kicker": {"type": "string", "minLength": 1},
++        "references_title": {"type": "string", "minLength": 1},
++        "cover_cutoff_label": {"type": "string", "minLength": 1},
++        "cover_repository_label": {"type": "string", "minLength": 1},
++        "cover_build_label": {"type": "string", "minLength": 1},
++        "repository_value": {"type": "string", "minLength": 1},
++        "build_value": {"type": "string", "minLength": 1},
++        "edition_descriptor": {"type": "string", "minLength": 1},
++        "strapline": {"type": "string", "minLength": 1}
++      }
++    },
++    "cover": {"$ref": "#/$defs/cover"},
++    "frontmatter": {"$ref": "#/$defs/frontmatter"},
+     "closing_synthesis": {"type": "string", "minLength": 1},
+-    "final_summary_paragraphs": {
+-      "type": "array",
+-      "minItems": 1,
+-      "items": {"type": "string", "minLength": 1}
++    "final_summary": {
++      "type": "object", "additionalProperties": false,
++      "required": ["heading", "paragraphs"],
++      "properties": {
++        "heading": {"type": "string", "minLength": 1},
++        "paragraphs": {"type": "array", "minItems": 3, "items": {"type": "string", "minLength": 1}}
++      }
+     },
+     "packages": {
+-      "type": "array",
++      "type": "array", "minItems": 1,
+       "items": {
+-        "type": "object",
+-        "additionalProperties": false,
+-        "required": ["package_id", "headline", "deck", "blocks"],
++        "type": "object", "additionalProperties": false,
++        "required": ["package_id", "section_label", "headline", "deck", "deck_citations", "blocks"],
+         "properties": {
+           "package_id": {"type": "string", "minLength": 1},
+-          "headline": {"type": "string"},
+-          "deck": {"type": "string"},
++          "section_label": {"type": "string", "minLength": 1},
++          "headline": {"type": "string", "minLength": 1},
++          "deck": {"type": "string", "minLength": 1},
++          "deck_citations": {"type": "array", "items": {"$ref": "#/$defs/citation"}},
+           "blocks": {
+-            "type": "array",
++            "type": "array", "minItems": 1,
+             "items": {
+-              "type": "object",
+-              "additionalProperties": false,
+-              "required": ["block_id", "text"],
++              "type": "object", "additionalProperties": false,
++              "required": ["block_id", "block_type", "text", "attribution_mode", "citations"],
+               "properties": {
+                 "block_id": {"type": "string", "minLength": 1},
+-                "text": {"type": "string"}
++                "block_type": {"enum": ["HEADING", "PARAGRAPH", "BULLET_LIST", "TABLE", "CLAIM_BOUNDARY", "NOTE"]},
++                "text": {"type": "string", "minLength": 1},
++                "attribution_mode": {"enum": ["NONE", "FACTUAL", "ATTRIBUTED", "SOCIAL", "INFERENCE", "MIXED"]},
++                "citations": {"type": "array", "items": {"$ref": "#/$defs/citation"}}
+               }
+             }
+           }
+         }
+       }
++    },
++    "bibliography": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/bibliography"}}
++  },
++  "$defs": {
++    "cover": {
++      "type": "object", "additionalProperties": false,
++      "required": ["headline", "deck", "anchors"],
++      "properties": {
++        "headline": {"type": "string", "minLength": 1},
++        "deck": {"type": "string", "minLength": 1},
++        "anchors": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
++      }
++    },
++    "frontmatter": {
++      "type": "object", "additionalProperties": false,
++      "required": ["heading", "lede", "scope_notes"],
++      "properties": {
++        "heading": {"type": "string", "minLength": 1},
++        "lede": {"type": "string", "minLength": 1},
++        "scope_notes": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}
++      }
++    },
++    "citation": {
++      "type": "object", "additionalProperties": false,
++      "required": ["discovery_id", "key"],
++      "properties": {
++        "discovery_id": {"type": "string", "minLength": 1},
++        "key": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9:_-]*$"}
++      }
++    },
++    "bibliography": {
++      "type": "object", "additionalProperties": false,
++      "required": ["discovery_id", "key", "title", "author", "url", "urldate"],
++      "properties": {
++        "discovery_id": {"type": "string", "minLength": 1},
++        "key": {"type": "string", "pattern": "^[A-Za-z][A-Za-z0-9:_-]*$"},
++        "title": {"type": "string", "minLength": 1},
++        "author": {"type": "string", "minLength": 1},
++        "url": {"type": "string", "minLength": 1},
++        "urldate": {"type": "string", "format": "date"}
++      }
+     }
+   }
+ }
+diff --git a/scripts/run_drafting_synthesis_v2_interactive.py b/scripts/run_drafting_synthesis_v2_interactive.py
+index 5a4691b..4343520 100644
+--- a/scripts/run_drafting_synthesis_v2_interactive.py
++++ b/scripts/run_drafting_synthesis_v2_interactive.py
+@@ -16,6 +16,7 @@ from typing import Any
+ 
+ from scripts import survey_agent_control_v2 as agent
+ from scripts import survey_drafting_v2 as drafting
++from scripts import survey_drafting_citation_refs_v2 as citation_refs
+ from scripts import survey_production_v2 as core
+ 
+ 
+@@ -93,55 +94,11 @@ def _upstream(root: Path, state_path: Path) -> dict[str, Path]:
+ 
+ 
+ def _ref_rows(card: dict[str,Any], task_id: str, mode: str) -> list[dict[str,Any]]:
+-    rows=[]
+-    if mode in {'CLAIMS','CLAIMS_AND_LIMITATIONS'}:
+-        for row in card.get('claims',[]):
+-            rows.append({'evidence_task_id':task_id,'kind':'CLAIM','evidence_id':row['statement_id'],'subject_id':row['subject_id'],'subject_role':row['subject_role']})
+-        if not rows:
+-            for row in card.get('temporal',{}).get('events',[]):
+-                rows.append({'evidence_task_id':task_id,'kind':'EVENT','evidence_id':row['event_id'],'subject_id':row['subject_id'],'subject_role':row['subject_role']})
+-    if mode in {'LIMITATIONS','CLAIMS_AND_LIMITATIONS'}:
+-        for row in card.get('limitations',[]):
+-            rows.append({'evidence_task_id':task_id,'kind':'LIMITATION','evidence_id':row['statement_id'],'subject_id':row['subject_id'],'subject_role':row['subject_role']})
+-    return rows
++    return citation_refs.ref_rows(card, task_id, mode)
+ 
+ 
+ def _refs(package: dict[str,Any], discovery_ids: list[str], mode: str) -> list[dict[str,Any]]:
+-    if mode == 'NONE':
+-        if discovery_ids:
+-            raise ValueError('ref_mode NONE cannot carry discovery_ids')
+-        return []
+-    evidence_inputs=package.get('evidence_inputs')
+-    if not isinstance(evidence_inputs,list) or not evidence_inputs:
+-        raise ValueError(f'Draft Package has no authorized Evidence inputs: {package.get("package_id")}')
+-    input_by_candidate={}
+-    for offset,row in enumerate(evidence_inputs):
+-        if not isinstance(row,dict):
+-            raise ValueError(f'Draft Package Evidence input must be an object: index={offset}')
+-        candidate_id=row.get('candidate_id')
+-        if not isinstance(candidate_id,str) or not candidate_id:
+-            raise ValueError(f'Draft Package Evidence input candidate_id invalid: index={offset}')
+-        if candidate_id in input_by_candidate:
+-            raise ValueError(f'Draft Package Evidence inputs duplicate candidate_id: {candidate_id}')
+-        input_by_candidate[candidate_id]=row
+-    authorized=set(input_by_candidate)
+-    matrix_rows=package['candidate_matrix']['rows']
+-    refs=[]
+-    for did in discovery_ids:
+-        hits=[row for row in matrix_rows if row['candidate_id'] in authorized and did in row.get('discovery_ids',[])]
+-        if len(hits) != 1:
+-            raise ValueError(f'Discovery ID must resolve exactly once inside package {package["package_id"]}: {did}')
+-        hit=hits[0]
+-        item=input_by_candidate[hit['candidate_id']]
+-        refs.extend(_ref_rows(item['evidence_card'], item['evidence_task_id'], mode))
+-    dedup=[]; seen=set()
+-    for ref in refs:
+-        key=tuple(ref[k] for k in ('evidence_task_id','kind','evidence_id','subject_id','subject_role'))
+-        if key not in seen:
+-            seen.add(key); dedup.append(ref)
+-    if not dedup:
+-        raise ValueError(f'No Evidence refs resolved for {package["package_id"]} {discovery_ids} mode={mode}')
+-    return dedup
++    return citation_refs.refs(package, discovery_ids, mode)
+ 
+ 
+ def _classes(package: dict[str,Any], refs: list[dict[str,Any]]) -> set[str]:
+diff --git a/scripts/survey_weekly_semantic_publication_v2.py b/scripts/survey_weekly_semantic_publication_v2.py
+index 586a7aa..408eabb 100644
+--- a/scripts/survey_weekly_semantic_publication_v2.py
++++ b/scripts/survey_weekly_semantic_publication_v2.py
+@@ -1,58 +1,34 @@
+ #!/usr/bin/env python3
+-"""Assemble a Core v2 WEEKLY_MAGAZINE DRAFT_COMPLETE issue into exact publication source.
+-
+-This renderer consumes only accepted Core v2 authorities: approved Architecture,
+-accepted Draft Package/Result bytes, Profile Synthesis, Evidence acceptance,
+-Candidate Matrix, Materiality Ledger, accepted Discovery, and a compact reviewed
+-semantic publication input. It does not advance Production State or approve the
+-Publication Preview Human Gate.
+-"""
++"""Materialize a reviewed complete Weekly reader input into exact publication source."""
+ from __future__ import annotations
+ 
+ import argparse
+ import json
+-import shutil
+ from pathlib import Path
+ from typing import Any
+ 
+-from scripts import survey_agent_control_v2 as agent
+-from scripts import survey_bibliography_access_provenance_v2 as provenance_resolver
+-from scripts import survey_drafting_v2 as drafting
+ from scripts import survey_production_v2 as core
+ from scripts import survey_reader_surface_gate_v2 as surface_gate
+-from scripts.render_article_draft_tex import tex_escape
+-
+-
+-STYLE_PATH = Path("templates/survey/jgaisurvey.sty")
++from scripts import survey_schema_v2 as schema_gate
++from scripts import survey_weekly_derivation_v2 as weekly
+ 
+ 
+-def _load(path: Path) -> dict[str, Any]:
+-    return core.load_json(path)
+-
+-
+-def _rel(root: Path, path: Path) -> str:
+-    return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
+-
+-
+-def _safe(root: Path, raw: str, label: str) -> Path:
+-    path = (root / raw).resolve()
++def _safe(root: Path, raw: str | Path, label: str) -> Path:
++    path = Path(raw)
++    if not path.is_absolute():
++        path = root / path
++    resolved = path.resolve()
+     try:
+-        path.relative_to(root.resolve())
++        resolved.relative_to(root.resolve())
+     except ValueError as exc:
+         raise ValueError(f"{label} escapes repository: {raw}") from exc
+-    if path.is_symlink() or not path.is_file():
++    if resolved.is_symlink() or not resolved.is_file():
+         raise ValueError(f"{label} missing or unsafe: {raw}")
+-    return path
++    return resolved
+ 
+ 
+-def _find_sha(root: Path, expected_sha: str, name: str) -> Path:
+-    matches: list[Path] = []
+-    for path in root.rglob(name):
+-        if path.is_file() and not path.is_symlink() and core.sha256_file(path) == expected_sha:
+-            matches.append(path)
+-    if len(matches) != 1:
+-        raise ValueError(f"{name} SHA must resolve exactly once: {expected_sha} -> {matches}")
+-    return matches[0]
++def _rel(root: Path, path: Path) -> str:
++    return str(path.resolve().relative_to(root.resolve())).replace("\\", "/")
+ 
+ 
+ def _write_json(path: Path, value: Any) -> None:
+@@ -61,648 +37,133 @@ def _write_json(path: Path, value: Any) -> None:
+     core.write_json(path, value)
+ 
+ 
+-def _bib_text(key: str, record: dict[str, Any], urldate: str | None = None) -> str:
+-    entity = record["entity"]
+-    title = str(entity["canonical_name"]).replace("{", "\\{").replace("}", "\\}")
+-    org = str(entity.get("organization") or "Unknown").replace("{", "\\{").replace("}", "\\}")
+-    url = str(entity["canonical_url"])
+-    resolved_urldate = urldate or record.get("urldate")
+-    if not resolved_urldate:
+-        raw_ts = record.get("source_accessed_at") or record.get("accessed_at")
+-        if raw_ts:
+-            _, resolved_urldate = provenance_resolver.parse_access_date(raw_ts)
+-    if not resolved_urldate:
+-        raise ValueError(f"bibliography entry {key} lacks canonical access date")
+-    # Reader-facing boundary: internal Evidence/materiality authority stays in
+-    # repository manifests/ledgers and must never serialize into BibTeX.
+-    return (
+-        f"@online{{{key},\n"
+-        f"  title = {{{{{title}}}}},\n"
+-        f"  author = {{{{{org}}}}},\n"
+-        f"  url = {{{url}}},\n"
+-        f"  urldate = {{{resolved_urldate}}}\n"
+-        "}"
+-    )
+-
+-
+-def _cite(keys: list[str]) -> str:
+-    if not keys:
+-        return ""
+-    return " \\cite{" + ",".join(keys) + "}"
+-
+-
+-def _window(profile: dict[str, Any]) -> tuple[str, str]:
+-    temporal = profile.get("research_scope", {}).get("temporal_policy", {})
+-    if temporal.get("mode") != "ROLLING_WINDOW":
+-        raise ValueError("WEEKLY_MAGAZINE semantic publication requires ROLLING_WINDOW temporal policy")
+-    start = temporal.get("window_start")
+-    end = temporal.get("window_end")
+-    cutoff = temporal.get("cutoff")
+-    timezone = temporal.get("timezone")
+-    if not all(isinstance(x, str) and x.strip() for x in (start, end, cutoff, timezone)):
+-        raise ValueError("Weekly temporal policy requires window_start/window_end/cutoff/timezone")
+-    if end != cutoff:
+-        raise ValueError("Weekly semantic publication requires window_end == cutoff")
+-    display_date = end[:10]
+-    start_display = start[:16].replace("T", " ")
+-    end_display = end[:16].replace("T", " ")
+-    boundary = f"Window: {start_display} - {end_display} {timezone}"
+-    return display_date, boundary
+-
+-
+-def _closing_summary(architecture: dict[str, Any]) -> tuple[str, str]:
+-    closing = architecture.get("publication_extensions", {}).get("closing_summary")
+-    if not isinstance(closing, dict) or closing.get("required") is not True:
+-        raise ValueError("Weekly Architecture requires publication_extensions.closing_summary")
+-    heading = closing.get("heading")
+-    placement = closing.get("placement")
+-    if not isinstance(heading, str) or not heading.strip():
+-        raise ValueError("Weekly Architecture closing summary heading is required")
+-    if placement != "after_body_before_references":
+-        raise ValueError("Weekly Architecture closing summary placement must be after_body_before_references")
+-    weekly = architecture.get("profile_extensions", {}).get("weekly_closing_summary")
+-    if not isinstance(weekly, dict) or weekly.get("required") is not True:
+-        raise ValueError("Weekly Architecture requires profile_extensions.weekly_closing_summary")
+-    if weekly.get("source") != "profile_synthesis.current_interpretation":
+-        raise ValueError("Weekly closing summary must be sourced from profile_synthesis.current_interpretation")
+-    return heading, placement
+-
+-
+-def _validate_input(data: dict[str, Any], issue_id: str, expected_heading: str) -> None:
+-    expected = {"schema_version", "issue_id", "runner", "cover", "frontmatter", "final_summary"}
+-    if set(data) != expected or data.get("schema_version") != "2.0-rc1" or data.get("issue_id") != issue_id:
+-        raise ValueError("semantic publication input envelope invalid")
+-    if data.get("runner") != "WEEKLY_MAGAZINE":
+-        raise ValueError("Weekly semantic publication input runner must be WEEKLY_MAGAZINE")
+-    cover = data["cover"]
+-    if set(cover) != {"headline", "deck", "anchors"}:
+-        raise ValueError("publication cover fields invalid")
+-    if not all(isinstance(cover.get(k), str) and cover[k].strip() for k in ("headline", "deck")):
+-        raise ValueError("publication cover invalid")
+-    if not isinstance(cover["anchors"], list) or not cover["anchors"] or not all(
+-        isinstance(x, str) and x.strip() for x in cover["anchors"]
+-    ):
+-        raise ValueError("publication cover anchors invalid")
+-    front = data["frontmatter"]
+-    if set(front) != {"heading", "lede", "scope_notes"}:
+-        raise ValueError("publication frontmatter fields invalid")
+-    if not all(isinstance(front.get(k), str) and front[k].strip() for k in ("heading", "lede")):
+-        raise ValueError("publication frontmatter invalid")
+-    if not isinstance(front["scope_notes"], list) or not front["scope_notes"] or not all(
+-        isinstance(x, str) and x.strip() for x in front["scope_notes"]
+-    ):
+-        raise ValueError("publication scope notes invalid")
+-    summary = data["final_summary"]
+-    if set(summary) != {"heading", "paragraphs"} or summary.get("heading") != expected_heading:
+-        raise ValueError("Weekly final issue summary heading differs from approved Architecture")
+-    if not isinstance(summary["paragraphs"], list) or len(summary["paragraphs"]) < 3 or not all(
+-        isinstance(x, str) and x.strip() for x in summary["paragraphs"]
+-    ):
+-        raise ValueError("Weekly final issue summary must contain at least three substantive paragraphs")
+-
+-
+-def _section_label(plan: dict[str, Any]) -> str:
+-    label = plan.get("publication_extensions", {}).get("section_label")
+-    if not isinstance(label, str) or not label.strip():
+-        raise ValueError(f"Weekly package missing publication section_label: {plan.get('package_id')}")
+-    return label.strip()
+-
+-
+-def _records_from_authorities(
+-    source_root: Path,
+-    evidence_acceptance_sha: str,
+-    evidence_acceptance_path: Path | None = None,
+-) -> tuple[dict[str, dict[str, Any]], dict[str, dict[str, str]]]:
+-    if evidence_acceptance_path is None:
+-        # Kept for direct helper compatibility. Production execution supplies
+-        # the State/checkpoint-resolved path below.
+-        acceptance_path = _find_sha(source_root / "evidence", evidence_acceptance_sha, "evidence-accepted.json")
+-    else:
+-        acceptance_path = evidence_acceptance_path.resolve()
+-        if not acceptance_path.is_file() or acceptance_path.is_symlink():
+-            raise ValueError("checkpoint-bound Evidence acceptance is missing or unsafe")
+-        if core.sha256_file(acceptance_path) != evidence_acceptance_sha:
+-            raise ValueError("checkpoint-bound Evidence acceptance SHA drift")
+-    acceptance = _load(acceptance_path)
+-    accepted_status: dict[str, str] = {}
+-    for result in acceptance.get("results", []):
+-        status = result.get("status")
+-        if not isinstance(status, str) or not status:
+-            raise ValueError("Evidence acceptance result status missing")
+-        for did in result.get("discovery_ids", []):
+-            if did in accepted_status:
+-                raise ValueError(f"Discovery ID appears more than once in Evidence acceptance: {did}")
+-            accepted_status[did] = status
+-
+-    matrix_path = source_root / "candidate-matrix-v2.json"
+-    matrix = _load(matrix_path)
+-    if matrix.get("basis", {}).get("evidence_acceptance_sha256") != evidence_acceptance_sha:
+-        raise ValueError("Candidate Matrix does not bind Draft Evidence acceptance authority")
+-
+-    ledger_path = source_root / "materiality-ledger-v2.json"
+-    ledger = _load(ledger_path)
+-    expected_ledger_sha = matrix.get("basis", {}).get("materiality_ledger_sha256")
+-    if expected_ledger_sha != core.sha256_file(ledger_path):
+-        raise ValueError("Candidate Matrix materiality authority drifted")
+-    materiality: dict[str, str] = {}
+-    for row in ledger.get("rows", []):
+-        did = row.get("discovery_id")
+-        disposition = row.get("downstream_disposition")
+-        if not isinstance(did, str) or not isinstance(disposition, str):
+-            raise ValueError("Materiality Ledger row invalid")
+-        if did in materiality:
+-            raise ValueError(f"Materiality Ledger duplicates Discovery ID: {did}")
+-        materiality[did] = disposition
+-
+-    discovery_path = source_root / "discovery" / "discovery-accepted-v2.json"
+-    discovery = _load(discovery_path)
+-    discovery_rows: dict[str, dict[str, Any]] = {}
+-    for row in discovery.get("records", []):
+-        did = row.get("discovery_id")
+-        if not isinstance(did, str) or not did:
+-            raise ValueError("accepted Discovery row lacks discovery_id")
+-        if did in discovery_rows:
+-            raise ValueError(f"accepted Discovery duplicates Discovery ID: {did}")
+-        discovery_rows[did] = row
+-
+-    evidence_sources = provenance_resolver.load_evidence_sources(acceptance_path)
+-
+-    records: dict[str, dict[str, Any]] = {}
+-    for row in matrix.get("rows", []):
+-        title = row.get("title")
+-        matrix_status = row.get("evidence_status")
+-        matrix_materiality = row.get("materiality")
+-        if not isinstance(title, str) or not title.strip():
+-            raise ValueError(f"Candidate Matrix row lacks title: {row.get('candidate_id')}")
+-        if not isinstance(matrix_status, str) or not isinstance(matrix_materiality, str):
+-            raise ValueError(f"Candidate Matrix authority fields invalid: {row.get('candidate_id')}")
+-        for did in row.get("discovery_ids", []):
+-            if did in records:
+-                raise ValueError(f"Candidate Matrix duplicates Discovery ID: {did}")
+-            if accepted_status.get(did) != matrix_status:
+-                raise ValueError(f"Evidence status authority mismatch for {did}")
+-            if materiality.get(did) != matrix_materiality:
+-                raise ValueError(f"Materiality authority mismatch for {did}")
+-            discovery_row = discovery_rows.get(did)
+-            if discovery_row is None:
+-                raise ValueError(f"Candidate Matrix Discovery ID missing from accepted Discovery: {did}")
+-            locator = discovery_row.get("source_locator")
+-            if not isinstance(locator, str) or not locator.strip():
+-                raise ValueError(f"accepted Discovery lacks source locator: {did}")
+-            canonical_url = locator.strip()
+-
+-            ev_info = evidence_sources.get(did)
+-            if ev_info is None or not ev_info.get("sources"):
+-                raise ValueError(f"cited Discovery ID {did} has no accepted Evidence source access provenance")
+-
+-            provenance = provenance_resolver.resolve_source_access_provenance(
+-                ev_info["sources"],
+-                canonical_url=canonical_url,
+-                did=did,
+-                explicit_source_id=ev_info.get("explicit_source_id"),
+-            )
+-
+-            records[did] = {
+-                "entity": {
+-                    "canonical_name": title.strip(),
+-                    "canonical_url": canonical_url,
+-                    "organization": None,
+-                },
+-                "status": matrix_status,
+-                "materiality": matrix_materiality,
+-                "source_accessed_at": provenance["source_accessed_at"],
+-                "urldate": provenance["urldate"],
+-            }
+-
+-    authority = {
+-        "evidence_acceptance": {"path": str(acceptance_path), "sha256": core.sha256_file(acceptance_path)},
+-        "candidate_matrix": {"path": str(matrix_path), "sha256": core.sha256_file(matrix_path)},
+-        "materiality_ledger": {"path": str(ledger_path), "sha256": core.sha256_file(ledger_path)},
+-        "discovery_acceptance": {"path": str(discovery_path), "sha256": core.sha256_file(discovery_path)},
+-    }
+-    return records, authority
+-
+-
+-def _render_tex(
+-    issue_id: str,
+-    display_date: str,
+-    boundary: str,
+-    publication: dict[str, Any],
+-    ordered: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]],
+-    bib_key_by_did: dict[str, str],
+-) -> str:
+-    cover = publication["cover"]
+-    front = publication["frontmatter"]
+-    summary = publication["final_summary"]
+-    lines = [
+-        "% Generated from Core v2 validated Draft bytes. Do not hand-edit.",
+-        "\\documentclass[lualatex,a4paper,10pt]{jlreq}",
+-        "\\usepackage{jgaisurvey}",
+-        "\\addbibresource{references.bib}",
+-        "",
+-        f"\\surveysetup{{{tex_escape(issue_id)}}}{{Japanese Generative AI Technical Survey}}{{{tex_escape(display_date)}}}{{{tex_escape(boundary)}}}",
+-        f"\\surveycoverstory{{{tex_escape(cover['headline'])}}}{{{tex_escape(cover['deck'])}}}{{{tex_escape(' / '.join(cover['anchors']))}}}",
+-        "",
+-        "\\begin{document}",
+-        "\\surveycover",
+-        "\\clearpage",
+-        f"\\section*{{{tex_escape(front['heading'])}}}",
+-        tex_escape(front["lede"]),
+-        "",
+-        "\\begin{claimboundary}[Evidence / scope boundary]",
+-    ]
+-    for note in front["scope_notes"]:
+-        lines.append("\\noindent " + tex_escape(note) + "\\par")
+-    lines.extend(["\\end{claimboundary}", "\\clearpage", "\\twocolumn"])
+-
+-    for plan, spec, package, result in ordered:
+-        del package
+-        pid = result["package_id"]
+-        lines.extend([
+-            f"% package:{pid} draft-result-sha256:{core.sha256_object(result)}",
+-            f"\\section{{{tex_escape(result['headline'])}}}",
+-            f"\\label{{pkg:{tex_escape(pid)}}}",
+-            f"\\sectionkicker{{{tex_escape(_section_label(plan))}}}",
+-        ])
+-        deck_keys = [bib_key_by_did[did] for did in spec["deck_discovery_ids"]]
+-        lines.append("\\noindent\\textbf{" + tex_escape(result["deck"]) + "}" + _cite(deck_keys) + "\\par\\medskip")
+-        spec_blocks = {row["block_id"]: row for row in spec["blocks"]}
+-        for block in result["blocks"]:
+-            bid = block["block_id"]
+-            text = tex_escape(block["text"])
+-            if block["block_type"] == "CLAIM_BOUNDARY":
+-                lines.extend(["\\begin{claimboundary}[Claim boundary]", text, "\\end{claimboundary}"])
+-                continue
+-            source_spec = spec_blocks.get(bid)
+-            if source_spec is None:
+-                raise ValueError(f"non-boundary Draft block missing semantic source: {pid}/{bid}")
+-            keys = [bib_key_by_did[did] for did in source_spec.get("discovery_ids", [])]
+-            lines.extend([
+-                f"% block:{bid} attribution:{block['attribution_mode']}",
+-                "\\noindent " + text + _cite(keys) + "\\par\\medskip",
+-            ])
+-
+-    lines.extend([
+-        "\\clearpage",
+-        "\\onecolumn",
+-        f"\\section{{{tex_escape(summary['heading'])}}}",
+-        "\\label{sec:issue-summary}",
+-        "\\sectionkicker{WEEKLY SYNTHESIS}",
+-    ])
+-    for paragraph in summary["paragraphs"]:
+-        lines.extend(["\\noindent " + tex_escape(paragraph) + "\\par\\medskip"])
+-    lines.extend([
+-        "\\clearpage",
+-        "\\onecolumn",
+-        "\\printbibliography[title={References / Source Notes}]",
+-        "\\end{document}",
+-        "",
+-    ])
+-    return "\n".join(lines)
+-
+-
+-def _identifier_tokens(issue_id: str, records: dict[str, dict[str, Any]], cited: list[str]) -> list[str]:
+-    tokens = [issue_id]
+-    for did in cited:
+-        row = records[did]
+-        if row.get("materiality") != "MATERIAL":
++def _identifier_tokens(surface: dict[str, Any], records: dict[str, dict[str, Any]]) -> list[str]:
++    tokens = [surface["issue_id"]]
++    for row in surface["bibliography"]:
++        record = records[row["discovery_id"]]
++        if record.get("materiality") != "MATERIAL":
+             continue
+-        name = str((row.get("entity") or {}).get("canonical_name") or "").strip()
+-        if name and name not in tokens:
+-            tokens.append(name)
++        title = row["title"].strip()
++        if title and title not in tokens:
++            tokens.append(title)
+         if len(tokens) >= 8:
+             break
+     return tokens
+ 
+ 
+ def main() -> int:
+-    ap = argparse.ArgumentParser()
+-    ap.add_argument("--repo-root", default=".")
+-    ap.add_argument("--state", required=True)
+-    ap.add_argument("--input", required=True)
+-    ap.add_argument("--semantic-review", default=None, help="Path to reader-surface-semantic-review-v2.json")
+-    ap.add_argument(
+-        "--materialize-surface-only",
+-        action="store_true",
+-        help="Materialize pre-TeX structured reader surface without TeX generation",
+-    )
+-    args = ap.parse_args()
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--repo-root", default=".")
++    parser.add_argument("--state", required=True)
++    parser.add_argument("--input", required=True)
++    parser.add_argument("--semantic-review", default=None)
++    parser.add_argument("--materialize-surface-only", action="store_true")
++    args = parser.parse_args()
+ 
+     root = Path(args.repo_root).resolve()
+     state_path = _safe(root, args.state, "Production State")
+     input_path = _safe(root, args.input, "semantic publication input")
+-    state = _load(state_path)
++    state = core.load_json(state_path)
+     if state.get("lifecycle_state") != "DRAFT_COMPLETE" or state.get("next_action") != "stage:semantic-publication-validation":
+         raise SystemExit("semantic publication requires DRAFT_COMPLETE State")
+-    cfg = _load(root / core.DEFAULT_CONFIG)
+-    state_errors = agent.validate_agent_state(root, cfg, state)
+-    if state_errors:
+-        raise SystemExit("Production State invalid before semantic publication: " + "; ".join(state_errors))
+-    active_evidence_views = agent.resolve_active_evidence_views(root, cfg, state)
+-
+-    issue_id = state["issue_id"]
+-    profile_path = _safe(root, state["profile"]["path"], "Production Profile")
+-    profile = _load(profile_path)
+-    if profile.get("research_profile") != "WEEKLY" or profile.get("publication_profile") != "WEEKLY_MAGAZINE":
+-        raise SystemExit("this renderer requires WEEKLY / WEEKLY_MAGAZINE")
+-
+-    source_root = (root / profile["paths"]["source_root"]).resolve()
+-    survey_root = (root / profile["paths"]["survey_root"]).resolve()
+-    source_root.relative_to(root)
+-    survey_root.relative_to(root)
+-
+-    architecture_path = source_root / "architecture-v2.json"
+-    architecture = _load(architecture_path)
+-    if architecture.get("issue_id") != issue_id or architecture.get("publication_profile") != "WEEKLY_MAGAZINE":
+-        raise SystemExit("Weekly Architecture identity mismatch")
+-    expected_heading, summary_placement = _closing_summary(architecture)
+-
+-    data = _load(input_path)
+-    _validate_input(data, issue_id, expected_heading)
+-
+-    synthesis_input_path = source_root / "draft/v2/profile-synthesis-input.json"
+-    synthesis_result_path = source_root / "draft/v2/profile-synthesis-result.json"
+-    synthesis_result = _load(synthesis_result_path)
+-    syn_errors = drafting.validate_synthesis_result(synthesis_result, synthesis_input_path, root / drafting.SYNTHESIS_PROMPT)
+-    if syn_errors:
+-        raise SystemExit("upstream Profile Synthesis invalid: " + "; ".join(syn_errors))
+-
+-    publication_payload = synthesis_result.get("publication_payload")
+-    if not isinstance(publication_payload, dict) or not publication_payload:
+-        raise SystemExit(
+-            "Weekly Profile Synthesis lacks authoritative publication_payload; refusing fallback to internal profile_payload"
+-        )
+-    closing_text = publication_payload.get("closing_synthesis") or publication_payload.get("current_interpretation")
+-    if not isinstance(closing_text, str) or not closing_text.strip():
+-        raise SystemExit(
+-            "Weekly Profile Synthesis publication_payload lacks non-empty closing_synthesis / current_interpretation; refusing fallback"
+-        )
+-    syn_findings = surface_gate.scan_reader_text_lines([closing_text], "Profile Synthesis", str(synthesis_result_path))
+-    syn_blocking = [f for f in syn_findings if f.severity == "BLOCKING" and f.disposition == "UNRESOLVED"]
+-    if syn_blocking:
+-        raise SystemExit(f"Weekly synthesis paragraph leaks production metadata: {syn_blocking[0].text_span} ({syn_blocking[0].reason})")
+-    if closing_text not in data["final_summary"]["paragraphs"]:
+-        raise SystemExit("Weekly final summary must preserve exact approved synthesis paragraph")
+-
+-    semantic_archive = _load(source_root / "draft/v2/interactive-drafting-synthesis-input.json")
+-    spec_by_id = {row["package_id"]: row for row in semantic_archive["packages"]}
+-
+-    ordered: list[tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]] = []
+-    evidence_acceptance_sha: str | None = None
+-    for plan in sorted(architecture["packages"], key=lambda r: (r["drafting_order"], r["package_id"])):
+-        pid = plan["package_id"]
+-        _section_label(plan)
+-        package_path = source_root / "draft/v2/packages" / pid / "draft-package.json"
+-        result_path = source_root / "draft/v2/packages" / pid / "draft-result.json"
+-        package = _load(package_path)
+-        result = _load(result_path)
+-        errors = drafting.validate_draft_result(result, package_path, root / drafting.DRAFT_PROMPT)
+-        if errors:
+-            raise SystemExit(f"upstream Draft Result invalid for {pid}: " + "; ".join(errors))
+-        spec = spec_by_id.get(pid)
+-        if spec is None or result["headline"] != spec["headline"] or result["deck"] != spec["deck"]:
+-            raise SystemExit(f"Draft semantic archive drift for {pid}")
+-        result_blocks = {b["block_id"]: b for b in result["blocks"] if b["block_type"] != "CLAIM_BOUNDARY"}
+-        for block_spec in spec["blocks"]:
+-            block = result_blocks.get(block_spec["block_id"])
+-            if block is None or block["text"] != block_spec["text"]:
+-                raise SystemExit(f"Draft block semantic archive drift for {pid}/{block_spec['block_id']}")
+-        current_ea = package["basis"]["evidence_acceptance_sha256"]
+-        if evidence_acceptance_sha is None:
+-            evidence_acceptance_sha = current_ea
+-        elif evidence_acceptance_sha != current_ea:
+-            raise SystemExit("Draft packages disagree on Evidence acceptance authority")
+-        ordered.append((plan, spec, package, result))
+-
+-    if evidence_acceptance_sha is None:
+-        raise SystemExit("Weekly Architecture contains no draftable packages")
+-    records, authority = _records_from_authorities(
+-        source_root, evidence_acceptance_sha, active_evidence_views["evidence_path"]
+-    )
+-
+-    cited: list[str] = []
+-    for _, spec, _, _ in ordered:
+-        cited.extend(spec["deck_discovery_ids"])
+-        for block in spec["blocks"]:
+-            cited.extend(block.get("discovery_ids", []))
+-    cited = list(dict.fromkeys(cited))
+-    for did in cited:
+-        row = records.get(did)
+-        if row is None:
+-            raise SystemExit(f"cited Discovery ID missing from accepted Core authorities: {did}")
+-        if row.get("materiality") == "HOLD" or row.get("status") == "NEEDS_MORE":
+-            raise SystemExit(f"publication cannot cite HOLD/NEEDS_MORE Evidence as factual support: {did}")
+-        entity = row.get("entity") or {}
+-        if not entity.get("canonical_name") or not entity.get("canonical_url"):
+-            raise SystemExit(f"cited authority lacks canonical bibliography metadata: {did}")
+-
+-    # Pre-TeX Structured Reader-Surface Validation (Gate Ordering / Finding 5)
+-    publication_root = source_root / "publication/v2"
++    try:
++        context = weekly.load_derivation(root, state_path, input_path)
++    except (OSError, ValueError) as exc:
++        raise SystemExit(f"Weekly derivation invalid: {exc}") from exc
++    surface = context["surface"]
++    publication_root = context["source_root"] / "publication/v2"
+     publication_root.mkdir(parents=True, exist_ok=True)
++    surface_path = publication_root / "reader-surface-input-v2.json"
++    if surface_path.exists():
++        existing = weekly.validate_reader_input(root, surface_path)
++        if existing != surface:
++            raise SystemExit("existing complete reader input differs from current independent derivation")
++    else:
++        core.write_json(surface_path, surface)
+ 
+-    packages_input = [
+-        {
+-            "package_id": plan["package_id"],
+-            "headline": spec["headline"],
+-            "deck": spec["deck"],
+-            "blocks": [
+-                {"block_id": b["block_id"], "text": b["text"]}
+-                for b in spec["blocks"]
+-            ],
+-        }
+-        for plan, spec, package, result in ordered
+-    ]
+-    surface_input_path = publication_root / "reader-surface-input-v2.json"
+-    surface_gate.build_weekly_reader_surface_input(
+-        root,
+-        issue_id,
+-        "WEEKLY_MAGAZINE",
+-        closing_text,
+-        list(data.get("final_summary", {}).get("paragraphs", [])),
+-        packages_input,
+-        headline=data.get("cover", {}).get("headline") or data.get("headline"),
+-        deck=data.get("cover", {}).get("deck") or data.get("deck"),
+-        output_path=surface_input_path,
+-    )
+-
+-    reader_elements: list[tuple[str, str, str]] = [
+-        (closing_text, "Profile Synthesis closing_synthesis", str(synthesis_result_path)),
+-    ]
+-    for p_idx, p in enumerate(data.get("final_summary", {}).get("paragraphs", [])):
+-        reader_elements.append((p, f"final_summary paragraph {p_idx+1}", str(input_path)))
+-    if data.get("headline"):
+-        reader_elements.append((data["headline"], "issue headline", str(input_path)))
+-    if data.get("deck"):
+-        reader_elements.append((data["deck"], "issue deck", str(input_path)))
+-    for plan, spec, package, result in ordered:
+-        pid = plan["package_id"]
+-        reader_elements.append((spec["headline"], f"package {pid} headline", str(spec_by_id[pid])))
+-        reader_elements.append((spec["deck"], f"package {pid} deck", str(spec_by_id[pid])))
+-        for b_idx, block in enumerate(spec["blocks"]):
+-            reader_elements.append(
+-                (block["text"], f"package {pid} block {block.get('block_id', b_idx+1)}", str(spec_by_id[pid]))
+-            )
+-
+-    pre_tex_findings: list[surface_gate.SurfaceFinding] = []
+-    for text, label, loc in reader_elements:
+-        f_list = surface_gate.scan_reader_text_lines([text], label, loc)
+-        pre_tex_findings.extend(f_list)
+-
+-    blocking_pre_tex = [
+-        f for f in pre_tex_findings if f.severity == "BLOCKING" and f.disposition == "UNRESOLVED"
+-    ]
+-    if blocking_pre_tex:
+-        first = blocking_pre_tex[0]
++    findings = surface_gate.scan_structured_reader_surface(surface, _rel(root, surface_path))
++    blocking = [row for row in findings if row.severity == "BLOCKING" and row.disposition == "UNRESOLVED"]
++    if blocking:
++        first = blocking[0]
+         raise SystemExit(
+-            f"Pre-TeX reader-facing validation FAILED: {first.artifact} leaks production metadata: {first.text_span!r} ({first.reason})"
++            f"Pre-TeX reader-facing validation FAILED: {first.artifact} leaks production metadata: "
++            f"{first.text_span!r} ({first.reason})"
+         )
+-
+     if args.materialize_surface_only:
+         print(json.dumps({
+-            "issue_id": issue_id,
+-            "structured_surface": str(surface_input_path.relative_to(root)),
+-            "surface_sha256": core.sha256_file(surface_input_path),
+-            "status": "SURFACE_MATERIALIZED",
+-        }, indent=2))
++            "issue_id": surface["issue_id"], "structured_surface": _rel(root, surface_path),
++            "surface_sha256": core.sha256_file(surface_path), "status": "SURFACE_MATERIALIZED",
++        }, ensure_ascii=False, indent=2))
+         return 0
+ 
+-    sem_rev_path = (
+-        Path(args.semantic_review)
+-        if args.semantic_review
+-        else (publication_root / "reader-surface-semantic-review-v2.json")
+-    )
+-    if not sem_rev_path.is_file():
++    review_path = Path(args.semantic_review) if args.semantic_review else publication_root / "reader-surface-semantic-review-v2.json"
++    if not review_path.is_absolute():
++        review_path = root / review_path
++    if not review_path.is_file() or review_path.is_symlink():
+         raise SystemExit(
+-            f"Pre-TeX semantic review artifact missing on disk: {sem_rev_path}; TeX/BibTeX materialization prohibited until semantic review PASS"
++            f"Pre-TeX semantic review artifact missing on disk: {review_path}; "
++            "TeX/BibTeX/style materialization prohibited until semantic review PASS"
+         )
+-
+     try:
+-        validated_sem = surface_gate.load_and_validate_semantic_review(
+-            root,
+-            sem_rev_path,
+-            expected_issue_id=issue_id,
+-            expected_publication_profile="WEEKLY_MAGAZINE",
+-            expected_surface_path=surface_input_path,
+-            expected_surface_sha256=core.sha256_file(surface_input_path),
+-            require_pass=True,
++        surface_gate.load_and_validate_semantic_review(
++            root, review_path, expected_issue_id=surface["issue_id"],
++            expected_publication_profile="WEEKLY_MAGAZINE", expected_surface_path=surface_path,
++            expected_surface_sha256=core.sha256_file(surface_path), require_pass=True,
+         )
+     except Exception as exc:
+-        raise SystemExit(f"Pre-TeX semantic review validation FAILED: {exc}")
+-
+-    if validated_sem.get("decision") != "PASS" or validated_sem.get("unresolved_blocking_count", 0) > 0:
+-        raise SystemExit("Pre-TeX semantic review did not yield PASS decision; TeX/BibTeX materialization prohibited")
++        raise SystemExit(f"Pre-TeX semantic review validation FAILED: {exc}") from exc
+ 
+-    survey_root.mkdir(parents=True, exist_ok=True)
++    survey_root = context["survey_root"]
+     quality_root = publication_root / "quality"
++    survey_root.mkdir(parents=True, exist_ok=True)
+     quality_root.mkdir(parents=True, exist_ok=True)
+-    for path in (
+-        survey_root / "main.tex",
+-        survey_root / "references.bib",
+-        survey_root / "jgaisurvey.sty",
+-        publication_root / "validated-source-manifest.json",
+-    ):
++    primary_path = survey_root / "main.tex"
++    bibliography_path = survey_root / "references.bib"
++    style_path = survey_root / "jgaisurvey.sty"
++    receipt_path = publication_root / "validated-source-manifest.json"
++    archived_input = publication_root / "interactive-semantic-publication-input.json"
++    subject_path = quality_root / "subject-entity-property-binding.json"
++    for path in (primary_path, bibliography_path, style_path, receipt_path, archived_input, subject_path):
+         if path.exists():
+             raise SystemExit(f"refusing existing semantic publication artifact: {path}")
+ 
+-    style_source = root / STYLE_PATH
+-    shutil.copyfile(style_source, survey_root / "jgaisurvey.sty")
+-
+-    display_date, boundary = _window(profile)
+-    bib_key_by_did = {
+-        did: "w" + issue_id.lower().replace("-", "").replace(".", "") + did.lower().replace("-", "")
+-        for did in cited
+-    }
+-    bib = "\n\n".join(_bib_text(bib_key_by_did[did], records[did], records[did]["urldate"]) for did in cited) + "\n"
+-    (survey_root / "references.bib").write_text(bib, encoding="utf-8")
+-    tex = _render_tex(issue_id, display_date, boundary, data, ordered, bib_key_by_did)
+-    (survey_root / "main.tex").write_text(tex, encoding="utf-8")
+-
+-    archived_input = publication_root / "interactive-semantic-publication-input.json"
+-    _write_json(archived_input, data)
+-
+-    draft_refs = []
+-    for _, _, _, result in ordered:
+-        path = source_root / "draft/v2/packages" / result["package_id"] / "draft-result.json"
+-        draft_refs.append({"package_id": result["package_id"], "path": _rel(root, path), "sha256": core.sha256_file(path)})
+-
+-    evidence_binding = {
+-        key: {"path": _rel(root, Path(value["path"])), "sha256": value["sha256"]}
+-        for key, value in authority.items()
+-    }
+-    manifest = {
+-        "schema_version": "2.0-rc1",
+-        "issue_id": issue_id,
+-        "status": "ESTABLISHED",
+-        "production_profile": {"path": _rel(root, profile_path), "sha256": core.sha256_file(profile_path)},
+-        "production_state_basis": {
+-            "path": _rel(root, state_path),
+-            "sha256": core.sha256_file(state_path),
+-            "lifecycle_state": "DRAFT_COMPLETE",
+-        },
+-        "publication_semantic_input": {"path": _rel(root, archived_input), "sha256": core.sha256_file(archived_input)},
+-        "architecture_closing_summary": {
+-            "path": _rel(root, architecture_path),
+-            "sha256": core.sha256_file(architecture_path),
+-            "heading": expected_heading,
+-            "placement": summary_placement,
+-            "source": "profile_synthesis.current_interpretation",
+-        },
+-        "profile_synthesis": {
+-            "input": {"path": _rel(root, synthesis_input_path), "sha256": core.sha256_file(synthesis_input_path)},
+-            "result": {"path": _rel(root, synthesis_result_path), "sha256": core.sha256_file(synthesis_result_path)},
+-        },
+-        "evidence_binding": evidence_binding,
+-        "draft_results": draft_refs,
+-        "rendered_source": {"path": _rel(root, survey_root / "main.tex"), "sha256": core.sha256_file(survey_root / "main.tex")},
+-        "bibliography": {
+-            "path": _rel(root, survey_root / "references.bib"),
+-            "sha256": core.sha256_file(survey_root / "references.bib"),
+-            "cited_discovery_ids": cited,
+-        },
+-        "style": {
+-            "source_path": str(STYLE_PATH),
+-            "source_sha256": core.sha256_file(style_source),
+-            "copied_path": _rel(root, survey_root / "jgaisurvey.sty"),
+-            "copied_sha256": core.sha256_file(survey_root / "jgaisurvey.sty"),
+-        },
+-        "final_summary": {
+-            "heading": data["final_summary"]["heading"],
+-            "placement": "after_body_before_references",
+-            "paragraph_count": len(data["final_summary"]["paragraphs"]),
+-        },
+-    }
+-    _write_json(publication_root / "validated-source-manifest.json", manifest)
++    main_text = weekly.render_main(surface)
++    bibliography_text = weekly.render_bibliography(surface)
++    style_bytes = (root / weekly.STYLE_PATH).read_bytes()
++    weekly.validate_generated_closure(main_text, style_bytes.decode("utf-8"))
++    primary_path.write_text(main_text, encoding="utf-8")
++    bibliography_path.write_text(bibliography_text, encoding="utf-8")
++    style_path.write_bytes(style_bytes)
++    core.write_json(archived_input, core.load_json(input_path))
++    receipt_context = dict(context)
++    receipt_context["authored_path"] = archived_input
++    receipt = weekly.build_receipt(
++        root, receipt_context, surface_path, review_path, primary_path, bibliography_path, style_path
++    )
++    schema_gate.validate_instance(receipt, root / weekly.RECEIPT_SCHEMA, label="Weekly source receipt")
++    core.write_json(receipt_path, receipt)
+ 
+-    subject_result = {
+-        "schema_version": "2.0-rc1",
+-        "check_id": "SUBJECT_ENTITY_PROPERTY_BINDING",
+-        "status": "PASS",
+-        "issue_id": issue_id,
+-        "cited_discovery_count": len(cited),
++    subject = {
++        "schema_version": "2.0-rc1", "check_id": "SUBJECT_ENTITY_PROPERTY_BINDING",
++        "status": "PASS", "issue_id": surface["issue_id"],
++        "cited_discovery_count": len(surface["bibliography"]),
+         "bindings": [
+             {
+-                "discovery_id": did,
+-                "canonical_name": records[did]["entity"]["canonical_name"],
+-                "canonical_url": records[did]["entity"]["canonical_url"],
+-                "materiality": records[did]["materiality"],
+-                "status": records[did]["status"],
+-                "source_accessed_at": records[did]["source_accessed_at"],
++                "discovery_id": row["discovery_id"], "canonical_name": row["title"],
++                "canonical_url": row["url"], "materiality": context["records"][row["discovery_id"]]["materiality"],
++                "status": context["records"][row["discovery_id"]]["status"],
++                "source_accessed_at": context["records"][row["discovery_id"]]["source_accessed_at"],
+             }
+-            for did in cited
++            for row in surface["bibliography"]
+         ],
+     }
+-    _write_json(quality_root / "subject-entity-property-binding.json", subject_result)
+-
++    core.write_json(subject_path, subject)
+     print(json.dumps({
+-        "issue_id": issue_id,
+-        "source_root": _rel(root, source_root),
+-        "survey_root": _rel(root, survey_root),
+-        "source_manifest": _rel(root, publication_root / "validated-source-manifest.json"),
+-        "main_tex": _rel(root, survey_root / "main.tex"),
+-        "bibliography": _rel(root, survey_root / "references.bib"),
+-        "style": _rel(root, survey_root / "jgaisurvey.sty"),
+-        "subject_result": _rel(root, quality_root / "subject-entity-property-binding.json"),
+-        "identifier_tokens": _identifier_tokens(issue_id, records, cited),
++        "issue_id": surface["issue_id"], "source_root": _rel(root, context["source_root"]),
++        "survey_root": _rel(root, survey_root), "source_manifest": _rel(root, receipt_path),
++        "main_tex": _rel(root, primary_path), "bibliography": _rel(root, bibliography_path),
++        "style": _rel(root, style_path), "subject_result": _rel(root, subject_path),
++        "identifier_tokens": _identifier_tokens(surface, context["records"]),
+     }, ensure_ascii=False, indent=2))
+     return 0
+ 
+diff --git a/templates/survey/jgaisurvey.sty b/templates/survey/jgaisurvey.sty
+index 94cbcdc..16c68ba 100644
+--- a/templates/survey/jgaisurvey.sty
++++ b/templates/survey/jgaisurvey.sty
+@@ -66,6 +66,11 @@
+ \newcommand{\SurveyCoverDeck}{}
+ \newcommand{\SurveyCoverAnchors}{}
+ \newcommand{\SurveyEditionDescriptor}{週刊Technical Survey}
++\newcommand{\SurveyCutoffLabel}{Editorial cutoff}
++\newcommand{\SurveyRepositoryLabel}{Repository}
++\newcommand{\SurveyBuildLabel}{Build}
++\newcommand{\SurveyBuildValue}{LuaLaTeX / jlreq / LuaTeX-ja}
++\newcommand{\SurveyStrapline}{一次情報・論文・OSS・X上の技術反応を分離し、検証可能なEvidence chainとして編成する}
+ 
+ \newcommand{\surveysetup}[4]{%
+   \renewcommand{\SurveyIssue}{#1}%
+@@ -85,6 +90,15 @@
+   \renewcommand{\SurveyEditionDescriptor}{#1}%
+ }
+ 
++\newcommand{\surveyrepository}[1]{\renewcommand{\SurveyRepository}{#1}}
++\newcommand{\surveybuildvalue}[1]{\renewcommand{\SurveyBuildValue}{#1}}
++\newcommand{\surveycoverlabels}[3]{%
++  \renewcommand{\SurveyCutoffLabel}{#1}%
++  \renewcommand{\SurveyRepositoryLabel}{#2}%
++  \renewcommand{\SurveyBuildLabel}{#3}%
++}
++\newcommand{\surveystrapline}[1]{\renewcommand{\SurveyStrapline}{#1}}
++
+ \pagestyle{fancy}
+ \fancyhf{}
+ \fancyhead[L]{\small\color{SurveyMuted}\SurveyTitle}
+@@ -114,12 +128,12 @@
+   }%
+   \vfill
+   \noindent\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.23\linewidth}X@{}}
+-    Editorial cutoff & \SurveyCutoff \\
+-    Repository & \SurveyRepository \\
+-    Build & LuaLaTeX / jlreq / LuaTeX-ja \\
++    \SurveyCutoffLabel & \SurveyCutoff \\
++    \SurveyRepositoryLabel & \SurveyRepository \\
++    \SurveyBuildLabel & \SurveyBuildValue \\
+   \end{tabularx}
+   \vspace{8mm}
+-  {\small\color{SurveyMuted}一次情報・論文・OSS・X上の技術反応を分離し、検証可能なEvidence chainとして編成する\SurveyEditionDescriptor。\par}
++  {\small\color{SurveyMuted}\SurveyStrapline\SurveyEditionDescriptor。\par}
+   \vspace*{10mm}
+ }
+ 

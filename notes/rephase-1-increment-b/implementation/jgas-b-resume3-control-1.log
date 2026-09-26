@@ -1,0 +1,17 @@
+test_receipt_basis_controls_reject_dirty_and_committed_changes (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_receipt_basis_controls_reject_dirty_and_committed_changes) ... ERROR
+
+======================================================================
+ERROR: test_receipt_basis_controls_reject_dirty_and_committed_changes (tests.test_survey_increment_b_weekly_derivation_v2.IncrementBWeeklyDerivationV2Tests.test_receipt_basis_controls_reject_dirty_and_committed_changes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/tests/test_survey_increment_b_weekly_derivation_v2.py", line 492, in test_receipt_basis_controls_reject_dirty_and_committed_changes
+    weekly._verify_head_bytes(self.root, basis, closure)
+  File "/tmp/jgas-rephase-increment-b-sol-implementation/scripts/survey_weekly_derivation_v2.py", line 527, in _verify_head_bytes
+    control_paths = sorted(set(control_paths))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'PosixPath' and 'str'
+
+----------------------------------------------------------------------
+Ran 1 test in 0.221s
+
+FAILED (errors=1)

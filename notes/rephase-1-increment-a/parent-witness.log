@@ -1,0 +1,47 @@
+COMMAND: PYTHONPATH=. /tmp/jgas-rephase-application-venv/bin/python /tmp/jgas-rephase-increment-a-sol-copy/tests/test_survey_exact_manuscript_admission_v2.py ExactManuscriptAdmissionV2Tests.test_draft_complete_rejects_valid_same_identity_alternate_manuscript ExactManuscriptAdmissionV2Tests.test_validated_draft_rejects_valid_same_identity_alternate_manuscript ExactManuscriptAdmissionV2Tests.test_revalidation_rejects_wrong_gate_before_authority_write ExactManuscriptAdmissionV2Tests.test_later_stage_rejects_fresh_wrong_gate_under_active_revalidation
+CWD: /tmp/jgas-rephase-increment-a-parent-witness
+PARENT: bf32edf98ba8f605169d7188bbc764de74ee4f6e
+EXPECTED_EXIT_CODE: 1
+EXIT_CODE: 1
+COMBINED_STDOUT_STDERR:
+FFFF
+======================================================================
+FAIL: test_draft_complete_rejects_valid_same_identity_alternate_manuscript (__main__.ExactManuscriptAdmissionV2Tests.test_draft_complete_rejects_valid_same_identity_alternate_manuscript)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-a-sol-copy/tests/test_survey_exact_manuscript_admission_v2.py", line 261, in test_draft_complete_rejects_valid_same_identity_alternate_manuscript
+    with self.assertRaisesRegex(
+         ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: StageValidationError not raised
+
+======================================================================
+FAIL: test_validated_draft_rejects_valid_same_identity_alternate_manuscript (__main__.ExactManuscriptAdmissionV2Tests.test_validated_draft_rejects_valid_same_identity_alternate_manuscript)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-a-sol-copy/tests/test_survey_exact_manuscript_admission_v2.py", line 286, in test_validated_draft_rejects_valid_same_identity_alternate_manuscript
+    with self.assertRaisesRegex(
+         ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: StageValidationError not raised
+
+======================================================================
+FAIL: test_revalidation_rejects_wrong_gate_before_authority_write (__main__.ExactManuscriptAdmissionV2Tests.test_revalidation_rejects_wrong_gate_before_authority_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-a-sol-copy/tests/test_survey_exact_manuscript_admission_v2.py", line 461, in test_revalidation_rejects_wrong_gate_before_authority_write
+    with self.assertRaisesRegex(
+         ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: AgentControlError not raised
+
+======================================================================
+FAIL: test_later_stage_rejects_fresh_wrong_gate_under_active_revalidation (__main__.ExactManuscriptAdmissionV2Tests.test_later_stage_rejects_fresh_wrong_gate_under_active_revalidation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-increment-a-sol-copy/tests/test_survey_exact_manuscript_admission_v2.py", line 519, in test_later_stage_rejects_fresh_wrong_gate_under_active_revalidation
+    with self.assertRaisesRegex(
+         ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: StageValidationError not raised
+
+----------------------------------------------------------------------
+Ran 4 tests in 5.909s
+
+FAILED (failures=4)
