@@ -1,0 +1,11 @@
+{
+  "diff": "diff --git a/scripts/survey_weekly_derivation_v2.py b/scripts/survey_weekly_derivation_v2.py\nindex 477de21..51fcbb2 100644\n--- a/scripts/survey_weekly_derivation_v2.py\n+++ b/scripts/survey_weekly_derivation_v2.py\n@@ -700,3 +700,5 @@ def validate_receipt(root: Path, receipt_path: Path, state_path: Path | None = N\n         if path.read_bytes() != data or core.sha256_bytes(data) != row[\"sha256\"]:\n             raise ValueError(f\"Weekly deterministic {name} replay mismatch\")\n     return receipt\n+\n+# witness-S1: mechanical identity comment only; no semantic change.\n",
+  "head": "6de6bbb7c9a87d254fafe7474096013ae8b4cc1d",
+  "helper_sha": "47e961c259073e467bafab563275c5467097490582aef15531bbba3245802f52",
+  "marker": "S1",
+  "parent": "48720ada77088ba16a4a8b1cc55fe76ff62e21b4",
+  "phase": "s-commit-S1",
+  "run_id": "20260927T160625Z",
+  "stat": "6de6bbb Synthetic witness S1 comment-only control change\n scripts/survey_weekly_derivation_v2.py | 2 ++\n 1 file changed, 2 insertions(+)",
+  "tree": "2a8386d37c832aa8197f5db2a008933cc2782da1"
+}

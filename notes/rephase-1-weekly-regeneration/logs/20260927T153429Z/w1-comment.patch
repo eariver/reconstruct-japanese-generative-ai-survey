@@ -1,0 +1,10 @@
+diff --git a/scripts/survey_weekly_derivation_v2.py b/scripts/survey_weekly_derivation_v2.py
+index 477de21..12b49e2 100644
+--- a/scripts/survey_weekly_derivation_v2.py
++++ b/scripts/survey_weekly_derivation_v2.py
+@@ -700,3 +700,5 @@ def validate_receipt(root: Path, receipt_path: Path, state_path: Path | None = N
+         if path.read_bytes() != data or core.sha256_bytes(data) != row["sha256"]:
+             raise ValueError(f"Weekly deterministic {name} replay mismatch")
+     return receipt
++
++# witness-H1: mechanical identity comment only; no semantic change.

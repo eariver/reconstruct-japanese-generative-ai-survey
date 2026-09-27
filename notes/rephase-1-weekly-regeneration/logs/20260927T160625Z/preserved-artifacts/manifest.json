@@ -1,0 +1,110 @@
+{
+  "artifacts": [
+    {
+      "bytes": 4717,
+      "dest": "publication-surface-revalidation-r1.json",
+      "role": "current first revalidation record (r1, supersedes null)",
+      "sha256": "3f1950007245e319a6ea4e8c3eae27ca80b6612075557bc9496313532a7cfb3c",
+      "sidecar_cross_ref": "s-refresh-first.sidecar.json r1_sha256 MATCH",
+      "source": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json"
+    },
+    {
+      "bytes": 4888,
+      "dest": "publication-surface-revalidation-r2.json",
+      "role": "current second revalidation record (r2, supersedes r1)",
+      "sha256": "b8f828550d1ada0d8022a804122f91df838c11829aa3c88d9736feb264f6e356",
+      "sidecar_cross_ref": "s-refresh-repeat.sidecar.json r2_sha256 MATCH; superseded gate new_sha256 bc9c8958 MATCHES current gate copy",
+      "source": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json"
+    },
+    {
+      "bytes": 5965,
+      "dest": "production-state.json",
+      "role": "current Production State (post-r2, post-negatives-restored)",
+      "sha256": "0bad344039e566354224dc4da6bdcc47e0a5c1bf0f11972b5a535c134e621f4d",
+      "sidecar_cross_ref": "current snapshot only; no run-time sidecar recorded this value",
+      "source": "sources/2026-W37/production-state.json"
+    },
+    {
+      "bytes": 3006,
+      "dest": "validation-checkpoint-DRAFT_COMPLETE.json",
+      "role": "validation checkpoint (State checkpoint_provenance.validation target)",
+      "sha256": "a847a66f92fec0662736e8009074214b46ddff2104dac41d77a5d316b282faf3",
+      "sidecar_cross_ref": "w0-sidecar.json validation_checkpoint_sha256 MATCH (immutable since W0)",
+      "source": "sources/2026-W37/orchestration/v2/checkpoints/DRAFT_COMPLETE.json"
+    },
+    {
+      "bytes": 6775,
+      "dest": "validated-source-manifest.current-H2.json",
+      "role": "current receipt (H2-era)",
+      "sha256": "90d05a8cc68e839854db953b2898b1203231d9849c3d408767b354ad40bc43fe",
+      "sidecar_cross_ref": "current snapshot only",
+      "source": "sources/2026-W37/publication/v2/validated-source-manifest.json"
+    },
+    {
+      "bytes": 5034,
+      "dest": "reader-surface-gate-v2.current-H2.json",
+      "role": "current Gate (H2-era)",
+      "sha256": "bc9c895810cb0d03f350d77f3e0f6c79f3c7519d1f26e57f902d9a07e2ce3342",
+      "sidecar_cross_ref": "bound by r2 superseded new_sha256 (verified from preserved r2 bytes)",
+      "source": "sources/2026-W37/publication/v2/reader-surface-gate-v2.json"
+    },
+    {
+      "bytes": 6774,
+      "dest": "receipt-superseded-H0.json",
+      "role": "historical receipt (H0-era), preserved pre-overwrite in S1",
+      "sha256": "4d98b3c7b598e177213d28d25cdd27effbd7139cf1e11d1400c4551044bd3d05",
+      "sidecar_cross_ref": "s-refresh-first.sidecar.json receipt_old_raw_sha256 MATCH",
+      "source": ".witness-evidence/receipt-superseded-supplement.json"
+    },
+    {
+      "bytes": 6775,
+      "dest": "receipt-superseded-H1.json",
+      "role": "historical receipt (H1-era), preserved pre-overwrite in S2",
+      "sha256": "c93da8a113546bc714416e32c2ce4b17bc748753d41bccd101311d8d5d765fd3",
+      "sidecar_cross_ref": "s-refresh-first.sidecar.json receipt_new_sha256 MATCH",
+      "source": ".witness-evidence/receipt-superseded-repeat.json"
+    },
+    {
+      "bytes": 5034,
+      "dest": "gate-superseded-H1.json",
+      "role": "historical Gate (H1-era), preserved pre-overwrite in S2",
+      "sha256": "c48cef9b052b1c39d69810cba8e5685610bf4306c0f85c671ac2fb0539d50365",
+      "sidecar_cross_ref": "s-refresh-first.sidecar.json gate_new_sha256 MATCH",
+      "source": ".witness-evidence/gate-superseded-repeat.json"
+    }
+  ],
+  "commits": {
+    "S0_H0": {
+      "head": "48720ada77088ba16a4a8b1cc55fe76ff62e21b4",
+      "parent": null,
+      "tree": "027e12f10f942eab5f2d4974c5f3b7c4cddcffbf",
+      "astra_correction": "Original closeout transcription used a3721205698cf073b9ef5305f77c68bd871dc1c8 (the earlier run's H0). Corrected against this run's w0a-sidecar.json and read-only git log of 48720ada77088ba16a4a8b1cc55fe76ff62e21b4 on 2026-09-28 JST. Artifact bytes/hashes unchanged."
+    },
+    "S1": {
+      "head": "6de6bbb7c9a87d254fafe7474096013ae8b4cc1d",
+      "helper_sha_post": "47e961c259073e467bafab563275c5467097490582aef15531bbba3245802f52",
+      "parent": "48720ada77088ba16a4a8b1cc55fe76ff62e21b4",
+      "scope": "scripts/survey_weekly_derivation_v2.py +2 comment lines via stdlib-only process",
+      "tree": "2a8386d37c832aa8197f5db2a008933cc2782da1"
+    },
+    "S2_H2": {
+      "head": "b41c58f2e1ac77cd4acfece08dd701ec2fb9e04d",
+      "helper_sha_post": "18a88161682ab4c333eac103c1564f6da6382799d86742936020eaf53e150ed2",
+      "parent": "6de6bbb7c9a87d254fafe7474096013ae8b4cc1d",
+      "scope": "scripts/survey_weekly_derivation_v2.py +2 comment lines via stdlib-only process",
+      "tree": "238ddfbfb1632161931972560e8b013218e4869d"
+    }
+  },
+  "e4c_source": {
+    "head": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "tree": "bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e"
+  },
+  "edition": "/tmp/jgas-rephase-witness-supp-20260927T160625Z",
+  "known_gap": "H0-era Gate raw bytes were never preserved (s-refresh-first saved the receipt only); the w0 hash 74fb5235... is a reference, not a byte archive. Stated, not reconstructed.",
+  "packet": "notes/rephase-1-weekly-regeneration/logs/20260927T160625Z/preserved-artifacts/",
+  "run_id": "20260927T160625Z",
+  "scripts": {
+    "original_harness_sha256": "4b6d529d919a7d64eab8e4826d1658122c4492321bb605add98c31a66ca6ffc8",
+    "supplement_harness_sha256": "3e188674f215b75e543bdc5b6152348a73ed6c16a11d65f0aab04c0a8864ecbe"
+  }
+}

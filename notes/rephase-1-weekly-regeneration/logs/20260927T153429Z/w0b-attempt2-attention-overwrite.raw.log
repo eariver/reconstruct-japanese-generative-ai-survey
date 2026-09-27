@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 1083, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 1072, in main
+    code = table[args.phase](args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 410, in phase_w0b
+    chain = base._complete_authorities(base._chain())
+                                       ^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-witness-20260927T153429Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-witness-20260927T153429Z/tests/test_survey_drafting_v2.py", line 63, in build_authorized_chain
+    review_attention.build_attention(
+  File "/tmp/jgas-rephase-witness-20260927T153429Z/scripts/survey_review_attention_v2.py", line 141, in build_attention
+    raise ValueError(f"refusing to overwrite Architecture Review attention: {output_path}")
+ValueError: refusing to overwrite Architecture Review attention: /tmp/jgas-rephase-witness-20260927T153429Z/architecture-review-attention-v2.json

@@ -1,0 +1,20 @@
+preserved e4c8269 HEAD/tree e4c82692abee6acedbba07815b0d74ccefb80a7e/bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e; B HEAD c04f32ad46109403e8a63faaa8394a90ee6b869c
+H1 head=41027f1ac5335f8b39d1f0b67ca530252e466fac parent=c1f738b1d02b0187a60c95c655cdccca70c3f7bc tree=b233c5d0d8aa4025c712e2ebf8be059c685a8c5e
+--- diff ---
+diff --git a/scripts/survey_weekly_derivation_v2.py b/scripts/survey_weekly_derivation_v2.py
+index 477de21..12b49e2 100644
+--- a/scripts/survey_weekly_derivation_v2.py
++++ b/scripts/survey_weekly_derivation_v2.py
+@@ -700,3 +700,5 @@ def validate_receipt(root: Path, receipt_path: Path, state_path: Path | None = N
+         if path.read_bytes() != data or core.sha256_bytes(data) != row["sha256"]:
+             raise ValueError(f"Weekly deterministic {name} replay mismatch")
+     return receipt
++
++# witness-H1: mechanical identity comment only; no semantic change.
+
+cleared __pycache__ dirs: 2
+fresh interpreter imports weekly derivation from edition: /tmp/jgas-rephase-witness-20260927T153429Z/scripts/survey_weekly_derivation_v2.py
+W1 strict State passes at H1 (HEAD not pinned by State validation)
+W1 strict load_derivation passes at H1; recomputed surface identical
+W1 old receipt rejects at old-tool boundary: Weekly receipt implementation or contract changed since renderer commit
+W1 old Gate rejects (receipt derivation mismatch): Weekly receipt implementation or contract changed since renderer commit

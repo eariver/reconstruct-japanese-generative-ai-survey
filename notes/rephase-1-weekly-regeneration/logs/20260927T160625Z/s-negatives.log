@@ -1,0 +1,17 @@
+preserved e4c8269 HEAD/tree e4c82692abee6acedbba07815b0d74ccefb80a7e/bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e; B HEAD c04f32ad46109403e8a63faaa8394a90ee6b869c
+SN cmd=['/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness_supplement.py', 's-negatives', '--edition', '/tmp/jgas-rephase-witness-supp-20260927T160625Z', '--logs', '/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/logs/20260927T160625Z', '--run-id', '20260927T160625Z', '--expect-head', 'b41c58f2e1ac77cd4acfece08dd701ec2fb9e04d', '--w0sidecar', '/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/logs/20260927T160625Z/w0-sidecar.json', '--exit-file', '/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/logs/20260927T160625Z/s-negatives.raw.exit'] cwd=/mnt/d/Git/reconstruct-japanese-generative-ai-survey python=3.12.14 deps={'pypdf': '6.16.2', 'jsonschema': '4.23.0'} edition=/tmp/jgas-rephase-witness-supp-20260927T160625Z supplement_sha=3e188674f215b75e543bdc5b6152348a73ed6c16a11d65f0aab04c0a8864ecbe orig_harness_sha=4b6d529d919a7d64eab8e4826d1658122c4492321bb605add98c31a66ca6ffc8
+SN runtime core=/tmp/jgas-rephase-witness-supp-20260927T160625Z/scripts/survey_production_v2.py helper=/tmp/jgas-rephase-witness-supp-20260927T160625Z/scripts/survey_weekly_derivation_v2.py helper_sha=18a88161682ab4c333eac103c1564f6da6382799d86742936020eaf53e150ed2 HEAD=b41c58f2e1ac77cd4acfece08dd701ec2fb9e04d
+SN-n1-surface harness-policy (scope byte-identity) refuses pre-write
+SN-n1-surface runtime (validate_receipt) refuses: ValueError: Weekly reviewed reader input drift
+SN-n1-surface restored byte-exact; State/records unchanged throughout
+SN-n2-upstream harness-policy (scope byte-identity) refuses pre-write
+SN-n2-upstream runtime (pending-basis construction) refuses: AgentControlError: pending publication State invalid: Stage Checkpoint artifact drift: issue-architecture; Architecture Approval Record does not bind exact Architecture bytes
+SN-n2-upstream restored byte-exact; State/records unchanged throughout
+SN-n3-criteria harness-policy (criteria hash identity) refuses pre-write
+SN-n3-criteria runtime (validate_review_record (unchanged review bytes, changed criteria)) refuses: ValueError: Publication Review check family differs from bound Profile
+SN-n3-criteria restored byte-exact; State/records unchanged throughout
+SN-n4 runtime refuses malformed predecessor: pending publication predecessor invalid: active publication revalidation authority SHA mismatch
+SN-n4 restored byte-exact; pointer intact
+SN strict State passes after all restores
+SN-n3 dirty-config strict-State observation (labeled separately): []
+SN HEAD unchanged b41c58f2e1ac; negatives created no State/record authority

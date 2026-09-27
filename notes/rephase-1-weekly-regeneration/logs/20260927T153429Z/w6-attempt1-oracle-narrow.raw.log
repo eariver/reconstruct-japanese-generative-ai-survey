@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 972, in phase_w6
+    weekly.validate_receipt(base.root, base.root / w0["hashes"]["receipt"]["rel"], state_path)
+  File "/tmp/jgas-rephase-witness-20260927T153429Z/scripts/survey_weekly_derivation_v2.py", line 684, in validate_receipt
+    raise ValueError("Weekly reviewed reader input drift")
+ValueError: Weekly reviewed reader input drift
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 1087, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 1076, in main
+    code = table[args.phase](args)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-weekly-regeneration/witness_harness.py", line 976, in phase_w6
+    assert "independently recomputed reader input differs" in str(exc), str(exc)[:400]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Weekly reviewed reader input drift
