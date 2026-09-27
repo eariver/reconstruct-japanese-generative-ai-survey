@@ -8,6 +8,8 @@ Continuation note (2026-09-27 JST): Increment B is complete within its selected 
 
 ## Read and authority order
 
+Latest continuation (2026-09-27, after the B/analysis closeouts above): Gate CLI unit completed at `e4c82692abee6acedbba07815b0d74ccefb80a7e` / tree `bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e`, parent `6d87edd28a1be8893ca2ab67fed6e32e54b0de6c`, independent Ubuntu `/tmp/jgas-rephase-gate-cli`. [Packet](../rephase-1-gate-cli/README.md) and [current assessment/next task](../../outputs/rephase-1-gate-cli-assessment.md) supersede older pending inventory/CLI instructions: 32 affected methods passed at this head, Astra review and separate General bounded review completed. B remains c04f32a in its separate original DB. Human now directs General/Explore instead of historical Sol/Luna. Next work is bounded Weekly regeneration-contract analysis, not implementation. Do not auto-run archived CLI setup/test runners (fixed paths, overwrite logs, warn-only HEAD guard); use new isolated/output paths and fail-closed preflight only if a later task warrants execution. Reviewer temporary checkouts and corrected evidence descriptions are disclosed in the new packet; root verified the restored exact head/clean tracked tree. No full-baseline application or whole-candidate acceptance follows.
+
 1. Current Human instructions and `AGENTS.md`.
 2. Compact `handoff/rephase-1-continuation.md`.
 3. `outputs/rephase-1-implementation-plan.md`; consult the Summary intake for deferred-item scope, then relevant source/evidence only for the assigned increment.

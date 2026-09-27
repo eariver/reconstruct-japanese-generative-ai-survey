@@ -1,0 +1,51 @@
+{
+  "kind": "observational findings-transport probe (deferred)",
+  "cases": [
+    {
+      "argv": [
+        "--manuscript",
+        "sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+        "--semantic-authority",
+        "sources/2026-W35/publication/v2/probe-authority-object.json",
+        "--semantic-review",
+        "sources/2026-W35/publication/v2/probe-findings-array.json",
+        "--output",
+        "sources/2026-W35/publication/v2/probe-array.json"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1931, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1890, in main\n    sem_findings = core.load_json(Path(args.semantic_review))\n                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_production_v2.py\", line 82, in load_json\n    raise ValueError(f\"expected JSON object: {path}\")\nValueError: expected JSON object: sources/2026-W35/publication/v2/probe-findings-array.json\n",
+      "name": "bare-array-with-valid-authority"
+    },
+    {
+      "argv": [
+        "--manuscript",
+        "sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+        "--semantic-authority",
+        "sources/2026-W35/publication/v2/probe-authority-object.json",
+        "--semantic-review",
+        "sources/2026-W35/publication/v2/probe-findings-object.json",
+        "--output",
+        "sources/2026-W35/publication/v2/probe-object.json"
+      ],
+      "exit": 0,
+      "stdout": "Reader-Surface Gate: PASSED\n  Total findings: 0\n  Blocking: 0\n  Suppressed: 0\n",
+      "stderr": "",
+      "name": "object-with-valid-authority"
+    },
+    {
+      "argv": [
+        "--manuscript",
+        "sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+        "--semantic-review",
+        "sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json",
+        "--output",
+        "sources/2026-W35/publication/v2/probe-only.json"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1931, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1902, in main\n    report = evaluate_reader_surface_gate(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1145, in evaluate_reader_surface_gate\n    raise ValueError(\nValueError: Reader-Surface Gate requires machine-checkable semantic_authority; omitting semantic review cannot PASS\n",
+      "name": "review-only-via-semantic-review"
+    }
+  ]
+}

@@ -1,0 +1,713 @@
+"""Bounded Gate CLI coverage: persisted reader-surface review admission.
+
+Scope: `scan-manuscript` persisted-review routing in
+`scripts/survey_reader_surface_gate_v2.py`.
+
+All manifests, reviews and authorities in this module are **synthetic fixtures**.
+They exercise the real strict semantic-review loader, the real Gate
+evaluator/validator, the real Weekly publisher and a real isolated Git
+repository. They are not Human review, publication, adoption or approval
+evidence, and they assert no production outcome. The generated-Weekly fixture
+reproduces the accepted-chain construction used by
+`tests/test_survey_increment_b_weekly_derivation_v2.py`, but uses process-local
+Git author/committer environment identity instead of `git config`. Only
+sandbox/profile/fixture constructors are patched; no authority validator or
+Git-success check is stubbed.
+"""
+from __future__ import annotations
+
+import copy
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+from scripts import survey_production_v2 as core
+from scripts import survey_reader_publication_v2 as reader
+from scripts import survey_reader_surface_gate_v2 as surface_gate
+from scripts import survey_schema_v2 as schema_gate
+from scripts import survey_weekly_derivation_v2 as weekly
+from tests import test_survey_increment_b_weekly_derivation_v2 as weekly_b
+from tests import test_survey_reader_surface_gate_v2 as gate_fixture
+
+REPO = Path(__file__).resolve().parents[1]
+GATE_SCRIPT = "scripts/survey_reader_surface_gate_v2.py"
+DIRECT_ISSUE = "2026-W35"
+DIRECT_PROFILE = "WEEKLY_MAGAZINE"
+SYNTHETIC_REVIEWER = "synthetic Gate CLI reviewer (not human)"
+
+_GIT_ENV_OVERRIDES = (
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_COMMON_DIR",
+)
+
+
+def _semantic_review(
+    issue: str,
+    profile: str,
+    surface_rel: str,
+    surface_sha: str,
+    *,
+    decision: str = "PASS",
+    status: str | None = None,
+    checks: list[dict] | None = None,
+    findings: list[dict] | None = None,
+) -> dict:
+    """Build a schema-shaped persisted reader-surface semantic review (synthetic)."""
+    if status is None:
+        status = "PASSED" if decision == "PASS" else "FAILED"
+    if checks is None:
+        checks = [
+            {
+                "check_id": "READER_PIPELINE_INDEPENDENCE",
+                "status": "PASS" if decision == "PASS" else "FAIL",
+                "detail": "Synthetic Gate CLI fixture; not a human judgment.",
+                "evidence_locations": [f"{surface_rel}:synthetic"],
+            }
+        ]
+    doc = {
+        "schema_version": "2.0-rc1",
+        "issue_id": issue,
+        "publication_profile": profile,
+        "review_kind": "SEMANTIC_EDITORIAL",
+        "reviewed_surface": {"path": surface_rel, "sha256": surface_sha},
+        "checks": checks,
+        "decision": decision,
+        "reviewed_by": SYNTHETIC_REVIEWER,
+        "reviewed_at": "2026-09-14T12:00:00Z",
+        "recorded_at": "2026-09-14T12:00:00Z",
+        "status": status,
+        "findings": list(findings or []),
+        "summary": "Synthetic persisted review for CLI admission tests; not a real publication review.",
+    }
+    doc["review_sha256"] = core.sha256_object(doc)
+    return doc
+
+
+def _legacy_publication_review(issue: str, surface_rel: str, surface_sha: str) -> dict:
+    """Legacy post-TeX publication-review-record-v2 shape (must not be converted)."""
+    doc = {
+        "schema_version": "2.0-rc1",
+        "issue_id": issue,
+        "research_profile": "WEEKLY",
+        "publication_profile": DIRECT_PROFILE,
+        "review_kind": "SEMANTIC_EDITORIAL",
+        "status": "PASSED",
+        "production_profile": {"path": f"sources/{issue}/production-profile.json", "sha256": "0" * 64},
+        "reader_manuscript": {
+            "path": f"sources/{issue}/publication/v2/reader-manuscript-v2.json",
+            "sha256": "0" * 64,
+        },
+        "source": {"path": surface_rel, "sha256": surface_sha},
+        "pdf": {"path": f"surveys/weekly/{issue}/main.pdf", "sha256": "0" * 64},
+        "page_count": 1,
+        "checks": [
+            {"check_id": "SEM_CHECK", "status": "PASS", "detail": "ok", "evidence_locations": ["main.tex"]}
+        ],
+        "reviewed_by": SYNTHETIC_REVIEWER,
+        "recorded_at": "2026-09-14T12:00:00Z",
+    }
+    doc["review_sha256"] = core.sha256_object(doc)
+    return doc
+
+
+class GateCliPersistedReviewV2Tests(unittest.TestCase):
+    maxDiff = None
+
+    # ------------------------------------------------------------------ helpers
+
+    def _direct_fixture(self):
+        """Reuse the existing real direct-primary fixture via importlib pattern."""
+        case = gate_fixture.SurveyReaderSurfaceGateV2Tests(
+            methodName="test_clean_reader_prose_passes_gate"
+        )
+        case.setUp()
+        self.addCleanup(case.doCleanups)
+        _profile, main_tex, _bib, manifest = case._build_valid_manifest()
+        _surface, review_path, _sem_auth = case._create_semantic_surface_and_review()
+        root = Path(case.root)
+        doc = core.load_json(review_path)
+        doc["reviewed_by"] = SYNTHETIC_REVIEWER
+        doc["summary"] = "Synthetic persisted review for CLI admission tests; not a real publication review."
+        doc["review_sha256"] = core.sha256_object({k: v for k, v in doc.items() if k != "review_sha256"})
+        core.write_json(review_path, doc)
+        return root, main_tex, manifest, review_path
+
+    def _run_cli(self, root: Path, argv: list[str], *, cwd: Path | None = None) -> subprocess.CompletedProcess:
+        env = {k: v for k, v in os.environ.items() if k not in _GIT_ENV_OVERRIDES}
+        env["PYTHONPATH"] = str(REPO)
+        env["PYTHONDONTWRITEBYTECODE"] = "1"
+        cmd = [
+            sys.executable,
+            str(REPO / GATE_SCRIPT),
+            "--repo-root",
+            str(root),
+            "scan-manuscript",
+            *argv,
+        ]
+        return subprocess.run(
+            cmd,
+            cwd=str(cwd or root),
+            env=env,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+        )
+
+    @staticmethod
+    def _snapshot(paths: list[Path]) -> dict[str, str | None]:
+        return {str(p): (core.sha256_file(p) if p.is_file() else None) for p in paths}
+
+    def _assert_rejected(
+        self,
+        name: str,
+        root: Path,
+        manifest: Path,
+        out_path: Path,
+        proc: subprocess.CompletedProcess,
+    ) -> None:
+        """A rejection must exit nonzero and must never yield an admissible PASSED Gate.
+
+        `evaluate` may still write a diagnostic FAILED report (the CLI's existing
+        behavior); that is not an authority write and must not validate.
+        """
+        self.assertNotEqual(proc.returncode, 0, msg=f"{name} unexpectedly passed")
+        if out_path.is_file():
+            report = core.load_json(out_path)
+            self.assertNotEqual(report.get("status"), "PASSED", msg=f"{name} wrote a PASSED Gate")
+            with self.assertRaises(ValueError):
+                surface_gate.validate_reader_surface_gate(
+                    root,
+                    out_path,
+                    issue_id=DIRECT_ISSUE,
+                    publication_profile=DIRECT_PROFILE,
+                    expected_manuscript_path=manifest,
+                )
+
+    # --------------------------------------------------- generated Weekly fixture
+
+    def _make_env_identity_weekly_fixture(self):
+        """Bounded equivalent of B's setUp using process-local Git identity env."""
+        base = weekly_b.IncrementBWeeklyDerivationV2Tests(
+            methodName="test_accepted_weekly_two_pass_publication"
+        )
+        for name in _GIT_ENV_OVERRIDES:
+            if os.environ.get(name):
+                raise AssertionError(f"unsafe inherited Git override for isolated fixture: {name}")
+        scratch = tempfile.TemporaryDirectory(prefix="jgas-gate-cli-weekly-")
+        base.addCleanup(scratch.cleanup)
+        base.root = Path(scratch.name).resolve()
+        tracked = subprocess.run(
+            ["git", "ls-files", "-z", "--", "config", "schemas", "scripts", "templates", "prompts", "docs", "data"],
+            cwd=REPO,
+            capture_output=True,
+            check=True,
+        ).stdout
+        for raw in tracked.split(b"\0"):
+            if not raw:
+                continue
+            relative = Path(raw.decode("utf-8"))
+            destination = base.root / relative
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(REPO / relative, destination)
+        identity = {
+            "GIT_AUTHOR_NAME": "Synthetic Gate CLI Fixture",
+            "GIT_AUTHOR_EMAIL": "synthetic-gate-cli@example.invalid",
+            "GIT_COMMITTER_NAME": "Synthetic Gate CLI Fixture",
+            "GIT_COMMITTER_EMAIL": "synthetic-gate-cli@example.invalid",
+        }
+        env = {**os.environ, **identity}
+        for command in (
+            ["git", "init", "-q"],
+            ["git", "remote", "add", "origin", "https://example.invalid/gate-cli-weekly-fixture.git"],
+            ["git", "add", "-A"],
+            ["git", "commit", "-q", "-m", "Synthetic isolated Gate CLI Weekly source basis"],
+        ):
+            subprocess.run(command, cwd=base.root, env=env, check=True, capture_output=True)
+        base.cfg = core.load_json(base.root / core.DEFAULT_CONFIG)
+        base.head = core.repository_commit_sha(base.root)
+        base.source_root = base.root / "sources" / weekly_b.ISSUE
+        base.survey_root = base.root / "surveys" / "weekly" / weekly_b.ISSUE
+        self.addCleanup(base.doCleanups)
+        return base
+
+    def _build_generated_weekly(self):
+        base = self._make_env_identity_weekly_fixture()
+        chain = base._complete_authorities(base._chain())
+        state_path = base._current_state(chain)
+        argv = [
+            "survey_weekly_semantic_publication_v2.py",
+            "--repo-root",
+            str(base.root),
+            "--state",
+            str(state_path),
+            "--input",
+            str(chain["authored_path"]),
+        ]
+        with mock.patch.object(sys, "argv", argv + ["--materialize-surface-only"]):
+            self.assertEqual(weekly_b.weekly_publication.main(), 0)
+        publication_root = base.source_root / "publication/v2"
+        surface_path = publication_root / "reader-surface-input-v2.json"
+        self.assertTrue(surface_path.is_file())
+        review_path = publication_root / "reader-surface-semantic-review-v2.json"
+        review = _semantic_review(
+            weekly_b.ISSUE,
+            DIRECT_PROFILE,
+            str(surface_path.relative_to(base.root)),
+            core.sha256_file(surface_path),
+        )
+        core.write_json(review_path, review)
+        with mock.patch.object(sys, "argv", argv):
+            self.assertEqual(weekly_b.weekly_publication.main(), 0)
+        receipt_path = publication_root / "validated-source-manifest.json"
+        self.assertTrue(receipt_path.is_file())
+
+        architecture = core.load_json(base.source_root / "architecture-v2.json")
+        coverage = [
+            {
+                "package_id": plan["package_id"],
+                "requirement": requirement,
+                "status": "FULFILLED",
+                "reader_locations": ["main.tex:package-1"],
+                "detail": "Synthetic fixture author maps the accepted package requirement to its source section.",
+            }
+            for plan in architecture["packages"]
+            for requirement in plan["must_cover_requirements"]
+        ]
+        requirements = [
+            {
+                "requirement_id": key,
+                "status": "FULFILLED",
+                "reader_locations": [location],
+                "detail": "Synthetic fixture author asserts this visible requirement is present.",
+            }
+            for key, location in (
+                ("FINAL_SYNTHESIS", "main.tex:summary"),
+                ("WEEKLY_COMMUNITY_MOVEMENT", "main.tex:package-1"),
+            )
+        ]
+        manuscript_path = publication_root / "reader-manuscript-v2.json"
+        reader.build_manuscript_manifest(
+            base.root,
+            weekly_b.ISSUE,
+            chain["profile_path"],
+            base.source_root / "architecture-v2.json",
+            chain["approval_path"],
+            base.survey_root / "main.tex",
+            [
+                {"role": "BIBLIOGRAPHY", "path": str((base.survey_root / "references.bib").relative_to(base.root))},
+                {"role": "STYLE", "path": str((base.survey_root / "jgaisurvey.sty").relative_to(base.root))},
+            ],
+            coverage,
+            requirements,
+            "synthetic Gate CLI manuscript author",
+            core.parse_instant("2026-09-19T05:10:00+09:00"),
+            manuscript_path,
+        )
+        return base, chain, state_path, surface_path, review_path, manuscript_path, receipt_path
+
+    # ------------------------------------------------------------------- tests
+
+    def test_direct_primary_cli_admission_absolute_relative_and_cwd(self) -> None:
+        root, main_tex, manifest, review_path = self._direct_fixture()
+        manifest_rel = str(manifest.relative_to(root)).replace("\\", "/")
+        review_rel = str(review_path.relative_to(root)).replace("\\", "/")
+        before = self._snapshot([main_tex, manifest, review_path])
+        cases = {
+            "absolute": ([f"--semantic-authority={review_path}"], root),
+            "relative-cwd-root": ([f"--semantic-authority={review_rel}"], root),
+            "relative-cwd-differs": ([f"--semantic-authority={review_rel}"], REPO),
+        }
+        for name, (authority_args, cwd) in cases.items():
+            with self.subTest(case=name):
+                out_rel = f"sources/{DIRECT_ISSUE}/publication/v2/gate-{name}.json"
+                proc = self._run_cli(
+                    root,
+                    ["--manuscript", manifest_rel, *authority_args, "--output", out_rel],
+                    cwd=cwd,
+                )
+                self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+                self.assertIn("PASSED", proc.stdout)
+                out_path = root / out_rel
+                self.assertTrue(out_path.is_file())
+                validated = surface_gate.validate_reader_surface_gate(
+                    root,
+                    out_path,
+                    issue_id=DIRECT_ISSUE,
+                    publication_profile=DIRECT_PROFILE,
+                    expected_manuscript_path=manifest,
+                )
+                self.assertEqual(validated["status"], "PASSED")
+                self.assertEqual(validated["derivation"]["route"], "DIRECT_PRIMARY")
+        self.assertEqual(before, self._snapshot([main_tex, manifest, review_path]))
+
+    def test_direct_primary_cli_negative_cases(self) -> None:
+        root, main_tex, manifest, review_path = self._direct_fixture()
+        manifest_rel = str(manifest.relative_to(root)).replace("\\", "/")
+        review_rel = str(review_path.relative_to(root)).replace("\\", "/")
+        review_dir = review_path.parent
+        surface_rel = "surveys/weekly/2026-W35/main.tex"
+        surface_sha = core.sha256_file(main_tex)
+        bib = root / "surveys/weekly/2026-W35/references.bib"
+
+        outside_dir = Path(tempfile.mkdtemp(prefix="jgas-gate-cli-outside-"))
+        self.addCleanup(shutil.rmtree, outside_dir, ignore_errors=True)
+
+        def write_variant(name: str, doc) -> Path:
+            p = review_dir / f"variant-{name}.json"
+            core.write_json(p, doc)
+            return p
+
+        legacy_path = write_variant(
+            "legacy", _legacy_publication_review(DIRECT_ISSUE, surface_rel, surface_sha)
+        )
+
+        digest_broken = _semantic_review(DIRECT_ISSUE, DIRECT_PROFILE, surface_rel, surface_sha)
+        digest_broken["review_sha256"] = "f" * 64
+        digest_path = write_variant("digest-broken", digest_broken)
+
+        malformed = _semantic_review(DIRECT_ISSUE, DIRECT_PROFILE, surface_rel, surface_sha)
+        malformed.pop("reviewed_surface")
+        malformed["review_sha256"] = core.sha256_object({k: v for k, v in malformed.items() if k != "review_sha256"})
+        malformed_path = write_variant("malformed", malformed)
+
+        wrong_target = _semantic_review(
+            DIRECT_ISSUE,
+            DIRECT_PROFILE,
+            str(bib.relative_to(root)).replace("\\", "/"),
+            core.sha256_file(bib),
+        )
+        wrong_target_path = write_variant("wrong-target", wrong_target)
+
+        non_pass_path = write_variant(
+            "non-pass",
+            _semantic_review(DIRECT_ISSUE, DIRECT_PROFILE, surface_rel, surface_sha, decision="FAIL"),
+        )
+
+        blocking_path = write_variant(
+            "pass-with-blocking",
+            _semantic_review(
+                DIRECT_ISSUE,
+                DIRECT_PROFILE,
+                surface_rel,
+                surface_sha,
+                findings=[
+                    {
+                        "finding_id": "FINDING-BLOCKING-1",
+                        "locator": "Paragraph 1",
+                        "text_span": "internal process leakage",
+                        "severity": "BLOCKING",
+                        "reason": "Synthetic blocking finding.",
+                        "proposed_normalization": "Rewrite.",
+                        "disposition": "UNRESOLVED",
+                    }
+                ],
+            ),
+        )
+
+        malformed_authority = review_dir / "authority-malformed.json"
+        core.write_json(malformed_authority, {"status": "PASSED"})
+        array_authority = review_dir / "authority-array.json"
+        core.write_json(array_authority, [{"status": "PASSED"}])
+
+        outside_file = outside_dir / "outside.json"
+        core.write_json(outside_file, {"status": "PASSED"})
+        symlink_path = review_dir / "outside-link.json"
+        os.symlink(str(outside_file), str(symlink_path))
+
+        watch = [
+            main_tex,
+            manifest,
+            review_path,
+            legacy_path,
+            digest_path,
+            malformed_path,
+            wrong_target_path,
+            non_pass_path,
+            blocking_path,
+            malformed_authority,
+            array_authority,
+            root / "sources/2026-W35/production-state.json",
+        ]
+        before = self._snapshot(watch)
+
+        def run_case(name: str, authority_arg: str) -> tuple[subprocess.CompletedProcess, Path]:
+            out_rel = f"sources/{DIRECT_ISSUE}/publication/v2/gate-neg-{name}.json"
+            proc = self._run_cli(
+                root,
+                ["--manuscript", manifest_rel, "--semantic-authority", authority_arg, "--output", out_rel],
+            )
+            out_path = root / out_rel
+            self._assert_rejected(name, root, manifest, out_path, proc)
+            return proc, out_path
+
+        with self.subTest(case="missing-review"):
+            run_case("missing", f"sources/{DIRECT_ISSUE}/publication/v2/does-not-exist.json")
+
+        with self.subTest(case="digest-mismatch"):
+            proc, _ = run_case("digest", str(digest_path.relative_to(root)).replace("\\", "/"))
+            self.assertIn("digest mismatch", proc.stderr)
+
+        with self.subTest(case="malformed-record-missing-reviewed-surface"):
+            proc, _ = run_case("malformed", str(malformed_path.relative_to(root)).replace("\\", "/"))
+            self.assertTrue(
+                "reader-surface-semantic-review-v2" in proc.stderr or "reviewed_surface" in proc.stderr,
+                msg=proc.stderr,
+            )
+
+        with self.subTest(case="legacy-publication-review-rejected"):
+            proc, _ = run_case("legacy", str(legacy_path.relative_to(root)).replace("\\", "/"))
+            self.assertTrue(
+                "reader-surface-semantic-review-v2" in proc.stderr or "reviewed_surface" in proc.stderr,
+                msg=proc.stderr,
+            )
+
+        with self.subTest(case="non-pass-review"):
+            proc, out_path = run_case("nonpass", str(non_pass_path.relative_to(root)).replace("\\", "/"))
+            self.assertTrue(out_path.is_file())
+            self.assertEqual(core.load_json(out_path)["status"], "FAILED")
+            self.assertIn("FAILED", proc.stdout)
+
+        with self.subTest(case="pass-with-unresolved-blocking"):
+            proc, _ = run_case("blocking", str(blocking_path.relative_to(root)).replace("\\", "/"))
+            self.assertIn("unresolved blocking", proc.stderr)
+
+        with self.subTest(case="wrong-target"):
+            run_case("wrongtarget", str(wrong_target_path.relative_to(root)).replace("\\", "/"))
+
+        with self.subTest(case="path-escape"):
+            proc, _ = run_case("escape", "../escape.json")
+            self.assertIn("escapes repository root", proc.stderr)
+
+        with self.subTest(case="outside-symlink-escape"):
+            proc, _ = run_case("symlink", str(symlink_path.relative_to(root)).replace("\\", "/"))
+            self.assertIn("escapes repository root", proc.stderr)
+
+        with self.subTest(case="malformed-authority-object"):
+            proc, _ = run_case("badobj", str(malformed_authority.relative_to(root)).replace("\\", "/"))
+            self.assertIn("missing required field", proc.stderr)
+
+        with self.subTest(case="bare-array-authority-json-rejected"):
+            proc, _ = run_case("arrayobj", str(array_authority.relative_to(root)).replace("\\", "/"))
+            self.assertIn("expected JSON object", proc.stderr)
+
+        with self.subTest(case="stale-reviewed-surface-bytes"):
+            original = main_tex.read_bytes()
+            try:
+                main_tex.write_bytes(original + b"\n% synthetic post-review drift\n")
+                proc, _ = run_case("stale", review_rel)
+                self.assertIn("drifted", proc.stderr)
+            finally:
+                main_tex.write_bytes(original)
+
+        self.assertEqual(before, self._snapshot(watch))
+
+    def test_authority_object_and_findings_argument_paths(self) -> None:
+        root, main_tex, manifest, review_path = self._direct_fixture()
+        manifest_rel = str(manifest.relative_to(root)).replace("\\", "/")
+        review_rel = str(review_path.relative_to(root)).replace("\\", "/")
+
+        validated = surface_gate.load_and_validate_reader_surface_semantic_review(
+            root,
+            review_rel,
+            expected_issue_id=DIRECT_ISSUE,
+            expected_publication_profile=DIRECT_PROFILE,
+            require_pass=True,
+        )
+        authority_path = review_path.parent / "authority-object.json"
+        core.write_json(authority_path, validated)
+
+        with self.subTest(case="authority-object-positive"):
+            out_rel = f"sources/{DIRECT_ISSUE}/publication/v2/gate-authority-object.json"
+            proc = self._run_cli(
+                root,
+                [
+                    "--manuscript",
+                    manifest_rel,
+                    "--semantic-authority",
+                    str(authority_path.relative_to(root)).replace("\\", "/"),
+                    "--output",
+                    out_rel,
+                ],
+            )
+            self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+            validated_gate = surface_gate.validate_reader_surface_gate(
+                root,
+                root / out_rel,
+                issue_id=DIRECT_ISSUE,
+                publication_profile=DIRECT_PROFILE,
+                expected_manuscript_path=manifest,
+            )
+            self.assertEqual(validated_gate["derivation"]["route"], "DIRECT_PRIMARY")
+
+        with self.subTest(case="findings-argument-is-not-authority"):
+            # An unrelated JSON object supplied via --semantic-review must not synthesize
+            # or replace authority: the persisted review remains the sole PASS source.
+            findings_object = review_path.parent / "findings-inert-object.json"
+            core.write_json(findings_object, {"note": "inert findings container"})
+            out_rel = f"sources/{DIRECT_ISSUE}/publication/v2/gate-findings-inert.json"
+            proc = self._run_cli(
+                root,
+                [
+                    "--manuscript",
+                    manifest_rel,
+                    "--semantic-authority",
+                    review_rel,
+                    "--semantic-review",
+                    str(findings_object.relative_to(root)).replace("\\", "/"),
+                    "--output",
+                    out_rel,
+                ],
+            )
+            self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+
+        with self.subTest(case="bare-array-findings-argument-load-limitation"):
+            # Pre-existing CLI limitation (out of this unit's scope): core.load_json is
+            # object-only, so the advertised findings *array* cannot be loaded from disk.
+            # Recorded here rather than silently "fixed"; a bare array fails nonzero.
+            findings_array = review_path.parent / "findings-array.json"
+            findings_array.write_text('[{"finding_id": "ARRAY-1", "severity": "BLOCKING"}]', encoding="utf-8")
+            out_rel = f"sources/{DIRECT_ISSUE}/publication/v2/gate-findings-array.json"
+            proc = self._run_cli(
+                root,
+                [
+                    "--manuscript",
+                    manifest_rel,
+                    "--semantic-authority",
+                    review_rel,
+                    "--semantic-review",
+                    str(findings_array.relative_to(root)).replace("\\", "/"),
+                    "--output",
+                    out_rel,
+                ],
+            )
+            self.assertNotEqual(proc.returncode, 0)
+            self.assertIn("expected JSON object", proc.stderr)
+            self.assertFalse((root / out_rel).is_file())
+
+    def test_unrelated_same_issue_manuscript_rejected(self) -> None:
+        root, _main_tex, manifest, review_path = self._direct_fixture()
+        manifest_rel = str(manifest.relative_to(root)).replace("\\", "/")
+        review_rel = str(review_path.relative_to(root)).replace("\\", "/")
+
+        out_rel = f"sources/{DIRECT_ISSUE}/publication/v2/gate-a.json"
+        proc = self._run_cli(
+            root, ["--manuscript", manifest_rel, "--semantic-authority", review_rel, "--output", out_rel]
+        )
+        self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+        gate_path = root / out_rel
+
+        alternate = root / "surveys/weekly/2026-W35/alternate.tex"
+        alternate.write_text("\\section{Alternate}\nUnrelated same-issue reader prose.\n", encoding="utf-8")
+        alt_manifest_doc = core.load_json(manifest)
+        alt_manifest_doc.pop("manifest_sha256")
+        alt_manifest_doc["primary_source"] = {
+            "path": str(alternate.relative_to(root)).replace("\\", "/"),
+            "sha256": core.sha256_file(alternate),
+            "byte_count": alternate.stat().st_size,
+        }
+        alt_manifest_doc["manifest_sha256"] = core.sha256_object(alt_manifest_doc)
+        schema_gate.validate_instance(
+            alt_manifest_doc,
+            root / "schemas/reader-manuscript-v2.schema.json",
+            label="Synthetic alternate same-issue manuscript",
+        )
+        alt_manifest = root / f"sources/{DIRECT_ISSUE}/publication/v2/reader-manuscript-alt-v2.json"
+        core.write_json(alt_manifest, alt_manifest_doc)
+
+        with self.subTest(case="independent-expected-manuscript-validation"):
+            with self.assertRaises(ValueError) as ctx:
+                surface_gate.validate_reader_surface_gate(
+                    root,
+                    gate_path,
+                    issue_id=DIRECT_ISSUE,
+                    publication_profile=DIRECT_PROFILE,
+                    expected_manuscript_path=alt_manifest,
+                )
+            self.assertIn("does not bind the exact expected Reader Manuscript", str(ctx.exception))
+            self.assertEqual(
+                surface_gate.validate_reader_surface_gate(
+                    root,
+                    gate_path,
+                    issue_id=DIRECT_ISSUE,
+                    publication_profile=DIRECT_PROFILE,
+                    expected_manuscript_path=manifest,
+                )["status"],
+                "PASSED",
+            )
+
+        with self.subTest(case="cli-manuscript-mismatch"):
+            out_alt = f"sources/{DIRECT_ISSUE}/publication/v2/gate-alt-manuscript.json"
+            proc = self._run_cli(
+                root,
+                [
+                    "--manuscript",
+                    str(alt_manifest.relative_to(root)).replace("\\", "/"),
+                    "--semantic-authority",
+                    review_rel,
+                    "--output",
+                    out_alt,
+                ],
+            )
+            self.assertNotEqual(proc.returncode, 0)
+            self.assertFalse((root / out_alt).is_file())
+
+    def test_generated_weekly_cli_admission_and_readback(self) -> None:
+        base, _chain, state_path, surface_path, review_path, manuscript_path, receipt_path = (
+            self._build_generated_weekly()
+        )
+        root = base.root
+        gate_path = surface_path.parent / "reader-surface-gate-v2.json"
+        watched = [state_path, receipt_path, surface_path, review_path, manuscript_path]
+        before = self._snapshot(watched)
+
+        proc = self._run_cli(
+            root,
+            [
+                "--manuscript",
+                str(manuscript_path.relative_to(root)).replace("\\", "/"),
+                "--semantic-authority",
+                str(review_path.relative_to(root)).replace("\\", "/"),
+                "--state",
+                str(state_path),
+                "--output",
+                str(gate_path.relative_to(root)).replace("\\", "/"),
+            ],
+        )
+        self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+        self.assertIn("PASSED", proc.stdout)
+        self.assertTrue(gate_path.is_file())
+
+        validated = surface_gate.validate_reader_surface_gate(
+            root,
+            gate_path,
+            issue_id=weekly_b.ISSUE,
+            publication_profile=DIRECT_PROFILE,
+            expected_manuscript_path=manuscript_path,
+            state_path=state_path,
+        )
+        self.assertEqual(validated["status"], "PASSED")
+        self.assertEqual(validated["derivation"]["route"], weekly.ROUTE)
+
+        receipt = core.load_json(receipt_path)
+        self.assertEqual(
+            receipt["reviewed_reader_input"]["path"],
+            str(surface_path.relative_to(root)).replace("\\", "/"),
+        )
+        self.assertEqual(receipt["semantic_review"]["sha256"], core.sha256_file(review_path))
+        weekly.validate_receipt(root, receipt_path, state_path)
+
+        self.assertEqual(before, self._snapshot(watched))
+
+
+if __name__ == "__main__":
+    unittest.main()

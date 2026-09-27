@@ -1,0 +1,117 @@
+{
+  "kind": "parent witness (no fix)",
+  "synthetic_review_only": true,
+  "fixture": {
+    "temp_repo_root": "/tmp/tmpcq5knhbb",
+    "manifest_path": "/tmp/tmpcq5knhbb/sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+    "manifest_primary_source": {
+      "path": "surveys/weekly/2026-W35/main.tex",
+      "sha256": "37a4cd0100a476cc19a498e0021738798e2bc4b36ed52cbe2dcd8d2b7982da6e",
+      "byte_count": 106
+    },
+    "reviewed_surface": {
+      "path": "surveys/weekly/2026-W35/main.tex",
+      "sha256": "37a4cd0100a476cc19a498e0021738798e2bc4b36ed52cbe2dcd8d2b7982da6e"
+    },
+    "review_path": "/tmp/tmpcq5knhbb/sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json",
+    "review_rel": "sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json",
+    "route_reason": "reviewed_surface.path == primary_source.path -> DIRECT_PRIMARY",
+    "review_kind": "SEMANTIC_EDITORIAL",
+    "reviewed_by": "synthetic-parent-witness (not human)",
+    "review_sha256": "8d79fc8706181bd0c74ce98beebe8ae2b9c91ca368c0bb79ff2ab669c9c66fe7",
+    "schema_valid": true
+  },
+  "witnesses": [
+    {
+      "name": "absolute-contained",
+      "cwd": "/tmp/tmpcq5knhbb",
+      "argv": [
+        "/tmp/jgas-rephase-application-venv/bin/python3.12",
+        "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py",
+        "--repo-root",
+        "/tmp/tmpcq5knhbb",
+        "scan-manuscript",
+        "--manuscript",
+        "sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+        "--semantic-authority",
+        "/tmp/tmpcq5knhbb/sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1926, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1898, in main\n    report = evaluate_reader_surface_gate(\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1171, in evaluate_reader_surface_gate\n    raise ValueError(\nValueError: semantic_authority missing required field: surface_sha256; synthetic PASS dictionary is rejected\n",
+      "classification": {
+        "exit_nonzero": true,
+        "has_surface_sha256_missing": true,
+        "has_relative_to_error": false,
+        "has_file_not_found": false,
+        "has_reviewed_surface_typeerror": false
+      }
+    },
+    {
+      "name": "repo-relative",
+      "cwd": "/tmp/tmpcq5knhbb",
+      "argv": [
+        "/tmp/jgas-rephase-application-venv/bin/python3.12",
+        "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py",
+        "--repo-root",
+        "/tmp/tmpcq5knhbb",
+        "scan-manuscript",
+        "--manuscript",
+        "sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+        "--semantic-authority",
+        "sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1926, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1879, in main\n    \"review_path\": str(Path(args.semantic_authority).relative_to(repo_root)),\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/jgas-rephase-python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 682, in relative_to\n    raise ValueError(f\"{str(self)!r} is not in the subpath of {str(other)!r}\")\nValueError: 'sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json' is not in the subpath of '/tmp/tmpcq5knhbb'\n",
+      "classification": {
+        "exit_nonzero": true,
+        "has_surface_sha256_missing": false,
+        "has_relative_to_error": true,
+        "has_file_not_found": false,
+        "has_reviewed_surface_typeerror": false
+      }
+    },
+    {
+      "name": "relative-cwd-differs-supplementary",
+      "cwd": "/tmp/jgas-rephase-gate-cli",
+      "argv": [
+        "/tmp/jgas-rephase-application-venv/bin/python3.12",
+        "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py",
+        "--repo-root",
+        "/tmp/tmpcq5knhbb",
+        "scan-manuscript",
+        "--manuscript",
+        "sources/2026-W35/publication/v2/reader-manuscript-v2.json",
+        "--semantic-authority",
+        "sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1926, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py\", line 1871, in main\n    sem_data = core.load_json(Path(args.semantic_authority))\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/jgas-rephase-gate-cli/scripts/survey_production_v2.py\", line 79, in load_json\n    with path.open(\"r\", encoding=\"utf-8\") as fh:\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/jgas-rephase-python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py\", line 1013, in open\n    return io.open(self, mode, buffering, encoding, errors, newline)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nFileNotFoundError: [Errno 2] No such file or directory: 'sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json'\n",
+      "classification": {
+        "exit_nonzero": true,
+        "has_surface_sha256_missing": false,
+        "has_relative_to_error": false,
+        "has_file_not_found": true,
+        "has_reviewed_surface_typeerror": false
+      }
+    }
+  ],
+  "positive_controls": [
+    {
+      "name": "strict-loader semantic_review_path (repo-relative)",
+      "result": "PASSED",
+      "report": {
+        "status": "PASSED"
+      }
+    },
+    {
+      "name": "authority-object (correctly built)",
+      "result": "PASSED",
+      "report": {
+        "status": "PASSED"
+      }
+    }
+  ]
+}

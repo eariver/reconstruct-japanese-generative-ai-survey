@@ -4,6 +4,8 @@ Recorded 2026-09-27, clock observed `2026-09-27T17:48:49+09:00`. **Initial bound
 
 ## Work and attribution
 
+Continuation update 2026-09-27: the selected Gate CLI unit below is now **bounded complete at `e4c8269`**; see [Astra completion assessment](rephase-1-gate-cli-assessment.md) for exact tests, independent review, limitations and the next regeneration-contract analysis. The original inventory/task/status below records the pre-implementation decision and must not redispatch completed work.
+
 Human explicitly directed future delegation to **General/Explore**, reportedly configured to DeepSeek v4.1 Flash. This supersedes the previous Sol/Luna selection rule. Actual serving model is not independently verified. General performed [the source inventory](../notes/rephase-1-profile-application/analysis.md), then corrected it after Astra review. Root remains architecture/task owner and reviewer; implementation/testing remains Co-Worker work. Independent acceptance still requires a separate author-independent context.
 
 The surviving WSL B fixture supplied fixed source; no recovery, candidate edit or test run was needed. Root directly inspected the Gate CLI/evaluator, Weekly publisher, Weekly build workflow, Release workflow, profile-aware Freeze helper, reader-publication review validator/config and controller CLI subcommands. Other detailed profile/checkpoint citations are General's analysis, reviewed as such. The later Summary remains secondary evidence for edition occurrences; linked production records/Issues were not opened.

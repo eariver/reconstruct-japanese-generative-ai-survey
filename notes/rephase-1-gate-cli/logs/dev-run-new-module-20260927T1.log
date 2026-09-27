@@ -1,0 +1,91 @@
+test_authority_object_and_findings_array_paths (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_authority_object_and_findings_array_paths) ... 
+  test_authority_object_and_findings_array_paths (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_authority_object_and_findings_array_paths) (case='findings-array-empty-accepted') ... FAIL
+test_direct_primary_cli_admission_absolute_relative_and_cwd (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_admission_absolute_relative_and_cwd) ... ok
+test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases) ... 
+  test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases) (case='non-pass-review') ... FAIL
+  test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases) (case='non-object-authority') ... FAIL
+test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases) ... FAIL
+test_generated_weekly_cli_admission_and_readback (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_generated_weekly_cli_admission_and_readback) ... ok
+test_unrelated_same_issue_manuscript_rejected (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_unrelated_same_issue_manuscript_rejected) ... ok
+
+======================================================================
+FAIL: test_authority_object_and_findings_array_paths (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_authority_object_and_findings_array_paths) (case='findings-array-empty-accepted')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-gate-cli/tests/test_survey_gate_cli_persisted_review_v2.py", line 531, in test_authority_object_and_findings_array_paths
+    self.assertEqual(proc.returncode, 0, msg=proc.stderr)
+AssertionError: 1 != 0 : Traceback (most recent call last):
+  File "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py", line 1931, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py", line 1890, in main
+    sem_findings = core.load_json(Path(args.semantic_review))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-gate-cli/scripts/survey_production_v2.py", line 82, in load_json
+    raise ValueError(f"expected JSON object: {path}")
+ValueError: expected JSON object: sources/2026-W35/publication/v2/findings-empty.json
+
+
+======================================================================
+FAIL: test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases) (case='non-pass-review')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-gate-cli/tests/test_survey_gate_cli_persisted_review_v2.py", line 435, in test_direct_primary_cli_negative_cases
+    proc = run_case("nonpass", str(non_pass_path.relative_to(root)).replace("\\", "/"))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-gate-cli/tests/test_survey_gate_cli_persisted_review_v2.py", line 410, in run_case
+    self.assertFalse(out_path.is_file(), msg=f"{name} wrote an output report on rejection")
+AssertionError: True is not false : nonpass wrote an output report on rejection
+
+======================================================================
+FAIL: test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases) (case='non-object-authority')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-gate-cli/tests/test_survey_gate_cli_persisted_review_v2.py", line 460, in test_direct_primary_cli_negative_cases
+    self.assertIn("must be an object", proc.stderr)
+AssertionError: 'must be an object' not found in 'Traceback (most recent call last):\n  File "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py", line 1931, in <module>\n    sys.exit(main())\n             ^^^^^^\n  File "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py", line 1879, in main\n    sem_data = core.load_json(authority_file)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "/tmp/jgas-rephase-gate-cli/scripts/survey_production_v2.py", line 82, in load_json\n    raise ValueError(f"expected JSON object: {path}")\nValueError: expected JSON object: /tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/authority-nonobject.json\n'
+
+======================================================================
+FAIL: test_direct_primary_cli_negative_cases (tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_negative_cases)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-gate-cli/tests/test_survey_gate_cli_persisted_review_v2.py", line 474, in test_direct_primary_cli_negative_cases
+    self.assertEqual(before, self._snapshot([p for p in snapshot_paths if p in before]))
+AssertionError: {'/tmp/tmpd8mz5pg3/surveys/weekly/2026-W35[1539 chars]570'} != {}
++ {}
+- {'/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/authority-malformed.json': '264d5f70b7fc9e71e8f41131bae58962fa455e598e2db9e78514d419f96bc188',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/authority-nonobject.json': '37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/reader-manuscript-v2.json': 'd78f55fc1a634edda66d8799787ddf2e67072f7e03b21433cd6c5f85f8caa232',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json': 'c40b1cc7c312c548484eb17c89e6b446598a06cba8cc301aeb534877bc43da35',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/variant-digest-broken.json': '2a77ccef2c1a547234f0b7ba8ccae0cd82e27f01bc92618bf82c79c36109e4b9',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/variant-legacy.json': '63f7dafdf9a76cdc7203291905bd3498993c7fc9b236cc8046dc1ddcc181f10d',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/variant-malformed.json': '4988d8364d21155ded77a4ec7073c49f3ee4f813f89ece94d6806035cf076d70',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/variant-non-pass.json': '50665821c776f3fd38a5547aea168177243363ce358b4f4045b78717a171a0ed',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/variant-pass-with-blocking.json': 'e50b80392b11fff0d7c963ed961f54d2f457a055437ce0f1d685647b358baf7b',
+-  '/tmp/tmpd8mz5pg3/sources/2026-W35/publication/v2/variant-wrong-target.json': '9c74b47db8b784e712e9f7a01b494c05ba5e262868c5968289a8ff12ca7c1eb2',
+-  '/tmp/tmpd8mz5pg3/surveys/weekly/2026-W35/main.tex': '37a4cd0100a476cc19a498e0021738798e2bc4b36ed52cbe2dcd8d2b7982da6e'}
+
+----------------------------------------------------------------------
+Ran 5 tests in 76.624s
+
+FAILED (failures=4)
+{
+  "issue_id": "2026-W37",
+  "structured_surface": "sources/2026-W37/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "2026-W37",
+  "source_root": "sources/2026-W37",
+  "survey_root": "surveys/weekly/2026-W37",
+  "source_manifest": "sources/2026-W37/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/weekly/2026-W37/main.tex",
+  "bibliography": "surveys/weekly/2026-W37/references.bib",
+  "style": "surveys/weekly/2026-W37/jgaisurvey.sty",
+  "subject_result": "sources/2026-W37/publication/v2/quality/subject-entity-property-binding.json",
+  "identifier_tokens": [
+    "2026-W37",
+    "Target Model"
+  ]
+}

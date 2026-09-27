@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py", line 1926, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "/tmp/jgas-rephase-gate-cli/scripts/survey_reader_surface_gate_v2.py", line 1871, in main
+    sem_data = core.load_json(Path(args.semantic_authority))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-gate-cli/scripts/survey_production_v2.py", line 79, in load_json
+    with path.open("r", encoding="utf-8") as fh:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/jgas-rephase-python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'sources/2026-W35/publication/v2/reader-surface-semantic-review-v2.json'
