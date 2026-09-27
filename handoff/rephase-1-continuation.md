@@ -1,11 +1,11 @@
 # J-GAS reconstruction — Re:Phase continuation
 
-更新: 2026-09-27 JST。**Increment AとBは各限定範囲で完了。B候補c04f32aは131 methods成功・1歴史skip、exit 0、独立2指摘解消と最終限定implementation PASS。B3 OPEN / f1不変 / 全候補NOT_READY。現在はA/Bの成果・証拠・引き継ぎをHumanがcommit/Pushする区切り。次の実装unitは未開始。**
+更新: 2026-09-27 JST。**Increment A/Bは各限定範囲で完了、B候補c04f32a不変。step 4の初回Profile/support/application inventoryとAstra採否判断が完了。次は保存済reviewを受けるGate CLIの限定修復unit（未開始）。B3 OPEN / f1不変 / 全候補NOT_READY。Human指定により今後のSubAgentはGeneral/Explore。**
 
 ## 次セッションの最初の行動
 
 1. 本handoff、[implementation plan](../outputs/rephase-1-implementation-plan.md)、[B契約判断](../outputs/rephase-1-increment-b-contract-decision.md)、[B Astra assessment](../outputs/rephase-1-increment-b-assessment.md)を入口とする。全旧履歴やproduction mainは再読しない。
-2. **次はplan step 4の限定分析。** Weekly以外のProfile/direct-primary/support、build補助ファイルの運用、Core変更後CLI再生成、DM-001/003/004の適用前提を、固定B sourceと取得済Summaryに基づいて分ける。複雑なauthority/caller調査はSol Co-Worker、契約・採否はAstra、後の独立受入れは別Auditor。まず具体的なcaller/責任/未証明事項のinventoryを返し、必要な変更を判断してから新実装へ進む。全保守項目の一括実装やproduction main再照会には進まない。
+2. **step 4初回分析は完了。** [Generalのinventory](../notes/rephase-1-profile-application/analysis.md)と[Astra採否・次task](../outputs/rephase-1-profile-application-assessment.md)を読む。次はGeneralへ`scan-manuscript`の保存済reader-surface review入力を既存strict loaderへ接続する限定unitを委任する。固定Bの独立copyで親failure witness→限定修復→affected tests→Astra review。`source`/`reviewed_surface`不整合と相対path未正規化はsourceで確認したが未実行。既存authority-object/API routeとの違いを保持。Special/support、build→artifact transfer→admission、後段CLI再生成、DM-001/003/004は別dispositionとして残す。全inventoryのやり直しやproduction main再照会は不要。
 3. **固定B候補:** `c04f32ad46109403e8a63faaa8394a90ee6b869c`、tree `7dbcbbdb499ea6c7d33417a16144107320e1fd06`、親 `cb96ab97045b0d0767f38806809d33e383bac73d`。fixture `/tmp/jgas-rephase-increment-b-sol-implementation`、branch `codex/rephase-1-increment-b`、独立Git DB/inert origin。Aから13 runtime/schema/style＋8 test paths。[manifest](../notes/rephase-1-increment-b/candidate.json) / [patch](../notes/rephase-1-increment-b/increment-b.patch)（SHA-256 `bdff2c296867b31dbc2946526ec97490c054bc48c4ab9a8473eb5ded1248ab81`）。元A/f1とcb96 attemptは保存。
 4. **最終check:** [14-module script](../notes/rephase-1-increment-b/final-matrix-c04f32a.sh) / [raw log](../notes/rephase-1-increment-b/final-matrix-c04f32a.log) / [exit](../notes/rephase-1-increment-b/final-matrix-c04f32a.exit)。132 methods / 534.724秒 / exit 0 / 131成功 / 1 skip。skipは未保存W34 commit `6f68fd09955302fd87e5ec0ce77ff06ccaec8448` が必要な既存case。source/HEAD変更がなければ成功済みchecksを繰り返さない。Solはrun開始後に利用上限停止したがprocess/結果はdurableに完了し、rootはtest実行を引き継いでいない。
 5. **Bの独立reviewは完了。** [最終implementation review](../notes/rephase-1-increment-b/independent-implementation-completion-review.md)はfresh Astra自身が全B差分とtest oracleを確認した限定PASS。[2指摘resolution](../notes/rephase-1-increment-b/independent-resolution-review.md)と[最終test report](../notes/rephase-1-increment-b/final-test-report.md)も保存済み。元の[途中review](../notes/rephase-1-increment-b/independent-review.md)はそのまま保持し、最終承認へ読み替えない。担当の二重作成や成功済みtest再実行は不要。canonical七観点audit、application-ready、production採用は未達。
@@ -17,6 +17,8 @@
 最終runの依存一覧取得はpip不在で失敗しており、test成功とは分けて保存する。cb96の元131-method run（6 errors/1 skip/exit 1）、各fixture修正・probe・途中停止は[attempt](../notes/rephase-1-increment-b/attempts/README.md)、[B assessment](../outputs/rephase-1-increment-b-assessment.md)、implementation packetに保存。後のgreenで上書きしない。
 
 ## 固定点と権限
+
+2026-09-27 continuation: reconstruct開始時HEADはHuman commit `34f78c7ee7f57489343eef6f9ae816413e6f068d`、worktree clean、`main...origin/main [ahead 1]`（fetchなしのlocal tracking観測）。A/B closeoutの未commit記述は下記の歴史観測。今回新規なのはstep-4分析/採否と入口更新のみで、コード/test変更なし。ここもHuman commit/Pushの区切り。次unitは選択済みだが未開始。
 
 2026-09-27 closeout: reconstructの未commit変更には入口文書・assessment・A/Bの未追跡evidence packetを含む。`.gitattributes`へA/B packetの`-text`規則を追加し、commit/checkout時にも記録済みhashの元bytesを保持する。候補コード/test結果の変更ではない。Humanは区切りのよいCommit/Push時点の通知を希望している。通常のcommit/PushはHuman担当で、通知希望は代行許可ではない。
 
@@ -39,7 +41,7 @@
 
 **A証拠の限界:** 初回clone失敗のexact argv/数値exit、初回fixture-error runの全文は未保存（tailは保存）。独立copyと最終test証拠は別に確認済み。full application patchはexact diff/hash一致だがtemporary-index apply checkがmissing promisor objectを出力し、exit 0でもclean適用証明としない。packet-verification.logのsize一覧は補足前のhistorical inventoryであり最終manifestではない。これらをgreen結果で上書きしない。
 
-Bでbibliography/styleと制限付き非reader provenanceを既存責任へ接続し、Weekly generatedとdirect-primaryの限定境界を実装した。次はLONGFORM/Retrospective、支援ファイルの意味coverage、build/CLI運用と適用前提の限定分析。レビュー責任統合は選択していない。未解決を暗黙PASSにせずplanの設計停止条件へ従う。
+Bでbibliography/styleと制限付き非reader provenanceを既存責任へ接続し、Weekly generatedとdirect-primaryの限定境界を実装した。LONGFORM/Retrospective、支援ファイルの意味coverage、build/CLI運用と適用前提は今回初回分析・採否を記録したが、integrationは未完了。次は上記Gate CLI unit。レビュー責任統合は選択していない。未解決を暗黙PASSにせずplanの設計停止条件へ従う。
 
 **Bの選択済み契約:** routeはGate derivation blockに明示し、generated reviewed input内のroute/Profileと一致させる。既存semantic-review schema/役割を保持。既存source manifestをschema-validatedな唯一のreplay receiptとし、current State/checkpointからaccepted refsを検証してprojectionとmain/bib/styleを独立比較する（過去State hashはprovenanceのみ）。styleの表示文言もreader inputへ含め、他Profileの既存default/layoutを保持。bibliographyはacceptanceが束縛するcardだけを使い、非accepted `interactive-evidence.json`が必要な曖昧選択は停止。後段Publication Review/BIBLIOGRAPHY_METADATAをpre-TeX PASSへ流用しない。詳細・path・testsは契約判断に集約。
 
@@ -54,7 +56,7 @@ Bでbibliography/styleと制限付き非reader provenanceを既存責任へ接�
 
 ## 役割とEvidence
 
-Astraはarchitecture・計画・task definition・成果物/evidence review・修正判断。実コード/test executionはCo-Worker。単純で十分ならLuna、B3のCore authority/複雑なnegative/Git-aware境界はSol。独立Auditor/最終七観点auditはAstra reviewとも作者/Workerとも別。Worker停止時もAstraが実装/testを引き継がず適切なCo-Workerを再割当てする。
+Astraはarchitecture・計画・task definition・成果物/evidence review・修正判断。実コード/test executionはCo-Worker。**Humanは今回、以降のSubAgentをGeneral/Exploreへ変更した（DeepSeek v4.1 Flash設定との申告、実モデル未確認）**。Generalは複数段階の分析/実装/test、Exploreは読取探索に用いる。旧Sol/Luna選択規則を上書きするが過去の担当表記は変えない。独立Auditor/最終七観点auditはAstra reviewとも作者/Workerとも別。Worker停止時もAstraが実装/testを引き継がず適切なCo-Workerを再割当てする。
 
 初期B3 Auditorはreport保存後に利用上限で停止。rootが2指摘を修正し、fresh Solがdesign/evidence上の対応のみを確認済み。実装reviewではない。[B3判断](../outputs/rephase-1-reader-boundary-assessment.md) / [限定対応確認](../notes/rephase-1-reader/resolution-auditor/review.md)。最終七観点auditは未開始。a1の広いtestは完了recordなしでINCOMPLETE、Windows/実Actions/歴史依存閉包等も未証明。
 
