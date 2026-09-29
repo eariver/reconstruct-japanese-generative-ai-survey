@@ -1,0 +1,80 @@
+diff --git a/scripts/survey_weekly_mechanical_refresh_v2.py b/scripts/survey_weekly_mechanical_refresh_v2.py
+index e478994..41b289f 100644
+--- a/scripts/survey_weekly_mechanical_refresh_v2.py
++++ b/scripts/survey_weekly_mechanical_refresh_v2.py
+@@ -557,8 +557,14 @@ def _capture_bound_snapshot(
+                 if isinstance(art, dict) and art.get("path") and art.get("sha256"):
+                     _expect_file(snap, root, art["path"], art["sha256"], f"checkpoint {cp_name} artifact {art.get('name')}")
+         for review in record.get("reviews", []):
++            # Mirror the ordinary validator exactly: only DETERMINISTIC rows
++            # carry result authority. Nullable non-deterministic rows
++            # (AGENT_RESEARCH/EDITORIAL/VISUAL with result null) are skipped;
++            # the checkpoint FILE hash pins their content.
+             if not isinstance(review, dict):
+                 raise MechanicalRefreshError(f"refresh snapshot malformed checkpoint review in {cp_name}")
++            if review.get("kind") != "DETERMINISTIC":
++                continue
+             result = review.get("result", {})
+             if not isinstance(result, dict) or not result.get("path") or not result.get("sha256"):
+                 raise MechanicalRefreshError(
+diff --git a/tests/test_survey_weekly_mechanical_refresh_v2.py b/tests/test_survey_weekly_mechanical_refresh_v2.py
+index d4ae367..0c76bb0 100644
+--- a/tests/test_survey_weekly_mechanical_refresh_v2.py
++++ b/tests/test_survey_weekly_mechanical_refresh_v2.py
+@@ -1429,6 +1429,56 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+ 
+             _shutil4.rmtree(pub_dir / ".mechanical-refresh-retention", ignore_errors=True)
+ 
++    def test_validation_checkpoint_agent_review_null_result(self) -> None:
++        # K1: validation checkpoint carrying one non-deterministic review row
++        # with null result alongside the usual CORE_STAGE_CONTRACT ref, built
++        # through real stage machinery (reviews-file injection at fixture setup;
++        # no validator is mocked). Strict State must be positive before the
++        # helper commit, and the actual refresh must succeed: nullable
++        # non-deterministic rows are skipped by the snapshot while the
++        # checkpoint file hash pins their content. Fixture variant labelled
++        # synthetic; the validation-report mutation negatives stay in place.
++        real_write_json = core.write_json
++
++        def injecting_write(path, data):
++            if (
++                isinstance(data, dict)
++                and set(data) == {"reviews"}
++                and isinstance(data.get("reviews"), list)
++                and str(path).endswith("DRAFT_COMPLETE-reviews.json")
++            ):
++                data = {"reviews": [*data["reviews"], {
++                    "check_id": "SYNTHETIC-AGENT-EDITORIAL",
++                    "kind": "AGENT_EDITORIAL",
++                    "executor": "synthetic null-result agent reviewer",
++                    "evidence": "synthetic evidence for null-result review coverage",
++                }]}
++            return real_write_json(path, data)
++
++        with mock.patch.object(core, "write_json", side_effect=injecting_write):
++            edition = self._build_validated_draft()
++        state_path = edition["state_path"]
++        state = core.load_json(state_path)
++        self.assertEqual(agent.validate_agent_state(self.root, self.cfg, state), [])
++        validation_rel = state["checkpoint_provenance"]["validation"]["path"]
++        checkpoint = core.load_json(self.root / validation_rel)
++        agent_rows = [r for r in checkpoint.get("reviews", []) if r.get("kind") == "AGENT_EDITORIAL"]
++        self.assertEqual(len(agent_rows), 1)
++        self.assertIsNone(agent_rows[0].get("result"))
++        contract_rows = [r for r in checkpoint.get("reviews", []) if r.get("check_id") == agent.CORE_STAGE_REVIEW_ID]
++        self.assertEqual(len(contract_rows), 1)
++        self.assertIsInstance(contract_rows[0].get("result"), dict)
++        self._commit_helper_comment("agent-review-null")
++        result = refresh_owner.refresh_mechanical_evidence(
++            self.root, self.cfg, state_path, "agent-review-null refresh", "synthetic-executor", R1_TIME
++        )
++        self.assertIn("revalidation_record", result)
++        self.assertEqual(len(self._record_list()), 1)
++        weekly.validate_receipt(self.root, edition["receipt_path"], state_path)
++        reader_gate.validate_reader_surface_gate(
++            self.root, edition["gate_path"], expected_manuscript_path=edition["manuscript_path"], state_path=state_path
++        )
++
+     def test_partial_api_record_state_write_retained(self) -> None:
+         # Partial API record/State write: force API to leave a tampered record + original State,
+         # wrapper must retain guard and never delete unknown record.

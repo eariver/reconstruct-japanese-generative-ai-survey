@@ -1,0 +1,96 @@
+diff --git a/tests/test_survey_weekly_mechanical_refresh_v2.py b/tests/test_survey_weekly_mechanical_refresh_v2.py
+index 7dc7c01..d4ae367 100644
+--- a/tests/test_survey_weekly_mechanical_refresh_v2.py
++++ b/tests/test_survey_weekly_mechanical_refresh_v2.py
+@@ -1344,6 +1344,91 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+ 
+             _shutil2.rmtree(pub_dir / ".mechanical-refresh-retention", ignore_errors=True)
+ 
++    def test_validation_report_drift_before_and_after_receipt(self) -> None:
++        # TRUE validation-report coverage (K1): the State.validation
++        # checkpoint's reviews CORE_STAGE_CONTRACT.result actual path/hash
++        # (not bundle refs). Mutation BEFORE any live write fails at the
++        # pre-guard recheck with zero writes; mutation AFTER receipt
++        # installation retains the guard plus the new owned receipt (never
++        # restored against dependency drift), keeps old Gate/State, creates no
++        # record, and names the exact result dependency.
++        edition = self._build_validated_draft()
++        state_path = edition["state_path"]
++        self._commit_helper_comment("validation-report-drift")
++        pub_dir = self.source_root / "publication/v2"
++        lock_path = pub_dir / ".mechanical-refresh.lock"
++        state = core.load_json(state_path)
++        validation_rel = state["checkpoint_provenance"]["validation"]["path"]
++        checkpoint = core.load_json(self.root / validation_rel)
++        result_ref = None
++        for review in checkpoint.get("reviews", []):
++            if isinstance(review, dict) and review.get("check_id") == agent.CORE_STAGE_REVIEW_ID:
++                result_ref = review.get("result")
++                break
++        if not isinstance(result_ref, dict) or not result_ref.get("path") or not result_ref.get("sha256"):
++            self.fail("validation checkpoint lacks CORE_STAGE_CONTRACT result authority")
++        res_path = self.root / result_ref["path"]
++        orig_res = res_path.read_bytes()
++        self.assertEqual(core.sha256_bytes(orig_res), result_ref["sha256"])
++        old_receipt = edition["receipt_path"].read_bytes()
++        old_gate = edition["gate_path"].read_bytes()
++        old_state = state_path.read_bytes()
++        # Phase (a): drift before any live write (first recheck boundary).
++        real_recheck = refresh_owner._recheck_bound_snapshot
++        fired = {"n": 0}
++
++        def early_drifting_recheck(root, snap, controls, label):
++            fired["n"] += 1
++            if fired["n"] == 1:
++                res_path.write_bytes(orig_res + b" ")
++            return real_recheck(root, snap, controls, label)
++
++        try:
++            with mock.patch.object(refresh_owner, "_recheck_bound_snapshot", side_effect=early_drifting_recheck):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, res_path.name.replace(".", "\\.")):
++                    refresh_owner.refresh_mechanical_evidence(
++                        self.root, self.cfg, state_path, "validation-report-drift-before", "synthetic-executor", R1_TIME
++                    )
++            # Zero writes: no guard, no retention, live original, no record.
++            # Live bytes equal original because nothing was ever written (spy:
++            # guard/retention absence proves no-write, not restore).
++            self.assertFalse(lock_path.exists())
++            self.assertFalse((pub_dir / ".mechanical-refresh-retention").exists())
++            self.assertEqual(edition["receipt_path"].read_bytes(), old_receipt)
++            self.assertEqual(edition["gate_path"].read_bytes(), old_gate)
++            self.assertEqual(state_path.read_bytes(), old_state)
++            self.assertEqual(self._record_list(), [])
++        finally:
++            res_path.write_bytes(orig_res)
++        # Phase (b): drift after receipt installation (fourth recheck boundary).
++        fired2 = {"n": 0}
++
++        def late_drifting_recheck(root, snap, controls, label):
++            fired2["n"] += 1
++            if fired2["n"] == 4:
++                res_path.write_bytes(orig_res + b" ")
++            return real_recheck(root, snap, controls, label)
++
++        try:
++            with mock.patch.object(refresh_owner, "_recheck_bound_snapshot", side_effect=late_drifting_recheck):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, res_path.name.replace(".", "\\.")):
++                    refresh_owner.refresh_mechanical_evidence(
++                        self.root, self.cfg, state_path, "validation-report-drift-after", "synthetic-executor", R1_TIME
++                    )
++            # Guard + retention retained; new owned receipt kept (proves no
++            # restore-against-drift: restored bytes would equal old_receipt).
++            self.assertTrue(lock_path.is_file())
++            self.assertNotEqual(edition["receipt_path"].read_bytes(), old_receipt)
++            self.assertEqual(edition["gate_path"].read_bytes(), old_gate)
++            self.assertEqual(state_path.read_bytes(), old_state)
++            self.assertEqual(self._record_list(), [])
++        finally:
++            res_path.write_bytes(orig_res)
++            lock_path.unlink(missing_ok=True)
++            import shutil as _shutil4
++
++            _shutil4.rmtree(pub_dir / ".mechanical-refresh-retention", ignore_errors=True)
++
+     def test_partial_api_record_state_write_retained(self) -> None:
+         # Partial API record/State write: force API to leave a tampered record + original State,
+         # wrapper must retain guard and never delete unknown record.

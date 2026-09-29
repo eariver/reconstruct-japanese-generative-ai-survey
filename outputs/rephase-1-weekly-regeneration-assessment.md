@@ -62,6 +62,8 @@ Because this witness leaves rendered/PDF bytes unchanged, these build gaps are n
 
 ## Next bounded task — operational mechanical-refresh contract, before code
 
+Continuation update: this contract task led to the [selected R1 contract](rephase-1-mechanical-refresh-contract-decision.md) and a General implementation return. **Human requested safe stop before Astra/independent review**; see [pause record](rephase-1-mechanical-refresh-pause.md) for actual candidate/basis and unreviewed evidence. The task below is historical scope, not the current work queue.
+
 Do not rerun the positive witness or create a generic classifier/report CLI. General should return a **small concrete interface/path inventory for a mechanical-only receipt/Gate refresh operation** in the existing Weekly/Gate/agent owners, using this witness as function evidence. Root must resolve the writer protocol before code:
 
 1. Entry only at pre-decision VALIDATED_DRAFT with exact immutable validation/predecessor authority. Old receipt/Gate may be stale only in current-tool replay; their old byte identities must still be connected to actual checkpoint/active revalidation authority. No arbitrary rehashed stale input gets accepted.

@@ -1,0 +1,42 @@
+{
+  "round": "final",
+  "evidence_dir": "notes/rephase-1-mechanical-refresh/correction/final-b74db679f03908048db91420a8f262d412b8f58c",
+  "response_to": "root K1 regression + evidence problem (round3 overwrite); independent reviewer reads immutable 8a544f9 separately, no interaction claimed",
+  "branch": "codex/rephase-1-mechanical-r1-correction",
+  "final_HEAD": "b74db679f03908048db91420a8f262d412b8f58c",
+  "final_tree": "515b5e93a29ba82d87f6fa81c7ecbaf2c3701bb0",
+  "final_parent": "57853cb76d3189b862f1edabe46b83cfc0c7bd29",
+  "commit_date": "2026-09-29 12:16:57 +0900",
+  "hook_bypass": false,
+  "seven_paths": [
+    {"path": "scripts/survey_weekly_mechanical_refresh_v2.py", "size": 90054, "worktree_sha256": "b8baaadbc167c89a77a54ae83c61598012faa31eb2924576e942a68c635e0a5c", "blob": "41b289f8dc5f4340b9cf83669b30b8595ae65e15", "mode": "100644", "changed_vs_57853cb": true, "note": "Deterministic-only review pinning (nullable non-deterministic rows skipped, file hash pins content)."},
+    {"path": "scripts/survey_agent_control_v2.py", "size": 123348, "worktree_sha256": "5e38b86b609e2726f9a3af6f0686426b4237b9d6e388e39d8efc360f6ede4bc0", "blob": "d11febc540f5611ed52e34168992efb81b58a44f", "mode": "100644", "changed_vs_57853cb": false, "note": "Unchanged by this commit."},
+    {"path": "scripts/survey_reader_surface_gate_v2.py", "size": 86029, "worktree_sha256": "818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f", "blob": "89b5b859a316cd0633a009ca808049fceabea999", "mode": "100644", "changed_vs_57853cb": false, "note": "No change required."},
+    {"path": "scripts/survey_weekly_derivation_v2.py", "size": 43603, "worktree_sha256": "1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc", "blob": "6d14009c43b762200179bce14354f809e06a5509", "mode": "100644", "changed_vs_57853cb": false, "note": "Unchanged this round."},
+    {"path": "tests/test_survey_weekly_mechanical_refresh_v2.py", "size": 95753, "worktree_sha256": "06d157fd8f4a65a832f4a764035c47dc97665b8481fa86b0c8db29b31a040b04", "blob": "0c76bb0a2c92922f192bb2062c06197ce28df7fe", "mode": "100644", "changed_vs_57853cb": true, "note": "Adds test_validation_checkpoint_agent_review_null_result."},
+    {"path": "tests/test_survey_publication_revalidation_v2.py", "size": 71039, "worktree_sha256": "c6b6e24579a594f47030489ed99799de1604854edf979abc68c550e22d070457", "blob": "6c468def9731f9eef4b6db4f1538cc19936e4e69", "mode": "100644", "changed_vs_57853cb": false, "note": "Unchanged by this commit."},
+    {"path": "docs/weekly-mechanical-refresh.md", "size": 7035, "worktree_sha256": "901b6d03163ea9f6f748cd4082c3c30dfdae539b3e51c169da39497bd2b6f57c", "blob": "10d03d97f38ec31f18e87c0e54fe588261ef7c1d", "mode": "100644", "changed_vs_57853cb": false, "note": "Unchanged this round."}
+  ],
+  "patches": [
+    {"file": "patch-57853cb-to-successor.patch", "range": "57853cb..b74db67 (this round: 2 files, 56+/0-)", "sha256": "c0221b0aed685b5e9ea38463954dadcaa88bb92c78ee8976eb9602bc92bd976c"},
+    {"file": "patch-final-a1-b74db67.patch", "range": "a1a4242..b74db67 (final full incl. initial R1 basis)", "sha256": "7817fa4fc027ae0bac9bbd7e7bbd18c588ba3373b52e17730eafebe2b92aab01", "note": "Known root is a1a4242 (fresh copied-content basis, not e4 ancestry); 41 historical data blobs unverified per intake clarification."}
+  ],
+  "runtime": {"python": "/tmp/jgas-rephase-application-venv/bin/python3.12", "version": "Python 3.12.14", "deps": ["attrs 26.1.0", "jsonschema 4.23.0", "jsonschema-specifications 2025.9.1", "pypdf 6.16.2", "referencing 0.37.0", "rpds-py 2026.6.3", "typing_extensions 4.16.0"], "cwd": "/tmp/jgas-rephase-mechanical-r1-20260928T000710Z"},
+  "final_logs": [
+    {"file": "weekly-refresh.log", "module": "tests.test_survey_weekly_mechanical_refresh_v2", "HEAD": "b74db67", "ran": 34, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 1677.448, "result": "OK", "note": "33 antecedent + null-review new; disclosed, not collapsed"},
+    {"file": "revalidation.log", "module": "tests.test_survey_publication_revalidation_v2", "HEAD": "b74db67", "ran": 31, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 56.284, "result": "OK"},
+    {"file": "gate.log", "module": "tests.test_survey_reader_surface_gate_v2", "HEAD": "b74db67", "ran": 27, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 1.204, "result": "OK"},
+    {"file": "cli.log", "module": "tests.test_survey_gate_cli_persisted_review_v2", "HEAD": "b74db67", "ran": 5, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 40.137, "result": "OK"}
+  ],
+  "final_totals": {"ran": 97, "failed": 0, "errors": 0, "skipped": 0},
+  "mapping_four_items": {
+    "K1_validation_reviews": {"code": "reviews loop mirrors ordinary validator (DETERMINISTIC-only pinning; nullable non-deterministic skipped, file hash pins content); validation artifacts keep effective rows", "tests": "test_validation_checkpoint_agent_review_null_result (real machinery null row + deterministic ref, strict State, refresh succeeds) + retained validation-report mutation negatives", "limits": "no global CAS"},
+    "N1_record_identity": {"code": "committed in 20177a1; unchanged here (verified by reread)", "tests": "antecedent same-byte/post-rename/temp-ownership oracles retained and green in this matrix", "limits": "detection + retention only"},
+    "N2_run_id_nonce": {"code": "committed in 20177a1; unchanged here", "tests": "retention-collision deterministic-nonce oracle green in this matrix", "limits": "provenance stays temporal"},
+    "N3_staged_checks": {"code": "committed in 20177a1; unchanged here", "tests": "staged-control oracle green in this matrix", "limits": "refresh path only"},
+    "N4_membership_chain": {"code": "committed in 20177a1; unchanged here", "tests": "exercised by every recheck incl. drift cases in this matrix", "limits": "limit/rotation/history unchanged"}
+  },
+  "antecedent_scope_note": "57853cb-era runs remain antecedent (different source bytes for 2 paths); final matrix above (97 tests) ran ONCE at b74db67 with durable logs. increment-b derivation untouched (antecedent coverage stands).",
+  "procedure": {"no_verify": false, "reset_clean_amend_config": "none", "production_main_network": "none", "delegation": "none", "scope": "existing seven paths only"},
+  "limits": "No multi-file atomicity, no crash/power-loss automation, no global CAS against noncooperators; cooperating writers only. Synthetic reviews/PDFs stay synthetic. For ROOT review then independent resolution. Independent reviewer hasn't seen 985dcd6+ and does not approve; nothing claimed otherwise."
+}

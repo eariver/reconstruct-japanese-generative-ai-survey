@@ -1,0 +1,49 @@
+{
+  "round": 2,
+  "response_to": "root 7-point CHANGES_REQUIRED on 269c (no independent review yet)",
+  "branch": "codex/rephase-1-mechanical-r1-correction",
+  "final_HEAD": "8a544f916b943b2ed03a3e46222016ef1d41faf5",
+  "final_tree": "68a447913c0aff8397ed93c4aebff1dbaf0d94df",
+  "final_parent": "269c2a0a15a0db346cab09603f28f1465740d8a4",
+  "parent_chain": ["269c2a0 (tests-only)", "e60168c (runtime+tests+runbook)", "afd925d (returned candidate)"],
+  "commit_date": "2026-09-29 02:28:10 +0900",
+  "hook_bypass": false,
+  "seven_paths": [
+    {"path": "scripts/survey_weekly_mechanical_refresh_v2.py", "size": 81116, "worktree_sha256": "fc4c9545392762bd319098c383843b3bcdbdbb9342472930921507826561e1d1", "blob": "c85f0c7d083760e609b1273561a82851a927c7f2", "mode": "100644", "changed_vs_269c": true},
+    {"path": "scripts/survey_agent_control_v2.py", "size": 119151, "worktree_sha256": "ce6c0b8874e38e314dce8caf8c92df4e0e75488b1671249c3269fee865efcc47", "blob": "952712727fe9266b6ded2179f462f8d505425f02", "mode": "100644", "changed_vs_269c": true},
+    {"path": "scripts/survey_reader_surface_gate_v2.py", "size": 86029, "worktree_sha256": "818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f", "blob": "89b5b859a316cd0633a009ca808049fceabea999", "mode": "100644", "changed_vs_269c": false, "note": "No change required; private inspection + public full replay already correct."},
+    {"path": "scripts/survey_weekly_derivation_v2.py", "size": 43603, "worktree_sha256": "1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc", "blob": "6d14009c43b762200179bce14354f809e06a5509", "mode": "100644", "changed_vs_269c": false, "note": "Unchanged this round (round-1 _safe ancestor + private helper retained)."},
+    {"path": "tests/test_survey_weekly_mechanical_refresh_v2.py", "size": 69069, "worktree_sha256": "ccd8c100d2224531224a4434c3f97c901abd52785bb1224b49fb038d8e17b7cc", "blob": "f85775d0b99e716ef11d6525cf1f8ff3b9bedeba", "mode": "100644", "changed_vs_269c": true},
+    {"path": "tests/test_survey_publication_revalidation_v2.py", "size": 65157, "worktree_sha256": "aace342949c6eccbba28d66a986dbb93f827fd7bcc79925c2d200a4b8923198d", "blob": "a5e2c055dd5c121a5e12ba7220c5ae8a7320e43a", "mode": "100644", "changed_vs_269c": true},
+    {"path": "docs/weekly-mechanical-refresh.md", "size": 7035, "worktree_sha256": "901b6d03163ea9f6f748cd4082c3c30dfdae539b3e51c169da39497bd2b6f57c", "blob": "10d03d97f38ec31f18e87c0e54fe588261ef7c1d", "mode": "100644", "changed_vs_269c": false, "note": "Unchanged this round (round-1 runbook retained)."}
+  ],
+  "patches": [
+    {"file": "patch-269c-to-successor.patch", "range": "269c2a0..8a544f9", "sha256": "b41ffe687e0b779b6f6becb38024f0b0587f2d738a3f4cda89c8bf21dba1e139", "stat": "4 files, 839 insertions, 194 deletions"},
+    {"file": "patch-afd-to-successor.patch", "range": "afd925d..8a544f9 (final full)", "sha256": "6d3050ac58ccdaa9ba2318062d84588ab70d747d1c5cdde3f2f84f71636eca51"}
+  ],
+  "runtime": {"python": "/tmp/jgas-rephase-application-venv/bin/python3.12", "version": "Python 3.12.14", "deps": ["attrs 26.1.0", "jsonschema 4.23.0", "jsonschema-specifications 2025.9.1", "pypdf 6.16.2", "referencing 0.37.0", "rpds-py 2026.6.3", "typing_extensions 4.16.0"], "cwd": "/tmp/jgas-rephase-mechanical-r1-20260928T000710Z"},
+  "final_logs": [
+    {"file": "weekly-refresh.log", "module": "tests.test_survey_weekly_mechanical_refresh_v2", "HEAD": "8a544f9", "ran": 25, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 1246.234, "result": "OK"},
+    {"file": "revalidation.log", "module": "tests.test_survey_publication_revalidation_v2", "HEAD": "8a544f9", "ran": 29, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 54.254, "result": "OK"},
+    {"file": "gate.log", "module": "tests.test_survey_reader_surface_gate_v2", "HEAD": "8a544f9", "ran": 27, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 1.249, "result": "OK"},
+    {"file": "cli.log", "module": "tests.test_survey_gate_cli_persisted_review_v2", "HEAD": "8a544f9", "ran": 5, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 40.549, "result": "OK"},
+    {"file": "increment-b.log", "module": "tests.test_survey_increment_b_weekly_derivation_v2", "HEAD": "8a544f9", "ran": 8, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 266.771, "result": "OK"}
+  ],
+  "final_totals": {"ran": 94, "failed": 0, "errors": 0, "skipped": 0},
+  "round2_development_failures_fixed": [
+    "recheck signature param order (controls vs label) caused false control-membership drift; fixed order, success passes",
+    "checkpoint_provenance None entries (pending checkpoints) treated as malformed; skip None",
+    "Gate semantic summary relaxation reversed: forward old bound dict via evaluate(semantic_authority=...), require full equality",
+    "unit gate-equality passing case updated to full preservation (timestamp/summary/surface mutations refused)",
+    "identical-contents guard replacement test flaked on inode recycling; use atomic rename replacement",
+    "post-rename test mock broke rollback too (global os.replace); fail once only + wrap bare os.replace",
+    "Weekly tamper-direct-API test lacked pending change (requires changed bytes); removed as redundant (revalidation file covers tamper with proper fixture)",
+    "partial_api expectation corrected to preserved-new + tampered record (torn write retains, not restores)",
+    "two_cooperating rewritten to true in-process overlap (was sequential same-run_id duplicate)",
+    "head/state double-build in one root contaminated HEAD; split into independent tests",
+    "head_drift expectation corrected to preserved-new (P2 already installed before drift detection)"
+  ],
+  "antecedent_scope_note": "269c-era runs (fast unit, success 109s, accepted+retention 92s, postcommit 65s, foreign_guard 74s, Gate 27, CLI 5) used identical runtime blobs for agent_control/derivation/docs/revalidation where unchanged; they remain antecedent scope. The final matrix above (94 tests) ran ONCE at 8a544f9 with durable logs and supersedes broader manifest claims lacking raw logs.",
+  "procedure": {"no_verify": false, "reset_clean_amend_config": "none", "production_main_network": "none", "delegation": "none", "scope": "existing seven paths only"},
+  "limits": "No multi-file atomicity, no crash/power-loss automation, no global CAS against noncooperators; cooperating writers only. Synthetic reviews/PDFs stay synthetic. For ROOT review again before independent review; no PASS claimed."
+}

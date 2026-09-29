@@ -1,0 +1,151 @@
+{
+  "correction_branch": "codex/rephase-1-mechanical-r1-correction",
+  "basis": {
+    "afd_HEAD": "afd925d4f2413533e62c3ed211c732dd4a4d1539",
+    "afd_tree": "2ee9cf2a284aca8497e99fb833102b03f2fcf0a2",
+    "afd_parent": "e79967ac4a8d5da4b78e1a6ba8902c0ab2e2ced8",
+    "new_root_a1a4242": "a1a4242adaddc42427b68c18ae367c04d6cd63b4",
+    "note": "Disclosed new root, not e4 ancestry; 41 historical data blobs unverified/unused, out of scope; reuse own DB, no sharing/hardlinks/alternates."
+  },
+  "correction_commits": [
+    {
+      "HEAD": "e60168c3ac46c9a2d36d37159b754cd65466735d",
+      "tree": "e8e2f263cf3891c44f3fdbba2158dd3d5bf150b8",
+      "parent": "afd925d4f2413533e62c3ed211c732dd4a4d1539",
+      "date": "2026-09-29T00:46:31+09:00",
+      "message": "R1 correction: guard ownership/commit, exclusive record+atomic State, complete snapshots, safe canonical paths, full Gate equality, isolated oracles",
+      "scope": "6 files (4 runtime + 2 tests + runbook); gate unchanged",
+      "hook_bypass": false
+    },
+    {
+      "HEAD": "269c2a0a15a0db346cab09603f28f1465740d8a4",
+      "tree": "4651fe6c346fc811c610cb5872aa9fb9db0341b9",
+      "parent": "e60168c3ac46c9a2d36d37159b754cd65466735d",
+      "date": "2026-09-29T01:27:13+09:00 (observed) / committed 2026-09-29T01:27+09:00 actual clock",
+      "message": "R1 correction tests: isolate drift/overlap/partial oracles, preserve new bytes on fail-closed paths",
+      "scope": "1 file (Weekly mechanical refresh tests only); runtime blobs unchanged from e60168c",
+      "hook_bypass": false
+    }
+  ],
+  "final_HEAD": "269c2a0a15a0db346cab09603f28f1465740d8a4",
+  "final_tree": "4651fe6c346fc811c610cb5872aa9fb9db0341b9",
+  "final_parent": "e60168c3ac46c9a2d36d37159b754cd65466735d",
+  "seven_paths": [
+    {
+      "path": "scripts/survey_weekly_mechanical_refresh_v2.py",
+      "worktree_sha256": "2824a14cdb7563066fd7cc788ec1be5a198a0109fb525374f3932165000750fd",
+      "blob": "2dfe473914e9171094eb9f3f5d7c8f05c0b5a1cf",
+      "mode": "100644",
+      "changed_vs_afd": true
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "worktree_sha256": "6b282776af163f2e02b64a9a5934dd93a090cec4933b1726ac9a141487b3edd8",
+      "blob": "323cc4e6b7e8ae076eef4017875e3fd4a60714e3",
+      "mode": "100644",
+      "changed_vs_afd": true
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "worktree_sha256": "818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f",
+      "blob": "89b5b859a316cd0633a009ca808049fceabea999",
+      "mode": "100644",
+      "changed_vs_afd": false,
+      "note": "No changes required; private _inspect_gate_record + public full replay already correct, no public bypass."
+    },
+    {
+      "path": "scripts/survey_weekly_derivation_v2.py",
+      "worktree_sha256": "1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc",
+      "blob": "6d14009c43b762200179bce14354f809e06a5509",
+      "mode": "100644",
+      "changed_vs_afd": true
+    },
+    {
+      "path": "tests/test_survey_weekly_mechanical_refresh_v2.py",
+      "worktree_sha256": "921fd33ff513ab2285e287525febd80dd4b18e2e3af8731fae6a1a9dfb580e3a",
+      "blob": "b6c2db95e26584a8b345982dac29852373629151",
+      "mode": "100644",
+      "changed_vs_afd": true
+    },
+    {
+      "path": "tests/test_survey_publication_revalidation_v2.py",
+      "worktree_sha256": "553f3c050976a55ff34b6581d2776924f8719979e423f55ce81272a78cb92243",
+      "blob": "070b9b3a8ff47f3da809716c92de7fc1eb6b65ca",
+      "mode": "100644",
+      "changed_vs_afd": true
+    },
+    {
+      "path": "docs/weekly-mechanical-refresh.md",
+      "worktree_sha256": "901b6d03163ea9f6f748cd4082c3c30dfdae539b3e51c169da39497bd2b6f57c",
+      "blob": "10d03d97f38ec31f18e87c0e54fe588261ef7c1d",
+      "mode": "100644",
+      "changed_vs_afd": true
+    }
+  ],
+  "patches": [
+    {
+      "file": "correction.patch",
+      "range": "a1a4242..e60168c (via afd)",
+      "note": "Intermediate correction (runtime+tests+runbook) afd..e60168c; 6 files, 1530 insertions",
+      "sha256": "5572ab09bd15df314e4048fc2367b00d2d5533deb5fd17ec6e258a62ea09a5ab",
+      "lines": 1999
+    },
+    {
+      "file": "correction-final.patch",
+      "range": "afd925d..269c2a0 (final)",
+      "note": "Final correction afd..269c2a0; 6 files, 1514 insertions; gate unchanged",
+      "sha256": "1cd5e072f5ac81f91c5aecdc06f3e05a4ba9a35bf5cc404ef893ed3f30b03363"
+    }
+  ],
+  "runtime": {
+    "python": "/tmp/jgas-rephase-application-venv/bin/python3.12",
+    "version": "Python 3.12.14",
+    "deps": ["attrs 26.1.0", "jsonschema 4.23.0", "jsonschema-specifications 2025.9.1", "pypdf 6.16.2", "referencing 0.37.0", "rpds-py 2026.6.3", "typing_extensions 4.16.0"],
+    "cwd_for_tests": "/tmp/jgas-rephase-mechanical-r1-20260928T000710Z",
+    "note": "No Git DB sharing/hardlinks/alternates; no inherited GIT_DIR/WORK_TREE/INDEX/OBJECTS/COMMON; inert origin; never touch e4/B/witness fixtures; no hydrate/fetch."
+  },
+  "witness_pre_fix": {
+    "file": "witness-afd-against-afd925d.log",
+    "command": "/tmp/jgas-rephase-application-venv/bin/python3.12 /mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-mechanical-refresh/correction/witness-afd.py /tmp/jgas-rephase-mechanical-r1-20260928T000710Z",
+    "HEAD": "afd925d4f2413533e62c3ed211c732dd4a4d1539",
+    "result": "23 FAIL, 0 PASS (all R1-A01..06 gaps confirmed pre-correction)"
+  },
+  "final_checks_post_final_HEAD_269c2a0": [
+    {"name": "fast unit + revalidation R1 (7 tests)", "log": "final-batch1.log (plus re-run post-269c2a0 7 tests OK 6.6s)", "HEAD": "269c2a0", "exit": 0, "ran": 7, "failed": 0, "skips": 0},
+    {"name": "head_drift + state_drift (2 tests)", "HEAD": "269c2a0", "exit": 0, "ran": 2, "time_s": 101, "result": "OK"},
+    {"name": "two_cooperating + partial_api (2 tests)", "HEAD": "269c2a0", "exit": 0, "ran": 2, "time_s": 136, "result": "OK"},
+    {"name": "first_and_repeat_success (1 test)", "HEAD": "269c2a0", "exit": 0, "ran": 1, "time_s": 107, "result": "OK"},
+    {"name": "reader_surface_gate (27 tests)", "HEAD": "e60168c (runtime blobs identical to 269c2a0)", "exit": 0, "ran": 27, "time_s": 1.2, "result": "OK"},
+    {"name": "gate_cli_persisted_review (5 tests)", "HEAD": "e60168c (runtime identical)", "exit": 0, "ran": 5, "time_s": 40, "result": "OK"},
+    {"name": "increment_b probe (1 test)", "HEAD": "e60168c (runtime identical)", "exit": 0, "ran": 1, "result": "OK"},
+    {"name": "accepted_and_authored + retention_symlink (2 tests)", "HEAD": "e60168c (test logic unchanged in 269c2a0 for these methods)", "exit": 0, "ran": 2, "time_s": 92, "result": "OK"},
+    {"name": "postcommit (1 test)", "HEAD": "e60168c (test logic unchanged)", "exit": 0, "ran": 1, "time_s": 65, "result": "OK"},
+    {"name": "foreign_guard (1 test)", "HEAD": "afd pre-commit with same runtime blobs (test assertion fixed pre-e60168c, same bytes)", "exit": 0, "ran": 1, "time_s": 74, "result": "OK (development; final guard ownership also proven by postcommit post-269c2a0)"}
+  ],
+  "failed_attempts_development": [
+    "Gate equality summary: new Gate summary differs due to wrapper vs direct construction; allowed summary as evaluation metadata (fixed, PASS).",
+    "Snapshot control dirs: _control_paths includes dirs, snapshot treated dirs as missing files causing false drift; skip dirs, git-diff covers them (fixed, PASS).",
+    "Snapshot receipt/Gate owned changes: recheck before Gate/revalidation failed on intentionally changed owned receipt/Gate; update snapshot after P2/P3 to new owned hashes (fixed, PASS).",
+    "Snapshot checkpoint Gate repeat: checkpoint Gate row stale original vs live renewed effective; skip checkpoint Gate row, pin effective via __GATE__ (fixed, repeat PASS).",
+    "Receipt semantic linkage: compared raw file SHA (receipt) vs object digest (Gate review_sha256) which are different identities; link via path only (fixed, PASS).",
+    "Accepted/authored regex too narrow: early State/input-drift errors are intended pre-write branches; broaden to matrix vs authored names with isolation (fixed, PASS).",
+    "Foreign_guard live assertion: post-commit guard failure preserves new (not old); assert new preserved (fixed, PASS).",
+    "Postcommit mock broke API post-write (also uses resolve with provenance); fail only second provenance call (fixed, PASS).",
+    "Partial_api live assertion: torn-write with leftover record preserves new (not old); assert new + tampered record (fixed, PASS).",
+    "Two_cooperating validate after failed second refresh with HEAD moved: live H1 receipt cannot validate at H2 HEAD; assert live unchanged, no new record (fixed, PASS).",
+    "Tamper_after_create Weekly used API directly without pending change (no Gate renewed) -> requires changed bytes, not tamper; removed redundant Weekly test (revalidation file already covers tamper with proper fixture).",
+    "Head/state double-build in same root: second build fails due to HEAD moved by first fault; split into independent tests with fresh fixtures (fixed, PASS).",
+    "Head_drift live assertion: HEAD drift after P2 preserves new (not old); assert new preserved (fixed, PASS).",
+    "Revalidation atomic test checked whole file for write_json, but other commands still use it; narrow to revalidation function block (fixed, PASS)."
+  ],
+  "procedure_compliance": {
+    "no_verify": false,
+    "hook_bypass": "none; both correction commits ran normally without --no-verify (predecessor used it on all four, disclosed, not repeated)",
+    "reset_clean_amend_config": "none",
+    "production_main_network_actions_reconstruct": "none",
+    "local_commits": "allowed after status/diff/log inspection, process-local author/committer env, actual clock; exact commands saved in commit-evidence.txt",
+    "delegation": "none further",
+    "inventory": "existing seven paths only; no new authority/schema/config/transaction framework; gate file unchanged with justification"
+  },
+  "limits": "No full multi-file atomicity, no crash/kill/power-loss automation, no global CAS against noncooperators; cooperating refresh commands only; other writers externally serialized. Synthetic reviews/PDFs remain synthetic. No independent review or adoption claimed; return for ROOT review first."
+}

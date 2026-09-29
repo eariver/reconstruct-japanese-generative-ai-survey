@@ -1,0 +1,1471 @@
+diff --git a/scripts/survey_agent_control_v2.py b/scripts/survey_agent_control_v2.py
+index 323cc4e..9527127 100644
+--- a/scripts/survey_agent_control_v2.py
++++ b/scripts/survey_agent_control_v2.py
+@@ -1656,37 +1656,61 @@ def _atomic_replace_state_bytes(state_path: Path, expected_old: bytes, new_bytes
+                 os.fsync(fh.fileno())
+             except OSError:
+                 pass
++            try:
++                _tmp_fst = os.fstat(fh.fileno())
++                tmp_id: tuple[int, int] | None = (_tmp_fst.st_dev, _tmp_fst.st_ino)
++            except OSError as exc:
++                raise AgentControlError(f"{label} temp identity capture failed: {exc}") from exc
+     except FileExistsError as exc:
+         raise AgentControlError(f"{label} temp collision: {tmp}") from exc
++
++    def _drop_own_temp() -> None:
++        """Remove the temp file only if it is still our exclusive creation.
++
++        Unknown temp bytes (identity mismatch or unreadable) are retained,
++        never unlinked as potentially foreign.
++        """
++        try:
++            if tmp.is_symlink():
++                return
++            cur = os.stat(tmp)
++            if tmp_id is not None and (cur.st_dev, cur.st_ino) != tmp_id:
++                return
++            tmp.unlink(missing_ok=True)
++        except OSError:
++            pass
++
+     try:
+         if tmp.read_bytes() != new_bytes:
+-            try:
+-                tmp.unlink(missing_ok=True)
+-            except OSError:
+-                pass
++            _drop_own_temp()
+             raise AgentControlError(f"{label} temp bytes mismatch; live bytes untouched")
+     except OSError as exc:
++        if isinstance(exc, AgentControlError):
++            raise
+         raise AgentControlError(f"{label} temp readback failed: {exc}") from exc
+     # Re-verify live still equals expected_old immediately before replace
+     # (detected interleave between temp write and replace).
+     try:
+         if state_path.read_bytes() != expected_old:
+-            try:
+-                tmp.unlink(missing_ok=True)
+-            except OSError:
+-                pass
++            _drop_own_temp()
+             raise AgentControlError(
+                 f"{label} drift before replace; live bytes preserved for manual recovery"
+             )
+     except OSError as exc:
+         if isinstance(exc, AgentControlError):
+             raise
++        _drop_own_temp()
+         raise AgentControlError(f"{label} pre-replace recheck failed: {exc}") from exc
+-    os.replace(tmp, state_path)
++    try:
++        os.replace(tmp, state_path)
++    except OSError as exc:
++        raise AgentControlError(f"{label} replace failed; live bytes preserved for manual recovery: {exc}") from exc
+     try:
+         if state_path.read_bytes() != new_bytes:
+             raise AgentControlError(f"{label} post-replace mismatch; manual recovery required")
+     except OSError as exc:
++        if isinstance(exc, AgentControlError):
++            raise
+         raise AgentControlError(f"{label} post-replace readback failed: {exc}") from exc
+ 
+ 
+@@ -1957,25 +1981,101 @@ def revalidate_publication_surface(
+             raise AgentControlError("resulting revalidation State invalid: " + "; ".join(post_errors))
+     except Exception as exc:
+         # Owner-aware cleanup/restore; never delete unknown bytes; preserve cause.
+-        if wrote_state:
+-            try:
+-                cur_state = state_path.read_bytes()
+-            except OSError as read_exc:
++        # Symlink ancestors are rechecked immediately here (not only at API
++        # start): rollback must not traverse a swapped alias.
++        try:
++            _reject_symlink_ancestors_reval(repo_root, record_path, "revalidation record rollback")
++            _reject_symlink_ancestors_reval(repo_root, state_path, "revalidation State rollback")
++        except AgentControlError as alias_exc:
++            raise AgentControlError(
++                f"revalidation rollback refused unsafe path at rollback time; "
++                f"live bytes preserved for manual recovery: {alias_exc}"
++            ) from exc
++        # Classify the ACTUAL State disposition regardless of the helper return
++        # flag: os.replace may have succeeded before a post-rename readback
++        # raised, leaving wrote_state=False while live State already references
++        # the new record. The record must be preserved whenever State might
++        # still reference it (exact known new, unknown, or unreadable).
++        try:
++            _cur_state: bytes | None = state_path.read_bytes()
++        except OSError:
++            _cur_state = None
++        _state_is_original = _cur_state == original_state_bytes
++        _state_is_new = _cur_state == state_bytes
++        if _cur_state is None or (not _state_is_original and not _state_is_new):
++            # Unknown/unreadable/foreign State: it might reference the record.
++            # Preserve everything, delete nothing.
++            if created:
+                 raise AgentControlError(
+-                    f"revalidation rollback refused unreadable State bytes at {state_path}; manual recovery required"
++                    f"revalidation State disposition unknown after failure at {state_path}; "
++                    "owned record preserved because State might still reference it, manual recovery required"
+                 ) from exc
+-            if cur_state != state_bytes:
++            try:
++                _exists_now = record_path.is_file() or record_path.is_symlink()
++            except OSError:
++                _exists_now = False
++            if _exists_now:
++                msg = str(exc)
++                if "collision" in msg.lower() or "sequence collision" in msg:
++                    raise
+                 raise AgentControlError(
+-                    f"revalidation rollback refused changed State bytes at {state_path} "
+-                    f"(expected {expected_state_sha[:16]}.., found {core.sha256_bytes(cur_state)[:16]}..); "
+-                    "live bytes preserved for manual recovery"
++                    f"revalidation left unknown record bytes at {record_path} with unknown State disposition; "
++                    "no deletion performed, manual recovery required"
+                 ) from exc
++            raise
++        if _state_is_new:
++            # Replacement succeeded (even if the helper raised on post-rename
++            # readback): roll State back to original first, then handle record.
+             try:
+                 _atomic_replace_state_bytes(state_path, state_bytes, original_state_bytes, "revalidation State rollback")
+             except AgentControlError as rollback_exc:
+                 raise AgentControlError(
+-                    f"revalidation State rollback failed at {state_path}; manual recovery required: {rollback_exc}"
++                    f"revalidation State rollback failed at {state_path}; owned record preserved because "
++                    f"State might still reference it, manual recovery required: {rollback_exc}"
+                 ) from exc
++            # State is original again: the record is now orphaned. Delete only
++            # if it still holds exactly our known bytes.
++            if created:
++                if record_path.is_symlink():
++                    raise AgentControlError(
++                        f"revalidation rollback refused symlink record at {record_path}; manual recovery required"
++                    ) from exc
++                if not record_path.is_file():
++                    raise AgentControlError(
++                        f"revalidation record missing after failure at {record_path}; manual recovery required"
++                    ) from exc
++                try:
++                    cur_record = record_path.read_bytes()
++                except OSError as read_exc:
++                    raise AgentControlError(
++                        f"revalidation rollback refused unreadable record at {record_path}; manual recovery required"
++                    ) from exc
++                if cur_record != record_bytes:
++                    raise AgentControlError(
++                        f"revalidation rollback refused changed record bytes at {record_path} "
++                        f"(expected {expected_record_sha[:16]}..); tampered evidence preserved, manual recovery required"
++                    ) from exc
++                try:
++                    record_path.unlink()
++                except OSError as unlink_exc:
++                    raise AgentControlError(
++                        f"revalidation record cleanup failed at {record_path}; manual recovery required: {unlink_exc}"
++                    ) from exc
++            else:
++                try:
++                    _exists_now2 = record_path.is_file() or record_path.is_symlink()
++                except OSError:
++                    _exists_now2 = False
++                if _exists_now2:
++                    msg2 = str(exc)
++                    if "collision" in msg2.lower() or "sequence collision" in msg2:
++                        raise
++                    raise AgentControlError(
++                        f"revalidation left unknown record bytes at {record_path}; "
++                        "no deletion performed, manual recovery required"
++                    ) from exc
++            raise
++        # State is original (replacement never happened): record handling only.
+         if created:
+             if record_path.is_symlink():
+                 raise AgentControlError(
+@@ -2146,6 +2246,20 @@ def main() -> int:
+             print(json.dumps({"state": str(state_path.relative_to(root)), "revalidation_record": str(record_path.relative_to(root))}, indent=2))
+             return 0
+         if args.command == "refresh-mechanical-evidence":
++            # Scoped refresh-only hardening (no global core path-policy change):
++            # refuse symlinked config ancestors BEFORE resolving the alias away.
++            _config_raw_abs = config_path if config_path.is_absolute() else (root.resolve() / config_path)
++            _cfg_cur = root.resolve()
++            try:
++                _cfg_parts = _config_raw_abs.parent.relative_to(_cfg_cur).parts
++            except ValueError as exc:
++                raise AgentControlError(f"refresh config escapes repository root: {config_path}") from exc
++            for _part in _cfg_parts:
++                _cfg_cur = _cfg_cur / _part
++                if _cfg_cur.is_symlink():
++                    raise AgentControlError(f"refresh config has symlinked ancestor component: {_cfg_cur}")
++            if config_path.is_symlink():
++                raise AgentControlError(f"refresh config is a symlink/refusal: {config_path}")
+             canonical_config = (root / core.DEFAULT_CONFIG).resolve()
+             if config_path.resolve() != canonical_config:
+                 raise AgentControlError("refresh-mechanical-evidence requires the canonical default config")
+diff --git a/scripts/survey_weekly_mechanical_refresh_v2.py b/scripts/survey_weekly_mechanical_refresh_v2.py
+index 2dfe473..c85f0c7 100644
+--- a/scripts/survey_weekly_mechanical_refresh_v2.py
++++ b/scripts/survey_weekly_mechanical_refresh_v2.py
+@@ -15,6 +15,7 @@ from __future__ import annotations
+ 
+ import json
+ import os
++import secrets
+ import subprocess
+ from datetime import datetime
+ from pathlib import Path
+@@ -88,30 +89,86 @@ def _reject_symlink_ancestors(root: Path, path: Path, label: str) -> None:
+         raise MechanicalRefreshError(f"refresh {label} symlink check failed: {path}: {exc}") from exc
+ 
+ 
+-def _safe_existing_file(root: Path, rel: str, label: str) -> Path:
+-    """Resolve a repository-relative file with lexical + ancestor + resolve checks.
++def _check_raw_rel_ancestors(root_resolved: Path, rel: str, label: str) -> None:
++    """Reject lexical root/path/parent symlinks BEFORE any .resolve().
+ 
+-    Validates the raw relative path lexically (no traversal/backslash/absolute),
+-    rejects symlink ancestors before resolution, resolves via core.repo_local_path,
+-    re-verifies under root, and refuses symlink/missing targets. Used for all
+-    retention/live/config/State/publication/manuscript/reader-input/receipt/Gate
+-    targets derived from Profile authority.
++    Walks ``root_resolved / rel`` parent components with lstat only (no
++    resolution), so inside-root aliases are caught instead of being resolved
++    away. Must run before ``core.repo_local_path`` / ``Path.resolve``.
+     """
+     if not isinstance(rel, str) or not rel or "\\" in rel:
+         raise MechanicalRefreshError(f"refresh {label} must be a repository-relative path without backslash: {rel!r}")
+     raw = Path(rel)
+-    if raw.is_absolute() or ".." in raw.parts:
++    if raw.is_absolute() or ".." in raw.parts or "." in raw.parts:
+         raise MechanicalRefreshError(f"refresh {label} must be repository-local without traversal: {rel}")
++    current = root_resolved
++    for part in raw.parent.parts:
++        if part in ("..", ".", ""):
++            raise MechanicalRefreshError(f"refresh {label} has unsafe path component: {part}")
++        current = current / part
++        try:
++            if current.is_symlink():
++                raise MechanicalRefreshError(f"refresh {label} has symlinked ancestor component: {current}")
++        except OSError as exc:
++            raise MechanicalRefreshError(f"refresh {label} ancestor check failed: {current}: {exc}") from exc
++    # The leaf itself must not be a symlink either (lstat, no resolve).
++    try:
++        if (root_resolved / raw).is_symlink():
++            raise MechanicalRefreshError(f"refresh {label} is a symlink/refusal: {rel}")
++    except OSError as exc:
++        raise MechanicalRefreshError(f"refresh {label} symlink check failed: {rel}: {exc}") from exc
++
++
++def _check_raw_abs_ancestors(root_resolved: Path, abs_path: Path, label: str) -> None:
++    """Reject symlinks on a raw absolute path BEFORE any .resolve().
++
++    ``abs_path`` must be absolute and lexical (unresolved, e.g. a user-supplied
++    ``--state`` argument or a ``root / raw`` join). Walks from the resolved
++    root to the path parent with lstat only.
++    """
++    if not abs_path.is_absolute():
++        raise MechanicalRefreshError(f"refresh {label} must be absolute for raw check: {abs_path}")
++    try:
++        rel_parts = abs_path.parent.relative_to(root_resolved).parts
++    except ValueError as exc:
++        raise MechanicalRefreshError(f"refresh {label} escapes repository root: {abs_path}") from exc
++    current = root_resolved
++    for part in rel_parts:
++        if part in ("..", ".", ""):
++            raise MechanicalRefreshError(f"refresh {label} has unsafe path component: {part}")
++        current = current / part
++        try:
++            if current.is_symlink():
++                raise MechanicalRefreshError(f"refresh {label} has symlinked ancestor component: {current}")
++        except OSError as exc:
++            raise MechanicalRefreshError(f"refresh {label} ancestor check failed: {current}: {exc}") from exc
++    try:
++        if abs_path.is_symlink():
++            raise MechanicalRefreshError(f"refresh {label} is a symlink/refusal: {abs_path}")
++    except OSError as exc:
++        raise MechanicalRefreshError(f"refresh {label} symlink check failed: {abs_path}: {exc}") from exc
++
++
++def _safe_existing_file(root: Path, rel: str, label: str) -> Path:
++    """Resolve a repository-relative file with lexical checks BEFORE resolve.
++
++    Order is load-bearing: raw lexical validation + lstat ancestor walk first
++    (catches inside-root aliases), then ``core.repo_local_path`` resolution +
++    containment, then final symlink/file refusal. Used for all
++    retention/live/config/State/publication/manuscript/reader-input/receipt/Gate
++    targets derived from Profile authority.
++    """
++    root_resolved = root.resolve()
++    _check_raw_rel_ancestors(root_resolved, rel, label)
+     try:
+         resolved = core.repo_local_path(root, rel, label)
+     except (TypeError, ValueError) as exc:
+         raise MechanicalRefreshError(f"refresh {label} invalid: {exc}") from exc
+-    _reject_symlink_ancestors(root, resolved, label)
+-    # Re-verify still under root after ancestor checks (no TOCTOU blessing).
+     try:
+-        resolved.resolve().relative_to(root.resolve())
++        resolved.resolve().relative_to(root_resolved)
+     except ValueError as exc:
+         raise MechanicalRefreshError(f"refresh {label} escapes repository root: {rel}") from exc
++    _reject_symlink_ancestors(root, resolved, label)
+     if resolved.is_symlink() or not resolved.is_file():
+         raise MechanicalRefreshError(f"refresh {label} missing or unsafe: {rel} -> {resolved}")
+     return resolved
+@@ -206,12 +263,28 @@ def _atomic_replace(path: Path, data: bytes, label: str, run_id: str, expected_o
+         raise MechanicalRefreshError(f"refresh {label} post-replace readback failed: {exc}") from exc
+ 
+ 
+-def _release_guard_if_owned(lock_path: Path, expected_bytes: bytes, label: str) -> None:
+-    """Release only an unchanged operation-owned guard.
++def _guard_id_of(lock_path: Path) -> tuple[int, int]:
++    """Return (st_dev, st_ino) for an existing guard path (follows symlinks).
+ 
+-    Refuses to delete a foreign/replaced/removed guard; preserves lock +
+-    retention + unknown bytes on conflict for manual recovery. Never steals a
+-    stale lock automatically.
++    Callers check ``is_symlink`` first; this helper stats the target for
++    identity comparison against the fd-captured creation identity.
++    """
++    st = os.stat(lock_path)
++    return (st.st_dev, st.st_ino)
++
++
++def _verify_guard_owned(
++    lock_path: Path, expected_bytes: bytes, expected_id: tuple[int, int] | None, label: str
++) -> None:
++    """Verify the guard is still this operation's exclusive file before mutating.
++
++    Checks symlink absence, regular-file presence, exact expected bytes (which
++    carry a per-operation unique nonce, so even identical timestamp/head/state
++    tuples cannot collide), and file identity (dev/ino captured from the
++    exclusive-create fd). A replaced guard with identical contents still has a
++    different identity and is refused. On failure the caller must STOP
++    immediately: preserve live/foreign bytes, perform no restore through a
++    foreign guard, and never delete the foreign guard.
+     """
+     try:
+         if lock_path.is_symlink():
+@@ -229,22 +302,107 @@ def _release_guard_if_owned(lock_path: Path, expected_bytes: bytes, label: str)
+         raise MechanicalRefreshError(f"refresh {label} guard read failed at {lock_path}: {exc}") from exc
+     if current != expected_bytes:
+         raise MechanicalRefreshError(
+-            f"refresh {label} guard changed (expected run_id hash {core.sha256_bytes(expected_bytes)[:16]}.., "
++            f"refresh {label} guard changed (expected nonce hash {core.sha256_bytes(expected_bytes)[:16]}.., "
+             f"found {core.sha256_bytes(current)[:16]}..); foreign guard preserved, no deletion performed"
+         )
++    if expected_id is not None:
++        try:
++            actual_id = _guard_id_of(lock_path)
++        except OSError as exc:
++            raise MechanicalRefreshError(f"refresh {label} guard stat failed at {lock_path}: {exc}") from exc
++        if actual_id != expected_id:
++            raise MechanicalRefreshError(
++                f"refresh {label} guard replaced (same bytes, different file identity); "
++                "foreign guard preserved, no deletion performed"
++            )
++
++
++def _release_guard_if_owned(
++    lock_path: Path, expected_bytes: bytes, expected_id: tuple[int, int] | None, label: str
++) -> None:
++    """Release only an unchanged operation-owned guard (bytes + identity).
++
++    Refuses to delete a foreign/replaced/removed guard; preserves lock +
++    retention + unknown bytes on conflict for manual recovery. Never steals a
++    stale lock automatically.
++    """
++    _verify_guard_owned(lock_path, expected_bytes, expected_id, label)
+     try:
+         lock_path.unlink()
+     except OSError as exc:
+         raise MechanicalRefreshError(f"refresh {label} guard release failed at {lock_path}: {exc}") from exc
+ 
+ 
++def _add_expected(snap: dict[str, str], rel: str, sha: str, context: str) -> None:
++    """Pin one expected file hash, rejecting conflicting expectations.
++
++    The same path pinned twice with different hashes means two authorities
++    disagree (e.g. a stale checkpoint row vs the current-effective row, or a
++    freshly re-hashed drifted file vs its recorded authority). Overwriting
++    would bless intervening drift, so conflicts fail closed instead.
++    """
++    if not isinstance(rel, str) or not rel or not isinstance(sha, str) or not sha:
++        raise MechanicalRefreshError(f"refresh snapshot invalid expectation for {context}: {rel!r}")
++    if rel in snap:
++        if snap[rel] != sha:
++            raise MechanicalRefreshError(
++                f"refresh snapshot conflicting expectation at {rel} ({context}): "
++                f"recorded {snap[rel][:16]}.. vs {sha[:16]}..; refusing to bless drift"
++            )
++        return
++    snap[rel] = sha
++
++
++def _expect_file(snap: dict[str, str], root: Path, rel: str, sha: str, label: str) -> None:
++    """Pin an authoritative (path, sha256) ref and verify live bytes match NOW.
++
++    Nonexistent required dependencies fail here (before any guard/retention/
++    live write) instead of a sentinel that would accept absence. Live drift
++    already present at capture time is refused without blessing new hashes.
++    """
++    if not isinstance(rel, str) or not rel or not isinstance(sha, str) or len(sha) != 64:
++        raise MechanicalRefreshError(f"refresh snapshot invalid authority ref for {label}: {rel!r}")
++    live = _safe_existing_file(root, rel, f"snapshot {label}")
++    try:
++        actual = core.sha256_file(live)
++    except OSError as exc:
++        raise MechanicalRefreshError(f"refresh snapshot unreadable at {rel} ({label}): {exc}") from exc
++    if actual != sha:
++        raise MechanicalRefreshError(
++            f"refresh snapshot drift at {rel} ({label}): expected {sha[:16]}.., found {actual[:16]}..; "
++            "refusing before any guard/retention/live write"
++        )
++    _add_expected(snap, _rel(root, live), sha, label)
++
++
++def _control_tracked_files(root: Path, controls: list[str]) -> list[str]:
++    """List tracked files under control roots (null-separated, no shell)."""
++    proc = _git(root, "ls-files", "-z", "--", *controls)
++    if proc.returncode != 0:
++        raise MechanicalRefreshError(f"refresh control file inventory unreadable: {proc.stderr.strip()}")
++    return sorted(p for p in proc.stdout.split("\x00") if p != "")
++
++
++def _control_untracked_files(root: Path, controls: list[str]) -> list[str]:
++    """List untracked files under control roots (pycache/pyc ignored)."""
++    proc = _git(root, "ls-files", "--others", "--exclude-standard", "-z", "--", *controls)
++    if proc.returncode != 0:
++        raise MechanicalRefreshError(f"refresh untracked control inventory unreadable: {proc.stderr.strip()}")
++    return sorted(
++        p for p in proc.stdout.split("\x00")
++        if p != "" and "__pycache__" not in Path(p).parts and not p.endswith(".pyc")
++    )
++
++
+ def _capture_bound_snapshot(
+     root: Path,
+     *,
+     state_path: Path,
++    state: dict[str, Any],
+     state_sha: str,
+     gate_path: Path,
+     gate_sha: str,
++    old_gate: dict[str, Any],
+     receipt_path: Path,
+     receipt_sha: str,
+     old_receipt: dict[str, Any],
+@@ -252,17 +410,23 @@ def _capture_bound_snapshot(
+     checkpoint_sha: str,
+     checkpoint: dict[str, Any],
+     manuscript_path: Path,
++    bundle_doc: dict[str, Any],
++    active: dict[str, Any] | None,
+     head: str,
+     cfg: dict[str, Any],
+ ) -> dict[str, str]:
+-    """Snapshot all VALIDATED source dependencies vs expected originals.
+-
+-    Covers receipt input refs (accepted/authored), reviewed input, semantic
+-    review, outputs, old Gate/manuscript/reviews/PDF/bundle + deterministic
+-    result refs, checkpoints/prior chain, config + control files, profile/HEAD.
+-    Keys are repo-relative paths (or __HEAD__/__STATE__ sentinels); values are
+-    expected sha256. Rechecked after guard, before each live write and
+-    rollback/commit-sensitive operation. Never blessed by re-hashing after drift.
++    """Snapshot all VALIDATED source dependencies vs authoritative recorded refs.
++
++    Covers, from recorded authority (never freshly re-hashed drift):
++    receipt input refs (accepted/authored), reviewed input, semantic review,
++    outputs; old Gate scanned surfaces; bundle deterministic-result refs + pdf;
++    current validated manuscript/profile/approval refs; every State-bound
++    checkpoint file with its artifacts + deterministic review results (using
++    current-effective validation rows for ALL roles, so a healthy prior
++    metadata revalidation with changed manuscript/reviews vs the original
++    checkpoint does not false-fail); the full predecessor record chain via
++    supersedes; current control/contract tracked files + membership (dirty/
++    untracked rechecked at every boundary); profile/HEAD.
+     """
+     snap: dict[str, str] = {}
+     snap["__HEAD__"] = head
+@@ -270,67 +434,134 @@ def _capture_bound_snapshot(
+     snap["__GATE__:" + _rel(root, gate_path)] = gate_sha
+     snap["__RECEIPT__:" + _rel(root, receipt_path)] = receipt_sha
+     snap["__CHECKPOINT__:" + _rel(root, checkpoint_path)] = checkpoint_sha
+-    # Receipt-bound inputs/outputs (accepted/authored/reviewed/semantic/outputs).
++    # Current-effective validation rows for ALL roles (repeat-safe): a healthy
++    # prior revalidation may have renewed manuscript/reviews/bundle rows vs the
++    # original checkpoint; expecting the stale original sha would false-fail.
++    effective: dict[tuple[str, str], str] = {}
++    if active is not None:
++        for row in active.get("superseded_artifacts", []):
++            if isinstance(row, dict) and row.get("name") and row.get("path") and row.get("new_sha256"):
++                effective[(row["name"], row["path"])] = row["new_sha256"]
++        for row in active.get("preserved_artifacts", []):
++            if isinstance(row, dict) and row.get("name") and row.get("path") and row.get("sha256"):
++                effective.setdefault((row["name"], row["path"]), row["sha256"])
++    # Validation checkpoint artifacts with effective rows.
++    for row in checkpoint.get("artifacts", []):
++        if not isinstance(row, dict) or not row.get("path") or not row.get("sha256"):
++            raise MechanicalRefreshError(f"refresh snapshot malformed checkpoint artifact: {row!r}")
++        expected = effective.get((row.get("name"), row.get("path")), row["sha256"])
++        _expect_file(snap, root, row["path"], expected, f"checkpoint {row.get('name')}")
++    # Receipt-bound inputs/outputs.
+     for group_key in ("accepted_refs", "authored_refs"):
+         for row in old_receipt.get(group_key, []):
+-            snap[_rel(root, _safe_existing_file(root, row["path"], f"snapshot {row.get('name')}"))] = row["sha256"]
++            if not isinstance(row, dict) or not row.get("path") or not row.get("sha256"):
++                raise MechanicalRefreshError(f"refresh snapshot malformed receipt {group_key} row: {row!r}")
++            _expect_file(snap, root, row["path"], row["sha256"], f"receipt {row.get('name')}")
+     for single_key in ("reviewed_reader_input", "semantic_review"):
+         row = old_receipt.get(single_key, {})
+-        if isinstance(row, dict) and "path" in row:
+-            snap[_rel(root, _safe_existing_file(root, row["path"], f"snapshot {single_key}"))] = row["sha256"]
++        if not isinstance(row, dict) or not row.get("path") or not row.get("sha256"):
++            raise MechanicalRefreshError(f"refresh snapshot malformed receipt {single_key}: {row!r}")
++        _expect_file(snap, root, row["path"], row["sha256"], f"receipt {single_key}")
+     for out_name, row in (old_receipt.get("outputs", {}) or {}).items():
+-        if isinstance(row, dict) and "path" in row:
+-            snap[_rel(root, _safe_existing_file(root, row["path"], f"snapshot output {out_name}"))] = row["sha256"]
+-    # Checkpoint artifacts (manuscript/bundle/reviews/PDF Gate inputs).
+-    # For repeat refresh, the Gate row in the validation checkpoint still carries
+-    # the original sha, while live Gate is the previously renewed effective sha
+-    # (old_gate_sha). The effective Gate is already pinned via __GATE__ above;
+-    # do not also pin the stale checkpoint Gate row as requiring live match.
+-    gate_rel_canonical = _rel(root, gate_path)
+-    for row in checkpoint.get("artifacts", []):
+-        if isinstance(row, dict) and "path" in row and "sha256" in row:
+-            if row.get("name") == "reader-surface-gate" and row.get("path") == gate_rel_canonical:
+-                continue
+-            try:
+-                snap[_rel(root, _safe_existing_file(root, row["path"], f"snapshot checkpoint {row.get('name')}"))] = row["sha256"]
+-            except MechanicalRefreshError:
+-                # Checkpoint rows that are not files (e.g. synthetic) are still
+-                # pinned by their recorded sha; recheck will fail closed if drifted.
+-                snap[row["path"]] = row["sha256"]
+-    # Manuscript file itself (canonical).
+-    snap[_rel(root, manuscript_path)] = core.sha256_file(manuscript_path)
+-    # Config + control files + profile.
+-    try:
+-        snap[core.DEFAULT_CONFIG.as_posix()] = core.sha256_file(root / core.DEFAULT_CONFIG)
+-    except OSError:
+-        pass
+-    for rel in _control_paths(cfg):
+-        # Control roots may include whole directories (implementation roots);
+-        # snapshot only real files. Directories are covered by the git-diff
+-        # allowed-change gate, not by single-file hashing. Missing files are
+-        # fail-closed at recheck.
+-        candidate = root / rel
++        if not isinstance(row, dict) or not row.get("path") or not row.get("sha256"):
++            raise MechanicalRefreshError(f"refresh snapshot malformed receipt output {out_name}: {row!r}")
++        _expect_file(snap, root, row["path"], row["sha256"], f"receipt output {out_name}")
++    # Old Gate scanned surfaces (every scanned file, not just manuscript).
++    for surface in old_gate.get("scanned_surfaces", []):
++        if not isinstance(surface, dict) or not surface.get("path") or not surface.get("sha256"):
++            raise MechanicalRefreshError(f"refresh snapshot malformed Gate scanned surface: {surface!r}")
++        _expect_file(snap, root, surface["path"], surface["sha256"], "gate scanned surface")
++    # Bundle deterministic-result refs + pdf (REPOSITORY_FILE only).
++    for check in bundle_doc.get("checks", []):
++        result = (check or {}).get("result", {})
++        if isinstance(result, dict) and result.get("path") and result.get("sha256"):
++            _expect_file(snap, root, result["path"], result["sha256"], f"bundle result {check.get('check_id')}")
++    pdf_ref = bundle_doc.get("pdf", {})
++    if isinstance(pdf_ref, dict) and pdf_ref.get("storage", "REPOSITORY_FILE") == "REPOSITORY_FILE":
++        if not pdf_ref.get("path") or not pdf_ref.get("sha256"):
++            raise MechanicalRefreshError(f"refresh snapshot malformed bundle pdf ref: {pdf_ref!r}")
++        _expect_file(snap, root, pdf_ref["path"], pdf_ref["sha256"], "bundle pdf")
++    # Current validated manuscript/profile/approval refs.
++    manuscript_rel = _rel(root, manuscript_path)
++    _expect_file(snap, root, manuscript_rel, core.sha256_file(manuscript_path), "manuscript")
++    profile_ref = state.get("profile", {})
++    if not isinstance(profile_ref, dict) or not profile_ref.get("path") or not profile_ref.get("sha256"):
++        raise MechanicalRefreshError("refresh snapshot malformed State profile ref")
++    _expect_file(snap, root, profile_ref["path"], profile_ref["sha256"], "profile")
++    arch_ref = (state.get("human_gate_provenance", {}) or {}).get("architecture_review")
++    if not isinstance(arch_ref, dict) or not arch_ref.get("path") or not arch_ref.get("sha256"):
++        raise MechanicalRefreshError("refresh snapshot malformed architecture approval ref")
++    _expect_file(snap, root, arch_ref["path"], arch_ref["sha256"], "architecture approval")
++    # Every State-bound checkpoint: file + artifacts + deterministic results.
++    # The validation checkpoint itself is covered above with effective rows.
++    validation_path = validation_ref_path(state)
++    for cp_name, cp_ref in (state.get("checkpoint_provenance", {}) or {}).items():
++        if cp_ref is None:
++            continue
++        if not isinstance(cp_ref, dict) or not cp_ref.get("path") or not cp_ref.get("sha256"):
++            raise MechanicalRefreshError(f"refresh snapshot malformed checkpoint provenance: {cp_name}")
++        _expect_file(snap, root, cp_ref["path"], cp_ref["sha256"], f"checkpoint {cp_name}")
++        if cp_ref["path"] == validation_path:
++            continue
++        try:
++            record = core.load_json(root / cp_ref["path"])
++        except (OSError, ValueError) as exc:
++            raise MechanicalRefreshError(f"refresh snapshot unreadable checkpoint {cp_name}: {exc}") from exc
++        for art in record.get("artifacts", []):
++            if isinstance(art, dict) and art.get("path") and art.get("sha256"):
++                _expect_file(snap, root, art["path"], art["sha256"], f"checkpoint {cp_name} artifact {art.get('name')}")
++        for review in record.get("reviews", []):
++            result = (review or {}).get("result", {})
++            if isinstance(result, dict) and result.get("path") and result.get("sha256"):
++                _expect_file(snap, root, result["path"], result["sha256"], f"checkpoint {cp_name} result {review.get('check_id')}")
++    # Full predecessor record chain via supersedes (not just the State pointer).
++    ptr: dict[str, Any] | None = state.get("publication_revalidation_provenance")
++    _chain_depth = 0
++    while isinstance(ptr, dict) and ptr.get("path") and ptr.get("sha256"):
++        _chain_depth += 1
++        if _chain_depth > 33:
++            raise MechanicalRefreshError("refresh snapshot predecessor chain exceeds limit 32")
++        _expect_file(snap, root, ptr["path"], ptr["sha256"], "predecessor record")
+         try:
+-            if candidate.is_symlink():
+-                raise MechanicalRefreshError(f"snapshot control symlink: {rel}")
+-            if candidate.is_dir():
+-                continue
+-            if not candidate.is_file():
+-                snap[rel] = "__MISSING__"
+-                continue
+-            p = _safe_existing_file(root, rel, f"snapshot control {rel}")
+-            snap[_rel(root, p)] = core.sha256_file(p)
+-        except MechanicalRefreshError as merr:
+-            # Directory skips already handled; other failures are fail-closed.
+-            if candidate.is_dir() and not candidate.is_symlink():
+-                continue
+-            snap[rel] = "__MISSING__"
++            predecessor = core.load_json(root / ptr["path"])
++        except (OSError, ValueError) as exc:
++            raise MechanicalRefreshError(f"refresh snapshot unreadable predecessor record: {exc}") from exc
++        ptr = predecessor.get("supersedes")
++    # Current control/contract tracked files + membership (dirty/untracked are
++    # rechecked at every boundary in _recheck_bound_snapshot).
++    controls = _control_paths(cfg)
++    tracked = _control_tracked_files(root, controls)
++    if not tracked:
++        raise MechanicalRefreshError("refresh snapshot empty control file inventory")
++    snap["__CONTROL_MEMBERS__"] = "\n".join(tracked)
++    for rel in tracked:
++        live = _safe_existing_file(root, rel, f"snapshot control {rel}")
++        try:
++            actual = core.sha256_file(live)
++        except OSError as exc:
++            raise MechanicalRefreshError(f"refresh snapshot unreadable control file {rel}: {exc}") from exc
++        _add_expected(snap, _rel(root, live), actual, f"control {rel}")
++    if _control_untracked_files(root, controls):
++        raise MechanicalRefreshError(
++            f"refresh snapshot untracked control files present: {_control_untracked_files(root, controls)[:5]}"
++        )
+     return snap
+ 
+ 
+-def _recheck_bound_snapshot(root: Path, snap: dict[str, str], label: str) -> None:
+-    """Recheck complete bound snapshot; reject detected drift without normalizing."""
+-    # HEAD first (implementation identity).
++def validation_ref_path(state: dict[str, Any]) -> str:
++    """Return the validation checkpoint path recorded in State."""
++    ref = (state.get("checkpoint_provenance", {}) or {}).get("validation", {})
++    return ref.get("path", "") if isinstance(ref, dict) else ""
++
++
++def _recheck_bound_snapshot(root: Path, snap: dict[str, str], controls: list[str], label: str) -> None:
++    """Recheck complete bound snapshot; reject detected drift without normalizing.
++
++    Verifies HEAD, every pinned file hash, control membership + untracked
++    absence, and a clean ``git diff HEAD`` for control roots (catches staged
++    index changes that worktree hashing alone cannot see). Never re-hashes
++    drifted bytes into new expectations.
++    """
+     expected_head = snap.get("__HEAD__")
+     if expected_head is not None:
+         actual_head = core.repository_commit_sha(root)
+@@ -340,23 +571,13 @@ def _recheck_bound_snapshot(root: Path, snap: dict[str, str], label: str) -> Non
+                 "live bytes + retention + guard preserved for manual recovery"
+             )
+     for key, expected_sha in snap.items():
+-        if key == "__HEAD__":
++        if key in ("__HEAD__", "__CONTROL_MEMBERS__"):
+             continue
+         if key.startswith("__STATE__:") or key.startswith("__GATE__:") or key.startswith("__RECEIPT__:") or key.startswith("__CHECKPOINT__:"):
+             rel = key.split(":", 1)[1]
+         else:
+             rel = key
+-        if expected_sha == "__MISSING__":
+-            # Control path was missing at capture; any appearance is drift.
+-            candidate = root / rel
+-            if candidate.exists() or candidate.is_symlink():
+-                raise MechanicalRefreshError(
+-                    f"refresh {label}: unexpected control file appeared at {rel}; manual recovery required"
+-                )
+-            continue
+         try:
+-            target = root / rel
+-            # Use safe resolution to avoid alias blessing.
+             safe = _safe_existing_file(root, rel, f"recheck {label} {rel}")
+             actual = core.sha256_file(safe)
+         except (MechanicalRefreshError, OSError) as exc:
+@@ -369,6 +590,60 @@ def _recheck_bound_snapshot(root: Path, snap: dict[str, str], label: str) -> Non
+                 f"(expected {expected_sha[:16]}.., found {actual[:16]}..); "
+                 "live bytes + retention + guard preserved, no overwrite of unknown bytes"
+             )
++    # Control membership + untracked + staged-index checks run every boundary.
++    expected_members = snap.get("__CONTROL_MEMBERS__")
++    if expected_members is not None:
++        current_members = _control_tracked_files(root, controls)
++        if current_members != expected_members.split("\n"):
++            raise MechanicalRefreshError(
++                f"refresh {label}: control file membership changed; manual recovery required"
++            )
++        untracked = _control_untracked_files(root, controls)
++        if untracked:
++            raise MechanicalRefreshError(
++                f"refresh {label}: untracked control files appeared ({len(untracked)}); manual recovery required"
++            )
++        dirty = _git(root, "diff", "--quiet", "HEAD", "--", *controls)
++        if dirty.returncode != 0:
++            raise MechanicalRefreshError(
++                f"refresh {label}: control files differ from committed HEAD; manual recovery required"
++            )
++
++
++def _record_inventory(publication_dir: Path) -> dict[str, str]:
++    """Inventory revalidation records by name+hash/identity (not names only).
++
++    Includes regular files (sha256 of bytes), symlinks (link target, never
++    followed), and any other entry type by kind label, so symlink/partial
++    plants are detected instead of being filtered out by ``is_file``.
++    Raises MechanicalRefreshError on unreadable directories (unknown state is
++    never treated as clean).
++    """
++    try:
++        entries = list(publication_dir.iterdir())
++    except OSError as exc:
++        raise MechanicalRefreshError(f"refresh record inventory unreadable at {publication_dir}: {exc}") from exc
++    inventory: dict[str, str] = {}
++    for child in entries:
++        if not child.name.startswith("publication-surface-revalidation-r"):
++            continue
++        try:
++            if child.is_symlink():
++                try:
++                    target = os.readlink(child)
++                except OSError:
++                    target = "<unreadable-link>"
++                inventory[child.name] = "symlink:" + target
++            elif child.is_file():
++                try:
++                    inventory[child.name] = "sha256:" + core.sha256_file(child)
++                except OSError:
++                    inventory[child.name] = "<unreadable-file>"
++            else:
++                inventory[child.name] = "<other>"
++        except OSError:
++            inventory[child.name] = "<unknown>"
++    return inventory
+ 
+ 
+ def _compare_gate_reports(
+@@ -379,16 +654,19 @@ def _compare_gate_reports(
+     old_receipt_sha: str,
+     new_receipt_sha: str,
+ ) -> None:
+-    """Complete old/new Gate equality except selected machine metadata/digest/receipt.
++    """Complete old/new Gate equality except top-level evaluation metadata/digest/receipt.
+ 
+-    Preserves all semantic-authority/report fields except explicitly allowed
+-    evaluation metadata (evaluated_by/recorded_at + semantic recorded_at/reviewed_at),
+-    internal digest (gate_sha256) and the exact receipt derivation reference.
+-    No dropped findings/suppressions/scan scope is permitted.
++    R1 permits only top-level evaluation timestamp/evaluator metadata
++    (``recorded_at``; ``evaluated_by`` must still be stable), the internal
++    digest (``gate_sha256``) and the exact derivation receipt replacement to
++    change. The full validated ``semantic_authority`` dictionary is preserved
++    exactly (the writer forwards the old bound dict through the existing
++    ``evaluate_reader_surface_gate(semantic_authority=...)`` API, whose strict
++    loader still reopens and revalidates the persisted review file, so no
++    synthetic PASS is possible). No dropped findings/suppressions/scan scope
++    is permitted.
+     """
+-    # Top-level exact equality except allowed evaluation metadata/digest/receipt
+-    # and semantic_authority (handled in detail below to allow timestamp advance).
+-    allowed_top = {"recorded_at", "gate_sha256", "derivation", "semantic_authority"}
++    allowed_top = {"recorded_at", "gate_sha256", "derivation"}
+     for key in set(old) | set(new):
+         if key in allowed_top:
+             continue
+@@ -406,16 +684,12 @@ def _compare_gate_reports(
+         raise MechanicalRefreshError("old Gate receipt derivation does not match retained old receipt")
+     if new_der.get("receipt") != {"path": old_receipt_rel, "sha256": new_receipt_sha}:
+         raise MechanicalRefreshError("renewed Gate receipt derivation mismatch")
+-    # Semantic authority: all fields except machine evaluation metadata
+-    # (recorded_at/reviewed_at timestamps and human-readable summary).
+-    # The wrapper-built old Gate uses summary "Bound semantic review passed"
+-    # while direct evaluate derives summary from the review file; both bind the
+-    # same review file path/digest/decision, so summary is evaluation metadata.
+-    old_sem = dict(old.get("semantic_authority", {}))
+-    new_sem = dict(new.get("semantic_authority", {}))
+-    for ts_key in ("recorded_at", "reviewed_at", "summary"):
+-        old_sem.pop(ts_key, None)
+-        new_sem.pop(ts_key, None)
++    # Semantic authority: preserved fully. The writer forwards the old validated
++    # bound dictionary through evaluate(semantic_authority=...), so every
++    # persisted reviewer-metadata field (status/decision/reviewed_by/surface /
++    # recorded_at/reviewed_at/review_path/review_sha256/summary) must match.
++    old_sem = old.get("semantic_authority", {})
++    new_sem = new.get("semantic_authority", {})
+     if old_sem != new_sem:
+         # Precise diff for manual recovery.
+         for k in set(old_sem) | set(new_sem):
+@@ -454,6 +728,11 @@ def refresh_mechanical_evidence(
+     if cfg != canonical_cfg:
+         raise MechanicalRefreshError("refresh requires the canonical default config bytes (no alternate-config authority)")
+     _reject_symlink_ancestors(root, root / core.DEFAULT_CONFIG, "canonical config")
++    # Raw user-supplied --state path: lstat ancestors BEFORE any .resolve(),
++    # so a CLI alias (symlinked State path or symlinked parent) is refused
++    # instead of being resolved away by _rel().
++    _raw_state_abs = state_path if state_path.is_absolute() else (root.resolve() / state_path)
++    _check_raw_abs_ancestors(root.resolve(), _raw_state_abs, "Production State")
+     try:
+         state_rel_raw = _rel(root, state_path)
+     except ValueError as exc:
+@@ -467,6 +746,7 @@ def refresh_mechanical_evidence(
+         profile_rel_raw = state.get("profile", {}).get("path", "")
+         profile_path_p0 = _safe_existing_file(root, profile_rel_raw, "Production Profile")
+         profile_p0 = core.load_json(profile_path_p0)
++        _check_raw_rel_ancestors(root.resolve(), profile_p0["paths"]["source_root"], "Weekly source root")
+         source_root_p0 = core.repo_local_path(root, profile_p0["paths"]["source_root"], "Weekly source root")
+         _reject_symlink_ancestors(root, source_root_p0, "Weekly source root")
+         canonical_state = (source_root_p0 / cfg["state_authority"]["authoritative_filename"]).resolve()
+@@ -512,6 +792,21 @@ def refresh_mechanical_evidence(
+     gate_rel = roles.get("reader-surface-gate")
+     if not gate_rel:
+         raise MechanicalRefreshError("refresh Gate role is not canonical")
++    # Alias cross-check: the resolved role path must equal the lexically
++    # derived Profile path. An inside-root symlink (e.g. publication ->
++    # publication-real) resolves away in the owner helper, yielding a rel that
++    # no checkpoint row carries; refuse explicitly as an alias instead of a
++    # confusing row-mismatch later.
++    try:
++        _raw_src = profile_p0["paths"]["source_root"]
++        _lex_gate_rel = _raw_src.rstrip("/") + "/publication/v2/" + GATE_FILENAME
++    except (KeyError, TypeError, AttributeError) as exc:
++        raise MechanicalRefreshError(f"refresh Profile source_root invalid: {exc}") from exc
++    if gate_rel != _lex_gate_rel:
++        raise MechanicalRefreshError(
++            f"refresh Gate role path is not the canonical Profile path (possible alias): "
++            f"resolved {gate_rel} != lexical {_lex_gate_rel}"
++        )
+     ck_rows = {(r.get("name"), r.get("path")): r for r in checkpoint.get("artifacts", []) if isinstance(r, dict)}
+     ck_gate = ck_rows.get(("reader-surface-gate", gate_rel))
+     if ck_gate is None:
+@@ -686,6 +981,8 @@ def refresh_mechanical_evidence(
+     profile = context["profile"]
+     # Canonical Profile-derived publication/survey roots (not basename-only).
+     try:
++        _check_raw_rel_ancestors(root.resolve(), profile["paths"]["source_root"], "Weekly source root")
++        _check_raw_rel_ancestors(root.resolve(), profile["paths"]["survey_root"], "Weekly survey root")
+         source_root = core.repo_local_path(root, profile["paths"]["source_root"], "Weekly source root")
+         survey_root = core.repo_local_path(root, profile["paths"]["survey_root"], "Weekly survey root")
+     except (KeyError, TypeError, ValueError) as exc:
+@@ -751,8 +1048,12 @@ def refresh_mechanical_evidence(
+     new_receipt_bytes = core.json_bytes(new_receipt)
+ 
+     # ---- P1 guard + retention (Profile-derived canonical paths) ----
+-    # Derive publication dir from Profile source_root, not basename-only.
+-    publication_dir = (source_root / "publication" / "v2").resolve()
++    # Derive publication dir lexically from the raw Profile source_root string
++    # (not from the already-resolved source_root), so an aliased source_root
++    # cannot resolve away before the ancestor walk.
++    _pub_rel = profile["paths"]["source_root"].rstrip("/") + "/publication/v2"
++    _check_raw_rel_ancestors(root.resolve(), _pub_rel, "publication dir")
++    publication_dir = core.repo_local_path(root, _pub_rel, "publication dir")
+     _reject_symlink_ancestors(root, publication_dir, "publication dir")
+     _reject_symlink_ancestors(root, reviewed_path, "reviewed reader input")
+     if reviewed_path.resolve().parent != publication_dir:
+@@ -766,9 +1067,11 @@ def refresh_mechanical_evidence(
+     bound_snapshot = _capture_bound_snapshot(
+         root,
+         state_path=state_path,
++        state=state,
+         state_sha=state_sha_p0,
+         gate_path=gate_path,
+         gate_sha=old_gate_sha,
++        old_gate=old_gate,
+         receipt_path=old_receipt_path,
+         receipt_sha=receipt_ref["sha256"],
+         old_receipt=old_receipt,
+@@ -776,6 +1079,8 @@ def refresh_mechanical_evidence(
+         checkpoint_sha=validation_ref["sha256"],
+         checkpoint=checkpoint,
+         manuscript_path=manuscript_path,
++        bundle_doc=bundle_doc,
++        active=active,
+         head=head,
+         cfg=cfg,
+     )
+@@ -783,7 +1088,17 @@ def refresh_mechanical_evidence(
+     _reject_symlink_ancestors(root, lock_path, "cooperative guard")
+     if lock_path.is_symlink() or lock_path.exists():
+         raise MechanicalRefreshError(f"cooperative refresh guard occupied: {lock_path}")
+-    expected_guard_bytes = core.json_bytes({"run_id": run_id, "head": head, "state_sha256": state_sha_p0})
++    # Per-operation unique nonce: two operations with identical run_id/head/state
++    # still have distinct guard bytes AND distinct file identity, so replacing a
++    # guard with identical timestamp/head/state contents cannot pass ownership.
++    expected_guard_bytes = core.json_bytes(
++        {"run_id": run_id, "head": head, "state_sha256": state_sha_p0,
++         "nonce": secrets.token_hex(16), "pid": os.getpid()}
++    )
++    # Recheck the freshly captured snapshot BEFORE creating the guard: drift
++    # injected after preflight (checkpoint/result/criteria/script) must refuse
++    # here with no guard/retention/live writes at all.
++    _recheck_bound_snapshot(root, bound_snapshot, controls, "before guard creation")
+     try:
+         with open(lock_path, "xb") as fh:
+             fh.write(expected_guard_bytes)
+@@ -792,21 +1107,32 @@ def refresh_mechanical_evidence(
+                 os.fsync(fh.fileno())
+             except OSError:
+                 pass
++            try:
++                _fst = os.fstat(fh.fileno())
++                expected_guard_id: tuple[int, int] | None = (_fst.st_dev, _fst.st_ino)
++            except OSError as exc:
++                raise MechanicalRefreshError(f"cooperative guard identity capture failed: {exc}") from exc
+     except FileExistsError as exc:
+         raise MechanicalRefreshError(f"cooperative refresh guard occupied: {lock_path}") from exc
+-    # Verify own guard bytes immediately (no blessing of raced bytes).
++    # Verify own guard bytes + identity immediately (no blessing of raced bytes).
+     try:
+         if lock_path.read_bytes() != expected_guard_bytes:
+             raise MechanicalRefreshError(f"cooperative guard bytes mismatch after create: {lock_path}")
++        if _guard_id_of(lock_path) != expected_guard_id:
++            raise MechanicalRefreshError(f"cooperative guard identity mismatch after create: {lock_path}")
+     except OSError as exc:
++        if isinstance(exc, MechanicalRefreshError):
++            raise
+         raise MechanicalRefreshError(f"cooperative guard readback failed: {exc}") from exc
+     owned_lock = True
+     committed = False
+     api_attempted = False
+     live_stage = 0
+-    pre_records: set[str] = set()
++    pre_records: dict[str, str] = {}
+     try:
+-        _recheck_bound_snapshot(root, bound_snapshot, "after guard acquisition")
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (after acquisition)")
++        _recheck_bound_snapshot(root, bound_snapshot, controls, "after guard acquisition")
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (before retention)")
+         retention_base = publication_dir / RETENTION_DIRNAME
+         _reject_symlink_ancestors(root, retention_base, "retention base")
+         # Reject unsafe retention parent before mkdir (never follow symlink out of root).
+@@ -822,6 +1148,7 @@ def refresh_mechanical_evidence(
+             retention_base.resolve().relative_to(root.resolve())
+         except ValueError as exc:
+             raise MechanicalRefreshError(f"refresh retention base escapes repository: {retention_base}") from exc
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (after retention mkdir)")
+         run_dir = retention_base / run_id
+         _reject_symlink_ancestors(root, run_dir, "retention run dir")
+         try:
+@@ -857,7 +1184,8 @@ def refresh_mechanical_evidence(
+         _exclusive_bytes(run_dir / "retention.json", core.json_bytes(retention_meta), "retention metadata")
+ 
+         # ---- P2 receipt installation (recheck complete snapshot + immediate target) ----
+-        _recheck_bound_snapshot(root, bound_snapshot, "before receipt installation")
++        _recheck_bound_snapshot(root, bound_snapshot, controls, "before receipt installation")
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (before receipt installation)")
+         _reject_symlink_ancestors(root, old_receipt_path, "live receipt")
+         new_receipt_sha = core.sha256_bytes(new_receipt_bytes)
+         _atomic_replace(old_receipt_path, new_receipt_bytes, "receipt", run_id, expected_old_sha256=receipt_ref["sha256"])
+@@ -874,7 +1202,8 @@ def refresh_mechanical_evidence(
+             bound_snapshot[receipt_rel] = new_receipt_sha
+ 
+         # ---- P3 Gate computation/installation (after new receipt) ----
+-        _recheck_bound_snapshot(root, bound_snapshot, "before Gate computation")
++        _recheck_bound_snapshot(root, bound_snapshot, controls, "before Gate computation")
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (before Gate computation)")
+         # Gate replace has immediate target old-hash check; never bless changed bytes.
+         _reject_symlink_ancestors(root, gate_path, "live Gate")
+         try:
+@@ -885,10 +1214,16 @@ def refresh_mechanical_evidence(
+         except OSError as exc:
+             raise MechanicalRefreshError(f"live Gate read failed before computation: {exc}") from exc
+         old_suppressions = old_gate.get("suppressions", [])
++        # Forward the old VALIDATED semantic_authority bound dictionary through
++        # the existing supported API. Its strict loader still reopens and
++        # revalidates the persisted review file (review_sha256 + PASS/blocking
++        # consistency), so inspection-only bypass is impossible and the full
++        # persisted reviewer metadata (including summary/recorded_at/reviewed_at)
++        # is preserved exactly in the renewed report.
+         new_report = surface_gate.evaluate_reader_surface_gate(
+             root,
+             manuscript_path,
+-            semantic_review_path=review_rel,
++            semantic_authority=dict(old_gate.get("semantic_authority", {})),
+             suppressions=old_suppressions,
+             output_path=None,
+             state_path=state_path,
+@@ -907,7 +1242,8 @@ def refresh_mechanical_evidence(
+         )
+         new_gate_bytes = core.json_bytes(new_report)
+         new_gate_sha = core.sha256_bytes(new_gate_bytes)
+-        _recheck_bound_snapshot(root, bound_snapshot, "before Gate installation")
++        _recheck_bound_snapshot(root, bound_snapshot, controls, "before Gate installation")
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (before Gate installation)")
+         _atomic_replace(gate_path, new_gate_bytes, "gate", run_id, expected_old_sha256=old_gate_sha)
+         if core.sha256_file(gate_path) != new_gate_sha:
+             raise MechanicalRefreshError(f"installed Gate hash mismatch at {gate_path}; manual recovery required")
+@@ -922,19 +1258,14 @@ def refresh_mechanical_evidence(
+             bound_snapshot[gate_rel] = new_gate_sha
+ 
+         # ---- P4 revalidation/commit (explicit commit point) ----
+-        _recheck_bound_snapshot(root, bound_snapshot, "before revalidation")
++        _recheck_bound_snapshot(root, bound_snapshot, controls, "before revalidation")
++        _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (before revalidation)")
+         basis = agent.built_checked_pending_publication_basis(root, cfg, state_path)
+         if len(basis.replacements) != 1 or basis.replacements[0][0] != "reader-surface-gate":
+             raise MechanicalRefreshError("pending basis is not exactly the renewed Gate row")
+-        # Capture pre-API record inventory for post-failure disposition inspection.
+-        try:
+-            pub_dir = publication_dir
+-            pre_records = {
+-                p.name for p in pub_dir.iterdir()
+-                if p.name.startswith("publication-surface-revalidation-r") and p.is_file()
+-            }
+-        except OSError as exc:
+-            raise MechanicalRefreshError(f"pre-revalidation record inventory failed: {exc}") from exc
++        # Capture pre-API record inventory (names+hashes/identity) for
++        # post-failure disposition inspection. Unreadable here fails closed.
++        pre_records = _record_inventory(publication_dir)
+         pre_state_bytes = state_path.read_bytes()
+         if core.sha256_bytes(pre_state_bytes) != state_sha_p0:
+             raise MechanicalRefreshError("State drift before revalidation commit; manual recovery required")
+@@ -966,7 +1297,7 @@ def refresh_mechanical_evidence(
+             # Authority is committed at record_path; never roll back live receipt/Gate/State.
+             # Release own guard (commit complete) only if still owned; otherwise retain.
+             try:
+-                _release_guard_if_owned(lock_path, expected_guard_bytes, "cooperative guard (post-commit)")
++                _release_guard_if_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (post-commit)")
+             except MechanicalRefreshError as guard_exc:
+                 raise MechanicalRefreshError(
+                     f"refresh post-commit reporting failed ({exc}); committed at {_rel(root, record_path) if 'record_path' in locals() else 'unknown'}; "
+@@ -975,29 +1306,42 @@ def refresh_mechanical_evidence(
+             if isinstance(exc, MechanicalRefreshError):
+                 raise
+             raise MechanicalRefreshError(f"refresh post-commit reporting failed: {exc}") from exc
++        # Pre-commit: guard ownership FIRST. If the guard was lost/replaced,
++        # STOP immediately: preserve live/foreign bytes, perform no restore
++        # through a foreign guard and delete nothing.
++        try:
++            _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (failure path)")
++        except MechanicalRefreshError as guard_exc:
++            raise MechanicalRefreshError(
++                f"refresh failed ({exc}); guard ownership lost, no restoration attempted; "
++                f"live bytes + retention + foreign guard preserved for manual recovery: {guard_exc}"
++            ) from exc
+         # Pre-commit: inspect actual State/record disposition after API error; do not assume rollback.
++        # Record inventory compares names+hashes/identity (symlink/partial included);
++        # an unreadable post inventory is UNKNOWN and fails closed (never clean).
+         if api_attempted:
+             try:
+                 cur_state_bytes = state_path.read_bytes()
+             except OSError:
+                 cur_state_bytes = None
+             try:
+-                post_records = {
+-                    p.name for p in publication_dir.iterdir()
+-                    if p.name.startswith("publication-surface-revalidation-r") and p.is_file()
+-                }
+-            except OSError:
+-                post_records = None
++                post_records = _record_inventory(publication_dir)
++            except MechanicalRefreshError as inv_exc:
++                raise MechanicalRefreshError(
++                    f"refresh revalidation failed ({exc}); post-failure record inventory unreadable, "
++                    f"disposition unknown, live bytes + retention + guard preserved for manual recovery: {inv_exc}; "
++                    f"paths State={_rel(root, state_path)} Gate={_rel(root, gate_path)} Receipt={_rel(root, old_receipt_path)}"
++                ) from exc
+             # Leftover tampered/orphan record or changed State => manual guard retained.
+-            if cur_state_bytes != pre_state_bytes or (post_records is not None and post_records != pre_records):
++            if cur_state_bytes != pre_state_bytes or post_records != pre_records:
+                 raise MechanicalRefreshError(
+                     f"refresh revalidation failed with State/record disposition changed "
+                     f"(State equal={cur_state_bytes == pre_state_bytes}, "
+-                    f"records before={sorted(pre_records)}, after={sorted(post_records) if post_records is not None else 'unreadable'}); "
++                    f"records before={sorted(pre_records)}, after={sorted(post_records)}); "
+                     f"live bytes + retention + guard preserved for manual recovery: {exc}; "
+                     f"paths State={_rel(root, state_path)} Gate={_rel(root, gate_path)} Receipt={_rel(root, old_receipt_path)}"
+                 ) from exc
+-            # Disposition clean (State original, no new record): fall through to guarded restoration below.
++            # Disposition clean (State original, record inventory identical): fall through to guarded restoration below.
+         # Guarded restoration for caught pre-commit failures only, with ownership checks.
+         # Safe pre-live-write aborts (live_stage==0, no owned live changes) may release own guard.
+         # Failed restoration with unknown bytes retains guard.
+@@ -1048,7 +1392,7 @@ def refresh_mechanical_evidence(
+             # Verify all other bound dependencies (excluding intentionally changed receipt/gate) still match.
+             # Build a recheck snapshot that excludes live receipt/gate/state/head (already checked above).
+             try:
+-                _recheck_bound_snapshot(root, {k: v for k, v in bound_snapshot.items() if not (k.startswith("__RECEIPT__:") or k.startswith("__GATE__:") or k.startswith("__STATE__:") or k == "__HEAD__")}, "pre-restore dependencies")
++                _recheck_bound_snapshot(root, {k: v for k, v in bound_snapshot.items() if not (k.startswith("__RECEIPT__:") or k.startswith("__GATE__:") or k.startswith("__STATE__:") or k == "__HEAD__")}, controls, "pre-restore dependencies")
+             except MechanicalRefreshError as dep_exc:
+                 raise MechanicalRefreshError(
+                     f"refresh failed ({exc}) with dependency drift before restore: {dep_exc}; guard retained"
+@@ -1072,7 +1416,7 @@ def refresh_mechanical_evidence(
+                         f"restored Gate mismatch at {_rel(root, gate_path)}; manual recovery required"
+                     ) from exc
+             # Verified safe restore complete: release only own guard.
+-            _release_guard_if_owned(lock_path, expected_guard_bytes, "cooperative guard (restored)")
++            _release_guard_if_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (restored)")
+         except MechanicalRefreshError as restore_exc:
+             # Restoration unsafe or guard changed: preserve live + retention + guard.
+             # If restore_exc already chains original exc, re-raise it; otherwise chain.
+@@ -1084,10 +1428,10 @@ def refresh_mechanical_evidence(
+         raise MechanicalRefreshError(f"refresh failed: {exc}") from exc
+     # Success path: commit or pre-live abort both release only own guard after verification.
+     if committed:
+-        _release_guard_if_owned(lock_path, expected_guard_bytes, "cooperative guard (committed)")
++        _release_guard_if_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (committed)")
+     else:
+         # Success without commit should not happen (all successes commit), but handle safely.
+-        _release_guard_if_owned(lock_path, expected_guard_bytes, "cooperative guard (success)")
++        _release_guard_if_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (success)")
+     return {
+         "state": _rel(root, state_path),
+         "revalidation_record": _rel(root, record_path),
+diff --git a/tests/test_survey_publication_revalidation_v2.py b/tests/test_survey_publication_revalidation_v2.py
+index 070b9b3..a5e2c05 100644
+--- a/tests/test_survey_publication_revalidation_v2.py
++++ b/tests/test_survey_publication_revalidation_v2.py
+@@ -1170,6 +1170,53 @@ class PublicationRevalidationTests(unittest.TestCase):
+         finally:
+             temp.cleanup()
+ 
++    def test_r1_post_rename_readback_failure_no_dangling_pointer(self) -> None:
++        """R1 correction: failure AFTER real os.replace but before helper return.
++
++        The replacement has succeeded, so live State already references the new
++        record when the post-rename readback raises. The handler must classify
++        the actual State disposition (exact known new) rather than trusting the
++        helper return flag, roll State back to original first, and only then
++        delete the now-orphaned record. The State pointer must never dangle at
++        a missing record, and a referenced record must never be deleted.
++        """
++        import os as _os
++
++        temp, fix = self.make_fixture()
++        try:
++            state_path = fix.src / "production-state.json"
++            self.regenerate(fix)
++            state_before = state_path.read_bytes()
++            expected_record = agent._revalidation_record_path(
++                self.root, self.cfg, core.load_json(state_path), 1
++            )
++            real_replace = _os.replace
++            _calls = {"n": 0}
++
++            def failing_replace(src, dst):
++                _calls["n"] += 1
++                if _calls["n"] == 1:
++                    # Fail ONLY the original State replacement (after the real
++                    # rename succeeded); the rollback replacement must use the
++                    # real os.replace so recovery can complete.
++                    real_replace(src, dst)
++                    raise OSError("injected post-rename readback failure")
++                return real_replace(src, dst)
++
++            with mock.patch.object(_os, "replace", side_effect=failing_replace):
++                with self.assertRaises(agent.AgentControlError):
++                    agent.revalidate_publication_surface(
++                        self.root, self.cfg, state_path, "REVIEWED_CORE_CHANGE",
++                        "post-rename failure", EXECUTOR, T0 + timedelta(hours=1), None,
++                    )
++            # State rolled back to original; record removed only after it was
++            # orphaned, so no dangling pointer remains.
++            self.assertEqual(state_path.read_bytes(), state_before)
++            self.assertFalse(expected_record.exists())
++            self.assertIsNone(core.load_json(state_path).get("publication_revalidation_provenance"))
++        finally:
++            temp.cleanup()
++
+     def test_r1_state_atomic_temp_replace_no_truncate(self) -> None:
+         """R1 correction: revalidation owner uses bounded temp+replace, not truncating write_json."""
+         source = (self.root / "scripts" / "survey_agent_control_v2.py").read_text(encoding="utf-8")
+diff --git a/tests/test_survey_weekly_mechanical_refresh_v2.py b/tests/test_survey_weekly_mechanical_refresh_v2.py
+index b6c2db9..f85775d 100644
+--- a/tests/test_survey_weekly_mechanical_refresh_v2.py
++++ b/tests/test_survey_weekly_mechanical_refresh_v2.py
+@@ -762,16 +762,39 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+             # Clean path passes.
+             clean = root / "a" / "b" / "file.json"
+             refresh_owner._reject_symlink_ancestors(root, clean, "unit clean")
+-            # Guard ownership: foreign bytes are never deleted.
++            # Guard ownership: foreign bytes are never deleted; identical bytes
++            # with a different file identity are also refused.
++            import os as _os
++
+             guard = root / "guard.lock"
+             guard.write_bytes(b'{"run_id": "foreign"}')
+             with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "guard changed|foreign guard"):
+-                refresh_owner._release_guard_if_owned(guard, b'{"run_id": "own"}', "unit guard")
++                refresh_owner._release_guard_if_owned(guard, b'{"run_id": "own"}', None, "unit guard")
+             self.assertEqual(guard.read_bytes(), b'{"run_id": "foreign"}')
+-            # Own guard releases.
++            # Own guard releases (bytes + identity).
+             guard.write_bytes(b'{"run_id": "own"}')
+-            refresh_owner._release_guard_if_owned(guard, b'{"run_id": "own"}', "unit guard")
++            _own_id = (_os.stat(guard).st_dev, _os.stat(guard).st_ino)
++            refresh_owner._release_guard_if_owned(guard, b'{"run_id": "own"}', _own_id, "unit guard")
+             self.assertFalse(guard.exists())
++            # Identical-contents replacement has a new identity and is refused.
++            # (Via atomic rename so the inode cannot be recycled by unlink+recreate.)
++            guard.write_bytes(b'{"run_id": "own"}')
++            _stale_id = (_os.stat(guard).st_dev, _os.stat(guard).st_ino)
++            _replacement = root / "guard.replacement"
++            _replacement.write_bytes(b'{"run_id": "own"}')
++            _os.replace(_replacement, guard)
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "different file identity|guard changed"):
++                refresh_owner._release_guard_if_owned(guard, b'{"run_id": "own"}', _stale_id, "unit guard")
++            self.assertEqual(guard.read_bytes(), b'{"run_id": "own"}')
++            guard.unlink(missing_ok=True)
++            # Raw lexical checks run BEFORE resolve: inside-root alias refused.
++            (root / "real").mkdir()
++            (root / "real" / "f.json").write_bytes(b"{}")
++            (root / "alias").symlink_to(root / "real", target_is_directory=True)
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "symlink"):
++                refresh_owner._check_raw_rel_ancestors(root, "alias/f.json", "unit alias")
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "symlink"):
++                refresh_owner._check_raw_abs_ancestors(root, root / "alias" / "f.json", "unit alias abs")
+ 
+     def test_gate_equality_requires_complete_fields(self) -> None:
+         import copy
+@@ -794,21 +817,28 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+                 "surface_path": "s", "surface_sha256": "b" * 64,
+                 "recorded_at": "2026-09-27T16:12:03Z", "reviewed_at": "2026-09-27T16:12:03Z",
+                 "review_path": "p", "review_sha256": "c" * 64,
++                "summary": "Bound semantic review passed",
+             },
+             "gate_sha256": "d" * 64,
+         }
+-        # Identical except allowed recorded_at/digest/receipt passes.
++        # Identical except allowed top-level recorded_at/digest/receipt passes;
++        # the full semantic_authority dictionary is preserved exactly.
+         new = copy.deepcopy(base)
+         new["recorded_at"] = "2026-09-27T16:13:03Z"
+         new["gate_sha256"] = "e" * 64
+         new["derivation"]["receipt"] = {"path": "r", "sha256": "f" * 64}
+-        new["semantic_authority"]["recorded_at"] = "2026-09-27T16:13:03Z"
+         refresh_owner._compare_gate_reports(base, new, old_receipt_rel="r", old_receipt_sha="a" * 64, new_receipt_sha="f" * 64)
+         # Dropped finding must fail.
+         bad = copy.deepcopy(new)
+         bad["findings"] = [{"finding_id": "X"}]
+         with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "findings"):
+             refresh_owner._compare_gate_reports(base, bad, old_receipt_rel="r", old_receipt_sha="a" * 64, new_receipt_sha="f" * 64)
++        # Semantic timestamp/summary changes are NOT allowed: full preservation.
++        for _field, _value in (("recorded_at", "2026-09-27T16:14:03Z"), ("reviewed_at", "2026-09-27T16:14:03Z"), ("summary", "changed")):
++            _bad = copy.deepcopy(new)
++            _bad["semantic_authority"][_field] = _value
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "semantic_authority"):
++                refresh_owner._compare_gate_reports(base, _bad, old_receipt_rel="r", old_receipt_sha="a" * 64, new_receipt_sha="f" * 64)
+         # Narrowed semantic field change must fail (covers old 6-field gap + extended fields).
+         bad2 = copy.deepcopy(new)
+         bad2["semantic_authority"]["surface_path"] = "other"
+@@ -888,20 +918,23 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+             return result
+ 
+         with mock.patch.object(Path, "mkdir", autospec=True, side_effect=replacing_mkdir):
+-            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "guard changed|foreign guard|retained"):
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "guard ownership lost|guard changed|foreign guard"):
+                 refresh_owner.refresh_mechanical_evidence(
+                     self.root, self.cfg, state_path, "replaced-guard attempt", "synthetic-executor", R1_TIME
+                 )
+-        # Foreign guard preserved (not deleted); post-commit guard failure retains committed authority.
++        # Guard ownership lost BEFORE any live mutation: precommit refusal with
++        # old authority intact, no new record, foreign guard + retention base left.
+         self.assertEqual(lock_path.read_bytes(), b'{"run_id": "replaced-foreign"}')
+-        # Refresh continued to commit before final guard release failed: live is new owned bytes.
+-        self.assertNotEqual(edition["receipt_path"].read_bytes(), old_receipt)
+-        self.assertNotEqual(edition["gate_path"].read_bytes(), old_gate)
+-        self.assertNotEqual(state_path.read_bytes(), old_state)
+-        self.assertEqual(len(self._record_list()), 1)
+-        weekly.validate_receipt(self.root, edition["receipt_path"], state_path)
+-        # Cleanup foreign guard for fixture teardown.
++        self.assertEqual(edition["receipt_path"].read_bytes(), old_receipt)
++        self.assertEqual(edition["gate_path"].read_bytes(), old_gate)
++        self.assertEqual(state_path.read_bytes(), old_state)
++        self.assertEqual(self._record_list(), [])
++        self.assertTrue((pub_dir / ".mechanical-refresh-retention").is_dir(), "retention base left for manual recovery")
++        # Cleanup foreign guard + retention for fixture teardown.
+         lock_path.unlink(missing_ok=True)
++        import shutil as _shutil
++
++        _shutil.rmtree(pub_dir / ".mechanical-refresh-retention", ignore_errors=True)
+ 
+     def test_head_drift_refused(self) -> None:
+         edition = self._build_validated_draft()
+@@ -943,12 +976,12 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+         real_recheck = refresh_owner._recheck_bound_snapshot
+         call_count = {"n": 0}
+ 
+-        def state_drifting_recheck(root, snap, label):
++        def state_drifting_recheck(root, snap, controls, label):
+             call_count["n"] += 1
+             if call_count["n"] == 2:
+                 # Corrupt State after guard acquisition.
+                 state_path.write_bytes(orig_state + b" ")
+-            return real_recheck(root, snap, label)
++            return real_recheck(root, snap, controls, label)
+ 
+         with mock.patch.object(refresh_owner, "_recheck_bound_snapshot", side_effect=state_drifting_recheck):
+             with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "drift|preserved|manual recovery"):
+@@ -961,28 +994,135 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+         _ = orig_state
+ 
+     def test_two_cooperating_calls_controlled_overlap(self) -> None:
+-        # Two cooperating callers with the same run_id (same recorded_at) contend
+-        # for the same guard/retention; the second must refuse without clobbering.
++        # TRUE controlled overlap: a second real writer starts synchronously
++        # while the first writer still holds the guard (via callback inside the
++        # first writer's retention phase). The second must refuse on the
++        # occupied guard without touching anything; the first then completes.
+         edition = self._build_validated_draft()
+         state_path = edition["state_path"]
+         self._commit_helper_comment("overlap")
+-        before = self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]])
+-        proc1 = self._run_refresh("overlap first", "synthetic-refresh-executor", "2026-09-27T16:13:03Z")
+-        self.assertEqual(proc1.returncode, 0, msg=proc1.stderr)
+-        # Second call with same recorded_at => same run_id => retention collision + guard released after commit.
+-        # To test true overlap, pre-create the next run's guard as foreign and verify refusal.
+-        # After first success, a repeat with a new helper change but same run_id must collide on retention.
+-        first_receipt = edition["receipt_path"].read_bytes()
+-        first_gate = edition["gate_path"].read_bytes()
+-        self._commit_helper_comment("overlap-second")
+-        proc2 = self._run_refresh("overlap second same run_id", "synthetic-refresh-executor", "2026-09-27T16:13:03Z")
+-        self.assertEqual(proc2.returncode, 2, msg=proc2.stdout)
+-        self.assertRegex(proc2.stderr, "retention collision|guard occupied|collision")
+-        # Second failed before live write: live unchanged (still first refresh's new bytes), exactly 1 record.
++        old_receipt = edition["receipt_path"].read_bytes()
++        second_outcome: dict[str, Any] = {}
++        _real_exclusive = refresh_owner._exclusive_bytes
++        _triggered = {"done": False}
++
++        def overlapping_exclusive(path: Path, data: bytes, label: str) -> None:
++            if not _triggered["done"] and label.startswith("retention receipt-superseded"):
++                _triggered["done"] = True
++                # Second real writer enters while the first holds the guard.
++                try:
++                    refresh_owner.refresh_mechanical_evidence(
++                        self.root, self.cfg, state_path,
++                        "overlapping second attempt", "synthetic-executor-2", R2_TIME,
++                    )
++                    second_outcome["raised"] = False
++                except refresh_owner.MechanicalRefreshError as exc:
++                    second_outcome["raised"] = True
++                    second_outcome["error"] = str(exc)
++            return _real_exclusive(path, data, label)
++
++        with mock.patch.object(refresh_owner, "_exclusive_bytes", side_effect=overlapping_exclusive):
++            result = refresh_owner.refresh_mechanical_evidence(
++                self.root, self.cfg, state_path, "overlap first", "synthetic-executor-1", R1_TIME
++            )
++        self.assertTrue(_triggered["done"], "overlap callback must have run the second writer")
++        self.assertTrue(second_outcome.get("raised"), "second writer must refuse while first holds guard")
++        self.assertRegex(second_outcome.get("error", ""), "guard occupied")
++        # First writer completed: new authority committed, own guard released.
++        self.assertNotEqual(edition["receipt_path"].read_bytes(), old_receipt)
+         self.assertEqual(len(self._record_list()), 1)
+-        self.assertEqual(edition["receipt_path"].read_bytes(), first_receipt)
+-        self.assertEqual(edition["gate_path"].read_bytes(), first_gate)
+-        _ = before
++        self.assertFalse((self.source_root / "publication/v2/.mechanical-refresh.lock").exists())
++        self.assertIn("retention", result)
++        weekly.validate_receipt(self.root, edition["receipt_path"], state_path)
++
++    def test_post_preflight_drift_refused_without_writes(self) -> None:
++        # Drift injected AFTER preflight capture (checkpoint / control script /
++        # untracked control file) must be caught by the before-guard recheck
++        # with no guard, no retention, no live writes and no new record.
++        edition = self._build_validated_draft()
++        state_path = edition["state_path"]
++        self._commit_helper_comment("post-preflight-drift")
++        pub_dir = self.source_root / "publication/v2"
++        lock_path = pub_dir / ".mechanical-refresh.lock"
++        retention_base = pub_dir / ".mechanical-refresh-retention"
++        state = core.load_json(state_path)
++        checkpoint_rel = state["checkpoint_provenance"]["validation"]["path"]
++        checkpoint_path = self.root / checkpoint_rel
++        control_rel = "scripts/survey_production_v2.py"
++        control_path = self.root / control_rel
++        stray_path = self.root / "scripts" / "synthetic-untracked-r1-drift.py"
++        cases = ("checkpoint", "control-dirty", "control-untracked")
++        for case in cases:
++            with self.subTest(case=case):
++                orig_checkpoint = checkpoint_path.read_bytes()
++                orig_control = control_path.read_bytes()
++                before = self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]])
++                real_recheck = refresh_owner._recheck_bound_snapshot
++                fired = {"n": 0}
++
++                def drifting_recheck(root, snap, controls, label):
++                    fired["n"] += 1
++                    if fired["n"] == 1:
++                        if case == "checkpoint":
++                            checkpoint_path.write_bytes(orig_checkpoint + b" ")
++                        elif case == "control-dirty":
++                            control_path.write_bytes(orig_control + b"\n# synthetic post-preflight drift\n")
++                        else:
++                            stray_path.write_text("# synthetic untracked control drift\n", encoding="utf-8")
++                    return real_recheck(root, snap, controls, label)
++
++                try:
++                    with mock.patch.object(refresh_owner, "_recheck_bound_snapshot", side_effect=drifting_recheck):
++                        with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "drift|untracked| differ from committed HEAD"):
++                            refresh_owner.refresh_mechanical_evidence(
++                                self.root, self.cfg, state_path, f"{case} attempt", "synthetic-executor", R1_TIME
++                            )
++                    self.assertTrue(fired["n"] >= 1)
++                    self.assertFalse(lock_path.exists(), "no guard may be created after post-preflight drift")
++                    self.assertFalse(retention_base.exists(), "no retention may be written after post-preflight drift")
++                    self.assertEqual(before, self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]]))
++                    self.assertEqual(self._record_list(), [])
++                finally:
++                    checkpoint_path.write_bytes(orig_checkpoint)
++                    control_path.write_bytes(orig_control)
++                    stray_path.unlink(missing_ok=True)
++
++    def test_alias_state_and_inside_root_symlinks_refused(self) -> None:
++        # REAL entry-point alias coverage (not helper-only): a symlinked --state
++        # path and inside-root symlinked source/publication/receipt locations
++        # must be refused with no guard/retention/live/record writes.
++        edition = self._build_validated_draft()
++        state_path = edition["state_path"]
++        self._commit_helper_comment("alias-entry")
++        pub_dir = self.source_root / "publication/v2"
++        before = self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]])
++        # (a) Symlinked State path through the real library entry.
++        alias_state = state_path.parent / "production-state-alias.json"
++        alias_state.symlink_to(state_path)
++        try:
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "symlink"):
++                refresh_owner.refresh_mechanical_evidence(
++                    self.root, self.cfg, alias_state, "alias-state attempt", "synthetic-executor", R1_TIME
++                )
++            self.assertEqual(before, self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]]))
++            self.assertEqual(self._record_list(), [])
++            self.assertFalse((pub_dir / ".mechanical-refresh.lock").exists())
++        finally:
++            alias_state.unlink(missing_ok=True)
++        # (b) Inside-root symlinked publication directory.
++        pub = self.source_root / "publication"
++        real = self.source_root / "publication-real"
++        pub.rename(real)
++        try:
++            (self.source_root / "publication").symlink_to(real, target_is_directory=True)
++            proc = self._run_refresh("inside-root-alias attempt", "synthetic-refresh-executor", "2026-09-27T16:13:03Z")
++            self.assertEqual(proc.returncode, 2, msg=proc.stdout)
++            self.assertRegex(proc.stderr, "symlink|ancestor|alias|unsafe")
++            self.assertEqual(self._record_list(), [])
++        finally:
++            (self.source_root / "publication").unlink(missing_ok=True)
++            real.rename(pub)
++        self.assertEqual(before, self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]]))
+ 
+     def test_partial_api_record_state_write_retained(self) -> None:
+         # Partial API record/State write: force API to leave a tampered record + original State,

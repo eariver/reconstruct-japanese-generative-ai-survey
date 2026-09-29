@@ -1,0 +1,678 @@
+diff --git a/scripts/survey_agent_control_v2.py b/scripts/survey_agent_control_v2.py
+index 9527127..e8e447b 100644
+--- a/scripts/survey_agent_control_v2.py
++++ b/scripts/survey_agent_control_v2.py
+@@ -1667,8 +1667,11 @@ def _atomic_replace_state_bytes(state_path: Path, expected_old: bytes, new_bytes
+     def _drop_own_temp() -> None:
+         """Remove the temp file only if it is still our exclusive creation.
+ 
+-        Unknown temp bytes (identity mismatch or unreadable) are retained,
+-        never unlinked as potentially foreign.
++        Requires the SAME fd-captured file identity AND bytes equal to the
++        expected temporary serialization. Identity mismatch, changed content,
++        alias, or unreadability all retain the temp: unknown bytes are never
++        unlinked as potentially foreign, even when the inode matches but an
++        external writer changed the contents.
+         """
+         try:
+             if tmp.is_symlink():
+@@ -1676,6 +1679,11 @@ def _atomic_replace_state_bytes(state_path: Path, expected_old: bytes, new_bytes
+             cur = os.stat(tmp)
+             if tmp_id is not None and (cur.st_dev, cur.st_ino) != tmp_id:
+                 return
++            try:
++                if tmp.read_bytes() != new_bytes:
++                    return
++            except OSError:
++                return
+             tmp.unlink(missing_ok=True)
+         except OSError:
+             pass
+@@ -1701,6 +1709,20 @@ def _atomic_replace_state_bytes(state_path: Path, expected_old: bytes, new_bytes
+             raise
+         _drop_own_temp()
+         raise AgentControlError(f"{label} pre-replace recheck failed: {exc}") from exc
++    # Re-verify the temp is still our known identity+bytes immediately before
++    # publishing: a temp modified after verification must never be published.
++    try:
++        if tmp.is_symlink():
++            raise AgentControlError(f"{label} temp is a symlink before replace; manual recovery required")
++        _tmp_cur = os.stat(tmp)
++        if tmp_id is not None and (_tmp_cur.st_dev, _tmp_cur.st_ino) != tmp_id:
++            raise AgentControlError(f"{label} temp identity changed before replace; manual recovery required")
++        if tmp.read_bytes() != new_bytes:
++            raise AgentControlError(f"{label} temp bytes changed before replace; manual recovery required")
++    except OSError as exc:
++        if isinstance(exc, AgentControlError):
++            raise
++        raise AgentControlError(f"{label} temp pre-publish recheck failed: {exc}") from exc
+     try:
+         os.replace(tmp, state_path)
+     except OSError as exc:
+diff --git a/scripts/survey_weekly_mechanical_refresh_v2.py b/scripts/survey_weekly_mechanical_refresh_v2.py
+index c85f0c7..a468703 100644
+--- a/scripts/survey_weekly_mechanical_refresh_v2.py
++++ b/scripts/survey_weekly_mechanical_refresh_v2.py
+@@ -217,19 +217,48 @@ def _atomic_replace(path: Path, data: bytes, label: str, run_id: str, expected_o
+     tmp = path.parent / f".{path.name}.tmp-{run_id}"
+     if tmp.is_symlink() or tmp.exists():
+         raise MechanicalRefreshError(f"refresh {label} temp collision: {tmp}")
+-    with open(tmp, "xb") as fh:
+-        fh.write(data)
+-        fh.flush()
++    try:
++        with open(tmp, "xb") as fh:
++            fh.write(data)
++            fh.flush()
++            try:
++                os.fsync(fh.fileno())
++            except OSError:
++                pass
++            try:
++                _tmp_fst = os.fstat(fh.fileno())
++                tmp_id: tuple[int, int] | None = (_tmp_fst.st_dev, _tmp_fst.st_ino)
++            except OSError as exc:
++                raise MechanicalRefreshError(f"refresh {label} temp identity capture failed: {exc}") from exc
++    except FileExistsError as exc:
++        raise MechanicalRefreshError(f"refresh {label} temp collision: {tmp}") from exc
++
++    def _drop_own_temp() -> None:
++        """Remove the temp file only if it is still our exclusive creation.
++
++        Requires the SAME fd-captured file identity AND bytes equal to the
++        expected temporary serialization. Changed content on the same inode,
++        swapped inodes (even with identical bytes), aliases, or unreadability
++        all retain the temp: unknown bytes are never unlinked as foreign.
++        """
+         try:
+-            os.fsync(fh.fileno())
++            if tmp.is_symlink():
++                return
++            cur = os.stat(tmp)
++            if tmp_id is not None and (cur.st_dev, cur.st_ino) != tmp_id:
++                return
++            try:
++                if tmp.read_bytes() != data:
++                    return
++            except OSError:
++                return
++            tmp.unlink(missing_ok=True)
+         except OSError:
+             pass
++
+     try:
+         if tmp.read_bytes() != data:
+-            try:
+-                tmp.unlink(missing_ok=True)
+-            except OSError:
+-                pass
++            _drop_own_temp()
+             raise MechanicalRefreshError(f"refresh {label} temp bytes mismatch; live bytes untouched")
+     except OSError as exc:
+         if isinstance(exc, MechanicalRefreshError):
+@@ -239,10 +268,7 @@ def _atomic_replace(path: Path, data: bytes, label: str, run_id: str, expected_o
+     if expected_old_sha256 is not None:
+         try:
+             if core.sha256_file(path) != expected_old_sha256:
+-                try:
+-                    tmp.unlink(missing_ok=True)
+-                except OSError:
+-                    pass
++                _drop_own_temp()
+                 raise MechanicalRefreshError(
+                     f"refresh {label} destination changed before replace at {path}; "
+                     "live bytes + retention + guard preserved for manual recovery"
+@@ -250,16 +276,32 @@ def _atomic_replace(path: Path, data: bytes, label: str, run_id: str, expected_o
+         except OSError as exc:
+             if isinstance(exc, MechanicalRefreshError):
+                 raise
+-            try:
+-                tmp.unlink(missing_ok=True)
+-            except OSError:
+-                pass
++            _drop_own_temp()
+             raise MechanicalRefreshError(f"refresh {label} pre-replace recheck failed: {exc}") from exc
+-    os.replace(tmp, path)
++    # Re-verify the temp is still our known identity+bytes immediately before
++    # publishing: a temp modified after verification must never be published.
++    try:
++        if tmp.is_symlink():
++            raise MechanicalRefreshError(f"refresh {label} temp is a symlink before replace; manual recovery required")
++        _tmp_cur = os.stat(tmp)
++        if tmp_id is not None and (_tmp_cur.st_dev, _tmp_cur.st_ino) != tmp_id:
++            raise MechanicalRefreshError(f"refresh {label} temp identity changed before replace; manual recovery required")
++        if tmp.read_bytes() != data:
++            raise MechanicalRefreshError(f"refresh {label} temp bytes changed before replace; manual recovery required")
++    except OSError as exc:
++        if isinstance(exc, MechanicalRefreshError):
++            raise
++        raise MechanicalRefreshError(f"refresh {label} temp pre-publish recheck failed: {exc}") from exc
++    try:
++        os.replace(tmp, path)
++    except OSError as exc:
++        raise MechanicalRefreshError(f"refresh {label} replace failed; live bytes preserved for manual recovery: {exc}") from exc
+     try:
+         if core.sha256_file(path) != core.sha256_bytes(data):
+             raise MechanicalRefreshError(f"refresh {label} post-replace mismatch at {path}; manual recovery required")
+     except OSError as exc:
++        if isinstance(exc, MechanicalRefreshError):
++            raise
+         raise MechanicalRefreshError(f"refresh {label} post-replace readback failed: {exc}") from exc
+ 
+ 
+@@ -511,9 +553,17 @@ def _capture_bound_snapshot(
+             if isinstance(art, dict) and art.get("path") and art.get("sha256"):
+                 _expect_file(snap, root, art["path"], art["sha256"], f"checkpoint {cp_name} artifact {art.get('name')}")
+         for review in record.get("reviews", []):
+-            result = (review or {}).get("result", {})
++            if not isinstance(review, dict):
++                continue
++            result = review.get("result", {})
+             if isinstance(result, dict) and result.get("path") and result.get("sha256"):
+                 _expect_file(snap, root, result["path"], result["sha256"], f"checkpoint {cp_name} result {review.get('check_id')}")
++            elif isinstance(result, str) and result:
++                # Legacy result_path string shape: no recorded digest to compare,
++                # so pin live bytes as captured right after strict P0 validation
++                # proved them (not an overwrite of a recorded expectation).
++                live_res = _safe_existing_file(root, result, f"checkpoint {cp_name} result {review.get('check_id')}")
++                _add_expected(snap, _rel(root, live_res), core.sha256_file(live_res), f"checkpoint {cp_name} result live")
+     # Full predecessor record chain via supersedes (not just the State pointer).
+     ptr: dict[str, Any] | None = state.get("publication_revalidation_provenance")
+     _chain_depth = 0
+@@ -610,14 +660,51 @@ def _recheck_bound_snapshot(root: Path, snap: dict[str, str], controls: list[str
+             )
+ 
+ 
++def _assert_canonical_publication_paths(
++    root: Path,
++    publication_dir: Path,
++    reviewed_path: Path,
++    receipt_path: Path,
++    gate_path: Path,
++    manuscript_rel: str,
++    roles: dict[str, str],
++) -> None:
++    """Assert full Profile-derived surface/receipt/Gate/manuscript paths.
++
++    Requires exact default filenames (not just the parent directory), receipt
++    next to the reviewed surface, all three under the canonical publication
++    dir, and the manuscript row equal to the canonical ``reader-manuscript``
++    role (unique is not enough). Runs before any retained write.
++    """
++    if reviewed_path.name != "reader-surface-input-v2.json":
++        raise MechanicalRefreshError(
++            f"refresh reviewed surface filename is not canonical: {reviewed_path.name}"
++        )
++    if receipt_path.name != RECEIPT_FILENAME:
++        raise MechanicalRefreshError(f"refresh receipt filename is not canonical: {receipt_path.name}")
++    if gate_path.name != GATE_FILENAME:
++        raise MechanicalRefreshError(f"refresh Gate filename is not canonical: {gate_path.name}")
++    if reviewed_path.parent != publication_dir or receipt_path.parent != publication_dir:
++        raise MechanicalRefreshError("refresh reviewed surface/receipt are not under canonical Profile publication/v2")
++    if gate_path.parent != publication_dir:
++        raise MechanicalRefreshError("refresh Gate is not under canonical Profile publication/v2")
++    if receipt_path.parent != reviewed_path.parent:
++        raise MechanicalRefreshError("refresh receipt must live next to the reviewed reader input")
++    if manuscript_rel != roles.get("reader-manuscript"):
++        raise MechanicalRefreshError(
++            f"refresh manuscript row is not the canonical reader-manuscript role: {manuscript_rel!r}"
++        )
++
++
+ def _record_inventory(publication_dir: Path) -> dict[str, str]:
+     """Inventory revalidation records by name+hash/identity (not names only).
+ 
+     Includes regular files (sha256 of bytes), symlinks (link target, never
+     followed), and any other entry type by kind label, so symlink/partial
+-    plants are detected instead of being filtered out by ``is_file``.
+-    Raises MechanicalRefreshError on unreadable directories (unknown state is
+-    never treated as clean).
++    plants are detected instead of being filtered out by ``is_file``. Any
++    unreadable entry raises a precise error: unknown state is never encoded
++    as a sentinel value that could compare equal before/after and be treated
++    as clean. Performs zero writes.
+     """
+     try:
+         entries = list(publication_dir.iterdir())
+@@ -628,21 +715,27 @@ def _record_inventory(publication_dir: Path) -> dict[str, str]:
+         if not child.name.startswith("publication-surface-revalidation-r"):
+             continue
+         try:
+-            if child.is_symlink():
+-                try:
+-                    target = os.readlink(child)
+-                except OSError:
+-                    target = "<unreadable-link>"
+-                inventory[child.name] = "symlink:" + target
+-            elif child.is_file():
+-                try:
+-                    inventory[child.name] = "sha256:" + core.sha256_file(child)
+-                except OSError:
+-                    inventory[child.name] = "<unreadable-file>"
+-            else:
+-                inventory[child.name] = "<other>"
+-        except OSError:
+-            inventory[child.name] = "<unknown>"
++            is_link = child.is_symlink()
++        except OSError as exc:
++            raise MechanicalRefreshError(f"refresh record entry unreadable: {child.name}: {exc}") from exc
++        if is_link:
++            try:
++                target = os.readlink(child)
++            except OSError as exc:
++                raise MechanicalRefreshError(f"refresh record symlink unreadable: {child.name}: {exc}") from exc
++            inventory[child.name] = "symlink:" + target
++            continue
++        try:
++            is_file = child.is_file()
++        except OSError as exc:
++            raise MechanicalRefreshError(f"refresh record entry unreadable: {child.name}: {exc}") from exc
++        if is_file:
++            try:
++                inventory[child.name] = "sha256:" + core.sha256_file(child)
++            except OSError as exc:
++                raise MechanicalRefreshError(f"refresh record file unreadable: {child.name}: {exc}") from exc
++        else:
++            inventory[child.name] = "<other>"
+     return inventory
+ 
+ 
+@@ -1056,12 +1149,10 @@ def refresh_mechanical_evidence(
+     publication_dir = core.repo_local_path(root, _pub_rel, "publication dir")
+     _reject_symlink_ancestors(root, publication_dir, "publication dir")
+     _reject_symlink_ancestors(root, reviewed_path, "reviewed reader input")
+-    if reviewed_path.resolve().parent != publication_dir:
+-        raise MechanicalRefreshError(
+-            f"reviewed surface is not under canonical Profile publication/v2: {_rel(root, reviewed_path)}"
+-        )
+-    if old_receipt_path.resolve().parent != publication_dir or gate_path.resolve().parent != publication_dir:
+-        raise MechanicalRefreshError("receipt/Gate are not under canonical Profile publication/v2")
++    _assert_canonical_publication_paths(
++        root, publication_dir, reviewed_path.resolve(), old_receipt_path.resolve(),
++        gate_path.resolve(), manuscript_rel, roles,
++    )
+     # Canonical State already verified Profile-derived above.
+     # Capture complete bound snapshot before any live write.
+     bound_snapshot = _capture_bound_snapshot(
+@@ -1261,8 +1352,29 @@ def refresh_mechanical_evidence(
+         _recheck_bound_snapshot(root, bound_snapshot, controls, "before revalidation")
+         _verify_guard_owned(lock_path, expected_guard_bytes, expected_guard_id, "cooperative guard (before revalidation)")
+         basis = agent.built_checked_pending_publication_basis(root, cfg, state_path)
+-        if len(basis.replacements) != 1 or basis.replacements[0][0] != "reader-surface-gate":
++        # The just-renewed Gate must be the only NEW change. Rows already renewed
++        # by a healthy prior metadata revalidation (manuscript/reviews with
++        # current-effective shas) are accepted only if they match the active
++        # record's superseded rows exactly (same name/path/prior/new); anything
++        # else is an unrelated mutation and refuses.
++        _gate_reps = [r for r in basis.replacements if r[0] == "reader-surface-gate"]
++        if len(_gate_reps) != 1 or _gate_reps[0][1] != gate_rel:
+             raise MechanicalRefreshError("pending basis is not exactly the renewed Gate row")
++        if active is None:
++            if len(basis.replacements) != 1:
++                raise MechanicalRefreshError("pending basis is not exactly the renewed Gate row")
++        else:
++            _active_sup = {
++                (row.get("name"), row.get("path")): (row.get("prior_sha256"), row.get("new_sha256"))
++                for row in active.get("superseded_artifacts", []) if isinstance(row, dict)
++            }
++            for _rep in basis.replacements:
++                if _rep[0] == "reader-surface-gate":
++                    continue
++                if _active_sup.get((_rep[0], _rep[1])) != (_rep[2], _rep[3]):
++                    raise MechanicalRefreshError(
++                        f"pending basis has unrelated change outside the renewed Gate and active authority: {_rep[0]}"
++                    )
+         # Capture pre-API record inventory (names+hashes/identity) for
+         # post-failure disposition inspection. Unreadable here fails closed.
+         pre_records = _record_inventory(publication_dir)
+diff --git a/tests/test_survey_publication_revalidation_v2.py b/tests/test_survey_publication_revalidation_v2.py
+index a5e2c05..8166e34 100644
+--- a/tests/test_survey_publication_revalidation_v2.py
++++ b/tests/test_survey_publication_revalidation_v2.py
+@@ -1217,6 +1217,69 @@ class PublicationRevalidationTests(unittest.TestCase):
+         finally:
+             temp.cleanup()
+ 
++    def test_r1_temp_ownership_same_inode_and_swap(self) -> None:
++        """R1 correction: temp helper publishes/removes only own identity+bytes.
++
++        Lightweight fault injection on `_atomic_replace_state_bytes` (tmp-dir
++        only, no fixture): same-inode content change and identical-bytes inode
++        swap are both refused before publish; live stays original; unknown temp
++        bytes are preserved with a precise retained-file error.
++        """
++        import os as _os
++        import tempfile
++
++        with tempfile.TemporaryDirectory(prefix="jgas-r1-reval-tmp-") as tmp:
++            state_path = Path(tmp).resolve() / "production-state.json"
++            original = b'{"lifecycle_state": "VALIDATED_DRAFT"}\n'
++            new = b'{"lifecycle_state": "VALIDATED_DRAFT", "n": 2}\n'
++            state_path.write_bytes(original)
++            tmp_path = state_path.parent / f".{state_path.name}.tmp-reval-{core.sha256_bytes(new)[:16]}"
++            # (a) Same-inode content change between verification and publish.
++            real_read = Path.read_bytes
++            tampered = {"n": 0}
++
++            def tampering_read(self):
++                if self == tmp_path:
++                    tampered["n"] += 1
++                    if tampered["n"] == 2:
++                        tmp_path.write_bytes(b'{"tampered": true}\n')
++                return real_read(self)
++
++            with mock.patch.object(Path, "read_bytes", autospec=True, side_effect=tampering_read):
++                with self.assertRaisesRegex(agent.AgentControlError, "temp bytes changed before replace"):
++                    agent._atomic_replace_state_bytes(state_path, original, new, "unit State")
++            self.assertEqual(state_path.read_bytes(), original)
++            self.assertEqual(tmp_path.read_bytes(), b'{"tampered": true}\n')
++            tmp_path.unlink(missing_ok=True)
++            # (b) Inode swap with identical bytes refused by identity.
++            real_stat = _os.stat
++            swapped = {"done": False}
++
++            def swapping_stat(path, *args, **kwargs):
++                try:
++                    result = real_stat(path, *args, **kwargs)
++                except OSError:
++                    raise
++                if path == tmp_path and not swapped["done"]:
++                    try:
++                        if tmp_path.read_bytes() == new:
++                            swapped["done"] = True
++                            sib = state_path.parent / "sibling-identical.json"
++                            sib.write_bytes(new)
++                            real_replace(sib, tmp_path)
++                            result = real_stat(path, *args, **kwargs)
++                    except OSError:
++                        pass
++                return result
++
++            real_replace = _os.replace
++            with mock.patch.object(_os, "stat", side_effect=swapping_stat):
++                with self.assertRaisesRegex(agent.AgentControlError, "temp identity changed before replace"):
++                    agent._atomic_replace_state_bytes(state_path, original, new, "unit State")
++            self.assertTrue(swapped["done"])
++            self.assertEqual(state_path.read_bytes(), original)
++            self.assertEqual(tmp_path.read_bytes(), new)
++
+     def test_r1_state_atomic_temp_replace_no_truncate(self) -> None:
+         """R1 correction: revalidation owner uses bounded temp+replace, not truncating write_json."""
+         source = (self.root / "scripts" / "survey_agent_control_v2.py").read_text(encoding="utf-8")
+diff --git a/tests/test_survey_weekly_mechanical_refresh_v2.py b/tests/test_survey_weekly_mechanical_refresh_v2.py
+index f85775d..65a375d 100644
+--- a/tests/test_survey_weekly_mechanical_refresh_v2.py
++++ b/tests/test_survey_weekly_mechanical_refresh_v2.py
+@@ -796,6 +796,131 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+             with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "symlink"):
+                 refresh_owner._check_raw_abs_ancestors(root, root / "alias" / "f.json", "unit alias abs")
+ 
++    def test_canonical_publication_names_binding(self) -> None:
++        # Lightweight prior-binding unit driving the writer's real canonical
++        # assertion helper: actual anchored positive control plus
++        # filename/role/location decoys. The helper runs before any retained
++        # write in the real writer path.
++        import tempfile
++
++        with tempfile.TemporaryDirectory(prefix="jgas-r1-names-unit-") as tmp:
++            root = Path(tmp).resolve()
++            pub = root / "sources" / "2026-W37" / "publication" / "v2"
++            pub.mkdir(parents=True)
++            surface = pub / "reader-surface-input-v2.json"
++            receipt = pub / refresh_owner.RECEIPT_FILENAME
++            gate = pub / refresh_owner.GATE_FILENAME
++            manuscript_rel = "sources/2026-W37/publication/v2/reader-manuscript-v2.json"
++            roles = {
++                "reader-manuscript": manuscript_rel,
++                "reader-surface-gate": "sources/2026-W37/publication/v2/reader-surface-gate-v2.json",
++            }
++            # Positive actual anchored control passes.
++            refresh_owner._assert_canonical_publication_paths(
++                root, pub, surface, receipt, gate, manuscript_rel, roles
++            )
++            # Decoy filenames refused.
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "filename is not canonical"):
++                refresh_owner._assert_canonical_publication_paths(
++                    root, pub, pub / "surface-input.json", receipt, gate, manuscript_rel, roles
++                )
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "filename is not canonical"):
++                refresh_owner._assert_canonical_publication_paths(
++                    root, pub, surface, pub / "manifest.json", gate, manuscript_rel, roles
++                )
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "filename is not canonical"):
++                refresh_owner._assert_canonical_publication_paths(
++                    root, pub, surface, receipt, pub / "gate.json", manuscript_rel, roles
++                )
++            # Non-canonical manuscript role refused (unique-but-wrong is not enough).
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "canonical reader-manuscript role"):
++                refresh_owner._assert_canonical_publication_paths(
++                    root, pub, surface, receipt, gate,
++                    "sources/2026-W37/publication/v2/decoy-manuscript.json", roles,
++                )
++            # Off-directory surface (canonical name, wrong dir) refused.
++            with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "canonical Profile publication"):
++                refresh_owner._assert_canonical_publication_paths(
++                    root, pub, root / "reader-surface-input-v2.json", receipt, gate, manuscript_rel, roles
++                )
++
++    def test_atomic_replace_temp_ownership(self) -> None:
++        # Operating-contract safety for the writer temp helper (lightweight,
++        # tmp-dir only): (a) same-inode content change after verification is
++        # detected before publish; (b) inode swap with identical bytes is
++        # refused by identity. Unknown temps are never removed or published;
++        # live stays original with a precise retained-file error.
++        import tempfile
++
++        with tempfile.TemporaryDirectory(prefix="jgas-r1-writer-tmp-") as tmp:
++            live = Path(tmp).resolve() / "live.json"
++            old = b'{"v": 1}\n'
++            new = b'{"v": 2}\n'
++            live.write_bytes(old)
++            old_sha = core.sha256_bytes(old)
++            tmp_path = live.parent / ".live.json.tmp-R1UNIT"
++            # (a) Same-inode bytes change between verification and publish.
++            real_read = Path.read_bytes
++            tampered = {"n": 0}
++
++            def tampering_read(self):
++                if self == tmp_path:
++                    tampered["n"] += 1
++                    if tampered["n"] == 2:
++                        tmp_path.write_bytes(b'{"tampered": true}\n')
++                return real_read(self)
++
++            with mock.patch.object(Path, "read_bytes", autospec=True, side_effect=tampering_read):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "temp bytes changed before replace"):
++                    refresh_owner._atomic_replace(live, new, "unit-live", "R1UNIT", expected_old_sha256=old_sha)
++            self.assertEqual(live.read_bytes(), old)
++            self.assertEqual(tmp_path.read_bytes(), b'{"tampered": true}\n')
++            tmp_path.unlink(missing_ok=True)
++            # (b) Inode swap with identical bytes refused by identity.
++            real_stat = os.stat
++            swapped = {"done": False}
++
++            def swapping_stat(path, *args, **kwargs):
++                try:
++                    result = real_stat(path, *args, **kwargs)
++                except OSError:
++                    raise
++                if path == tmp_path and not swapped["done"]:
++                    try:
++                        if tmp_path.read_bytes() == new:
++                            swapped["done"] = True
++                            sib = live.parent / "sibling-identical.json"
++                            sib.write_bytes(new)
++                            os.replace(sib, tmp_path)
++                            result = real_stat(path, *args, **kwargs)
++                    except OSError:
++                        pass
++                return result
++
++            with mock.patch.object(os, "stat", side_effect=swapping_stat):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "temp identity changed before replace"):
++                    refresh_owner._atomic_replace(live, new, "unit-live", "R1UNIT", expected_old_sha256=old_sha)
++            self.assertTrue(swapped["done"])
++            self.assertEqual(live.read_bytes(), old)
++            self.assertEqual(tmp_path.read_bytes(), new)
++
++    def test_record_inventory_unreadable_fails_closed_without_writes(self) -> None:
++        # Tiny error-injection boundary: unreadable record entries raise a
++        # precise error (no '<unreadable>' sentinel treated as clean) and the
++        # helper performs zero writes.
++        import tempfile
++
++        with tempfile.TemporaryDirectory(prefix="jgas-r1-recinv-unit-") as tmp:
++            pub = Path(tmp).resolve()
++            rec = pub / "publication-surface-revalidation-r1.json"
++            rec.write_bytes(b'{"a": 1}')
++            before = sorted(p.name for p in pub.iterdir())
++            with mock.patch.object(refresh_owner.core, "sha256_file", side_effect=OSError("injected unreadable")):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, "unreadable|record inventory"):
++                    refresh_owner._record_inventory(pub)
++            self.assertEqual(sorted(p.name for p in pub.iterdir()), before)
++            self.assertEqual(rec.read_bytes(), b'{"a": 1}')
++
+     def test_gate_equality_requires_complete_fields(self) -> None:
+         import copy
+ 
+@@ -1124,6 +1249,69 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+             real.rename(pub)
+         self.assertEqual(before, self._snapshot([state_path, edition["receipt_path"], edition["gate_path"]]))
+ 
++    def test_bundle_result_drift_before_and_after_receipt(self) -> None:
++        # Actual bundle deterministic result.path/hash (not synthetic): mutation
++        # BEFORE any live write must fail with no guard/retention/live/record;
++        # mutation AFTER receipt installation must retain the guard and the new
++        # owned receipt (never restore new bytes against dependency drift).
++        edition = self._build_validated_draft()
++        state_path = edition["state_path"]
++        self._commit_helper_comment("result-drift")
++        pub_dir = self.source_root / "publication/v2"
++        lock_path = pub_dir / ".mechanical-refresh.lock"
++        bundle_doc = quality.validate_bundle(self.root, edition["bundle_path"], issue_id=ISSUE)
++        res_ref = bundle_doc["checks"][0]["result"]
++        res_path = self.root / res_ref["path"]
++        orig_res = res_path.read_bytes()
++        old_receipt = edition["receipt_path"].read_bytes()
++        # Phase 1: drift before any live write (first recheck boundary).
++        real_recheck = refresh_owner._recheck_bound_snapshot
++        fired = {"n": 0}
++
++        def early_drifting_recheck(root, snap, controls, label):
++            fired["n"] += 1
++            if fired["n"] == 1:
++                res_path.write_bytes(orig_res + b" ")
++            return real_recheck(root, snap, controls, label)
++
++        try:
++            with mock.patch.object(refresh_owner, "_recheck_bound_snapshot", side_effect=early_drifting_recheck):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, res_path.name.replace(".", "\\.")):
++                    refresh_owner.refresh_mechanical_evidence(
++                        self.root, self.cfg, state_path, "result-drift-before", "synthetic-executor", R1_TIME
++                    )
++            self.assertFalse(lock_path.exists())
++            self.assertFalse((pub_dir / ".mechanical-refresh-retention").exists())
++            self.assertEqual(edition["receipt_path"].read_bytes(), old_receipt)
++            self.assertEqual(self._record_list(), [])
++        finally:
++            res_path.write_bytes(orig_res)
++        # Phase 2: drift after receipt installation (fourth recheck boundary).
++        fired2 = {"n": 0}
++
++        def late_drifting_recheck(root, snap, controls, label):
++            fired2["n"] += 1
++            if fired2["n"] == 4:
++                res_path.write_bytes(orig_res + b" ")
++            return real_recheck(root, snap, controls, label)
++
++        try:
++            with mock.patch.object(refresh_owner, "_recheck_bound_snapshot", side_effect=late_drifting_recheck):
++                with self.assertRaisesRegex(refresh_owner.MechanicalRefreshError, res_path.name.replace(".", "\\.")):
++                    refresh_owner.refresh_mechanical_evidence(
++                        self.root, self.cfg, state_path, "result-drift-after", "synthetic-executor", R1_TIME
++                    )
++            # Guard retained; new owned receipt preserved (never restored against drift).
++            self.assertTrue(lock_path.is_file())
++            self.assertNotEqual(edition["receipt_path"].read_bytes(), old_receipt)
++            self.assertEqual(self._record_list(), [])
++        finally:
++            res_path.write_bytes(orig_res)
++            lock_path.unlink(missing_ok=True)
++            import shutil as _shutil2
++
++            _shutil2.rmtree(pub_dir / ".mechanical-refresh-retention", ignore_errors=True)
++
+     def test_partial_api_record_state_write_retained(self) -> None:
+         # Partial API record/State write: force API to leave a tampered record + original State,
+         # wrapper must retain guard and never delete unknown record.
+@@ -1167,6 +1355,70 @@ class WeeklyMechanicalRefreshV2Tests(unittest.TestCase):
+         # The guard at this point is own expected bytes (since API fault retained it); remove for cleanup.
+         (self.source_root / "publication/v2/.mechanical-refresh.lock").unlink(missing_ok=True)
+ 
++    def test_metadata_revalidation_effective_rows_then_refresh(self) -> None:
++        # Healthy prior METADATA revalidation with effective manuscript/review
++        # rows (not gate-only): snapshot + preflight must use current-effective
++        # shas, not false-fail on original checkpoint shas. Pattern follows the
++        # existing B pending-renewal helper (manuscript authored_by renewal).
++        edition = self._build_validated_draft()
++        state_path = edition["state_path"]
++        self._commit_helper_comment("meta-first")
++        first = refresh_owner.refresh_mechanical_evidence(
++            self.root, self.cfg, state_path, "meta first refresh", "synthetic-executor", R1_TIME
++        )
++        r1_path = self.root / first["revalidation_record"]
++        r1_before = r1_path.read_bytes()
++        # Metadata renewal: manuscript authored_by change (B helper pattern),
++        # Gate rebuild, then a real metadata revalidation (manuscript + Gate
++        # superseded, reviews preserved).
++        manuscript_path = edition["manuscript_path"]
++        manuscript_doc = core.load_json(manuscript_path)
++        manuscript_doc["authored_by"] = "synthetic metadata-renewal author"
++        manuscript_doc["manifest_sha256"] = core.sha256_object({
++            key: value for key, value in manuscript_doc.items() if key != "manifest_sha256"
++        })
++        core.write_json(manuscript_path, manuscript_doc)
++        reader_publication.build_reader_surface_gate(
++            self.root, manuscript_path, edition["review_path"],
++            output_path=edition["gate_path"], state_path=state_path,
++        )
++        # Publication reviews bind the manuscript bytes, so renew them too
++        # (B pending-renewal pattern: same checks, new reviewer/instant).
++        for _kind, _name in (("SEMANTIC_EDITORIAL", "semantic-editorial-review-v2.json"), ("VISUAL", "visual-review-v2.json")):
++            _path = self.source_root / "publication" / "v2" / _name
++            _old = core.load_json(_path)
++            _path.unlink()
++            reader_publication.build_review_record(
++                self.root, manuscript_path, edition["pdf_path"], 1, _kind,
++                _old["checks"], "synthetic metadata-renewal reviewer",
++                core.parse_instant("2026-09-19T05:35:00+09:00"), _path,
++            )
++        r2_path = agent.revalidate_publication_surface(
++            self.root, self.cfg, state_path, "REVIEWED_CORE_CHANGE",
++            "synthetic metadata renewal", "synthetic-executor",
++            core.parse_instant("2026-09-27T16:14:00Z"), None,
++        )
++        r2 = core.load_json(r2_path)
++        renewed_names = {row["name"] for row in r2["superseded_artifacts"]}
++        self.assertIn("reader-manuscript", renewed_names)
++        self.assertEqual(r1_path.read_bytes(), r1_before)
++        # Second helper change + refresh must succeed against effective rows.
++        # Recorded_at must advance past the metadata revalidation (chain
++        # chronology), so a fresh instant is used here, not R2_TIME.
++        self._commit_helper_comment("meta-second")
++        result = refresh_owner.refresh_mechanical_evidence(
++            self.root, self.cfg, state_path, "meta second refresh", "synthetic-executor",
++            core.parse_instant("2026-09-27T16:15:00Z"),
++        )
++        r3_path = self.root / result["revalidation_record"]
++        r3 = core.load_json(r3_path)
++        self.assertEqual(r3["supersedes"], {"path": str(r2_path.relative_to(self.root)), "sha256": core.sha256_file(r2_path)})
++        self.assertEqual(r1_path.read_bytes(), r1_before)
++        weekly.validate_receipt(self.root, edition["receipt_path"], state_path)
++        reader_gate.validate_reader_surface_gate(
++            self.root, edition["gate_path"], expected_manuscript_path=manuscript_path, state_path=state_path
++        )
++
+     def test_postcommit_reporting_does_not_rollback(self) -> None:
+         edition = self._build_validated_draft()
+         state_path = edition["state_path"]

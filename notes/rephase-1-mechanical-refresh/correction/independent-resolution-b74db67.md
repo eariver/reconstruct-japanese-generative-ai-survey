@@ -1,0 +1,54 @@
+# Independent successor resolution — FINAL b74db67 (bounded R1 seven-path)
+
+- Clock: **2026-09-29T23:12:43+09:00** (`Get-Date -Format o`, reconstruct workdir).
+- Role: **FRESH independent scoped reviewer** (same reviewer as `independent-review-8a544f9.md`), not author, not root/Astra. No model identity/benchmark claim. No delegation, no tests/imports/probes, no source edits, no checkout/switch/reset/clean/commit/index/ref/config, no network/production/Actions. Saved runners not executed. Only this new report file created.
+- Final candidate (fixed, immutable): **`b74db679f03908048db91420a8f262d412b8f58c`**, tree `515b5e93a29ba82d87f6fa81c7ecbaf2c3701bb0`, parent `57853cb76d3189b862f1edabe46b83cfc0c7bd29`, branch `codex/rephase-1-mechanical-r1-correction`, fixture `/tmp/jgas-rephase-mechanical-r1-20260928T000710Z`. Basis `a1a4242` (fresh copied-content root, NOT e4 ancestry). Shipping `e4c8269` unaffected.
+- Method: read-only. Reviewed immutable `correction/final-b74db679f03908048db91420a8f262d412b8f58c/` packet (`manifest-final.json`, `results.md`, `commit-evidence.txt`, 4 raw logs, `patch-57853cb-to-successor.patch`, `patch-final-a1-b74db67.patch`, `changed-files/` 7-path copies) plus `correction/round3/` preserved deltas (`patch-8a544f9-to-successor.patch`, `patch-985dcd6-to-successor.patch`, `patch-20177a1-to-successor.patch`, `manifest-round3.json`, `results.md`, `commit-evidence.txt`), `correction/returned-57853cb/` archive, `correction/evidence-preservation-limitations.md`, prior `independent-review-8a544f9.md`, contract and `03-return-evidence-clarification.md`. Compared full **8a→b74** (via 8a→578 plus 578→b74), not just final 56-line fix. Never read mutable worktree/fixture worktree as frozen. No `git show` writes; log-header pins accepted as preserved evidence.
+
+## Evidence actually relied on (and what was not)
+
+- Final 97-method matrix ran ONCE at b74 with durable pins: `weekly-refresh.log` 34 OK 1677s, `revalidation.log` 31 OK 56s, `gate.log` 27 OK 1.2s, `cli.log` 5 OK 40s; total **97 ran, 0 failed/errors/skipped**, HEAD/TREE/PARENT `b74/515b5e9/57853cb` + SOURCE-SHA256 matching `manifest-final.json` (`writer b8baaad…/blob 41b289f…`, `agent 5e38b86…/d11febc…`, others unchanged). Counts disclosed per file, not collapsed.
+- Broader than root's requested 3 affected cases; scope preserved as observed, necessity not implied. `increment-b` 8-method results remain antecedent (8a/985-era), NOT final exact-head transfer. No claim otherwise.
+- Lost/unverified: `round3/` was re-anchored in place from `20177a1` to `57853cb` contrary to instruction; original `985dcd6`-era (root-observed 100-test) and `20177a1`-era raw log bytes are **lost/unverified** unless actually preserved (archival note covers only `20177a1→578`). Immutable Git objects recover source only, not execution outputs. `returned-57853cb/` (21 files + `SHA256SUMS.txt`) archives 578-anchored evidence; `evidence-preservation-limitations.md` records the deviation. This resolution treats 985/20177 raw outputs as lost and relies only on preserved patches + final 97 logs.
+- Historical deviations persist: afd-era 4× `--no-verify` + fresh-root 41 `sources/…` unverified blobs. Correction commits report `hook_bypass:false` with exact add/commit commands and clean-except-pycache status, but absence of `--no-verify` does not by itself prove hook execution; no hook output is claimed. Fixture mode/blob copy proof covers the source-verified subset only, not full production application.
+
+## Delta 8a→b74 cross-check (code vs claims)
+
+Manifest mapping verified against actual `changed-files` + preserved patches:
+
+- **Temps identity+bytes (K2):** writer `_atomic_replace` now fd-captures `tmp_id`, `_drop_own_temp` requires identity AND `read_bytes()==data`, pre-publish recheck before `os.replace`, `FileExistsError→collision` mapped; agent `_atomic_replace_state_bytes` same (identity+bytes + pre-publish recheck). Claim accurate.
+- **Record identity (N1):** agent `_exclusive_create_record_bytes` returns fd-captured `(dev,ino)` via `x+b` + fd readback, `_record_identity_matches` requires identity+bytes, adoption + both rollback unlinks require it, inventory pins `sha256:…:ino:dev:ino`. Claim accurate. Limitation: detection + fail-closed retention only; **no immunity to races between last check and syscall claimed — global CAS remains excluded per contract.**
+- **Run ID nonce (N2, qualified):** `run_id = timestamp-nonce[:8]`, nonce reused as guard nonce; retention/tmp distinct for same-instant sequential runs; same-instant overlap still guard-refused. Qualification: timestamp-only predecessor was already fail-closed (collision refusal); predictable names alone were not an acceptance exploit. Nonce improves retry separation; the unsafe part was K2 unconditional cleanup, now fixed.
+- **Staged checks (N3):** explicit `git diff --cached --quiet HEAD` at preflight + every `_recheck_bound_snapshot`. Claim accurate; scoped to refresh path only.
+- **Membership/chain (N4):** `__CONTROL_MEMBERS__` JSON-list encoded/decoded; chain uses `agent.REVALIDATION_CHAIN_LIMIT` (≤32 links). Claim accurate; limit/rotation/history unchanged.
+- **Canonical paths (K3):** new `_assert_canonical_publication_paths` requires exact `reader-surface-input-v2.json` / `RECEIPT_FILENAME` / `GATE_FILENAME`, parents under canonical `publication_dir`, receipt-next-to-surface, `manuscript_rel == roles["reader-manuscript"]`; called before snapshot/guard/retention. Claim accurate.
+- **Inventory (K4):** `_record_inventory` raises on any unreadable entry/symlink/file (no sentinels), regular records pin `sha+dev+ino`; pre/post disposition change (including same-byte inode swap) retains guard. Claim accurate.
+- **P4 clarification:** `basis` must contain exactly the renewed Gate (`reader-surface-gate` + `gate_rel`); if `active is None` exactly 1 replacement, else every non-Gate rep must equal active `superseded (name,path)→(prior,new)` exactly. Row unions strict, every active file snapshot-pinned. This admits ONLY Gate-new relative to healthy ACTIVE starting authority; pending list relative to original checkpoint may include exact unchanged active-covered rows. No new non-Gate mutation admitted — verified by code + `test_metadata_revalidation_effective_rows_then_refresh` + negative mutation oracles.
+- **Semantic authority:** full old dict forwarded via `evaluate_reader_surface_gate(semantic_authority=dict(old…))` whose strict loader reopens/revalidates the persisted review; `_compare_gate_reports` requires full `semantic_authority` equality. No reviewer-metadata stripping.
+
+## Per-finding resolution (source + test)
+
+- **K1 validation deterministic results — RESOLVED (bounded).** Final `survey_weekly_mechanical_refresh_v2.py:559-574` mirrors ordinary validator (`survey_agent_control_v2.py:307-319`, `1505-1551`): only `kind==DETERMINISTIC` rows pin `{path,sha256}` with strict-dict requirement; nullable `AGENT_RESEARCH/EDITORIAL/VISUAL` rows skipped while checkpoint FILE hash pins content; validation artifacts use effective rows (550-554). Tests: `test_validation_checkpoint_agent_review_null_result` (real machinery null `AGENT_EDITORIAL` + deterministic ref, strict State positive, refresh succeeds) + retained `test_validation_report_drift_before_and_after_receipt` (actual `CORE_STAGE_CONTRACT` path/hash, zero-write pre-guard + retained post-receipt). Both green in final 34. Intermediate legacy-string fallback removed; final strict shape matches schema.
+- **K2 temps — RESOLVED (bounded).** Above + `test_atomic_replace_temp_ownership` (writer same-inode + identical-bytes swap refused, live preserved, unknown temp retained) + `test_r1_temp_ownership_same_inode_and_swap` (controller) green. No-clobber/no-publish of unknown temps verified.
+- **K3 canonical names — RESOLVED (bounded).** Above + `test_canonical_publication_names_binding` (positive + filename/role/location decoys) green; alias-entry tests retained.
+- **K4 inventory — RESOLVED (bounded).** Above + `test_record_inventory_unreadable_fails_closed_without_writes` + wrapper `test_same_byte_record_swap_retains_guard` + controller `test_r1_same_byte_replacement_retained_never_unlinked` green.
+- **K5 healthy prior metadata — RESOLVED (bounded).** `test_metadata_revalidation_effective_rows_then_refresh` (manuscript `authored_by` renewal + Gate rebuild + review renewal + real metadata revalidation, then helper change + refresh against effective rows, chronology-advanced instant, r1 immutability, receipt/Gate strict validation) green in final 34. P4 boundary enforced as above.
+- **N1 record identity — RESOLVED (bounded).** Code + same three same-byte tests green (reval 31 + weekly swap). No deletion of identical-bytes foreign inode; post-rename no-dangling-pointer retained.
+- **N2 nonce — RESOLVED (bounded, as qualified).** Code + `test_retention_collision_refuses_without_live_write` (deterministic nonce injection, foreign preserved, live untouched, own guard released on safe abort) green.
+- **N3 staged — RESOLVED (bounded).** Code + `test_staged_control_change_refused_before_writes` green; post-preflight drift cases retained.
+- **N4 membership/chain — RESOLVED (bounded).** Code + every-recheck exercise + predecessor-chain path green.
+- **New blockers at b74: none.** No new non-Gate admission, no stripped authority, no sentinel, no unconditional unlink, no filename bypass found in final bytes. Candidate fixtures use real accepted publisher path (existing constructors/argv + synthetic reviews/one-page PDF): this exercises the real code path but is **not real publication/Human judgment**; the prior phrase `not publisher-valid` is refined accordingly — synthetic inputs stay synthetic, real validators/CLI run.
+
+## Final verdict
+
+**BOUNDED_PASS for the seven-path R1 mechanical-refresh unit at b74db67** (writer + agent owner + Gate inspection/replay + derivation helpers + 2 tests + runbook). All K1-K5/N1-N4 resolved within the stated limits; 97/97 green with exact-head pins; no new blocker requiring code/test.
+
+Explicitly NOT included: whole-candidate NOT_READY/Step4/B3, canonical seven-point audit, full baseline application, all-profile/publication acceptance, Windows/Actions, crash/power-loss durability, global CAS, Human adoption. Root adopts its own assessment separately.
+
+## Limitations (bind the PASS)
+
+- PASS binds only `b74db67/tree 515b5e9` seven-path bytes reviewed; successor/branch moves invalidate it.
+- 985/20177 raw execution outputs lost (source recoverable, outputs not); 578→b74 delta + final 97 logs only.
+- Synthetic research/reviews/blank PDF; narrow snapshot windows; process-local synthetic Git envs; inert origin; no alternates.
+- No multi-file atomicity, no automated crash recovery, no concurrent-editor safety beyond cooperating guard + fail-closed retention.
+- No candidate mutation or test rerun by reviewer (read-only).

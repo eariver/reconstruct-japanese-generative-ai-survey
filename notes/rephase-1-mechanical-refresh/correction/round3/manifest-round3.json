@@ -1,0 +1,54 @@
+{
+  "round": 4,
+  "evidence_dir": "notes/rephase-1-mechanical-refresh/correction/round3",
+  "response_to": "root 4 narrow items on 8a544f9 K1 + independent N1-N4 (reviewer reads immutable 8a544f9 separately; no interaction claimed)",
+  "branch": "codex/rephase-1-mechanical-r1-correction",
+  "final_HEAD": "57853cb76d3189b862f1edabe46b83cfc0c7bd29",
+  "final_tree": "b5f07b62ed999d512d93ec136d879b176c47d5d0",
+  "final_parent": "20177a13c033e0d57caaff31debb96402417480d",
+  "commit_date": "2026-09-29 11:38:27 +0900",
+  "hook_bypass": false,
+  "seven_paths": [
+    {"path": "scripts/survey_weekly_mechanical_refresh_v2.py", "size": 89691, "worktree_sha256": "ef0541c43a2546e33cc52bd5698a06b3c0807cee0c07b05d6d7edcd1bf29c9d4", "blob": "e47899453c06f2ef1d968e0af11c8eeb9c677965", "mode": "100644", "changed_vs_20177a1": false, "note": "Unchanged by this commit; full content verified by reread against root items."},
+    {"path": "scripts/survey_agent_control_v2.py", "size": 123348, "worktree_sha256": "5e38b86b609e2726f9a3af6f0686426b4237b9d6e388e39d8efc360f6ede4bc0", "blob": "d11febc540f5611ed52e34168992efb81b58a44f", "mode": "100644", "changed_vs_20177a1": false, "note": "Unchanged by this commit."},
+    {"path": "scripts/survey_reader_surface_gate_v2.py", "size": 86029, "worktree_sha256": "818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f", "blob": "89b5b859a316cd0633a009ca808049fceabea999", "mode": "100644", "changed_vs_20177a1": false, "note": "No change required; private inspection + public full replay already correct."},
+    {"path": "scripts/survey_weekly_derivation_v2.py", "size": 43603, "worktree_sha256": "1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc", "blob": "6d14009c43b762200179bce14354f809e06a5509", "mode": "100644", "changed_vs_20177a1": false, "note": "Unchanged this round."},
+    {"path": "tests/test_survey_weekly_mechanical_refresh_v2.py", "size": 92871, "worktree_sha256": "55027854a127cd597b7ae7488cac8d574467cbf336e4bf30656e8466cc7f8f10", "blob": "d4ae36720243fdfa00ddd2ae507c77ff7f3fd446", "mode": "100644", "changed_vs_20177a1": true, "note": "Adds test_validation_report_drift_before_and_after_receipt (85+/0)."},
+    {"path": "tests/test_survey_publication_revalidation_v2.py", "size": 71039, "worktree_sha256": "c6b6e24579a594f47030489ed99799de1604854edf979abc68c550e22d070457", "blob": "6c468def9731f9eef4b6db4f1538cc19936e4e69", "mode": "100644", "changed_vs_20177a1": false, "note": "Unchanged by this commit."},
+    {"path": "docs/weekly-mechanical-refresh.md", "size": 7035, "worktree_sha256": "901b6d03163ea9f6f748cd4082c3c30dfdae539b3e51c169da39497bd2b6f57c", "blob": "10d03d97f38ec31f18e87c0e54fe588261ef7c1d", "mode": "100644", "changed_vs_20177a1": false, "note": "Unchanged this round."}
+  ],
+  "patches": [
+    {"file": "patch-20177a1-to-successor.patch", "range": "20177a1..57853cb (this round: 1 file, 85+/0-)", "sha256": "e3c6eccb9aaf24b070942f9f0533a9c319ee56647f12ffe0dd1240bec6e226a7"},
+    {"file": "patch-final-afd-57853cb.patch", "range": "afd925d..57853cb (final full)", "sha256": "d6f22cd36fd714d28ee553cbdffb13a8817bb3798979d352896d0c37c692d500"},
+    {"file": "patch-985dcd6-to-successor.patch", "range": "985dcd6..20177a1 (prior delta, preserved)", "note": "Earlier round file kept for full review of the delta chain."},
+    {"file": "patch-afd-to-successor.patch", "range": "afd925d..20177a1 (prior full, preserved)", "note": "Superseded by patch-final-afd-57853cb.patch; kept, not rewritten."}
+  ],
+  "runtime": {"python": "/tmp/jgas-rephase-application-venv/bin/python3.12", "version": "Python 3.12.14", "deps": ["attrs 26.1.0", "jsonschema 4.23.0", "jsonschema-specifications 2025.9.1", "pypdf 6.16.2", "referencing 0.37.0", "rpds-py 2026.6.3", "typing_extensions 4.16.0"], "cwd": "/tmp/jgas-rephase-mechanical-r1-20260928T000710Z"},
+  "final_logs": [
+    {"file": "weekly-refresh.log", "module": "tests.test_survey_weekly_mechanical_refresh_v2", "HEAD": "57853cb", "ran": 33, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 1535.778, "result": "OK", "note": "32 antecedent + validation-report new; disclosed, not collapsed"},
+    {"file": "revalidation.log", "module": "tests.test_survey_publication_revalidation_v2", "HEAD": "57853cb", "ran": 31, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 55.785, "result": "OK"},
+    {"file": "gate.log", "module": "tests.test_survey_reader_surface_gate_v2", "HEAD": "57853cb", "ran": 27, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 1.177, "result": "OK"},
+    {"file": "cli.log", "module": "tests.test_survey_gate_cli_persisted_review_v2", "HEAD": "57853cb", "ran": 5, "failed": 0, "errors": 0, "skipped": 0, "exit": 0, "time_s": 39.038, "result": "OK"}
+  ],
+  "final_totals": {"ran": 96, "failed": 0, "errors": 0, "skipped": 0},
+  "round_diffs_development_failures_fixed": [
+    "validation-report test uses actual CORE_STAGE_CONTRACT result path/hash; bundle test retained separately (no substitution claimed)",
+    "metadata test needed publication review renewal + unlink-before-rebuild (B pattern) + later recorded_at (chain chronology)",
+    "metadata scenario required narrow P4 extension for active-covered rows (approved clarification, strict unions kept)",
+    "head/state double-build contaminated HEAD; split into independent fixtures with exact expectations",
+    "post-rename mock broke rollback too (global os.replace); fail-once-only + wrapped bare replace",
+    "exclusive-create fd readback needs x+b readable handle (xb is write-only)",
+    "batched file writes without per-edit diff verification silently dropped some edits; adopted verify-after-each-edit discipline"
+  ],
+  "mapping_four_items": {
+    "K1_validation_reviews": {"code": "validation checkpoint artifacts use effective rows; its deterministic review results (CORE_STAGE_CONTRACT report) pinned from recorded {path,sha256} with strict-dict requirement (legacy fallback removed)", "tests": "test_validation_report_drift_before_and_after_receipt (actual result path/hash; zero-writes pre-guard; new-retained + guard/retention-kept post-receipt, no record)", "limits": "no global CAS; chain capped via agent limit"},
+    "N1_record_identity": {"code": "fd-captured (dev,ino) via x+b handle returned from exclusive create; adoption + both rollback unlinks require identity+bytes; inventory pins sha+dev+ino; same-byte replacement retained", "tests": "test_r1_same_byte_replacement_retained_never_unlinked, test_same_byte_record_swap_retains_guard, test_r1_post_rename_readback_failure_no_dangling_pointer, temp-ownership pair", "limits": "no race-free CAS claim; detection + retention only"},
+    "N2_run_id_nonce": {"code": "run_id = timestamp + per-op nonce (reused as guard nonce); temp FileExistsError mapped precisely in writer", "tests": "test_retention_collision_refuses_without_live_write via deterministic nonce injection (in-process direct call); same-instant overlap still guard-refused", "limits": "--recorded-at stays temporal provenance, not operation ID"},
+    "N3_staged_checks": {"code": "explicit git diff --cached --quiet HEAD at preflight (before _verify_head_bytes) and every recheck", "tests": "test_staged_control_change_refused_before_writes (stage different helper blob, restore worktree exact bytes, no reset/checkout/clean; CLI refuses)", "limits": "scoped to refresh path; no other commands generalized"},
+    "N4_membership_chain": {"code": "JSON-list membership encoding; agent.REVALIDATION_CHAIN_LIMIT with _check_revalidation_chain range semantics (<=32 links); P4 clarification note (Gate-new relative to active, strict unions, snapshot-pinned)", "tests": "membership exercised by every recheck incl. post-preflight untracked/dirty cases; chain depth via predecessor-chain snapshot path", "limits": "chain limit/rotation/history unchanged"}
+  },
+  "metadata_prior_note": "P4 accepts exactly the renewed Gate plus rows already renewed by healthy active authority with identical (name,path,prior,new); covered by test_metadata_revalidation_effective_rows_then_refresh. Clarification only, no auto authority expansion.",
+  "antecedent_scope_note": "8a544f9/985dcd6/20177a1 matrices remain antecedent (different source bytes for 4/0/1 paths respectively); final matrix above (96 tests) ran ONCE at 57853cb with durable logs. increment-b derivation untouched this round (antecedent coverage stands).",
+  "procedure": {"no_verify": false, "reset_clean_amend_config": "none", "production_main_network": "none", "delegation": "none", "scope": "existing seven paths only"},
+  "limits": "No multi-file atomicity, no crash/power-loss automation, no global CAS against noncooperators; cooperating writers only. Synthetic reviews/PDFs stay synthetic. For ROOT review then independent resolution. Independent reviewer hasn't seen 985dcd6+ and does not approve; nothing claimed otherwise."
+}

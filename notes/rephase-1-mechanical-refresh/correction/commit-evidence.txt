@@ -1,0 +1,37 @@
+# R1 correction — commit evidence (no hook bypass, no rewrite)
+
+## Pre-commit inspection (e60168c)
+- Fixture: /tmp/jgas-rephase-mechanical-r1-20260928T000710Z
+- Branch before: codex/rephase-1-mechanical-r1 @ afd925d4f2413533e62c3ed211c732dd4a4d1539 / tree 2ee9cf2a284aca8497e99fb833102b03f2fcf0a2 / parent e79967ac4a8d5da4b78e1a6ba8902c0ab2e2ced8
+- Status: `M docs/... M scripts/... (6 files)` + `?? scripts/__pycache__/ ?? tests/__pycache__/` (pycache-only untracked), `git diff --stat`: 6 files, 1530 insertions, 175 deletions
+- Log -10: afd925d, e79967a, 65ee720, a1a4242 (4 commits)
+- New branch: `git checkout -b codex/rephase-1-mechanical-r1-correction` from afd HEAD (preserves existing branch/commit/packet)
+- Clock observed: 2026-09-29T00:46:19.5010158+09:00 (Get-Date -Format o, reconstruct) / 2026-09-28T15:46:19+00:00 (wsl date -u)
+
+## Commit 1 — runtime + tests + runbook (e60168c)
+- Exact add: `git add -- docs/weekly-mechanical-refresh.md scripts/survey_agent_control_v2.py scripts/survey_weekly_derivation_v2.py scripts/survey_weekly_mechanical_refresh_v2.py tests/test_survey_publication_revalidation_v2.py tests/test_survey_weekly_mechanical_refresh_v2.py`
+- Status after add: `M  (6 staged)` + pycache untracked
+- Exact commit (process-local env, actual clock, NO --no-verify, no config changes):
+  `GIT_AUTHOR_NAME='R1 Correction General Co-Worker' GIT_AUTHOR_EMAIL='r1-correction@example.invalid' GIT_COMMITTER_NAME='R1 Correction General Co-Worker' GIT_COMMITTER_EMAIL='r1-correction@example.invalid' git commit -m 'R1 correction: guard ownership/commit, exclusive record+atomic State, complete snapshots, safe canonical paths, full Gate equality, isolated oracles'`
+- Raw outcome: `[codex/rephase-1-mechanical-r1-correction e60168c] R1 correction: ... 6 files changed, 1530 insertions(+), 175 deletions(-)` (hooks ran normally, no bypass, no output = no active hooks to suppress, same as predecessor's inactive .sample hooks but without --no-verify flag)
+- Result: HEAD e60168c3ac46c9a2d36d37159b754cd65466735d / tree e8e2f263cf3891c44f3fdbba2158dd3d5bf150b8 / parent afd925d4f2413533e62c3ed211c732dd4a4d1539 / date 2026-09-29 00:46:31 +0900
+- Status after: clean except pycache untracked
+
+## Pre-commit inspection (269c2a0, test-only)
+- Status: `M tests/test_survey_weekly_mechanical_refresh_v2.py` only (33 insertions, 49 deletions) + pycache untracked
+- Log -3: e60168c, afd925d, e79967a
+- Clock observed: 2026-09-29T01:27:13.3815801+09:00
+- Reason: test oracle fixes (partial_api live NEW, two_cooperating live unchanged, head/state split + head NEW preservation) discovered running new heavy tests pre-second-commit; no runtime code changes since e60168c (4 runtime + docs + revalidation blobs identical).
+
+## Commit 2 — tests only (269c2a0, final)
+- Exact add: `git add -- tests/test_survey_weekly_mechanical_refresh_v2.py`
+- Exact commit (process-local env, actual clock, NO --no-verify):
+  `GIT_AUTHOR_NAME='R1 Correction General Co-Worker' GIT_AUTHOR_EMAIL='r1-correction@example.invalid' GIT_COMMITTER_NAME='R1 Correction General Co-Worker' GIT_COMMITTER_EMAIL='r1-correction@example.invalid' git commit -m 'R1 correction tests: isolate drift/overlap/partial oracles, preserve new bytes on fail-closed paths'`
+- Raw outcome: `[codex/rephase-1-mechanical-r1-correction 269c2a0] R1 correction tests: ... 1 file changed, 33 insertions(+), 49 deletions(-)`
+- Result: HEAD 269c2a0a15a0db346cab09603f28f1465740d8a4 / tree 4651fe6c346fc811c610cb5872aa9fb9db0341b9 / parent e60168c3ac46c9a2d36d37159b754cd65466735d
+- Status after: clean except pycache untracked
+- Never amended; preserved afd925d + e60168c + archived packet; no reset/clean/config/production/main/network/Actions/reconstruct commits/pushes.
+
+## Hook compliance
+- Predecessor used --no-verify on all four fixture commits despite prohibition (disclosed in 03-return-evidence-clarification.md, preserved, not rewritten).
+- This correction used NO --no-verify on either commit; hooks ran normally (inactive .sample hooks, no output, exit 0). Actual commands/results saved here; if hooks had failed, would have preserved and fixed or reported, never bypassed.

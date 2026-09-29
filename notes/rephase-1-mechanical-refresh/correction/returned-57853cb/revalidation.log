@@ -1,0 +1,63 @@
+=== R1 round2 final suite (committed successor) ===
+HEAD: 57853cb76d3189b862f1edabe46b83cfc0c7bd29
+TREE: b5f07b62ed999d512d93ec136d879b176c47d5d0
+PARENT: 20177a13c033e0d57caaff31debb96402417480d
+DATE-UTC: 2026-09-29T02:38:37Z
+CWD: /tmp/jgas-rephase-mechanical-r1-20260928T000710Z
+ARGV: /tmp/jgas-rephase-application-venv/bin/python3.12 -m unittest tests.test_survey_publication_revalidation_v2 -v
+PYTHON: Python 3.12.14
+DEPS: attrs 26.1.0;jsonschema 4.23.0;jsonschema-specifications 2025.9.1;pypdf 6.16.2;referencing 0.37.0;rpds-py 2026.6.3;typing_extensions 4.16.0;
+SOURCE-SHA256:
+ef0541c43a2546e33cc52bd5698a06b3c0807cee0c07b05d6d7edcd1bf29c9d4  scripts/survey_weekly_mechanical_refresh_v2.py
+5e38b86b609e2726f9a3af6f0686426b4237b9d6e388e39d8efc360f6ede4bc0  scripts/survey_agent_control_v2.py
+818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f  scripts/survey_reader_surface_gate_v2.py
+1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc  scripts/survey_weekly_derivation_v2.py
+55027854a127cd597b7ae7488cac8d574467cbf336e4bf30656e8466cc7f8f10  tests/test_survey_weekly_mechanical_refresh_v2.py
+c6b6e24579a594f47030489ed99799de1604854edf979abc68c550e22d070457  tests/test_survey_publication_revalidation_v2.py
+901b6d03163ea9f6f748cd4082c3c30dfdae539b3e51c169da39497bd2b6f57c  docs/weekly-mechanical-refresh.md
+--- unittest start ---
+test_n10_full_weekly_chain_no_human_decision (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n10_full_weekly_chain_no_human_decision) ... ok
+test_n1_unreferenced_forged_record_inert (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n1_unreferenced_forged_record_inert) ... ok
+test_n2_state_authority_sha_mismatch (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n2_state_authority_sha_mismatch) ... ok
+test_n3_referenced_record_tamper (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n3_referenced_record_tamper) ... ok
+test_n4_post_preview_forged_activation_fails (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n4_post_preview_forged_activation_fails) ... ok
+test_n5_post_freeze_forged_activation_fails (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n5_post_freeze_forged_activation_fails) ... ok
+test_n6_immutable_multi_round_chain (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n6_immutable_multi_round_chain) ... ok
+test_n7_historical_chain_tamper_fails (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n7_historical_chain_tamper_fails) ... ok
+test_n8_unrelated_historical_record_inert (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n8_unrelated_historical_record_inert) ... ok
+test_n9_gate_separation (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n9_gate_separation) ... ok
+test_no_edition_conditionals_in_new_paths (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_no_edition_conditionals_in_new_paths) ... ok
+test_r1_partial_record_write_retained_fail_closed (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_partial_record_write_retained_fail_closed)
+R1 correction: partial record write leaves unknown bytes, never deleted. ... ok
+test_r1_post_rename_readback_failure_no_dangling_pointer (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_post_rename_readback_failure_no_dangling_pointer)
+R1 correction: failure AFTER real os.replace but before helper return. ... ok
+test_r1_record_collision_no_clobber (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_record_collision_no_clobber)
+R1 narrow correction: exclusive record creation refuses a collision. ... ok
+test_r1_record_competitor_between_precheck_and_create (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_record_competitor_between_precheck_and_create)
+R1 correction: competitor file between precheck and exclusive create. ... ok
+test_r1_record_tamper_rollback_refuses_removal (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_record_tamper_rollback_refuses_removal)
+R1 narrow correction: rollback never deletes unknown record bytes. ... ok
+test_r1_same_byte_replacement_retained_never_unlinked (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_same_byte_replacement_retained_never_unlinked)
+R1 correction: same-byte foreign record (identical content, new inode). ... ok
+test_r1_state_atomic_temp_replace_no_truncate (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_state_atomic_temp_replace_no_truncate)
+R1 correction: revalidation owner uses bounded temp+replace, not truncating write_json. ... ok
+test_r1_temp_ownership_same_inode_and_swap (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_r1_temp_ownership_same_inode_and_swap)
+R1 correction: temp helper publishes/removes only own identity+bytes. ... ok
+test_t10_after_freeze_forbidden (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t10_after_freeze_forbidden) ... ok
+test_t11_weekly_viability_and_t13_chain (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t11_weekly_viability_and_t13_chain) ... ok
+test_t12_special_layout_genericity (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t12_special_layout_genericity) ... ok
+test_t1_legitimate_regeneration_revalidates (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t1_legitimate_regeneration_revalidates) ... ok
+test_t2_old_checkpoint_immutable (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t2_old_checkpoint_immutable) ... ok
+test_t3_upstream_mutation_rejected (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t3_upstream_mutation_rejected) ... ok
+test_t4_architecture_approval_mismatch_rejected (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t4_architecture_approval_mismatch_rejected) ... ok
+test_t5_draft_mutation_rejected (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t5_draft_mutation_rejected) ... ok
+test_t6_incomplete_qa_rejected (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t6_incomplete_qa_rejected) ... ok
+test_t7_stale_candidate_no_longer_validates (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t7_stale_candidate_no_longer_validates) ... ok
+test_t8_exact_new_byte_binding (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t8_exact_new_byte_binding) ... ok
+test_t9_after_preview_decision_forbidden (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t9_after_preview_decision_forbidden) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 55.785s
+
+OK
+EXIT:0

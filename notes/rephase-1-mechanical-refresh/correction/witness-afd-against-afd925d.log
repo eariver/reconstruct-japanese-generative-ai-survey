@@ -1,0 +1,24 @@
+WITNESS R1-A01-unconditional-unlink FAIL: writer finally unlinks guard unconditionally (481-486) without ownership check=True
+WITNESS R1-A01-guard-ownership FAIL: no expected-guard byte identity check before unlink; any foreign guard would be deleted
+WITNESS R1-A01-commit-flag FAIL: no committed flag; post-commit readback failure would trigger rollback of committed authority
+WITNESS R1-A01-postcommit-in-try FAIL: final_active readback inside rollback try without commit guard
+WITNESS R1-A02-record-exclusive FAIL: agent uses core.write_json(record_path) after exists check; TOCTOU, not exclusive xb creation
+WITNESS R1-A02-state-atomic FAIL: agent uses truncating core.write_json(state) not bounded temp+replace
+WITNESS R1-A02-known-bytes FAIL: known-write sha is hash read after write, not expected serialized bytes; blesses foreign bytes
+WITNESS R1-A02-xb-present FAIL: no exclusive xb creation in agent owner
+WITNESS R1-A02-competitor-test FAIL: no test creates competitor file between precheck and creation; only preset allocator scenario
+WITNESS R1-A03-target-recheck FAIL: _atomic_replace has no expected-old-hash param; gate replace has no immediate target old-hash check
+WITNESS R1-A03-wrapper-disposition FAIL: wrapper does not inspect actual record/State disposition after API error; assumes rollback complete
+WITNESS R1-A03-complete-snapshot FAIL: writer rechecks only State/HEAD/Gate/receipt (359-364,401-403), ignores accepted/authored/manuscript/reviews/PDF/bundle/checkpoint/control bytes
+WITNESS R1-A04-retention-symlink FAIL: retention_base mkdir follows symlink; no parent-component symlink rejection (365-369)
+WITNESS R1-A04-receipt-paths-unused FAIL: _receipt_paths defined but unused; publication/v2 basename test not canonical Profile binding
+WITNESS R1-A04-resolve-alias FAIL: raw path validation before .resolve erases aliases; need lexical + symlink-ancestor checks before resolve
+WITNESS R1-A04-safe-ancestors FAIL: _safe checks leaf symlink but not every parent component; retention_base follows symlink out of root
+WITNESS R1-A05-authored-by-name FAIL: authored input chosen by array index [0] instead of semantic name publication-semantic-input
+WITNESS R1-A05-gate-equality FAIL: new/old Gate compares only 6 semantic_authority fields; not complete except allowed metadata/digest/receipt
+WITNESS R1-A05-private-helper FAIL: receipt helper is public inspect_receipt_envelope; should be underscore-named _inspect_receipt_envelope
+WITNESS R1-A05-receipt-link FAIL: receipt link not completely checked before retention (input/review/output to Gate/manuscript + canonical Profile paths need verification)
+WITNESS R1-A06-subtest-isolation FAIL: accepted+authored subtests contaminate: accepted mutation left in place, authored case can pass on unrelated upstream failure via broad drift regex
+WITNESS R1-A06-only-writes FAIL: success 'only selected writes' is mere comment without complete pre/post byte+record inventory assertions
+WITNESS R1-A06-coverage FAIL: missing coverage for: symlink, partial, foreign guard, HEAD-State-input drift, two cooperating, partial API, tamper, postcommit
+WITNESS-COLLECTION-COMPLETE

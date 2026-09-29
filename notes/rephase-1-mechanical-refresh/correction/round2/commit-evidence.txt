@@ -1,0 +1,28 @@
+# R1 correction round 2 — commit evidence (8a544f9)
+
+## Pre-commit inspection
+- Fixture `/tmp/jgas-rephase-mechanical-r1-20260928T000710Z`, branch
+  `codex/rephase-1-mechanical-r1-correction` @ `269c2a0` (tree `4651fe6…`).
+- Status: `M scripts/survey_agent_control_v2.py`,
+  `M scripts/survey_weekly_mechanical_refresh_v2.py`,
+  `M tests/test_survey_publication_revalidation_v2.py`,
+  `M tests/test_survey_weekly_mechanical_refresh_v2.py` + pycache-only untracked.
+- Log -4: `269c2a0`, `e60168c`, `afd925d`, `e79967a`.
+- Diff --stat: 4 files, 839 insertions, 194 deletions.
+- Targeted regressions green before commit: fast unit 8 OK (8.6s), including
+  updated guard-identity/gate-equality units and the new post-rename revalidation
+  test.
+
+## Exact commands (process-local env, actual clock, NO --no-verify)
+- Add: `git add -- scripts/survey_agent_control_v2.py scripts/survey_weekly_mechanical_refresh_v2.py tests/test_survey_publication_revalidation_v2.py tests/test_survey_weekly_mechanical_refresh_v2.py`
+- Commit: `GIT_AUTHOR_NAME='R1 Correction General Co-Worker' GIT_AUTHOR_EMAIL='r1-correction@example.invalid' GIT_COMMITTER_NAME='R1 Correction General Co-Worker' GIT_COMMITTER_EMAIL='r1-correction@example.invalid' git commit -m 'R1 correction round2: complete authoritative snapshot, raw-path-first checks, per-mutation guard identity, post-rename disposition, record identity inventory, full Gate authority preservation'`
+- Raw outcome (observed tool output): `[codex/rephase-1-mechanical-r1-correction 8a544f9] R1 correction round2: ... 4 files changed, 839 insertions(+), 194 deletions(-)`
+- Hooks ran normally (no bypass); no reset/clean/amend/config/network/production writes.
+
+## Result
+- HEAD `8a544f916b943b2ed03a3e46222016ef1d41faf5`, tree
+  `68a447913c0aff8397ed93c4aebff1dbaf0d94df`, parent
+  `269c2a0a15a0db346cab09603f28f1465740d8a4`, date 2026-09-29 02:28:10 +0900.
+- Status after: clean except pycache untracked. 269c commit and packet preserved
+  (history immutable; round-1 files untouched; this round's evidence under
+  `correction/round2/`).

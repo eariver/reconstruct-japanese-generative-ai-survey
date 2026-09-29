@@ -1,0 +1,129 @@
+{
+  "packet": "returned-afd925d",
+  "purpose": "Byte copies of the seven committed R1 candidate files plus full metadata/diff/hash manifest against real afd925d vs a1. No new tests or candidate edits.",
+  "candidate": {
+    "head": "afd925d4f2413533e62c3ed211c732dd4a4d1539",
+    "tree": "2ee9cf2a284aca8497e99fb833102b03f2fcf0a2",
+    "parent": "e79967ac4a8d5da4b78e1a6ba8902c0ab2e2ced8",
+    "branch": "codex/rephase-1-mechanical-r1",
+    "origin": "https://example.invalid/mechanical-r1.git",
+    "status_at_return": "tracked clean; only scripts/__pycache__/ and tests/__pycache__/ untracked"
+  },
+  "basis": {
+    "head": "a1a4242adaddc42427b68c18ae367c04d6cd63b4",
+    "tree": "4b0fcadc172ffc999b318dc6e39a6f0a0f218b27",
+    "note": "Fresh root commit of copied worktree bytes; not e4c8269 and not its descendant."
+  },
+  "source_reference": {
+    "head": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "tree": "bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e",
+    "index_names": 32149,
+    "basis_tree_names": 724,
+    "blobs_identical": 683,
+    "blobs_missing_promisor": 41
+  },
+  "diff": {
+    "range": "a1a4242..afd925d",
+    "files_changed": 7,
+    "insertions": 1475,
+    "deletions": 28,
+    "patch_path": "implementation/logs/r1-candidate.patch",
+    "patch_lines": 1630,
+    "patch_sha256": "eccb85fd1eba8a61cae0839414040fe42ffea1c716eae216be5be747edb0574d",
+    "patch_reverified": "fresh git diff recomputed read-only at return; equal to saved patch"
+  },
+  "files": [
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "lines": 1965,
+      "bytes": 102698,
+      "sha256": "02d2be96f0d6904d5953cd39f4f3d614415800cdc76e8aaa74e6a3ad2d7ddce2",
+      "blob_afd925d": "99133abc93fd4da66022b40d1ce5a88ca86acb0b",
+      "blob_a1a4242": "2940abe3cd4049769983d53ca0be269087b15977",
+      "blob_e4c8269": "2940abe3cd4049769983d53ca0be269087b15977",
+      "mode": "100644",
+      "copy_path": "returned-afd925d/changed-files/scripts/survey_agent_control_v2.py",
+      "copy_sha256_match": true
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "lines": 1972,
+      "bytes": 86029,
+      "sha256": "818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f",
+      "blob_afd925d": "89b5b859a316cd0633a009ca808049fceabea999",
+      "blob_a1a4242": "ea1eb652ab49eb479e17318712d84c318bfaf475",
+      "blob_e4c8269": "ea1eb652ab49eb479e17318712d84c318bfaf475",
+      "mode": "100644",
+      "copy_path": "returned-afd925d/changed-files/scripts/survey_reader_surface_gate_v2.py",
+      "copy_sha256_match": true
+    },
+    {
+      "path": "scripts/survey_weekly_derivation_v2.py",
+      "lines": 746,
+      "bytes": 42191,
+      "sha256": "33207aa26f82f8efb2670b6efed236fb8b0e12cb2affe2b3588fabf0457e345d",
+      "blob_afd925d": "5522fa02842914f160dc902a3d6fb791d8d52801",
+      "blob_a1a4242": "477de21e9565e7a15044bd0e5d1ae6e555394524",
+      "blob_e4c8269": "477de21e9565e7a15044bd0e5d1ae6e555394524",
+      "mode": "100644",
+      "copy_path": "returned-afd925d/changed-files/scripts/survey_weekly_derivation_v2.py",
+      "copy_sha256_match": true
+    },
+    {
+      "path": "scripts/survey_weekly_mechanical_refresh_v2.py",
+      "lines": 502,
+      "bytes": 26496,
+      "sha256": "76e22602258060952ed63be8b7c41c1d0c33521d1ca673ec8abe22138cc30596",
+      "blob_afd925d": "d3c93e2d38a3b22a1910df15fa2380b3a5f39f31",
+      "blob_a1a4242": null,
+      "blob_e4c8269": null,
+      "mode": "100644",
+      "note": "New in R1; absent at e4 and a1.",
+      "copy_path": "returned-afd925d/changed-files/scripts/survey_weekly_mechanical_refresh_v2.py",
+      "copy_sha256_match": true
+    },
+    {
+      "path": "tests/test_survey_weekly_mechanical_refresh_v2.py",
+      "lines": 705,
+      "bytes": 37945,
+      "sha256": "c57a07658700a981a86036956bbf1b541b6868cdb99cd7a651b0bdcd51dca7b9",
+      "blob_afd925d": "bc8d8aec526c2a4f5b6d90319ae97b316d3ee6f9",
+      "blob_a1a4242": null,
+      "blob_e4c8269": null,
+      "mode": "100644",
+      "note": "New in R1; absent at e4 and a1.",
+      "copy_path": "returned-afd925d/changed-files/tests/test_survey_weekly_mechanical_refresh_v2.py",
+      "copy_sha256_match": true
+    },
+    {
+      "path": "tests/test_survey_publication_revalidation_v2.py",
+      "lines": 1110,
+      "bytes": 57815,
+      "sha256": "d8171a84f9a766b05ce2e0e1517cbe1fbffa45afb74ddeb37b0106aca746a80f",
+      "blob_afd925d": "ace7b3285892bc6b3f58c408171dd47603c62031",
+      "blob_a1a4242": "01f9ce6b7561e59ac25fbb801dd27162667d30e7",
+      "blob_e4c8269": "01f9ce6b7561e59ac25fbb801dd27162667d30e7",
+      "mode": "100644",
+      "copy_path": "returned-afd925d/changed-files/tests/test_survey_publication_revalidation_v2.py",
+      "copy_sha256_match": true
+    },
+    {
+      "path": "docs/weekly-mechanical-refresh.md",
+      "lines": 61,
+      "bytes": 2908,
+      "sha256": "8b21fb0ae617951b3f2dce8528a621aa533d19b05663065c30d2cd7405e2d150",
+      "blob_afd925d": "b0d319b78a55a534c890dc5604bc216179f50cae",
+      "blob_a1a4242": null,
+      "blob_e4c8269": null,
+      "mode": "100644",
+      "note": "New in R1; absent at e4 and a1. Not registered as a contract file.",
+      "copy_path": "returned-afd925d/changed-files/docs/weekly-mechanical-refresh.md",
+      "copy_sha256_match": true
+    }
+  ],
+  "verification": {
+    "copy_method": "cp (byte-faithful); per-file SHA-256 of copies equals fixture worktree SHA-256",
+    "worktree_vs_commit": "fixture tracked status clean (pycache-only untracked); worktree bytes equal committed blobs",
+    "unverified": "41 promisor-missing sources/... data files (listed in 03-return-evidence-clarification.md section 2); no test depends on them"
+  }
+}

@@ -1,0 +1,27 @@
+# R1 correction final — commit evidence (b74db67)
+
+## Pre-commit inspection
+- Fixture `/tmp/jgas-rephase-mechanical-r1-20260928T000710Z`, branch
+  `codex/rephase-1-mechanical-r1-correction` @ `57853cb` (tree `b5f07b6…`).
+- Status: `M scripts/survey_weekly_mechanical_refresh_v2.py`,
+  `M tests/test_survey_weekly_mechanical_refresh_v2.py` + pycache-only untracked;
+  each edit verified persisted via immediate `git diff --numstat` after writing.
+- Log -2: `57853cb`, `20177a1`.
+- Diff --stat: 2 files, 56 insertions, 0 deletions (deterministic-only review
+  pinning + null-review regression test).
+- Targeted new test green before commit:
+  `test_validation_checkpoint_agent_review_null_result` OK (72s).
+
+## Exact commands (process-local env, actual clock, NO --no-verify)
+- Add: `git add -- scripts/survey_weekly_mechanical_refresh_v2.py tests/test_survey_weekly_mechanical_refresh_v2.py`
+- Commit: `GIT_AUTHOR_NAME='R1 Correction General Co-Worker' GIT_AUTHOR_EMAIL='r1-correction@example.invalid' GIT_COMMITTER_NAME='R1 Correction General Co-Worker' GIT_COMMITTER_EMAIL='r1-correction@example.invalid' git commit -m 'R1 correction K1: deterministic-only review pinning plus null-review refresh regression'`
+- Raw outcome (observed tool output): `[codex/rephase-1-mechanical-r1-correction b74db67] R1 correction K1: ... 2 files changed, 56 insertions(+)`
+- Hooks ran normally (no bypass); no reset/clean/amend/config/network/production writes.
+
+## Result
+- HEAD `b74db679f03908048db91420a8f262d412b8f58c`, tree
+  `515b5e93a29ba82d87f6fa81c7ecbaf2c3701bb0`, parent
+  `57853cb76d3189b862f1edabe46b83cfc0c7bd29`, date 2026-09-29 12:16:57 +0900.
+- Status after: clean except pycache untracked. All prior commits and packets
+  preserved (history immutable; round2 + earlier correction files untouched;
+  this round's evidence is new under `correction/final-b74db67…/`).
