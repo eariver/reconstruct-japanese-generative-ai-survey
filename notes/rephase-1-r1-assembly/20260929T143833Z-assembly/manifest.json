@@ -1,0 +1,290 @@
+{
+  "milestone": "1-assembly-only-no-tests",
+  "run_dir": "notes/rephase-1-r1-assembly/20260929T143833Z-assembly",
+  "utc_clock": "20260929T143833Z",
+  "reconstruct": {
+    "head": "a22d69308e9bbfb84cee9d8530c258a2a911d059",
+    "branch": "main",
+    "tracking": "main...origin/main",
+    "status_windows_git": "clean (git status --short --branch shows only '## main...origin/main')",
+    "windows_git_version": "git version 2.39.0.windows.2",
+    "reconstruct_clock": "2026-09-29T23:44:24.4718382+09:00",
+    "commit_push": "none by worker (human-owned)"
+  },
+  "fixed_sources": {
+    "e4": {
+      "head": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+      "tree": "bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e",
+      "parent": "6d87edd28a1be8893ca2ab67fed6e32e54b0de6c",
+      "branch": "codex/rephase-1-gate-cli",
+      "fixture": "/tmp/jgas-rephase-gate-cli",
+      "remote": "https://example.invalid/rephase-increment-b.git (inert, fetch+push)",
+      "status": "tracked-clean except '?? scripts/__pycache__/' and '?? tests/__pycache__/'",
+      "gitdir": ".git",
+      "commondir": ".git",
+      "absolute_gitdir": "/tmp/jgas-rephase-gate-cli/.git",
+      "alternates": "absent (/tmp/jgas-rephase-gate-cli/.git/objects/info/alternates: No such file)",
+      "commondir_file": "absent (standalone)",
+      "symlinks_in_git": "none",
+      "config_identical_to_copy": true,
+      "shallow": "774dd39a951c9ac3818e83dfffd4c7666efb0a20 (preserved)",
+      "sparse_checkout_preserved": true,
+      "index_names": 32149,
+      "objects_count": 6235,
+      "refs": [
+        "e4c82692abee6acedbba07815b0d74ccefb80a7e commit refs/heads/codex/rephase-1-gate-cli",
+        "1a9649129d1745fed0b98db46ef15f014407e6fc commit refs/heads/codex/rephase-1-increment-a",
+        "c04f32ad46109403e8a63faaa8394a90ee6b869c commit refs/heads/codex/rephase-1-increment-b",
+        "d38f023ce200619f7f49ce17a348755f05e0e021 commit refs/heads/codex/rephase-application-r2",
+        "bf32edf98ba8f605169d7188bbc764de74ee4f6e commit refs/heads/codex/rephase-freeze-b1b2",
+        "46472e41e353de56685e737fc91e85fcc2005312 commit refs/heads/codex/rephase-r2-original"
+      ]
+    },
+    "r1": {
+      "head": "b74db679f03908048db91420a8f262d412b8f58c",
+      "tree": "515b5e93a29ba82d87f6fa81c7ecbaf2c3701bb0",
+      "parent": "57853cb76d3189b862f1edabe46b83cfc0c7bd29",
+      "branch": "codex/rephase-1-mechanical-r1-correction",
+      "fixture": "/tmp/jgas-rephase-mechanical-r1-20260928T000710Z",
+      "remote": "https://example.invalid/mechanical-r1.git (inert)",
+      "root_basis": "a1a4242adaddc42427b68c18ae367c04d6cd63b4 (fresh copied-content root, NOT e4 ancestry)",
+      "root_tree": "4b0fcadc172ffc999b318dc6e39a6f0a0f218b27",
+      "status": "tracked-clean except pycache untracked"
+    },
+    "production_baseline": "774dd39a951c9ac3818e83dfffd4c7666efb0a20 (unchanged, no rebaseline)"
+  },
+  "patch": {
+    "file": "notes/rephase-1-mechanical-refresh/correction/final-b74db679f03908048db91420a8f262d412b8f58c/patch-final-a1-b74db67.patch",
+    "range": "a1a4242..b74db67 (full R1 increment, NOT baseline patch)",
+    "sha256": "7817fa4fc027ae0bac9bbd7e7bbd18c588ba3373b52e17730eafebe2b92aab01",
+    "verified_locally": true,
+    "numstat": [
+      "118 0 docs/weekly-mechanical-refresh.md",
+      "443 16 scripts/survey_agent_control_v2.py",
+      "66 25 scripts/survey_reader_surface_gate_v2.py",
+      "73 2 scripts/survey_weekly_derivation_v2.py",
+      "1601 0 scripts/survey_weekly_mechanical_refresh_v2.py",
+      "312 0 tests/test_survey_publication_revalidation_v2.py",
+      "1674 0 tests/test_survey_weekly_mechanical_refresh_v2.py"
+    ]
+  },
+  "seven_paths": [
+    {
+      "path": "scripts/survey_weekly_mechanical_refresh_v2.py",
+      "mode": "100644",
+      "blob_b74": "41b289f8dc5f4340b9cf83669b30b8595ae65e15",
+      "worktree_sha256": "b8baaadbc167c89a77a54ae83c61598012faa31eb2924576e942a68c635e0a5c",
+      "preimage": "absent in e4 and a1 (new file)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    },
+    {
+      "path": "scripts/survey_agent_control_v2.py",
+      "mode": "100644",
+      "blob_b74": "d11febc540f5611ed52e34168992efb81b58a44f",
+      "worktree_sha256": "5e38b86b609e2726f9a3af6f0686426b4237b9d6e388e39d8efc360f6ede4bc0",
+      "preimage_e4_a1": "100644 2940abe3cd4049769983d53ca0be269087b15977 (identical e4 and a1)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    },
+    {
+      "path": "scripts/survey_reader_surface_gate_v2.py",
+      "mode": "100644",
+      "blob_b74": "89b5b859a316cd0633a009ca808049fceabea999",
+      "worktree_sha256": "818b173544b7f048300ba610d7cf7942693f22938305600312f3f54ac6318f4f",
+      "preimage_e4_a1": "100644 ea1eb652ab49eb479e17318712d84c318bfaf475 (identical e4 and a1)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    },
+    {
+      "path": "scripts/survey_weekly_derivation_v2.py",
+      "mode": "100644",
+      "blob_b74": "6d14009c43b762200179bce14354f809e06a5509",
+      "worktree_sha256": "1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc",
+      "preimage_e4_a1": "100644 477de21e9565e7a15044bd0e5d1ae6e555394524 (identical e4 and a1)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    },
+    {
+      "path": "tests/test_survey_weekly_mechanical_refresh_v2.py",
+      "mode": "100644",
+      "blob_b74": "0c76bb0a2c92922f192bb2062c06197ce28df7fe",
+      "worktree_sha256": "06d157fd8f4a65a832f4a764035c47dc97665b8481fa86b0c8db29b31a040b04",
+      "preimage": "absent in e4 and a1 (new file)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    },
+    {
+      "path": "tests/test_survey_publication_revalidation_v2.py",
+      "mode": "100644",
+      "blob_b74": "6c468def9731f9eef4b6db4f1538cc19936e4e69",
+      "worktree_sha256": "c6b6e24579a594f47030489ed99799de1604854edf979abc68c550e22d070457",
+      "preimage_e4_a1": "100644 01f9ce6b7561e59ac25fbb801dd27162667d30e7 (identical e4 and a1)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    },
+    {
+      "path": "docs/weekly-mechanical-refresh.md",
+      "mode": "100644",
+      "blob_b74": "10d03d97f38ec31f18e87c0e54fe588261ef7c1d",
+      "worktree_sha256": "901b6d03163ea9f6f748cd4082c3c30dfdae539b3e51c169da39497bd2b6f57c",
+      "preimage": "absent in e4 and a1 (new file)",
+      "result": "worktree SHA256, hash-object, b74 ls-tree and changed-files copy all match"
+    }
+  ],
+  "byte_copy": {
+    "destination": "/tmp/jgas-rephase-r1-assembly-20260929T143833Z",
+    "parent_verified": "/tmp exists drwxrwxrwt, destination absent before copy (no-overwrite guard pass)",
+    "method": "cp -a /tmp/jgas-rephase-gate-cli /tmp/jgas-rephase-r1-assembly-20260929T143833Z",
+    "method_reason": "dedicated file tools cannot recursively copy binary .git exactly; native copy procedure explicitly allowed for this mechanical assembly, documented here",
+    "no_clone_archive_init_worktree": true,
+    "no_alternates_hardlink_sharing": true,
+    "env_overrides": "none (no GIT_DIR/WORK_TREE/INDEX_FILE/OBJECT_DIRECTORY/ALTERNATE_OBJECT_DIRECTORIES/COMMON_DIR)",
+    "source_head_before": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "source_tree_before": "bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e",
+    "dest_head_after_copy": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "dest_tree_after_copy": "bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e",
+    "dest_branch_after_copy": "codex/rephase-1-gate-cli",
+    "dest_status_after_copy": "tracked-clean except pycache (matches source)",
+    "isolation": {
+      "gitdir": ".git",
+      "commondir": ".git",
+      "absolute_gitdir": "/tmp/jgas-rephase-r1-assembly-20260929T143833Z/.git (own, not source)",
+      "refs_identical_before_branch": true,
+      "symlinks_in_git": "none in source or destination",
+      "alternates_absent": true,
+      "commondir_file_absent": true,
+      "objects_count_src": 6235,
+      "objects_count_dst": 6235,
+      "object_list_identical": true,
+      "inodes_same_count": 0,
+      "all_inodes_different": true,
+      "nlink_not_1_count": 0,
+      "no_hardlinks": true,
+      "size_mismatch": 0,
+      "hash_mismatch": 0,
+      "all_bytes_identical": true,
+      "config_identical": true,
+      "shallow_identical": true,
+      "sparse_checkout_identical": true,
+      "head_identical": true
+    },
+    "sources_unmutated_after_copy": {
+      "e4_head": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+      "r1_head": "b74db679f03908048db91420a8f262d412b8f58c"
+    }
+  },
+  "git_apply_check": {
+    "command": "git -C /tmp/jgas-rephase-r1-assembly-20260929T143833Z apply --check /mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-mechanical-refresh/correction/final-b74db679f03908048db91420a8f262d412b8f58c/patch-final-a1-b74db67.patch",
+    "cwd": "/tmp (python subprocess, no shell variables)",
+    "git_version": "git version 2.34.1",
+    "head": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "tree": "bc377b6b7eb1e47dacd719e0f76b5a86703f3f3e",
+    "parent": "6d87edd28a1be8893ca2ab67fed6e32e54b0de6c",
+    "branch": "codex/rephase-1-gate-cli",
+    "stdout": "",
+    "stderr": "",
+    "exit": 0
+  },
+  "git_apply": {
+    "command": "git -C /tmp/jgas-rephase-r1-assembly-20260929T143833Z apply /mnt/d/Git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-mechanical-refresh/correction/final-b74db679f03908048db91420a8f262d412b8f58c/patch-final-a1-b74db67.patch",
+    "stdout": "",
+    "stderr": "",
+    "exit": 0,
+    "status_after": "4 modified unstaged + 3 added untracked + pycache untracked (no staged changes, index still e4 blobs)",
+    "diff_numstat_after": "443 16 scripts/survey_agent_control_v2.py; 66 25 scripts/survey_reader_surface_gate_v2.py; 73 2 scripts/survey_weekly_derivation_v2.py; 312 0 tests/test_survey_publication_revalidation_v2.py",
+    "seven_equivalence": "all 7 worktree SHA256/hash-object/b74 blob/changed-files copy match, modes 644",
+    "authored_paths": "exactly 7 (4 M + 3 ??, pycache excluded)",
+    "promisor_metadata": "sources/2026-W32/freeze-v0.2.md ls-tree identical e4 vs DST HEAD (100644 blob c03ae4320f748f0832574af054c25778d8b39eb1), no hydration"
+  },
+  "branch": {
+    "command": "git -C /tmp/jgas-rephase-r1-assembly-20260929T143833Z checkout -b codex/rephase-1-r1-assembly",
+    "stdout": "",
+    "stderr": "Switched to a new branch 'codex/rephase-1-r1-assembly'",
+    "exit": 0,
+    "head_still": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "from_e4_not_b74": true
+  },
+  "add": {
+    "command": "git -C /tmp/jgas-rephase-r1-assembly-20260929T143833Z add -- <seven paths>",
+    "stdout": "",
+    "stderr": "",
+    "exit": 0,
+    "cached_numstat": "118 0 docs/weekly-mechanical-refresh.md; 443 16 scripts/survey_agent_control_v2.py; 66 25 scripts/survey_reader_surface_gate_v2.py; 73 2 scripts/survey_weekly_derivation_v2.py; 1601 0 scripts/survey_weekly_mechanical_refresh_v2.py; 312 0 tests/test_survey_publication_revalidation_v2.py; 1674 0 tests/test_survey_weekly_mechanical_refresh_v2.py",
+    "cached_name_status": "A docs/weekly-mechanical-refresh.md; M scripts/survey_agent_control_v2.py; M scripts/survey_reader_surface_gate_v2.py; M scripts/survey_weekly_derivation_v2.py; A scripts/survey_weekly_mechanical_refresh_v2.py; M tests/test_survey_publication_revalidation_v2.py; A tests/test_survey_weekly_mechanical_refresh_v2.py"
+  },
+  "commit": {
+    "command": "git commit -m 'R1 assembly: apply reviewed seven-path mechanical-refresh increment onto e4 lineage...' (no --no-verify, no -n, no amend/reset/clean/config, no core.hooksPath override)",
+    "identity": "process-local GIT_AUTHOR_NAME='R1 Assembly General Co-Worker' GIT_AUTHOR_EMAIL='r1-assembly@example.invalid' GIT_COMMITTER_NAME='R1 Assembly General Co-Worker' GIT_COMMITTER_EMAIL='r1-assembly@example.invalid', actual clock",
+    "stdout": "[codex/rephase-1-r1-assembly 481dec0] R1 assembly: apply reviewed seven-path mechanical-refresh increment onto e4 lineage 7 files changed, 4287 insertions(+), 43 deletions(-) create mode 100644 docs/weekly-mechanical-refresh.md create mode 100644 scripts/survey_weekly_mechanical_refresh_v2.py create mode 100644 tests/test_survey_weekly_mechanical_refresh_v2.py",
+    "stderr": "",
+    "exit": 0,
+    "hooks": "ran normally, no bypass flag passed",
+    "head": "481dec0c0233d7871df79a07a88aa5fe2291daa3",
+    "tree": "657032438c6ed8b1c055d5a120b67b4b261a5092",
+    "parent": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "parent_must_be_exact_e4": true,
+    "branch": "codex/rephase-1-r1-assembly",
+    "date": "2026-09-29 23:43:13 +0900",
+    "status_after": "clean except '?? scripts/__pycache__/' and '?? tests/__pycache__/'",
+    "log_oneline_2": [
+      "481dec0 R1 assembly: apply reviewed seven-path mechanical-refresh increment onto e4 lineage",
+      "e4c8269 Correct Gate CLI tests: exact-manuscript binding, findings separation, oracles"
+    ]
+  },
+  "post_commit_verification": {
+    "seven_in_new_match_b74": true,
+    "diff_e4_to_new_name_status_only_seven": true,
+    "e4_entries": 32149,
+    "new_entries": 32152,
+    "unrelated_mismatch_count": 0,
+    "unrelated_identical": true,
+    "no_extra_authored_paths": true
+  },
+  "attempts": {
+    "copy": "1 attempt, exit 0, no retry",
+    "apply_check": "1 attempt, exit 0, no retry",
+    "apply": "1 attempt, exit 0, no retry",
+    "branch": "1 attempt, exit 0",
+    "add": "1 attempt, exit 0",
+    "commit": "1 attempt, exit 0, normal hooks",
+    "failures": "none in this unit; no hook/commit failure to save as blocker"
+  },
+  "limitations": {
+    "inherited_missing_objects": "recorded, not full baseline application proof; R1 basis has 41 unverified historical data blobs under sources/...; e4 sparse/promisor/shallow limits explicit (shallow boundary 774dd39a...); no git fsck/retry full history that triggers known missing blobs; no hydration/fetch/network/production/current-main/Actions",
+    "no_test_suites_run": true,
+    "no_pass_transfer": "original 97-method success on b74 remains old scope; exact-code equivalence guides minimal fresh check but no automatic PASS transfer",
+    "no_reconstruct_commit_push": true,
+    "no_source_mutation": "e4/B/R1 databases preserved; new branch only in own copy; no fixture objects in reconstruct DB",
+    "evidence_overwrite": "no existing evidence overwritten this unit; all new files under new unique run dir with no-overwrite guard"
+  },
+  "proposed_next_checks": {
+    "note": "for root approval only, NOT automatic; scope below; no real edition State/Gate mutation in assembly checkout",
+    "r1_methods": [
+      "tests.test_survey_weekly_mechanical_refresh_v2.test_first_and_repeat_success",
+      "tests.test_survey_weekly_mechanical_refresh_v2.test_metadata_revalidation_effective_rows_then_refresh",
+      "tests.test_survey_weekly_mechanical_refresh_v2.test_active_predecessor_not_noop_and_artifact_only_noop",
+      "tests.test_survey_weekly_mechanical_refresh_v2.test_pre_install_control_change_unsupported"
+    ],
+    "diagnostic": "assembled-DB _verify_head_bytes at own HEAD 481dec0/current closure vs stale e4 original control snapshot (read-only diagnostic via worker Python), to bind real inherited history rather than only synthetic test roots",
+    "why_these": "first/repeat proves same-edition writer on real e4 lineage; healthy prior metadata->refresh proves Gate-only delta interpretation; artifact-only/no-op and pre-install control change prove unsupported-path fail-close; head-bytes diagnostic binds actual inherited history without mutating edition State/Gate",
+    "example_argv": [
+      "python -m unittest tests.test_survey_weekly_mechanical_refresh_v2.test_first_and_repeat_success -v",
+      "python -m unittest tests.test_survey_weekly_mechanical_refresh_v2.test_metadata_revalidation_effective_rows_then_refresh -v",
+      "python -m unittest tests.test_survey_weekly_mechanical_refresh_v2.test_active_predecessor_not_noop_and_artifact_only_noop -v",
+      "python -m unittest tests.test_survey_weekly_mechanical_refresh_v2.test_pre_install_control_change_unsupported -v"
+    ]
+  },
+  "tool_runtime": {
+    "wsl_python": "Python 3.10.6",
+    "reconstruct_python": "Python 3.10.9",
+    "fixture_git": "git version 2.34.1",
+    "verification_scripts": [
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/verify_assembly.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/verify_preimage.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/apply_check.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/apply_patch.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/verify_equivalence.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/check_stage.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/make_branch.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/git_add.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/git_commit.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/verify_post.py",
+      "/mnt/c/Users/shake/AppData/Local/Temp/opencode/list_tests.py"
+    ]
+  }
+}

@@ -1,6 +1,8 @@
 # R1 mechanical refresh — current evidence entry
 
-**Bounded implementation complete at b74db67.** Read [Astra assessment](../../outputs/rephase-1-mechanical-refresh-assessment.md) and [selected contract](../../outputs/rephase-1-mechanical-refresh-contract-decision.md). The reviewed R1 is in a fresh-root isolated DB, not e4 ancestry; e4c8269 remains the preserved integration-line candidate pending assembly. Whole candidate NOT_READY.
+**Bounded implementation complete at b74db67.** Read [Astra assessment](../../outputs/rephase-1-mechanical-refresh-assessment.md) and [selected contract](../../outputs/rephase-1-mechanical-refresh-contract-decision.md). This reviewed R1 is in a fresh-root isolated DB, not e4 ancestry; its later e4-lineage assembly is recorded separately below. Whole candidate NOT_READY.
+
+**Later assembly completion:** the exact seven-path increment is now assembled as e4's direct child **481dec0**, with separate scoped checks/review. Read [assembly assessment](../../outputs/rephase-1-r1-assembly-assessment.md) and [assembly packet](../rephase-1-r1-assembly/README.md) for current identity/next task. This packet retains b74's own implementation evidence and limitations; historical assembly-pending text below is not a rerun instruction.
 
 ## Current exact evidence
 

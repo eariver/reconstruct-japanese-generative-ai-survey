@@ -1,0 +1,220 @@
+{
+  "unit": "milestone-2-selected-verification-no-new-code",
+  "run_dir": "notes/rephase-1-r1-assembly/20260929T145048Z-verification",
+  "utc_clock": "20260929T145048Z",
+  "task": "notes/rephase-1-r1-assembly/verification-task.md (root selection, read fully)",
+  "candidate": {
+    "head": "481dec0c0233d7871df79a07a88aa5fe2291daa3",
+    "tree": "657032438c6ed8b1c055d5a120b67b4b261a5092",
+    "parent": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+    "branch": "codex/rephase-1-r1-assembly",
+    "fixture": "/tmp/jgas-rephase-r1-assembly-20260929T143833Z",
+    "status_before_tests": "tracked-clean (0 tracked-dirty, empty cached/unstaged diffs), only pycache untracked",
+    "status_after_tests": "same HEAD/tree, tracked-clean, only pycache untracked",
+    "status_after_diagnostic": "same HEAD/tree, tracked-clean, only pycache untracked",
+    "source_heads_untouched": {
+      "e4": "e4c82692abee6acedbba07815b0d74ccefb80a7e",
+      "r1_b74": "b74db679f03908048db91420a8f262d412b8f58c"
+    },
+    "no_new_commits": true,
+    "no_code_changes": true
+  },
+  "runtime": {
+    "python": "/tmp/jgas-rephase-application-venv/bin/python3.12",
+    "python_version": "3.12.14",
+    "python_dont_write_bytecode": "1 for every test/diagnostic process",
+    "distributions": [
+      "attrs 26.1.0",
+      "jsonschema 4.23.0",
+      "jsonschema-specifications 2025.9.1",
+      "pypdf 6.16.2",
+      "referencing 0.37.0",
+      "rpds-py 2026.6.3",
+      "typing_extensions 4.16.0"
+    ],
+    "pip_freeze": "unavailable separately: '/tmp/jgas-rephase-application-venv/bin/python3.12 -m pip freeze' exits with 'No module named pip'; distributions above via stdlib importlib.metadata, recorded as setup fact not test failure",
+    "cwd_tests": "/tmp/jgas-rephase-r1-assembly-20260929T143833Z",
+    "cwd_diagnostic": "/tmp/jgas-rephase-r1-assembly-20260929T143833Z",
+    "git_overrides": "none before every process (no GIT_DIR/WORK_TREE/INDEX_FILE/OBJECT_DIRECTORY/ALTERNATE_OBJECT_DIRECTORIES/COMMON_DIR; verified via env scan)"
+  },
+  "class_verification_by_source": {
+    "file": "tests/test_survey_weekly_mechanical_refresh_v2.py",
+    "class": "WeeklyMechanicalRefreshV2Tests",
+    "class_line": 63,
+    "single_class_in_file": true,
+    "methods": {
+      "test_first_and_repeat_success": 328,
+      "test_active_predecessor_not_noop_and_artifact_only_noop": 424,
+      "test_pre_install_control_change_unsupported": 444,
+      "test_metadata_revalidation_effective_rows_then_refresh": 1525
+    },
+    "note": "worker's initial proposal examples omitted the TestCase class and were unexecuted; corrected qualified names below were verified in source before running; no malformed argv attempted"
+  },
+  "four_tests": {
+    "argv_single_list": [
+      "/tmp/jgas-rephase-application-venv/bin/python3.12",
+      "-m",
+      "unittest",
+      "-v",
+      "tests.test_survey_weekly_mechanical_refresh_v2.WeeklyMechanicalRefreshV2Tests.test_first_and_repeat_success",
+      "tests.test_survey_weekly_mechanical_refresh_v2.WeeklyMechanicalRefreshV2Tests.test_metadata_revalidation_effective_rows_then_refresh",
+      "tests.test_survey_weekly_mechanical_refresh_v2.WeeklyMechanicalRefreshV2Tests.test_active_predecessor_not_noop_and_artifact_only_noop",
+      "tests.test_survey_weekly_mechanical_refresh_v2.WeeklyMechanicalRefreshV2Tests.test_pre_install_control_change_unsupported"
+    ],
+    "runs": 1,
+    "reruns": 0,
+    "exit": 0,
+    "ran": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "ok": true,
+    "time_s": 332.19,
+    "stderr_tail": "test_first_and_repeat_success (...) ... ok; test_metadata_revalidation_effective_rows_then_refresh (...) ... ok; test_active_predecessor_not_noop_and_artifact_only_noop (...) ... ok; test_pre_install_control_change_unsupported (...) ... ok; Ran 4 tests in 332.190s; OK",
+    "stdout_bytes": 3064,
+    "stderr_bytes": 818,
+    "stdout_note": "synthetic publisher JSON for 2026-W37 (SURFACE_MATERIALIZED / source-manifest / main.tex bindings); exact output/authority synthetic, not historical-edition revalidation",
+    "raw_files": [
+      "raw/four-tests.stdout (3064 bytes)",
+      "raw/four-tests.stderr (818 bytes)",
+      "raw/four-tests.exit (2 bytes, '0')"
+    ],
+    "scope_truth": "tests instantiate fresh synthetic Git repos using assembled SOURCE; their fixture histories are NOT the e4 lineage",
+    "no_assembly_mutation": "assembly HEAD/tree/status identical before/after; synthetic child fixtures only inside tests' temp dirs; no State/Gate/receipt/data writes in assembly checkout",
+    "pycache": "prevented via PYTHONDONTWRITEBYTECODE=1 in test process (inherited by child); existing pycache left untouched, never cleaned; no new .pyc attributed"
+  },
+  "diagnostic": {
+    "controls": [
+      {
+        "id": "current-closure-passes-at-assembly-head",
+        "call": "_verify_head_bytes(repo, 481dec0c0233d7871df79a07a88aa5fe2291daa3, current_closure)",
+        "current_closure_n": 8,
+        "current_rows": [
+          "scripts/survey_weekly_derivation_v2.py 1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc",
+          "scripts/survey_weekly_semantic_publication_v2.py 53315030a7bcf154675cbb8dee4f903bc7186e42dbb45da7d0e2ed57fef0f3f7",
+          "scripts/survey_drafting_citation_refs_v2.py 57b62c5fc67d53beea1f50bd1676a22eed594e44c66200518214c2b3e6ee5cab",
+          "scripts/survey_bibliography_access_provenance_v2.py b51bcab8ff3f880f369414714e28238ed857744a2abe74c26ec6be7498ffc224",
+          "scripts/render_article_draft_tex.py 9c64ebce313a09ffa1263b2437736e1459dcd2e97e41611bff5cd669d6c16328",
+          "schemas/reader-surface-input-v2.schema.json 8db11d4eb0dfa1a0c66beeab6ef5ad0b7008bda88f72a3e16df13a17dea4289c",
+          "schemas/weekly-publication-source-manifest-v2.schema.json c11ad525c6f8dd2a8f9d68647a3675bbac6988e6cdace54762ce145143c3b578",
+          "templates/survey/jgaisurvey.sty 3b6d15627439b35a352d692c8c5f9c2ac25dd02968e75beb30a69b8c8f53e5cc"
+        ],
+        "module_path": "/tmp/jgas-rephase-r1-assembly-20260929T143833Z/scripts/survey_weekly_derivation_v2.py",
+        "module_sha256": "1cb1f705cd2481b93ddacc93e5c20e2f0adf1622effe86e5ccf0fce4ce6ed2cc",
+        "ancestry": "e4c82692abee6acedbba07815b0d74ccefb80a7e is ancestor of 481dec0 (merge-base --is-ancestor exit 0); LOG2 shows 481dec0 parent e4, e4 parent 6d87edd",
+        "outcome": "pass"
+      },
+      {
+        "id": "historical-e4-closure-verifies-from-local-blobs",
+        "call": "verify_closure_at_commit(repo, e4_closure_from_git_show, e4c82692abee6acedbba07815b0d74ccefb80a7e)",
+        "e4_rows": [
+          "scripts/survey_weekly_derivation_v2.py e2e403ac0e1451f429fa177fa088f33ab3979e992100b654796b2315d3c354a4",
+          "scripts/survey_weekly_semantic_publication_v2.py 53315030a7bcf154675cbb8dee4f903bc7186e42dbb45da7d0e2ed57fef0f3f7",
+          "scripts/survey_drafting_citation_refs_v2.py 57b62c5fc67d53beea1f50bd1676a22eed594e44c66200518214c2b3e6ee5cab",
+          "scripts/survey_bibliography_access_provenance_v2.py b51bcab8ff3f880f369414714e28238ed857744a2abe74c26ec6be7498ffc224",
+          "scripts/render_article_draft_tex.py 9c64ebce313a09ffa1263b2437736e1459dcd2e97e41611bff5cd669d6c16328",
+          "schemas/reader-surface-input-v2.schema.json 8db11d4eb0dfa1a0c66beeab6ef5ad0b7008bda88f72a3e16df13a17dea4289c",
+          "schemas/weekly-publication-source-manifest-v2.schema.json c11ad525c6f8dd2a8f9d68647a3675bbac6988e6cdace54762ce145143c3b578",
+          "templates/survey/jgaisurvey.sty 3b6d15627439b35a352d692c8c5f9c2ac25dd02968e75beb30a69b8c8f53e5cc"
+        ],
+        "note": "rows built from `git show e4:<name>` bytes (not current hashes relabelled); derivation differs e4 e2e403... vs current 1cb1f7..., other seven identical, proving real historical-vs-current distinction; Git blob IDs (SHA-1) differ in kind from closure SHA-256 and are not conflated",
+        "outcome": "pass"
+      },
+      {
+        "id": "stale-e4-basis-intended-rejection",
+        "call": "_verify_head_bytes(repo, e4c82692abee6acedbba07815b0d74ccefb80a7e, e4_closure)",
+        "exception_type": "ValueError",
+        "exception_message": "Weekly receipt implementation or contract changed since renderer commit",
+        "message_match_intended": true,
+        "sentinel": "DIAG_SENTINEL_OK printed outside exception handler",
+        "not_a_setup_failure": "all eight `git show e4:<name>` succeeded (missing list empty); ancestor check passed; rejection is control-diff, not missing-object/setup",
+        "outcome": "intended rejection observed"
+      }
+    ],
+    "exit": 0,
+    "stderr_bytes": 0,
+    "stdout_bytes": 3581,
+    "raw_files": [
+      "raw/diagnostic.stdout (3581 bytes)",
+      "raw/diagnostic.stderr (0 bytes)",
+      "raw/diagnostic.exit (2 bytes, '0')"
+    ],
+    "no_write": "HEAD/tree/parent identical before/after; tracked-dirty 0, empty index/worktree diffs; no State/Gate/receipt/historical-data writes; no diagnostic artifacts committed; pycache prevented via DONTWRITEBYTECODE, never cleaned",
+    "authority_note": "source-history function diagnostic only; no old receipt authority manufactured; not real edition revalidation or publication"
+  },
+  "new_observation_post_commit": {
+    "label": "NEW OBSERVATION (current scope after commit, not historic recreation)",
+    "refs_n": 7,
+    "refs_note": "6 pre-copy refs plus new refs/heads/codex/rephase-1-r1-assembly at 481dec0",
+    "src_objects": 6235,
+    "dst_objects": 6247,
+    "larger_expected": true,
+    "old_paths_missing": 0,
+    "old_paths_same_inode": 0,
+    "old_paths_hash_mismatch": 0,
+    "old_paths_physically_independent": true,
+    "exit": 0,
+    "raw_files": [
+      "raw/new-observation.stdout (1154 bytes)",
+      "raw/new-observation.stderr (0 bytes)",
+      "raw/new-observation.exit (2 bytes, '0')"
+    ]
+  },
+  "observation_gap": "milestone-1 verify_assembly/verify_preimage/verify_equivalence/verify_post stdout were observed in tool-call records and summarized in milestone-1 manifest/report, but NOT saved as separate raw files at the time; do not reconstruct them from summaries; script SOURCES are preserved in scripts/ with hashes below; NEW OBSERVATION above is the only post-commit rerun, labeled as such; pre-copy refs and check-time source status remain as observed-not-recreated in milestone-1 manifest",
+  "scripts_preserved": {
+    "verify_assembly.py": "a3c07ba7154e95c971fe2a84910c8f6518f07e16c1f1de04b895b8d5a9fb7263",
+    "verify_preimage.py": "71b46fffb81d00855d7e56e1e644a55f0b75398a3059ab3cdd9fd6c4f0a33f03",
+    "verify_equivalence.py": "f2b577fffb0a777bb2f00356d8b21c387e3438ac1638a58585ffef9d2e9cb40d",
+    "verify_post.py": "d3c355b787f9ff3670643da42828f47c5c8930565883997d6d770885c0d14130",
+    "apply_check.py": "6c98dd305008435f662ae1e074ed9b6bd7e04c4eddc4b6717c92c3319e493b82",
+    "apply_patch.py": "dfc3161c744fabf7a175432f4653bbc240eaabbf8022ce260a7219b35901431f",
+    "check_stage.py": "6b8262f0f6cd811cf36ed789ded4cb9206cec596b72a6811005f0ccab099772f",
+    "make_branch.py": "5c498f0e89c9676656ab6c6dcb7431016fdce99fbe01429ca482429aff0dd8cd",
+    "git_add.py": "8470e0c2b0b43c2b02d3ca61fa4e36522f47ce633026f9ff9aa4b68e12ef90be",
+    "git_commit.py": "6104ae63616bd734e4ac6a4f7fb821b7fa7a954e0b42bbd89b298ffcc973b1e9",
+    "list_tests.py": "1d5236c403130a2b86352c017c6ba636dd6384f16533d953f045834a20e18423",
+    "precheck_verify.py": "45f6bc683a054c4fcff0b70d9d69cfcc1798dd5765cdce77fc238fbdead0de27",
+    "run_four_tests.py": "2e843d39b155660aa788416f6d05fdacc5d1c6ba76397401c0ab6330114f24f4",
+    "run_diagnostic.py": "8356bdde90a2ec1c00772d5ed339ea4f904abb11795a2d843a3957cad40e583c",
+    "launch_diagnostic.py": "63b33269df7960c06921f09c91daff8b9d63dd1eb83280384576e43ad154c9ef",
+    "new_observation.py": "369ca3876583cb3590757b8ca91c1d5cf2e24d15f84ff4630b0da74029962ed1",
+    "launch_observation.py": "ee5d59d5417f31e6c81430eb954235d4ceef354bca8749b3ca488f121185a58d",
+    "note": "sources copied byte-faithfully via cp (hashes above of temp originals; evidence copies verified by presence/sizes); scripts are historical evidence, not rerun instructions; only unrelated temp files excluded"
+  },
+  "corrections_to_prior_claims": {
+    "python_version": "3.10 was stdlib-only Git-copy verification; all Core imports/tests/diagnostics here use 3.12.14 as required",
+    "unittest_names": "initial proposal examples omitted TestCase class and were never executed; executed argv uses fully qualified WeeklyMechanicalRefreshV2Tests names verified in source",
+    "fixture_history": "four tests use fresh synthetic fixtures from assembled source, NOT e4 inherited history; inherited history is bound ONLY by the read-only _verify_head_bytes/closure diagnostic",
+    "hooks": "prior 'hooks ran normally' overclaims: milestone-1 commit used normal args with no bypass flags, which does NOT independently prove any particular hook existed or executed; no new hook run performed here; qualification added, no silent rewrite of milestone-1 originals",
+    "metadata_vs_blobs": "immutable tree comparison establishes unchanged REFERENCES for inaccessible promisor data, not validation of missing blob content nor complete fixed-baseline application",
+    "secrets": "no secrets or global config dump included"
+  },
+  "attempts": {
+    "four_tests": "1 run, exit 0, no retry",
+    "diagnostic": "1 run, exit 0, no retry",
+    "new_observation": "1 run, exit 0, no retry",
+    "failures": "none; if any had failed, original would be preserved and exact bounded cause reported; no code fix authorized or performed"
+  },
+  "limits": {
+    "no_full97": "old b74 97-method matrix stays original scope; only 4 selected methods run here",
+    "no_pass_transfer": true,
+    "no_reconstruct_commit_push": true,
+    "no_candidate_writes": "no code/test edits, no commits, no reset/clean/checkout/amend, no gitconfig alterations, no hook bypass, no production/main/network/fetch/hydration",
+    "whole_candidate": "NOT_READY; step 4/B3 open; canonical seven-point audit unstarted; separate author-independent bounded assembly review still to be commissioned by root"
+  },
+  "files_new_this_unit": [
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/manifest.json",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/report.md",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/four-tests.stdout",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/four-tests.stderr",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/four-tests.exit",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/diagnostic.stdout",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/diagnostic.stderr",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/diagnostic.exit",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/new-observation.stdout",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/new-observation.stderr",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/raw/new-observation.exit",
+    "notes/rephase-1-r1-assembly/20260929T145048Z-verification/scripts/<17 .py files>"
+  ],
+  "milestone1_originals_untouched": true
+}

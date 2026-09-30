@@ -59,6 +59,8 @@ Meaningful cases include real accepted first/repeat paths, healthy prior metadat
 
 ## Remaining limits and next task
 
+Continuation update 2026-09-30: the e4-lineage assembly described below is now bounded complete at **481dec0**, with direct e4 parent, seven b74-identical paths, selected fresh checks and a separate assembly review. Read [assembly assessment/next task](rephase-1-r1-assembly-assessment.md). b74 retains its original implementation scope; no full baseline application or old-97 transfer follows. The task below remains the prior authorization record, not a repeat-work instruction.
+
 R1 does not provide full multi-file atomicity, automated crash/power-loss recovery, global CAS/noncooperating-editor safety, changed-output regeneration, pre-install migration, real build/PDF-preflight/transfer, all-profile support, Windows/Actions proof or net lifecycle savings. Existing Special/support, DM-001/003/004 and optional findings transport dispositions remain. Full baseline application and the canonical audit are still open.
 
 **Next bounded unit: restore an e4-lineage integration candidate, not another feature.** General should prepare an independent **byte-copied Git database** from preserved e4c8269 (not `git archive`, full clone, worktree or object sharing), keep its sparse/promisor limits explicit, and inspect/apply only the verified seven-path R1 increment. Verify each preimage, resulting code/mode/blob equality to b74 and unchanged unrelated entries; no hydration/current-main access or auto-migration of edition States. Preserve both original databases. If copying or normal hooks prevent this, return the exact blocker; do not make another undisclosed fresh-root substitute or bypass hooks.
