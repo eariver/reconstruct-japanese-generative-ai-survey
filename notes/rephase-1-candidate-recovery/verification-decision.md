@@ -1,0 +1,28 @@
+# Astra verification / portable snapshot task at b40de60
+
+2026-10-03. Root read the recovered Freeze/stage/CLI fixture code and milestone-2 raw identity/import failure; independently queried actual HEAD/tree/parent/status. Candidate is **b40de600e9ed1f80cb278213ccf17aa5f3cd9de3**, tree **657032438c6ed8b1c055d5a120b67b4b261a5092**, direct parent real baseline **774dd39a951c9ac3818e83dfffd4c7666efb0a20**. Source recovery passes this gate; this is not test acceptance or restored 481 ancestry. Untracked `scripts/__pycache__/` from imports is observed, not silently removed or packaged.
+
+## Approved fresh checks
+
+Use the task-local pinned venv, cwd exact recovered fixture, `GIT_NO_LAZY_FETCH=1`, `GIT_ALLOW_PROTOCOL=file` and `PYTHONDONTWRITEBYTECODE=1`, no inherited Git-root/object overrides. Capture runner source/argv/cwd/env, actual HEAD/tree/parent/source hashes, raw streams and exits before/after. Use new output paths; no generic catch-and-PASS. Guards abort on changed HEAD/tree/tracked bytes. Run **five methods once**:
+
+1. `tests.test_survey_profiled_freeze_v2.SurveyProfiledFreezeV2Tests.test_thematic_and_weekly_public_identity_remain_natural`
+2. `tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_weekly_approved_preview_advances_through_real_freeze_boundary`
+3. `tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_freeze_artifact_set_rejects_missing_extra_and_wrong_visual` (three subcases, report separately from method count)
+4. `tests.test_survey_gate_cli_persisted_review_v2.GateCliPersistedReviewV2Tests.test_direct_primary_cli_admission_absolute_relative_and_cwd`
+5. `tests.test_survey_publication_v2.SurveyPublicationV2Tests.test_exact_reviewed_pdf_chain_reaches_release_without_postapproval_quality_gate`
+
+These check recovered runtime, real typed stage admission/negative artifact handling, CLI connection and canonical lower-level chain. Some synthetic stage fixtures live under the recovered repo and use its actual Git identity; other fixtures use disposable data directories without Git. Describe the actual distinction, not “all fresh Git fixtures”. Synthetic reviews/checkpoints/PDFs are not editorial/visual/Human approval evidence. The profiled identity method does not invoke its Freeze builder; canonical test reaches a synthetic Release record, not a real Release. Do not call workflow source-text assertions executed workflow checks. No tests for the unimplemented DM repairs are selected now.
+
+## Actual recovered-DB Git-aware closure diagnostic
+
+Replace the proposed schema/slug smoke as the main Git-aware oracle with the existing `survey_weekly_derivation_v2.current_closure(root)` and **`_verify_head_bytes(root, exact_new_head, closure)`** on the actual recovered DB. Prove successful current-source binding; then deep-copy rows in memory and corrupt one recorded sha256. Require exact `ValueError` prefix `Weekly receipt current-tool closure drift:` from `_verify_head_bytes`; unexpected/no exception fails outside the handler. No file mutations, history construction, old-e4 ancestry claim or receipt/publication replay. Save closure rows and imported source path/hash, before/after identity/tracked status. This checks newly recovered Git availability/control bytes without rerunning old R1 operational tests. Optional schema/slug smoke is unnecessary once imports and selected tests pass.
+
+## Evidence correction and durability
+
+- Preserve milestone2's failed import probe; it is setup failure followed by corrected success. Its “all exits 0” section is acquisition/patch scope only. `.gitattributes` was changed by **Astra**, not Human. “Normal hooks” means no bypass arguments; inspect hook presence and do not infer execution of absent hooks.
+- Some milestone2 meta records abbreviate `TGT`/`<message>` instead of literal argv; do not invent missing raw transcripts. Preserve originals, add a clearly labelled binding/command summary referencing actual target and committed message. Future runner captures literal commands. Add a pretty JSON view/manifest supplement if needed; the original compact manifest remains.
+- Check new raw environment/config artifacts for credential material before preserving them in a Human commit or archive. If found, redact only sensitive values and explicitly record redaction; never expose them in a report. Do not claim untouched raw bytes after redaction. Use an allow-listed environment record for new runs.
+- After tests/diagnostic and any justified asset materialization, create the selected <=50MiB portable partial-DB archive and inventory, then extract it into a second absent independent directory. No copying secrets, venv, pycache, test temporaries, real acquisition remotes or external links. Keep original files unchanged and state explicitly which untracked material is excluded.
+- Record missing reachable objects **without fetching**, object/available-worktree hash inventory, HEAD/tree/baseline parent, shallow cutoff and sparse metadata. Validate restored identity, tree, all available object files and materialized byte inventory offline; check no inode sharing/alternates/real remote. Run only the small current-source positive diagnostic in the restored copy as proof it is usable offline with the existing pinned venv; do not repeat the five-test suite there.
+- Return final report/manifest/archive SHA256/bytes and limitations for Astra + fresh independent review. Do not start Freeze code or ordinary reconstruct Commit/Push. If any test unexpectedly fails, preserve raw evidence and diagnose within fixture/recovery scope before requesting correction; no source weakening or arbitrary asset hydration.

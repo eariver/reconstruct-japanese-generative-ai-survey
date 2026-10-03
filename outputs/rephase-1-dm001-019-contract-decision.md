@@ -1,5 +1,7 @@
 # Re:Phase — updated intake and DM-001/019 contract decision
 
+**Continuation 2026-10-03 recovery complete:** [current recovery assessment/next task](rephase-1-candidate-recovery-assessment.md) establishes new b40de60 (direct parent fixed774dd39a, tree-identical to historical481) with fresh bounded runtime/source/portable-restore evidence. The joint contract below remains selected; recovery-pending text records the preceding Commit Point. Stop now at the separate recovery Commit Point. On next continuation, General first returns concrete shared-helper/writer-preflight/test-fixture design at b40de60 to Astra, then implements within the joint unit; no new Summary intake or recovery rerun.
+
 2026-10-03. Astra architecture/evidence review. Started at Human reconstruct commit `a6d834be7da6828740bcddd9b63477064015de80`, clean. **This unit completes one-document intake and a packet-bound Freeze contract decision. No runtime implementation, test execution or DB recovery.** Whole candidate **NOT_READY**, step 4/B3 OPEN, canonical seven-point audit unstarted.
 
 ## 1. New intake, fixed baseline
