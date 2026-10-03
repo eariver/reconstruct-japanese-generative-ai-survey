@@ -1,0 +1,61 @@
+=== header ===
+HEAD=222a37e9ee2aa96724a491f2c04c2583a86b9650
+TREE=dbabeed5e70d79b51abb09b64666ca9e1d0fd5dd
+PARENT=ff6c67f68e12b3093901248219f2de2872e54d73
+STATUS_CLEAN=True
+SOURCE_scripts/survey_publication_v2.py blob=90cd35066955de2948e03c76aa55c20166f5de3f worktree_sha256=f3b73d857a7281a45fab807659acd8f7a1d869d52ef05e360af703a7626ceec5
+SOURCE_scripts/survey_profiled_freeze_v2.py blob=433c6096e23b6eec4b4869aa932d81bed037be64 worktree_sha256=092f1a2db8a728684cd2c5bcee80d8ef01e5353091cc03e732e5fc5b10a07c05
+SOURCE_tests/test_survey_dm001_019_freeze_equivalence_v2.py blob=be394ef626cc7ea87403f2307d729f938eff692e worktree_sha256=b84b7a7668a06a116af65346b1a99911b1425796524240dda5a7954c31ba3147
+ARGV=/tmp/opencode/candidate-recovery-tooling-20261003T0435Z/venv/bin/python tests/test_survey_dm001_019_freeze_equivalence_v2.py -v
+RUNTIME=/tmp/opencode/candidate-recovery-tooling-20261003T0435Z/venv/bin/python
+ENV_GIT_ALLOW_PROTOCOL=file
+ENV_GIT_NO_LAZY_FETCH=1
+ENV_GIT_OPTIONAL_LOCKS=0
+ENV_PATH=/usr/bin:/bin
+ENV_PYTHONDONTWRITEBYTECODE=1
+ENV_PYTHONPATH=/tmp/opencode/jgas-dm001019-impl-20261003T100801Z
+ELAPSED_S=240.071
+EXIT=0
+=== stdout ===
+=== stderr ===
+test_l10_reformatted_existing_bytes_preserved (__main__.DM001019CanonicalFreezeTests.test_l10_reformatted_existing_bytes_preserved) ... ok
+test_l1_weekly_positive_freeze_validates (__main__.DM001019CanonicalFreezeTests.test_l1_weekly_positive_freeze_validates) ... ok
+test_l2_special_convergent_positive_and_wrapper_byte_equal (__main__.DM001019CanonicalFreezeTests.test_l2_special_convergent_positive_and_wrapper_byte_equal) ... ok
+test_l3_legacy_visual_cannot_enter_candidate (__main__.DM001019CanonicalFreezeTests.test_l3_legacy_visual_cannot_enter_candidate) ... ok
+test_l4_mixed_candidate_same_pdf_rejected_before_writes (__main__.DM001019CanonicalFreezeTests.test_l4_mixed_candidate_same_pdf_rejected_before_writes) ... ok
+test_l5_divergent_special_profile_identity (__main__.DM001019CanonicalFreezeTests.test_l5_divergent_special_profile_identity) ... ok
+test_l6_writer_conflict_matrix (__main__.DM001019CanonicalFreezeTests.test_l6_writer_conflict_matrix) ... ok
+test_l7_same_payload_retry_is_idempotent (__main__.DM001019CanonicalFreezeTests.test_l7_same_payload_retry_is_idempotent) ... ok
+test_l8_install_failures_leave_fail_closed_state (__main__.DM001019CanonicalFreezeTests.test_l8_install_failures_leave_fail_closed_state) ... ok
+test_l9_nested_and_dotdot_outputs_rejected_pre_write (__main__.DM001019CanonicalFreezeTests.test_l9_nested_and_dotdot_outputs_rejected_pre_write) ... ok
+test_s1_special_frozen_admission (__main__.DM001019FreezeConsumerTests.test_s1_special_frozen_admission) ... ok
+test_s1b_weekly_frozen_admission (__main__.DM001019FreezeConsumerTests.test_s1b_weekly_frozen_admission) ... ok
+test_s2_workflow_predicate_accepts_all_pairs (__main__.DM001019FreezeConsumerTests.test_s2_workflow_predicate_accepts_all_pairs) ... ok
+test_w1_weekly_wrapper_positive (__main__.DM001019WrapperFreezeTests.test_w1_weekly_wrapper_positive) ... ok
+test_w1c_legacy_record_ignored_by_repaired_builders (__main__.DM001019WrapperFreezeTests.test_w1c_legacy_record_ignored_by_repaired_builders) ... ok
+test_w2_special_convergent_wrapper_positive (__main__.DM001019WrapperFreezeTests.test_w2_special_convergent_wrapper_positive) ... ok
+test_w2b_weekly_builders_agree_byte_equal (__main__.DM001019WrapperFreezeTests.test_w2b_weekly_builders_agree_byte_equal) ... ok
+test_w3_special_divergent_wrapper_positive (__main__.DM001019WrapperFreezeTests.test_w3_special_divergent_wrapper_positive) ... ok
+test_w3b_divergent_builders_agree_byte_equal (__main__.DM001019WrapperFreezeTests.test_w3b_divergent_builders_agree_byte_equal) ... ok
+test_w4_wrapper_negatives_leave_no_outputs (__main__.DM001019WrapperFreezeTests.test_w4_wrapper_negatives_leave_no_outputs) ... ok
+test_w4b_wrapper_mixed_candidate_fails_closed (__main__.DM001019WrapperFreezeTests.test_w4b_wrapper_mixed_candidate_fails_closed) ... ok
+test_w4c_wrapper_mixed_candidate_real_call (__main__.DM001019WrapperFreezeTests.test_w4c_wrapper_mixed_candidate_real_call) ... ok
+test_w5_pending_preview_cannot_freeze (__main__.DM001019WrapperFreezeTests.test_w5_pending_preview_cannot_freeze) ... ok
+test_w6_wrapper_manifest_failure_retains_freeze (__main__.DM001019WrapperFreezeTests.test_w6_wrapper_manifest_failure_retains_freeze) ... ok
+test_w7_wrapper_reformatted_freeze_preserved (__main__.DM001019WrapperFreezeTests.test_w7_wrapper_reformatted_freeze_preserved) ... ok
+test_close_failure_leaves_unrelated_descriptor_usable (__main__.DM001019WriterBoundaryTests.test_close_failure_leaves_unrelated_descriptor_usable) ... ok
+test_close_failure_never_reports_success (__main__.DM001019WriterBoundaryTests.test_close_failure_never_reports_success) ... ok
+test_fileexists_fifo_refused_without_blocking (__main__.DM001019WriterBoundaryTests.test_fileexists_fifo_refused_without_blocking) ... ok
+test_fileexists_symlink_identical_bytes_refused (__main__.DM001019WriterBoundaryTests.test_fileexists_symlink_identical_bytes_refused) ... ok
+test_freeze_output_drift_before_second_install_no_manifest (__main__.DM001019WriterBoundaryTests.test_freeze_output_drift_before_second_install_no_manifest) ... ok
+test_input_drift_before_first_write_leaves_no_outputs (__main__.DM001019WriterBoundaryTests.test_input_drift_before_first_write_leaves_no_outputs) ... ok
+test_input_drift_before_second_install_retains_freeze (__main__.DM001019WriterBoundaryTests.test_input_drift_before_second_install_retains_freeze) ... ok
+test_manifest_close_failure_retains_freeze (__main__.DM001019WriterBoundaryTests.test_manifest_close_failure_retains_freeze) ... ok
+test_owned_partial_identity_replacement_preserved (__main__.DM001019WriterBoundaryTests.test_owned_partial_identity_replacement_preserved) ... ok
+test_owned_partial_non_prefix_preserved (__main__.DM001019WriterBoundaryTests.test_owned_partial_non_prefix_preserved) ... ok
+test_owned_partial_symlink_preserved (__main__.DM001019WriterBoundaryTests.test_owned_partial_symlink_preserved) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 239.548s
+
+OK

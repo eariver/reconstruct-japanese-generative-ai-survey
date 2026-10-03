@@ -1,0 +1,93 @@
+diff --git a/scripts/survey_publication_v2.py b/scripts/survey_publication_v2.py
+index 30a42fe..90cd350 100644
+--- a/scripts/survey_publication_v2.py
++++ b/scripts/survey_publication_v2.py
+@@ -538,9 +538,9 @@ def _install_owned_json(root: Path, path: Path, data: bytes, label: str) -> None
+         os.close(fd)
+     except OSError as exc:
+         # A close error can signal writeback failure: never report success.
+-        # The descriptor state is unspecified after a failed close, so make
+-        # one best-effort release attempt before verification.
+-        _close_quietly(fd)
++        # The descriptor state is unspecified after a failed close, so it is
++        # treated as released here: no second close is attempted, since the
++        # numeric fd may already have been reused for an unrelated descriptor.
+         # Verified complete bytes are retained with an explicit failure so an
+         # identical retry resumes; anything else follows the owned-partial rule.
+         try:
+@@ -577,8 +577,43 @@ def _install_manifest_target(
+ ) -> Path:
+     """Install the Manifest half of a preflighted plan, rechecking inputs first."""
+     root = repo_root.resolve()
+-    norm_freeze, norm_manifest, _freeze_bytes, manifest_bytes, _freeze_sha, snapshot = plan
++    norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, freeze_sha, snapshot = plan
+     _recheck_snapshot(repo_root, snapshot, "before second install")
++    # The input snapshot does not bind the installed Freeze output between
++    # halves: verify the Freeze file is still the planned regular file at its
++    # planned parents with the planned bytes/hash before any Manifest write.
++    # Mutated/deleted/replaced Freeze rejects here with the Freeze retained
++    # as found and no Manifest created.
++    try:
++        freeze_st = os.lstat(norm_freeze)
++    except OSError as exc:
++        raise ValueError(
++            "Freeze record output unreadable before second install; existing Freeze "
++            f"retained as found without Manifest write: {norm_freeze} ({exc})"
++        ) from exc
++    if stat.S_ISLNK(freeze_st.st_mode):
++        raise ValueError(
++            "Freeze record output is a symlink before second install; existing Freeze "
++            f"retained as found without Manifest write: {norm_freeze}"
++        )
++    if not stat.S_ISREG(freeze_st.st_mode):
++        raise ValueError(
++            "Freeze record output is not a regular file before second install; existing Freeze "
++            f"retained as found without Manifest write: {norm_freeze}"
++        )
++    _check_output_ancestors(root, norm_freeze, "Freeze record")
++    try:
++        landed_freeze = norm_freeze.read_bytes()
++    except OSError as exc:
++        raise ValueError(
++            "Freeze record output unreadable before second install; existing Freeze "
++            f"retained as found without Manifest write: {norm_freeze} ({exc})"
++        ) from exc
++    if landed_freeze != freeze_bytes or core.sha256_bytes(landed_freeze) != freeze_sha:
++        raise ValueError(
++            "Freeze record output drift before second install; existing Freeze "
++            f"retained as found without Manifest write: {norm_freeze}"
++        )
+     _ensure_parent_dir(root, norm_manifest, "Release manifest")
+     _install_owned_json(root, norm_manifest, manifest_bytes, "Release manifest")
+     if norm_manifest.read_bytes() != manifest_bytes:
+@@ -594,15 +629,27 @@ def _install_freeze_pair(
+ ) -> tuple[Path, Path]:
+     """Install a preflighted Freeze/Manifest pair. Freeze is installed first.
+ 
+-    A completed valid Freeze is retained when Manifest installation fails so
+-    an identical retry resumes. Post-install bytes are rechecked; any drift
+-    is reported explicitly without deleting pre-existing authority.
++    A completed valid Freeze is retained when Manifest installation itself
++    fails so an identical retry resumes. Output drift detected before the
++    second install instead refuses with the Freeze retained as found and no
++    retry promise. Post-install bytes are rechecked; any drift is reported
++    explicitly without deleting pre-existing authority.
+     """
+     norm_freeze = _install_freeze_target(repo_root, plan)
+     _norm_freeze, norm_manifest, _fb, _mb, _fs, _snap = plan
+     try:
+         _install_manifest_target(repo_root, plan)
+     except (OSError, ValueError) as exc:
++        # "before second install" refusals (input/output drift between the
++        # halves) retain the Freeze as found and promise no identical retry.
++        # Only genuine Manifest install failures keep the retry promise.
++        # The drift half is unreachable single-threaded (each half rechecks
++        # first); the branch exists for truly concurrent mutation.
++        if "before second install" in str(exc):
++            raise ValueError(
++                "Release manifest install refused; existing Freeze retained "
++                f"as found without Manifest write: {norm_freeze} ({exc})"
++            ) from exc
+         raise ValueError(
+             "Release manifest install failed; completed Freeze record retained "
+             f"for identical retry: {norm_freeze} ({exc})"

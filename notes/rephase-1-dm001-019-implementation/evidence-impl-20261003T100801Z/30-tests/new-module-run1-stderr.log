@@ -1,0 +1,55 @@
+test_l1_weekly_positive_freeze_validates (__main__.DM001019CanonicalFreezeTests.test_l1_weekly_positive_freeze_validates) ... ok
+test_l2_special_convergent_positive_and_wrapper_byte_equal (__main__.DM001019CanonicalFreezeTests.test_l2_special_convergent_positive_and_wrapper_byte_equal) ... ok
+test_l3_legacy_visual_cannot_enter_candidate (__main__.DM001019CanonicalFreezeTests.test_l3_legacy_visual_cannot_enter_candidate) ... ERROR
+test_l4_mixed_candidate_same_pdf_rejected_before_writes (__main__.DM001019CanonicalFreezeTests.test_l4_mixed_candidate_same_pdf_rejected_before_writes) ... ok
+test_l5_divergent_special_profile_identity (__main__.DM001019CanonicalFreezeTests.test_l5_divergent_special_profile_identity) ... ok
+test_l6_writer_conflict_matrix (__main__.DM001019CanonicalFreezeTests.test_l6_writer_conflict_matrix) ... FAIL
+test_l7_same_payload_retry_is_idempotent (__main__.DM001019CanonicalFreezeTests.test_l7_same_payload_retry_is_idempotent) ... ok
+test_l8_install_failures_leave_fail_closed_state (__main__.DM001019CanonicalFreezeTests.test_l8_install_failures_leave_fail_closed_state) ... ok
+test_s1_special_frozen_admission (__main__.DM001019FreezeConsumerTests.test_s1_special_frozen_admission) ... ok
+test_s1b_weekly_frozen_admission (__main__.DM001019FreezeConsumerTests.test_s1b_weekly_frozen_admission) ... ok
+test_s2_workflow_predicate_accepts_all_pairs (__main__.DM001019FreezeConsumerTests.test_s2_workflow_predicate_accepts_all_pairs) ... ok
+test_w1_weekly_wrapper_positive (__main__.DM001019WrapperFreezeTests.test_w1_weekly_wrapper_positive) ... ok
+test_w2_special_convergent_wrapper_positive (__main__.DM001019WrapperFreezeTests.test_w2_special_convergent_wrapper_positive) ... ok
+test_w3_special_divergent_wrapper_positive (__main__.DM001019WrapperFreezeTests.test_w3_special_divergent_wrapper_positive) ... ok
+test_w3b_divergent_builders_agree_byte_equal (__main__.DM001019WrapperFreezeTests.test_w3b_divergent_builders_agree_byte_equal) ... ok
+test_w4_wrapper_negatives_leave_no_outputs (__main__.DM001019WrapperFreezeTests.test_w4_wrapper_negatives_leave_no_outputs) ... FAIL
+test_w4b_wrapper_mixed_candidate_fails_closed (__main__.DM001019WrapperFreezeTests.test_w4b_wrapper_mixed_candidate_fails_closed) ... ok
+test_w5_pending_preview_cannot_freeze (__main__.DM001019WrapperFreezeTests.test_w5_pending_preview_cannot_freeze) ... ok
+test_w6_wrapper_manifest_failure_retains_freeze (__main__.DM001019WrapperFreezeTests.test_w6_wrapper_manifest_failure_retains_freeze) ... ok
+
+======================================================================
+ERROR: test_l3_legacy_visual_cannot_enter_candidate (__main__.DM001019CanonicalFreezeTests.test_l3_legacy_visual_cannot_enter_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm001019-impl-20261003T100801Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 843, in test_l3_legacy_visual_cannot_enter_candidate
+    publication.build_visual_review(
+  File "/tmp/opencode/jgas-dm001019-impl-20261003T100801Z/scripts/survey_publication_v2.py", line 750, in build_visual_review
+    schema_gate.validate_instance(payload, repo_root / VISUAL_REVIEW_SCHEMA, label="Visual Review record")
+  File "/tmp/opencode/jgas-dm001019-impl-20261003T100801Z/scripts/survey_schema_v2.py", line 62, in validate_instance
+    schema = load_schema(schema_path)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm001019-impl-20261003T100801Z/scripts/survey_schema_v2.py", line 41, in load_schema
+    raise SchemaConformanceError(f"schema path is missing or unsafe: {schema_path}")
+scripts.survey_schema_v2.SchemaConformanceError: schema path is missing or unsafe: /tmp/tmpgtqnanxq/schemas/visual-review-record-v2.schema.json
+
+======================================================================
+FAIL: test_l6_writer_conflict_matrix (__main__.DM001019CanonicalFreezeTests.test_l6_writer_conflict_matrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm001019-impl-20261003T100801Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 938, in test_l6_writer_conflict_matrix
+    self.assertIn("not a regular file", attempt(base_freeze, direc))
+AssertionError: 'not a regular file' not found in 'Release manifest target exists without its Freeze record: refusing to install a Freeze pair under pre-existing Manifest bytes: /tmp/tmp720231cx/sources/SP001/publication/v2/manifest-dir-v2.json'
+
+======================================================================
+FAIL: test_w4_wrapper_negatives_leave_no_outputs (__main__.DM001019WrapperFreezeTests.test_w4_wrapper_negatives_leave_no_outputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm001019-impl-20261003T100801Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 1110, in test_w4_wrapper_negatives_leave_no_outputs
+    self.assertIn("disagree", attempt())
+AssertionError: 'disagree' not found in 'Publication Preview approval authority drift before Freeze'
+
+----------------------------------------------------------------------
+Ran 19 tests in 159.345s
+
+FAILED (failures=2, errors=1)

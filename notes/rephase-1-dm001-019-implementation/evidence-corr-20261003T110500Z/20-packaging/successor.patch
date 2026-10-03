@@ -1,0 +1,1068 @@
+From ff6c67f68e12b3093901248219f2de2872e54d73 Mon Sep 17 00:00:00 2001
+From: dm001019-co-worker <dm001019-co-worker@example.invalid>
+Date: Sat, 3 Oct 2026 19:57:01 +0900
+Subject: [PATCH] DM-001/019 correction: nested/dotdot preflight, collision
+ revalidation, close propagation, PDF alias, snapshot recheck, lstat cleanup
+
+Findings F1-F5 plus install-boundary input snapshot/recheck and
+lstat-owned cleanup. Helpers private/narrow. Dedicated tests extended:
+actual wrapper mixed call, legacy-irrelevant positive, reformatted-bytes
+preservation, Weekly equivalence, pre/post snapshots, nested/symlink/
+close/partial-foreign cases.
+---
+ scripts/survey_profiled_freeze_v2.py          |  20 +-
+ scripts/survey_publication_v2.py              | 238 +++++++---
+ ..._survey_dm001_019_freeze_equivalence_v2.py | 439 +++++++++++++++++-
+ 3 files changed, 613 insertions(+), 84 deletions(-)
+
+diff --git a/scripts/survey_profiled_freeze_v2.py b/scripts/survey_profiled_freeze_v2.py
+index 8d218aa..433c609 100644
+--- a/scripts/survey_profiled_freeze_v2.py
++++ b/scripts/survey_profiled_freeze_v2.py
+@@ -61,7 +61,7 @@ def build_profiled_freeze(
+     if not approval_path.is_file() or core.sha256_file(approval_path) != approval_ref["sha256"]:
+         raise ValueError("Publication Preview approval authority drift before Freeze")
+ 
+-    prep = publication.prepare_freeze_inputs(repo_root, candidate_path, approval_path)
++    prep = publication._prepare_freeze_inputs(repo_root, candidate_path, approval_path)
+     candidate = prep["candidate"]
+     if candidate["issue_id"] != state["issue_id"]:
+         raise ValueError("Publication Candidate issue identity diverges from Production State")
+@@ -74,7 +74,14 @@ def build_profiled_freeze(
+     release_tag = publication.profile_release_identity(prep["profile"])
+     freeze_path = publication_root / "freeze-record-v2.json"
+     manifest_path = publication_root / "release-manifest-v2.json"
+-    freeze_payload = publication.build_freeze_payload(
++    # The wrapper's State file is a fixed-path install-boundary input: its
++    # outputs must never overlap it, and its bytes join the install snapshot.
++    norm_state = publication._lexical_repo_path(repo_root, state_path, "Production State")
++    state_rel = publication._rel(repo_root, norm_state)
++    for label, target in (("Freeze record", freeze_path), ("Release manifest", manifest_path)):
++        if publication._lexical_repo_path(repo_root, target, label) == norm_state:
++            raise ValueError(f"{label} target overlaps the Production State input: {target}")
++    freeze_payload = publication._build_freeze_payload(
+         repo_root=repo_root,
+         candidate_path=prep["candidate_path"],
+         candidate=candidate,
+@@ -85,15 +92,15 @@ def build_profiled_freeze(
+     )
+     source = candidate["source"]
+     pdf = candidate["pdf"]
+-    plan = publication.preflight_freeze_pair(
++    plan = publication._preflight_freeze_pair(
+         repo_root,
+         freeze_path,
+         manifest_path,
+         prep,
+         freeze_payload,
+-        lambda freeze_sha: publication.build_manifest_payload(
++        lambda freeze_sha, freeze_target: publication._build_manifest_payload(
+             repo_root=repo_root,
+-            freeze_path=freeze_path,
++            freeze_path=freeze_target,
+             freeze_record_sha256=freeze_sha,
+             release_identity=release_tag,
+             source_path=source["path"],
+@@ -103,8 +110,9 @@ def build_profiled_freeze(
+             page_count=pdf["page_count"],
+             issue_id=candidate["issue_id"],
+         ),
++        extra_snapshot={state_rel: core.sha256_file(norm_state)},
+     )
+-    installed_freeze, installed_manifest = publication.install_freeze_pair(repo_root, plan)
++    installed_freeze, installed_manifest = publication._install_freeze_pair(repo_root, plan)
+     publication.validate_release_manifest(repo_root, installed_manifest)
+     return installed_freeze, installed_manifest
+ 
+diff --git a/scripts/survey_publication_v2.py b/scripts/survey_publication_v2.py
+index 12f22e8..30a42fe 100644
+--- a/scripts/survey_publication_v2.py
++++ b/scripts/survey_publication_v2.py
+@@ -71,15 +71,6 @@ def _write_immutable(path: Path, payload: dict[str, Any], label: str) -> Path:
+     return path
+ 
+ 
+-def _write_immutable(path: Path, payload: dict[str, Any], label: str) -> Path:
+-    if path.exists():
+-        if core.load_json(path) != payload:
+-            raise ValueError(f"refusing to overwrite divergent {label}: {path}")
+-        return path
+-    core.write_json(path, payload)
+-    return path
+-
+-
+ def public_issue_slug_from_profile(profile: dict[str, Any]) -> str:
+     """Derive the public issue slug from the exact Profile survey_root authority.
+ 
+@@ -110,11 +101,17 @@ def _lexical_repo_path(repo_root: Path, path: Path, label: str) -> Path:
+     """Lexically normalize a repo-local path without resolving symlinks.
+ 
+     Accepts repo-relative paths and absolute paths inside ``repo_root``.
+-    Rejects backslashes and repository escapes before any filesystem
+-    resolution, so later symlink checks observe the true ancestry.
++    Backslashes and any lexical ``..`` segment are rejected before
++    normalization: ``normpath`` would otherwise erase a ``..`` component
++    whose resolution through a symlinked ancestor differs from the
++    normalized spelling. Repository escapes are rejected as well, so later
++    symlink checks observe the true ancestry.
+     """
+-    if "\\" in str(path):
++    raw = str(path)
++    if "\\" in raw:
+         raise ValueError(f"{label} must not contain backslashes: {path}")
++    if ".." in Path(raw).parts:
++        raise ValueError(f"{label} must not contain '..' segments: {path}")
+     root = repo_root.resolve()
+     candidate = path if path.is_absolute() else (root / path)
+     normalized = Path(os.path.normpath(str(candidate)))
+@@ -171,13 +168,15 @@ def _existing_compatible_bytes(target: Path, payload: dict[str, Any], label: str
+     return data
+ 
+ 
+-def prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path: Path) -> dict[str, Any]:
++def _prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path: Path) -> dict[str, Any]:
+     """Validate and resolve the joint Freeze authority shared by both builders.
+ 
+     Resolves the actual Candidate, its typed Preview approval, the exact
+     approval→Candidate path/hash binding, the Candidate-bound pre-preview
+     VISUAL record, exact source/PDF/page relationships and the Candidate-bound
+-    Production Profile (via the validated quality bundle). No writes.
++    Production Profile (via the validated quality bundle). Captures a
++    bounded byte snapshot of every authority input for install-boundary
++    rechecks. No writes.
+     """
+     candidate = validate_candidate(repo_root, candidate_path)
+     approval = validate_preview_approval(repo_root, approval_path, issue_id=candidate["issue_id"])
+@@ -211,6 +210,23 @@ def prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path:
+         source_root = core.repo_local_path(repo_root, profile["paths"]["source_root"], "source_root")
+     except (KeyError, TypeError, ValueError) as exc:
+         raise ValueError(f"Production Profile source_root invalid: {exc}") from exc
++    snapshot_files = [
++        candidate_file,
++        _safe_file(repo_root, approval_path, "Publication Preview approval"),
++        visual_path,
++        bundle_path,
++        profile_path,
++        _safe_file(repo_root, repo_root / candidate["reader_manuscript"]["path"], "Candidate Reader Manuscript"),
++        _safe_file(repo_root, repo_root / candidate["source"]["path"], "Candidate source"),
++        _safe_file(repo_root, repo_root / candidate["pdf"]["path"], "Candidate PDF"),
++        _safe_file(
++            repo_root, repo_root / candidate["semantic_review"]["path"], "Candidate semantic review"
++        ),
++    ]
++    snapshot: dict[str, str] = {}
++    for item in snapshot_files:
++        rel = _rel(repo_root, item)
++        snapshot[rel] = core.sha256_file(item)
+     return {
+         "candidate": candidate,
+         "candidate_path": candidate_path,
+@@ -225,10 +241,22 @@ def prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path:
+         "profile_path": profile_path,
+         "profile_ref": profile_ref,
+         "source_root": source_root,
++        "snapshot": snapshot,
+     }
+ 
+ 
+-def build_freeze_payload(
++def _recheck_snapshot(repo_root: Path, snapshot: dict[str, str], stage: str) -> None:
++    """Fail when any snapshotted authority byte changed since preparation."""
++    for rel, expected in snapshot.items():
++        try:
++            actual = core.sha256_file(repo_root.resolve() / rel)
++        except OSError as exc:
++            raise ValueError(f"Freeze authority input unreadable {stage}: {rel}") from exc
++        if actual != expected:
++            raise ValueError(f"Freeze authority input changed {stage}: {rel}")
++
++
++def _build_freeze_payload(
+     *,
+     repo_root: Path,
+     candidate_path: Path,
+@@ -263,7 +291,7 @@ def build_freeze_payload(
+     }
+ 
+ 
+-def build_manifest_payload(
++def _build_manifest_payload(
+     *,
+     repo_root: Path,
+     freeze_path: Path,
+@@ -292,28 +320,37 @@ def build_manifest_payload(
+     }
+ 
+ 
+-def preflight_freeze_pair(
++def _preflight_freeze_pair(
+     repo_root: Path,
+     freeze_path: Path,
+     manifest_path: Path,
+     prep: dict[str, Any],
+     freeze_payload: dict[str, Any],
+-    make_manifest_payload: Callable[[str], dict[str, Any]],
+-) -> tuple[Path, Path, bytes, bytes, str]:
++    make_manifest_payload: Callable[[str, Path], dict[str, Any]],
++    extra_snapshot: dict[str, str] | None = None,
++) -> tuple[Path, Path, bytes, bytes, str, dict[str, str]]:
+     """Complete pre-install gate for the Freeze/Manifest pair. Performs no writes.
+ 
+     Validates both full schemas and both target/parent conflicts (including
+-    target/input aliasing) before any target or parent-directory write.
+-    Equal-payload existing files keep their exact bytes; the returned Freeze
+-    SHA is always computed over the bytes that will be ensured on disk, so
+-    the Manifest is fully known here. Returns
+-    ``(freeze_target, manifest_target, freeze_bytes, manifest_bytes, freeze_sha256)``.
++    nested outputs and target/input aliasing) before any target or
++    parent-directory write. Equal-payload existing files keep their exact
++    bytes; the returned Freeze SHA is always computed over the bytes that
++    will be ensured on disk, so the Manifest is fully known here. The
++    manifest builder receives the Freeze SHA and the normalized Freeze
++    target so payload refs and install paths are one consistent target.
++    Returns ``(freeze_target, manifest_target, freeze_bytes, manifest_bytes,
++    freeze_sha256, snapshot)``.
+     """
+     root = repo_root.resolve()
+     norm_freeze = _lexical_repo_path(repo_root, freeze_path, "Freeze record")
+     norm_manifest = _lexical_repo_path(repo_root, manifest_path, "Release manifest")
+     if norm_freeze == norm_manifest:
+         raise ValueError("Freeze record and Release manifest targets must differ")
++    if norm_freeze in norm_manifest.parents or norm_manifest in norm_freeze.parents:
++        raise ValueError(
++            "Freeze record and Release manifest targets must not nest: "
++            f"{norm_freeze} vs {norm_manifest}"
++        )
+     schema_gate.validate_instance(freeze_payload, repo_root / FREEZE_SCHEMA, label="Freeze record")
+     _check_output_ancestors(root, norm_freeze, "Freeze record")
+     _check_output_ancestors(root, norm_manifest, "Release manifest")
+@@ -321,7 +358,14 @@ def preflight_freeze_pair(
+     candidate = prep["candidate"]
+     authority_raw: list[Path] = [
+         repo_root / candidate[key]["path"]
+-        for key in ("reader_manuscript", "source", "quality_bundle", "semantic_review", "visual_review")
++        for key in (
++            "reader_manuscript",
++            "source",
++            "pdf",
++            "quality_bundle",
++            "semantic_review",
++            "visual_review",
++        )
+     ]
+     authority_raw += [
+         prep["candidate_path"],
+@@ -365,7 +409,7 @@ def preflight_freeze_pair(
+         manifest_present = False
+     except OSError as exc:
+         raise ValueError(f"Release manifest target unreadable: {norm_manifest}") from exc
+-    manifest_payload = make_manifest_payload(freeze_sha)
++    manifest_payload = make_manifest_payload(freeze_sha, norm_freeze)
+     schema_gate.validate_instance(manifest_payload, repo_root / RELEASE_MANIFEST_SCHEMA, label="Release manifest")
+     manifest_bytes = _existing_compatible_bytes(norm_manifest, manifest_payload, "Release manifest")
+     if freeze_is_new and manifest_present:
+@@ -376,24 +420,43 @@ def preflight_freeze_pair(
+     if manifest_bytes is None:
+         manifest_bytes = core.json_bytes(manifest_payload)
+     assert manifest_bytes is not None
+-    return (norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, freeze_sha)
++    snapshot = dict(prep["snapshot"])
++    if extra_snapshot:
++        for rel, sha in extra_snapshot.items():
++            if rel in snapshot and snapshot[rel] != sha:
++                raise ValueError(f"Freeze snapshot conflicts for {rel}")
++            snapshot[rel] = sha
++    _recheck_snapshot(repo_root, snapshot, "before install")
++    return (norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, freeze_sha, snapshot)
+ 
+ 
+ def _ensure_parent_dir(root: Path, target: Path, label: str) -> None:
+     _check_output_ancestors(root, target, label)
+     target.parent.mkdir(parents=True, exist_ok=True)
++    # Cheap post-mkdir narrowing (no cross-process claim): refuse a parent
++    # chain that changed under us before any file is created.
++    _check_output_ancestors(root, target, label)
+ 
+ 
+ def _remove_owned_partial(
+     path: Path, created_dev: int, created_ino: int, intended: bytes, label: str, cause: BaseException
+ ) -> None:
+-    """Remove an incomplete file only when this call created it and bytes are a known partial prefix."""
++    """Remove an incomplete file only when this call created it and bytes are a known partial prefix.
++
++    Identity is established with ``lstat`` (never following a replaced
++    symlink); any symlink, identity change, or non-prefix content leaves the
++    foreign/unverifiable residual intact with an explicit failure.
++    """
+     try:
+-        st = os.stat(path)
++        st = os.lstat(path)
+     except OSError:
+         raise ValueError(
+             f"{label} install failed and residual cannot be verified; left intact: {path} ({cause})"
+         ) from cause
++    if stat.S_ISLNK(st.st_mode):
++        raise ValueError(
++            f"{label} install failed and residual is a symlink; left intact: {path} ({cause})"
++        ) from cause
+     if (st.st_dev, st.st_ino) != (created_dev, created_ino):
+         raise ValueError(
+             f"{label} install failed and target identity changed; left intact: {path} ({cause})"
+@@ -417,16 +480,35 @@ def _remove_owned_partial(
+     raise ValueError(f"{label} install failed; owned partial file removed: {path} ({cause})") from cause
+ 
+ 
+-def _install_owned_json(path: Path, data: bytes, label: str) -> None:
++def _close_quietly(fd: int) -> None:
++    try:
++        os.close(fd)
++    except OSError:
++        pass
++
++
++def _install_owned_json(root: Path, path: Path, data: bytes, label: str) -> None:
+     """Exclusively create a file holding exactly ``data``.
+ 
+-    Equal existing content is an idempotent resume; divergent content is
+-    refused without overwrite. Partial writes attributable to this call are
+-    removed only after owned-identity/known-prefix verification.
++    A colliding existing target is revalidated (lstat type/symlink/ancestor
++    checks plus exact content) before any read: identical bytes resume,
++    anything else is refused without overwrite and without blocking on
++    special files. Partial writes attributable to this call are removed
++    only after owned-identity/known-prefix verification. Close failures
++    always propagate as explicit errors, never silent success.
+     """
+     try:
+         fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW)
+     except FileExistsError:
++        try:
++            st = os.lstat(path)
++        except OSError as exc:
++            raise ValueError(f"{label} target exists but is unreadable: {path}") from exc
++        if stat.S_ISLNK(st.st_mode):
++            raise ValueError(f"{label} target is a symlink: {path}")
++        if not stat.S_ISREG(st.st_mode):
++            raise ValueError(f"{label} target is not a regular file: {path}")
++        _check_output_ancestors(root, path, label)
+         try:
+             existing = path.read_bytes()
+         except OSError as exc:
+@@ -439,10 +521,7 @@ def _install_owned_json(path: Path, data: bytes, label: str) -> None:
+     try:
+         created = os.fstat(fd)
+     except OSError as exc:
+-        try:
+-            os.close(fd)
+-        except OSError:
+-            pass
++        _close_quietly(fd)
+         raise ValueError(f"{label} install failed immediately after creation: {path} ({exc})") from exc
+     sent = 0
+     try:
+@@ -452,29 +531,66 @@ def _install_owned_json(path: Path, data: bytes, label: str) -> None:
+                 raise OSError("short write with no progress")
+             sent += chunk
+     except OSError as exc:
+-        try:
+-            os.close(fd)
+-        except OSError:
+-            pass
++        _close_quietly(fd)
+         _remove_owned_partial(path, created.st_dev, created.st_ino, data, label, exc)
+         raise AssertionError("unreachable") from exc
+     try:
+         os.close(fd)
+     except OSError as exc:
++        # A close error can signal writeback failure: never report success.
++        # The descriptor state is unspecified after a failed close, so make
++        # one best-effort release attempt before verification.
++        _close_quietly(fd)
++        # Verified complete bytes are retained with an explicit failure so an
++        # identical retry resumes; anything else follows the owned-partial rule.
+         try:
+-            landed = path.read_bytes()
++            st = os.lstat(path)
++            landed = path.read_bytes() if stat.S_ISREG(st.st_mode) else None
++            owned = (st.st_dev, st.st_ino) == (created.st_dev, created.st_ino)
+         except OSError:
++            landed, owned = None, False
++        if owned and landed == data:
+             raise ValueError(
+-                f"{label} install close failed and residual unreadable; left intact: {path} ({exc})"
++                f"{label} install close failed but complete verified bytes retained "
++                f"for identical retry: {path} ({exc})"
+             ) from exc
+-        if landed == data:
+-            return
+         _remove_owned_partial(path, created.st_dev, created.st_ino, data, label, exc)
+         raise AssertionError("unreachable") from exc
+ 
+ 
+-def install_freeze_pair(
+-    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str]
++def _install_freeze_target(
++    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str, dict[str, str]]
++) -> Path:
++    """Install the Freeze half of a preflighted plan, rechecking inputs first."""
++    root = repo_root.resolve()
++    norm_freeze, _norm_manifest, freeze_bytes, _manifest_bytes, _freeze_sha, snapshot = plan
++    _recheck_snapshot(repo_root, snapshot, "before first write")
++    _ensure_parent_dir(root, norm_freeze, "Freeze record")
++    _install_owned_json(root, norm_freeze, freeze_bytes, "Freeze record")
++    if norm_freeze.read_bytes() != freeze_bytes:
++        raise ValueError(f"Freeze record bytes changed during install; left intact: {norm_freeze}")
++    return norm_freeze
++
++
++def _install_manifest_target(
++    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str, dict[str, str]]
++) -> Path:
++    """Install the Manifest half of a preflighted plan, rechecking inputs first."""
++    root = repo_root.resolve()
++    norm_freeze, norm_manifest, _freeze_bytes, manifest_bytes, _freeze_sha, snapshot = plan
++    _recheck_snapshot(repo_root, snapshot, "before second install")
++    _ensure_parent_dir(root, norm_manifest, "Release manifest")
++    _install_owned_json(root, norm_manifest, manifest_bytes, "Release manifest")
++    if norm_manifest.read_bytes() != manifest_bytes:
++        raise ValueError(
++            "Release manifest bytes changed during install; "
++            f"completed Freeze record retained: {norm_freeze}"
++        )
++    return norm_manifest
++
++
++def _install_freeze_pair(
++    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str, dict[str, str]]
+ ) -> tuple[Path, Path]:
+     """Install a preflighted Freeze/Manifest pair. Freeze is installed first.
+ 
+@@ -482,25 +598,15 @@ def install_freeze_pair(
+     an identical retry resumes. Post-install bytes are rechecked; any drift
+     is reported explicitly without deleting pre-existing authority.
+     """
+-    root = repo_root.resolve()
+-    norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, _freeze_sha = plan
+-    _ensure_parent_dir(root, norm_freeze, "Freeze record")
+-    _install_owned_json(norm_freeze, freeze_bytes, "Freeze record")
+-    if norm_freeze.read_bytes() != freeze_bytes:
+-        raise ValueError(f"Freeze record bytes changed during install; left intact: {norm_freeze}")
+-    _ensure_parent_dir(root, norm_manifest, "Release manifest")
++    norm_freeze = _install_freeze_target(repo_root, plan)
++    _norm_freeze, norm_manifest, _fb, _mb, _fs, _snap = plan
+     try:
+-        _install_owned_json(norm_manifest, manifest_bytes, "Release manifest")
++        _install_manifest_target(repo_root, plan)
+     except (OSError, ValueError) as exc:
+         raise ValueError(
+             "Release manifest install failed; completed Freeze record retained "
+             f"for identical retry: {norm_freeze} ({exc})"
+         ) from exc
+-    if norm_manifest.read_bytes() != manifest_bytes:
+-        raise ValueError(
+-            "Release manifest bytes changed during install; "
+-            f"completed Freeze record retained: {norm_freeze}"
+-        )
+     return norm_freeze, norm_manifest
+ 
+ 
+@@ -772,10 +878,10 @@ def build_freeze(
+     release_manifest_path: Path,
+ ) -> tuple[Path, Path]:
+     """Freeze the exact Human-approved candidate and its already-bound visual QA."""
+-    prep = prepare_freeze_inputs(repo_root, candidate_path, approval_path)
++    prep = _prepare_freeze_inputs(repo_root, candidate_path, approval_path)
+     candidate = prep["candidate"]
+     release_tag = profile_release_identity(prep["profile"])
+-    freeze_payload = build_freeze_payload(
++    freeze_payload = _build_freeze_payload(
+         repo_root=repo_root,
+         candidate_path=prep["candidate_path"],
+         candidate=candidate,
+@@ -786,15 +892,15 @@ def build_freeze(
+     )
+     source = candidate["source"]
+     pdf = candidate["pdf"]
+-    plan = preflight_freeze_pair(
++    plan = _preflight_freeze_pair(
+         repo_root,
+         freeze_path,
+         release_manifest_path,
+         prep,
+         freeze_payload,
+-        lambda freeze_sha: build_manifest_payload(
++        lambda freeze_sha, freeze_target: _build_manifest_payload(
+             repo_root=repo_root,
+-            freeze_path=freeze_path,
++            freeze_path=freeze_target,
+             freeze_record_sha256=freeze_sha,
+             release_identity=release_tag,
+             source_path=source["path"],
+@@ -805,7 +911,7 @@ def build_freeze(
+             issue_id=candidate["issue_id"],
+         ),
+     )
+-    installed_freeze, installed_manifest = install_freeze_pair(repo_root, plan)
++    installed_freeze, installed_manifest = _install_freeze_pair(repo_root, plan)
+     validate_release_manifest(repo_root, installed_manifest)
+     return installed_freeze, installed_manifest
+ 
+diff --git a/tests/test_survey_dm001_019_freeze_equivalence_v2.py b/tests/test_survey_dm001_019_freeze_equivalence_v2.py
+index 03cc6f9..4f49114 100644
+--- a/tests/test_survey_dm001_019_freeze_equivalence_v2.py
++++ b/tests/test_survey_dm001_019_freeze_equivalence_v2.py
+@@ -710,6 +710,8 @@ def _run_workflow_predicate(repo: Path, issue: str, state_sha: str, manifest_sha
+         "PATH": "/usr/bin:/bin",
+         "PYTHONPATH": str(repo),
+         "PYTHONDONTWRITEBYTECODE": "1",
++        "GIT_NO_LAZY_FETCH": "1",
++        "GIT_ALLOW_PROTOCOL": "file",
+         "ISSUE_ID": issue,
+         "EXPECTED_STATE_SHA": state_sha,
+         "EXPECTED_MANIFEST_SHA": manifest_sha,
+@@ -724,6 +726,20 @@ def _run_workflow_predicate(repo: Path, issue: str, state_sha: str, manifest_sha
+     return proc.returncode, proc.stdout, proc.stderr
+ 
+ 
++def _snap_state_targets(
++    state_file: Path, freeze: Path, manifest: Path
++) -> tuple[bytes | None, tuple[bool, str | None], tuple[bool, str | None]]:
++    """Capture State bytes plus both-target existence/content for no-write proofs."""
++
++    def _target(path: Path) -> tuple[bool, str | None]:
++        if not path.is_file() or path.is_symlink():
++            return (path.exists(), None)
++        return (True, core.sha256_file(path))
++
++    state_bytes = state_file.read_bytes() if state_file.is_file() else None
++    return (state_bytes, _target(freeze), _target(manifest))
++
++
+ class _PublicationLevel:
+     """Self-contained publication-level fixture root (no State)."""
+ 
+@@ -787,6 +803,41 @@ def _build_second_chain(t) -> dict:
+     return {"candidate2": candidate2}
+ 
+ 
++def _build_special_second_chain(fix: SpecialFixture) -> dict:
++    """Second valid Special chain sharing source/PDF/manuscript, distinct bundle/reviews/candidate."""
++    pub = fix.src / "publication" / "v2"
++    checks = fix._deterministic_checks(pub)
++    for row in checks:
++        row["executor"] = "dm001019-second-chain"
++        row["evidence"] = "second-chain:" + row["check_id"]
++    bundle2 = pub / "quality-regression-bundle-2-v2.json"
++    quality.build_bundle(
++        fix.repo, fix.issue, fix.survey / "main.tex", fix.survey / "main.pdf",
++        checks, bundle2, production_profile_path=fix.profile_path)
++
++    def _checks2(kind: str) -> list[dict]:
++        rows = fix._review_checks(kind)
++        for row in rows:
++            row["detail"] = "Second-chain ChatGPT review passed " + row["check_id"]
++        return rows
++
++    sem2 = pub / "semantic-editorial-review-2-v2.json"
++    vis2 = pub / "visual-review-2-v2.json"
++    reader.build_review_record(
++        fix.repo, pub / "reader-manuscript-v2.json", fix.survey / "main.pdf", 12,
++        "SEMANTIC_EDITORIAL", _checks2("SEMANTIC_EDITORIAL"), "ChatGPT", T0, sem2)
++    reader.build_review_record(
++        fix.repo, pub / "reader-manuscript-v2.json", fix.survey / "main.pdf", 12,
++        "VISUAL", _checks2("VISUAL"), "ChatGPT", T0, vis2)
++    candidate2 = pub / "publication-candidate-2-v2.json"
++    publication.build_candidate(
++        fix.repo, fix.issue, fix.publication_profile,
++        pub / "reader-manuscript-v2.json",
++        fix.survey / "main.tex", fix.survey / "main.pdf", 12,
++        bundle2, sem2, vis2, candidate2)
++    return {"candidate2": candidate2}
++
++
+ class DM001019CanonicalFreezeTests(unittest.TestCase):
+     """Lower-level builder: exact authority, identity and writer preflight."""
+ 
+@@ -872,7 +923,7 @@ class DM001019CanonicalFreezeTests(unittest.TestCase):
+         self.assertFalse(freeze.exists())
+         self.assertFalse(manifest.exists())
+         with self.assertRaisesRegex(ValueError, "does not bind the exact Publication Candidate"):
+-            publication.prepare_freeze_inputs(t.root, c2, approval1)
++            publication._prepare_freeze_inputs(t.root, c2, approval1)
+ 
+     def test_l5_divergent_special_profile_identity(self) -> None:
+         at = T0 + timedelta(days=32)
+@@ -923,13 +974,13 @@ class DM001019CanonicalFreezeTests(unittest.TestCase):
+         self.assertFalse(base_freeze.exists())
+         # Compatible Manifest without Freeze: conservative refusal.
+         candidate = publication.validate_candidate(t.root, c1)
+-        prep = publication.prepare_freeze_inputs(t.root, c1, approval1)
+-        freeze_payload = publication.build_freeze_payload(
++        prep = publication._prepare_freeze_inputs(t.root, c1, approval1)
++        freeze_payload = publication._build_freeze_payload(
+             repo_root=t.root, candidate_path=c1, candidate=candidate,
+             approval_path=approval1, approval=prep["approval"],
+             visual_path=prep["visual_path"], frozen_at=t.now)
+         freeze_sha = core.sha256_bytes(core.json_bytes(freeze_payload))
+-        core.write_json(base_manifest, publication.build_manifest_payload(
++        core.write_json(base_manifest, publication._build_manifest_payload(
+             repo_root=t.root, freeze_path=base_freeze, freeze_record_sha256=freeze_sha,
+             release_identity=publication.profile_release_identity(prep["profile"]),
+             source_path=candidate["source"]["path"],
+@@ -967,6 +1018,60 @@ class DM001019CanonicalFreezeTests(unittest.TestCase):
+                       attempt(linked_parent / "freeze-v2.json", linked_parent / "manifest-v2.json"))
+         linked_parent.unlink()
+         shutil.rmtree(outside)
++        # Manifest target overlapping the bound Candidate PDF input.
++        pdf = p1["pdf"]
++        self.assertIn("overlaps a Freeze authority input",
++                      attempt(pub / "freeze-pdf-alias-v2.json", pdf))
++        self.assertFalse((pub / "freeze-pdf-alias-v2.json").exists())
++        # FIFO target: refused by type check without blocking.
++        fifo = pub / "manifest-fifo-v2.json"
++        os.mkfifo(fifo)
++        self.assertIn("not a regular file", attempt(base_freeze, fifo))
++        self.assertFalse(base_freeze.exists())
++        fifo.unlink()
++        # Malformed existing bytes: divergent refusal, not incidental parse use.
++        malformed = pub / "freeze-malformed-v2.json"
++        malformed.write_bytes(b"{not json")
++        self.assertIn("refusing to overwrite divergent Freeze record",
++                      attempt(malformed, base_manifest))
++        self.assertFalse(base_manifest.exists())
++        self.assertEqual(malformed.read_bytes(), b"{not json")
++        malformed.unlink()
++
++    def test_l9_nested_and_dotdot_outputs_rejected_pre_write(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        c1 = p1["candidate"]
++        approval1 = p1["publication_dir"] / "publication-preview-approval-v2.json"
++        publication.build_preview_approval(
++            t.root, c1, approval1, "human-reviewer", t.now, "review:SP001:preview")
++        pub = p1["publication_dir"]
++
++        def attempt(freeze: Path, manifest: Path) -> str:
++            try:
++                publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++            except ValueError as exc:
++                return str(exc)
++            return "BUILT"
++
++        # Manifest nested under the Freeze file, both absent.
++        nest_f = pub / "nest-freeze-v2.json"
++        nest_m = nest_f / "manifest-v2.json"
++        self.assertIn("must not nest", attempt(nest_f, nest_m))
++        self.assertFalse(nest_f.exists())
++        self.assertFalse(nest_m.exists())
++        # Freeze nested under the Manifest file, both absent.
++        nest_m2 = pub / "nest-manifest-v2.json"
++        nest_f2 = nest_m2 / "freeze-v2.json"
++        self.assertIn("must not nest", attempt(nest_f2, nest_m2))
++        self.assertFalse(nest_m2.exists())
++        self.assertFalse(nest_f2.exists())
++        # Lexical `..` rejected before normalization, even resolving inside.
++        dotdot = pub / "sub" / ".." / "dotdot-freeze-v2.json"
++        self.assertIn("'..'", attempt(dotdot, pub / "dotdot-manifest-v2.json"))
++        self.assertFalse((pub / "dotdot-freeze-v2.json").exists())
++        self.assertFalse((pub / "dotdot-manifest-v2.json").exists())
++        self.assertFalse((pub / "sub").exists())
+ 
+     def test_l7_same_payload_retry_is_idempotent(self) -> None:
+         t = _PublicationLevel(self)
+@@ -1042,6 +1147,201 @@ class DM001019CanonicalFreezeTests(unittest.TestCase):
+         publication.validate_release_manifest(t.root, m2)
+ 
+ 
++    def test_l10_reformatted_existing_bytes_preserved(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        c1 = p1["candidate"]
++        approval1 = p1["publication_dir"] / "publication-preview-approval-v2.json"
++        publication.build_preview_approval(
++            t.root, c1, approval1, "human-reviewer", t.now, "review:SP001:preview")
++        pub = p1["publication_dir"]
++        freeze = pub / "freeze-record-v2.json"
++        manifest = pub / "release-manifest-v2.json"
++        publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        reformatted = (json.dumps(json.loads(freeze.read_bytes()),
++                                  indent=4, ensure_ascii=False) + "\n").encode("utf-8")
++        self.assertNotEqual(reformatted, freeze.read_bytes())
++        freeze.write_bytes(reformatted)
++        manifest.unlink()
++        f2, m2 = publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        self.assertEqual(f2.read_bytes(), reformatted)
++        self.assertEqual(core.load_json(m2)["freeze_record_sha256"], core.sha256_bytes(reformatted))
++        reformatted_manifest = (json.dumps(json.loads(m2.read_bytes()),
++                                           indent=4, ensure_ascii=False) + "\n").encode("utf-8")
++        m2.write_bytes(reformatted_manifest)
++        f3, m3 = publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        self.assertEqual(f3.read_bytes(), reformatted)
++        self.assertEqual(m3.read_bytes(), reformatted_manifest)
++
++
++class DM001019WriterBoundaryTests(unittest.TestCase):
++    """Install-boundary faults: collisions, close errors, residuals, drift."""
++
++    def _valid_chain(self, t):
++        p1 = t.case._candidate()
++        c1 = p1["candidate"]
++        approval1 = p1["publication_dir"] / "publication-preview-approval-v2.json"
++        publication.build_preview_approval(
++            t.root, c1, approval1, "human-reviewer", t.now, "review:SP001:preview")
++        return p1, c1, approval1
++
++    def _plan(self, t, c1, approval1, freeze: Path, manifest: Path):
++        prep = publication._prepare_freeze_inputs(t.root, c1, approval1)
++        candidate = prep["candidate"]
++        freeze_payload = publication._build_freeze_payload(
++            repo_root=t.root, candidate_path=c1, candidate=candidate,
++            approval_path=approval1, approval=prep["approval"],
++            visual_path=prep["visual_path"], frozen_at=t.now)
++        source, pdf = candidate["source"], candidate["pdf"]
++        tag = publication.profile_release_identity(prep["profile"])
++        return publication._preflight_freeze_pair(
++            t.root, freeze, manifest, prep, freeze_payload,
++            lambda sha, target: publication._build_manifest_payload(
++                repo_root=t.root, freeze_path=target, freeze_record_sha256=sha,
++                release_identity=tag, source_path=source["path"],
++                source_sha256=source["sha256"], pdf_path=pdf["path"],
++                pdf_sha256=pdf["sha256"], page_count=pdf["page_count"],
++                issue_id=candidate["issue_id"]))
++
++    def test_fileexists_symlink_identical_bytes_refused(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        real = p1["publication_dir"] / "collision-real-v2.json"
++        data = '{"identical": "bytes"}\n'.encode("utf-8")
++        real.write_bytes(data)
++        link = p1["publication_dir"] / "collision-link-v2.json"
++        os.symlink(real, link)
++        with mock.patch.object(os, "open", side_effect=FileExistsError("injected collision")):
++            with self.assertRaisesRegex(ValueError, "target is a symlink"):
++                publication._install_owned_json(t.root, link, data, "Collision probe")
++        self.assertTrue(link.is_symlink())
++        self.assertEqual(real.read_bytes(), data)
++
++    def test_fileexists_fifo_refused_without_blocking(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        fifo = p1["publication_dir"] / "collision-fifo-v2.json"
++        os.mkfifo(fifo)
++        with mock.patch.object(os, "open", side_effect=FileExistsError("injected collision")):
++            with self.assertRaisesRegex(ValueError, "not a regular file"):
++                publication._install_owned_json(t.root, fifo, b"{}", "Collision probe")
++        self.assertTrue(os.lstat(fifo) is not None)
++        fifo.unlink()
++
++    def test_close_failure_never_reports_success(self) -> None:
++        t = _PublicationLevel(self)
++        p1, c1, approval1 = self._valid_chain(t)
++        freeze = p1["publication_dir"] / "freeze-close-v2.json"
++        manifest = p1["publication_dir"] / "manifest-close-v2.json"
++        real_close = os.close
++        calls = {"n": 0}
++
++        def flaky_close(fd: int):
++            calls["n"] += 1
++            if calls["n"] == 1:
++                real_close(fd)
++                raise OSError("injected close failure")
++            return real_close(fd)
++
++        with mock.patch.object(os, "close", side_effect=flaky_close):
++            with self.assertRaisesRegex(ValueError, "close failed but complete verified bytes retained"):
++                publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        self.assertTrue(calls["n"] >= 1)
++        retained = freeze.read_bytes()
++        f2, _m2 = publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        self.assertEqual(f2.read_bytes(), retained)
++
++    def test_manifest_close_failure_retains_freeze(self) -> None:
++        t = _PublicationLevel(self)
++        p1, c1, approval1 = self._valid_chain(t)
++        freeze = p1["publication_dir"] / "freeze-mclose-v2.json"
++        manifest = p1["publication_dir"] / "manifest-mclose-v2.json"
++        real_close = os.close
++        calls = {"n": 0}
++
++        def flaky_close(fd: int):
++            calls["n"] += 1
++            if calls["n"] == 2:
++                real_close(fd)
++                raise OSError("injected manifest close failure")
++            return real_close(fd)
++
++        with mock.patch.object(os, "close", side_effect=flaky_close):
++            with self.assertRaisesRegex(ValueError, "completed Freeze record retained"):
++                publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        self.assertTrue(freeze.is_file())
++        retained = freeze.read_bytes()
++        f2, m2 = publication.build_freeze(t.root, c1, approval1, t.now, freeze, manifest)
++        self.assertEqual(f2.read_bytes(), retained)
++        publication.validate_release_manifest(t.root, m2)
++
++    def test_owned_partial_identity_replacement_preserved(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        target = p1["publication_dir"] / "owned-replaced-v2.json"
++        data = b'{"owned": true}\n'
++        publication._install_owned_json(t.root, target, data, "Owned probe")
++        st0 = os.lstat(target)
++        target.unlink()
++        foreign = b'{"foreign": "replacement"}\n'
++        target.write_bytes(foreign)
++        with self.assertRaisesRegex(ValueError, "identity changed"):
++            publication._remove_owned_partial(
++                target, st0.st_dev, st0.st_ino, data, "Owned probe", ValueError("x"))
++        self.assertEqual(target.read_bytes(), foreign)
++
++    def test_owned_partial_non_prefix_preserved(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        target = p1["publication_dir"] / "owned-nonprefix-v2.json"
++        foreign = b'{"entirely": "different content, longer than intended"}\n'
++        target.write_bytes(foreign)
++        st = os.lstat(target)
++        with self.assertRaisesRegex(ValueError, "unverifiable residual"):
++            publication._remove_owned_partial(
++                target, st.st_dev, st.st_ino, b'{"short": 1}\n', "Owned probe", ValueError("x"))
++        self.assertEqual(target.read_bytes(), foreign)
++
++    def test_owned_partial_symlink_preserved(self) -> None:
++        t = _PublicationLevel(self)
++        p1 = t.case._candidate()
++        real = p1["publication_dir"] / "owned-real-v2.json"
++        real.write_bytes(b'{"real": true}\n')
++        link = p1["publication_dir"] / "owned-link-v2.json"
++        os.symlink(real, link)
++        st = os.lstat(real)
++        with self.assertRaisesRegex(ValueError, "residual is a symlink"):
++            publication._remove_owned_partial(
++                link, st.st_dev, st.st_ino, b"{}", "Owned probe", ValueError("x"))
++        self.assertTrue(link.is_symlink())
++
++    def test_input_drift_before_first_write_leaves_no_outputs(self) -> None:
++        t = _PublicationLevel(self)
++        p1, c1, approval1 = self._valid_chain(t)
++        freeze = p1["publication_dir"] / "freeze-drift1-v2.json"
++        manifest = p1["publication_dir"] / "manifest-drift1-v2.json"
++        plan = self._plan(t, c1, approval1, freeze, manifest)
++        p1["source"].write_text("drifted after preparation\n", encoding="utf-8")
++        with self.assertRaisesRegex(ValueError, "changed before first write"):
++            publication._install_freeze_target(t.root, plan)
++        self.assertFalse(freeze.exists())
++        self.assertFalse(manifest.exists())
++
++    def test_input_drift_before_second_install_retains_freeze(self) -> None:
++        t = _PublicationLevel(self)
++        p1, c1, approval1 = self._valid_chain(t)
++        freeze = p1["publication_dir"] / "freeze-drift2-v2.json"
++        manifest = p1["publication_dir"] / "manifest-drift2-v2.json"
++        plan = self._plan(t, c1, approval1, freeze, manifest)
++        installed = publication._install_freeze_target(t.root, plan)
++        planned_bytes = installed.read_bytes()
++        p1["source"].write_text("drifted after freeze install\n", encoding="utf-8")
++        with self.assertRaisesRegex(ValueError, "changed before second install"):
++            publication._install_manifest_target(t.root, plan)
++        self.assertEqual(freeze.read_bytes(), planned_bytes)
++        self.assertFalse(manifest.exists())
++
++
+ class DM001019WrapperFreezeTests(unittest.TestCase):
+     """Profiled wrapper: real State gates plus shared authority/writer."""
+ 
+@@ -1050,14 +1350,20 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+         self.addCleanup(fix.cleanup)
+         at = T0 + timedelta(days=40)
+         _weekly_advance_to_rc(fix, at)
+-        state_before = (fix.src / "production-state.json").read_bytes()
+         _weekly_approve(fix, at)
++        state_file = fix.src / "production-state.json"
++        pub = fix.src / "publication" / "v2"
++        before = _snap_state_targets(state_file, pub / "freeze-record-v2.json",
++                                     pub / "release-manifest-v2.json")
+         freeze, manifest = profiled.build_profiled_freeze(
+-            ROOT, _cfg(), fix.src / "production-state.json", at + timedelta(hours=3))
++            ROOT, _cfg(), state_file, at + timedelta(hours=3))
+         payload = publication.validate_release_manifest(ROOT, manifest)
+         self.assertEqual(payload["release_identity"], "weekly/2026-W35")
+         self.assertEqual(payload["freeze_record_sha256"], core.sha256_file(freeze))
+-        self.assertNotEqual((fix.src / "production-state.json").read_bytes(), state_before)
++        # The wrapper never rewrites State; both targets were absent before.
++        self.assertEqual(state_file.read_bytes(), before[0])
++        self.assertEqual(before[1], (False, None))
++        self.assertEqual(before[2], (False, None))
+ 
+     def test_w2_special_convergent_wrapper_positive(self) -> None:
+         at = T0 + timedelta(days=41)
+@@ -1118,7 +1424,8 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+                 return str(exc)
+             return "BUILT"
+ 
+-        def assert_no_outputs() -> None:
++        def assert_unchanged(before) -> None:
++            self.assertEqual(state_file.read_bytes(), before[0])
+             self.assertFalse(freeze.exists())
+             self.assertFalse(manifest.exists())
+ 
+@@ -1127,8 +1434,9 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+         state["human_gate_provenance"]["publication_preview"] = {
+             **state["human_gate_provenance"]["publication_preview"], "sha256": "f" * 64}
+         core.write_json(state_file, state)
++        before = _snap_state_targets(state_file, freeze, manifest)
+         self.assertIn("approval authority drift", attempt())
+-        assert_no_outputs()
++        assert_unchanged(before)
+         # Restore valid State by re-approving is impossible post-decision; rebuild.
+         fix.cleanup()
+         fix = SpecialFixture(ROOT, "SP001", "surveys/special/SP001")
+@@ -1141,8 +1449,9 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+         profile = core.load_json(fix.profile_path)
+         profile["publication_profile"] = "WEEKLY_MAGAZINE"
+         core.write_json(fix.profile_path, profile)
++        before = _snap_state_targets(state_file, freeze, manifest)
+         self.assertIn("invalid before Freeze", attempt())
+-        assert_no_outputs()
++        assert_unchanged(before)
+         # Restore profile, break lifecycle instead.
+         fix.cleanup()
+         fix = SpecialFixture(ROOT, "SP001", "surveys/special/SP001")
+@@ -1154,8 +1463,9 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+         state = core.load_json(state_file)
+         state["lifecycle_state"] = "VALIDATED_DRAFT"
+         core.write_json(state_file, state)
++        before = _snap_state_targets(state_file, freeze, manifest)
+         self.assertIn("RELEASE_CANDIDATE", attempt())
+-        assert_no_outputs()
++        assert_unchanged(before)
+         # Divergent pre-existing Manifest.
+         fix.cleanup()
+         fix = SpecialFixture(ROOT, "SP001", "surveys/special/SP001")
+@@ -1164,7 +1474,9 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+         pub = fix.src / "publication" / "v2"
+         freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
+         core.write_json(manifest, {"schema_version": "2.0-rc1", "foreign": True})
++        before = _snap_state_targets(state_file, freeze, manifest)
+         self.assertIn("refusing to overwrite divergent Release manifest", attempt())
++        self.assertEqual(state_file.read_bytes(), before[0])
+         self.assertFalse(freeze.exists())
+         self.assertEqual(core.load_json(manifest), {"schema_version": "2.0-rc1", "foreign": True})
+ 
+@@ -1180,9 +1492,112 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+         manifest = p1["publication_dir"] / "release-manifest-mixed-v2.json"
+         # Shared preparation gate (used by both builders) rejects the mix.
+         with self.assertRaisesRegex(ValueError, "does not bind the exact Publication Candidate"):
+-            publication.prepare_freeze_inputs(t.root, c2, approval1)
++            publication._prepare_freeze_inputs(t.root, c2, approval1)
++        self.assertFalse(freeze.exists())
++        self.assertFalse(manifest.exists())
++
++    def test_w1c_legacy_record_ignored_by_repaired_builders(self) -> None:
++        at = T0 + timedelta(days=47)
++        fix = SpecialFixture(ROOT, "SP001", "surveys/special/SP001",
++                             visual_filename="visual-review-canonical-v2.json")
++        self.addCleanup(fix.cleanup)
++        candidate = _special_advance_to_rc(fix, at)
++        _special_approve(fix, at)
++        pub = fix.src / "publication" / "v2"
++        approval = fix.src / fix.cfg["state_authority"]["publication_preview_approval_path"]
++        legacy = pub / "visual-review-v2.json"
++        publication.build_visual_review(
++            ROOT, approval,
++            [{"check_id": "VISUAL_CONFIRM", "status": "PASS", "detail": "repaired ignores legacy"}],
++            "legacy-tool", at + timedelta(hours=2, minutes=30), legacy)
++        legacy_bytes = legacy.read_bytes()
++        w_freeze, w_manifest = profiled.build_profiled_freeze(
++            ROOT, fix.cfg, _state_path(fix), at + timedelta(hours=3))
++        w_bytes = (w_freeze.read_bytes(), w_manifest.read_bytes())
++        self.assertEqual(core.load_json(w_manifest)["release_identity"], "special/SP001")
++        w_freeze.unlink()
++        w_manifest.unlink()
++        c_freeze, c_manifest = publication.build_freeze(
++            ROOT, candidate, approval, at + timedelta(hours=3),
++            pub / "freeze-record-v2.json", pub / "release-manifest-v2.json")
++        self.assertEqual((c_freeze.read_bytes(), c_manifest.read_bytes()), w_bytes)
++        # The legacy record played no role and is untouched.
++        self.assertEqual(legacy.read_bytes(), legacy_bytes)
++        frozen = core.load_json(c_freeze)
++        self.assertEqual(frozen["visual_review_path"],
++                         "sources/SP001/publication/v2/visual-review-canonical-v2.json")
++
++    def test_w2b_weekly_builders_agree_byte_equal(self) -> None:
++        at = T0 + timedelta(days=48)
++        fix = WeeklyCanonicalFixture(ROOT)
++        self.addCleanup(fix.cleanup)
++        candidate = _weekly_advance_to_rc(fix, at)
++        _weekly_approve(fix, at)
++        cfg = _cfg()
++        approval = fix.src / cfg["state_authority"]["publication_preview_approval_path"]
++        pub = fix.src / "publication" / "v2"
++        w_freeze, w_manifest = profiled.build_profiled_freeze(
++            ROOT, cfg, fix.src / "production-state.json", at + timedelta(hours=3))
++        w_bytes = (w_freeze.read_bytes(), w_manifest.read_bytes())
++        self.assertIn(b"weekly/2026-W35", w_bytes[1])
++        w_freeze.unlink()
++        w_manifest.unlink()
++        c_freeze, c_manifest = publication.build_freeze(
++            ROOT, candidate, approval, at + timedelta(hours=3),
++            pub / "freeze-record-v2.json", pub / "release-manifest-v2.json")
++        self.assertEqual((c_freeze.read_bytes(), c_manifest.read_bytes()), w_bytes)
++
++    def test_w4c_wrapper_mixed_candidate_real_call(self) -> None:
++        at = T0 + timedelta(days=49)
++        fix = SpecialFixture(ROOT, "SP001", "surveys/special/SP001")
++        self.addCleanup(fix.cleanup)
++        _special_advance_to_rc(fix, at)
++        _special_approve(fix, at)
++        pub = fix.src / "publication" / "v2"
++        fixed = pub / "publication-candidate-v2.json"
++        c1_bytes = fixed.read_bytes()
++        (pub / "publication-candidate-C1-record-v2.json").write_bytes(c1_bytes)
++        c2 = _build_special_second_chain(fix)["candidate2"]
++        c2_bytes = c2.read_bytes()
++        self.assertNotEqual(core.sha256_bytes(c1_bytes), core.sha256_bytes(c2_bytes))
++        self.assertEqual(
++            publication.validate_candidate(ROOT, fixed)["pdf"]["sha256"],
++            publication.validate_candidate(ROOT, c2)["pdf"]["sha256"])
++        fixed.unlink()
++        fixed.write_bytes(c2_bytes)
++        state_file = _state_path(fix)
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        before = _snap_state_targets(state_file, freeze, manifest)
++        with self.assertRaisesRegex(ValueError, "invalid before Freeze"):
++            profiled.build_profiled_freeze(ROOT, fix.cfg, state_file, at + timedelta(hours=3))
++        # Honest earlier State-provenance refusal: the swapped Candidate is a
++        # checkpoint-bound artifact, so valid State cannot survive the swap.
++        # Nothing written; State, recorded C1, installed C2 and approval intact.
++        self.assertEqual(state_file.read_bytes(), before[0])
+         self.assertFalse(freeze.exists())
+         self.assertFalse(manifest.exists())
++        self.assertEqual(fixed.read_bytes(), c2_bytes)
++        self.assertEqual((pub / "publication-candidate-C1-record-v2.json").read_bytes(), c1_bytes)
++
++    def test_w7_wrapper_reformatted_freeze_preserved(self) -> None:
++        at = T0 + timedelta(days=53)
++        fix = SpecialFixture(ROOT, "SP001", "surveys/special/SP001")
++        self.addCleanup(fix.cleanup)
++        _special_advance_to_rc(fix, at)
++        _special_approve(fix, at)
++        pub = fix.src / "publication" / "v2"
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        profiled.build_profiled_freeze(ROOT, fix.cfg, _state_path(fix), at + timedelta(hours=3))
++        reformatted = (json.dumps(json.loads(freeze.read_bytes()),
++                                  indent=4, ensure_ascii=False) + "\n").encode("utf-8")
++        self.assertNotEqual(reformatted, freeze.read_bytes())
++        freeze.write_bytes(reformatted)
++        manifest.unlink()
++        f2, m2 = profiled.build_profiled_freeze(
++            ROOT, fix.cfg, _state_path(fix), at + timedelta(hours=3))
++        self.assertEqual(f2.read_bytes(), reformatted)
++        self.assertEqual(core.load_json(m2)["freeze_record_sha256"], core.sha256_bytes(reformatted))
++        self.assertEqual(core.load_json(m2)["release_identity"], "special/SP001")
+ 
+     def test_w5_pending_preview_cannot_freeze(self) -> None:
+         fix = WeeklyCanonicalFixture(ROOT)
+-- 
+2.53.0
+

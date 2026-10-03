@@ -1,0 +1,492 @@
+diff --git a/scripts/survey_profiled_freeze_v2.py b/scripts/survey_profiled_freeze_v2.py
+index 8d218aa..433c609 100644
+--- a/scripts/survey_profiled_freeze_v2.py
++++ b/scripts/survey_profiled_freeze_v2.py
+@@ -61,7 +61,7 @@ def build_profiled_freeze(
+     if not approval_path.is_file() or core.sha256_file(approval_path) != approval_ref["sha256"]:
+         raise ValueError("Publication Preview approval authority drift before Freeze")
+ 
+-    prep = publication.prepare_freeze_inputs(repo_root, candidate_path, approval_path)
++    prep = publication._prepare_freeze_inputs(repo_root, candidate_path, approval_path)
+     candidate = prep["candidate"]
+     if candidate["issue_id"] != state["issue_id"]:
+         raise ValueError("Publication Candidate issue identity diverges from Production State")
+@@ -74,7 +74,14 @@ def build_profiled_freeze(
+     release_tag = publication.profile_release_identity(prep["profile"])
+     freeze_path = publication_root / "freeze-record-v2.json"
+     manifest_path = publication_root / "release-manifest-v2.json"
+-    freeze_payload = publication.build_freeze_payload(
++    # The wrapper's State file is a fixed-path install-boundary input: its
++    # outputs must never overlap it, and its bytes join the install snapshot.
++    norm_state = publication._lexical_repo_path(repo_root, state_path, "Production State")
++    state_rel = publication._rel(repo_root, norm_state)
++    for label, target in (("Freeze record", freeze_path), ("Release manifest", manifest_path)):
++        if publication._lexical_repo_path(repo_root, target, label) == norm_state:
++            raise ValueError(f"{label} target overlaps the Production State input: {target}")
++    freeze_payload = publication._build_freeze_payload(
+         repo_root=repo_root,
+         candidate_path=prep["candidate_path"],
+         candidate=candidate,
+@@ -85,15 +92,15 @@ def build_profiled_freeze(
+     )
+     source = candidate["source"]
+     pdf = candidate["pdf"]
+-    plan = publication.preflight_freeze_pair(
++    plan = publication._preflight_freeze_pair(
+         repo_root,
+         freeze_path,
+         manifest_path,
+         prep,
+         freeze_payload,
+-        lambda freeze_sha: publication.build_manifest_payload(
++        lambda freeze_sha, freeze_target: publication._build_manifest_payload(
+             repo_root=repo_root,
+-            freeze_path=freeze_path,
++            freeze_path=freeze_target,
+             freeze_record_sha256=freeze_sha,
+             release_identity=release_tag,
+             source_path=source["path"],
+@@ -103,8 +110,9 @@ def build_profiled_freeze(
+             page_count=pdf["page_count"],
+             issue_id=candidate["issue_id"],
+         ),
++        extra_snapshot={state_rel: core.sha256_file(norm_state)},
+     )
+-    installed_freeze, installed_manifest = publication.install_freeze_pair(repo_root, plan)
++    installed_freeze, installed_manifest = publication._install_freeze_pair(repo_root, plan)
+     publication.validate_release_manifest(repo_root, installed_manifest)
+     return installed_freeze, installed_manifest
+ 
+diff --git a/scripts/survey_publication_v2.py b/scripts/survey_publication_v2.py
+index 12f22e8..30a42fe 100644
+--- a/scripts/survey_publication_v2.py
++++ b/scripts/survey_publication_v2.py
+@@ -71,15 +71,6 @@ def _write_immutable(path: Path, payload: dict[str, Any], label: str) -> Path:
+     return path
+ 
+ 
+-def _write_immutable(path: Path, payload: dict[str, Any], label: str) -> Path:
+-    if path.exists():
+-        if core.load_json(path) != payload:
+-            raise ValueError(f"refusing to overwrite divergent {label}: {path}")
+-        return path
+-    core.write_json(path, payload)
+-    return path
+-
+-
+ def public_issue_slug_from_profile(profile: dict[str, Any]) -> str:
+     """Derive the public issue slug from the exact Profile survey_root authority.
+ 
+@@ -110,11 +101,17 @@ def _lexical_repo_path(repo_root: Path, path: Path, label: str) -> Path:
+     """Lexically normalize a repo-local path without resolving symlinks.
+ 
+     Accepts repo-relative paths and absolute paths inside ``repo_root``.
+-    Rejects backslashes and repository escapes before any filesystem
+-    resolution, so later symlink checks observe the true ancestry.
++    Backslashes and any lexical ``..`` segment are rejected before
++    normalization: ``normpath`` would otherwise erase a ``..`` component
++    whose resolution through a symlinked ancestor differs from the
++    normalized spelling. Repository escapes are rejected as well, so later
++    symlink checks observe the true ancestry.
+     """
+-    if "\\" in str(path):
++    raw = str(path)
++    if "\\" in raw:
+         raise ValueError(f"{label} must not contain backslashes: {path}")
++    if ".." in Path(raw).parts:
++        raise ValueError(f"{label} must not contain '..' segments: {path}")
+     root = repo_root.resolve()
+     candidate = path if path.is_absolute() else (root / path)
+     normalized = Path(os.path.normpath(str(candidate)))
+@@ -171,13 +168,15 @@ def _existing_compatible_bytes(target: Path, payload: dict[str, Any], label: str
+     return data
+ 
+ 
+-def prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path: Path) -> dict[str, Any]:
++def _prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path: Path) -> dict[str, Any]:
+     """Validate and resolve the joint Freeze authority shared by both builders.
+ 
+     Resolves the actual Candidate, its typed Preview approval, the exact
+     approval→Candidate path/hash binding, the Candidate-bound pre-preview
+     VISUAL record, exact source/PDF/page relationships and the Candidate-bound
+-    Production Profile (via the validated quality bundle). No writes.
++    Production Profile (via the validated quality bundle). Captures a
++    bounded byte snapshot of every authority input for install-boundary
++    rechecks. No writes.
+     """
+     candidate = validate_candidate(repo_root, candidate_path)
+     approval = validate_preview_approval(repo_root, approval_path, issue_id=candidate["issue_id"])
+@@ -211,6 +210,23 @@ def prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path:
+         source_root = core.repo_local_path(repo_root, profile["paths"]["source_root"], "source_root")
+     except (KeyError, TypeError, ValueError) as exc:
+         raise ValueError(f"Production Profile source_root invalid: {exc}") from exc
++    snapshot_files = [
++        candidate_file,
++        _safe_file(repo_root, approval_path, "Publication Preview approval"),
++        visual_path,
++        bundle_path,
++        profile_path,
++        _safe_file(repo_root, repo_root / candidate["reader_manuscript"]["path"], "Candidate Reader Manuscript"),
++        _safe_file(repo_root, repo_root / candidate["source"]["path"], "Candidate source"),
++        _safe_file(repo_root, repo_root / candidate["pdf"]["path"], "Candidate PDF"),
++        _safe_file(
++            repo_root, repo_root / candidate["semantic_review"]["path"], "Candidate semantic review"
++        ),
++    ]
++    snapshot: dict[str, str] = {}
++    for item in snapshot_files:
++        rel = _rel(repo_root, item)
++        snapshot[rel] = core.sha256_file(item)
+     return {
+         "candidate": candidate,
+         "candidate_path": candidate_path,
+@@ -225,10 +241,22 @@ def prepare_freeze_inputs(repo_root: Path, candidate_path: Path, approval_path:
+         "profile_path": profile_path,
+         "profile_ref": profile_ref,
+         "source_root": source_root,
++        "snapshot": snapshot,
+     }
+ 
+ 
+-def build_freeze_payload(
++def _recheck_snapshot(repo_root: Path, snapshot: dict[str, str], stage: str) -> None:
++    """Fail when any snapshotted authority byte changed since preparation."""
++    for rel, expected in snapshot.items():
++        try:
++            actual = core.sha256_file(repo_root.resolve() / rel)
++        except OSError as exc:
++            raise ValueError(f"Freeze authority input unreadable {stage}: {rel}") from exc
++        if actual != expected:
++            raise ValueError(f"Freeze authority input changed {stage}: {rel}")
++
++
++def _build_freeze_payload(
+     *,
+     repo_root: Path,
+     candidate_path: Path,
+@@ -263,7 +291,7 @@ def build_freeze_payload(
+     }
+ 
+ 
+-def build_manifest_payload(
++def _build_manifest_payload(
+     *,
+     repo_root: Path,
+     freeze_path: Path,
+@@ -292,28 +320,37 @@ def build_manifest_payload(
+     }
+ 
+ 
+-def preflight_freeze_pair(
++def _preflight_freeze_pair(
+     repo_root: Path,
+     freeze_path: Path,
+     manifest_path: Path,
+     prep: dict[str, Any],
+     freeze_payload: dict[str, Any],
+-    make_manifest_payload: Callable[[str], dict[str, Any]],
+-) -> tuple[Path, Path, bytes, bytes, str]:
++    make_manifest_payload: Callable[[str, Path], dict[str, Any]],
++    extra_snapshot: dict[str, str] | None = None,
++) -> tuple[Path, Path, bytes, bytes, str, dict[str, str]]:
+     """Complete pre-install gate for the Freeze/Manifest pair. Performs no writes.
+ 
+     Validates both full schemas and both target/parent conflicts (including
+-    target/input aliasing) before any target or parent-directory write.
+-    Equal-payload existing files keep their exact bytes; the returned Freeze
+-    SHA is always computed over the bytes that will be ensured on disk, so
+-    the Manifest is fully known here. Returns
+-    ``(freeze_target, manifest_target, freeze_bytes, manifest_bytes, freeze_sha256)``.
++    nested outputs and target/input aliasing) before any target or
++    parent-directory write. Equal-payload existing files keep their exact
++    bytes; the returned Freeze SHA is always computed over the bytes that
++    will be ensured on disk, so the Manifest is fully known here. The
++    manifest builder receives the Freeze SHA and the normalized Freeze
++    target so payload refs and install paths are one consistent target.
++    Returns ``(freeze_target, manifest_target, freeze_bytes, manifest_bytes,
++    freeze_sha256, snapshot)``.
+     """
+     root = repo_root.resolve()
+     norm_freeze = _lexical_repo_path(repo_root, freeze_path, "Freeze record")
+     norm_manifest = _lexical_repo_path(repo_root, manifest_path, "Release manifest")
+     if norm_freeze == norm_manifest:
+         raise ValueError("Freeze record and Release manifest targets must differ")
++    if norm_freeze in norm_manifest.parents or norm_manifest in norm_freeze.parents:
++        raise ValueError(
++            "Freeze record and Release manifest targets must not nest: "
++            f"{norm_freeze} vs {norm_manifest}"
++        )
+     schema_gate.validate_instance(freeze_payload, repo_root / FREEZE_SCHEMA, label="Freeze record")
+     _check_output_ancestors(root, norm_freeze, "Freeze record")
+     _check_output_ancestors(root, norm_manifest, "Release manifest")
+@@ -321,7 +358,14 @@ def preflight_freeze_pair(
+     candidate = prep["candidate"]
+     authority_raw: list[Path] = [
+         repo_root / candidate[key]["path"]
+-        for key in ("reader_manuscript", "source", "quality_bundle", "semantic_review", "visual_review")
++        for key in (
++            "reader_manuscript",
++            "source",
++            "pdf",
++            "quality_bundle",
++            "semantic_review",
++            "visual_review",
++        )
+     ]
+     authority_raw += [
+         prep["candidate_path"],
+@@ -365,7 +409,7 @@ def preflight_freeze_pair(
+         manifest_present = False
+     except OSError as exc:
+         raise ValueError(f"Release manifest target unreadable: {norm_manifest}") from exc
+-    manifest_payload = make_manifest_payload(freeze_sha)
++    manifest_payload = make_manifest_payload(freeze_sha, norm_freeze)
+     schema_gate.validate_instance(manifest_payload, repo_root / RELEASE_MANIFEST_SCHEMA, label="Release manifest")
+     manifest_bytes = _existing_compatible_bytes(norm_manifest, manifest_payload, "Release manifest")
+     if freeze_is_new and manifest_present:
+@@ -376,24 +420,43 @@ def preflight_freeze_pair(
+     if manifest_bytes is None:
+         manifest_bytes = core.json_bytes(manifest_payload)
+     assert manifest_bytes is not None
+-    return (norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, freeze_sha)
++    snapshot = dict(prep["snapshot"])
++    if extra_snapshot:
++        for rel, sha in extra_snapshot.items():
++            if rel in snapshot and snapshot[rel] != sha:
++                raise ValueError(f"Freeze snapshot conflicts for {rel}")
++            snapshot[rel] = sha
++    _recheck_snapshot(repo_root, snapshot, "before install")
++    return (norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, freeze_sha, snapshot)
+ 
+ 
+ def _ensure_parent_dir(root: Path, target: Path, label: str) -> None:
+     _check_output_ancestors(root, target, label)
+     target.parent.mkdir(parents=True, exist_ok=True)
++    # Cheap post-mkdir narrowing (no cross-process claim): refuse a parent
++    # chain that changed under us before any file is created.
++    _check_output_ancestors(root, target, label)
+ 
+ 
+ def _remove_owned_partial(
+     path: Path, created_dev: int, created_ino: int, intended: bytes, label: str, cause: BaseException
+ ) -> None:
+-    """Remove an incomplete file only when this call created it and bytes are a known partial prefix."""
++    """Remove an incomplete file only when this call created it and bytes are a known partial prefix.
++
++    Identity is established with ``lstat`` (never following a replaced
++    symlink); any symlink, identity change, or non-prefix content leaves the
++    foreign/unverifiable residual intact with an explicit failure.
++    """
+     try:
+-        st = os.stat(path)
++        st = os.lstat(path)
+     except OSError:
+         raise ValueError(
+             f"{label} install failed and residual cannot be verified; left intact: {path} ({cause})"
+         ) from cause
++    if stat.S_ISLNK(st.st_mode):
++        raise ValueError(
++            f"{label} install failed and residual is a symlink; left intact: {path} ({cause})"
++        ) from cause
+     if (st.st_dev, st.st_ino) != (created_dev, created_ino):
+         raise ValueError(
+             f"{label} install failed and target identity changed; left intact: {path} ({cause})"
+@@ -417,16 +480,35 @@ def _remove_owned_partial(
+     raise ValueError(f"{label} install failed; owned partial file removed: {path} ({cause})") from cause
+ 
+ 
+-def _install_owned_json(path: Path, data: bytes, label: str) -> None:
++def _close_quietly(fd: int) -> None:
++    try:
++        os.close(fd)
++    except OSError:
++        pass
++
++
++def _install_owned_json(root: Path, path: Path, data: bytes, label: str) -> None:
+     """Exclusively create a file holding exactly ``data``.
+ 
+-    Equal existing content is an idempotent resume; divergent content is
+-    refused without overwrite. Partial writes attributable to this call are
+-    removed only after owned-identity/known-prefix verification.
++    A colliding existing target is revalidated (lstat type/symlink/ancestor
++    checks plus exact content) before any read: identical bytes resume,
++    anything else is refused without overwrite and without blocking on
++    special files. Partial writes attributable to this call are removed
++    only after owned-identity/known-prefix verification. Close failures
++    always propagate as explicit errors, never silent success.
+     """
+     try:
+         fd = os.open(path, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW)
+     except FileExistsError:
++        try:
++            st = os.lstat(path)
++        except OSError as exc:
++            raise ValueError(f"{label} target exists but is unreadable: {path}") from exc
++        if stat.S_ISLNK(st.st_mode):
++            raise ValueError(f"{label} target is a symlink: {path}")
++        if not stat.S_ISREG(st.st_mode):
++            raise ValueError(f"{label} target is not a regular file: {path}")
++        _check_output_ancestors(root, path, label)
+         try:
+             existing = path.read_bytes()
+         except OSError as exc:
+@@ -439,10 +521,7 @@ def _install_owned_json(path: Path, data: bytes, label: str) -> None:
+     try:
+         created = os.fstat(fd)
+     except OSError as exc:
+-        try:
+-            os.close(fd)
+-        except OSError:
+-            pass
++        _close_quietly(fd)
+         raise ValueError(f"{label} install failed immediately after creation: {path} ({exc})") from exc
+     sent = 0
+     try:
+@@ -452,29 +531,66 @@ def _install_owned_json(path: Path, data: bytes, label: str) -> None:
+                 raise OSError("short write with no progress")
+             sent += chunk
+     except OSError as exc:
+-        try:
+-            os.close(fd)
+-        except OSError:
+-            pass
++        _close_quietly(fd)
+         _remove_owned_partial(path, created.st_dev, created.st_ino, data, label, exc)
+         raise AssertionError("unreachable") from exc
+     try:
+         os.close(fd)
+     except OSError as exc:
++        # A close error can signal writeback failure: never report success.
++        # The descriptor state is unspecified after a failed close, so make
++        # one best-effort release attempt before verification.
++        _close_quietly(fd)
++        # Verified complete bytes are retained with an explicit failure so an
++        # identical retry resumes; anything else follows the owned-partial rule.
+         try:
+-            landed = path.read_bytes()
++            st = os.lstat(path)
++            landed = path.read_bytes() if stat.S_ISREG(st.st_mode) else None
++            owned = (st.st_dev, st.st_ino) == (created.st_dev, created.st_ino)
+         except OSError:
++            landed, owned = None, False
++        if owned and landed == data:
+             raise ValueError(
+-                f"{label} install close failed and residual unreadable; left intact: {path} ({exc})"
++                f"{label} install close failed but complete verified bytes retained "
++                f"for identical retry: {path} ({exc})"
+             ) from exc
+-        if landed == data:
+-            return
+         _remove_owned_partial(path, created.st_dev, created.st_ino, data, label, exc)
+         raise AssertionError("unreachable") from exc
+ 
+ 
+-def install_freeze_pair(
+-    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str]
++def _install_freeze_target(
++    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str, dict[str, str]]
++) -> Path:
++    """Install the Freeze half of a preflighted plan, rechecking inputs first."""
++    root = repo_root.resolve()
++    norm_freeze, _norm_manifest, freeze_bytes, _manifest_bytes, _freeze_sha, snapshot = plan
++    _recheck_snapshot(repo_root, snapshot, "before first write")
++    _ensure_parent_dir(root, norm_freeze, "Freeze record")
++    _install_owned_json(root, norm_freeze, freeze_bytes, "Freeze record")
++    if norm_freeze.read_bytes() != freeze_bytes:
++        raise ValueError(f"Freeze record bytes changed during install; left intact: {norm_freeze}")
++    return norm_freeze
++
++
++def _install_manifest_target(
++    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str, dict[str, str]]
++) -> Path:
++    """Install the Manifest half of a preflighted plan, rechecking inputs first."""
++    root = repo_root.resolve()
++    norm_freeze, norm_manifest, _freeze_bytes, manifest_bytes, _freeze_sha, snapshot = plan
++    _recheck_snapshot(repo_root, snapshot, "before second install")
++    _ensure_parent_dir(root, norm_manifest, "Release manifest")
++    _install_owned_json(root, norm_manifest, manifest_bytes, "Release manifest")
++    if norm_manifest.read_bytes() != manifest_bytes:
++        raise ValueError(
++            "Release manifest bytes changed during install; "
++            f"completed Freeze record retained: {norm_freeze}"
++        )
++    return norm_manifest
++
++
++def _install_freeze_pair(
++    repo_root: Path, plan: tuple[Path, Path, bytes, bytes, str, dict[str, str]]
+ ) -> tuple[Path, Path]:
+     """Install a preflighted Freeze/Manifest pair. Freeze is installed first.
+ 
+@@ -482,25 +598,15 @@ def install_freeze_pair(
+     an identical retry resumes. Post-install bytes are rechecked; any drift
+     is reported explicitly without deleting pre-existing authority.
+     """
+-    root = repo_root.resolve()
+-    norm_freeze, norm_manifest, freeze_bytes, manifest_bytes, _freeze_sha = plan
+-    _ensure_parent_dir(root, norm_freeze, "Freeze record")
+-    _install_owned_json(norm_freeze, freeze_bytes, "Freeze record")
+-    if norm_freeze.read_bytes() != freeze_bytes:
+-        raise ValueError(f"Freeze record bytes changed during install; left intact: {norm_freeze}")
+-    _ensure_parent_dir(root, norm_manifest, "Release manifest")
++    norm_freeze = _install_freeze_target(repo_root, plan)
++    _norm_freeze, norm_manifest, _fb, _mb, _fs, _snap = plan
+     try:
+-        _install_owned_json(norm_manifest, manifest_bytes, "Release manifest")
++        _install_manifest_target(repo_root, plan)
+     except (OSError, ValueError) as exc:
+         raise ValueError(
+             "Release manifest install failed; completed Freeze record retained "
+             f"for identical retry: {norm_freeze} ({exc})"
+         ) from exc
+-    if norm_manifest.read_bytes() != manifest_bytes:
+-        raise ValueError(
+-            "Release manifest bytes changed during install; "
+-            f"completed Freeze record retained: {norm_freeze}"
+-        )
+     return norm_freeze, norm_manifest
+ 
+ 
+@@ -772,10 +878,10 @@ def build_freeze(
+     release_manifest_path: Path,
+ ) -> tuple[Path, Path]:
+     """Freeze the exact Human-approved candidate and its already-bound visual QA."""
+-    prep = prepare_freeze_inputs(repo_root, candidate_path, approval_path)
++    prep = _prepare_freeze_inputs(repo_root, candidate_path, approval_path)
+     candidate = prep["candidate"]
+     release_tag = profile_release_identity(prep["profile"])
+-    freeze_payload = build_freeze_payload(
++    freeze_payload = _build_freeze_payload(
+         repo_root=repo_root,
+         candidate_path=prep["candidate_path"],
+         candidate=candidate,
+@@ -786,15 +892,15 @@ def build_freeze(
+     )
+     source = candidate["source"]
+     pdf = candidate["pdf"]
+-    plan = preflight_freeze_pair(
++    plan = _preflight_freeze_pair(
+         repo_root,
+         freeze_path,
+         release_manifest_path,
+         prep,
+         freeze_payload,
+-        lambda freeze_sha: build_manifest_payload(
++        lambda freeze_sha, freeze_target: _build_manifest_payload(
+             repo_root=repo_root,
+-            freeze_path=freeze_path,
++            freeze_path=freeze_target,
+             freeze_record_sha256=freeze_sha,
+             release_identity=release_tag,
+             source_path=source["path"],
+@@ -805,7 +911,7 @@ def build_freeze(
+             issue_id=candidate["issue_id"],
+         ),
+     )
+-    installed_freeze, installed_manifest = install_freeze_pair(repo_root, plan)
++    installed_freeze, installed_manifest = _install_freeze_pair(repo_root, plan)
+     validate_release_manifest(repo_root, installed_manifest)
+     return installed_freeze, installed_manifest
+ 
