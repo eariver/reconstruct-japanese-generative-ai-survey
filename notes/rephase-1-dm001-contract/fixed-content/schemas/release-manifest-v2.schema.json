@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/release-manifest-v2.schema.json",
+  "title": "Survey Production Core v2 Release Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "release_identity", "status", "freeze_record_path", "freeze_record_sha256", "source_path", "source_sha256", "pdf_path", "pdf_sha256", "page_count"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "release_identity": {"type": "string", "minLength": 1},
+    "status": {"const": "AUTHORIZED"},
+    "freeze_record_path": {"type": "string", "minLength": 1},
+    "freeze_record_sha256": {"$ref": "#/$defs/sha256"},
+    "source_path": {"type": "string", "minLength": 1},
+    "source_sha256": {"$ref": "#/$defs/sha256"},
+    "pdf_path": {"type": "string", "minLength": 1},
+    "pdf_sha256": {"$ref": "#/$defs/sha256"},
+    "page_count": {"type": "integer", "minimum": 1}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

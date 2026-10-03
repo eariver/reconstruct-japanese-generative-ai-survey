@@ -1,13 +1,13 @@
 # J-GAS reconstruction — Re:Phase continuation
 
-更新: 2026-09-30 JST。**R1のe4-lineage組立てが481dec0で限定完了。親は正確にe4c8269、7pathはb74とmode/blob一致、無関係tree参照不変。fresh対象4 tests成功＋実DB履歴diagnostic成功、Astraと作者別reviewerの組立て限定PASS。ここでCommit Pointとして停止。次の再開は固定481上のDM-001 profile-aware Freeze契約/callsite最小task。step 4/B3 OPEN / 全候補NOT_READY。**
+更新: 2026-10-03 JST。**最新版Summaryの一回限りintake＋保存sourceによるDM-001/019共同Freeze契約判断を完了。Astra review＋作者別reviewerのDOCUMENTARY/STATIC限定PASS。旧481/e4/B/R1の `/tmp` DBは現在の環境で不在。実装/test/DB復旧は未実施。次はGeneralによる固定baselineからの候補復旧・source/runtime検証を独立bounded unitとして実施し、Freeze実装前にもう一度Commit Point。ここで停止。step 4/B3 OPEN / 全候補NOT_READY / canonical七観点audit未開始。**
 
 ## 次セッションの最初の行動
 
 Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-assembly/session-closeout.md)に、同一pathの`apply_patch`重複sectionで文書更新が一部残らなかった観測、ファイル保存/Commit済み/WSL `/tmp`内Git DB保全の区別を追加。主要判断・再開taskは保存済み。補足時点では今回assembly成果は未commitで、完全Git DBバックアップとしての復元性は未認定。欠落raw logは要約から再創作しない。
 
-1. 本handoff、[implementation plan](../outputs/rephase-1-implementation-plan.md)、[B契約判断](../outputs/rephase-1-increment-b-contract-decision.md)、[B Astra assessment](../outputs/rephase-1-increment-b-assessment.md)を入口とする。全旧履歴やproduction mainは再読しない。
-2. **次はDM-001の最小契約確認、コードはまだ未開始。** [組立てAstra assessment/次task](../outputs/rephase-1-r1-assembly-assessment.md)と[組立てpacket](../notes/rephase-1-r1-assembly/README.md)を入口にする。Generalへ、固定481の`survey_profiled_freeze_v2.build_profiled_freeze`とlower-level `survey_publication_v2.build_freeze`を比較し、Candidate-bound pre-preview VISUAL、Preview Approval、Profile/source/PDFの正確な関係とSpecial public slugを維持する最小path/positive-negative案を返す限定taskを委任。Astraが範囲判断してから実装へ。既完了R1/assembly/witnessや大きなinventoryを繰り返さない。DM-003/004、build-transfer、Special/support、optional findingsは別dispositionを保持。
+1. 本handoff、[今回のAstra契約/次task](../outputs/rephase-1-dm001-019-contract-decision.md)、[DM packet](../notes/rephase-1-dm001-contract/README.md)、[復旧inventory](../notes/rephase-1-dm001-contract/recovery-inventory.md)を入口とする。後発Summaryは[保存済み最新版](../notes/rephase-1-deferred-intake-20261003/README.md)を再利用し、追加fetchしない。全旧履歴やproduction mainは再読しない。
+2. **次はコードでなく候補DB復旧/source-runtime検証。** 現環境で記録済み `/tmp` DB/venvは不在。Generalへ既存権限内で独立固定baseline＋durable patch chainによる復旧taskを委任する。実在する旧DB/backupがあれば優先、なければnew identity・履歴限界を明示し、source-equivalenceと必要なfresh検証をAstraがreview。481/e4 ancestryや旧PASSを創作/転用しない。復旧unitもCommit Pointで停止し、その後にDM-001/019実装へ。保存runner再実行や旧R1/assemblyの装飾的再testは不要。下記3〜9のidentity/pathは過去の保存記録で、現在そのDBが存在するとの主張ではない。
 3. **固定B候補:** `c04f32ad46109403e8a63faaa8394a90ee6b869c`、tree `7dbcbbdb499ea6c7d33417a16144107320e1fd06`、親 `cb96ab97045b0d0767f38806809d33e383bac73d`。fixture `/tmp/jgas-rephase-increment-b-sol-implementation`、branch `codex/rephase-1-increment-b`、独立Git DB/inert origin。Aから13 runtime/schema/style＋8 test paths。[manifest](../notes/rephase-1-increment-b/candidate.json) / [patch](../notes/rephase-1-increment-b/increment-b.patch)（SHA-256 `bdff2c296867b31dbc2946526ec97490c054bc48c4ab9a8473eb5ded1248ab81`）。元A/f1とcb96 attemptは保存。
 4. **最終check:** [14-module script](../notes/rephase-1-increment-b/final-matrix-c04f32a.sh) / [raw log](../notes/rephase-1-increment-b/final-matrix-c04f32a.log) / [exit](../notes/rephase-1-increment-b/final-matrix-c04f32a.exit)。132 methods / 534.724秒 / exit 0 / 131成功 / 1 skip。skipは未保存W34 commit `6f68fd09955302fd87e5ec0ce77ff06ccaec8448` が必要な既存case。source/HEAD変更がなければ成功済みchecksを繰り返さない。Solはrun開始後に利用上限停止したがprocess/結果はdurableに完了し、rootはtest実行を引き継いでいない。
 5. **Bの独立reviewは完了。** [最終implementation review](../notes/rephase-1-increment-b/independent-implementation-completion-review.md)はfresh Astra自身が全B差分とtest oracleを確認した限定PASS。[2指摘resolution](../notes/rephase-1-increment-b/independent-resolution-review.md)と[最終test report](../notes/rephase-1-increment-b/final-test-report.md)も保存済み。元の[途中review](../notes/rephase-1-increment-b/independent-review.md)はそのまま保持し、最終承認へ読み替えない。担当の二重作成や成功済みtest再実行は不要。canonical七観点audit、application-ready、production採用は未達。
@@ -23,6 +23,8 @@ Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-a
 最終runの依存一覧取得はpip不在で失敗しており、test成功とは分けて保存する。cb96の元131-method run（6 errors/1 skip/exit 1）、各fixture修正・probe・途中停止は[attempt](../notes/rephase-1-increment-b/attempts/README.md)、[B assessment](../outputs/rephase-1-increment-b-assessment.md)、implementation packetに保存。後のgreenで上書きしない。
 
 ## 固定点と権限
+
+2026-10-03 intake/contract closeout: Human commit `a6d834be7da6828740bcddd9b63477064015de80`・cleanから開始。Generalが一文書取得とstatic分析、Exploreがread-only復旧inventory、Astraがsource/evidence reviewと範囲判断、別Generalが独立static reviewを担当。Worker初案の誤りは原文を残して[補足修正](../notes/rephase-1-dm001-contract/static-contract-corrections.md)に記録。今回の新packet/判断/入口/byte保護は未commit。通常Commit/PushはHuman担当。実コード/test/復旧には着手せず、このCommit Pointで停止する。
 
 2026-09-30 assembly closeout: Human Push後のreconstruct HEAD `a22d69308e9bbfb84cee9d8530c258a2a911d059`・cleanから開始。独立byte-copy→7path組立て→限定fresh検証→作者別組立てreviewまで完了。今回の変更は新組立てpacket/assessment・入口・byte保護規則。通常reconstruct Commit/Pushは未実施。Humanは今後も区切りで**作業を中断してCommit Pointを提示**するよう明示したので、ここで停止し、次のDM-001 unitへ自動着手しない。
 
@@ -58,11 +60,13 @@ Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-a
 
 **A証拠の限界:** 初回clone失敗のexact argv/数値exit、初回fixture-error runの全文は未保存（tailは保存）。独立copyと最終test証拠は別に確認済み。full application patchはexact diff/hash一致だがtemporary-index apply checkがmissing promisor objectを出力し、exit 0でもclean適用証明としない。packet-verification.logのsize一覧は補足前のhistorical inventoryであり最終manifestではない。これらをgreen結果で上書きしない。
 
-Bでbibliography/styleと制限付き非reader provenanceを既存責任へ接続し、Weekly generatedとdirect-primaryの限定境界を実装した。後続witnessは同一bytesの機械的証拠更新の接続を示し、R1で保持・所有権・通常失敗処理を限定実装/review、今回481でe4系譜への7path組立てを限定完了。full baseline applicationはなお未証明。build transferの6名前は許可集合で全必須ではなく、現canonical PDFはsurvey_root/main.pdf。optional findings-array輸送、Special/support、DM-001/003/004は個別dispositionを保持し、次はDM-001最小契約。レビュー責任統合は選択していない。
+Bでbibliography/styleと制限付き非reader provenanceを既存責任へ接続し、Weekly generatedとdirect-primaryの限定境界を実装した。後続witnessは同一bytesの機械的証拠更新の接続を示し、R1で保持・所有権・通常失敗処理を限定実装/review、前回481でe4系譜への7path組立てを限定完了。full baseline applicationはなお未証明。build transferの6名前は許可集合で全必須ではなく、現canonical PDFはsurvey_root/main.pdf。今回はDM-001/019共同契約をstaticに確定し、DB不在のため次は復旧/source-runtime検証。optional findings-array輸送、Special/support、DM-003/004は個別dispositionを保持する。レビュー責任統合は選択していない。
 
 **Bの選択済み契約:** routeはGate derivation blockに明示し、generated reviewed input内のroute/Profileと一致させる。既存semantic-review schema/役割を保持。既存source manifestをschema-validatedな唯一のreplay receiptとし、current State/checkpointからaccepted refsを検証してprojectionとmain/bib/styleを独立比較する（過去State hashはprovenanceのみ）。styleの表示文言もreader inputへ含め、他Profileの既存default/layoutを保持。bibliographyはacceptanceが束縛するcardだけを使い、非accepted `interactive-evidence.json`が必要な曖昧選択は停止。後段Publication Review/BIBLIOGRAPHY_METADATAをpre-TeX PASSへ流用しない。詳細・path・testsは契約判断に集約。
 
 ## 後発Summaryの扱い
+
+**最新 2026-10-03:** [新capture/全20採否](../notes/rephase-1-deferred-intake-20261003/README.md)。取得commit `d6381568cc897a47d6de992189e20339350342b7`、Summary内部last-reviewed main `239ef2703a93fa802f232978c7166d04d6cc3d49`、baseline `774dd39a...`を区別。DM-016〜020追加、006/013拡充、001〜004/014等再発報告。DM-001/019を共同Freeze契約として選定し、Candidate-bound VISUAL・両builderのexact approved Candidate・validated Profile slug・書込み前preflightを要求する。DM-016/017 upstream Profile契約、018 rendered QA、020 semantic fidelityは別acceptance disposition。一次リンク/corpus未読、再現test未実施、CORE_FIXED判定なし。以下は前回intakeの歴史記録。
 
 [読取・全15項目の採否表](../notes/rephase-1-session-transition/deferred-intake.md)。取得snapshot `f85539c31a079ab7a7fa86185f3cbb0fcad0485a`、Summary内last-reviewed main `0a0b0747...`、固定baseline `774dd39a...`は別の値。Summary記載の再現/修復状況は一次記録を再検証していない。
 
