@@ -4,6 +4,8 @@ Recorded 2026-09-27, clock observed `2026-09-27T17:48:49+09:00`. **Initial bound
 
 ## Work and attribution
 
+Current continuation 2026-10-04 after DM-003 witness: [current disposition](rephase-1-dm003-assessment.md) finds no omitted-checkpoint blocker for the tested typed-approval Freeze path; no generic discovery repair selected. It demonstrates separate local DM003-W1 split Preview refs accepted by State/writer but rejected at stage. Next repair is narrow shared State reference agreement before writes, not DM-004 or whole provenance overhaul. Witness source remains222; full-profile/application acceptance still open.
+
 Current continuation 2026-10-04: [DM-001/019 joint Freeze implementation](rephase-1-dm001-019-assessment.md) is bounded complete at222a37e. Special convergent/divergent synthetic Freeze/workflow-predicate proof is not whole Special supporting semantics or upstream source-class/completeness closure. Next is this table's **DM-003 omitted-checkpoint/conflicting-authority witness/disposition before selecting a repair**; no generic scanning, automatic map expansion or blanket Release/backlog work. DM-004 remains separate. Whole application/step4/B3 open; stop at the new Commit Point.
 
 Current continuation 2026-09-30: R1 assembly completed at 481dec0. The next selected prerequisite is the **DM-001 minimal contract/callsite task**, before code, as stated in the [assembly assessment](rephase-1-r1-assembly-assessment.md). The dispositions below remain separate; no all-profile/application acceptance or blanket maintenance authorization follows.

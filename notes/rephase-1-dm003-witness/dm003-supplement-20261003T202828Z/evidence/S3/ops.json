@@ -1,0 +1,62 @@
+[
+  {
+    "detail": "sources/SP-DM003-S3 + surveys/special/SP-DM003-S3",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "approve-a1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "post-split wrapper tested before any write",
+    "op": "outputs-initially-absent",
+    "outcome": "ok"
+  },
+  {
+    "detail": "A1=publication-preview:SP-DM003-S3:28cf2bd1e692c3ba9dbd A2=publication-preview:SP-DM003-S3:3417b2eefe3028867053; both bind same C1",
+    "op": "a1-a2-standalone-valid-distinct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "checkpoint side stays canonical A1",
+    "op": "state-split-human-to-a2",
+    "outcome": "ok"
+  },
+  {
+    "detail": "validate_agent_state == [] on split refs (current-code behavior)",
+    "op": "state-entry-empty",
+    "outcome": "ok"
+  },
+  {
+    "detail": "built via sources/SP-DM003-S3/gates/publication-preview-approval-rival.json",
+    "op": "wrapper-after-split",
+    "outcome": "CHARACTERIZED-BUILT"
+  },
+  {
+    "detail": "added=['sources/SP-DM003-S3/publication/v2/freeze-record-v2.json', 'sources/SP-DM003-S3/publication/v2/release-manifest-v2.json'] modified=[] removed=[]",
+    "op": "wrapper-window-recorded",
+    "outcome": "ok"
+  },
+  {
+    "detail": "StageValidationError: Human Preview and checkpoint approval authorities disagree",
+    "op": "stage-split-rejection",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "",
+    "op": "no-report-on-rejection",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]

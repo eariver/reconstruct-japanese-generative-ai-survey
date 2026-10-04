@@ -1,13 +1,13 @@
 # J-GAS reconstruction — Re:Phase continuation
 
-更新: 2026-10-04 DM-001/019 closeout。**共同Freeze実装を222a37eで限定完了。3path差分、56methods成功、Astra＋作者別implementation/実復元HEAD resolution限定PASS。ここでHuman Commit Pointとして停止。次は固定222のDM-003 omitted-checkpoint/conflicting-authority witnessとdisposition、generic provenance変更の選択前に具体証拠を得る。step4/B3 OPEN / 全候補NOT_READY / canonical七観点audit未開始。**
+更新: 2026-10-04 DM-003 witness closeout。**shipping222は未変更。省略checkpointは検証したtyped-Preview経路のblockerでなくgeneric discovery修復は不採用。一方local DM003-W1 OPEN: HumanA2/checkpointA1のsplit Preview refsをStateが受け入れ、wrapperが同じC1についてA2経由のFreeze/Manifestを書き、stageで拒否する。Astra＋作者別witness/disposition限定PASS（runtime受入れでない）。ここでHuman Commit Point。次は共有State検証のapproved Preview参照一致による書込み前拒否を狭く修復。step4/B3 OPEN / 全候補NOT_READY / canonical七観点audit未開始。**
 
 ## 次セッションの最初の行動
 
 Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-assembly/session-closeout.md)に、同一pathの`apply_patch`重複sectionで文書更新が一部残らなかった観測、ファイル保存/Commit済み/WSL `/tmp`内Git DB保全の区別を追加。主要判断・再開taskは保存済み。補足時点では今回assembly成果は未commitで、完全Git DBバックアップとしての復元性は未認定。欠落raw logは要約から再創作しない。
 
-1. 本handoff、[共同Freeze完了/次task](../outputs/rephase-1-dm001-019-assessment.md)、[implementation packet](../notes/rephase-1-dm001-019-implementation/README.md)を入口にする。最終operational manifest、mandatory HEAD-binding/test-header補足を使う。後発Summaryは[保存済み最新版](../notes/rephase-1-deferred-intake-20261003/README.md)を再利用し、追加fetchしない。全旧履歴やproduction mainは再読しない。
-2. **次は固定222のDM-003限定witness/disposition。** Generalがactive stage/prior-artifact経路を確認し、typed approvalが束縛する正確なCandidateとnamed mapに未登録のVALIDATED_DRAFT siblingの関係を、正常control・省略positive・stale/conflicting negativeで実validator検証。generic completeness全体を推測で修復せず、結果からAstraが必要な変更だけ選定する。filesystem scan/自動checkpoint登録/新authorityは選択していない。今回のFreeze実装・復旧・旧suite・Summaryは繰り返さない。下記3〜9は歴史候補記録で、旧 `/tmp` DBの現存主張ではない。
+1. 本handoff、[DM-003結果/次task](../outputs/rephase-1-dm003-assessment.md)、[witness packet](../notes/rephase-1-dm003-witness/README.md)、mandatory S1/S2/S3補足と独立resolutionを入口にする。source/recoveryには[共同Freeze assessment](../outputs/rephase-1-dm001-019-assessment.md)の最終operational manifest/HEAD/test-binding補足を使う。後発Summaryは[保存済み最新版](../notes/rephase-1-deferred-intake-20261003/README.md)を再利用し、追加fetchしない。
+2. **次はlocal DM003-W1の狭い修復unit。** Generalが固定222の新しい独立copyで、approved PreviewのHuman/checkpoint refsが同じcanonical typed approval path/hashである条件を共有`_validate_agent_state`へ置く最小案/callsite/testsをAstraに返し、その後実装・exact-head検証・作者別reviewへ。stage equality backstopを保持し、S3親witness→修復後の実wrapper書込み前拒否と健全controlを証明。初期allowanceは`survey_agent_control_v2.py`＋focused test、追加pathは実証された必要性のみ。generic scanner/map追加/新authority/DM-004は別。今回のwitness・Freeze・復旧・Summary・旧suiteは繰り返さない。下記3〜9は歴史記録。
 3. **固定B候補:** `c04f32ad46109403e8a63faaa8394a90ee6b869c`、tree `7dbcbbdb499ea6c7d33417a16144107320e1fd06`、親 `cb96ab97045b0d0767f38806809d33e383bac73d`。fixture `/tmp/jgas-rephase-increment-b-sol-implementation`、branch `codex/rephase-1-increment-b`、独立Git DB/inert origin。Aから13 runtime/schema/style＋8 test paths。[manifest](../notes/rephase-1-increment-b/candidate.json) / [patch](../notes/rephase-1-increment-b/increment-b.patch)（SHA-256 `bdff2c296867b31dbc2946526ec97490c054bc48c4ab9a8473eb5ded1248ab81`）。元A/f1とcb96 attemptは保存。
 4. **最終check:** [14-module script](../notes/rephase-1-increment-b/final-matrix-c04f32a.sh) / [raw log](../notes/rephase-1-increment-b/final-matrix-c04f32a.log) / [exit](../notes/rephase-1-increment-b/final-matrix-c04f32a.exit)。132 methods / 534.724秒 / exit 0 / 131成功 / 1 skip。skipは未保存W34 commit `6f68fd09955302fd87e5ec0ce77ff06ccaec8448` が必要な既存case。source/HEAD変更がなければ成功済みchecksを繰り返さない。Solはrun開始後に利用上限停止したがprocess/結果はdurableに完了し、rootはtest実行を引き継いでいない。
 5. **Bの独立reviewは完了。** [最終implementation review](../notes/rephase-1-increment-b/independent-implementation-completion-review.md)はfresh Astra自身が全B差分とtest oracleを確認した限定PASS。[2指摘resolution](../notes/rephase-1-increment-b/independent-resolution-review.md)と[最終test report](../notes/rephase-1-increment-b/final-test-report.md)も保存済み。元の[途中review](../notes/rephase-1-increment-b/independent-review.md)はそのまま保持し、最終承認へ読み替えない。担当の二重作成や成功済みtest再実行は不要。canonical七観点audit、application-ready、production採用は未達。
@@ -17,6 +17,8 @@ Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-a
 9. **最新assembled候補:** `481dec0c0233d7871df79a07a88aa5fe2291daa3`、tree `657032438c6ed8b1c055d5a120b67b4b261a5092`、direct parent `e4c82692abee6acedbba07815b0d74ccefb80a7e`。fixture `/tmp/jgas-rephase-r1-assembly-20260929T143833Z`、branch `codex/rephase-1-r1-assembly`、own DB/inert origin。`git apply --check`/apply各exit 0、7mode/blob一致、A3+M4のみ。対象4 methodsは332.190s/exit 0、実DB diagnosticはcurrent closure PASS・旧e4 closure PASS・旧basis current replayの意図した拒否、[独立組立てreview](../notes/rephase-1-r1-assembly/independent-assembly-review.md)限定PASS。4test rawにHEAD/hash headerはなく、guarded runner/manifest/後続diagnosticで束縛する限界を採用範囲付きで記録。precopy stdout欠落、pip inventory失敗、hook実行の未証明、promisor/shallow/history未閉包は保持。97件が481で再実行されたとはしない。
 
 ## 最新候補 — 222a37e（DM-001/019限定完了）
+
+**新qualification:** 同一222でDM003-W1を実証したため、56methods/既存限定PASSを任意のState/Preview参照破損の書込み前拒否へ拡大しない。通常producerは両refを同時設定するが、故意にsplitしたsynthetic Stateがwrapperまで通り、stageで拒否される。修復未実施、全候補NOT_READYのまま。
 
 - HEAD **222a37e9ee2aa96724a491f2c04c2583a86b9650**、tree **dbabeed5e70d79b51abb09b64666ca9e1d0fd5dd**、parentff6c67f、chain222→ff→490→b40→固定774（shallowは774のみ）。3path: publication/profiled Freezeの2runtime＋専用test。新たなschema/stage/workflow/config変更なし。
 - 元DB `/tmp/opencode/jgas-dm001019-impl-20261003T100801Z`、branch `codex/dm001019-freeze-implementation`。復元DB `/tmp/opencode/jgas-dm001019-chainrestore-20261003T150500Z/candidate-partial-b40de60`、branch `dm001019-final`、**actual HEAD222・index/worktree clean**。初回はrefだけ222/HEADb40だった限界を補足修正済み。
@@ -39,6 +41,8 @@ Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-a
 最終runの依存一覧取得はpip不在で失敗しており、test成功とは分けて保存する。cb96の元131-method run（6 errors/1 skip/exit 1）、各fixture修正・probe・途中停止は[attempt](../notes/rephase-1-increment-b/attempts/README.md)、[B assessment](../outputs/rephase-1-increment-b-assessment.md)、implementation packetに保存。後のgreenで上書きしない。
 
 ## 固定点と権限
+
+2026-10-04 DM-003 witness closeout: Human commit `1bb42dd01774bf30bc6f4a09cff43b9a321d531b`・cleanから開始。Generalがsource/case分析と独立copyでwitness、Astraがoracle修正/実source/raw/identity review、別Generalがinitial CHANGES_REQUIRED→補足witness/disposition限定PASS。shipping/source/ref/portablepackは未変更。initial7scenarios/86operations、補足3scenarios/46operationsはtest件数ではない。初稿のrival不可能説・tautological比較・C5no-defect結論は撤回、正しい実S3 findingを保存。今回packet/assessment/入口/byte保護は未commit、通常Commit/PushはHuman担当。DM003-W1修復はまだ未開始。
 
 2026-10-04 DM-001/019 closeout: Human commit `066436d6d43a4fcf0b96ed1e8678e7f1edb082c2`・cleanから開始。Generalがdesign/独立DB実装/tests/pack復元、Astraが範囲選択・source/oracle/raw/実HEAD review、別Generalがinitial/correction/final/HEADbinding/testbinding限定review。source最終222、旧b40/490/ffは保存。今回packet/assessment/入口/byte保護は未commit。通常reconstruct Commit/PushはHuman担当、次DM-003 unitは未開始。
 
@@ -80,7 +84,7 @@ Context永続化確認（2026-09-30）: [closeout補足](../notes/rephase-1-r1-a
 
 **A証拠の限界:** 初回clone失敗のexact argv/数値exit、初回fixture-error runの全文は未保存（tailは保存）。独立copyと最終test証拠は別に確認済み。full application patchはexact diff/hash一致だがtemporary-index apply checkがmissing promisor objectを出力し、exit 0でもclean適用証明としない。packet-verification.logのsize一覧は補足前のhistorical inventoryであり最終manifestではない。これらをgreen結果で上書きしない。
 
-Bのreader/derivationとwitness/R1/481/b40復旧の歴史的限定結論を保持し、今回222でDM-001/019共同Freeze境界を実装/reviewした。部分DB/asset閉包やwhole application-readyは別。build transferの6名前は許可集合で全必須ではなく、現canonical PDFはsurvey_root/main.pdf。次DM-003は型付き承認によるCandidate取得と未登録checkpointの関係を実witnessでdispositionし、generic修復の要否を判断する。optional findings輸送、Special/support、DM-004は別。レビュー責任統合は選択していない。
+Bのreader/derivationとwitness/R1/481/b40復旧、222のDM-001/019の限定結論を保持する。今回DM-003省略checkpointは選択経路でnonblockerと実証し、generic修復を選ばず、新しいPreview refs一致不足DM003-W1を次の狭い修復対象にした。stage拒否は保持され、今回FROZEN進行は試みていない。部分DB/asset閉包・whole application-ready、build transfer、optional findings、Special/support、DM-004は別。レビュー責任統合は選択していない。
 
 **Bの選択済み契約:** routeはGate derivation blockに明示し、generated reviewed input内のroute/Profileと一致させる。既存semantic-review schema/役割を保持。既存source manifestをschema-validatedな唯一のreplay receiptとし、current State/checkpointからaccepted refsを検証してprojectionとmain/bib/styleを独立比較する（過去State hashはprovenanceのみ）。styleの表示文言もreader inputへ含め、他Profileの既存default/layoutを保持。bibliographyはacceptanceが束縛するcardだけを使い、非accepted `interactive-evidence.json`が必要な曖昧選択は停止。後段Publication Review/BIBLIOGRAPHY_METADATAをpre-TeX PASSへ流用しない。詳細・path・testsは契約判断に集約。
 

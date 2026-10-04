@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py", line 191, in attempt
+    value = func()
+            ^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py", line 550, in <lambda>
+    lambda: sc.stage_admit(fix, arts, "c6-surplus"),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py", line 246, in stage_admit
+    return stage_validation.validate_stage(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm003-witness-20261003T200937Z/scripts/survey_stage_validation_v2.py", line 621, in validate_stage
+    current = _current_artifacts(repo_root, state, supplied)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm003-witness-20261003T200937Z/scripts/survey_stage_validation_v2.py", line 212, in _current_artifacts
+    raise StageValidationError("unexpected current stage artifacts: " + ", ".join(extra))
+scripts.survey_stage_validation_v2.StageValidationError: unexpected current stage artifacts: publication-candidate

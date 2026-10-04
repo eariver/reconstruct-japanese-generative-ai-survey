@@ -1,0 +1,87 @@
+[
+  {
+    "detail": "sources/SP-DM003-C1 + surveys/special/SP-DM003-C1",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "exists=False",
+    "op": "orphan-pre-advance-absent",
+    "outcome": "ok"
+  },
+  {
+    "detail": "RELEASE_CANDIDATE+HUMAN_GATE_REACHED asserted by helper",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "record checkpoints == []",
+    "op": "orphan-checkpoints-empty",
+    "outcome": "ok"
+  },
+  {
+    "detail": "sources/SP-DM003-C1/orchestration/v2/checkpoints/VALIDATED_DRAFT.json not in 12 refs",
+    "op": "orphan-absent-from-all-refs",
+    "outcome": "ok"
+  },
+  {
+    "detail": "named validation=sources/SP-DM003-C1/orchestration/v2/checkpoints/DRAFT_COMPLETE.json",
+    "op": "validation-checkpoint-distinct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "validate_agent_state == []",
+    "op": "state-valid-post-advance",
+    "outcome": "ok"
+  },
+  {
+    "detail": "dict",
+    "op": "approve-preview",
+    "outcome": "ok"
+  },
+  {
+    "detail": "State mutated only by real approval",
+    "op": "approval-state-write-window",
+    "outcome": "ok"
+  },
+  {
+    "detail": "approval candidate sha == C1 bytes",
+    "op": "approval-binds-c1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "tuple",
+    "op": "wrapper-freeze",
+    "outcome": "ok"
+  },
+  {
+    "detail": "State bytes identical across wrapper Freeze",
+    "op": "freeze-no-state-write",
+    "outcome": "ok"
+  },
+  {
+    "detail": "freeze record path+sha == C1",
+    "op": "freeze-binds-exact-c1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "PosixPath",
+    "op": "stage-admit",
+    "outcome": "ok"
+  },
+  {
+    "detail": "State bytes identical across stage admission",
+    "op": "stage-no-state-write",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C1+approval bytes stable",
+    "op": "inputs-unchanged-across-freeze-admission",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]

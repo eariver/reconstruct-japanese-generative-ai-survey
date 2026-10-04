@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-DM003-S2",
+  "from_state": "VALIDATED_DRAFT",
+  "to_state": "RELEASE_CANDIDATE",
+  "checkpoints": [],
+  "recorded_at": "2026-11-22T13:01:00Z",
+  "implementation": {
+    "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "acb992c5a157a9b17744d87df090b833c2e841a17cf8fce703ac68c0d9efe23c",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "publication-candidate",
+      "path": "sources/SP-DM003-S2/publication/v2/publication-candidate-v2.json",
+      "sha256": "258455bf090f6edd45a5951f10ceb6730868188a174e959cfee868b1796f22b6"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "dm001019-freeze-test",
+      "evidence": "synthetic connected stage validation",
+      "result": {
+        "path": "sources/SP-DM003-S2/execution/validated-draft-stage-report.json",
+        "sha256": "3eb84ba7421d955fde2a75185b83b7303025c2a99323cb2ae4aecd8719560075"
+      }
+    }
+  ],
+  "summary": "DM001019 SpecialFixture boundary"
+}

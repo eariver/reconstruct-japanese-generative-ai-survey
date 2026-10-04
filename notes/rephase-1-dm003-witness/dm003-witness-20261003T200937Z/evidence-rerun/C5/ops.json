@@ -1,0 +1,67 @@
+[
+  {
+    "detail": "sources/SP-DM003-C5 + surveys/special/SP-DM003-C5",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "dict",
+    "op": "approve-preview-a1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "tuple",
+    "op": "wrapper-freeze",
+    "outcome": "ok"
+  },
+  {
+    "detail": "A2 schema+validator valid, binds same C1",
+    "op": "rival-approval-standalone-valid",
+    "outcome": "ok"
+  },
+  {
+    "detail": "A1=publication-preview:SP-DM003-C5:c614fc5d7006af3351a1 A2=publication-preview:SP-DM003-C5:aa626b6a8713371864e2",
+    "op": "approvals-distinct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "checkpoint side still A1; State now deliberately split",
+    "op": "state-mutated-human-ref-to-a2",
+    "outcome": "ok"
+  },
+  {
+    "detail": "errors=[]",
+    "op": "state-entry-outcome",
+    "outcome": "ok"
+  },
+  {
+    "detail": "StageValidationError: Human Preview and checkpoint approval authorities disagree",
+    "op": "stage-admit-split-refs",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "no stage report written",
+    "op": "no-report-on-rejection",
+    "outcome": "ok"
+  },
+  {
+    "detail": "prior freeze/manifest bytes stable",
+    "op": "existing-outputs-unchanged",
+    "outcome": "ok"
+  },
+  {
+    "detail": "failed admission caused no further State mutation",
+    "op": "state-kept-mutated-bytes",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]

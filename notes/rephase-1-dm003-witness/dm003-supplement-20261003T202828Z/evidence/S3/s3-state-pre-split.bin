@@ -1,0 +1,166 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-DM003-S3",
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "lifecycle_state": "RELEASE_CANDIDATE",
+  "profile": {
+    "path": "sources/SP-DM003-S3/production-profile.json",
+    "sha256": "526ce63d34ca83996cb00193b3d1be96685b93be77e7e2804859e95bd623cb02"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "implementation": {
+    "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "human_gates": {
+    "architecture_review": "approved",
+    "publication_preview": "approved"
+  },
+  "human_gate_provenance": {
+    "architecture_review": {
+      "path": "sources/SP-DM003-S3/gates/architecture-approval.json",
+      "sha256": "55719d41b27703e7fe10a0bf631524ddd7e2a2c1fd629d9b4422a7c46d674986"
+    },
+    "publication_preview": {
+      "path": "sources/SP-DM003-S3/gates/publication-preview-approval.json",
+      "sha256": "139288ce1c4ecb789fb1405ca520d4035639634d16f842d75764a00a23bffa83"
+    }
+  },
+  "target_gate": "ARCHITECTURE_REVIEW",
+  "next_action": "stage:freeze",
+  "terminal_reason": null,
+  "exception_gate": {
+    "status": "inactive",
+    "reason": null
+  },
+  "machine_checkpoints": {
+    "discovery": "passed",
+    "screening": "passed",
+    "evidence": "passed",
+    "materiality": "passed",
+    "completeness": "passed",
+    "selection": "passed",
+    "architecture": "passed",
+    "draft": "passed",
+    "validation": "passed",
+    "publication_preview": "passed",
+    "freeze": "pending",
+    "release": "pending"
+  },
+  "checkpoint_provenance": {
+    "discovery": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/ISSUE_INITIALIZED.json",
+      "sha256": "a3caa1bf8964a5675433bc60603198bcdb47397d66a711f62528fb0124b96509"
+    },
+    "screening": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/DISCOVERY_COLLECTED.json",
+      "sha256": "ae5f14bcee11ad7046596f16ec08adea6d8beb5997a4ad1f214e5c284e875efe"
+    },
+    "evidence": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json",
+      "sha256": "48cf38593b2c2dfa579145c7fb7f98a9c40368a79eafca12bea1a0a0f3fb2c22"
+    },
+    "materiality": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json",
+      "sha256": "48cf38593b2c2dfa579145c7fb7f98a9c40368a79eafca12bea1a0a0f3fb2c22"
+    },
+    "completeness": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json",
+      "sha256": "48cf38593b2c2dfa579145c7fb7f98a9c40368a79eafca12bea1a0a0f3fb2c22"
+    },
+    "selection": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/EVIDENCE_REVIEWED.json",
+      "sha256": "ffde7f68c6dc1bd258eb1b8bd6925c7de21bc970724b3c80ee13d71e47879ea9"
+    },
+    "architecture": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/SELECTION_COMPLETE.json",
+      "sha256": "c765d0085a8b69ad28cf4c6058fe2d80cf2f32edb6e0906566c21857f07c4098"
+    },
+    "draft": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/ARCHITECTURE_ESTABLISHED.json",
+      "sha256": "f54eab77d53a213b881c8bc14a17bfec85214ef4f73e007b9c9b2169c0ac0efd"
+    },
+    "validation": {
+      "path": "sources/SP-DM003-S3/orchestration/v2/checkpoints/DRAFT_COMPLETE.json",
+      "sha256": "5a1e8b249648de060e3bb27bf6beb1cbeb00f85e950ebca8efce979e3f5d7af4"
+    },
+    "publication_preview": {
+      "path": "sources/SP-DM003-S3/gates/publication-preview-approval.json",
+      "sha256": "139288ce1c4ecb789fb1405ca520d4035639634d16f842d75764a00a23bffa83"
+    },
+    "freeze": null,
+    "release": null
+  },
+  "legacy_compatibility": {
+    "mode": "NON_AUTHORITATIVE_READ_ONLY",
+    "legacy_state_path": "sources/SP-DM003-S3/legacy.json",
+    "legacy_state_present": false,
+    "legacy_state_sha256": null
+  },
+  "history": [
+    {
+      "from": null,
+      "to": "ISSUE_INITIALIZED",
+      "recorded_at": "2026-09-12T12:00:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "ISSUE_INITIALIZED",
+      "to": "DISCOVERY_COLLECTED",
+      "recorded_at": "2026-09-12T12:01:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "DISCOVERY_COLLECTED",
+      "to": "CANDIDATES_NORMALIZED",
+      "recorded_at": "2026-09-12T12:02:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "CANDIDATES_NORMALIZED",
+      "to": "EVIDENCE_REVIEWED",
+      "recorded_at": "2026-09-12T12:03:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "EVIDENCE_REVIEWED",
+      "to": "SELECTION_COMPLETE",
+      "recorded_at": "2026-09-12T12:04:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "SELECTION_COMPLETE",
+      "to": "ARCHITECTURE_ESTABLISHED",
+      "recorded_at": "2026-09-12T12:05:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "ARCHITECTURE_ESTABLISHED",
+      "to": "DRAFT_COMPLETE",
+      "recorded_at": "2026-09-12T12:06:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "DRAFT_COMPLETE",
+      "to": "VALIDATED_DRAFT",
+      "recorded_at": "2026-09-12T12:07:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    },
+    {
+      "from": "VALIDATED_DRAFT",
+      "to": "RELEASE_CANDIDATE",
+      "recorded_at": "2026-11-23T13:01:00Z",
+      "repository_commit_sha": "222a37e9ee2aa96724a491f2c04c2583a86b9650"
+    }
+  ]
+}

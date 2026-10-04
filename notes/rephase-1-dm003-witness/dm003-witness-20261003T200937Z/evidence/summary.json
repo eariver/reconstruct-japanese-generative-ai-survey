@@ -1,0 +1,37 @@
+{
+  "C1": {
+    "status": "COMPLETE",
+    "unexpected": []
+  },
+  "C2": {
+    "status": "COMPLETE",
+    "unexpected": []
+  },
+  "C3": {
+    "status": "COMPLETE",
+    "unexpected": []
+  },
+  "C4": {
+    "status": "COMPLETE",
+    "unexpected": [
+      {
+        "detail": "ValueError: Production State invalid before Freeze: Publication Preview approved candidate bytes drifted",
+        "expected": "ValueError: Publication Preview approved candidate bytes drifted",
+        "op": "wrapper-freeze-stale",
+        "outcome": "raised"
+      }
+    ]
+  },
+  "C5": {
+    "status": "COMPLETE",
+    "unexpected": []
+  },
+  "C6": {
+    "status": "SCENARIO-FAILURE",
+    "traceback_tail": "Traceback (most recent call last):\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py\", line 641, in main\n    sc = func()\n         ^^^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py\", line 519, in run_c6\n    c2_path, c2 = sc.build_rival_candidate(fix)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py\", line 250, in build_rival_candidate\n    reader.build_manuscript_manifest(\n  File \"/tmp/opencode/jgas-dm003-witness-20261003T200937Z/scripts/survey_reader_publication_v2.py\", line 351, in build_manuscript_manifest\n    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions)\n  File \"/tmp/opencode/jgas-dm003-witness-20261003T200937Z/scripts/survey_reader_publication_v2.py\", line 219, in _validate_manifest_semantics\n    raise ValueError(\"Reader primary source must be the canonical survey_root/main.tex\")\nValueError: Reader primary source must be the canonical survey_root/main.tex\n"
+  },
+  "C7": {
+    "status": "SCENARIO-FAILURE",
+    "traceback_tail": "Traceback (most recent call last):\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py\", line 641, in main\n    sc = func()\n         ^^^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py\", line 575, in run_c7\n    c2_path, c2 = sc.build_rival_candidate(fix)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-witness/dm003-witness-20261003T200937Z/run_dm003_witness.py\", line 250, in build_rival_candidate\n    reader.build_manuscript_manifest(\n  File \"/tmp/opencode/jgas-dm003-witness-20261003T200937Z/scripts/survey_reader_publication_v2.py\", line 351, in build_manuscript_manifest\n    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions)\n  File \"/tmp/opencode/jgas-dm003-witness-20261003T200937Z/scripts/survey_reader_publication_v2.py\", line 219, in _validate_manifest_semantics\n    raise ValueError(\"Reader primary source must be the canonical survey_root/main.tex\")\nValueError: Reader primary source must be the canonical survey_root/main.tex\n"
+  }
+}

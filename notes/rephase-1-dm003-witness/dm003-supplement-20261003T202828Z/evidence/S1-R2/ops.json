@@ -1,0 +1,107 @@
+[
+  {
+    "detail": "sources/SP-DM003-S1 + surveys/special/SP-DM003-S1",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "orphan-absent-pre-advance",
+    "outcome": "ok"
+  },
+  {
+    "detail": "helper asserts RELEASE_CANDIDATE+HUMAN_GATE_REACHED",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "absent from every named provenance ref",
+    "op": "orphan-unmapped",
+    "outcome": "ok"
+  },
+  {
+    "detail": "real Preview approval",
+    "op": "approve-a1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "added=1 modified=1 removed=0",
+    "op": "s1-approval-window",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C2 sha=c09183a1e7bfa04b != C1 sha=619ff4cf034c1597; pdf-sha equal; paths distinct",
+    "op": "rival-byte-distinct-valid",
+    "outcome": "ok"
+  },
+  {
+    "detail": "checkpoint_provenance + C1 bytes identical",
+    "op": "named-pins-untouched",
+    "outcome": "ok"
+  },
+  {
+    "detail": "no recognized input rewritten with new bytes",
+    "op": "second-chain-adds-only-4",
+    "outcome": "ok"
+  },
+  {
+    "detail": "ValueError: Publication Preview approval does not bind the exact Publication Candidate being frozen",
+    "op": "direct-freeze-c2-under-a1",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "rival outputs absent; State identical",
+    "op": "no-writes-on-mismatch",
+    "outcome": "ok"
+  },
+  {
+    "detail": "schema-valid",
+    "op": "orphan-schema-check",
+    "outcome": "ok"
+  },
+  {
+    "detail": "path AND sha diverge from consumed report",
+    "op": "orphan-transition-inconsistent",
+    "outcome": "ok"
+  },
+  {
+    "detail": "built",
+    "op": "wrapper-freeze",
+    "outcome": "ok"
+  },
+  {
+    "detail": "added=2 modified=0 removed=0",
+    "op": "s1-freeze-window",
+    "outcome": "ok"
+  },
+  {
+    "detail": "record binds exact C1 path+sha, not C2",
+    "op": "freeze-winner-path-and-sha",
+    "outcome": "ok"
+  },
+  {
+    "detail": "_prior_artifacts resolves sources/SP-DM003-S1/publication/v2/publication-candidate-v2.json",
+    "op": "prior-selects-c1-path-hash",
+    "outcome": "ok"
+  },
+  {
+    "detail": "StageValidationError: unexpected current stage artifacts: publication-candidate",
+    "op": "stage-surplus-extra-key",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "PASS",
+    "op": "stage-admit-c1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "added=1 modified=0 removed=0",
+    "op": "s1-stage-window",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]

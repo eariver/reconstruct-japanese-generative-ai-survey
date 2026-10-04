@@ -1,5 +1,7 @@
 # DM-001/019 joint Freeze boundary — Astra bounded completion
 
+**Later qualification 2026-10-04:** [DM-003 witness/disposition](rephase-1-dm003-assessment.md) at unchanged222 confirms omitted-checkpoint nonblocker but demonstrates local **DM003-W1 OPEN**: individually valid, split Human/checkpoint Preview refs pass State and wrapper writes a same-Candidate pair; later stage rejects. The56-method conclusion below remains bounded to its tested contract and is not arbitrary-State consistency acceptance. Next is narrow shared-State reference agreement repair after the new witness Commit Point; no generic scanner or repeated Freeze unit.
+
 Recorded **2026-10-04T00:15:19+09:00**. Started from Human reconstruct commit **066436d6d43a4fcf0b96ed1e8678e7f1edb082c2**, clean/local tracking synchronized without fetch. **The joint implementation is bounded complete at 222a37e, with corrected source, 56 successful methods and author-independent implementation/restore resolutions. Stop at this Human Commit Point.** Whole candidate **NOT_READY**, step 4/B3 OPEN, canonical seven-point audit unstarted. Production baseline remains **774dd39a951c9ac3818e83dfffd4c7666efb0a20**.
 
 ## 1. Exact candidate and portable binding

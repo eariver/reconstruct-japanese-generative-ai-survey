@@ -1,0 +1,52 @@
+[
+  {
+    "detail": "sources/SP-DM003-C4 + surveys/special/SP-DM003-C4",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "dict",
+    "op": "approve-preview",
+    "outcome": "ok"
+  },
+  {
+    "detail": "one trailing byte appended; JSON still parses, sha drifts",
+    "op": "candidate-mutated",
+    "outcome": "ok"
+  },
+  {
+    "detail": "ValueError: Production State invalid before Freeze: Publication Preview approved candidate bytes drifted",
+    "op": "wrapper-freeze-stale",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "freeze/manifest absent",
+    "op": "no-outputs-on-rejection",
+    "outcome": "ok"
+  },
+  {
+    "detail": "State bytes identical",
+    "op": "no-state-mutation-on-rejection",
+    "outcome": "ok"
+  },
+  {
+    "detail": "ValueError: Publication Preview approved candidate bytes drifted",
+    "op": "validate-approval-direct",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "errors=['Publication Preview approved candidate bytes drifted']",
+    "op": "state-entry-errors",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]

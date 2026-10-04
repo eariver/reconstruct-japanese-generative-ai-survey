@@ -1,0 +1,72 @@
+[
+  {
+    "detail": "sources/SP-DM003-C6 + surveys/special/SP-DM003-C6",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "dict",
+    "op": "approve-preview-a1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C2=sources/SP-DM003-C6/publication/v2/publication-candidate-rival-v2.json same-sha distinct-path authority",
+    "op": "rival-build",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C2 validate_candidate PASS; same issue/Profile/PDF-sha, same sha, distinct path",
+    "op": "rival-standalone-valid",
+    "outcome": "ok"
+  },
+  {
+    "detail": "ValueError: Publication Preview approval does not bind the exact Publication Candidate being frozen",
+    "op": "direct-freeze-c2-under-a1",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "rival outputs absent; rejection before preflight",
+    "op": "no-writes-on-mismatch",
+    "outcome": "ok"
+  },
+  {
+    "detail": "tuple",
+    "op": "wrapper-freeze-c1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "StageValidationError: unexpected current stage artifacts: publication-candidate",
+    "op": "stage-surplus-candidate",
+    "outcome": "raised-as-expected"
+  },
+  {
+    "detail": "",
+    "op": "no-report-on-extra-key",
+    "outcome": "ok"
+  },
+  {
+    "detail": "PosixPath",
+    "op": "stage-admit-c1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "admission + freeze bind exact C1 after refusals",
+    "op": "prior-still-resolves-c1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C1/approval/State bytes stable (asserted via guards+hashes)",
+    "op": "active-c1-approval-state-unchanged",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]

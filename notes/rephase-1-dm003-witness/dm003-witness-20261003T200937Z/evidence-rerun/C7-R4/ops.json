@@ -1,0 +1,67 @@
+[
+  {
+    "detail": "sources/SP-DM003-C7 + surveys/special/SP-DM003-C7",
+    "op": "fixture-construct",
+    "outcome": "ok"
+  },
+  {
+    "detail": "",
+    "op": "advance-to-RC",
+    "outcome": "ok"
+  },
+  {
+    "detail": "dict",
+    "op": "approve-preview-a1",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C2=sources/SP-DM003-C7/publication/v2/publication-candidate-rival-v2.json same-sha distinct-path authority",
+    "op": "rival-build",
+    "outcome": "ok"
+  },
+  {
+    "detail": "C2 validate_candidate PASS",
+    "op": "rival-standalone-valid",
+    "outcome": "ok"
+  },
+  {
+    "detail": "named authority + C1 bytes untouched",
+    "op": "orphan-retargeted-to-c2",
+    "outcome": "ok"
+  },
+  {
+    "detail": "schema-valid",
+    "op": "altered-orphan-schema-check",
+    "outcome": "ok"
+  },
+  {
+    "detail": "altered orphan diverges from CORE report consumed at advance; never re-advanced",
+    "op": "transition-inconsistent",
+    "outcome": "ok"
+  },
+  {
+    "detail": "tuple",
+    "op": "wrapper-freeze",
+    "outcome": "ok"
+  },
+  {
+    "detail": "PosixPath",
+    "op": "stage-admit",
+    "outcome": "ok"
+  },
+  {
+    "detail": "freeze binds C1 sha; orphan C2 ignored",
+    "op": "typed-c1-wins",
+    "outcome": "ok"
+  },
+  {
+    "detail": "State/C1/A1 stable",
+    "op": "named-authority-bytes-unchanged",
+    "outcome": "ok"
+  },
+  {
+    "detail": "witness-owned dirs removed",
+    "op": "fixture-cleanup",
+    "outcome": "ok"
+  }
+]
