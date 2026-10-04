@@ -1,0 +1,360 @@
+diff --git a/scripts/survey_agent_control_v2.py b/scripts/survey_agent_control_v2.py
+index d11febc..d58db79 100644
+--- a/scripts/survey_agent_control_v2.py
++++ b/scripts/survey_agent_control_v2.py
+@@ -414,6 +414,10 @@ def _validate_agent_state(repo_root: Path, cfg: dict[str, Any], state: dict[str,
+                         publication.validate_preview_approval(repo_root, approval_path, issue_id=state["issue_id"])
+                     except ValueError as exc:
+                         errors.append(str(exc))
++                if state.get("human_gates", {}).get("publication_preview") == "approved":
++                    human = state.get("human_gate_provenance", {}).get("publication_preview")
++                    if human != authority:
++                        errors.append("Human Preview and checkpoint approval authorities disagree")
+         elif wanted == "passed":
+             if authority is None:
+                 errors.append(f"passed checkpoint lacks Stage Checkpoint provenance: {name}")
+diff --git a/tests/test_survey_dm001_019_freeze_equivalence_v2.py b/tests/test_survey_dm001_019_freeze_equivalence_v2.py
+index be394ef..25a7881 100644
+--- a/tests/test_survey_dm001_019_freeze_equivalence_v2.py
++++ b/tests/test_survey_dm001_019_freeze_equivalence_v2.py
+@@ -1503,7 +1503,10 @@ class DM001019WrapperFreezeTests(unittest.TestCase):
+             **state["human_gate_provenance"]["publication_preview"], "sha256": "f" * 64}
+         core.write_json(state_file, state)
+         before = _snap_state_targets(state_file, freeze, manifest)
+-        self.assertIn("approval authority drift", attempt())
++        # DM003-W1: a Human-only SHA change now fails earlier at the shared
++        # approved-Preview agreement gate (exact stage disagreement wording),
++        # before the wrapper-level drift check; no-write behavior unchanged.
++        self.assertIn("Human Preview and checkpoint approval authorities disagree", attempt())
+         assert_unchanged(before)
+         # Restore valid State by re-approving is impossible post-decision; rebuild.
+         fix.cleanup()
+diff --git a/tests/test_survey_dm003_w1_preview_agreement_v2.py b/tests/test_survey_dm003_w1_preview_agreement_v2.py
+new file mode 100644
+index 0000000..0eb328b
+--- /dev/null
++++ b/tests/test_survey_dm003_w1_preview_agreement_v2.py
+@@ -0,0 +1,323 @@
++"""DM003-W1: approved Preview Human==checkpoint agreement in shared State validation.
++
++Narrow repair regression for local finding DM003-W1 (not a Production ID).
++For approved Publication Preview, ``validate_agent_state`` now requires the
++Human-side provenance ref to be non-null and exactly equal (path AND sha256)
++to the checkpoint-side ref, using the existing stage disagreement wording.
++All research, editorial, visual and Human decisions here are synthetic fixture
++records; the tests exercise real production validators and the real wrapper
++with byte-level no-write proofs. They are not publication evidence.
++"""
++from __future__ import annotations
++
++import importlib.util
++import shutil
++import unittest
++from datetime import datetime, timedelta, timezone
++from pathlib import Path
++
++from scripts import survey_agent_control_v2 as agent
++from scripts import survey_production_v2 as core
++from scripts import survey_profiled_freeze_v2 as profiled
++from scripts import survey_publication_v2 as publication
++from scripts import survey_stage_validation_v2 as stage_validation
++
++ROOT = Path(".").resolve()
++T0 = datetime(2026, 9, 12, 12, 0, 0, tzinfo=timezone.utc)
++
++_MOD_SPEC = importlib.util.spec_from_file_location(
++    "dm003w1_dm001_helpers",
++    ROOT / "tests/test_survey_dm001_019_freeze_equivalence_v2.py",
++)
++assert _MOD_SPEC is not None and _MOD_SPEC.loader is not None
++M = importlib.util.module_from_spec(_MOD_SPEC)
++_MOD_SPEC.loader.exec_module(M)
++
++DISAGREE = "Human Preview and checkpoint approval authorities disagree"
++
++
++def _inventory(repo: Path, roots: list[Path]) -> dict[str, str]:
++    out: dict[str, str] = {}
++    for root in roots:
++        for path in sorted(root.rglob("*")):
++            if path.is_file() and not path.is_symlink():
++                out[str(path.relative_to(repo))] = core.sha256_file(path)
++    return out
++
++
++def _assert_no_diff(test: unittest.TestCase, before: dict[str, str], after: dict[str, str]) -> None:
++    added = sorted(k for k in after if k not in before)
++    removed = sorted(k for k in before if k not in after)
++    modified = sorted(k for k in after if k in before and after[k] != before[k])
++    test.assertEqual(added, [])
++    test.assertEqual(removed, [])
++    test.assertEqual(modified, [])
++
++
++def _fresh_approved_special(test: unittest.TestCase, issue: str, day: int):
++    at = T0 + timedelta(days=day)
++    fix = M.SpecialFixture(ROOT, issue, f"surveys/special/{issue}")
++    test.addCleanup(fix.cleanup)
++    M._special_advance_to_rc(fix, at)
++    M._special_approve(fix, at)
++    return fix, at
++
++
++def _build_rival_approval(fix, at, name: str) -> tuple[Path, Path]:
++    """Separately authored standalone-valid approval for the same C1 (cf. S3 A2)."""
++    pub = fix.src / "publication" / "v2"
++    c1_path = pub / "publication-candidate-v2.json"
++    rival = fix.src / "gates" / name
++    publication.build_preview_approval(
++        fix.repo, c1_path, rival, "synthetic-human-second",
++        at + timedelta(hours=2, minutes=5), "synthetic:publication-preview-second")
++    a1_path = fix.src / fix.cfg["state_authority"]["publication_preview_approval_path"]
++    a1 = publication.validate_preview_approval(fix.repo, a1_path, issue_id=fix.issue)
++    a2 = publication.validate_preview_approval(fix.repo, rival, issue_id=fix.issue)
++    assert a2["publication_candidate_sha256"] == core.sha256_file(c1_path)
++    assert a1["approval_id"] != a2["approval_id"], "rival must be separately authored, not a copy"
++    return a1_path, rival
++
++
++def _freeze_arts(fix) -> dict[str, Path]:
++    candidate = publication.validate_candidate(
++        fix.repo, fix.src / "publication" / "v2" / "publication-candidate-v2.json",
++        issue_id=fix.issue)
++    return {
++        "visual-review-record": fix.repo / candidate["visual_review"]["path"],
++        "freeze-record": fix.src / "publication" / "v2" / "freeze-record-v2.json",
++        "release-manifest": fix.src / "publication" / "v2" / "release-manifest-v2.json",
++    }
++
++
++class DM003W1PreviewAgreementTests(unittest.TestCase):
++    """Shared-State approved-Preview agreement; real validator + real wrapper."""
++
++    def test_s3_repaired_split_rejected_before_writes(self) -> None:
++        fix, at = _fresh_approved_special(self, "SP-DM003-W1A", 70)
++        state_file = fix.src / "production-state.json"
++        pub = fix.src / "publication" / "v2"
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        self.assertFalse(freeze.exists())
++        self.assertFalse(manifest.exists())
++        _, rival = _build_rival_approval(fix, at, "publication-preview-approval-rival.json")
++        state = core.load_json(state_file)
++        state["human_gate_provenance"]["publication_preview"] = {
++            "path": str(rival.relative_to(fix.repo)), "sha256": core.sha256_file(rival)}
++        core.write_json(state_file, state)
++        state_before = state_file.read_bytes()
++        inv_before = _inventory(fix.repo, [fix.src, fix.survey])
++        errors = agent.validate_agent_state(fix.repo, fix.cfg, core.load_json(state_file))
++        self.assertIn(DISAGREE, errors)
++        with self.assertRaisesRegex(ValueError, "Human Preview and checkpoint approval authorities disagree"):
++            profiled.build_profiled_freeze(fix.repo, fix.cfg, state_file, at + timedelta(hours=3))
++        self.assertEqual(state_file.read_bytes(), state_before)
++        self.assertFalse(freeze.exists())
++        self.assertFalse(manifest.exists())
++        _assert_no_diff(self, inv_before, _inventory(fix.repo, [fix.src, fix.survey]))
++        # Stage equality backstop stays intact (now via shared State preflight).
++        with self.assertRaisesRegex(
++                stage_validation.StageValidationError,
++                "Human Preview and checkpoint approval authorities disagree"):
++            stage_validation.validate_stage(
++                fix.repo, fix.cfg, state_file, {},
++                fix.src / "execution/freeze-stage-report-w1a.json", at + timedelta(hours=4))
++        self.assertFalse((fix.src / "execution/freeze-stage-report-w1a.json").exists())
++
++    def test_null_pathonly_hashonly_rejected(self) -> None:
++        # Subcase 1: approved Human ref null (schema-valid, invalid as authority).
++        fix, at = _fresh_approved_special(self, "SP-DM003-W1B", 71)
++        state_file = fix.src / "production-state.json"
++        pub = fix.src / "publication" / "v2"
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        state = core.load_json(state_file)
++        state["human_gate_provenance"]["publication_preview"] = None
++        core.write_json(state_file, state)
++        before = state_file.read_bytes()
++        self.assertIn(DISAGREE, agent.validate_agent_state(fix.repo, fix.cfg, core.load_json(state_file)))
++        with self.assertRaisesRegex(ValueError, DISAGREE):
++            profiled.build_profiled_freeze(fix.repo, fix.cfg, state_file, at + timedelta(hours=3))
++        self.assertEqual(state_file.read_bytes(), before)
++        self.assertFalse(freeze.exists())
++        self.assertFalse(manifest.exists())
++        # Subcase 2: copied same-byte record at an alternate path (same SHA, path differs).
++        fix2, at2 = _fresh_approved_special(self, "SP-DM003-W1C", 72)
++        state_file2 = fix2.src / "production-state.json"
++        pub2 = fix2.src / "publication" / "v2"
++        freeze2, manifest2 = pub2 / "freeze-record-v2.json", pub2 / "release-manifest-v2.json"
++        a1_path = fix2.src / fix2.cfg["state_authority"]["publication_preview_approval_path"]
++        rival_copy = fix2.src / "gates" / "publication-preview-approval-copy.json"
++        shutil.copy(a1_path, rival_copy)
++        self.assertEqual(core.sha256_file(rival_copy), core.sha256_file(a1_path))
++        state2 = core.load_json(state_file2)
++        state2["human_gate_provenance"]["publication_preview"] = {
++            "path": str(rival_copy.relative_to(fix2.repo)), "sha256": core.sha256_file(rival_copy)}
++        core.write_json(state_file2, state2)
++        before2 = state_file2.read_bytes()
++        self.assertIn(DISAGREE, agent.validate_agent_state(fix2.repo, fix2.cfg, core.load_json(state_file2)))
++        with self.assertRaisesRegex(ValueError, DISAGREE):
++            profiled.build_profiled_freeze(fix2.repo, fix2.cfg, state_file2, at2 + timedelta(hours=3))
++        self.assertEqual(state_file2.read_bytes(), before2)
++        self.assertFalse(freeze2.exists())
++        self.assertFalse(manifest2.exists())
++        # Subcase 3: same canonical path but different SHA.
++        fix3, at3 = _fresh_approved_special(self, "SP-DM003-W1D", 73)
++        state_file3 = fix3.src / "production-state.json"
++        pub3 = fix3.src / "publication" / "v2"
++        freeze3, manifest3 = pub3 / "freeze-record-v2.json", pub3 / "release-manifest-v2.json"
++        state3 = core.load_json(state_file3)
++        human3 = dict(state3["human_gate_provenance"]["publication_preview"])
++        human3["sha256"] = "f" * 64
++        state3["human_gate_provenance"]["publication_preview"] = human3
++        core.write_json(state_file3, state3)
++        before3 = state_file3.read_bytes()
++        self.assertIn(DISAGREE, agent.validate_agent_state(fix3.repo, fix3.cfg, core.load_json(state_file3)))
++        with self.assertRaisesRegex(ValueError, DISAGREE):
++            profiled.build_profiled_freeze(fix3.repo, fix3.cfg, state_file3, at3 + timedelta(hours=3))
++        self.assertEqual(state_file3.read_bytes(), before3)
++        self.assertFalse(freeze3.exists())
++        self.assertFalse(manifest3.exists())
++
++    def test_equal_but_stale_or_noncanonical_still_rejected(self) -> None:
++        # Subcase 1: both refs equal but stale SHA; existing drift check fires, not the new gate.
++        fix, at = _fresh_approved_special(self, "SP-DM003-W1E", 74)
++        state_file = fix.src / "production-state.json"
++        pub = fix.src / "publication" / "v2"
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        state = core.load_json(state_file)
++        stale = dict(state["checkpoint_provenance"]["publication_preview"])
++        stale["sha256"] = "f" * 64
++        state["checkpoint_provenance"]["publication_preview"] = dict(stale)
++        state["human_gate_provenance"]["publication_preview"] = dict(stale)
++        core.write_json(state_file, state)
++        errors = agent.validate_agent_state(fix.repo, fix.cfg, core.load_json(state_file))
++        self.assertNotEqual(errors, [])
++        self.assertIn("drift", "; ".join(errors))
++        self.assertNotIn(DISAGREE, errors)
++        with self.assertRaisesRegex(ValueError, "invalid before Freeze"):
++            profiled.build_profiled_freeze(fix.repo, fix.cfg, state_file, at + timedelta(hours=3))
++        self.assertFalse(freeze.exists())
++        self.assertFalse(manifest.exists())
++        # Subcase 2: both refs equal a standalone-valid noncanonical record.
++        fix2, at2 = _fresh_approved_special(self, "SP-DM003-W1F", 75)
++        state_file2 = fix2.src / "production-state.json"
++        pub2 = fix2.src / "publication" / "v2"
++        freeze2, manifest2 = pub2 / "freeze-record-v2.json", pub2 / "release-manifest-v2.json"
++        _, rival2 = _build_rival_approval(fix2, at2, "publication-preview-approval-rival.json")
++        ref2 = {"path": str(rival2.relative_to(fix2.repo)), "sha256": core.sha256_file(rival2)}
++        state2 = core.load_json(state_file2)
++        state2["checkpoint_provenance"]["publication_preview"] = dict(ref2)
++        state2["human_gate_provenance"]["publication_preview"] = dict(ref2)
++        core.write_json(state_file2, state2)
++        errors2 = agent.validate_agent_state(fix2.repo, fix2.cfg, core.load_json(state_file2))
++        self.assertNotEqual(errors2, [])
++        self.assertIn("not canonical", "; ".join(errors2))
++        self.assertNotIn(DISAGREE, errors2)
++        with self.assertRaisesRegex(ValueError, "invalid before Freeze"):
++            profiled.build_profiled_freeze(fix2.repo, fix2.cfg, state_file2, at2 + timedelta(hours=3))
++        self.assertFalse(freeze2.exists())
++        self.assertFalse(manifest2.exists())
++        # Subcase 3: malformed Human ref shape retains existing schema rejection.
++        fix3, at3 = _fresh_approved_special(self, "SP-DM003-W1G", 76)
++        state_file3 = fix3.src / "production-state.json"
++        pub3 = fix3.src / "publication" / "v2"
++        freeze3, manifest3 = pub3 / "freeze-record-v2.json", pub3 / "release-manifest-v2.json"
++        state3 = core.load_json(state_file3)
++        bad = dict(state3["human_gate_provenance"]["publication_preview"])
++        bad["extra"] = "not-in-schema"
++        state3["human_gate_provenance"]["publication_preview"] = bad
++        core.write_json(state_file3, state3)
++        errors3 = agent.validate_agent_state(fix3.repo, fix3.cfg, core.load_json(state_file3))
++        self.assertNotEqual(errors3, [])
++        with self.assertRaisesRegex(ValueError, "invalid before Freeze"):
++            profiled.build_profiled_freeze(fix3.repo, fix3.cfg, state_file3, at3 + timedelta(hours=3))
++        self.assertFalse(freeze3.exists())
++        self.assertFalse(manifest3.exists())
++
++    def test_healthy_special_positive_to_frozen(self) -> None:
++        fix, at = _fresh_approved_special(self, "SP-DM003-W1H", 77)
++        state_file = fix.src / "production-state.json"
++        pub = fix.src / "publication" / "v2"
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        state = core.load_json(state_file)
++        self.assertEqual(
++            state["human_gate_provenance"]["publication_preview"],
++            state["checkpoint_provenance"]["publication_preview"])
++        self.assertEqual(agent.validate_agent_state(fix.repo, fix.cfg, state), [])
++        inv_before = _inventory(fix.repo, [fix.src, fix.survey])
++        out_freeze, out_manifest = profiled.build_profiled_freeze(
++            fix.repo, fix.cfg, state_file, at + timedelta(hours=3))
++        self.assertTrue(out_freeze.is_file())
++        self.assertTrue(out_manifest.is_file())
++        inv_after = _inventory(fix.repo, [fix.src, fix.survey])
++        added = sorted(k for k in inv_after if k not in inv_before)
++        self.assertEqual(added, sorted([
++            str(freeze.relative_to(fix.repo)), str(manifest.relative_to(fix.repo))]))
++        self.assertEqual(
++            sorted(k for k in inv_before if k not in inv_after), [])
++        self.assertEqual(
++            sorted(k for k in inv_after if k in inv_before and inv_after[k] != inv_before[k]), [])
++        payload = publication.validate_release_manifest(fix.repo, out_manifest)
++        self.assertEqual(payload["release_identity"], "special/SP-DM003-W1H")
++        report = M._special_advance_to_frozen(fix, _freeze_arts(fix), at, "w1h")
++        self.assertEqual(core.load_json(report)["status"], "PASS")
++        self.assertEqual(
++            agent.validate_agent_state(fix.repo, fix.cfg, core.load_json(state_file)), [])
++
++    def test_healthy_weekly_positive(self) -> None:
++        at = T0 + timedelta(days=78)
++        fix = M.WeeklyCanonicalFixture(ROOT)
++        self.addCleanup(fix.cleanup)
++        M._weekly_advance_to_rc(fix, at)
++        M._weekly_approve(fix, at)
++        cfg = M._cfg()
++        state_file = fix.src / "production-state.json"
++        pub = fix.src / "publication" / "v2"
++        freeze, manifest = pub / "freeze-record-v2.json", pub / "release-manifest-v2.json"
++        self.assertEqual(agent.validate_agent_state(ROOT, cfg, core.load_json(state_file)), [])
++        inv_before = _inventory(ROOT, [fix.src, fix.survey])
++        out_freeze, out_manifest = profiled.build_profiled_freeze(
++            ROOT, cfg, state_file, at + timedelta(hours=3))
++        self.assertTrue(out_freeze.is_file())
++        self.assertTrue(out_manifest.is_file())
++        inv_after = _inventory(ROOT, [fix.src, fix.survey])
++        self.assertEqual(
++            sorted(k for k in inv_after if k not in inv_before),
++            sorted([str(freeze.relative_to(ROOT)), str(manifest.relative_to(ROOT))]))
++        payload = publication.validate_release_manifest(ROOT, out_manifest)
++        self.assertEqual(payload["release_identity"], "weekly/2026-W35")
++
++    def test_pending_inert_no_approval(self) -> None:
++        at = T0 + timedelta(days=79)
++        fix = M.SpecialFixture(ROOT, "SP-DM003-W1J", "surveys/special/SP-DM003-W1J")
++        self.addCleanup(fix.cleanup)
++        state_file = fix.src / "production-state.json"
++        # Healthy pending State with null Preview refs is valid.
++        self.assertEqual(
++            agent.validate_agent_state(fix.repo, fix.cfg, core.load_json(state_file)), [])
++        # Pending at RC also validates; a standalone inert typed record alone
++        # supplies no State approval (mirrors the DM001/019 w5 pattern).
++        atw = T0 + timedelta(days=80)
++        wfix = M.WeeklyCanonicalFixture(ROOT)
++        self.addCleanup(wfix.cleanup)
++        wcfg = M._cfg()
++        M._weekly_advance_to_rc(wfix, atw)
++        wstate = wfix.src / "production-state.json"
++        wpub = wfix.src / "publication" / "v2"
++        wfreeze, wmanifest = wpub / "freeze-record-v2.json", wpub / "release-manifest-v2.json"
++        self.assertEqual(agent.validate_agent_state(ROOT, wcfg, core.load_json(wstate)), [])
++        candidate = wpub / "publication-candidate-v2.json"
++        publication.build_preview_approval(
++            ROOT, candidate, wpub / "inert-approval-v2.json",
++            "synthetic-human-fixture", atw + timedelta(hours=2), "synthetic:inert")
++        self.assertEqual(agent.validate_agent_state(ROOT, wcfg, core.load_json(wstate)), [])
++        state_before = wstate.read_bytes()
++        with self.assertRaisesRegex(ValueError, "approved Publication Preview"):
++            profiled.build_profiled_freeze(ROOT, wcfg, wstate, atw + timedelta(hours=3))
++        self.assertEqual(wstate.read_bytes(), state_before)
++        self.assertFalse(wfreeze.exists())
++        self.assertFalse(wmanifest.exists())
++
++
++if __name__ == "__main__":
++    unittest.main()

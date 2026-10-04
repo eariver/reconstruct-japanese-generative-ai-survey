@@ -1,5 +1,7 @@
 # DM-003 witness/disposition — omitted checkpoint and split Preview authority
 
+**Successor update 2026-10-05:** localDM003-W1 is now bounded repaired at e1705b7 by the [shared-State agreement unit](rephase-1-dm003-w1-assessment.md),24 selected methods and separate qualified implementation/evidence review. Original222 witness and initial OPEN disposition below remain historical; no generic omitted-checkpoint repair or upstream CORE_FIXED follows. Current next unit is DM-004 command/validation contract after the new Human Commit Point, not a repeat witness.
+
 Recorded **2026-10-04T05:35:00+09:00** (Astra clock). Started at clean Human reconstruct commit **1bb42dd01774bf30bc6f4a09cff43b9a321d531b** after Push/continuation, no fetch. **Witness/disposition unit complete; no shipping code change. Stop at this Human Commit Point.** Candidate remains **222a37e9ee2aa96724a491f2c04c2583a86b9650**, tree **dbabeed5e70d79b51abb09b64666ca9e1d0fd5dd**. Whole candidate **NOT_READY**, step4/B3 OPEN, canonical seven-point audit unstarted.
 
 ## Decision in brief

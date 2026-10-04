@@ -1,0 +1,174 @@
+# DM003-W1 final-binding read-only observation (commands run NOW, offline git/stat/sha only)
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git rev-parse HEAD
+exit=0
+e1705b7fed01369767ab9d827c0360117d54aa1f
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git rev-parse HEAD^{tree}
+exit=0
+3d21322587b9e4d3d05d7ae9ef66fbd1d74d3557
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git log --format=%P -1 HEAD
+exit=0
+222a37e9ee2aa96724a491f2c04c2583a86b9650
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git log --format=%H %P %s -1
+exit=0
+e1705b7fed01369767ab9d827c0360117d54aa1f 222a37e9ee2aa96724a491f2c04c2583a86b9650 DM003-W1: require approved Preview Human==checkpoint agreement in shared State validation
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git branch --show-current
+exit=0
+codex/dm003w1-preview-agreement
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git status --porcelain=v1 --untracked-files=all
+exit=0
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git ls-files -s scripts/survey_agent_control_v2.py tests/test_survey_dm001_019_freeze_equivalence_v2.py tests/test_survey_dm003_w1_preview_agreement_v2.py
+exit=0
+100644 d58db79b8ce43a2cb55814a38ff7542ff556f86a 0	scripts/survey_agent_control_v2.py
+100644 25a7881e573b91e58a9f68f92e8cb3ee77335d9f 0	tests/test_survey_dm001_019_freeze_equivalence_v2.py
+100644 0eb328b1a1ac9d41302e3a229836a3d9273c6bbd 0	tests/test_survey_dm003_w1_preview_agreement_v2.py
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git rev-parse HEAD
+exit=0
+e1705b7fed01369767ab9d827c0360117d54aa1f
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git rev-parse HEAD^{tree}
+exit=0
+3d21322587b9e4d3d05d7ae9ef66fbd1d74d3557
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git log --format=%P -1 HEAD
+exit=0
+222a37e9ee2aa96724a491f2c04c2583a86b9650
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git log --format=%H %P %s -1
+exit=0
+e1705b7fed01369767ab9d827c0360117d54aa1f 222a37e9ee2aa96724a491f2c04c2583a86b9650 DM003-W1: require approved Preview Human==checkpoint agreement in shared State validation
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git branch --show-current
+exit=0
+dm003w1-final
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git status --porcelain=v1 --untracked-files=all
+exit=0
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git ls-files -s scripts/survey_agent_control_v2.py tests/test_survey_dm001_019_freeze_equivalence_v2.py tests/test_survey_dm003_w1_preview_agreement_v2.py
+exit=0
+100644 d58db79b8ce43a2cb55814a38ff7542ff556f86a 0	scripts/survey_agent_control_v2.py
+100644 25a7881e573b91e58a9f68f92e8cb3ee77335d9f 0	tests/test_survey_dm001_019_freeze_equivalence_v2.py
+100644 0eb328b1a1ac9d41302e3a229836a3d9273c6bbd 0	tests/test_survey_dm003_w1_preview_agreement_v2.py
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git remote -v
+exit=0
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git rev-list --format=%H %P e1705b7fed01369767ab9d827c0360117d54aa1f
+exit=0
+commit e1705b7fed01369767ab9d827c0360117d54aa1f
+e1705b7fed01369767ab9d827c0360117d54aa1f 222a37e9ee2aa96724a491f2c04c2583a86b9650
+commit 222a37e9ee2aa96724a491f2c04c2583a86b9650
+222a37e9ee2aa96724a491f2c04c2583a86b9650 ff6c67f68e12b3093901248219f2de2872e54d73
+commit ff6c67f68e12b3093901248219f2de2872e54d73
+ff6c67f68e12b3093901248219f2de2872e54d73 490414cef5be71d3b373171d8abeb0674b1f1c71
+commit 490414cef5be71d3b373171d8abeb0674b1f1c71
+490414cef5be71d3b373171d8abeb0674b1f1c71 b40de600e9ed1f80cb278213ccf17aa5f3cd9de3
+commit b40de600e9ed1f80cb278213ccf17aa5f3cd9de3
+b40de600e9ed1f80cb278213ccf17aa5f3cd9de3 774dd39a951c9ac3818e83dfffd4c7666efb0a20
+commit 774dd39a951c9ac3818e83dfffd4c7666efb0a20
+774dd39a951c9ac3818e83dfffd4c7666efb0a20 
+
+$ [git] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# git verify-pack -v /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-w1-implementation/evidence-20261004T072423Z/w1-222-to-e1705b7.idx
+exit=0
+e1705b7fed01369767ab9d827c0360117d54aa1f commit 292 213 12
+3d21322587b9e4d3d05d7ae9ef66fbd1d74d3557 tree   487 445 225
+79b277347028a9880195ededeea5546c6bf9447a tree   13928 6622 670
+d58db79b8ce43a2cb55814a38ff7542ff556f86a blob   123675 23474 7292
+467bd658eeec7139f49b70619cb40f2b0d2628c2 tree   13420 6692 30766
+25a7881e573b91e58a9f68f92e8cb3ee77335d9f blob   92436 16715 37458
+0eb328b1a1ac9d41302e3a229836a3d9273c6bbd blob   17928 3663 54173
+non delta: 7 objects
+/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm003-w1-implementation/evidence-20261004T072423Z/w1-222-to-e1705b7.pack: ok
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e e1705b7fed01369767ab9d827c0360117d54aa1f
+exit=0
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e 3d21322587b9e4d3d05d7ae9ef66fbd1d74d3557
+exit=0
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e 79b277347028a9880195ededeea5546c6bf9447a
+exit=0
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e d58db79b8ce43a2cb55814a38ff7542ff556f86a
+exit=0
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e 467bd658eeec7139f49b70619cb40f2b0d2628c2
+exit=0
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e 25a7881e573b91e58a9f68f92e8cb3ee77335d9f
+exit=0
+
+$ [cat-file-e] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# git cat-file -e 0eb328b1a1ac9d41302e3a229836a3d9273c6bbd
+exit=0
+
+$ [stat] (cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey)
+# stat -c restore-20pack dev=%d ino=%i nlink=%h bytes=%s /tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60/.git/objects/pack/dm001019-successor-20.pack
+exit=0
+restore-20pack dev=45 ino=51564 nlink=1 bytes=46164
+
+$ [stat] (cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey)
+# stat -c restore-w1pack dev=%d ino=%i nlink=%h bytes=%s /tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60/.git/objects/pack/w1-222-to-e1705b7.pack
+exit=0
+restore-w1pack dev=45 ino=51565 nlink=1 bytes=57856
+
+$ [alternates] (cwd=/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z)
+# ls .git/objects/info/alternates
+exit=2
+ls: cannot access '.git/objects/info/alternates': No such file or directory
+
+$ [alternates] (cwd=/tmp/opencode/jgas-dm003w1-restore-20261004T073938Z/candidate-partial-b40de60)
+# ls .git/objects/info/alternates
+exit=2
+ls: cannot access '.git/objects/info/alternates': No such file or directory
+
+$ [git] (cwd=/tmp/opencode/jgas-dm001019-impl-20261003T100801Z)
+# git rev-parse HEAD
+exit=0
+222a37e9ee2aa96724a491f2c04c2583a86b9650
+
+$ [git] (cwd=/tmp/opencode/jgas-dm001019-impl-20261003T100801Z)
+# git status --porcelain=v1
+exit=0
+
+$ [git] (cwd=/tmp/opencode/jgas-dm001019-chainrestore-20261003T150500Z/candidate-partial-b40de60)
+# git rev-parse HEAD
+exit=0
+222a37e9ee2aa96724a491f2c04c2583a86b9650
+
+$ [git] (cwd=/tmp/opencode/jgas-dm001019-chainrestore-20261003T150500Z/candidate-partial-b40de60)
+# git status --porcelain=v1
+exit=0
+

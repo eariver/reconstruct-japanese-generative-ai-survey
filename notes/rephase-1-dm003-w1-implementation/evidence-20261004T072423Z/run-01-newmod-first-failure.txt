@@ -1,0 +1,41 @@
+# Run-01 first attempt: new W1 module (pre-commit, control 7974551f), 2026-10-04
+# Command (cwd /tmp/opencode/jgas-dm003w1-impl-20261004T072423Z):
+#   GIT_NO_LAZY_FETCH=1 GIT_ALLOW_PROTOCOL=file GIT_OPTIONAL_LOCKS=0 PYTHONDONTWRITEBYTECODE=1 \
+#     /tmp/opencode/candidate-recovery-tooling-20261003T0435Z/venv/bin/python \
+#     -m unittest tests.test_survey_dm003_w1_preview_agreement_v2 -v
+# Runtime: pinned Python 3.12.14. Guard newmod-before: OK (HEAD 222a37e, tracked = 2 intended paths).
+# Result: Ran 6 tests in 76.838s — 5 ok, 1 ERROR (test_pending_inert_no_approval).
+# Cause: fresh SpecialFixture at VALIDATED_DRAFT has no publication-candidate-v2.json yet
+# (candidate is built during _special_advance_to_rc), so build_preview_approval for the
+# inert record raised before any State/wrapper assertion. Failure preserved verbatim below;
+# correction (run-02 target): pending/inert leg uses RC-advanced WeeklyCanonicalFixture
+# (DM001/019 w5 pattern) which has a candidate; fresh-Special pending-valid assert kept.
+# No validator weakening; no other file touched.
+#
+# ---- runner-captured stream (run-01) ----
+test_equal_but_stale_or_noncanonical_still_rejected (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_equal_but_stale_or_noncanonical_still_rejected) ... ok
+test_healthy_special_positive_to_frozen (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_healthy_special_positive_to_frozen) ... ok
+test_healthy_weekly_positive (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_healthy_weekly_positive) ... ok
+test_null_pathonly_hashonly_rejected (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_null_pathonly_hashonly_rejected) ... ok
+test_pending_inert_no_approval (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_pending_inert_no_approval) ... ERROR
+test_s3_repaired_split_rejected_before_writes (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_s3_repaired_split_rejected_before_writes) ... ok
+======================================================================
+ERROR: test_pending_inert_no_approval (tests.test_survey_dm003_w1_preview_agreement_v2.DM003W1PreviewAgreementTests.test_pending_inert_no_approval)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z/tests/test_survey_dm003_w1_preview_agreement_v2.py", line 302, in test_pending_inert_no_approval
+    publication.build_preview_approval(
+  File "/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z/scripts/survey_publication_v2.py", line 825, in build_preview_approval
+    candidate = validate_candidate(repo_root, candidate_path)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z/scripts/survey_publication_v2.py", line 750, in validate_candidate
+    payload = schema_gate.load_and_validate_json(path, repo_root / CANDIDATE_SCHEMA, label="Publication Candidate")
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm003w1-impl-20261004T072423Z/scripts/survey_schema_v2.py", line 73, in load_and_validate_json
+    raise SchemaConformanceError(f"{label} path is missing or unsafe: {path}")
+scripts.survey_schema_v2.SchemaConformanceError: Publication Candidate path is missing or unsafe: /tmp/opencode/jgas-dm003w1-impl-20261004T072423Z/sources/SP-DM003-W1J/publication/v2/publication-candidate-v2.json
+----------------------------------------------------------------------
+Ran 6 tests in 76.838s
+FAILED (errors=1)
+EXIT=1
+# ---- end run-01 stream ----
