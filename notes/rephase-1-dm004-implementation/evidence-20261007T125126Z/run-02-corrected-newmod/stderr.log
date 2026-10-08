@@ -1,0 +1,56 @@
+test_cli_contract_refusals_have_no_effects (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_cli_contract_refusals_have_no_effects) ... ok
+test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline) ... ok
+test_failfast_uses_extracted_line_on_semantic_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_uses_extracted_line_on_semantic_invalid) ... ok
+test_generic_cli_accepts_valid_frozen_and_released (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_generic_cli_accepts_valid_frozen_and_released) ... ok
+test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors) ... ok
+test_legacy_selection_rationale_is_source_grounded (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_legacy_selection_rationale_is_source_grounded)
+Static rationale lock: the legacy CLI was not selected because its ... ok
+test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) ... 
+  test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) (case='repo-relative') ... FAIL
+  test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) (case='absolute-in-repo') ... FAIL
+  test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) (case='normalized-dotdot-inside') ... FAIL
+test_validate_state_rejects_outside_paths (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_rejects_outside_paths) ... ERROR
+
+======================================================================
+ERROR: test_validate_state_rejects_outside_paths (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_rejects_outside_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 237, in test_validate_state_rejects_outside_paths
+    state_path, _, _ = state_paths(fix)
+                       ^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 94, in state_paths
+    state = fix.src / "production-state.json"
+            ^^^^^^^
+AttributeError: 'tuple' object has no attribute 'src'
+
+======================================================================
+FAIL: test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) (case='repo-relative')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 295, in test_validate_state_accepts_from_other_cwd
+    self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+AssertionError: 2 != 0 : /tmp/opencode/candidate-recovery-tooling-20261003T0435Z/venv/bin/python: can't open file '/tmp/opencode/dm004-escape-CWD/scripts/survey_agent_control_v2.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) (case='absolute-in-repo')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 302, in test_validate_state_accepts_from_other_cwd
+    self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+AssertionError: 2 != 0 : /tmp/opencode/candidate-recovery-tooling-20261003T0435Z/venv/bin/python: can't open file '/tmp/opencode/dm004-escape-CWD/scripts/survey_agent_control_v2.py': [Errno 2] No such file or directory
+
+
+======================================================================
+FAIL: test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) (case='normalized-dotdot-inside')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 310, in test_validate_state_accepts_from_other_cwd
+    self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+AssertionError: 2 != 0 : /tmp/opencode/candidate-recovery-tooling-20261003T0435Z/venv/bin/python: can't open file '/tmp/opencode/dm004-escape-CWD/scripts/survey_agent_control_v2.py': [Errno 2] No such file or directory
+
+
+----------------------------------------------------------------------
+Ran 8 tests in 158.623s
+
+FAILED (failures=3, errors=1)

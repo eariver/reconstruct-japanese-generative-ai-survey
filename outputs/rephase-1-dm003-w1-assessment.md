@@ -1,5 +1,7 @@
 # DM003-W1 — shared approved-Preview agreement bounded completion
 
+**Successor update 2026-10-07:** [DM-004 at409b292](rephase-1-dm004-assessment.md) bounded repairs the agent validation CLI/local closure prerequisite with new21-method evidence and independent review. This does not backfill W1's missing command/guard transcripts. Current next unit is LONGFORM_SPECIAL direct-source/supporting-surface contract analysis after the DM004 Commit Point; W1/DM004 tasks below remain historical.
+
 Recorded **2026-10-05T00:43:16+09:00** (Astra clock). Started after Human Push at clean reconstruct **a375eb9c1213b89f66cd5449cca8126fd1c60b7c**, local tracking synchronized without fetch. **Local DM003-W1 is bounded repaired at e1705b7. Stop at this Human Commit Point.** Production baseline **774dd39a951c9ac3818e83dfffd4c7666efb0a20** is unchanged. Whole candidate **NOT_READY**, step4/B3 OPEN, canonical seven-point audit unstarted.
 
 ## 1. Scope and exact identity

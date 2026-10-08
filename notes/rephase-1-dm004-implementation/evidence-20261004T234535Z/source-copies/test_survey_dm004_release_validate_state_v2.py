@@ -1,0 +1,375 @@
+"""DM-004 Release workflow/CLI/State-validation bounded acceptance.
+
+Uses the existing real-validator DM001/019 SpecialFixture (imported, not
+copied) to reach FROZEN, then real merge-verification/release-record builders
+and the real release-checkpoint CLI to reach RELEASED. No authority/Git
+success mocks in any new case; the synthetic release reference never claims a
+real remote Release. Research/editorial/visual/Human content is synthetic.
+"""
+from __future__ import annotations
+
+import importlib.util
+import json
+import os
+import shlex
+import subprocess
+import sys
+import tempfile
+import unittest
+from datetime import timedelta
+from pathlib import Path
+
+from scripts import survey_agent_control_v2 as agent
+from scripts import survey_production_v2 as core
+from scripts import survey_profiled_freeze_v2 as profiled
+from scripts import survey_publication_v2 as publication
+
+ROOT = Path(".").resolve()
+_DM001019_SPEC = importlib.util.spec_from_file_location(
+    "dm004_dm001019_fixture",
+    ROOT / "tests/test_survey_dm001_019_freeze_equivalence_v2.py",
+)
+assert _DM001019_SPEC is not None and _DM001019_SPEC.loader is not None
+_DM = importlib.util.module_from_spec(_DM001019_SPEC)
+_DM001019_SPEC.loader.exec_module(_DM)
+
+ISSUE_PREFIX = "SP-DM004"
+SURVEY_PREFIX = "surveys/special/SP-DM004"
+AT = _DM.T0 + timedelta(hours=5)
+RELEASE_REF = "synthetic:dm004-offline-no-remote"
+
+PINNED_ENV_KEYS = (
+    "PATH", "PYTHONPATH", "PYTHONDONTWRITEBYTECODE",
+    "GIT_NO_LAZY_FETCH", "GIT_OPTIONAL_LOCKS", "GIT_ALLOW_PROTOCOL", "HOME",
+)
+
+
+def offline_env() -> dict[str, str]:
+    base = {k: os.environ[k] for k in PINNED_ENV_KEYS if k in os.environ}
+    base["PYTHONPATH"] = "."
+    base["PYTHONDONTWRITEBYTECODE"] = "1"
+    base["GIT_NO_LAZY_FETCH"] = "1"
+    base["GIT_OPTIONAL_LOCKS"] = "0"
+    base["GIT_ALLOW_PROTOCOL"] = "file"
+    return base
+
+
+def run_cli(*argv: str, cwd: Path = ROOT) -> subprocess.CompletedProcess:
+    return subprocess.run(
+        [sys.executable, *argv], cwd=str(cwd),
+        env=offline_env(), stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+    )
+
+
+def state_paths(fix) -> tuple[Path, str, str]:
+    state = fix.src / "production-state.json"
+    rel = str(state.relative_to(ROOT))
+    return state, rel, str(state)
+
+
+def build_to_frozen(test: unittest.TestCase, tag: str):
+    issue = f"{ISSUE_PREFIX}-{tag}"
+    survey_rel = f"{SURVEY_PREFIX}-{tag}"
+    for p in (ROOT / "sources" / issue, ROOT / survey_rel):
+        test.assertFalse(p.exists(), f"fixture path not absent: {p}")
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+    test.addCleanup(fix.cleanup)
+    candidate = _DM._special_advance_to_rc(fix, AT)
+    _DM._special_approve(fix, AT)
+    profiled.build_profiled_freeze(ROOT, fix.cfg, fix.src / "production-state.json",
+                                   AT + timedelta(hours=3))
+    validated = publication.validate_candidate(
+        ROOT, fix.src / "publication" / "v2" / "publication-candidate-v2.json",
+        issue_id=issue)
+    artifacts = {
+        "visual-review-record": ROOT / validated["visual_review"]["path"],
+        "freeze-record": fix.src / "publication" / "v2" / "freeze-record-v2.json",
+        "release-manifest": fix.src / "publication" / "v2" / "release-manifest-v2.json",
+    }
+    _DM._special_advance_to_frozen(fix, artifacts, AT, "dm004")
+    state = core.load_json(fix.src / "production-state.json")
+    test.assertEqual(state["lifecycle_state"], "FROZEN")
+    test.assertEqual(agent.validate_agent_state(ROOT, fix.cfg, state), [])
+    return fix
+
+
+def build_to_released(test: unittest.TestCase, tag: str):
+    fix = build_to_frozen(test, tag)
+    frozen_state = core.load_json(fix.src / "production-state.json")
+    release_cp = agent.canonical_checkpoint_path(ROOT, fix.cfg, frozen_state)
+    pub = fix.src / "publication" / "v2"
+    manifest = pub / "release-manifest-v2.json"
+    verification = pub / "merge-verification-v2.json"
+    record = pub / "release-record-v2.json"
+    impl = core.repository_commit_sha(ROOT)
+    publication.build_merge_verification(
+        ROOT, manifest, impl, AT + timedelta(hours=5), verification)
+    publication.build_release_record(
+        ROOT, manifest, verification, AT + timedelta(hours=6),
+        RELEASE_REF, record)
+    proc = run_cli("scripts/survey_release_checkpoint_v2.py",
+                   "--repo-root", str(ROOT),
+                   "--state", str(fix.src / "production-state.json"),
+                   "--merge-verification", str(verification),
+                   "--release-record", str(record))
+    test.assertEqual(proc.returncode, 0, proc.stderr.decode())
+    state = core.load_json(fix.src / "production-state.json")
+    test.assertEqual(state["lifecycle_state"], "RELEASED")
+    test.assertIsNone(state["next_action"])
+    test.assertEqual(state["terminal_reason"], "COMPLETE")
+    test.assertEqual(agent.validate_agent_state(ROOT, fix.cfg, state), [])
+    test.assertTrue(release_cp.is_file())
+    return fix, release_cp
+
+
+def extract_closure_step() -> str:
+    text = (ROOT / ".github/workflows/survey-production-v2-release.yml").read_text(
+        encoding="utf-8")
+    name = "- name: Build immutable Release Record and compact Release Stage Checkpoint"
+    start = text.find(name)
+    assert start != -1, "closure step missing from workflow"
+    run_marker = "run: |"
+    run_at = text.find(run_marker, start)
+    assert run_at != -1, "closure step has no run block"
+    lines = text[run_at + len(run_marker):].splitlines()
+    body: list[str] = []
+    for line in lines[1:]:
+        if line.strip() == "":
+            body.append("")
+            continue
+        if not line.startswith("          ") and line.strip():
+            break
+        body.append(line[10:] if line.startswith("          ") else line)
+    block = "\n".join(body)
+    assert "publication.build_release_record" in block
+    assert "scripts/survey_release_checkpoint_v2.py" in block
+    assert "validate-state" in block
+    for forbidden in ("gh release", "gh pr create", "git push", "git switch",
+                      "git config user", "gh api", "actions/checkout",
+                      "setup-python"):
+        assert forbidden not in block, f"non-local command in closure block: {forbidden}"
+    return block
+
+
+class DM004ReleaseValidateStateTests(unittest.TestCase):
+    def test_generic_cli_accepts_valid_frozen_and_released(self) -> None:
+        # FROZEN control first on a dedicated fixture, then RELEASED.
+        frozen_fix = build_to_frozen(self, "POSF")
+        state_path, rel, absolute = state_paths(frozen_fix)
+        before = state_path.read_bytes()
+        with self.subTest(stage="FROZEN-relative"):
+            proc = run_cli("scripts/survey_agent_control_v2.py",
+                           "--repo-root", ".", "validate-state", "--state", rel)
+            self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+            payload = json.loads(proc.stdout.decode())
+            self.assertEqual(
+                (payload["valid"], payload["lifecycle_state"]), (True, "FROZEN"))
+        with self.subTest(stage="FROZEN-absolute"):
+            proc = run_cli("scripts/survey_agent_control_v2.py",
+                           "--repo-root", str(ROOT),
+                           "validate-state", "--state", absolute)
+            self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+        self.assertEqual(state_path.read_bytes(), before)
+        released_fix, _ = build_to_released(self, "POSR")
+        rpath, rrel, _ = state_paths(released_fix)
+        rbefore = rpath.read_bytes()
+        proc = run_cli("scripts/survey_agent_control_v2.py",
+                       "--repo-root", ".", "validate-state", "--state", rrel)
+        self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+        payload = json.loads(proc.stdout.decode())
+        self.assertEqual(
+            (payload["valid"], payload["lifecycle_state"],
+             payload["terminal_reason"]),
+            (True, "RELEASED", "COMPLETE"))
+        self.assertEqual(rpath.read_bytes(), rbefore)
+
+    def test_invalid_states_rejected_with_discriminative_errors(self) -> None:
+        fix, checkpoint = build_to_released(self, "NEG")
+        state_path, rel, _ = state_paths(fix)
+        valid_state = state_path.read_bytes()
+        pub = fix.src / "publication" / "v2"
+        valid_checkpoint = checkpoint.read_bytes()
+
+        valid_record = (pub / "release-record-v2.json").read_bytes()
+
+        def cli() -> subprocess.CompletedProcess:
+            return run_cli("scripts/survey_agent_control_v2.py",
+                           "--repo-root", ".", "validate-state", "--state", rel)
+
+        def restore() -> None:
+            state_path.write_bytes(valid_state)
+            checkpoint.write_bytes(valid_checkpoint)
+            (pub / "release-record-v2.json").write_bytes(valid_record)
+
+        cases = [
+            "drifted-release-provenance-sha",
+            "removed-release-record",
+            "release-checkpoint-pending",
+            "malformed-state-json",
+            "missing-state-file",
+        ]
+        for case in cases:
+            with self.subTest(case=case):
+                try:
+                    if case == "drifted-release-provenance-sha":
+                        doc = json.loads(valid_state.decode())
+                        doc["checkpoint_provenance"]["release"]["sha256"] = "0" * 64
+                        state_path.write_text(json.dumps(doc), encoding="utf-8")
+                    elif case == "removed-release-record":
+                        (pub / "release-record-v2.json").rename(
+                            pub / "release-record-v2.json.hold")
+                    elif case == "release-checkpoint-pending":
+                        doc = json.loads(valid_state.decode())
+                        doc["machine_checkpoints"]["release"] = "pending"
+                        doc["checkpoint_provenance"]["release"] = None
+                        doc["lifecycle_state"] = "RELEASED"
+                        state_path.write_text(json.dumps(doc), encoding="utf-8")
+                    elif case == "malformed-state-json":
+                        state_path.write_text("{not json", encoding="utf-8")
+                    elif case == "missing-state-file":
+                        state_path.rename(fix.src / "production-state.json.bak")
+                    proc = cli()
+                    self.assertEqual(proc.returncode, 2,
+                                     f"{case}: {proc.stdout!r} {proc.stderr!r}")
+                    self.assertTrue(proc.stderr.decode().strip(), case)
+                    self.assertNotIn(b'"valid": true', proc.stdout, case)
+                finally:
+                    hold = pub / "release-record-v2.json.hold"
+                    if hold.exists():
+                        hold.rename(pub / "release-record-v2.json")
+                    moved = fix.src / "production-state.json.bak"
+                    if moved.exists():
+                        moved.rename(state_path)
+                    restore()
+        self.assertEqual(state_path.read_bytes(), valid_state)
+        self.assertEqual(checkpoint.read_bytes(), valid_checkpoint)
+        self.assertEqual(
+            agent.validate_agent_state(
+                ROOT, fix.cfg, core.load_json(state_path)), [])
+
+    def test_cli_contract_refusals_have_no_effects(self) -> None:
+        fix, _ = build_to_released(self, "CON")
+        state_path, rel, _ = state_paths(fix)
+        before = state_path.read_bytes()
+        with self.subTest(case="unknown-command"):
+            proc = run_cli("scripts/survey_agent_control_v2.py",
+                           "--repo-root", ".", "validate-states",
+                           "--state", rel)
+            self.assertEqual(proc.returncode, 2)
+            self.assertIn("invalid choice", proc.stderr.decode())
+        with self.subTest(case="missing-required-state"):
+            proc = run_cli("scripts/survey_agent_control_v2.py",
+                           "--repo-root", ".", "validate-state")
+            self.assertEqual(proc.returncode, 2)
+            self.assertIn("--state", proc.stderr.decode())
+        with self.subTest(case="rejected-implementation-sha-flag"):
+            proc = run_cli("scripts/survey_agent_control_v2.py",
+                           "--repo-root", ".", "validate-state",
+                           "--state", rel, "--implementation-sha", "0" * 40)
+            self.assertEqual(proc.returncode, 2)
+            self.assertIn("unrecognized arguments", proc.stderr.decode())
+        self.assertEqual(state_path.read_bytes(), before)
+
+    def test_extracted_workflow_closure_block_offline(self) -> None:
+        block = extract_closure_step()
+        for token in ('--state "$STATE"',
+                      '--merge-verification "${SOURCE_ROOT}/publication/v2/merge-verification-v2.json"',
+                      '--release-record "${SOURCE_ROOT}/publication/v2/release-record-v2.json"',
+                      "build_release_record",
+                      "merge-verification-v2.json",
+                      "release-record-v2.json"):
+            self.assertIn(token, block)
+        fix = build_to_frozen(self, "CLO")
+        frozen_state = core.load_json(fix.src / "production-state.json")
+        expected_cp = agent.canonical_checkpoint_path(ROOT, fix.cfg, frozen_state)
+        self.assertEqual(expected_cp.name, "FROZEN.json")
+        pub = fix.src / "publication" / "v2"
+        manifest = pub / "release-manifest-v2.json"
+        verification = pub / "merge-verification-v2.json"
+        record = pub / "release-record-v2.json"
+        publication.build_merge_verification(
+            ROOT, manifest, core.repository_commit_sha(ROOT),
+            AT + timedelta(hours=5), verification)
+        source_root = str(fix.src.relative_to(ROOT))
+        manifest_rel = str(manifest.relative_to(ROOT))
+        state_rel = str((fix.src / "production-state.json").relative_to(ROOT))
+        heredoc = block.split("python - <<'PY'")[1].split("\nPY")[0]
+        step_env = dict(offline_env())
+        step_env.update({
+            "STATE": state_rel,
+            "SOURCE_ROOT": source_root,
+            "MANIFEST": manifest_rel,
+            "RELEASE_URL": RELEASE_REF,
+        })
+        build = subprocess.run(
+            [sys.executable, "-"], cwd=str(ROOT), env=step_env,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+            input=heredoc.encode(), timeout=120)
+        self.assertEqual(build.returncode, 0, build.stderr.decode())
+        self.assertTrue(record.is_file())
+        checkpoint_proc = run_cli(
+            "scripts/survey_release_checkpoint_v2.py",
+            "--repo-root", ".", "--state", state_rel,
+            "--merge-verification",
+            f"{source_root}/publication/v2/merge-verification-v2.json",
+            "--release-record",
+            f"{source_root}/publication/v2/release-record-v2.json")
+        self.assertEqual(checkpoint_proc.returncode, 0,
+                         checkpoint_proc.stderr.decode())
+        validate_proc = run_cli(
+            "scripts/survey_agent_control_v2.py",
+            "--repo-root", ".", "validate-state", "--state", state_rel)
+        self.assertEqual(validate_proc.returncode, 0,
+                         validate_proc.stderr.decode())
+        final = core.load_json(fix.src / "production-state.json")
+        self.assertEqual(final["lifecycle_state"], "RELEASED")
+        self.assertIsNone(final["next_action"])
+        self.assertEqual(final["terminal_reason"], "COMPLETE")
+        self.assertEqual(final["machine_checkpoints"]["release"], "passed")
+        authority = final["checkpoint_provenance"]["release"]
+        checkpoint_path = expected_cp
+        self.assertTrue(checkpoint_path.is_file())
+        self.assertEqual(authority["path"],
+                         str(checkpoint_path.relative_to(ROOT)))
+        self.assertEqual(authority["sha256"],
+                         core.sha256_file(checkpoint_path))
+        self.assertEqual(agent.validate_agent_state(ROOT, fix.cfg, final), [])
+
+    def test_failfast_suppresses_sentinel_on_invalid(self) -> None:
+        temp = tempfile.TemporaryDirectory(dir=ROOT)
+        self.addCleanup(temp.cleanup)
+        bad = Path(temp.name) / "bad-state.json"
+        bad.write_text("{not json", encoding="utf-8")
+        sentinel = Path(temp.name) / "sentinel"
+        script = (
+            "set -euo pipefail; "
+            f"{shlex.quote(sys.executable)} scripts/survey_agent_control_v2.py "
+            f"--repo-root . validate-state --state {shlex.quote(str(bad.relative_to(ROOT)))}; "
+            f"touch {shlex.quote(str(sentinel))}"
+        )
+        proc = subprocess.run(
+            ["bash", "-c", script], cwd=str(ROOT), env=offline_env(),
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        self.assertNotEqual(proc.returncode, 0)
+        self.assertFalse(sentinel.exists())
+
+    def test_legacy_core_validate_state_is_not_equivalent(self) -> None:
+        temp = tempfile.TemporaryDirectory(dir=ROOT)
+        self.addCleanup(temp.cleanup)
+        dangling = Path(temp.name) / "dangling-state.json"
+        dangling.write_text(json.dumps({
+            "profile": {"path": "sources/NOPE/profile.json", "sha256": "0" * 64},
+        }), encoding="utf-8")
+        rel = str(dangling.relative_to(ROOT))
+        legacy = run_cli("scripts/survey_production_v2.py",
+                         "--repo-root", ".", "validate-state", "--state", rel)
+        current = run_cli("scripts/survey_agent_control_v2.py",
+                          "--repo-root", ".", "validate-state", "--state", rel)
+        self.assertEqual(legacy.returncode, 1, legacy.stderr.decode())
+        self.assertIn("passed", legacy.stdout.decode())
+        self.assertEqual(current.returncode, 2, current.stderr.decode())
+        self.assertIn("Production State invalid", current.stderr.decode())
+
+
+if __name__ == "__main__":
+    unittest.main()

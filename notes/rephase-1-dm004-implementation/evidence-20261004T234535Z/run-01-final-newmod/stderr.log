@@ -1,0 +1,62 @@
+test_cli_contract_refusals_have_no_effects (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_cli_contract_refusals_have_no_effects) ... ok
+test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline) ... FAIL
+test_failfast_suppresses_sentinel_on_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_suppresses_sentinel_on_invalid) ... ERROR
+test_generic_cli_accepts_valid_frozen_and_released (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_generic_cli_accepts_valid_frozen_and_released) ... FAIL
+test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors) ... ERROR
+test_legacy_core_validate_state_is_not_equivalent (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_legacy_core_validate_state_is_not_equivalent) ... ok
+
+======================================================================
+ERROR: test_failfast_suppresses_sentinel_on_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_suppresses_sentinel_on_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 342, in test_failfast_suppresses_sentinel_on_invalid
+    f"touch {shlex.quote(str(sentin))}"
+                             ^^^^^^
+NameError: name 'sentin' is not defined. Did you mean: 'sentinel'?
+
+======================================================================
+ERROR: test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 189, in test_invalid_states_rejected_with_discriminative_errors
+    valid_checkpoint = checkpoint.read_bytes()
+                       ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/candidate-recovery-tooling-20261003T0435Z/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/candidate-recovery-tooling-20261003T0435Z/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/opencode/jgas-dm004-impl-20261004T234416Z/sources/SP-DM004/orchestration/v2/checkpoints/RELEASED.json'
+
+======================================================================
+FAIL: test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 326, in test_extracted_workflow_closure_block_offline
+    self.assertEqual(authority["path"],
+AssertionError: 'sources/SP-DM004/orchestration/v2/checkpoints/FROZEN.json' != 'sources/SP-DM004/orchestration/v2/checkpoints/RELEASED.json'
+- sources/SP-DM004/orchestration/v2/checkpoints/FROZEN.json
+?                                               - -- ^
++ sources/SP-DM004/orchestration/v2/checkpoints/RELEASED.json
+?                                                 ^^^^^^
+
+
+======================================================================
+FAIL: test_generic_cli_accepts_valid_frozen_and_released (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_generic_cli_accepts_valid_frozen_and_released)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 169, in test_generic_cli_accepts_valid_frozen_and_released
+    released_fix = build_to_released(self)
+                   ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 96, in build_to_released
+    fix = build_to_frozen(test)
+          ^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm004-impl-20261004T234416Z/tests/test_survey_dm004_release_validate_state_v2.py", line 73, in build_to_frozen
+    test.assertFalse(p.exists(), f"fixture path not absent: {p}")
+AssertionError: True is not false : fixture path not absent: /tmp/opencode/jgas-dm004-impl-20261004T234416Z/sources/SP-DM004
+
+----------------------------------------------------------------------
+Ran 6 tests in 78.443s
+
+FAILED (failures=2, errors=2)
