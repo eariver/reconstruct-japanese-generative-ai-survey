@@ -1,0 +1,48 @@
+=== disposable copy ===
+20261009T021848Z
+cp_exit:0
+--- disposable HEAD/tree/status ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+head_exit:0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+tree_exit:0
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+status_exit:0
+--- disposable remote/alternates ---
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+ls: cannot access '/tmp/opencode/jgas-lf1-proof-disposable-20261009T023000Z/.git/objects/info/alternates': No such file or directory
+(no alternates)
+--- inode separation candidate-vs-disposable objects ---
+0
+--- candidate pre-proof status (must stay clean) ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== runner on disposable with postdrift hook (fast pure test) ===
+RUNNER_DONE log=notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/proof-postdrift.log child_exit=0 postguard=FAILED
+runner_shell_exit:0
+=== post-proof checks ===
+CHILD_SPAWN
+PROOF_POSTDRIFT planted: drift-canary-proof.json (disposable dst only, disclosed)
+unittest_exit:0
+POSTGUARD_FAILED: status predicate failed:
+OUTCOME=POSTGUARD_FAILED
+--- candidate status after proof (must be unchanged) ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+candidate_diff_exit:0
+--- drift canary locations ---
+/tmp/opencode/jgas-lf1-proof-disposable-20261009T023000Z/drift-canary-proof.json
+ls: cannot access '/tmp/opencode/jgas-lf1-design-20261009T001653Z/drift-canary-proof.json': No such file or directory
+(no canary in candidate, correct)
+=== corrected runner exit capture (pipefail artifact fixed) ===
+RUNNER_EXIT:3 (child_exit=0, postguard=FAILED → exit 3)
+=== cleanup proof disposable (candidate untouched) ===
+rm_exit:0
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py

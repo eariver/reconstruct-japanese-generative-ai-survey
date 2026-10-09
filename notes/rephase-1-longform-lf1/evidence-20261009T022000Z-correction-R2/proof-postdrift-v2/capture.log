@@ -1,0 +1,84 @@
+=== proof-postdrift v2: direct returncode capture (no shell pipe) ===
+candidate=/tmp/opencode/jgas-lf1-design-20261009T001653Z
+disposable(NEW)=/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z
+runner=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/run_evidence.py (unmodified final pins)
+CHECK env-absent:GIT_DIR: PASS
+CHECK env-absent:GIT_WORK_TREE: PASS
+CHECK env-absent:GIT_INDEX_FILE: PASS
+CHECK env-absent:GIT_OBJECT_DIRECTORY: PASS
+CHECK env-absent:GIT_ALTERNATE_OBJECT_DIRECTORIES: PASS
+CHECK env-absent:GIT_COMMON_DIR: PASS
+CHECK env-absent:PYTHONPATH: PASS
+CHECK env-absent:PYTHONHOME: PASS
+=== candidate pre-proof (must be clean 3-path overlay) ===
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z status --porcelain=v1 --untracked-files=all
+returncode=0
+--- stdout ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z diff --name-only HEAD
+returncode=0
+CHECK cand-pre-status-exit: PASS
+CHECK cand-pre-status-exact: PASS
+CHECK cand-pre-diff-empty: PASS
+=== fresh disposable byte-copy (never the old one, which was removed) ===
+CHECK disp-absent-before: PASS (/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z)
+$ cp -a /tmp/opencode/jgas-lf1-design-20261009T001653Z /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z
+returncode=0
+CHECK cp-exit: PASS
+$ git -C /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z rev-parse HEAD
+returncode=0
+--- stdout ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+$ git -C /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z rev-parse HEAD^{tree}
+returncode=0
+--- stdout ---
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+$ git -C /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z status --porcelain=v1 --untracked-files=all
+returncode=0
+--- stdout ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+CHECK disp-head: PASS (409b292756dd1277b9dfae87679934c0d2ce251c)
+CHECK disp-tree: PASS (8ce3699861505f32d1d60bdc185d4d4f635aedb2)
+CHECK disp-status-exact: PASS
+$ git -C /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z remote -v
+returncode=0
+--- stdout ---
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+CHECK disp-remote-inert: PASS
+CHECK disp-no-alternates: PASS
+$ find /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z/.git/objects -type f -links +1
+returncode=0
+CHECK disp-no-multilink: PASS
+CHECK inode-separation: PASS (shared=0)
+=== runner on disposable with postdrift hook (fast pure test child) ===
+CHECK runner-log-absent-before: PASS (/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/proof-postdrift-v2/runner-postdrift-v2.log)
+$ /usr/bin/python3 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/run_evidence.py /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/proof-postdrift-v2/runner-postdrift-v2.log --dst /tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z --proof-postdrift-file drift-canary-proof-v2.json -- tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_pure_policy_boundaries_without_chain
+returncode=3
+--- stderr ---
+RUNNER_DONE log=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/proof-postdrift-v2/runner-postdrift-v2.log child_exit=0 postguard=FAILED
+CHECK runner-returncode-is-3: PASS (got=3)
+CHECK runner-log-child-0: PASS
+CHECK runner-log-postguard-failed: PASS
+CHECK canary-in-disposable: PASS
+=== candidate post-proof (must be identical, canary-free) ===
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z status --porcelain=v1 --untracked-files=all
+returncode=0
+--- stdout ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z diff --name-only HEAD
+returncode=0
+CHECK cand-post-status-identical: PASS
+CHECK cand-post-diff-empty: PASS
+CHECK canary-absent-in-candidate: PASS
+=== cleanup disposable ===
+CHECK disp-removed: PASS (/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z)
+=== verdict ===
+VERDICT=PASS (child 0 + postdrift -> runner exit 3, direct capture)
+DONE

@@ -1,0 +1,30 @@
+20261009T021035Z
+SRC HEAD:
+409b292756dd1277b9dfae87679934c0d2ce251c
+cp -a SRC VERIFY
+VERIFY HEAD/tree/status/remote:
+409b292756dd1277b9dfae87679934c0d2ce251c
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+isolation: alternates/hardlinks/inode-sharing:
+ls: cannot access '/tmp/opencode/jgas-lf1-verify-20261009T120000Z/.git/objects/info/alternates': No such file or directory
+0
+apply overlay.patch --check:
+apply exit:0
+=== apply --check (absolute) ===
+check_exit:0
+=== apply ===
+apply_exit:0
+=== post-apply status/hashes ===
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+diff_exit:0
+abd50864e5065d7d69a6c3ccc13d01915be4654aee4aedeac1eb60f9aa33987f  /tmp/opencode/jgas-lf1-verify-20261009T120000Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-verify-20261009T120000Z/schemas/longform-reader-input-v2.schema.json
+d4ab5361c7741d10dbe5986bf1f62b85a21646a8e220641469e6395389ba2ca6  /tmp/opencode/jgas-lf1-verify-20261009T120000Z/tests/test_survey_longform_derivation_v2.py
+=== expected ===
+abd50864e5065d7d69a6c3ccc13d01915be4654aee4aedeac1eb60f9aa33987f  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+d4ab5361c7741d10dbe5986bf1f62b85a21646a8e220641469e6395389ba2ca6  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py

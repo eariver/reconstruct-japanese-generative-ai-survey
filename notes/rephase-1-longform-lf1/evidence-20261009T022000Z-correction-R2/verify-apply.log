@@ -1,0 +1,40 @@
+=== fresh byte-copy of original 409 (no reset of any prior copy) ===
+20261009T025630Z
+--- src identity ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+src_head_exit:0
+src_status_exit:0
+cp_exit:0
+--- verify HEAD/tree/status/remote ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+head_exit:0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+tree_exit:0
+status_exit:0
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+ls: cannot access '/tmp/opencode/jgas-lf1-verify-20261009T023000Z/.git/objects/info/alternates': No such file or directory
+(no alternates)
+--- inode separation src-vs-verify objects ---
+0
+--- hardlinked objects in verify ---
+0
+=== apply --check ===
+check_exit:0
+=== apply ===
+apply_exit:0
+=== post-apply status/diff/hashes ===
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+post_status_exit:0
+post_diff_exit:0
+233e86557f1627203a4f1e4129c953bf34e1319bd8949b1d58b7d417b0744cf7  /tmp/opencode/jgas-lf1-verify-20261009T023000Z/scripts/survey_longform_derivation_v2.py
+7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643  /tmp/opencode/jgas-lf1-verify-20261009T023000Z/schemas/longform-reader-input-v2.schema.json
+ce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913  /tmp/opencode/jgas-lf1-verify-20261009T023000Z/tests/test_survey_longform_derivation_v2.py
+=== expected ===
+233e86557f1627203a4f1e4129c953bf34e1319bd8949b1d58b7d417b0744cf7  scripts/survey_longform_derivation_v2.py
+7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643  schemas/longform-reader-input-v2.schema.json
+ce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913  tests/test_survey_longform_derivation_v2.py
+=== limits ===
+partialDB: b40-derived partial history (26309 missing blobs inherited); runtime python pinned env not bundled; available-partial content only, not all-history.

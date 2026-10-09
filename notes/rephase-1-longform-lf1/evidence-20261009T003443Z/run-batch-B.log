@@ -1,0 +1,81 @@
+=== PRE identity ===
+409b292756dd1277b9dfae87679934c0d2ce251c
+pre_head_exit:0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+pre_tree_exit:0
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+pre_status_exit:0
+=== PRE guard: only 3 intended new paths ===
+untracked_lines:3
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== PRE guard: no tracked modifications ===
+tracked_diff_exit:0
+=== PRE guard: no GIT overrides ===
+(no GIT overrides)
+=== PRE file snapshot ===
+c35eed84b5fe05fdd218581a919fd8aae732ccd4c2bbc9a0c159d8a43e17ba26  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+b24422bfd12dea1af92e0d6309da3bac1be3c4d6ebfd8ba3397a2b1fc5a698c3  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+=== RUN ===
+20261009T005848Z
+...E..E
+======================================================================
+ERROR: test_needs_more_evidence_refuses (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_needs_more_evidence_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 718, in test_needs_more_evidence_refuses
+    chain = self._complete_authorities(self._chain(card_status="NEEDS_MORE"))
+                                       ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 147, in _chain
+    views = helper.make_views(root, profile_path, evidence_acceptance)
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_evidence_v2.py", line 308, in make_views
+    return evidence.accept_edition_views(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root,
+        ^^^^^
+    ...<4 lines>...
+        IMPLEMENTATION_SHA,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_evidence_v2.py", line 1254, in accept_edition_views
+    raise ValueError(f"Edition Evidence View {task_id} invalid: {'; '.join(errors)}")
+ValueError: Edition Evidence View evidence:SP001:753e9a5e697f7cf2 invalid: NEEDS_MORE factual Evidence must remain HOLD in Edition View
+
+======================================================================
+ERROR: test_unsafe_canonical_url_refuses (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_unsafe_canonical_url_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 759, in test_unsafe_canonical_url_refuses
+    chain = self._complete_authorities(self._chain(card_hook=hook))
+                                       ~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 135, in _chain
+    evidence_acceptance = evidence.accept_evidence_results(
+        root, package_path, results_dir, root / "sources" / issue / "evidence" / "v2" / "runs", head,
+    )
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_evidence_v2.py", line 1078, in accept_evidence_results
+    raise ValueError(f"Evidence Card {meta['evidence_task_id']} invalid: {'; '.join(errors)}")
+ValueError: Evidence Card evidence:SP001:753e9a5e697f7cf2 invalid: Evidence source source-1 was not explicitly bound to this Evidence task; add it through Discovery/Screening first or use an exact Evidence Authority Supplement
+
+----------------------------------------------------------------------
+Ran 7 tests in 325.585s
+
+FAILED (errors=2)
+unittest_exit:1
+=== POST guard: only 3 intended new paths ===
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== POST guard: no tracked modifications ===
+tracked_diff_exit:0
+=== POST file snapshot ===
+c35eed84b5fe05fdd218581a919fd8aae732ccd4c2bbc9a0c159d8a43e17ba26  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+b24422bfd12dea1af92e0d6309da3bac1be3c4d6ebfd8ba3397a2b1fc5a698c3  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+DONE

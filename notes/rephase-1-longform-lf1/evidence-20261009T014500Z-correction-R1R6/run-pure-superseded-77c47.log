@@ -1,0 +1,54 @@
+=== PRE identity (pinned) ===
+dst=/tmp/opencode/jgas-lf1-design-20261009T001653Z
+expected_head=409b292756dd1277b9dfae87679934c0d2ce251c actual_head=409b292756dd1277b9dfae87679934c0d2ce251c
+expected_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2 actual_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+expected_mod=abd50864e5065d7d69a6c3ccc13d01915be4654aee4aedeac1eb60f9aa33987f actual_mod=abd50864e5065d7d69a6c3ccc13d01915be4654aee4aedeac1eb60f9aa33987f
+expected_schema=71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b actual_schema=71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b
+expected_test=77c47276548e7a88ef69956cf5ae03fbd1337a0f55ca7e405755d9855c047e2a actual_test=77c47276548e7a88ef69956cf5ae03fbd1337a0f55ca7e405755d9855c047e2a
+--- status ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+--- tracked diff (must be empty) ---
+[]
+=== runtime ===
+interpreter=/usr/bin/python3
+Python 3.14.4
+caller_cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+child_cwd=/tmp/opencode/jgas-lf1-design-20261009T001653Z (child runs from pinned copy)
+argv: python3 -m unittest tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_pure_policy_boundaries_without_chain
+--- env (filtered) ---
+GIT_ALLOW_PROTOCOL=file
+GIT_NO_LAZY_FETCH=1
+GIT_OPTIONAL_LOCKS=0
+LANG=ja_JP.UTF-8
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+PWD=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+PYTHONDONTWRITEBYTECODE=1
+git_remote_inert=origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+git_allow_protocol=file git_no_lazy_fetch=1
+date_utc=20261009T013810Z
+=== RUN (child from pinned copy) ===
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.253s
+
+OK
+unittest_exit:0
+=== POST guard (finally, child exit preserved) ===
+post_head=409b292756dd1277b9dfae87679934c0d2ce251c
+post_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+--- post status ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+--- post tracked diff (must be empty) ---
+post_diff_exit:0
+--- post overlay hashes ---
+abd50864e5065d7d69a6c3ccc13d01915be4654aee4aedeac1eb60f9aa33987f  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+77c47276548e7a88ef69956cf5ae03fbd1337a0f55ca7e405755d9855c047e2a  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+CHILD_PASSED exit=0
+DONE

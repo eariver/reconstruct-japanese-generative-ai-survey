@@ -1,0 +1,68 @@
+=== PRE identity ===
+409b292756dd1277b9dfae87679934c0d2ce251c
+pre_head_exit:0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+pre_tree_exit:0
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+pre_status_exit:0
+=== PRE guard: only 3 intended new paths ===
+untracked_lines:3
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== PRE guard: no tracked modifications ===
+tracked_diff_exit:0
+=== PRE guard: no GIT overrides ===
+(no GIT overrides)
+=== PRE file snapshot ===
+32d85f36edb7546474f674842a7acd22927ba06af2b97ab0c1888b1ccb7cafc4  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+94378fd4a8afeadb88afc4f99e618e3c3bc3d76f92637d956a721220468db8ea  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+=== RUN ===
+20261009T004143Z
+E
+======================================================================
+ERROR: test_valid_single_did_projects_every_category (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_valid_single_did_projects_every_category)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 619, in test_valid_single_did_projects_every_category
+    context = longform.load_derivation(self.root, state_path, chain["authored_path"])
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py", line 873, in load_derivation
+    records, card_refs = _longform_records(
+                         ~~~~~~~~~~~~~~~~~^
+        root, matrix_ref["artifact_path"], ledger_ref["artifact_path"], discovery_ref["artifact_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        evidence_ref["artifact_path"], implementation_sha,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py", line 319, in _longform_records
+    acceptance, _package = evidence.validate_evidence_acceptance(root, acceptance_path, implementation_sha)
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_evidence_v2.py", line 1131, in validate_evidence_acceptance
+    validate_evidence_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_evidence_v2.py", line 741, in validate_evidence_package_basis
+    raise ValueError(f"Evidence package basis drift: {sha_key}")
+ValueError: Evidence package basis drift: state_sha256
+
+----------------------------------------------------------------------
+Ran 1 test in 66.088s
+
+FAILED (errors=1)
+unittest_exit:1
+=== POST guard: only 3 intended new paths ===
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== POST guard: no tracked modifications ===
+tracked_diff_exit:0
+=== POST file snapshot ===
+32d85f36edb7546474f674842a7acd22927ba06af2b97ab0c1888b1ccb7cafc4  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+94378fd4a8afeadb88afc4f99e618e3c3bc3d76f92637d956a721220468db8ea  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+DONE

@@ -1,0 +1,58 @@
+=== PRE identity ===
+409b292756dd1277b9dfae87679934c0d2ce251c
+pre_head_exit:0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+pre_tree_exit:0
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+pre_status_exit:0
+=== PRE guard: only 3 intended new paths ===
+untracked_lines:3
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== PRE guard: no tracked modifications ===
+tracked_diff_exit:0
+=== PRE guard: no GIT overrides ===
+(no GIT overrides)
+=== PRE file snapshot ===
+32d85f36edb7546474f674842a7acd22927ba06af2b97ab0c1888b1ccb7cafc4  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+e5047a8498108bf437bbbbd7b676952012890d503135abc91c978278f2d890c8  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+=== RUN ===
+20261009T003921Z
+E
+======================================================================
+ERROR: test_valid_single_did_projects_every_category (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_valid_single_did_projects_every_category)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 598, in test_valid_single_did_projects_every_category
+    chain = self._complete_authorities(self._chain())
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 350, in _complete_authorities
+    synthesis_input = drafting.build_synthesis_input(
+        root, chain["profile_path"], chain["architecture_path"],
+        chain["review_summary_path"], chain["approval_path"], pairs,
+    )
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_drafting_v2_base.py", line 732, in build_synthesis_input
+    raise ValueError("Draft Package invalid before Synthesis: " + "; ".join(package_errors))
+ValueError: Draft Package invalid before Synthesis: Draft Package canonical accepted Evidence authority is missing
+
+----------------------------------------------------------------------
+Ran 1 test in 0.877s
+
+FAILED (errors=1)
+unittest_exit:1
+=== POST guard: only 3 intended new paths ===
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== POST guard: no tracked modifications ===
+tracked_diff_exit:0
+=== POST file snapshot ===
+32d85f36edb7546474f674842a7acd22927ba06af2b97ab0c1888b1ccb7cafc4  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+e5047a8498108bf437bbbbd7b676952012890d503135abc91c978278f2d890c8  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+DONE

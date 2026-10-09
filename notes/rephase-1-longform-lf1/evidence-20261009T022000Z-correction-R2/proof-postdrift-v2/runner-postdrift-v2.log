@@ -1,0 +1,54 @@
+runner_argv=['/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/proof-postdrift-v2/runner-postdrift-v2.log', '--dst', '/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z', '--proof-postdrift-file', 'drift-canary-proof-v2.json', '--', 'tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_pure_policy_boundaries_without_chain']
+=== PRE identity (pinned, asserted) ===
+dst=/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z
+expected_head=409b292756dd1277b9dfae87679934c0d2ce251c actual_head=409b292756dd1277b9dfae87679934c0d2ce251c
+expected_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2 actual_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+expected_mod=233e86557f1627203a4f1e4129c953bf34e1319bd8949b1d58b7d417b0744cf7 actual_mod=233e86557f1627203a4f1e4129c953bf34e1319bd8949b1d58b7d417b0744cf7
+expected_schema=7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643 actual_schema=7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643
+expected_test=ce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913 actual_test=ce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913
+--- status (exact) ---
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+--- tracked diff (empty) ---
+[]
+=== runtime ===
+interpreter=/usr/bin/python3
+version=3.14.4
+caller_cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+child_cwd=/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z (child runs from pinned copy)
+argv=['/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/run_evidence.py', '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-longform-lf1/evidence-20261009T022000Z-correction-R2/proof-postdrift-v2/runner-postdrift-v2.log', '--dst', '/tmp/opencode/jgas-lf1-proof-disposable-v2-20261009T025927Z', '--proof-postdrift-file', 'drift-canary-proof-v2.json', '--', 'tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_pure_policy_boundaries_without_chain']
+--- env (filtered) ---
+GIT_ALLOW_PROTOCOL=file
+GIT_NO_LAZY_FETCH=1
+GIT_OPTIONAL_LOCKS=0
+LANG=ja_JP.UTF-8
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin
+PWD=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+git_remotes=origin	https://example.invalid/rephase-candidate-recovery.git (fetch) | origin	https://example.invalid/rephase-candidate-recovery.git (push)
+git_allow_protocol=file git_no_lazy_fetch=1 (child env)
+date_utc=20261009T025944Z
+=== RUN (child from pinned copy) ===
+CHILD_SPAWN
+
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.275s
+
+OK
+PROOF_POSTDRIFT planted: drift-canary-proof-v2.json (disposable dst only, disclosed)
+unittest_exit:0
+=== POST guard (finally, asserted) ===
+POSTGUARD_FAILED: status predicate failed:
+actual:
+?? drift-canary-proof-v2.json
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+expected:
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+child_exit_was=0 (propagated alongside, never masked)
+OUTCOME=POSTGUARD_FAILED
+DONE

@@ -1,0 +1,86 @@
+=== PRE identity ===
+409b292756dd1277b9dfae87679934c0d2ce251c
+pre_head_exit:0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+pre_tree_exit:0
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+pre_status_exit:0
+=== PRE guard: only 3 intended new paths ===
+untracked_lines:3
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== PRE guard: no tracked modifications ===
+tracked_diff_exit:0
+=== PRE guard: no GIT overrides ===
+(no GIT overrides)
+=== PRE file snapshot ===
+c35eed84b5fe05fdd218581a919fd8aae732ccd4c2bbc9a0c159d8a43e17ba26  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+94378fd4a8afeadb88afc4f99e618e3c3bc3d76f92637d956a721220468db8ea  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+=== RUN ===
+20261009T004440Z
+..E.EF
+======================================================================
+ERROR: test_two_package_chain_orders_bibliography (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_two_package_chain_orders_bibliography)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 668, in test_two_package_chain_orders_bibliography
+    state_path = self._current_state(chain)
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 585, in _current_state
+    synthesis_input = drafting.build_synthesis_input(
+        self.root, chain["profile_path"], chain["source_root"] / "architecture-v2.json",
+    ...<5 lines>...
+        ],
+    )
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_drafting_v2_base.py", line 732, in build_synthesis_input
+    raise ValueError("Draft Package invalid before Synthesis: " + "; ".join(package_errors))
+ValueError: Draft Package invalid before Synthesis: Draft Package basis drift: architecture_approval_sha256
+
+======================================================================
+ERROR: test_mechanical_only_change_keeps_reader_bytes (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_mechanical_only_change_keeps_reader_bytes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 834, in test_mechanical_only_change_keeps_reader_bytes
+    second = longform.load_derivation(self.root, state_path, second_path)["surface"]
+             ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py", line 775, in load_derivation
+    raise ValueError("Production State invalid for Longform derivation: " + "; ".join(errors))
+ValueError: Production State invalid for Longform derivation: Stage Checkpoint artifact drift: synthesis-result
+
+======================================================================
+FAIL: test_no_writer_artifacts_or_gate_created (tests.test_survey_longform_derivation_v2.LongformDerivationV2Tests.test_no_writer_artifacts_or_gate_created)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py", line 844, in test_no_writer_artifacts_or_gate_created
+    self.assertEqual(found, [], f"derivation must not materialize {name}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [PosixPath('/tmp/jgas-lf1-ahcida7t/templates/survey/jgaisurvey.sty')] != []
+
+First list contains 1 additional elements.
+First extra element 0:
+PosixPath('/tmp/jgas-lf1-ahcida7t/templates/survey/jgaisurvey.sty')
+
+- [PosixPath('/tmp/jgas-lf1-ahcida7t/templates/survey/jgaisurvey.sty')]
++ [] : derivation must not materialize jgaisurvey.sty
+
+----------------------------------------------------------------------
+Ran 6 tests in 389.410s
+
+FAILED (failures=1, errors=2)
+unittest_exit:1
+=== POST guard: only 3 intended new paths ===
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_longform_derivation_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+=== POST guard: no tracked modifications ===
+tracked_diff_exit:0
+=== POST file snapshot ===
+c35eed84b5fe05fdd218581a919fd8aae732ccd4c2bbc9a0c159d8a43e17ba26  /tmp/opencode/jgas-lf1-design-20261009T001653Z/scripts/survey_longform_derivation_v2.py
+71156a53b776a82928519b0a3f821cf40bd4279550e0bc4973c7ed27394e588b  /tmp/opencode/jgas-lf1-design-20261009T001653Z/schemas/longform-reader-input-v2.schema.json
+94378fd4a8afeadb88afc4f99e618e3c3bc3d76f92637d956a721220468db8ea  /tmp/opencode/jgas-lf1-design-20261009T001653Z/tests/test_survey_longform_derivation_v2.py
+sha_exit:0
+DONE

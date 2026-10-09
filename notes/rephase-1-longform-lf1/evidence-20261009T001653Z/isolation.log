@@ -1,0 +1,38 @@
+=== SRC refs ===
+222a37e9ee2aa96724a491f2c04c2583a86b9650 commit	refs/heads/codex/dm001019-freeze-implementation
+e1705b7fed01369767ab9d827c0360117d54aa1f commit	refs/heads/codex/dm003w1-preview-agreement
+409b292756dd1277b9dfae87679934c0d2ce251c commit	refs/heads/codex/dm004-release-validate-state
+b40de600e9ed1f80cb278213ccf17aa5f3cd9de3 commit	refs/heads/codex/rephase-candidate-recovery
+
+=== DST refs ===
+222a37e9ee2aa96724a491f2c04c2583a86b9650 commit	refs/heads/codex/dm001019-freeze-implementation
+e1705b7fed01369767ab9d827c0360117d54aa1f commit	refs/heads/codex/dm003w1-preview-agreement
+409b292756dd1277b9dfae87679934c0d2ce251c commit	refs/heads/codex/dm004-release-validate-state
+b40de600e9ed1f80cb278213ccf17aa5f3cd9de3 commit	refs/heads/codex/rephase-candidate-recovery
+
+=== REF DIFF (expect empty) ===
+(refs identical)
+
+=== INODE ISOLATION ===
+objects nlink>1 SRC:0 DST:0
+shared inodes: 0
+(expect 0)
+
+=== SAMPLE INODES ===
+DST .git/objects/40/9b292756dd1277b9dfae87679934c0d2ce251c 69042 nlink=1
+SRC .git/objects/40/9b292756dd1277b9dfae87679934c0d2ce251c 64577 nlink=1
+DST .git/objects/f7/2c12e0d0723956af729291b6757bf22d753346 69040 nlink=1
+SRC .git/objects/f7/2c12e0d0723956af729291b6757bf22d753346 64572 nlink=1
+DST .git/objects/34/f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4 69038 nlink=1
+SRC .git/objects/34/f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4 62155 nlink=1
+DST .git/objects/57/65606f4dd1bfce7ba37060aa6a7a495574d2b6 69036 nlink=1
+SRC .git/objects/57/65606f4dd1bfce7ba37060aa6a7a495574d2b6 64574 nlink=1
+DST .git/objects/57/fe1a954e444955fd91b5c3caf598188c8c0978 69035 nlink=1
+SRC .git/objects/57/fe1a954e444955fd91b5c3caf598188c8c0978 62152 nlink=1
+
+=== RECONSTRUCT (read-only, no writes) ===
+1610777e7948a94a725dd4836d23337256a49f53
+?? notes/rephase-1-longform-lf1/evidence-20261009T001653Z/dst-identity.log
+?? notes/rephase-1-longform-lf1/evidence-20261009T001653Z/isolation.log
+?? notes/rephase-1-longform-lf1/evidence-20261009T001653Z/source-identity.log
+?? notes/rephase-1-longform-lf1/task.md
