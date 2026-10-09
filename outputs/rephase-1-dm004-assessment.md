@@ -1,5 +1,7 @@
 # DM-004 — Release closure validation CLI bounded completion
 
+**Continuation 2026-10-09:** the Special contract unit proposed below is now bounded complete: [selected direction](rephase-1-special-support-contract-decision.md), [packet/independent DESIGN_BOUNDED_PASS and Astra resolution](../notes/rephase-1-special-support-contract/README.md). Candidate409 unchanged. Next is LF-1 design-first accepted-fixture/schema/source-only projector, with LF-2 publisher/receipt/Gate integration separate; see current handoff. This source-only design review adds no runtime proof to the historical DM004 evidence below. Stop at the new Human Commit Point.
+
 Recorded **2026-10-07**, final source/restore observation at **22:20:37+09:00**. Human continuation began at clean reconstruct **5f34b8eb137f741f425164a3b0e5e9ae36c14200**, local tracking synchronized without fetch. **DM-004 is bounded repaired at409b292. Stop at this Human Commit Point.** Production baseline **774dd39a951c9ac3818e83dfffd4c7666efb0a20** is unchanged. Whole candidate **NOT_READY**, step4/B3 OPEN, canonical seven-point audit unstarted.
 
 ## 1. Exact candidate and scope
