@@ -1,0 +1,123 @@
+cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+python=3.14.4 (main, Aug 20 2026, 10:41:58) [GCC 15.2.0]
+time_utc=2026-10-09T11:36:54Z
+parent-env GIT_DIR=<unset>
+CHECK PASS: override absent: GIT_DIR
+parent-env GIT_WORK_TREE=<unset>
+CHECK PASS: override absent: GIT_WORK_TREE
+parent-env GIT_CEILING_DIRECTORIES=<unset>
+CHECK PASS: override absent: GIT_CEILING_DIRECTORIES
+parent-env GIT_COMMON_DIR=<unset>
+CHECK PASS: override absent: GIT_COMMON_DIR
+parent-env GIT_INDEX_FILE=<unset>
+CHECK PASS: override absent: GIT_INDEX_FILE
+parent-env GIT_OBJECT_DIRECTORY=<unset>
+CHECK PASS: override absent: GIT_OBJECT_DIRECTORY
+parent-env GIT_ALTERNATE_OBJECT_DIRECTORIES=<unset>
+CHECK PASS: override absent: GIT_ALTERNATE_OBJECT_DIRECTORIES
+CHECK PASS: SRC exists /tmp/opencode/jgas-lf1-design-20261009T001653Z
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z rev-parse HEAD
+  exit=0
+  out: 409b292756dd1277b9dfae87679934c0d2ce251c
+CHECK PASS: SRC HEAD==409b292756dd1277b9dfae87679934c0d2ce251c
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z rev-parse HEAD^{tree}
+  exit=0
+  out: 8ce3699861505f32d1d60bdc185d4d4f635aedb2
+CHECK PASS: SRC tree==8ce3699861505f32d1d60bdc185d4d4f635aedb2
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z rev-parse HEAD^
+  exit=0
+  out: 34f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4
+CHECK PASS: SRC parent==34f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z status --porcelain=v1 --untracked-files=all
+  exit=0
+  out: ?? schemas/longform-reader-input-v2.schema.json
+  out: ?? scripts/survey_longform_derivation_v2.py
+  out: ?? tests/test_survey_longform_derivation_v2.py
+CHECK PASS: SRC status exactly 3 untracked
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z remote get-url origin
+  exit=0
+  out: https://example.invalid/rephase-candidate-recovery.git
+CHECK PASS: SRC fetch origin inert
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z remote get-url --push origin
+  exit=0
+  out: https://example.invalid/rephase-candidate-recovery.git
+CHECK PASS: SRC push origin inert
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z rev-parse --is-shallow-repository
+  exit=0
+  out: true
+CHECK PASS: SRC shallow true
+CHECK PASS: SRC no alternates
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z config --get extensions.partialClone
+  exit=1
+CHECK PASS: SRC no partialClone (exit 1)
+CHECK PASS: SRC hash scripts/survey_longform_derivation_v2.py
+CHECK PASS: SRC hash schemas/longform-reader-input-v2.schema.json
+CHECK PASS: SRC hash tests/test_survey_longform_derivation_v2.py
+$ git -C /tmp/opencode/jgas-lf1-design-20261009T001653Z sparse-checkout list
+  exit=0
+  out: .github
+  out: config
+  out: docs
+  out: schemas
+  out: scripts
+  out: specials
+  out: templates
+  out: tests
+SRC sparse: ['.github', 'config', 'docs', 'schemas', 'scripts', 'specials', 'templates', 'tests']
+CHECK PASS: DST exists /tmp/opencode/jgas-lf2-design-20261009T113013Z
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z rev-parse HEAD
+  exit=0
+  out: 409b292756dd1277b9dfae87679934c0d2ce251c
+CHECK PASS: DST HEAD==409b292756dd1277b9dfae87679934c0d2ce251c
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z rev-parse HEAD^{tree}
+  exit=0
+  out: 8ce3699861505f32d1d60bdc185d4d4f635aedb2
+CHECK PASS: DST tree==8ce3699861505f32d1d60bdc185d4d4f635aedb2
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z rev-parse HEAD^
+  exit=0
+  out: 34f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4
+CHECK PASS: DST parent==34f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z status --porcelain=v1 --untracked-files=all
+  exit=0
+  out: ?? schemas/longform-reader-input-v2.schema.json
+  out: ?? scripts/survey_longform_derivation_v2.py
+  out: ?? tests/test_survey_longform_derivation_v2.py
+CHECK PASS: DST status exactly 3 untracked
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z remote get-url origin
+  exit=0
+  out: https://example.invalid/rephase-candidate-recovery.git
+CHECK PASS: DST fetch origin inert
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z remote get-url --push origin
+  exit=0
+  out: https://example.invalid/rephase-candidate-recovery.git
+CHECK PASS: DST push origin inert
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z rev-parse --is-shallow-repository
+  exit=0
+  out: true
+CHECK PASS: DST shallow true
+CHECK PASS: DST no alternates
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z config --get extensions.partialClone
+  exit=1
+CHECK PASS: DST no partialClone (exit 1)
+CHECK PASS: DST hash scripts/survey_longform_derivation_v2.py
+CHECK PASS: DST hash schemas/longform-reader-input-v2.schema.json
+CHECK PASS: DST hash tests/test_survey_longform_derivation_v2.py
+$ git -C /tmp/opencode/jgas-lf2-design-20261009T113013Z sparse-checkout list
+  exit=0
+  out: .github
+  out: config
+  out: docs
+  out: schemas
+  out: scripts
+  out: specials
+  out: templates
+  out: tests
+DST sparse: ['.github', 'config', 'docs', 'schemas', 'scripts', 'specials', 'templates', 'tests']
+SRC objects=109 DST objects=109
+CHECK PASS: both object sets nonempty
+CHECK PASS: zero shared object (dev,ino)
+CHECK PASS: DST no multilink regular object files
+CHECK PASS: overlay distinct inode: scripts/survey_longform_derivation_v2.py
+CHECK PASS: overlay distinct inode: schemas/longform-reader-input-v2.schema.json
+CHECK PASS: overlay distinct inode: tests/test_survey_longform_derivation_v2.py
+ALL CURRENT CHECKS PASSED (observation only, not copy-time proof)

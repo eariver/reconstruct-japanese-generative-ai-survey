@@ -1,5 +1,7 @@
 # LF-1 — bounded source-only Longform reader-input completion
 
+**Continuation 2026-10-09 after Human b11c2d0:** LF-2's initial integration **design** is now bounded complete: [selected contract](rephase-1-longform-lf2-contract-decision.md), [packet/independent design review and mandatory resolution](../notes/rephase-1-longform-lf2/README.md). LF-1 source hashes/31-method evidence below remain unchanged. Next is LF-2I implementation, not another proposal or LF-1 suite rerun; new design copy `/tmp/opencode/jgas-lf2-design-20261009T113013Z` contains exact409+LF1. No LF-2 code/test/fixture/build in that design unit. Stop at the new Human Commit Point.
+
 2026-10-09. Human continuation began at clean reconstruct **1610777e7948a94a725dd4836d23337256a49f53**, local tracking synchronized without fetch. **LF-1 is bounded complete as an uncommitted three-file overlay on fixed409.** Astra source/oracle/evidence review and separate author-independent correction resolution support that component only. Stop at Human Commit Point. Whole candidate **NOT_READY**, step4/B3 **OPEN**, canonical seven-point audit **unstarted**.
 
 ## 1. Exact identity and preservation
