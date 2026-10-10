@@ -1,0 +1,15 @@
+git show HEAD:scripts/survey_reader_surface_gate_v2.py exit: 0
+git show HEAD:schemas/reader-surface-gate-v2.schema.json exit: 0
+git diff HEAD -- M exit: 0
+apply-check exit: 0
+
+git apply exit: 0
+byte-compare mismatches: []
+mode-compare mismatches: []
+new-file diff scripts/survey_longform_derivation_v2.py exit: 1
+new-file diff schemas/longform-reader-input-v2.schema.json exit: 1
+new-file diff tests/test_survey_longform_derivation_v2.py exit: 1
+new-file diff scripts/survey_longform_generated_v2.py exit: 1
+new-file diff scripts/survey_longform_semantic_publication_v2.py exit: 1
+new-file diff schemas/longform-publication-source-manifest-v2.schema.json exit: 1
+new-file diff tests/test_survey_longform_publication_integration_v2.py exit: 1

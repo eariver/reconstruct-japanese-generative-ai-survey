@@ -1,0 +1,167 @@
+test_gate_and_both_admission_backstops (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_gate_and_both_admission_backstops) ... ERROR
+test_healthy_frozen_released_readback (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_healthy_frozen_released_readback) ... ERROR
+test_mechanical_only_change_rebinds_without_reader_drift (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_mechanical_only_change_rebinds_without_reader_drift) ... ok
+test_pure_serializer_scanner_and_review_probes (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_pure_serializer_scanner_and_review_probes) ... ok
+test_receipt_replay_tamper_matrix_and_tool_guards (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_receipt_replay_tamper_matrix_and_tool_guards) ... ERROR
+test_two_pass_initial_reviewer_gating (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_two_pass_initial_reviewer_gating) ... ERROR
+
+======================================================================
+ERROR: test_gate_and_both_admission_backstops (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_gate_and_both_admission_backstops)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 668, in test_gate_and_both_admission_backstops
+    gate_path = self._build_gate(manuscript_path, review_path)
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 458, in _build_gate
+    reader_publication.build_reader_surface_gate(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.root, manuscript_path, review_path, output_path=gate_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        state_path=self.source_root / "production-state.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_reader_publication_v2.py", line 695, in build_reader_surface_gate
+    surface_gate.evaluate_reader_surface_gate(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        state_path=state_path,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_reader_surface_gate_v2.py", line 1514, in evaluate_reader_surface_gate
+    derivation = _derivation_for_manuscript(
+        repo_root, manuscript, rev_surface_rel,
+        _rel(repo_root, rev_file), core.sha256_file(rev_file), state_path=state_path,
+    )
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_reader_surface_gate_v2.py", line 1168, in _derivation_for_manuscript
+    receipt = generated.validate_receipt(repo_root, receipt_path, state_path)
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_longform_generated_v2.py", line 534, in validate_receipt
+    raise ValueError("Longform receipt semantic review mismatch")
+ValueError: Longform receipt semantic review mismatch
+
+======================================================================
+ERROR: test_healthy_frozen_released_readback (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_healthy_frozen_released_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 733, in test_healthy_frozen_released_readback
+    paths = self._advance_to_validated_draft(chain, state_path)
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 487, in _advance_to_validated_draft
+    gate_path = self._build_gate(manuscript_path, review_path)
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 458, in _build_gate
+    reader_publication.build_reader_surface_gate(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.root, manuscript_path, review_path, output_path=gate_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        state_path=self.source_root / "production-state.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_reader_publication_v2.py", line 695, in build_reader_surface_gate
+    surface_gate.evaluate_reader_surface_gate(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        state_path=state_path,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_reader_surface_gate_v2.py", line 1514, in evaluate_reader_surface_gate
+    derivation = _derivation_for_manuscript(
+        repo_root, manuscript, rev_surface_rel,
+        _rel(repo_root, rev_file), core.sha256_file(rev_file), state_path=state_path,
+    )
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_reader_surface_gate_v2.py", line 1168, in _derivation_for_manuscript
+    receipt = generated.validate_receipt(repo_root, receipt_path, state_path)
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_longform_generated_v2.py", line 534, in validate_receipt
+    raise ValueError("Longform receipt semantic review mismatch")
+ValueError: Longform receipt semantic review mismatch
+
+======================================================================
+ERROR: test_receipt_replay_tamper_matrix_and_tool_guards (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_receipt_replay_tamper_matrix_and_tool_guards)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 595, in test_receipt_replay_tamper_matrix_and_tool_guards
+    generated.validate_receipt(self.root, receipt_path, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_longform_generated_v2.py", line 534, in validate_receipt
+    raise ValueError("Longform receipt semantic review mismatch")
+ValueError: Longform receipt semantic review mismatch
+
+======================================================================
+ERROR: test_two_pass_initial_reviewer_gating (tests.test_survey_longform_publication_integration_v2.LongformPublicationIntegrationV2Tests.test_two_pass_initial_reviewer_gating)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/tests/test_survey_longform_publication_integration_v2.py", line 580, in test_two_pass_initial_reviewer_gating
+    generated.validate_receipt(self.root, paths["receipt"], state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-lf2-design-20261009T113013Z/scripts/survey_longform_generated_v2.py", line 534, in validate_receipt
+    raise ValueError("Longform receipt semantic review mismatch")
+ValueError: Longform receipt semantic review mismatch
+
+----------------------------------------------------------------------
+Ran 6 tests in 476.108s
+
+FAILED (errors=4)
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}

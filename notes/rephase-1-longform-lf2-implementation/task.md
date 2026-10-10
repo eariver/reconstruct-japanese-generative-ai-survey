@@ -1,0 +1,21 @@
+# LF-2I — selected initial generated Longform integration
+
+2026-10-10. Human continued after Commit/Push at reconstruct **a4dc0fd8d5ecbe5ab9d81f225c85cff25f69e930**. Read the selected [contract4795a586](../../outputs/rephase-1-longform-lf2-contract-decision.md) and mandatory [Astra F1–F3 resolution](../rephase-1-longform-lf2/astra-review-resolution.md). Design is already selected; do not repeat old alternatives/blanket directive/registry blocker analysis.
+
+Source `/tmp/opencode/jgas-lf2-design-20261009T113013Z` is verified **HEAD409b292756dd1277b9dfae87679934c0d2ce251c/tree8ce3699861505f32d1d60bdc185d4d4f635aedb2/parent34f934e9783f06d5ad5c0eb3a5cb38dadecfe5c4 PLUS3 LF1 files**, not a committed successor. SHA256 runtime233e86557f1627203a4f1e4129c953bf34e1319bd8949b1d58b7d417b0744cf7/schema7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643/testce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913. Original409/LF1/verify-copy inputs remain untouched; candidate commits/branches and ordinary reconstruct Commit/Push are not authorized.
+
+## First preparation return (no code yet)
+
+General verifies actual composite/isolation/runtime availability read-only, fixes a concise exact implementation path list, serializer/receipt/current-tool/control closure, and evidence runner design (≤100 lines return). No recovery/network/old31-suite rerun. Use the prepared independent copy for implementation after Astra releases this gate; a new copy is unnecessary if actual identity/isolation holds. Source/readback/receipt/Gate interfaces and FROZEN/RELEASED fixture chain are in the contract; identify any concrete source gap needing extra paths. Do not label source reading an executed fixture.
+
+Human separately requested DM-021 intake. It is happening now, before new candidate edits; pause for Astra's short applicability disposition before implementation. That is task coordination, not a new Human approval gate.
+
+## Implementation after applicability disposition
+
+General owns actual code/tests; root reviews. Implement the contract's one initial two-pass route, pure generated helper/new receipt schema, LF-1 default-initial vs healthy-readback loader separation, complete Longform Gate scanner/runtime/schema, necessary contract registration and focused integration tests. Preserve real existing accepted loaders, pre-TeX vs later review responsibilities, typed Human/Architecture approval, fidelity/technical-depth/layout checks, exact manuscript at both admissions and healthy FROZEN/RELEASED readback. Receipt public validator itself AND Gate independently reload persisted review. No synthetic success validators, no legacy writer/deletion/dispatcher migration, no unknown-shape fallback. Directive presence refuses. No pending regeneration/Core-change renewal/real build or Production writes.
+
+Use real synthetic committed test fixtures only in independent Git databases (inert origin, no hardlinks/alternates/sharing/root overrides). Candidate remains an uncommitted exact-source overlay; dirty/untracked committed-tool checks must still refuse it. Fix explicit source/control closure and strict asserting runner before verification. Capture actual runtime/argv/cwd/env/base and ALL intended source hashes; assert pre AND finally-post identity/allowed delta; fail on drift even when child passes. Exclusively create logs, preserve partial stdout/stderr on failures/timeouts, capture subprocess exits directly, never overwrite a prior script/log after a run. No hidden fixture repair before immediate no-write inventories. State actual tested runtime without old3.12/3.14 transfer.
+
+Return any actual FROZEN/RELEASED fixture/authority blocker instead of deleting a required acceptance case. Run justified affected tests at fixed final hashes; successful LF-1/old suites are not automatic decoration. Preserve every setup failure, skip, superseded run, packet/script qualification and independent copy/apply content proof. No candidate commit without explicit authorization.
+
+Astra reviews code/oracles/raw outcomes/exact composite, then fresh author-independent implementation/evidence review and correction resolution. Closeout ends at Human Commit Point with whole NOT_READY/step4/B3 OPEN/canonical audit unstarted unless separately proved otherwise. No automatic next unit.

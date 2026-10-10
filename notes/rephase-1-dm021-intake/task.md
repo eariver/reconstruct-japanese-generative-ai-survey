@@ -1,0 +1,9 @@
+# DM-021 — Human-authorized limited read-only intake
+
+2026-10-10. Human reports a new Production DM-021 and explicitly asks to check/incorporate it at a time that does not disrupt current work. Reconstruct starts at Human **a4dc0fd8d5ecbe5ab9d81f225c85cff25f69e930**, clean/local tracking synchronized. This authorizes a narrow new evidence intake, not rebaseline, code adoption, Production writes or a recurring Summary refresh.
+
+General: resolve one current Production main commit read-only, then fetch **only `docs/core-v2-deferred-maintenance-summary.md` at that exact SHA** using `gh` API. Save both raw API responses, decoded exact bytes, Git blob identity and SHA256 in a NEW unique packet directory under this task. Use a new exclusive/no-overwrite capture script with actual argv/returncode/stdout/stderr preservation; do not run the old acquisition script or replace the 2026-10-03 capture. Do not fetch current code, linked primary records/Issues/corpora, refs or a checkout. No Production mutations/Actions/comments.
+
+Read the DM-021 entry and nearby status/primary-record references; compare its scope with selected LF-2 contract4795a586 and fixed409+LF1 (source-only local reads if necessary). Return a concise `intake-and-impact.md`: exact report, reported status/affected boundary, whether source/fixture/API changes in LF-2I could be affected, relevant acceptance criteria, any unresolved primary-evidence question. Clearly distinguish reported secondary evidence from independently reproduced behavior. Do not broaden into all21-item disposition analysis or assume mandatory upstream repair. If DM-021 cannot be located in the captured document, return that exact limitation rather than expanding intake silently.
+
+Astra decides applicability before LF-2I implementation changes. Preserve baseline774, all prior captures, and Production read-only boundaries. No tests/fixture/code/ref/commit/Push in this intake task. No subagents.

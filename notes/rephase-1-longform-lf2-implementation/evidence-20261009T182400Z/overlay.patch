@@ -1,0 +1,191 @@
+diff --git a/schemas/reader-surface-gate-v2.schema.json b/schemas/reader-surface-gate-v2.schema.json
+index 90ec8fe..f9d3977 100644
+--- a/schemas/reader-surface-gate-v2.schema.json
++++ b/schemas/reader-surface-gate-v2.schema.json
+@@ -181,6 +181,22 @@
+               }
+             }
+           }
++        },
++        {
++          "type": "object", "additionalProperties": false,
++          "required": ["route", "scope", "receipt"],
++          "properties": {
++            "route": {"const": "LONGFORM_GENERATED_V1"},
++            "scope": {"const": "LONGFORM_MAIN_BIB_STYLE"},
++            "receipt": {
++              "type": "object", "additionalProperties": false,
++              "required": ["path", "sha256"],
++              "properties": {
++                "path": {"type": "string", "minLength": 1},
++                "sha256": {"$ref": "#/$defs/sha256"}
++              }
++            }
++          }
+         }
+       ]
+     },
+diff --git a/scripts/survey_reader_surface_gate_v2.py b/scripts/survey_reader_surface_gate_v2.py
+index 89b5b85..b6e1eff 100644
+--- a/scripts/survey_reader_surface_gate_v2.py
++++ b/scripts/survey_reader_surface_gate_v2.py
+@@ -759,6 +759,80 @@ def scan_structured_reader_surface(
+ ) -> list[SurfaceFinding]:
+     """Scan canonical structured pre-TeX reader surface fields for prohibited internal metadata."""
+     findings: list[SurfaceFinding] = []
++    if payload.get("route") == "LONGFORM_GENERATED_V1":
++        # Longform branch: walk the defined reader schema's actual display
++        # strings and citation representations (including bibliography and all
++        # visible constants). Internal identifiers (package_id, discovery_ids,
++        # bibliography keys, route/format/Profile markers) are never scanned
++        # as prose.
++        fields: list[tuple[str, str]] = []
++        for group in ("issue_metadata", "visible_text"):
++            for key, value in payload.get(group, {}).items():
++                fields.append((f"{group}:{key}", str(value)))
++        cover = payload.get("cover", {})
++        for key in ("headline", "deck"):
++            fields.append((f"cover:{key}", str(cover.get(key, ""))))
++        fields.extend(
++            (f"cover:anchors:{idx+1}", str(item))
++            for idx, item in enumerate(cover.get("anchors", []))
++        )
++        front = payload.get("frontmatter", {})
++        for key in ("heading", "lede"):
++            fields.append((f"frontmatter:{key}", str(front.get(key, ""))))
++        fields.extend(
++            (f"frontmatter:scope_notes:{idx+1}", str(item))
++            for idx, item in enumerate(front.get("scope_notes", []))
++        )
++        for idx, package in enumerate(payload.get("packages", [])):
++            tag = f"package:{idx+1}"
++            for key in ("headline", "deck", "kicker"):
++                fields.append((f"{tag}:{key}", str(package.get(key, ""))))
++            for gidx, cell in enumerate(package.get("theme_at_a_glance", [])):
++                for key in ("label", "text"):
++                    fields.append((f"{tag}:glance:{gidx+1}:{key}", str(cell.get(key, ""))))
++            for sidx, section in enumerate(package.get("narrative_sections", [])):
++                fields.append((f"{tag}:narrative:{sidx+1}:heading", str(section.get("heading", ""))))
++                for pidx, para in enumerate(section.get("paragraphs", [])):
++                    fields.append((f"{tag}:narrative:{sidx+1}:p{pidx+1}", str(para.get("text", ""))))
++            for tidx, cell in enumerate(package.get("timeline", [])):
++                for key in ("label", "text"):
++                    fields.append((f"{tag}:timeline:{tidx+1}:{key}", str(cell.get(key, ""))))
++            synthesis = package.get("synthesis", {})
++            fields.append((f"{tag}:synthesis:heading", str(synthesis.get("heading", ""))))
++            for pidx, para in enumerate(synthesis.get("paragraphs", [])):
++                fields.append((f"{tag}:synthesis:p{pidx+1}", str(para.get("text", ""))))
++            for bidx, para in enumerate(package.get("reader_claim_boundary", [])):
++                fields.append((f"{tag}:boundary:{bidx+1}", str(para.get("text", ""))))
++            for nidx, note in enumerate(package.get("technical_notes", [])):
++                ntag = f"{tag}:note:{nidx+1}"
++                for key in ("title", "chronology", "limitation", "primary_url"):
++                    fields.append((f"{ntag}:{key}", str(note.get(key, ""))))
++                fields.extend(
++                    (f"{ntag}:point:{pidx+1}", str(point))
++                    for pidx, point in enumerate(note.get("technical_points", []))
++                )
++        cross = payload.get("cross_family_synthesis", {})
++        fields.append(("cross:heading", str(cross.get("heading", ""))))
++        for pidx, para in enumerate(cross.get("paragraphs", [])):
++            fields.append((f"cross:p{pidx+1}", str(para.get("text", ""))))
++        for ridx, row in enumerate(cross.get("comparison_rows", [])):
++            for key in ("dimension", "glm", "qwen", "deepseek", "kimi"):
++                fields.append((f"cross:row:{ridx+1}:{key}", str(row.get(key, ""))))
++        summary = payload.get("final_summary", {})
++        fields.append(("final_summary:heading", str(summary.get("heading", ""))))
++        fields.extend(
++            (f"final_summary:p{idx+1}", str(item))
++            for idx, item in enumerate(summary.get("paragraphs", []))
++        )
++        for idx, row in enumerate(payload.get("bibliography", [])):
++            for key in ("title", "author", "url", "urldate"):
++                fields.append((f"bibliography:{idx+1}:{key}", str(row.get(key, ""))))
++        for locator, value in fields:
++            findings.extend(scan_reader_text_lines(
++                [value], "Structured Longform Reader Surface", source_label,
++                suppressions=suppressions, block_context=locator,
++            ))
++        return findings
+     if payload.get("route") == "WEEKLY_GENERATED_V2":
+         fields: list[tuple[str, str]] = []
+         fields.extend((f"issue_metadata:{key}", str(value)) for key, value in payload["issue_metadata"].items())
+@@ -1083,6 +1157,39 @@ def _derivation_for_manuscript(
+         if core.sha256_file(core.repo_local_path(repo_root, primary["path"], "direct primary")) != primary["sha256"]:
+             raise ValueError("DIRECT_PRIMARY reviewed primary drift")
+         return {"route": "DIRECT_PRIMARY", "scope": "PRIMARY_ONLY"}
++    if manuscript.get("research_profile") == "THEMATIC" and manuscript.get("publication_profile") == "LONGFORM_SPECIAL":
++        surface_path = core.repo_local_path(repo_root, reviewed_surface_path, "generated reader input")
++        if surface_path.name != "reader-surface-input-v2.json":
++            raise ValueError("Longform generated review target must be canonical reader input")
++        from scripts import survey_longform_derivation_v2 as longform_derivation
++        from scripts import survey_longform_generated_v2 as generated
++        longform_derivation.validate_longform_reader_input(repo_root, surface_path)
++        receipt_path = surface_path.parent / "validated-source-manifest.json"
++        receipt = generated.validate_receipt(repo_root, receipt_path, state_path)
++        receipt_ref = {"path": _rel(repo_root, receipt_path), "sha256": core.sha256_file(receipt_path)}
++        if receipt["route"] != generated.ROUTE or receipt["issue_id"] != manuscript["issue_id"]:
++            raise ValueError("Longform receipt route or issue identity mismatch")
++        if receipt["reviewed_reader_input"] != {"path": reviewed_surface_path, "sha256": core.sha256_file(surface_path)}:
++            raise ValueError("Longform receipt reviewed target mismatch")
++        if receipt["semantic_review"] != {"path": review_path, "sha256": review_sha256}:
++            raise ValueError("Longform receipt semantic review mismatch")
++        survey_dir = core.repo_local_path(repo_root, primary["path"], "Longform primary").parent
++        expected = {
++            "primary": primary,
++            "bibliography": next((r for r in manuscript["supporting_files"] if r["role"] == "BIBLIOGRAPHY"), None),
++            "style": next((r for r in manuscript["supporting_files"] if r["role"] == "STYLE"), None),
++        }
++        if len(manuscript["supporting_files"]) != 2 or any(row is None for row in expected.values()):
++            raise ValueError("unsupported Longform generated support closure")
++        for name, filename in (("primary", "main.tex"), ("bibliography", "references.bib"), ("style", "jgaisurvey.sty")):
++            row = expected[name]
++            assert row is not None
++            if row["path"] != _rel(repo_root, survey_dir / filename):
++                raise ValueError(f"unsupported Longform generated {name} path")
++            output = receipt["outputs"][name]
++            if output["path"] != row["path"] or output["sha256"] != row["sha256"]:
++                raise ValueError(f"Longform receipt output differs from selected Reader Manuscript {name}")
++        return {"route": generated.ROUTE, "scope": generated.SCOPE, "receipt": receipt_ref}
+     if manuscript.get("research_profile") != "WEEKLY" or manuscript.get("publication_profile") != "WEEKLY_MAGAZINE":
+         raise ValueError("structured review target requires supported Weekly generated route")
+     surface_path = core.repo_local_path(repo_root, reviewed_surface_path, "generated reader input")
+@@ -1297,17 +1404,28 @@ def evaluate_reader_surface_gate(
+         if supplied_rel != rev_target:
+             raise ValueError("explicit structured reader surface differs from semantic review target")
+     if rev_target != primary_ref["path"]:
+-        if manuscript.get("research_profile") != "WEEKLY" or manuscript.get("publication_profile") != "WEEKLY_MAGAZINE":
++        if manuscript.get("research_profile") == "THEMATIC" and manuscript.get("publication_profile") == "LONGFORM_SPECIAL":
++            from scripts import survey_longform_derivation_v2 as longform_derivation
++            st_file = core.repo_local_path(repo_root, rev_target, "reviewed Longform reader input")
++            st_data = longform_derivation.validate_longform_reader_input(repo_root, st_file)
++            st_rel = _rel(repo_root, st_file)
++            scanned_surfaces.append({
++                "path": st_rel, "sha256": core.sha256_file(st_file),
++                "kind": "STRUCTURED_READER_SURFACE", "byte_count": st_file.stat().st_size,
++            })
++            all_findings.extend(scan_structured_reader_surface(st_data, st_rel, suppressions=active_suppressions))
++        elif manuscript.get("research_profile") != "WEEKLY" or manuscript.get("publication_profile") != "WEEKLY_MAGAZINE":
+             raise ValueError("unsupported structured reader review target")
+-        from scripts import survey_weekly_derivation_v2 as weekly
+-        st_file = core.repo_local_path(repo_root, rev_target, "reviewed Weekly reader input")
+-        st_data = weekly.validate_reader_input(repo_root, st_file)
+-        st_rel = _rel(repo_root, st_file)
+-        scanned_surfaces.append({
+-            "path": st_rel, "sha256": core.sha256_file(st_file),
+-            "kind": "STRUCTURED_READER_SURFACE", "byte_count": st_file.stat().st_size,
+-        })
+-        all_findings.extend(scan_structured_reader_surface(st_data, st_rel, suppressions=active_suppressions))
++        else:
++            from scripts import survey_weekly_derivation_v2 as weekly
++            st_file = core.repo_local_path(repo_root, rev_target, "reviewed Weekly reader input")
++            st_data = weekly.validate_reader_input(repo_root, st_file)
++            st_rel = _rel(repo_root, st_file)
++            scanned_surfaces.append({
++                "path": st_rel, "sha256": core.sha256_file(st_file),
++                "kind": "STRUCTURED_READER_SURFACE", "byte_count": st_file.stat().st_size,
++            })
++            all_findings.extend(scan_structured_reader_surface(st_data, st_rel, suppressions=active_suppressions))
+ 
+     # 6. Semantic Review Findings & Authority Checks (Layer 2)
+     sem_status = sem_auth_input.get("status")
