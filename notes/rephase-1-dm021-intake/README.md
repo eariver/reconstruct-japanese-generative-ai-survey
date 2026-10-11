@@ -1,5 +1,7 @@
 # DM-021 — limited later-evidence intake and disposition
 
+**Continuation2026-10-11 JST:** [contract analysis / DM021-P1 selection](../../outputs/rephase-1-dm021-contract-decision.md) is complete with [qualified independent design/source review](../rephase-1-dm021-contract/README.md). Next is the read-only proposal/before-set/proposed-reader component's concrete interface/fixture return then bounded implementation, not live correction adoption. DM021 stays OPEN. The earlier next-contract paragraph below records the intake closeout; this capture and primary-evidence limits are unchanged.
+
 2026-10-10. Human explicitly reported new Production DM-021 and requested checking/incorporation without disrupting current work. Intake was completed before LF-2I code changes; ordinary Production read-only/baseline boundaries remain.
 
 - [Astra applicability disposition](astra-disposition.md) governs the [General report](evidence-20261009T171707Z/intake-and-impact.md).

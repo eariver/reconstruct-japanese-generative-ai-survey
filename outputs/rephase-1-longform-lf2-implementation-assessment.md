@@ -1,5 +1,7 @@
 # LF-2I — bounded initial generated Longform integration completion
 
+**Continuation2026-10-11 JST:** the DM021 contract-analysis unit below is now bounded complete: [selected DM021-P1 design](rephase-1-dm021-contract-decision.md), [packet/qualified independent review and source supplement](../notes/rephase-1-dm021-contract/README.md). Next is P1's exact graph/schema/API/fixture return before read-only implementation (expected3A1M), no reason enum/live promotion/State adoption yet. LF2I source pins,43+2 evidence and original limitations below remain unchanged; no new runtime result or DM021 repair follows. Stop at the current design Human Commit Point.
+
 2026-10-10. Started after Human Commit/Push at reconstruct **a4dc0fd8d5ecbe5ab9d81f225c85cff25f69e930**, initially clean/local tracking synchronized without fetch. **LF-2I is bounded complete as a nine-file uncommitted overlay on409**, with Astra review and author-independent final resolution/supplement. Stop at Human Commit Point. Whole candidate **NOT_READY**, step4/B3 **OPEN**, canonical seven-point audit **unstarted**.
 
 ## 1. Exact source identity / preservation
