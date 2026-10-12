@@ -1,0 +1,109 @@
+DM021-P1 correction4 CLOSEOUT read-only verification 20261012T121721Z
+active=/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60
+copy=/tmp/opencode/jgas-dm021p1-R2-verify-20261012T072355Z/candidate-partial-b40de60
+workspace=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+saved pre==post full: True
+saved pre.status==post.status full raw: True
+saved pre.status exact13 lines: True
+NOTE run_final.named_status (lines 100-108) FILTERS to expected13:
+  for line in status: for exp in EXPECTED_ROWS: if line==exp: keep.
+  It does NOT reject unrelated rows; extra rows would be silently ignored.
+  Currently saved raw is exact13, so filtered==full (13 rows).
+  This verification compares FULL raw, but does NOT certify a closed reject predicate.
+patch sha256(actual)=85e9d9ab3c972a786afb1cf2f941bf4dbcfd4980f2e63d0ad9cf6df3cb55963c
+patch sha file=85e9d9ab3c972a786afb1cf2f941bf4dbcfd4980f2e63d0ad9cf6df3cb55963c  complete-p1-correction-13path.patch
+patch diff --git count=13 bytes=604448
+--- active ---
+  head='409b292756dd1277b9dfae87679934c0d2ce251c'
+  tree='8ce3699861505f32d1d60bdc185d4d4f635aedb2'
+  cached=''
+  alternates_exists=False
+  status_rc=0 status_bytes=673
+    | M schemas/reader-surface-gate-v2.schema.json
+    | M schemas/reader-surface-semantic-review-v2.schema.json
+    | M scripts/survey_reader_surface_gate_v2.py
+    |?? schemas/editorial-correction-proposal-v2.schema.json
+    |?? schemas/longform-publication-source-manifest-v2.schema.json
+    |?? schemas/longform-reader-input-v2.schema.json
+    |?? scripts/survey_editorial_correction_proposal_v2.py
+    |?? scripts/survey_longform_derivation_v2.py
+    |?? scripts/survey_longform_generated_v2.py
+    |?? scripts/survey_longform_semantic_publication_v2.py
+    |?? tests/test_survey_editorial_correction_proposal_v2.py
+    |?? tests/test_survey_longform_derivation_v2.py
+    |?? tests/test_survey_longform_publication_integration_v2.py
+  config_rc=0 inert_example_invalid=True
+    cfg:file:.git/config	remote.origin.url=https://example.invalid/rephase-candidate-recovery.git
+    cfg:file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+--- copy ---
+  head='409b292756dd1277b9dfae87679934c0d2ce251c'
+  tree='8ce3699861505f32d1d60bdc185d4d4f635aedb2'
+  cached=''
+  alternates_exists=False
+  status_rc=0 status_bytes=673
+    | M schemas/reader-surface-gate-v2.schema.json
+    | M schemas/reader-surface-semantic-review-v2.schema.json
+    | M scripts/survey_reader_surface_gate_v2.py
+    |?? schemas/editorial-correction-proposal-v2.schema.json
+    |?? schemas/longform-publication-source-manifest-v2.schema.json
+    |?? schemas/longform-reader-input-v2.schema.json
+    |?? scripts/survey_editorial_correction_proposal_v2.py
+    |?? scripts/survey_longform_derivation_v2.py
+    |?? scripts/survey_longform_generated_v2.py
+    |?? scripts/survey_longform_semantic_publication_v2.py
+    |?? tests/test_survey_editorial_correction_proposal_v2.py
+    |?? tests/test_survey_longform_derivation_v2.py
+    |?? tests/test_survey_longform_publication_integration_v2.py
+  config_rc=0 inert_example_invalid=True
+    cfg:file:.git/config	remote.origin.url=https://example.invalid/rephase-candidate-recovery.git
+    cfg:file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+--- workspace ---
+  head='ab17af4211b04eaff4781ef104631bcd56a66085'
+  tree='c523512c0380ae0d5b85883c4dc0a8e3ec5ca1ee'
+  cached=''
+  alternates_exists=False
+  status_rc=0 status_bytes=29
+    |?? notes/rephase-1-dm021-p1/
+  config_rc=0 inert_example_invalid=False
+    cfg:file:.git/config	remote.origin.url=https://github.com/eariver/reconstruct-japanese-generative-ai-survey.git
+    cfg:file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+    cfg:file:.git/config	branch.main.remote=origin
+check active_head_is_409=True
+check active_tree_is_8ce=True
+check copy_head_is_409=True
+check copy_tree_is_8ce=True
+check active_status_full_eq_freeze_pre=True
+check copy_status_full_eq_freeze_pre=True
+check active_cached_empty=True
+check copy_cached_empty=True
+check active_no_alternates=True
+check copy_no_alternates=True
+check active_inert=True
+check copy_inert=True
+check active_13_eq_freeze_pre=True
+check copy_13_eq_freeze_pre=True
+NOTE pins are capture-at-run pre vs post, not independent static preknown hashes;
+  CURRENT match proves no drift since run, not retroactive static proof.
+  file schemas/reader-surface-gate-v2.schema.json active={'sha256': 'fe4a96f4aa87f2a527096c4d3040f92e0217ef972ddae1d7140498184a13322c', 'mode': '0o664', 'bytes': 6894} copy={'sha256': 'fe4a96f4aa87f2a527096c4d3040f92e0217ef972ddae1d7140498184a13322c', 'mode': '0o664', 'bytes': 6894}
+  file schemas/reader-surface-semantic-review-v2.schema.json active={'sha256': 'e8598239d3ca00441f61110fd77a7b7edf063ac15a7a6a1c2efdb38e73d6699b', 'mode': '0o664', 'bytes': 4219} copy={'sha256': 'e8598239d3ca00441f61110fd77a7b7edf063ac15a7a6a1c2efdb38e73d6699b', 'mode': '0o664', 'bytes': 4219}
+  file scripts/survey_reader_surface_gate_v2.py active={'sha256': 'e73058841cfa1a841030b96d5cd2fb756c6ba99d1b99522ddbf0131d1f06bbe4', 'mode': '0o664', 'bytes': 94511} copy={'sha256': 'e73058841cfa1a841030b96d5cd2fb756c6ba99d1b99522ddbf0131d1f06bbe4', 'mode': '0o664', 'bytes': 94511}
+  file schemas/editorial-correction-proposal-v2.schema.json active={'sha256': '5623c0d92e3dfc5415e1ab73c73b3d5f1b147f265f2255469cede2ec333a4607', 'mode': '0o664', 'bytes': 3945} copy={'sha256': '5623c0d92e3dfc5415e1ab73c73b3d5f1b147f265f2255469cede2ec333a4607', 'mode': '0o664', 'bytes': 3945}
+  file schemas/longform-publication-source-manifest-v2.schema.json active={'sha256': '4dadf873096f31cf564a7db4fee42a1fc8cdd8fc039dd14a7ee01cf26043e8ca', 'mode': '0o664', 'bytes': 2720} copy={'sha256': '4dadf873096f31cf564a7db4fee42a1fc8cdd8fc039dd14a7ee01cf26043e8ca', 'mode': '0o664', 'bytes': 2720}
+  file schemas/longform-reader-input-v2.schema.json active={'sha256': '7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643', 'mode': '0o664', 'bytes': 10624} copy={'sha256': '7bae9d2ac753c83521165c76c9e461ce40ac4e704d9b44d3518ae7b88fbd0643', 'mode': '0o664', 'bytes': 10624}
+  file scripts/survey_editorial_correction_proposal_v2.py active={'sha256': '5d2fde456d42d494acc93d3ce6cab51bcd3ee56178b62cdf9eb31554db03c346', 'mode': '0o664', 'bytes': 110155} copy={'sha256': '5d2fde456d42d494acc93d3ce6cab51bcd3ee56178b62cdf9eb31554db03c346', 'mode': '0o664', 'bytes': 110155}
+  file scripts/survey_longform_derivation_v2.py active={'sha256': 'c09c5558f9668906b7d2ed34c55281d5f6d9ed279d3237a8ffc18ac84ea41149', 'mode': '0o664', 'bytes': 62260} copy={'sha256': 'c09c5558f9668906b7d2ed34c55281d5f6d9ed279d3237a8ffc18ac84ea41149', 'mode': '0o664', 'bytes': 62260}
+  file scripts/survey_longform_generated_v2.py active={'sha256': 'd480e11d1c398f79f3e894e2e1e1f56ceec507dfde376a163a58b0ebed97d3c2', 'mode': '0o664', 'bytes': 39992} copy={'sha256': 'd480e11d1c398f79f3e894e2e1e1f56ceec507dfde376a163a58b0ebed97d3c2', 'mode': '0o664', 'bytes': 39992}
+  file scripts/survey_longform_semantic_publication_v2.py active={'sha256': '4d235a388955dcedd34d6a7dc5ac7761f9fc91de8bc723eb11f68cec6a229195', 'mode': '0o664', 'bytes': 36224} copy={'sha256': '4d235a388955dcedd34d6a7dc5ac7761f9fc91de8bc723eb11f68cec6a229195', 'mode': '0o664', 'bytes': 36224}
+  file tests/test_survey_editorial_correction_proposal_v2.py active={'sha256': 'f581fad0a483303f2bed1de080dd1a9e6f07928d228ef8f24d7c4a7c1242dbac', 'mode': '0o664', 'bytes': 112708} copy={'sha256': 'f581fad0a483303f2bed1de080dd1a9e6f07928d228ef8f24d7c4a7c1242dbac', 'mode': '0o664', 'bytes': 112708}
+  file tests/test_survey_longform_derivation_v2.py active={'sha256': 'ce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913', 'mode': '0o664', 'bytes': 91161} copy={'sha256': 'ce687447539a99eb92532bc34246a271fb489b259e63b31ed6699fcc12fbf913', 'mode': '0o664', 'bytes': 91161}
+  file tests/test_survey_longform_publication_integration_v2.py active={'sha256': '4a03b564f8fa4dd39f2b48766ddb7612cf2d8d4dacdcc42ac39f637d2bca11a4', 'mode': '0o664', 'bytes': 107757} copy={'sha256': '4a03b564f8fa4dd39f2b48766ddb7612cf2d8d4dacdcc42ac39f637d2bca11a4', 'mode': '0o664', 'bytes': 107757}
+git file counts: active=134 copy=134 workspace=1075
+symlinks: active=0 copy=0 workspace_sym=0
+nlink>1: active=0 copy=0 workspace=0
+shared (dev,ino) active&copy=0 active&workspace=0 copy&workspace=0
+HEAD inodes differ (prior narrow check): True
+  active HEAD dev=45 ino=47016 nlink=1
+  copy HEAD dev=45 ino=434044 nlink=1
+NOTE prior proof_apply.py compared ONLY .git/HEAD inode; this closeout compares ALL .git files.
+verdict=CLOSEOUT_CURRENT_MATCH errors=[]
+SCOPE: current-state verification only; not retroactive per-run proof; no tests rerun; no source verdict.

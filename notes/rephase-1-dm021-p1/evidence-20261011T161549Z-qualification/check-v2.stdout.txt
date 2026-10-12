@@ -1,0 +1,97 @@
+== Q1 identity/chain/status (read-only git) ==
+[OK] head-409
+[OK] tree-8ce
+[OK] parent-34f
+[OK] cat-file-C222
+[OK] cat-file-CE170
+[OK] cat-file-FINAL
+[OK] status-exact-2M7A :: observed=9 rows
+--- observed status ---
+   M schemas/reader-surface-gate-v2.schema.json
+   M scripts/survey_reader_surface_gate_v2.py
+  ?? schemas/longform-publication-source-manifest-v2.schema.json
+  ?? schemas/longform-reader-input-v2.schema.json
+  ?? scripts/survey_longform_derivation_v2.py
+  ?? scripts/survey_longform_generated_v2.py
+  ?? scripts/survey_longform_semantic_publication_v2.py
+  ?? tests/test_survey_longform_derivation_v2.py
+  ?? tests/test_survey_longform_publication_integration_v2.py
+== Q2 nine files: type/mode/hash/size (stdlib, no app imports) ==
+[OK] nine:schemas/longform-publication-source-manifest-v2.schema.json :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=2720
+[OK] nine:schemas/longform-reader-input-v2.schema.json :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=10624
+[OK] nine:schemas/reader-surface-gate-v2.schema.json :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=6894
+[OK] nine:scripts/survey_longform_derivation_v2.py :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=62260
+[OK] nine:scripts/survey_longform_generated_v2.py :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=39992
+[OK] nine:scripts/survey_longform_semantic_publication_v2.py :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=36224
+[OK] nine:scripts/survey_reader_surface_gate_v2.py :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=94511
+[OK] nine:tests/test_survey_longform_derivation_v2.py :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=91161
+[OK] nine:tests/test_survey_longform_publication_integration_v2.py :: reg=True nolink=True sha_match=True mode=0o664 exp=0o664 bytes=107757
+== Q3 device/inode separation (correct st_dev/st_ino) ==
+restored objects files=107 distinct(dev,ino)=107 devs=[45] nlink_hist={1: 107}
+workspace objects files=1045 distinct(dev,ino)=1045
+shared(dev,ino)=0
+[OK] zero-shared-devino
+[OK] restored-nlink-all-one :: hist={1: 107}
+== Q4 archive-member audit (stdlib tarfile, no extraction) ==
+members=760 topdirs=['candidate-partial-b40de60'] types={'regular': 760}
+absolute=0 dotdot=0 duplicates=0 fetchhead=0
+[OK] archive-single-topdir :: ['candidate-partial-b40de60']
+[OK] archive-no-abs
+[OK] archive-no-dotdot
+[OK] archive-no-duplicates
+[OK] archive-no-links :: {'regular': 760}
+[OK] archive-no-devices :: {'regular': 760}
+[OK] archive-no-fetchhead
+[OK] archive-only-reg-or-dir :: {'regular': 760}
+== Q5 imported config/hooks/remotes/alternates/env ==
+--- .git/config ---
+[core]
+	repositoryformatversion = 1
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[extensions]
+	worktreeConfig = true
+[remote "origin"]
+	url = https://example.invalid/rephase-candidate-recovery.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[OK] config-no-hookspath
+hook applypatch-msg.sample kind=reg mode=0o775
+hook commit-msg.sample kind=reg mode=0o775
+hook fsmonitor-watchman.sample kind=reg mode=0o775
+hook post-update.sample kind=reg mode=0o775
+hook pre-applypatch.sample kind=reg mode=0o775
+hook pre-commit.sample kind=reg mode=0o775
+hook pre-merge-commit.sample kind=reg mode=0o775
+hook pre-push.sample kind=reg mode=0o775
+hook pre-rebase.sample kind=reg mode=0o775
+hook pre-receive.sample kind=reg mode=0o775
+hook prepare-commit-msg.sample kind=reg mode=0o775
+hook push-to-checkout.sample kind=reg mode=0o775
+hook sendemail-validate.sample kind=reg mode=0o775
+hook update.sample kind=reg mode=0o775
+[OK] hooks-no-active :: active=[]
+--- remotes ---
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+[OK] remotes-inert
+[OK] no-alternates
+inherited-GIT-env=[]
+[OK] no-inherited-git-common
+--- available chain ---
+409b292 DM-004 final cleanup: drop rationale-grep test; unmodified extracted failfast line via STATE env
+34f934e DM-004 correction tests: fix released-tuple use and cwd-different script path
+c4aa3b5 DM-004 correction: contain State path before load; whole-block/discriminative/no-write oracle hardening
+6ffed32 DM-004 tests: drop unused shutil import
+22598f1 DM-004 tests: fix remaining sentinel name typo in failfast assertion
+d80b5ee DM-004 tests: unique fixture issues, FROZEN-named release checkpoint, sentinel typo fix
+3dc4288 DM-004: add read-only validate-state CLI reusing shared agent State validation
+e1705b7 DM003-W1: require approved Preview Human==checkpoint agreement in shared State validation
+222a37e DM-001/019 final hardening: no close retry, Freeze recheck before Manifest, sentinel/drift tests
+ff6c67f DM-001/019 correction: nested/dotdot preflight, collision revalidation, close propagation, PDF alias, snapshot recheck, lstat cleanup
+490414c DM-001/019 joint Freeze boundary: shared authority/preflight/pair-writer plus equivalence tests
+b40de60 Candidate recovery: fixed-baseline 32-path content (A/B/CLI/R1) for DM-001/019 Freeze boundary
+774dd39 Merge pull request #496 from eariver/fix/core-v2-prepublication-reader-surface-gate-20260914
+[OK] chain-has-409-and-b40
+== RESULT ==
+ALL_CURRENT_CHECKS_PASS

@@ -1,0 +1,17 @@
+# DM021-P1 transitive collection — final narrow correction required
+
+2026-10-12 JST. Root inspected correction2 module8bf87871. C2/profile refusal, C3/final predicate and C4/order changes are useful. C1 is STILL incomplete and now includes an unsafe authority fallback. Preserve correction2 as historical; no source acceptance yet.
+
+1. The new collector adds checkpoint WRAPPER nodes but does not collect their State-bound upstream ARTIFACT refs. There is still no `candidate-selection` or `edition-views-acceptance` collector/body (only unused frozen prefixes). A frozen root list is not the actual graph. Use the real State-bound upstream checkpoints and actual named artifacts:
+   - discovery → discovery-acceptance;
+   - screening → screening-acceptance;
+   - evidence/materiality/completeness producer (config289–296) → evidence-acceptance, edition-views-acceptance, materiality-ledger, profile-completeness (there is no separate `views` checkpoint in this config);
+   - selection → candidate-matrix AND candidate-selection;
+   - architecture → issue-architecture/review-summary/review-attention;
+   - draft → actual approved package/result roles and synthesis-input/result.
+   Reuse `resolve_checkpoint_artifact` / `resolve_active_evidence_views` where appropriate, or already strictly validated, pinned checkpoint records without redundant full revalidation per row. No fake checkpoint names or additional runtime paths.
+2. Remove guessed `profile-completeness.json` / `profile-completeness-v2.json` lookup. Existing filenames + matching profile/ledger basis do NOT prove this is the State-adopted completeness artifact; a stale valid-looking sibling must not enter the frozen digest. Select the exact checkpoint ref, validate it, then add its known dependencies. Same rule for selection/views: no glob/latest/canonical-presence authority.
+3. Expand the actual edition-view acceptance/package/result references under its current validator-defined schema/path conventions, and include other required local record edges consumed by current validators. Missing/unclassifiable required relation must be an explicit blocker, not silently omitted. Leave external URLs/historical generation-State SHA as provenance. Original validation rows are metadata; current overridden edges must be explicitly labelled effective/active or sourced from the active record, not falsely presented as literal original-checkpoint refs to a new hash.
+4. Extend independent fixture oracles from the actual selected checkpoint rows and independently loaded expected container maps: assert `candidate-selection`, exact `profile-completeness`, `edition-views-acceptance` plus its package/results and Evidence/Screening/Discovery local dependencies. Ensure all research authority nodes are KEEP + frozen, wrappers are KEEP but NOT frozen, pub/QA/State excluded. Add a stale valid-looking completeness sibling that is NOT State-bound and prove it is not adopted; no field-count/node-count surrogate. Do not infer completeness from globbing whichever files the implementation happened to add.
+
+Same3A1M budget. Preserve actual R1×2 predecessor and artifact-only/control-drift behavior. Fresh final focused/affected run on fixed pins (old36 no transfer), complete13 patch generated in a separate copy and applied AS SAVED to an independent actual409 base. No candidate index mutation, commit, network or tests in protected source DBs. Return concrete remaining blocker if needed; no new abstract contract work.

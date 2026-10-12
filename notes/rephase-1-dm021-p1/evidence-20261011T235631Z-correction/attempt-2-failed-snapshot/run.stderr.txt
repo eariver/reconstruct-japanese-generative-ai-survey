@@ -1,0 +1,251 @@
+test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree) ... ERROR
+test_candidate_observed_and_stale (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_candidate_observed_and_stale) ... ERROR
+test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active) ... ok
+test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end) ... ok
+test_ordinary_reviews_stay_compatible (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_ordinary_reviews_stay_compatible) ... ok
+test_proposal_binding_and_retention (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_proposal_binding_and_retention) ... FAIL
+test_r1_mechanical_refresh_owner (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_r1_mechanical_refresh_owner) ... ok
+test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) ... 
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='retention-conflict') ... FAIL
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='wrong-before') ... FAIL
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='wrong-after') ... FAIL
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='reject') ... FAIL
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='needs-owner') ... FAIL
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='stale-upstream') ... FAIL
+test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives) ... FAIL
+test_bibliography_leakage_detected (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_bibliography_leakage_detected)
+Bibliography containing [V/M] tags or internal tmp paths is blocked. ... ok
+test_clean_reader_prose_passes_gate (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_clean_reader_prose_passes_gate)
+Clean reader-facing prose passes with 0 blocking findings. ... ok
+test_longform_revision_strengthened_validator (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_longform_revision_strengthened_validator)
+survey_longform_publication_v2 validates all reader text via strengthened surface gate. ... ok
+test_missing_reader_surface_gate_artifact_blocks_stage (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_reader_surface_gate_artifact_blocks_stage)
+DRAFT_COMPLETE and VALIDATED_DRAFT require reader-surface-gate artifact. ... ok
+test_missing_semantic_authority_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_semantic_authority_fails)
+Omitting machine-checkable semantic_authority raises ValueError and cannot PASS. ... ok
+test_must_cover_cop_out_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_must_cover_cop_out_fails)
+Asserting 'Architecture requires X' instead of explaining facts is blocked. ... ok
+test_narrow_allowlist_suppression_allows_pass (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_narrow_allowlist_suppression_allows_pass)
+Narrow allowlist with audited reason converts finding to SUPPRESSED and allows pass. ... ok
+test_pre_tex_structured_reader_surface_validation_catches_leakage (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_pre_tex_structured_reader_surface_validation_catches_leakage)
+Pre-TeX structured reader-facing scan detects blocking leakage before TeX generation. ... ok
+test_required_a_production_synthetic_builder_absent (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_a_production_synthetic_builder_absent)
+Test A: Production synthetic builder absent - shared production API cannot manufacture PASS. ... ok
+test_required_b_missing_semantic_checks (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_b_missing_semantic_checks)
+Test B: Missing semantic checks - decision=PASS and findings=[] without required checks fails. ... ok
+test_required_c_empty_semantic_check_evidence (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_c_empty_semantic_check_evidence)
+Test C: Empty semantic check evidence - detail="" or evidence_locations=[] fails. ... ok
+test_required_d_required_semantic_check_fail (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_d_required_semantic_check_fail)
+Test D: Required semantic check FAIL - READER_PIPELINE_INDEPENDENCE=FAIL prevents overall review PASS. ... ok
+test_required_e_authentic_pass (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_e_authentic_pass)
+Test E: Authentic PASS - bound to exact surface, correct review kind, required check PASS, valid digest. ... ok
+test_required_f_legacy_publication_review_rejected (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_f_legacy_publication_review_rejected)
+Test F: Legacy publication review rejected - valid publication-review-record-v2 fails pre-TeX gate. ... ok
+test_required_g_malformed_new_review_does_not_fallback (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_g_malformed_new_review_does_not_fallback)
+Test G: Malformed new review does not fallback - corrupted review fails closed. ... ok
+test_required_h_stale_new_review (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_h_stale_new_review)
+Test H: Stale new review - modifying surface payload after review creation fails validation. ... ok
+test_review_rationale_meta_rebuttal_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_review_rationale_meta_rebuttal_fails)
+Meta-rebuttal to prior review comments is blocked. ... ok
+test_semantic_authority_non_pass_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_non_pass_fails)
+Semantic authority with non-PASS status/decision triggers blocking finding. ... ok
+test_semantic_authority_surface_sha_mismatch_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_surface_sha_mismatch_fails)
+Semantic authority bound to wrong primary surface SHA triggers blocking finding. ... ok
+test_semantic_layer_review_contract_evaluation (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_layer_review_contract_evaluation)
+Semantic review layer flags process-dependent prose with proposed normalization. ... ok
+test_special_leakage_fixture_fails_fast (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_special_leakage_fixture_fails_fast)
+Special longform leakage (D017, 本 package, 一次資料として昇格させない, Verify, materiality) fails fast. ... ok
+test_validate_reader_surface_gate_identity_mismatch_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_identity_mismatch_fails)
+Independent validator rejects issue_id or publication_profile identity mismatch. ... ok
+test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails)
+Independent validator catches drifted or mutated on-disk surface bytes. ... ok
+test_validate_reader_surface_gate_tampered_gate_sha_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_tampered_gate_sha_fails)
+Independent validator catches fabricated or tampered gate_sha256. ... ok
+test_validate_reader_surface_gate_unresolved_blocking_finding_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_unresolved_blocking_finding_fails)
+Independent validator rejects gate record containing unresolved blocking findings. ... ok
+test_validate_reader_surface_gate_valid_passes (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_valid_passes)
+Independent validator passes a well-formed, untampered Reader-Surface Gate. ... ok
+test_weekly_leakage_fixture_fails_fast (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_weekly_leakage_fixture_fails_fast)
+Weekly magazine leakage (Selection r2, Package 4, Discovery observation) fails fast. ... ok
+
+======================================================================
+ERROR: test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1287, in test_artifact_only_vs_control_drift_and_tree
+    proposal_mod.prepare_proposal(root, state_path, staged_authoring, "fixture-wk-drift-1")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1171, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1016, in _pipeline
+    receipt = weekly.validate_receipt(root, receipt_file, state_file)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 732, in validate_receipt
+    _verify_head_bytes(root, tools["repository_commit_sha"], tools["closure"])
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 609, in _verify_head_bytes
+    raise ValueError("Weekly current implementation or contract differs from committed HEAD")
+ValueError: Weekly current implementation or contract differs from committed HEAD
+
+======================================================================
+ERROR: test_candidate_observed_and_stale (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_candidate_observed_and_stale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1345, in test_candidate_observed_and_stale
+    proposal_mod.prepare_proposal(root, state_path, staged_authoring, "fixture-wk-cand-1")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1171, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1040, in _pipeline
+    graph, frozen, preserved_digest = _build_graph(
+                                      ~~~~~~~~~~~~^
+        col, root, state, original_rows, effective, active_record,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        receipt, col.rel(receipt_file), gate_record, manuscript_doc, bundle, pretex,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        state_rel, profile)
+        ^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 803, in _build_graph
+    candidate = publication.validate_candidate(root, candidate_full, issue_id=state.get("issue_id"))
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_publication_v2.py", line 750, in validate_candidate
+    payload = schema_gate.load_and_validate_json(path, repo_root / CANDIDATE_SCHEMA, label="Publication Candidate")
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_schema_v2.py", line 80, in load_and_validate_json
+    validate_instance(value, schema_path, label=label)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_schema_v2.py", line 68, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: Publication Candidate fails /tmp/jgas-p1-cand-vefau5nw/schemas/publication-candidate-v2.schema.json: $: 'candidate_sha256' is a required property
+
+======================================================================
+FAIL: test_proposal_binding_and_retention (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_proposal_binding_and_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 157, in safe
+    st = candidate.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p1-bind-avr5qny7/sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1299, in validate_proposal
+    col.safe(candidate.relative_to(col.root).as_posix()
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             if candidate.is_absolute() and str(candidate).startswith(str(col.root))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+             else (observed_dir_rel + "/" + name), f"proposal directory entry {name}")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 159, in safe
+    raise _fail("PATH_MISSING", f"{label} missing: {rel}: {exc}") from exc
+scripts.survey_editorial_correction_proposal_v2.ProposalError: PATH_MISSING: proposal directory entry authoring-input.json missing: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json: [Errno 2] No such file or directory: '/tmp/jgas-p1-bind-avr5qny7/sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json'
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_correction_proposal_v2.ProposalError: PROPOSAL_LAYOUT: proposal directory entry invalid authoring-input.json: PATH_MISSING: proposal directory entry authoring-input.json missing: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json: [Errno 2] No such file or directory: '/tmp/jgas-p1-bind-avr5qny7/sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1189, in test_proposal_binding_and_retention
+    with self.assertRaisesRegex(ProposalError, "PROPOSED_DIGEST_MISMATCH|BASIS_MISMATCH|SCHEMA"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "PROPOSED_DIGEST_MISMATCH|BASIS_MISMATCH|SCHEMA" does not match "PROPOSAL_LAYOUT: proposal directory entry invalid authoring-input.json: PATH_MISSING: proposal directory entry authoring-input.json missing: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json: [Errno 2] No such file or directory: '/tmp/jgas-p1-bind-avr5qny7/sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bind-1/authoring-input.json'"
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='retention-conflict')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1016, in test_refusal_and_scope_matrix
+    _assert_no_write(self, snap_ret, _snapshot(root), "retention-conflict no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[65102 chars]n/v2/editorial-corrections/fixture-wk-mx-1/ret[28341 chars]b89'} != {'arc[65102 chars]n/v2/interactive-semantic-publication-input.js[28145 chars]b89'}
+Diff is 95782 characters long. Set self.maxDiff to None to see it. : tree write during retention-conflict no-write
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='wrong-before')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1049, in test_refusal_and_scope_matrix
+    _assert_no_write(self, snap, _snapshot(root), "wrong-before no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[65267 chars]n/v2/editorial-corrections/fixture-wk-mx-1/sco[28313 chars]b89'} != {'arc[65267 chars]n/v2/interactive-semantic-publication-input.js[28145 chars]b89'}
+Diff is 95922 characters long. Set self.maxDiff to None to see it. : tree write during wrong-before no-write
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='wrong-after')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1059, in test_refusal_and_scope_matrix
+    _assert_no_write(self, snap, _snapshot(root), "wrong-after no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[66672 chars]/v2/scope-wrong-after-v2.json': '3d370cbaad22f[27037 chars]b89'} != {'arc[66672 chars]/v2/semantic-editorial-review-v2.json': '88b71[26908 chars]b89'}
+Diff is 96054 characters long. Set self.maxDiff to None to see it. : tree write during wrong-after no-write
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='reject')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1066, in test_refusal_and_scope_matrix
+    _assert_no_write(self, snap, _snapshot(root), "reject no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[65311 chars]cope-reject-v2.json': '8831c6c13daed2e69960076[28560 chars]b89'} != {'arc[65311 chars]cope-wrong-before-v2.json': '26b9456f65df95996[28398 chars]b89'}
+Diff is 96219 characters long. Set self.maxDiff to None to see it. : tree write during reject no-write
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='needs-owner')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1073, in test_refusal_and_scope_matrix
+    _assert_no_write(self, snap, _snapshot(root), "needs-owner no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[65311 chars]cope-needs-owner-v2.json': '9b3b9d2013158dc66a[28727 chars]b89'} != {'arc[65311 chars]cope-reject-v2.json': '8831c6c13daed2e69960076[28560 chars]b89'}
+Diff is 96389 characters long. Set self.maxDiff to None to see it. : tree write during needs-owner no-write
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='stale-upstream')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1080, in test_refusal_and_scope_matrix
+    _assert_no_write(self, snap, _snapshot(root), "stale-upstream no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[65640 chars]cope-stale-v2.json': '8ab5801a0a551125956bcb9f[28559 chars]b89'} != {'arc[65640 chars]cope-wrong-before-v2.json': '26b9456f65df95996[28398 chars]b89'}
+Diff is 96553 characters long. Set self.maxDiff to None to see it. : tree write during stale-upstream no-write
+
+======================================================================
+FAIL: test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 785, in test_weekly_envelope_positive_and_body_negatives
+    _assert_no_write(self, snap, _snapshot(root), "weekly negative draft-result tamper (no P1 write)")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[58216 chars]n': '2f4f19dd507796daf8d82d6a6f2c5d25a62e895a7[35034 chars]178'} != {'arc[58216 chars]n': 'f586a6390c54a357596f3422a96d473b50b7d9545[35034 chars]178'}
+Diff is 95721 characters long. Set self.maxDiff to None to see it. : tree write during weekly negative draft-result tamper (no P1 write)
+
+----------------------------------------------------------------------
+Ran 36 tests in 2567.116s
+
+FAILED (failures=8, errors=2)

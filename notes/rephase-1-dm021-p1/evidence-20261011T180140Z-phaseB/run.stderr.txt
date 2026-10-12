@@ -1,0 +1,136 @@
+test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active) ... ERROR
+test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end) ... FAIL
+test_ordinary_reviews_stay_compatible (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_ordinary_reviews_stay_compatible) ... ok
+test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) ... 
+  test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='alias') ... FAIL
+test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) ... ERROR
+test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives) ... FAIL
+test_bibliography_leakage_detected (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_bibliography_leakage_detected)
+Bibliography containing [V/M] tags or internal tmp paths is blocked. ... ok
+test_clean_reader_prose_passes_gate (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_clean_reader_prose_passes_gate)
+Clean reader-facing prose passes with 0 blocking findings. ... ok
+test_longform_revision_strengthened_validator (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_longform_revision_strengthened_validator)
+survey_longform_publication_v2 validates all reader text via strengthened surface gate. ... ok
+test_missing_reader_surface_gate_artifact_blocks_stage (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_reader_surface_gate_artifact_blocks_stage)
+DRAFT_COMPLETE and VALIDATED_DRAFT require reader-surface-gate artifact. ... ok
+test_missing_semantic_authority_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_semantic_authority_fails)
+Omitting machine-checkable semantic_authority raises ValueError and cannot PASS. ... ok
+test_must_cover_cop_out_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_must_cover_cop_out_fails)
+Asserting 'Architecture requires X' instead of explaining facts is blocked. ... ok
+test_narrow_allowlist_suppression_allows_pass (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_narrow_allowlist_suppression_allows_pass)
+Narrow allowlist with audited reason converts finding to SUPPRESSED and allows pass. ... ok
+test_pre_tex_structured_reader_surface_validation_catches_leakage (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_pre_tex_structured_reader_surface_validation_catches_leakage)
+Pre-TeX structured reader-facing scan detects blocking leakage before TeX generation. ... ok
+test_required_a_production_synthetic_builder_absent (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_a_production_synthetic_builder_absent)
+Test A: Production synthetic builder absent - shared production API cannot manufacture PASS. ... ok
+test_required_b_missing_semantic_checks (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_b_missing_semantic_checks)
+Test B: Missing semantic checks - decision=PASS and findings=[] without required checks fails. ... ok
+test_required_c_empty_semantic_check_evidence (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_c_empty_semantic_check_evidence)
+Test C: Empty semantic check evidence - detail="" or evidence_locations=[] fails. ... ok
+test_required_d_required_semantic_check_fail (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_d_required_semantic_check_fail)
+Test D: Required semantic check FAIL - READER_PIPELINE_INDEPENDENCE=FAIL prevents overall review PASS. ... ok
+test_required_e_authentic_pass (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_e_authentic_pass)
+Test E: Authentic PASS - bound to exact surface, correct review kind, required check PASS, valid digest. ... ok
+test_required_f_legacy_publication_review_rejected (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_f_legacy_publication_review_rejected)
+Test F: Legacy publication review rejected - valid publication-review-record-v2 fails pre-TeX gate. ... ok
+test_required_g_malformed_new_review_does_not_fallback (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_g_malformed_new_review_does_not_fallback)
+Test G: Malformed new review does not fallback - corrupted review fails closed. ... ok
+test_required_h_stale_new_review (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_h_stale_new_review)
+Test H: Stale new review - modifying surface payload after review creation fails validation. ... ok
+test_review_rationale_meta_rebuttal_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_review_rationale_meta_rebuttal_fails)
+Meta-rebuttal to prior review comments is blocked. ... ok
+test_semantic_authority_non_pass_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_non_pass_fails)
+Semantic authority with non-PASS status/decision triggers blocking finding. ... ok
+test_semantic_authority_surface_sha_mismatch_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_surface_sha_mismatch_fails)
+Semantic authority bound to wrong primary surface SHA triggers blocking finding. ... ok
+test_semantic_layer_review_contract_evaluation (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_layer_review_contract_evaluation)
+Semantic review layer flags process-dependent prose with proposed normalization. ... ok
+test_special_leakage_fixture_fails_fast (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_special_leakage_fixture_fails_fast)
+Special longform leakage (D017, 本 package, 一次資料として昇格させない, Verify, materiality) fails fast. ... ok
+test_validate_reader_surface_gate_identity_mismatch_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_identity_mismatch_fails)
+Independent validator rejects issue_id or publication_profile identity mismatch. ... ok
+test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails)
+Independent validator catches drifted or mutated on-disk surface bytes. ... ok
+test_validate_reader_surface_gate_tampered_gate_sha_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_tampered_gate_sha_fails)
+Independent validator catches fabricated or tampered gate_sha256. ... ok
+test_validate_reader_surface_gate_unresolved_blocking_finding_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_unresolved_blocking_finding_fails)
+Independent validator rejects gate record containing unresolved blocking findings. ... ok
+test_validate_reader_surface_gate_valid_passes (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_valid_passes)
+Independent validator passes a well-formed, untampered Reader-Surface Gate. ... ok
+test_weekly_leakage_fixture_fails_fast (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_weekly_leakage_fixture_fails_fast)
+Weekly magazine leakage (Selection r2, Package 4, Discovery observation) fails fast. ... ok
+
+======================================================================
+ERROR: test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 550, in test_honest_predecessor_original_vs_active
+    self.assertEqual(weekly_publication.main(), 0)
+                     ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 68, in main
+    raise SystemExit("semantic publication requires DRAFT_COMPLETE State")
+SystemExit: semantic publication requires DRAFT_COMPLETE State
+
+======================================================================
+ERROR: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 699, in _validate_scope
+    authority = surface_gate.load_and_validate_reader_surface_semantic_review(
+        root, raw_path, expected_issue_id=state.get("issue_id"),
+        expected_publication_profile=profile.get("publication_profile"),
+        expected_surface_path=after_ref["path"],
+        expected_surface_sha256=after_ref["sha256"], require_pass=True)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_reader_surface_gate_v2.py", line 1003, in load_and_validate_reader_surface_semantic_review
+    raise ValueError(
+        f"Semantic review record digest mismatch: expected {expected_digest}, got {raw.get('review_sha256')}"
+    )
+ValueError: Semantic review record digest mismatch: expected 106bd8b3f79002f6c44e828fd92065b5d04d7763b890af94c51540b787059240, got 9ece08e47faab3194abaa33e566811a3d4d3db571dfeb7fa2e4b698af4aff11b
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 656, in test_refusal_and_scope_matrix
+    proposal_mod.validate_proposal(root, state_path, proposal_path, ordinary)["result"],
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 790, in validate_proposal
+    outcome = _validate_scope(col, root_path, scope_review_path, proposal, state, profile)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 705, in _validate_scope
+    raise _fail("SCOPE_ORDINARY_INVALID", str(exc)) from exc
+scripts.survey_editorial_correction_proposal_v2.ProposalError: SCOPE_ORDINARY_INVALID: Semantic review record digest mismatch: expected 106bd8b3f79002f6c44e828fd92065b5d04d7763b890af94c51540b787059240, got 9ece08e47faab3194abaa33e566811a3d4d3db571dfeb7fa2e4b698af4aff11b
+
+======================================================================
+FAIL: test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 475, in test_longform_prose_correction_end_to_end
+    self.assertIn("production-profile", frozen_kinds)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'production-profile' not found in {'architecture', 'approval', 'architecture-review-attention-v2.json', 'profile', 'architecture-review-summary-v2.json'}
+
+======================================================================
+FAIL: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) (case='alias')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 602, in test_refusal_and_scope_matrix
+    with self.assertRaisesRegex(ProposalError, "PATH_ALIAS"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ProposalError not raised
+
+======================================================================
+FAIL: test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 506, in test_weekly_envelope_positive_and_body_negatives
+    _assert_no_write(self, before, _snapshot(root), "weekly validate")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 130, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'arc[64734 chars]n/v2/editorial-corrections/fixture-wk-env-1/au[5041 chars]ba7'} != {'arc[64734 chars]n/v2/interactive-semantic-publication-input.js[4551 chars]ba7'}
+Diff is 71508 characters long. Set self.maxDiff to None to see it. : tree write during weekly validate
+
+----------------------------------------------------------------------
+Ran 32 tests in 1066.974s
+
+FAILED (failures=3, errors=2)

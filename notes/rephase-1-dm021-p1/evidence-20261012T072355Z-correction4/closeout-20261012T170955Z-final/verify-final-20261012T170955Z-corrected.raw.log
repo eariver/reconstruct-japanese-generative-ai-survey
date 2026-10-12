@@ -1,0 +1,83 @@
+DM021-P1 correction4 FINAL read-only verification 20261012T170955Z
+active=/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60
+copy=/tmp/opencode/jgas-dm021p1-R2-verify-20261012T072355Z/candidate-partial-b40de60
+workspace=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+inherited_git_before_sanitize=[]
+inherited_python_routing=[]
+forced_git=['GIT_ALLOW_PROTOCOL', 'GIT_NO_LAZY_FETCH', 'GIT_OPTIONAL_LOCKS']
+optimize=0 interpreter=/usr/bin/python3 python=3.14.4
+saved pre==post full: True
+saved status exact13: True
+patch sha=85e9d9ab3c972a786afb1cf2f941bf4dbcfd4980f2e63d0ad9cf6df3cb55963c expect=85e9d9ab3c972a786afb1cf2f941bf4dbcfd4980f2e63d0ad9cf6df3cb55963c diffs=13 bytes=604448
+contract sha=07e899901f488b256ca846c62b1a1fab3edadc880f34593a38078412aeb3c661 expect=07e899901f488b256ca846c62b1a1fab3edadc880f34593a38078412aeb3c661
+--- active head=409b292756dd1277b9dfae87679934c0d2ce251c tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+  status_rc=0 bytes=673
+    | M schemas/reader-surface-gate-v2.schema.json
+    | M schemas/reader-surface-semantic-review-v2.schema.json
+    | M scripts/survey_reader_surface_gate_v2.py
+    |?? schemas/editorial-correction-proposal-v2.schema.json
+    |?? schemas/longform-publication-source-manifest-v2.schema.json
+    |?? schemas/longform-reader-input-v2.schema.json
+    |?? scripts/survey_editorial_correction_proposal_v2.py
+    |?? scripts/survey_longform_derivation_v2.py
+    |?? scripts/survey_longform_generated_v2.py
+    |?? scripts/survey_longform_semantic_publication_v2.py
+    |?? tests/test_survey_editorial_correction_proposal_v2.py
+    |?? tests/test_survey_longform_derivation_v2.py
+    |?? tests/test_survey_longform_publication_integration_v2.py
+  cached='' ls_v_lines=32155 stage_lines=32155
+--- copy head=409b292756dd1277b9dfae87679934c0d2ce251c tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+  status_rc=0 bytes=673
+    | M schemas/reader-surface-gate-v2.schema.json
+    | M schemas/reader-surface-semantic-review-v2.schema.json
+    | M scripts/survey_reader_surface_gate_v2.py
+    |?? schemas/editorial-correction-proposal-v2.schema.json
+    |?? schemas/longform-publication-source-manifest-v2.schema.json
+    |?? schemas/longform-reader-input-v2.schema.json
+    |?? scripts/survey_editorial_correction_proposal_v2.py
+    |?? scripts/survey_longform_derivation_v2.py
+    |?? scripts/survey_longform_generated_v2.py
+    |?? scripts/survey_longform_semantic_publication_v2.py
+    |?? tests/test_survey_editorial_correction_proposal_v2.py
+    |?? tests/test_survey_longform_derivation_v2.py
+    |?? tests/test_survey_longform_publication_integration_v2.py
+  cached='' ls_v_lines=32155 stage_lines=32155
+--- workspace head=ab17af4211b04eaff4781ef104631bcd56a66085 tree=c523512c0380ae0d5b85883c4dc0a8e3ec5ca1ee
+  status_rc=0 bytes=29
+    |?? notes/rephase-1-dm021-p1/
+  cached='' ls_v_lines=2116 stage_lines=2116
+check active_head409=True active_tree8ce=True status_full_eq=True
+  active cached_empty=True staged_rows=[] lsv_lower=[]
+  active alternates absent
+  active non_repo_config_origins=['file:/home/eariver/.gitconfig']
+  active remote.origin.url=['https://example.invalid/rephase-candidate-recovery.git']
+  active remote.origin.pushurl=[]
+  active rewrite_keys=[]
+  active include_keys=[]
+  active proxy_keys=[]
+  active extra_remotes=[]
+check copy_head409=True copy_tree8ce=True status_full_eq=True
+  copy cached_empty=True staged_rows=[] lsv_lower=[]
+  copy alternates absent
+  copy non_repo_config_origins=['file:/home/eariver/.gitconfig']
+  copy remote.origin.url=['https://example.invalid/rephase-candidate-recovery.git']
+  copy remote.origin.pushurl=[]
+  copy rewrite_keys=[]
+  copy include_keys=[]
+  copy proxy_keys=[]
+  copy extra_remotes=[]
+  workspace non_repo_config_origins=['file:/home/eariver/.gitconfig']
+  workspace remote.origin.url=['https://github.com/eariver/reconstruct-japanese-generative-ai-survey.git']
+  workspace remote.origin.pushurl=[]
+  workspace rewrite_keys=[]
+  workspace include_keys=[]
+  workspace proxy_keys=[]
+  workspace extra_remotes=[]
+check active_13_eq_freeze=True
+check copy_13_eq_freeze=True
+gitwalk active: entries=229 dirs=95 files=134 other=0 symlinks=0 nlink_bad=0 stat_errors=0
+gitwalk copy: entries=229 dirs=95 files=134 other=0 symlinks=0 nlink_bad=0 stat_errors=0
+gitwalk workspace: entries=1341 dirs=266 files=1075 other=0 symlinks=0 nlink_bad=0 stat_errors=0
+shared dev:ino active&copy=0 active&ws=0 copy&ws=0
+verdict=FINAL_CURRENT_MATCH errors=[]
+SCOPE: current-observation only; not retroactive, not continuous no-drift proof.

@@ -1,0 +1,127 @@
+test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree) ... 
+  test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree) (case='d1-outside-raw-scope') ... FAIL
+test_candidate_observed_and_stale (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_candidate_observed_and_stale) ... ok
+test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active) ... ok
+test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end) ... ok
+test_ordinary_reviews_stay_compatible (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_ordinary_reviews_stay_compatible) ... ok
+test_proposal_binding_and_retention (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_proposal_binding_and_retention) ... ok
+test_r1_mechanical_refresh_owner (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_r1_mechanical_refresh_owner) ... ok
+test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) ... ok
+test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives) ... ok
+test_bibliography_leakage_detected (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_bibliography_leakage_detected)
+Bibliography containing [V/M] tags or internal tmp paths is blocked. ... ok
+test_clean_reader_prose_passes_gate (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_clean_reader_prose_passes_gate)
+Clean reader-facing prose passes with 0 blocking findings. ... ok
+test_longform_revision_strengthened_validator (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_longform_revision_strengthened_validator)
+survey_longform_publication_v2 validates all reader text via strengthened surface gate. ... ok
+test_missing_reader_surface_gate_artifact_blocks_stage (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_reader_surface_gate_artifact_blocks_stage)
+DRAFT_COMPLETE and VALIDATED_DRAFT require reader-surface-gate artifact. ... ok
+test_missing_semantic_authority_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_semantic_authority_fails)
+Omitting machine-checkable semantic_authority raises ValueError and cannot PASS. ... ok
+test_must_cover_cop_out_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_must_cover_cop_out_fails)
+Asserting 'Architecture requires X' instead of explaining facts is blocked. ... ok
+test_narrow_allowlist_suppression_allows_pass (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_narrow_allowlist_suppression_allows_pass)
+Narrow allowlist with audited reason converts finding to SUPPRESSED and allows pass. ... ok
+test_pre_tex_structured_reader_surface_validation_catches_leakage (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_pre_tex_structured_reader_surface_validation_catches_leakage)
+Pre-TeX structured reader-facing scan detects blocking leakage before TeX generation. ... ok
+test_required_a_production_synthetic_builder_absent (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_a_production_synthetic_builder_absent)
+Test A: Production synthetic builder absent - shared production API cannot manufacture PASS. ... ok
+test_required_b_missing_semantic_checks (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_b_missing_semantic_checks)
+Test B: Missing semantic checks - decision=PASS and findings=[] without required checks fails. ... ok
+test_required_c_empty_semantic_check_evidence (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_c_empty_semantic_check_evidence)
+Test C: Empty semantic check evidence - detail="" or evidence_locations=[] fails. ... ok
+test_required_d_required_semantic_check_fail (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_d_required_semantic_check_fail)
+Test D: Required semantic check FAIL - READER_PIPELINE_INDEPENDENCE=FAIL prevents overall review PASS. ... ok
+test_required_e_authentic_pass (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_e_authentic_pass)
+Test E: Authentic PASS - bound to exact surface, correct review kind, required check PASS, valid digest. ... ok
+test_required_f_legacy_publication_review_rejected (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_f_legacy_publication_review_rejected)
+Test F: Legacy publication review rejected - valid publication-review-record-v2 fails pre-TeX gate. ... ok
+test_required_g_malformed_new_review_does_not_fallback (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_g_malformed_new_review_does_not_fallback)
+Test G: Malformed new review does not fallback - corrupted review fails closed. ... ok
+test_required_h_stale_new_review (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_h_stale_new_review)
+Test H: Stale new review - modifying surface payload after review creation fails validation. ... ok
+test_review_rationale_meta_rebuttal_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_review_rationale_meta_rebuttal_fails)
+Meta-rebuttal to prior review comments is blocked. ... ok
+test_semantic_authority_non_pass_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_non_pass_fails)
+Semantic authority with non-PASS status/decision triggers blocking finding. ... ok
+test_semantic_authority_surface_sha_mismatch_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_surface_sha_mismatch_fails)
+Semantic authority bound to wrong primary surface SHA triggers blocking finding. ... ok
+test_semantic_layer_review_contract_evaluation (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_layer_review_contract_evaluation)
+Semantic review layer flags process-dependent prose with proposed normalization. ... ok
+test_special_leakage_fixture_fails_fast (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_special_leakage_fixture_fails_fast)
+Special longform leakage (D017, 本 package, 一次資料として昇格させない, Verify, materiality) fails fast. ... ok
+test_validate_reader_surface_gate_identity_mismatch_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_identity_mismatch_fails)
+Independent validator rejects issue_id or publication_profile identity mismatch. ... ok
+test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails)
+Independent validator catches drifted or mutated on-disk surface bytes. ... ok
+test_validate_reader_surface_gate_tampered_gate_sha_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_tampered_gate_sha_fails)
+Independent validator catches fabricated or tampered gate_sha256. ... ok
+test_validate_reader_surface_gate_unresolved_blocking_finding_fails (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_unresolved_blocking_finding_fails)
+Independent validator rejects gate record containing unresolved blocking findings. ... ok
+test_validate_reader_surface_gate_valid_passes (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_valid_passes)
+Independent validator passes a well-formed, untampered Reader-Surface Gate. ... ok
+test_weekly_leakage_fixture_fails_fast (tests.test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_weekly_leakage_fixture_fails_fast)
+Weekly magazine leakage (Selection r2, Package 4, Discovery observation) fails fast. ... ok
+
+======================================================================
+FAIL: test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree) (case='d1-outside-raw-scope')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 438, in _derive
+    context = weekly.load_derivation(root, state_path, authored)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 549, in load_derivation
+    records, card_refs = _records_from_authorities(
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, matrix_ref["artifact_path"], ledger_ref["artifact_path"], discovery_ref["artifact_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        evidence_ref["artifact_path"], implementation_sha, pending_basis,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 230, in _records_from_authorities
+    evidence_sources, card_refs = _strict_evidence_sources(root, acceptance_path, implementation_sha, pending_basis)
+                                  ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 187, in _strict_evidence_sources
+    acceptance, _ = evidence.validate_evidence_acceptance(root, acceptance_path, implementation_sha)
+                    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_evidence_v2.py", line 1131, in validate_evidence_acceptance
+    validate_evidence_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_agent_tool_v2.py", line 96, in validate
+    return original(repo_root, package_path, adjusted, implementation_sha)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_evidence_v2.py", line 773, in validate_evidence_package_basis
+    acceptance, _, discoveries = validate_screening_acceptance(
+                                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root,
+        ^^^^^^^^^^
+    ...<3 lines>...
+        implementation_sha,
+        ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_evidence_v2.py", line 518, in validate_screening_acceptance
+    effective = screening.resolve_effective_discovery_basis(
+        repo_root, package_path, implementation_sha
+    )
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_screening_v2.py", line 399, in resolve_effective_discovery_basis
+    accepted = discovery.validate_acceptance(repo_root, acceptance_path)
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/scripts/survey_discovery_v2.py", line 266, in validate_acceptance
+    raise ValueError("accepted Discovery graph differs from current Discovery/Raw bytes")
+ValueError: accepted Discovery graph differs from current Discovery/Raw bytes
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_correction_proposal_v2.ProposalError: DERIVATION_REFUSED: accepted Discovery graph differs from current Discovery/Raw bytes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1651, in test_artifact_only_vs_control_drift_and_tree
+    with self.assertRaisesRegex(ProposalError, "DISCOVERY|RAW|REF_DRIFT|SIZE|RECHECK|RECEIPT"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "DISCOVERY|RAW|REF_DRIFT|SIZE|RECHECK|RECEIPT" does not match "DERIVATION_REFUSED: accepted Discovery graph differs from current Discovery/Raw bytes"
+
+----------------------------------------------------------------------
+Ran 36 tests in 3300.380s
+
+FAILED (failures=1)
