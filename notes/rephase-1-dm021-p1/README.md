@@ -1,5 +1,7 @@
 # DM021-P1 implementation — bounded complete
 
+**Successor design 2026-10-13 JST:** [P2R retention-only contract194fd7de](../../outputs/rephase-1-dm021-retention-contract-decision.md) / [promotion-analysis packet](../rephase-1-dm021-promotion/README.md) now controls the next task. P1 source/final36/patch85e9d9ab and all qualifications below are unchanged. P2R implementation is unstarted; full promotion/adoption remains unselected and DM021 OPEN.
+
 Closeout 2026-10-13 JST. [Assessment / exact source / next contract task](../../outputs/rephase-1-dm021-p1-assessment.md) is the current entry. Fixed [selected contract07e89990](../../outputs/rephase-1-dm021-contract-decision.md) remains unchanged. This is read-only editorial proposal/before-graph/retention-plan preparation, **not DM021 live repair**. Whole NOT_READY, step4/B3 OPEN, canonical audit unstarted, DM021 OPEN. Stop at Human Commit Point.
 
 ## Final evidence — read together

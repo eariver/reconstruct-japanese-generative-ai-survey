@@ -1,5 +1,7 @@
 # DM021-P1 — read-only editorial proposal component assessment
 
+**Successor design 2026-10-13 JST:** §4's promotion/adoption analysis is now complete as [P2R retention-only selection](rephase-1-dm021-retention-contract-decision.md), with [independent design review / mandatory Astra conditions](../notes/rephase-1-dm021-promotion/README.md). No P1 source/evidence changed; P2R is unimplemented and full promotion remains unselected. The next task is concrete P2R interface/fixture return before its separate implementation, not repeating §4 analysis.
+
 Closeout 2026-10-13 JST. **BOUNDED COMPLETE** under [contract07e89990](rephase-1-dm021-contract-decision.md): implementation, focused verification, Astra source/oracle review and author-independent correction/closeout resolution. **DM-021 remains OPEN; whole candidate NOT_READY, step4/B3 OPEN, canonical seven-point audit unstarted.** Stop at Human Commit Point.
 
 Reconstruct started at Human commit `ab17af4211b04eaff4781ef104631bcd56a66085`. General performed restoration, implementation and tests; Astra selected the interface and reviewed actual source/evidence; a separate General reviewed corrections independently. Worker success, root judgment and independent bounded review remain distinct from Human adoption.
