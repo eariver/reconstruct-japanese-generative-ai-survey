@@ -1,0 +1,10 @@
+P2R ABSENCE (expected 3A absent)
+ls scripts/survey_editorial_retention_v2.py schemas/editorial-retention-manifest-v2.schema.json tests/test_survey_editorial_retention_v2.py
+ls: cannot access 'scripts/survey_editorial_retention_v2.py': No such file or directory
+ls: cannot access 'schemas/editorial-retention-manifest-v2.schema.json': No such file or directory
+ls: cannot access 'tests/test_survey_editorial_retention_v2.py': No such file or directory
+rc=2
+ls scripts/ | grep retention -> no output, rc2=1
+ls schemas/ | grep retention -> no output, rc3=1
+ls tests/ | grep retention -> no output, rc4=1
+Budget 3A structurally available, no collision.

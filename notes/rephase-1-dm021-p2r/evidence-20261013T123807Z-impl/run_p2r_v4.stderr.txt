@@ -1,0 +1,47 @@
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... ok
+test_fault_write_close_readback_identity_fifo (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_close_readback_identity_fifo) ... ok
+test_keep_x_profile_distinction_and_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_x_profile_distinction_and_drift) ... ok
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ok
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ok
+test_persistence_vs_eligibility_and_wrong_path (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_vs_eligibility_and_wrong_path) ... ok
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ERROR
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ok
+test_refuse_unsafe_schema_order_inputs (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_schema_order_inputs) ... FAIL
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ok
+
+======================================================================
+ERROR: test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 281, in test_r1_double_refresh_capture_verify
+    v1b = retention.verify_retention(root, pp1, root / out1["manifest_path"])
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 1202, in verify_retention
+    session.repinned(r["retained_ref"], f"KEEP recheck {r['path']}", phase, disp)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 309, in repinned
+    raise _fail("REF_DRIFT", phase, disp, f"{label} bytes differ from recorded sha256: {rel}")
+scripts.survey_editorial_retention_v2.RetentionError: REF_DRIFT: [VERIFY/INVALID] KEEP recheck scripts/survey_weekly_derivation_v2.py bytes differ from recorded sha256: scripts/survey_weekly_derivation_v2.py
+
+======================================================================
+FAIL: test_refuse_unsafe_schema_order_inputs (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_schema_order_inputs)
+----------------------------------------------------------------------
+scripts.survey_editorial_retention_v2.RetentionError: MANIFEST_FILENAME: [VERIFY/INVALID] manifest file must be named retention-manifest.json
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 340, in test_refuse_unsafe_schema_order_inputs
+    with self.assertRaisesRegex(RetentionError, "RETENTION_ORDER_MISMATCH|RETENTION_MISMATCH"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "RETENTION_ORDER_MISMATCH|RETENTION_MISMATCH" does not match "MANIFEST_FILENAME: [VERIFY/INVALID] manifest file must be named retention-manifest.json"
+
+----------------------------------------------------------------------
+Ran 10 tests in 3334.677s
+
+FAILED (failures=1, errors=1)
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 256.985s
+
+OK

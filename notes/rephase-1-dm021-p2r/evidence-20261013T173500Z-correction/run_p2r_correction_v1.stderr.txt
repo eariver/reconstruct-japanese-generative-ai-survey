@@ -1,0 +1,543 @@
+test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses) ... ERROR
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... ERROR
+test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved) ... ERROR
+test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate) ... ERROR
+test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync) ... ERROR
+test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift) ... ERROR
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ERROR
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ERROR
+test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement) ... ERROR
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ERROR
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ERROR
+test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular) ... ERROR
+test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file) ... ERROR
+test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses) ... ERROR
+test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes) ... ERROR
+test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order) ... ERROR
+test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives) ... ERROR
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ERROR
+
+======================================================================
+ERROR: test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1104, in test_control_edition_head_drift_refuses
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-ctrl-1bk1145g/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-ctrl-1bk1145g/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1066, in test_drift_prefinal_and_finalization
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-drift-5z6dvczw/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-drift-5z6dvczw/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 921, in test_fault_combined_write_close_primary_preserved
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-combined-94fnmbfg/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-combined-94fnmbfg/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 851, in test_fault_manifest_write_fsync_close_indeterminate
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-manifest-nfcaz1iy/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-manifest-nfcaz1iy/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 805, in test_fault_write_zero_progress_fsync
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-fault-a7blub5x/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-fault-a7blub5x/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 677, in test_keep_profile_distinction_and_all_drift
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-xprof-_5klphra/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-xprof-_5klphra/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 214, in test_longform_capture_verify_positive
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_evidence_v2.py", line 98, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        root,
+        ^^^^^
+    ...<4 lines>...
+        core.parse_instant("2026-08-22T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-longform-e3rn8qgm/sources/SP001/production-profile.json or /tmp/jgas-p2r-longform-e3rn8qgm/sources/SP001/production-state.json already exists
+
+======================================================================
+ERROR: test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 781, in test_p1_refuses_after_capture_no_p1_git_in_verify
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-postp1-iougpyun/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-postp1-iougpyun/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 733, in test_persistence_live_state_replacement
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-persist-0oe4frf7/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-persist-0oe4frf7/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 288, in test_r1_double_refresh_capture_verify
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-r1-_hmh2bf0/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-r1-_hmh2bf0/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 355, in test_refuse_existing_retained_root
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-exists-44jnq5om/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-exists-44jnq5om/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 390, in test_refuse_unsafe_paths_aliases_nonregular
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-paths-4e4j3z74/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-paths-4e4j3z74/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1002, in test_replacement_ancestor_and_file
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-repl2-7sk8tqtx/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-repl2-7sk8tqtx/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 955, in test_replacement_root_ancestor_file_refuses
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-repl-0cq1nsvb/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-repl-0cq1nsvb/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 548, in test_verifier_capture_inputs_deps_dest_dirs_sizes
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-bind-2wgpiteb/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-bind-2wgpiteb/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 618, in test_verifier_staged_canonical_order
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-ord-wv4lizak/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-ord-wv4lizak/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 466, in test_verifier_typed_hop_negatives
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-typed-q7dov35w/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-typed-q7dov35w/sources/2026-W37/production-state.json already exists
+
+======================================================================
+ERROR: test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 266, in test_weekly_capture_verify_positive
+    built = p1t._build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1003, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/jgas-p2r-weekly-oaj31soy/sources/2026-W37/production-profile.json or /tmp/jgas-p2r-weekly-oaj31soy/sources/2026-W37/production-state.json already exists
+
+----------------------------------------------------------------------
+Ran 18 tests in 280.677s
+
+FAILED (errors=18)

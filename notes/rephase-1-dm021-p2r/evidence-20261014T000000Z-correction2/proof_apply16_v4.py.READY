@@ -1,0 +1,396 @@
+#!/usr/bin/env python3
+"""READY proof v4 — executed v3b failed SAFE, fix-forward; NOT EXECUTED yet.
+
+v3b (`proof_apply16_v3b.py.READY`, preserved with its raw + anomalous copy
+`.../jgas-dm021p2r-verify-20261014T000002Z`) refused at the first NEW-file
+unlink: its byte-copy (rc 0) lacked exactly the 13 untracked files while
+active held them (verified before/after) and an identical manual `cp -a`
+plus the exact `git checkout` step reproduce cleanly. Cause undetermined;
+active was never written. v4 adds a post-copy COMPLETENESS verification
+(every 16 file must exist in the copy and byte-equal active) that fails
+fast with a diagnosable message before any separation/apply step. All
+other v3b guards unchanged; new copy path ...000004Z; new exclusive
+v4 outputs.
+
+Retained v3b guard summary (all kept in v4):
+Fixes vs the v3 DRAFT (all guard gaps named in review):
+- Regular `.git` entries with `nlink != 1` are problems (proof refusal):
+  nlink is recorded AND checked.
+- Active AND applied 16 files are compared to the saved STATIC manifest
+  `expected16-correction2c.json` (sha256+mode+bytes, exact 16-path set),
+  not merely active-vs-copy. FIXED_TREE is enforced as well as HEAD, with
+  full index/status, in clean AND applied freezes.
+- WHOLE effective remote/config outputs are persisted (copy pre-apply and
+  post-apply; active once): nothing returned-then-ignored. All-entry
+  errors fail via problems/RuntimeError (never skipped).
+- Outputs: exclusively reserved handles are HELD (stdout/stderr/exit) and
+  every result/error return appends only through those owned handles; JSON
+  freezes are each `x`-written exactly once. No `wb`/`w` reopens, no
+  overwrites, no fail-rewrites.
+- `git()` uses the EXACT repo per call (`safe.directory=<resolved repo>`);
+  no wildcard, no unused constant.
+- Config/remote policy is explicitly SCOPED isolation observation
+  (exact remote pair + exact inert `remote.*.url` values + whole-output
+  persistence), not a strict full-configuration matcher.
+- Static patch sha is COMPARED to the saved hash manifest
+  `complete-p2r-16path-v3.sha256` (64-hex validated), not merely printed.
+  The patch + hash manifest are generated after final pins (post-ack);
+  this READY refuses when either is absent.
+- Declared disposable-copy-only removals preserved with pre-removal cache
+  inventory; no active cleanup.
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import re
+import shutil
+import stat as _stat
+import subprocess
+import sys
+from pathlib import Path
+
+ACTIVE = Path("/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60").resolve()
+COPYROOT = Path("/tmp/opencode/jgas-dm021p2r-verify-20261014T000004Z")
+COPYREPO = COPYROOT / "candidate-partial-b40de60"
+EVID = Path(__file__).resolve().parent
+PATCH = EVID / "complete-p2r-16path-v3.patch"
+PATCH_HASH = EVID / "complete-p2r-16path-v3.sha256"
+STATIC16 = json.load(open(EVID / "expected16-correction2c.json"))
+OUT_STDOUT = EVID / "proof_apply16_v4.stdout.txt"
+OUT_STDERR = EVID / "proof_apply16_v4.stderr.txt"
+OUT_EXIT = EVID / "proof_apply16_v4.exit"
+OUT_CLEAN = EVID / "proof-freeze-clean-v4.json"
+OUT_APPLIED = EVID / "proof-freeze-applied-v4.json"
+
+FIXED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+FIXED_TREE = "8ce3699861505f32d1d60bdc185d4d4f635aedb2"
+EXPECTED_INERT_URL = "https://example.invalid/rephase-candidate-recovery.git"
+EXPECTED_REMOTE_LINES = {
+    f"origin\t{EXPECTED_INERT_URL} (fetch)",
+    f"origin\t{EXPECTED_INERT_URL} (push)",
+}
+MODIFIED = [
+    "schemas/reader-surface-gate-v2.schema.json",
+    "schemas/reader-surface-semantic-review-v2.schema.json",
+    "scripts/survey_reader_surface_gate_v2.py",
+]
+NEW = [
+    "schemas/editorial-correction-proposal-v2.schema.json",
+    "schemas/editorial-retention-manifest-v2.schema.json",
+    "schemas/longform-publication-source-manifest-v2.schema.json",
+    "schemas/longform-reader-input-v2.schema.json",
+    "scripts/survey_editorial_correction_proposal_v2.py",
+    "scripts/survey_editorial_retention_v2.py",
+    "scripts/survey_longform_derivation_v2.py",
+    "scripts/survey_longform_generated_v2.py",
+    "scripts/survey_longform_semantic_publication_v2.py",
+    "tests/test_survey_editorial_correction_proposal_v2.py",
+    "tests/test_survey_editorial_retention_v2.py",
+    "tests/test_survey_longform_derivation_v2.py",
+    "tests/test_survey_longform_publication_integration_v2.py",
+]
+EXPECTED_STATUS_ROWS = {f" M {m}" for m in MODIFIED} | {f"?? {n}" for n in NEW}
+
+LOG: list[str] = []
+
+
+def log(msg: str) -> None:
+    LOG.append(msg)
+    print(msg)
+
+
+def git(repo: Path, *args: str) -> subprocess.CompletedProcess:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update({"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"})
+    resolved = str(Path(repo).resolve())
+    return subprocess.run(["git", "-c", f"safe.directory={resolved}", *args],
+                          cwd=repo, capture_output=True, text=True, env=env)
+
+
+def git_checked(repo: Path, *args: str) -> str:
+    r = git(repo, *args)
+    if r.returncode != 0:
+        raise RuntimeError(f"git {list(args)} rc={r.returncode}: {r.stderr.strip()[:500]}")
+    return r.stdout
+
+
+def git_entries_all(repo: Path) -> tuple[dict[str, tuple[int, int, int]], dict[str, tuple[int, int]], list[str]]:
+    """All-entry lstat walk of repo/.git.
+
+    Returns (regular_files rel -> (dev, ino, nlink),
+             dirs rel -> (dev, ino), problems). Symlinks (file or dir),
+    regular files with nlink != 1, non-regular/non-dir entries and ANY
+    lstat/walk error are problems (proof refusal), never silently skipped.
+    """
+    gitdir = repo / ".git"
+    regular: dict[str, tuple[int, int, int]] = {}
+    dirs: dict[str, tuple[int, int]] = {}
+    problems: list[str] = []
+    try:
+        top = os.lstat(gitdir)
+    except OSError as exc:
+        raise RuntimeError(f".git top lstat failed: {exc}")
+    if not _stat.S_ISDIR(top.st_mode) or _stat.S_ISLNK(top.st_mode):
+        raise RuntimeError(".git top is not a real directory")
+    dirs["."] = (top.st_dev, top.st_ino)
+    stack = [gitdir]
+    while stack:
+        cur = stack.pop()
+        try:
+            with os.scandir(cur) as it:
+                entries = sorted(it, key=lambda e: e.name)
+        except OSError as exc:
+            problems.append(f"scandir failed: {cur}: {exc}")
+            continue
+        for entry in entries:
+            try:
+                rel = str(Path(entry.path).relative_to(gitdir).as_posix())
+            except ValueError:
+                problems.append(f"escapes-gitdir: {entry.path}")
+                continue
+            try:
+                st = os.lstat(entry.path)
+            except OSError as exc:
+                problems.append(f"unreadable: {rel}: {exc}")
+                continue
+            if _stat.S_ISLNK(st.st_mode):
+                problems.append(f"symlink: {rel}")
+            elif _stat.S_ISDIR(st.st_mode):
+                dirs[rel] = (st.st_dev, st.st_ino)
+                stack.append(Path(entry.path))
+            elif _stat.S_ISREG(st.st_mode):
+                if st.st_nlink != 1:
+                    problems.append(f"nlink!=1: {rel} nlink={st.st_nlink}")
+                else:
+                    regular[rel] = (st.st_dev, st.st_ino, st.st_nlink)
+            else:
+                problems.append(f"non-regular non-dir: {rel}")
+    return regular, dirs, problems
+
+
+def check_remote_config(repo: Path, label: str) -> tuple[str, str]:
+    # SCOPED isolation observation (not a strict full-config matcher):
+    # remote lines must EXACTLY equal the expected inert pair, and every
+    # remote.*.url config value must equal the exact inert URL. The WHOLE
+    # outputs are returned for persistence in the freeze files.
+    remote = git_checked(repo, "remote", "-v")
+    cfg = git_checked(repo, "config", "--list", "--show-origin")
+    remote_lines = set(remote.splitlines())
+    if remote_lines != EXPECTED_REMOTE_LINES:
+        raise RuntimeError(f"{label} remote lines != exact inert pair: {sorted(remote_lines)}")
+    urls = [line.split("=", 1)[1] for line in cfg.splitlines() if ".url=" in line and line.split("=", 1)[0].endswith("url")]
+    if not urls:
+        raise RuntimeError(f"{label} config has no remote url entries")
+    for u in urls:
+        if u != EXPECTED_INERT_URL:
+            raise RuntimeError(f"{label} config remote url not exact inert: {u!r}")
+    alternates = repo / ".git" / "objects" / "info" / "alternates"
+    try:
+        alt_exists = os.lstat(alternates) is not None
+    except FileNotFoundError:
+        alt_exists = False
+    except OSError as exc:
+        raise RuntimeError(f"{label} alternates check unreadable: {exc}")
+    if alt_exists:
+        raise RuntimeError(f"{label} has alternates")
+    return remote, cfg
+
+
+def freeze(repo: Path) -> dict:
+    out: dict = {}
+    out["head"] = git_checked(repo, "rev-parse", "HEAD").strip()
+    out["tree"] = git_checked(repo, "rev-parse", "HEAD^{tree}").strip()
+    out["status"] = git_checked(repo, "status", "--porcelain=v1", "-uall")
+    out["index"] = git_checked(repo, "diff", "--cached", "--name-only")
+    files: dict = {}
+    for rel in MODIFIED + NEW:
+        p = repo / rel
+        files[rel] = {"sha256": hashlib.sha256(p.read_bytes()).hexdigest(),
+                      "mode": oct(p.stat().st_mode & 0o777), "bytes": p.stat().st_size}
+    out["files"] = files
+    return out
+
+
+def check_static16(files_dict: dict, label: str) -> None:
+    if set(files_dict) != set(MODIFIED + NEW):
+        raise RuntimeError(f"{label} 16-path set != MODIFIED+NEW: "
+                           f"missing={sorted(set(MODIFIED + NEW) - set(files_dict))} "
+                           f"extra={sorted(set(files_dict) - set(MODIFIED + NEW))}")
+    for rel in MODIFIED + NEW:
+        exp = STATIC16.get(rel)
+        if exp is None:
+            raise RuntimeError(f"{label} static manifest lacks path: {rel}")
+        got = files_dict[rel]
+        if got.get("sha256") != exp["sha256"] or got.get("mode") != exp["mode"] \
+                or got.get("bytes") != exp["bytes"]:
+            raise RuntimeError(f"{label} static16 mismatch: {rel}: got={got} exp={exp}")
+
+
+def check_identity(status_dict: dict, label: str) -> None:
+    if status_dict.get("head") != FIXED_HEAD:
+        raise RuntimeError(f"{label} HEAD moved: {status_dict.get('head')!r} (must stay detached 409)")
+    if status_dict.get("tree") != FIXED_TREE:
+        raise RuntimeError(f"{label} tree moved: {status_dict.get('tree')!r}")
+    if (status_dict.get("index") or "").strip() != "":
+        raise RuntimeError(f"{label} index non-empty: {status_dict.get('index')[:200]!r}")
+
+
+def main() -> int:
+    # Safe output-exists behavior: refuse on console only, write nothing.
+    for name in (OUT_STDOUT.name, OUT_STDERR.name, OUT_EXIT.name,
+                 OUT_CLEAN.name, OUT_APPLIED.name):
+        if (EVID / name).exists():
+            print(f"PROOF_REFUSAL: proof output exists: {name}")
+            return 40
+    if not PATCH.is_file():
+        print("PROOF_REFUSAL: saved v3 patch missing (generate after final pins, do not execute this draft)")
+        return 40
+    if not PATCH_HASH.is_file():
+        print("PROOF_REFUSAL: saved v3 hash manifest missing (generate with the patch, do not execute this draft)")
+        return 40
+    if COPYROOT.exists():
+        print(f"PROOF_REFUSAL: copy destination exists: {COPYROOT}")
+        return 40
+    # Exclusively reserved HELD handles; every return below appends only
+    # through these owned handles. JSON freezes are each x-written once.
+    out_fh = open(OUT_STDOUT, "xb")
+    err_fh = open(OUT_STDERR, "xb")
+    exit_fh = open(OUT_EXIT, "xb")
+
+    def _emit(code: int) -> int:
+        try:
+            out_fh.write(("\n".join(LOG) + "\n").encode("utf-8"))
+            out_fh.flush()
+        except (OSError, ValueError) as exc:
+            print(f"PROOF_REFUSAL: cannot write stdout handle: {exc}")
+        try:
+            err_fh.write(b"")
+            err_fh.flush()
+        except (OSError, ValueError) as exc:
+            print(f"PROOF_REFUSAL: cannot write stderr handle: {exc}")
+        try:
+            exit_fh.write(f"{code}\n".encode("utf-8"))
+            exit_fh.flush()
+        except (OSError, ValueError) as exc:
+            print(f"PROOF_REFUSAL: cannot write exit handle: {exc}")
+        for fh in (out_fh, err_fh, exit_fh):
+            try:
+                fh.close()
+            except (OSError, ValueError):
+                pass
+        return code
+
+    def fail(msg: str) -> int:
+        log(f"PROOF_REFUSAL: {msg}")
+        return _emit(40)
+
+    try:
+        saved_hash = PATCH_HASH.read_text(encoding="utf-8").strip().split()[0]
+        if not re.fullmatch(r"[0-9a-f]{64}", saved_hash):
+            return fail("saved v3 hash manifest is not a 64-hex sha256")
+        patch_sha = hashlib.sha256(PATCH.read_bytes()).hexdigest()
+        if patch_sha != saved_hash:
+            return fail(f"saved patch sha differs from hash manifest: computed={patch_sha} saved={saved_hash}")
+        log(f"saved v3 patch sha256={patch_sha} bytes={PATCH.stat().st_size} (matches hash manifest)")
+        active_frozen = freeze(ACTIVE)
+        check_identity(active_frozen, "active")
+        check_static16(active_frozen["files"], "active")
+        active_remote, active_config = check_remote_config(ACTIVE, "active")
+        log(f"active 16 match static manifest; HEAD/tree/index pinned")
+        COPYROOT.mkdir(parents=True)
+        proc = subprocess.run(["cp", "-a", "--reflink=never", str(ACTIVE), str(COPYREPO)],
+                              capture_output=True, text=True)
+        if proc.returncode != 0:
+            return fail(f"byte-copy failed: {proc.stderr[:1000]}")
+        # Copy-completeness verification (v4 guard): every 16 file must
+        # exist in the copy and byte-equal active BEFORE any separation or
+        # revert step, so a short copy fails fast and diagnosably instead
+        # of surfacing later as a missing-file refusal.
+        for rel in MODIFIED + NEW:
+            c_data = (COPYREPO / rel).read_bytes() if (COPYREPO / rel).is_file() else None
+            if c_data is None:
+                return fail(f"copy incomplete, missing file right after byte-copy: {rel}")
+            if c_data != (ACTIVE / rel).read_bytes():
+                return fail(f"copy incomplete, byte mismatch right after byte-copy: {rel}")
+        log("copy completeness verified: all16 present and byte-equal active")
+        # All-entry separation: full inode-set intersection must be empty.
+        a_reg, a_dirs, a_prob = git_entries_all(ACTIVE)
+        c_reg, c_dirs, c_prob = git_entries_all(COPYREPO)
+        log(f"active .git regular={len(a_reg)} dirs={len(a_dirs)} problems={a_prob}")
+        log(f"copy .git regular={len(c_reg)} dirs={len(c_dirs)} problems={c_prob}")
+        if a_prob:
+            return fail(f"active .git problems: {a_prob[:10]}")
+        if c_prob:
+            return fail(f"copy .git problems: {c_prob[:10]}")
+        a_pairs = {(d, i) for (d, i, _n) in a_reg.values()} | set(a_dirs.values())
+        c_pairs = {(d, i) for (d, i, _n) in c_reg.values()} | set(c_dirs.values())
+        shared = a_pairs & c_pairs
+        if shared:
+            return fail(f"copy shares .git (dev,ino) pairs with active: {sorted(shared)[:10]}")
+        copy_remote, copy_config = check_remote_config(COPYREPO, "copy")
+        log(f"copy remote -v:\n{copy_remote.strip()}")
+        caches_before = sorted(
+            str(p.relative_to(COPYREPO).as_posix())
+            for base in ("scripts", "tests", "schemas")
+            for p in list((COPYREPO / base).glob("__pycache__/*")) + list((COPYREPO / base).glob("*.pyc")))
+        log(f"copy caches before declared removal ({len(caches_before)}): {caches_before[:5]}...")
+        r = git(COPYREPO, "checkout", "HEAD", "--", *MODIFIED)
+        if r.returncode != 0:
+            return fail(f"copy checkout failed: {r.stderr[:1000]}")
+        for n in NEW:
+            try:
+                (COPYREPO / n).unlink()
+            except FileNotFoundError:
+                return fail(f"copy new file already absent: {n}")
+        for cache in (COPYREPO / "scripts" / "__pycache__", COPYREPO / "tests" / "__pycache__"):
+            shutil.rmtree(cache, ignore_errors=True)
+        clean = freeze(COPYREPO)
+        check_identity(clean, "clean-copy")
+        if clean["status"] != "":
+            return fail(f"copy not clean409: status={clean['status'][:500]!r}")
+        with open(OUT_CLEAN, "x") as f:
+            json.dump({"head": clean["head"], "tree": clean["tree"], "status": clean["status"],
+                       "index": clean["index"], "caches_removed": caches_before,
+                       "active_remote": active_remote, "active_config": active_config,
+                       "copy_remote": copy_remote, "copy_config": copy_config}, f, indent=2)
+            f.write("\n")
+        log("copy is clean409; applying EXACT saved v3 patch")
+        r = git(COPYREPO, "apply", "--check", str(PATCH))
+        if r.returncode != 0:
+            return fail(f"apply --check failed: {r.stderr[:2000]}")
+        r = git(COPYREPO, "apply", str(PATCH))
+        if r.returncode != 0:
+            return fail(f"apply failed: {r.stderr[:2000]}")
+        applied = freeze(COPYREPO)
+        check_identity(applied, "applied-copy")
+        check_static16(applied["files"], "applied-copy")
+        copy_remote2, copy_config2 = check_remote_config(COPYREPO, "applied-copy")
+        with open(OUT_APPLIED, "x") as f:
+            json.dump({"head": applied["head"], "tree": applied["tree"], "status": applied["status"],
+                       "index": applied["index"], "files": applied["files"],
+                       "copy_remote_post": copy_remote2, "copy_config_post": copy_config2,
+                       "active_remote": active_remote, "active_config": active_config}, f, indent=2)
+            f.write("\n")
+        for rel in MODIFIED + NEW:
+            a_data = (ACTIVE / rel).read_bytes()
+            c_data = (COPYREPO / rel).read_bytes()
+            if a_data != c_data:
+                return fail(f"byte mismatch after apply: {rel}")
+            if oct((ACTIVE / rel).stat().st_mode & 0o777) != oct((COPYREPO / rel).stat().st_mode & 0o777):
+                return fail(f"mode mismatch after apply: {rel}")
+        status_rows = set(applied["status"].splitlines())
+        if status_rows != EXPECTED_STATUS_ROWS:
+            return fail(f"applied status != exact expected16 rows: "
+                        f"missing={sorted(EXPECTED_STATUS_ROWS - status_rows)} "
+                        f"extra={sorted(status_rows - EXPECTED_STATUS_ROWS)}")
+        log(f"APPLY_PROOF_OK head={applied['head']} files=16 patch={patch_sha[:12]}")
+        return _emit(0)
+    except (RuntimeError, OSError) as exc:
+        return fail(f"{type(exc).__name__}: {exc}")
+
+
+if __name__ == "__main__":
+    sys.exit(main())

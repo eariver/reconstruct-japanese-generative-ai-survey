@@ -1,0 +1,428 @@
+#!/usr/bin/env python3
+"""READY runner v8 — root readback refinements; NOT EXECUTED until root ack.
+
+New vs v7.READY (preserved):
+- Cache-hole closed WITHOUT wildcards: a STATIC precise preknown cache
+  inventory (`cache-inventory-static.json`: 84 relpaths with sha/size/mode,
+  all verified regular non-symlinks at authoring; live status audited to
+  contain zero non-16 non-cache rows) defines the exact expected full
+  status = 16 source rows + 84 preknown cache rows. Pre AND post require
+  exact set/len/dup equality against that union; any new extra refuses.
+  Raw full status is recorded in both observations. Residue preserved
+  (no cleanup, no deletion).
+- Child runs with `PYTHONPYCACHEPREFIX=<proven-absent /tmp/opencode path>`
+  plus `PYTHONDONTWRITEBYTECODE=1`, so preexisting stale in-tree `.pyc`
+  are neither executed nor rewritten; the runner refuses if the prefix
+  path already exists at launch.
+- Child env allowlist: only the named forced Git/Python/runtime keys are
+  persisted (`GIT_NO_LAZY_FETCH`, `GIT_OPTIONAL_LOCKS`,
+  `GIT_ALLOW_PROTOCOL`, `PYTHONDONTWRITEBYTECODE`,
+  `PYTHONPYCACHEPREFIX`); all other inherited keys are redacted with a
+  count indication (no secret values, no full env dump).
+- All v7.READY guards kept: static correction2b manifest validated
+  (canonical 16, no unlisted sources), inherited13 vs P1 freeze pre+post,
+  exclusive `xb` outputs + exists-refusal, held handles (never
+  reopened), exact-path `safe.directory`, immutable stage files, checked
+  Git rc with full status/tree/index/all16 SHA+mode+size pre AND
+  finally-post, finally-enclosed launch with timeout/interrupt kill+reap
+  of the own process group, recorded flush/close failures, typed failure
+  records, single end-return precedence, agreeing pre-observe exit code.
+- No cleanup, no filtered status, no `-O`, no full-suite `-O`. Snapshot
+  equality is not continuous proof.
+"""
+
+import json
+import os
+import signal
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+CANDIDATE = Path("/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60").resolve()
+EV = Path(__file__).resolve().parent
+EXPECTED = json.load(open(EV / "expected16-correction2b.json"))
+STATIC_FREEZE = json.load(open(EV / "inherited13-static-freeze.json"))
+CACHE_STATIC = json.load(open(EV / "cache-inventory-static.json"))
+FIXED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+FIXED_TREE = "8ce3699861505f32d1d60bdc185d4d4f635aedb2"
+TIMEOUT_S = 14400
+CACHE_PREFIX = Path("/tmp/opencode/jgas-p2r-nocache-20261014T000000Z")
+FORCED_ENV_KEYS = ("GIT_NO_LAZY_FETCH", "GIT_OPTIONAL_LOCKS", "GIT_ALLOW_PROTOCOL",
+                   "PYTHONDONTWRITEBYTECODE", "PYTHONPYCACHEPREFIX")
+
+EXPECTED_16_SET = {
+    "schemas/editorial-correction-proposal-v2.schema.json",
+    "schemas/editorial-retention-manifest-v2.schema.json",
+    "schemas/longform-publication-source-manifest-v2.schema.json",
+    "schemas/longform-reader-input-v2.schema.json",
+    "schemas/reader-surface-gate-v2.schema.json",
+    "schemas/reader-surface-semantic-review-v2.schema.json",
+    "scripts/survey_editorial_correction_proposal_v2.py",
+    "scripts/survey_editorial_retention_v2.py",
+    "scripts/survey_longform_derivation_v2.py",
+    "scripts/survey_longform_generated_v2.py",
+    "scripts/survey_longform_semantic_publication_v2.py",
+    "scripts/survey_reader_surface_gate_v2.py",
+    "tests/test_survey_editorial_correction_proposal_v2.py",
+    "tests/test_survey_editorial_retention_v2.py",
+    "tests/test_survey_longform_derivation_v2.py",
+    "tests/test_survey_longform_publication_integration_v2.py",
+}
+INHERITED13 = sorted(set(EXPECTED_16_SET) - {
+    "scripts/survey_editorial_retention_v2.py",
+    "schemas/editorial-retention-manifest-v2.schema.json",
+    "tests/test_survey_editorial_retention_v2.py",
+})
+EXPECTED_STATUS_ROWS = {
+    " M schemas/reader-surface-gate-v2.schema.json",
+    " M schemas/reader-surface-semantic-review-v2.schema.json",
+    " M scripts/survey_reader_surface_gate_v2.py",
+    "?? schemas/editorial-correction-proposal-v2.schema.json",
+    "?? schemas/editorial-retention-manifest-v2.schema.json",
+    "?? schemas/longform-publication-source-manifest-v2.schema.json",
+    "?? schemas/longform-reader-input-v2.schema.json",
+    "?? scripts/survey_editorial_correction_proposal_v2.py",
+    "?? scripts/survey_editorial_retention_v2.py",
+    "?? scripts/survey_longform_derivation_v2.py",
+    "?? scripts/survey_longform_generated_v2.py",
+    "?? scripts/survey_longform_semantic_publication_v2.py",
+    "?? tests/test_survey_editorial_correction_proposal_v2.py",
+    "?? tests/test_survey_editorial_retention_v2.py",
+    "?? tests/test_survey_longform_derivation_v2.py",
+    "?? tests/test_survey_longform_publication_integration_v2.py",
+}
+PREKNOWN_CACHE_ROWS = {f"?? {rel}" for rel in CACHE_STATIC.get("files", {})}
+EXPECTED_FULL_STATUS = EXPECTED_STATUS_ROWS | PREKNOWN_CACHE_ROWS
+
+STDOUT_P = EV / "run_p2r_correction_v8.stdout.txt"
+STDERR_P = EV / "run_p2r_correction_v8.stderr.txt"
+EXIT_P = EV / "run_p2r_correction_v8.exit"
+PRE_P = EV / "run_p2r_correction_v8.pre.json"
+POST_P = EV / "run_p2r_correction_v8.post.json"
+META_P = EV / "run_p2r_correction_v8.meta.json"
+STAGE_RESERVED_P = EV / "run_p2r_correction_v8.stage-reserved.json"
+STAGE_RUNNING_P = EV / "run_p2r_correction_v8.stage-running.json"
+STAGE_DONE_P = EV / "run_p2r_correction_v8.stage-done.json"
+
+
+def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update({"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"})
+    return subprocess.run(["git", "-c", f"safe.directory={str(cwd)}", *args],
+                          cwd=cwd, capture_output=True, text=True, env=env, timeout=60)
+
+
+def _observe(label: str) -> dict:
+    procs = {
+        "rev-parse HEAD": _git(["rev-parse", "HEAD"], CANDIDATE),
+        "rev-parse tree": _git(["rev-parse", "HEAD^{tree}"], CANDIDATE),
+        "status": _git(["status", "--porcelain=v1", "--untracked-files=all"], CANDIDATE),
+        "index": _git(["diff", "--cached", "--name-only"], CANDIDATE),
+        "diff_wt": _git(["diff", "--name-only"], CANDIDATE),
+    }
+    for name, proc in procs.items():
+        if proc.returncode != 0:
+            raise RuntimeError(f"observe {label}: git {name} rc={proc.returncode}: {proc.stderr.strip()[:300]}")
+    caches = []
+    cache_detail = {}
+    for base in ("scripts", "tests", "schemas"):
+        d = CANDIDATE / base
+        for p in sorted(d.glob("__pycache__/*")):
+            caches.append(str(p.relative_to(CANDIDATE)))
+        for p in sorted(d.glob("*.pyc")):
+            caches.append(str(p.relative_to(CANDIDATE)))
+    import hashlib
+    for rel in sorted(CACHE_STATIC.get("files", {})):
+        f = CANDIDATE / rel
+        try:
+            data = f.read_bytes()
+            cache_detail[rel] = {"sha256": hashlib.sha256(data).hexdigest(),
+                                 "bytes": len(data), "mode": oct(f.stat().st_mode & 0o777)}
+        except OSError as e:
+            cache_detail[rel] = {"error": str(e)}
+    files = {}
+    for rel in sorted(EXPECTED):
+        f = CANDIDATE / rel
+        try:
+            data = f.read_bytes()
+        except OSError as e:
+            files[rel] = {"error": str(e)}
+            continue
+        files[rel] = {"sha256": hashlib.sha256(data).hexdigest(),
+                      "bytes": len(data), "mode": oct(f.stat().st_mode & 0o777)}
+    return {"label": label, "head": procs["rev-parse HEAD"].stdout.strip(),
+            "tree": procs["rev-parse tree"].stdout.strip(), "status": procs["status"].stdout,
+            "index": procs["index"].stdout, "diff_wt": procs["diff_wt"].stdout,
+            "caches": caches, "cache_detail": cache_detail, "files": files}
+
+
+def _check_pins(obs: dict, where: str) -> list[str]:
+    errors = []
+    if obs["head"] != FIXED_HEAD:
+        errors.append(f"{where} HEAD mismatch: {obs['head']!r}")
+    if obs["tree"] != FIXED_TREE:
+        errors.append(f"{where} tree mismatch: {obs['tree']!r}")
+    if obs["index"].strip() != "":
+        errors.append(f"{where} index non-empty: {obs['index'][:300]!r}")
+    for rel, exp in EXPECTED.items():
+        got = obs["files"].get(rel, {})
+        if got.get("sha256") != exp["sha256"] or got.get("mode") != exp["mode"] \
+                or got.get("bytes") != exp["bytes"]:
+            errors.append(f"{where} expected16 mismatch: {rel}: got={got} exp={exp}")
+    # Exact FULL status: 16 source rows + preknown cache rows. No wildcard
+    # classification: anything else (new extras, missing rows, duplicates)
+    # refuses. Residue is preserved, never cleaned.
+    rows = obs["status"].splitlines()
+    obs["status_rows"] = rows
+    if len(rows) != len(EXPECTED_FULL_STATUS):
+        errors.append(f"{where} full status rows len {len(rows)} != {len(EXPECTED_FULL_STATUS)}")
+    if len(set(rows)) != len(rows):
+        errors.append(f"{where} duplicate status rows present")
+    if set(rows) != EXPECTED_FULL_STATUS:
+        errors.append(f"{where} full status != expected16+preknown-cache rows: "
+                      f"missing={sorted(EXPECTED_FULL_STATUS - set(rows))} "
+                      f"extra={sorted(set(rows) - EXPECTED_FULL_STATUS)}")
+    return errors
+
+
+def _check_inherited(obs: dict, where: str) -> list[str]:
+    errors = []
+    frozen = STATIC_FREEZE.get("files", {})
+    if set(frozen) != set(INHERITED13):
+        return [f"{where} static freeze path set != inherited13: {sorted(set(frozen) ^ set(INHERITED13))}"]
+    for rel in INHERITED13:
+        exp = frozen[rel]
+        got = obs["files"].get(rel, {})
+        if got.get("sha256") != exp["sha256"] or got.get("mode") != exp["mode"] \
+                or got.get("bytes") != exp["bytes"]:
+            errors.append(f"{where} inherited13 drift vs P1 freeze: {rel}: got={got} exp={exp}")
+    return errors
+
+
+def _kill_reap(proc: subprocess.Popen, terminal: dict, how: str) -> None:
+    try:
+        os.killpg(proc.pid, signal.SIGKILL)
+        terminal[how + "_killpg"] = "sent"
+    except ProcessLookupError:
+        terminal[how + "_killpg"] = "already-exited"
+    except OSError as exc:
+        terminal[how + "_killpg"] = f"failed: {type(exc).__name__}: {exc}"
+    try:
+        proc.wait(timeout=120)
+        terminal[how + "_reap"] = f"rc={proc.returncode}"
+    except subprocess.SubprocessError as exc:
+        terminal[how + "_reap"] = f"failed: {type(exc).__name__}: {exc}"
+
+
+def main() -> int:
+    if set(EXPECTED) != EXPECTED_16_SET:
+        print(f"RUNNER_REFUSAL: expected manifest path set != canonical16: "
+              f"missing={sorted(EXPECTED_16_SET - set(EXPECTED))} "
+              f"extra={sorted(set(EXPECTED) - EXPECTED_16_SET)}", file=sys.stderr)
+        return 40
+    cache_files = CACHE_STATIC.get("files", {})
+    if not cache_files or any(set(v) != {"sha256", "mode", "bytes"} for v in cache_files.values()):
+        print("RUNNER_REFUSAL: static cache inventory malformed", file=sys.stderr)
+        return 40
+    if CACHE_PREFIX.exists():
+        print(f"RUNNER_REFUSAL: cache prefix path already exists: {CACHE_PREFIX}", file=sys.stderr)
+        return 40
+    outputs = [STDOUT_P, STDERR_P, EXIT_P, PRE_P, POST_P, META_P,
+               STAGE_RESERVED_P, STAGE_RUNNING_P, STAGE_DONE_P]
+    for p in outputs:
+        if p.exists():
+            print(f"RUNNER_REFUSAL: output exists (not overwriting): {p.name}", file=sys.stderr)
+            return 40
+    terminal: dict = {"runner": "run_p2r_correction_v8.py", "pid": os.getpid()}
+    out_fh = None
+    err_fh = None
+    proc: subprocess.Popen | None = None
+    child_rc: int | None = None
+    pre: dict | None = None
+    wrapper_rc = 40
+    try:
+        out_fh = open(STDOUT_P, "xb")
+        err_fh = open(STDERR_P, "xb")
+        started = datetime.now(timezone.utc)
+        terminal.update({"started_utc": started.isoformat(), "candidate": str(CANDIDATE),
+                         "timeout_s": TIMEOUT_S, "argv": sys.argv, "cwd": os.getcwd(),
+                         "python": sys.version, "cache_prefix": str(CACHE_PREFIX),
+                         "phase": "reserved"})
+        with open(STAGE_RESERVED_P, "x") as f:
+            json.dump(terminal, f, indent=1)
+        meta = dict(terminal)
+        meta["env_git"] = {k: v for k, v in os.environ.items() if k.startswith("GIT")}
+        try:
+            import unittest  # noqa
+            meta["unittest"] = "available"
+        except Exception as e:
+            meta["unittest"] = f"{type(e).__name__}: {e}"
+        try:
+            pip = subprocess.run([sys.executable, "-m", "pip", "freeze"],
+                                 capture_output=True, text=True, timeout=60)
+            meta["pip_freeze_rc"] = pip.returncode
+            meta["pip_freeze"] = pip.stdout[:6000]
+        except Exception as e:
+            meta["pip_freeze_error"] = f"{type(e).__name__}: {e}"
+        with open(META_P, "x") as f:
+            json.dump(meta, f, indent=1)
+        pre = _observe("pre")
+        with open(PRE_P, "x") as f:
+            json.dump(pre, f, indent=1)
+        pre_errors = _check_pins(pre, "pre") + _check_inherited(pre, "pre")
+        if pre_errors:
+            terminal["pre_errors"] = pre_errors
+            msg = "PRE-GUARD FAILED:\n" + "\n".join(pre_errors) + "\n"
+            out_fh.write(msg.encode())
+            out_fh.flush()
+            err_fh.write(msg.encode())
+            err_fh.flush()
+            print(msg, file=sys.stderr)
+        else:
+            cmd = [sys.executable, "-u", "-m", "unittest",
+                   "tests.test_survey_editorial_retention_v2", "-v"]
+            env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+            env.update({"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0",
+                        "GIT_ALLOW_PROTOCOL": "file", "PYTHONDONTWRITEBYTECODE": "1",
+                        "PYTHONPYCACHEPREFIX": str(CACHE_PREFIX)})
+            forced = {k: env.get(k) for k in FORCED_ENV_KEYS}
+            redacted = len(env) - len(forced)
+            t0 = datetime.now(timezone.utc)
+            proc = subprocess.Popen(cmd, cwd=CANDIDATE, stdout=out_fh, stderr=err_fh,
+                                    env=env, start_new_session=True)
+            with open(STAGE_RUNNING_P, "x") as f:
+                json.dump({"phase": "child-running", "child_pid": proc.pid,
+                           "child_cmd": cmd, "child_cwd": str(CANDIDATE),
+                           "sys_executable": sys.executable,
+                           "child_env_forced": forced,
+                           "child_env_other": f"redacted ({redacted} additional inherited keys withheld)",
+                           "started_utc": t0.isoformat()}, f, indent=1)
+            print(f"v8 child pid={proc.pid} group={proc.pid} redirected "
+                  f"to {STDOUT_P.name} {STDERR_P.name}", flush=True)
+            try:
+                child_rc = proc.wait(timeout=TIMEOUT_S)
+            except subprocess.TimeoutExpired:
+                terminal["timed_out"] = True
+                _kill_reap(proc, terminal, "timeout")
+                child_rc = proc.returncode if proc.returncode is not None else 124
+            terminal["child_rc"] = child_rc
+            terminal["elapsed_s"] = (datetime.now(timezone.utc) - t0).total_seconds()
+    except KeyboardInterrupt as exc:
+        terminal["interrupted"] = f"{type(exc).__name__}: {exc}"
+        if proc is not None:
+            _kill_reap(proc, terminal, "interrupt")
+            child_rc = proc.returncode if proc.returncode is not None else 130
+            terminal["child_rc"] = child_rc
+    except RuntimeError as exc:
+        terminal["runtime_error"] = f"{type(exc).__name__}: {exc}"
+        terminal["launch_rc"] = 2
+        if proc is not None and child_rc is None:
+            _kill_reap(proc, terminal, "launch-failure")
+            child_rc = proc.returncode
+            terminal["child_rc"] = child_rc
+    except Exception as exc:
+        terminal["fatal"] = f"{type(exc).__name__}: {exc}"
+        terminal["launch_rc"] = 1
+        if proc is not None and child_rc is None:
+            _kill_reap(proc, terminal, "launch-failure")
+            child_rc = proc.returncode
+            terminal["child_rc"] = child_rc
+    finally:
+        try:
+            post = _observe("finally-post")
+            post_ok = True
+        except RuntimeError as exc:
+            post = {"label": "finally-post", "observe_error": f"{type(exc).__name__}: {exc}"}
+            post_ok = False
+        except Exception as exc:
+            post = {"label": "finally-post", "observe_error": f"{type(exc).__name__}: {exc}"}
+            post_ok = False
+        try:
+            with open(POST_P, "x") as f:
+                json.dump(post, f, indent=1)
+        except OSError as exc:
+            terminal["post_write_error"] = f"{type(exc).__name__}: {exc}"
+            post_ok = False
+        post_errors: list[str] = []
+        if not post_ok:
+            post_errors.append(f"post observation failed: {post.get('observe_error', post.get('post_write_error'))}")
+        else:
+            try:
+                post_errors = _check_pins(post, "post") + _check_inherited(post, "post")
+                if pre is not None and \
+                        set(post.get("status_rows", [])) != set(pre.get("status_rows", [])):
+                    post_errors.append("post full status rows differ from pre")
+            except Exception as exc:
+                post_errors.append(f"post guard computation failed: {type(exc).__name__}: {exc}")
+        flush_errors: list[str] = []
+        if terminal.get("interrupted"):
+            wrapper_rc = 130
+        elif terminal.get("timed_out"):
+            wrapper_rc = 124
+        elif terminal.get("launch_rc") is not None:
+            wrapper_rc = terminal["launch_rc"]
+        elif terminal.get("pre_errors"):
+            wrapper_rc = 2
+        elif proc is not None and child_rc is None:
+            terminal["note"] = "child launched but never reported rc"
+            wrapper_rc = 1
+        elif proc is None and child_rc is None and not terminal.get("pre_errors") \
+                and terminal.get("launch_rc") is None:
+            terminal["note"] = "no child, no pre-errors, no launch error recorded"
+            wrapper_rc = 1
+        elif child_rc is not None and child_rc != 0:
+            wrapper_rc = child_rc
+        else:
+            wrapper_rc = 0
+        terminal["wrapper_rc"] = wrapper_rc
+        terminal["post_errors"] = post_errors
+        if post_errors and wrapper_rc == 0:
+            wrapper_rc = 3
+            terminal["wrapper_rc"] = wrapper_rc
+        terminal["ended_utc"] = datetime.now(timezone.utc).isoformat()
+        try:
+            if out_fh is not None and not out_fh.closed:
+                out_fh.write(f"\n[WRAPPER child_rc={child_rc} wrapper_rc={wrapper_rc} "
+                             f"timed_out={bool(terminal.get('timed_out'))} "
+                             f"interrupted={bool(terminal.get('interrupted'))}]\n".encode())
+                if post_errors:
+                    out_fh.write(("POST-GUARD: " + "; ".join(post_errors) + "\n").encode())
+                out_fh.flush()
+        except (OSError, ValueError) as exc:
+            terminal["trailer_write_error"] = f"{type(exc).__name__}: {exc}"
+            if wrapper_rc == 0:
+                wrapper_rc = 5
+                terminal["wrapper_rc"] = wrapper_rc
+        for fh, name in ((out_fh, "stdout"), (err_fh, "stderr")):
+            if fh is not None and not fh.closed:
+                try:
+                    fh.flush()
+                except (OSError, ValueError) as exc:
+                    flush_errors.append(f"{name} flush: {type(exc).__name__}: {exc}")
+                try:
+                    fh.close()
+                except (OSError, ValueError) as exc:
+                    flush_errors.append(f"{name} close: {type(exc).__name__}: {exc}")
+        if flush_errors:
+            terminal["flush_errors"] = flush_errors
+            if wrapper_rc == 0:
+                wrapper_rc = 5
+                terminal["wrapper_rc"] = wrapper_rc
+        try:
+            with open(EXIT_P, "x") as f:
+                f.write(f"{wrapper_rc}\n")
+        except OSError as exc:
+            print(f"RUNNER_REFUSAL: cannot record {EXIT_P.name}: {exc}", file=sys.stderr)
+        try:
+            with open(STAGE_DONE_P, "x") as f:
+                json.dump(terminal, f, indent=1)
+        except OSError as exc:
+            print(f"RUNNER_REFUSAL: cannot record stage-done: {exc}; "
+                  f"terminal={json.dumps(terminal)[:2000]}", file=sys.stderr)
+    print(f"child_rc={child_rc} wrapper_rc={wrapper_rc} post_errors={post_errors}")
+    return wrapper_rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())

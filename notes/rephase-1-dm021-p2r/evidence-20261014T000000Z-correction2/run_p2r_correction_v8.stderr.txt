@@ -1,0 +1,80 @@
+test_capture_postverify_inplace_edit_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_capture_postverify_inplace_edit_refuses) ... ok
+test_capture_readback_control_edition_injection_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_capture_readback_control_edition_injection_refuses) ... ok
+test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses) ... ok
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... ok
+test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved) ... ok
+test_fault_create_identity_and_close_preservation (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_create_identity_and_close_preservation) ... ok
+test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate) ... ok
+test_fault_primary_read_close_secondary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_primary_read_close_secondary_preserved) ... FAIL
+test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync) ... ok
+test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift) ... ok
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ok
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ok
+test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement) ... ok
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ok
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ok
+test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular) ... ok
+test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file) ... ok
+test_replacement_owned_file_midcapture_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_owned_file_midcapture_refuses) ... ok
+test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses) ... ok
+test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes) ... ok
+test_verifier_late_retained_additions_refuse (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_late_retained_additions_refuse) ... FAIL
+test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order) ... ok
+test_verifier_state_labels_required (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_state_labels_required) ... ok
+test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives) ... ok
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ok
+
+======================================================================
+FAIL: test_fault_primary_read_close_secondary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_primary_read_close_secondary_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 448, in safe_read
+    os.close(extra)
+    ~~~~~~~~^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1332, in _close_fail_dirs
+    raise OSError("injected intermediate dir close failure")
+OSError: injected intermediate dir close failure
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_retention_v2.RetentionError: CLOSE_FAILED: [PRE_P1_PIN/REFUSED_PRE_WRITE] Production State intermediate dir close failed: sources/2026-W37/production-state.json: injected intermediate dir close failure; secondary closes: ['injected intermediate dir close failure', 'injected intermediate dir close failure']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1339, in test_fault_primary_read_close_secondary_preserved
+    with self.assertRaisesRegex(RetentionError, "PATH_UNREADABLE") as ctx:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "PATH_UNREADABLE" does not match "CLOSE_FAILED: [PRE_P1_PIN/REFUSED_PRE_WRITE] Production State intermediate dir close failed: sources/2026-W37/production-state.json: injected intermediate dir close failure; secondary closes: ['injected intermediate dir close failure', 'injected intermediate dir close failure']"
+
+======================================================================
+FAIL: test_verifier_late_retained_additions_refuse (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_late_retained_additions_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 908, in test_verifier_late_retained_additions_refuse
+    _run_with_late_plant("file")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 896, in _run_with_late_plant
+    _assert_no_write(self, pre, post, f"late retained {kind} no-write")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 120, in _assert_no_write
+    p1t._assert_no_write(testcase, before, after, label)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'.gi[69867 chars]ined/planted-final.txt': 'b3b7e0752c2dadb9cf02[28555 chars]445'} != {'.gi[69867 chars]ined/retention-manifest.json': '4b9f4bf432079a[28387 chars]445'}
+Diff is 100845 characters long. Set self.maxDiff to None to see it. : tree write during late retained file no-write
+
+----------------------------------------------------------------------
+Ran 25 tests in 7786.576s
+
+FAILED (failures=2)

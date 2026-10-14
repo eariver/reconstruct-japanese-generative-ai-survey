@@ -1,0 +1,1305 @@
+"""DM021-P2R focused tests (correction v2, R1-R6 + B1-B3).
+
+Real accepted-chain fixtures through actual producers/stage validators in
+independent Git databases (process-scoped identity, inert origins, no empty
+commits); fixture source commits include all P1/LF2I bytes PLUS all3 P2R
+files BEFORE authority (local override, no P1 test change). Immutable
+accepted bases built once per class; destructive cases byte-copy the base
+independently per case/test (no object sharing, no delete-to-rerun).
+Every capture/verify call is wrapped in immediately-around snapshots with
+exact allowed-delta/no-write/owned-partial assertions. Synthetic reviews are
+type/identity fixtures, never semantic acceptance. No assert keyword guards
+(explicit TestCase methods; safe under python -O).
+
+Note on edits: no `apply_patch` binary in this environment; fixes applied
+via exact file-write/exact-string replacement with identical semantics
+(disclosed in correction report).
+"""
+from __future__ import annotations
+
+import json
+import os
+import shutil
+import signal
+import stat as _stat
+import subprocess
+import tempfile
+import unittest
+from pathlib import Path
+from unittest import mock
+
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_retention_v2 as retention
+
+from tests import test_survey_editorial_correction_proposal_v2 as p1t
+
+ProposalError = p1t.ProposalError
+RetentionError = retention.RetentionError
+
+_GIT_VARS = (
+    "GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR",
+)
+
+P2R_EXTRA = (
+    "scripts/survey_editorial_retention_v2.py",
+    "schemas/editorial-retention-manifest-v2.schema.json",
+    "tests/test_survey_editorial_retention_v2.py",
+)
+
+W_ISSUE = p1t.W_ISSUE
+L_ISSUE = p1t.L_ISSUE
+
+
+def _run_git(root: Path, *args: str, env_extra: dict | None = None) -> subprocess.CompletedProcess:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update({
+        "GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file",
+        "GIT_AUTHOR_NAME": "Synthetic DM021-P2R Fixture", "GIT_AUTHOR_EMAIL": "p2r-fixture@example.invalid",
+        "GIT_COMMITTER_NAME": "Synthetic DM021-P2R Fixture", "GIT_COMMITTER_EMAIL": "p2r-fixture@example.invalid",
+    })
+    if env_extra:
+        env.update(env_extra)
+    return subprocess.run(["git", *args], cwd=root, capture_output=True, text=True, env=env)
+
+
+def _make_p2r_source_root(testcase: unittest.TestCase, prefix: str) -> tuple[tempfile.TemporaryDirectory, Path]:
+    workspace = Path(__file__).resolve().parents[1]
+    scratch = tempfile.TemporaryDirectory(prefix=prefix)
+    testcase.addCleanup(scratch.cleanup)
+    root = Path(scratch.name).resolve()
+    tracked = subprocess.run(
+        ["git", "ls-files", "-z", "--", ".github", "config", "schemas", "scripts", "templates", "prompts",
+         "docs", "data", "tests"],
+        cwd=workspace, capture_output=True, check=True).stdout
+    for raw in tracked.split(b"\0"):
+        if not raw:
+            continue
+        relative = Path(raw.decode("utf-8"))
+        destination = root / relative
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(workspace / relative, destination)
+    for rel in list(p1t.UNTRACKED_SOURCES) + list(P2R_EXTRA):
+        source = workspace / rel
+        testcase.assertTrue(source.is_file(), f"untracked P2R source missing: {rel}")
+        destination = root / rel
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, destination)
+        testcase.assertEqual(core.sha256_file(destination), core.sha256_file(source),
+                             f"fixture copy drift: {rel}")
+    for command in (
+        ["init", "-q"],
+        ["remote", "add", "origin", "https://example.invalid/dm021-p2r-fixture.git"],
+        ["add", "-A"],
+        ["-c", "user.name=Synthetic DM021-P2R Fixture",
+         "-c", "user.email=p2r-fixture@example.invalid",
+         "commit", "-q", "-m", "Synthetic isolated DM021-P2R source basis"],
+    ):
+        proc = _run_git(root, *command)
+        testcase.assertEqual(proc.returncode, 0, f"git {command}: {proc.stderr}")
+    status = _run_git(root, "status", "--porcelain").stdout
+    testcase.assertEqual(status, "", f"fixture source not clean after commit: {status}")
+    return scratch, root
+
+
+def _copy_base(testcase: unittest.TestCase, base: Path, prefix: str) -> tuple[tempfile.TemporaryDirectory, Path]:
+    # Independent byte-copy (no hardlinks/object sharing, inert origin preserved).
+    scratch = tempfile.TemporaryDirectory(prefix=prefix)
+    testcase.addCleanup(scratch.cleanup)
+    root = Path(scratch.name).resolve()
+    shutil.copytree(base, root, symlinks=True, dirs_exist_ok=True,
+                    ignore=shutil.ignore_patterns("__pycache__"))
+    # Fresh process-scoped identity check: no GIT_* overrides; origin stays inert.
+    proc = _run_git(root, "remote", "-v")
+    testcase.assertEqual(proc.returncode, 0)
+    testcase.assertIn("example.invalid", proc.stdout)
+    return scratch, root
+
+
+def _snapshot(root: Path) -> dict:
+    return p1t._snapshot(root)
+
+
+def _assert_no_write(testcase: unittest.TestCase, before: dict, after: dict, label: str) -> None:
+    p1t._assert_no_write(testcase, before, after, label)
+
+
+def _allowed_delta_only(testcase: unittest.TestCase, before: dict, after: dict,
+                        allowed_prefix: str, label: str) -> None:
+    before_files = before["files"]
+    after_files = after["files"]
+    for rel, sha in before_files.items():
+        testcase.assertIn(rel, after_files, f"disappearance during {label}: {rel}")
+        testcase.assertEqual(after_files[rel], sha, f"drift during {label}: {rel}")
+    added = sorted(set(after_files) - set(before_files))
+    testcase.assertTrue(added, f"no retained delta during {label}")
+    for rel in added:
+        testcase.assertTrue(rel.startswith(allowed_prefix),
+                            f"unowned addition during {label}: {rel}")
+    testcase.assertEqual(after["head"], before["head"], f"HEAD moved during {label}")
+
+
+def _assert_owned_delta_only(testcase: unittest.TestCase, before: dict, after: dict,
+                             allowed_prefix: str, label: str) -> None:
+    # Fault case: live originals unchanged; only owned retained subtree may grow.
+    before_files = before["files"]
+    after_files = after["files"]
+    for rel, sha in before_files.items():
+        testcase.assertIn(rel, after_files, f"live disappearance during {label}: {rel}")
+        testcase.assertEqual(after_files[rel], sha, f"live drift during {label}: {rel}")
+    added = sorted(set(after_files) - set(before_files))
+    for rel in added:
+        testcase.assertTrue(rel.startswith(allowed_prefix),
+                            f"foreign write during {label}: {rel}")
+
+
+def _prepare_proposal_for(testcase: unittest.TestCase, root: Path, helper, chain: dict,
+                          state_path: Path, proposal_id: str, authored_mut) -> tuple[Path, dict]:
+    from scripts import survey_editorial_correction_proposal_v2 as p1mod
+    authored = authored_mut()
+    staged_authoring = p1t._stage_authoring_before_prepare(testcase, root, helper.source_root, proposal_id, authored)
+    prepared = p1mod.prepare_proposal(root, state_path, staged_authoring, proposal_id,
+                                      f"Fixture P2R correction {proposal_id}.")
+    proposal_path = p1t._stage_reader_and_proposal(testcase, root, helper.source_root, proposal_id, prepared)
+    return proposal_path, prepared
+
+
+class EditorialRetentionV2Tests(unittest.TestCase):
+    def setUp(self) -> None:
+        for name in _GIT_VARS:
+            if os.environ.get(name):
+                raise AssertionError(f"unsafe inherited Git root override for isolated fixture: {name}")
+        self.workspace = Path(__file__).resolve().parents[1]
+
+    def _fresh_weekly(self, prefix: str):
+        # Independent fresh source root per case (no shared built state;
+        # byte-copy reuse of an already-built base would carry existing
+        # production-profile/state and refuse re-initialization).
+        return _make_p2r_source_root(self, prefix)
+
+    def _fresh_longform(self, prefix: str):
+        return _make_p2r_source_root(self, prefix)
+
+    # ---- positives ----
+
+    def test_longform_capture_verify_positive(self) -> None:
+        scratch, root = self._fresh_longform("jgas-p2r-longform-")
+        helper = p1t._new_longform_helper(self, root, self.workspace)
+        chain = helper._complete(helper._chain())
+        state_path = helper._state_path(chain)
+        helper._advance_to_validated_draft(chain, state_path)
+        self.assertEqual(core.load_json(state_path)["lifecycle_state"], "VALIDATED_DRAFT")
+
+        def _mut():
+            authored = helper._authored(chain, helper.worker)
+            authored["longform_revision"]["packages"][0]["narrative_sections"][0]["paragraphs"][0]["text"] += \
+                " Revised fixture sentence within approved evidence."
+            return authored
+
+        proposal_path, prepared = _prepare_proposal_for(self, root, helper, chain, state_path,
+                                                        "fixture-lf-p2r-1", _mut)
+        before = _snapshot(root)
+        out = retention.capture_retention(root, state_path, proposal_path)
+        after = _snapshot(root)
+        self.assertEqual(out["result"], "RETAINED_SET_CAPTURED")
+        proposal_dir = f"sources/{L_ISSUE}/publication/v2/editorial-corrections/fixture-lf-p2r-1"
+        _allowed_delta_only(self, before, after, proposal_dir + "/retained/", "longform capture")
+        manifest_path = root / out["manifest_path"]
+        self.assertTrue(manifest_path.is_file())
+        self.assertEqual(core.sha256_file(manifest_path), out["manifest_sha256"])
+        manifest = core.load_json(manifest_path)
+        self.assertEqual(manifest["schema_version"], "2.0-rc1")
+        self.assertEqual(manifest["kind"], "EDITORIAL_RETENTION_V1")
+        self.assertEqual(manifest["status"], "CAPTURED")
+        plan = prepared["proposal"]["retention_plan"]
+        self.assertEqual(len(manifest["rows"]), len(plan))
+        for prow, mrow in zip(plan, manifest["rows"]):
+            self.assertEqual(mrow["path"], prow["path"])
+            self.assertEqual(mrow["roles"], sorted(prow["roles"]))
+            if prow["policy"] == "KEEP_IMMUTABLE":
+                self.assertNotIn("retained_dest", mrow)
+                self.assertNotIn("retained_sha256", mrow)
+                self.assertNotIn("retained_byte_count", mrow)
+                self.assertEqual(mrow["retained_ref"], {"path": prow["path"], "sha256": prow["sha256"]})
+            else:
+                self.assertNotIn("retained_ref", mrow)
+                self.assertEqual(mrow["retained_sha256"], prow["sha256"])
+                self.assertEqual(mrow["retained_byte_count"], prow["byte_count"])
+        self.assertIn("scripts/survey_editorial_retention_v2.py",
+                      {e["path"] for e in manifest["capture_inputs"]})
+        self.assertIn("schemas/editorial-retention-manifest-v2.schema.json",
+                      {e["path"] for e in manifest["capture_inputs"]})
+        snap = _snapshot(root)
+        vout = retention.verify_retention(root, proposal_path, manifest_path)
+        self.assertEqual(vout["result"], "RETAINED_SET_VERIFIED")
+        _assert_no_write(self, snap, _snapshot(root), "longform verify no-write")
+
+    def test_weekly_capture_verify_positive(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-weekly-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly P2R test, revised edition"
+            return authored
+
+        proposal_path, prepared = _prepare_proposal_for(self, root, helper, chain, state_path,
+                                                        "fixture-wk-p2r-1", _mut)
+        before = _snapshot(root)
+        out = retention.capture_retention(root, state_path, proposal_path)
+        after = _snapshot(root)
+        self.assertEqual(out["result"], "RETAINED_SET_CAPTURED")
+        proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-p2r-1"
+        _allowed_delta_only(self, before, after, proposal_dir + "/retained/", "weekly capture")
+        vout = retention.verify_retention(root, proposal_path, root / out["manifest_path"])
+        self.assertEqual(vout["result"], "RETAINED_SET_VERIFIED")
+
+    def test_r1_double_refresh_capture_verify(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-r1-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+        target = root / "scripts" / "survey_weekly_derivation_v2.py"
+        original = target.read_text(encoding="utf-8")
+        self.assertNotIn("R1 non-emitted fixture comment", original)
+        refresh_script = (
+            "import sys\nfrom pathlib import Path\nroot = Path(sys.argv[1])\nstate_path = Path(sys.argv[2])\n"
+            "from scripts import survey_production_v2 as core\n"
+            "from scripts import survey_weekly_mechanical_refresh_v2 as r1\n"
+            "from datetime import datetime, timezone\n"
+            "recorded = datetime(2026, 9, 19, 8, 0, 0, tzinfo=timezone.utc)\n"
+            "result = r1.refresh_mechanical_evidence(root, cfg if False else core.load_json(root / core.DEFAULT_CONFIG), state_path, 'fixture R1 refresh', 'synthetic P2R R1', recorded)\n"
+            "print(core.sha256_object(result)[:16])\n"
+        )
+        target.write_text(original + "\n# R1 non-emitted fixture comment: no output change.\n", encoding="utf-8")
+        proc = _run_git(root, "add", "scripts/survey_weekly_derivation_v2.py")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        proc = _run_git(root, "-c", "user.name=Synthetic DM021-P2R Fixture",
+                        "-c", "user.email=p2r-fixture@example.invalid",
+                        "commit", "-q", "-m", "Fixture R1 non-emitted derivation comment")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        p1t._run_fixture_code(self, root, refresh_script, [str(root), str(state_path)])
+        state1 = core.load_json(state_path)
+        self.assertIsNotNone(state1.get("publication_revalidation_provenance"))
+
+        def _mut1():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly R1 first refresh, revised edition"
+            return authored
+
+        pp1, _prep1 = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-r1a-1", _mut1)
+        out1 = retention.capture_retention(root, state_path, pp1)
+        self.assertEqual(out1["result"], "RETAINED_SET_CAPTURED")
+        v1 = retention.verify_retention(root, pp1, root / out1["manifest_path"])
+        self.assertEqual(v1["result"], "RETAINED_SET_VERIFIED")
+        target.write_text(target.read_text(encoding="utf-8") + "# R1 second non-emitted comment.\n", encoding="utf-8")
+        proc = _run_git(root, "add", "scripts/survey_weekly_derivation_v2.py")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        proc = _run_git(root, "-c", "user.name=Synthetic DM021-P2R Fixture",
+                        "-c", "user.email=p2r-fixture@example.invalid",
+                        "commit", "-q", "-m", "Fixture R1 second non-emitted comment")
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        p1t._run_fixture_code(self, root, refresh_script, [str(root), str(state_path)])
+        from scripts import survey_agent_control_v2 as _agent
+        cfg2 = core.load_json(root / core.DEFAULT_CONFIG)
+        record2, errors2 = _agent.resolve_active_publication_revalidation(root, cfg2, core.load_json(state_path))
+        self.assertEqual(errors2, [])
+        self.assertIsNotNone(record2.get("supersedes"))
+
+        def _mut2():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly R1 second refresh, revised edition"
+            return authored
+
+        pp2, _prep2 = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-r1b-1", _mut2)
+        out2 = retention.capture_retention(root, state_path, pp2)
+        self.assertEqual(out2["result"], "RETAINED_SET_CAPTURED")
+        v2 = retention.verify_retention(root, pp2, root / out2["manifest_path"])
+        self.assertEqual(v2["result"], "RETAINED_SET_VERIFIED")
+        with self.assertRaisesRegex(RetentionError, "INVALID_RETENTION|REF_DRIFT|PROFILE_DRIFT|COPY_DRIFT"):
+            retention.verify_retention(root, pp1, root / out1["manifest_path"])
+
+    # ---- existing-root refusals ----
+
+    def test_refuse_existing_retained_root(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-exists-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly exists test, revised edition"
+            return authored
+
+        pp_e, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ex-empty", _mut)
+        (root / f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-ex-empty/retained").mkdir()
+        snap = _snapshot(root)
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp_e)
+        _assert_no_write(self, snap, _snapshot(root), "empty retained root no-write")
+        pp_s, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ex-same", _mut)
+        foreign = root / f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-ex-same/retained"
+        foreign.mkdir()
+        (foreign / "foreign.txt").write_bytes(b"same bytes foreign")
+        snap2 = _snapshot(root)
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp_s)
+        _assert_no_write(self, snap2, _snapshot(root), "same-byte foreign no-write")
+        pp_d, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ex-alias", _mut)
+        alias = root / f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-ex-alias/retained"
+        alias.symlink_to(root / "nonexistent-p2r-target")
+        snap3 = _snapshot(root)
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp_d)
+        _assert_no_write(self, snap3, _snapshot(root), "dangling alias no-write")
+
+    # ---- R1 path/alias/nonregular oracles ----
+
+    def test_refuse_unsafe_paths_aliases_nonregular(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-paths-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly paths test, revised edition"
+            return authored
+
+        pp, prepared = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-path-1", _mut)
+        # Dot / double-separator / trailing forms refuse pre-write with exact codes.
+        snap = _snapshot(root)
+        for bad, code in (("a/./b.json", "PATH_TRAVERSAL"), ("a//b.json", "PATH_TRAVERSAL"),
+                          ("a/b.json/", "PATH_TRAVERSAL"), ("../outside.json", "PATH_TRAVERSAL"),
+                          ("/abs/path.json", "PATH_NOT_REPO_LOCAL")):
+            with self.assertRaisesRegex(RetentionError, code):
+                retention.capture_retention(root, state_path, bad)
+        _assert_no_write(self, snap, _snapshot(root), "lexical traversal no-write")
+        # Contained leaf alias at proposal path: symlink file with same bytes refuses.
+        pp_bytes = (root / pp.relative_to(root) if pp.is_absolute() else root / pp).read_bytes() \
+            if isinstance(pp, Path) else (root / pp).read_bytes()
+        # Build a contained alias: replace staged authoring with symlink to same bytes.
+        proposal = core.load_json(root / pp.relative_to(root) if isinstance(pp, Path) and pp.is_absolute() else root / pp)
+        authoring_rel = proposal["proposed"]["authoring_input_ref"]["path"]
+        afull = root / authoring_rel
+        aorig = afull.read_bytes()
+        stash = afull.with_suffix(".stash")
+        shutil.copyfile(afull, stash)
+        try:
+            afull.unlink()
+            # Same-byte contained alias: symlink to stash (same bytes, different identity).
+            afull.symlink_to(stash)
+            snap2 = _snapshot(root)
+            with self.assertRaisesRegex(RetentionError, "PATH_ALIAS|FILE_REPLACED|REF_DRIFT|PROPOSED_AUTHORING_MISMATCH|P1_REFUSED"):
+                retention.capture_retention(root, state_path, pp)
+            _assert_no_write(self, snap2, _snapshot(root), "leaf alias no-write")
+        finally:
+            try:
+                afull.unlink()
+            except OSError:
+                pass
+            shutil.copyfile(stash, afull)
+            try:
+                stash.unlink()
+            except OSError:
+                pass
+        # Contained ancestor alias: symlink an ancestor dir of a COPY source is
+        # refused. Use a fresh proposal id so the retained root is absent.
+        pp2, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-path-2", _mut)
+        # FIFO no-read oracle with timeout guard (explicit skip on creation failure).
+        fifo = root / f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-path-2/fifo-probe"
+        try:
+            os.mkfifo(fifo)
+        except OSError as exc:
+            self.skipTest(f"FIFO creation unsupported in this environment: {exc}")
+        else:
+            def _handler(signum, frame):
+                raise TimeoutError("fifo open blocked")
+            old = signal.signal(signal.SIGALRM, _handler)
+            try:
+                signal.alarm(5)
+                with self.assertRaisesRegex(RetentionError, "PATH_NOT_REGULAR|PATH_ALIAS|PATH_UNREADABLE|P1_REFUSED"):
+                    retention.capture_retention(root, state_path, fifo)
+                signal.alarm(0)
+            finally:
+                signal.signal(signal.SIGALRM, old)
+                try:
+                    fifo.unlink()
+                except OSError:
+                    pass
+        self.assertEqual(_snapshot(root)["head"], snap["head"])
+
+    # ---- verifier typed-hop negatives (B2) ----
+
+    def test_verifier_typed_hop_negatives(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-typed-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly typed test, revised edition"
+            return authored
+
+        pp, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ty-1", _mut)
+        out = retention.capture_retention(root, state_path, pp)
+        manifest_path = root / out["manifest_path"]
+        good_manifest = manifest_path.read_bytes()
+        good_proposal = (root / pp.relative_to(root) if isinstance(pp, Path) and pp.is_absolute() else root / pp).read_bytes()
+        pp_rel = pp if isinstance(pp, str) else str(Path(pp).relative_to(root))
+
+        def _check_both(mut_p, mut_m, pattern: str, label: str) -> None:
+            # Coordinated untrusted-artifact fixture: mutate proposal+manifest
+            # consistently where needed to reach the typed-hop check.
+            ppath = root / pp_rel
+            mpath = manifest_path
+            pbad = json.loads(good_proposal.decode("utf-8"))
+            mbad = json.loads(good_manifest.decode("utf-8"))
+            if mut_p is not None:
+                mut_p(pbad)
+            if mut_m is not None:
+                mut_m(mbad)
+            pbytes = core.json_bytes(pbad) if isinstance(pbad, dict) else pbad
+            # Rebind proposal_ref sha to mutated proposal bytes so the header
+            # check passes and the typed-hop check is reached (untrusted-artifact
+            # fixture, not historical authority).
+            if isinstance(mbad, dict) and isinstance(mbad.get("proposal_ref"), dict):
+                mbad["proposal_ref"]["sha256"] = core.sha256_bytes(pbytes)
+            ppath.write_bytes(pbytes)
+            mpath.write_bytes(core.json_bytes(mbad) if isinstance(mbad, dict) else mbad)
+            pre = _snapshot(root)
+            try:
+                with self.assertRaisesRegex(RetentionError, pattern):
+                    retention.verify_retention(root, pp, manifest_path)
+            finally:
+                post = _snapshot(root)
+                # Verifier must not repair or add: only the two coordinated
+                # fixture files may differ from pre-call; nothing else.
+                ppath.write_bytes(good_proposal)
+                mpath.write_bytes(good_manifest)
+            # After restore, verification succeeds again.
+            self.assertEqual(retention.verify_retention(root, pp, manifest_path)["result"],
+                             "RETAINED_SET_VERIFIED")
+
+        # Missing state:authority (remove it from both plan and rows).
+        def _rm_state_p(p):
+            p["retention_plan"] = [r for r in p["retention_plan"] if "state:authority" not in r["roles"]]
+        def _rm_state_m(m):
+            m["rows"] = [r for r in m["rows"] if "state:authority" not in r["roles"]]
+        _check_both(_rm_state_p, _rm_state_m, "MISSING_STATE_AUTHORITY|INVALID_RETENTION|RETENTION_MISMATCH|SCHEMA_INVALID", "missing-state-authority")
+        # Duplicate state:authority (duplicate the row in both).
+        def _dup_state_p(p):
+            s = [r for r in p["retention_plan"] if "state:authority" in r["roles"]][0]
+            p["retention_plan"] = p["retention_plan"] + [json.loads(json.dumps(s))]
+        def _dup_state_m(m):
+            s = [r for r in m["rows"] if "state:authority" in r["roles"]][0]
+            m["rows"] = m["rows"] + [json.loads(json.dumps(s))]
+        _check_both(_dup_state_p, _dup_state_m, "AMBIGUOUS_STATE_AUTHORITY|RETENTION_MISMATCH|INVALID_RETENTION", "duplicate-state-authority")
+        # basis.state_ref disagreeing with COPY row.
+        def _disagree_p(p):
+            p["basis"]["state_ref"] = {"path": p["basis"]["state_ref"]["path"], "sha256": "0" * 64}
+        def _disagree_m(m):
+            m["basis"]["state_ref"] = {"path": m["basis"]["state_ref"]["path"], "sha256": "0" * 64}
+        _check_both(_disagree_p, _disagree_m, "STATE_REF_MISMATCH|BASIS_MISMATCH|INVALID_RETENTION", "state-ref-disagree")
+        # Ambiguous dual KEEP match: duplicate a KEEP row exactly in both.
+        def _dup_keep_p(p):
+            k = [r for r in p["retention_plan"] if r["policy"] == "KEEP_IMMUTABLE"][0]
+            p["retention_plan"] = p["retention_plan"] + [json.loads(json.dumps(k))]
+        def _dup_keep_m(m):
+            k = [r for r in m["rows"] if r["policy"] == "KEEP_IMMUTABLE"][0]
+            m["rows"] = m["rows"] + [json.loads(json.dumps(k))]
+        _check_both(_dup_keep_p, _dup_keep_m, "RETENTION_MISMATCH|AMBIGUOUS_PROFILE_MATCH|INVALID_RETENTION", "duplicate-keep")
+        # Omitted manifest row only (plan unchanged): reaches row-count check.
+        def _omit_m(m):
+            m["rows"] = m["rows"][:-1]
+        _check_both(None, _omit_m, "RETENTION_MISMATCH", "omitted-row")
+        # Extra manifest row only.
+        def _extra_m(m):
+            m["rows"] = m["rows"] + [json.loads(json.dumps(m["rows"][0]))]
+        _check_both(None, _extra_m, "RETENTION_MISMATCH", "extra-row")
+
+    def test_verifier_capture_inputs_deps_dest_dirs_sizes(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-bind-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly bind test, revised edition"
+            return authored
+
+        pp, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-bi-1", _mut)
+        out = retention.capture_retention(root, state_path, pp)
+        manifest_path = root / out["manifest_path"]
+        good = manifest_path.read_bytes()
+
+        def _corrupt(mut, pattern: str) -> None:
+            bad = json.loads(good.decode("utf-8"))
+            mut(bad)
+            manifest_path.write_bytes(core.json_bytes(bad))
+            pre = _snapshot(root)
+            try:
+                with self.assertRaisesRegex(RetentionError, pattern):
+                    retention.verify_retention(root, pp, manifest_path)
+            finally:
+                post = _snapshot(root)
+                # Verifier no-write: pre (already mutated) vs post must be
+                # identical; the mutation itself is pre-call, not verifier output.
+                diff = [k for k in set(list(pre["files"]) + list(post["files"]))
+                        if pre["files"].get(k) != post["files"].get(k)]
+                self.assertEqual(diff, [], f"verifier wrote during refusal: {diff}")
+                manifest_path.write_bytes(good)
+            self.assertEqual(retention.verify_retention(root, pp, manifest_path)["result"],
+                             "RETAINED_SET_VERIFIED")
+
+        def _wrong_copy_hash(bad):
+            for e in bad["capture_inputs"]:
+                # Corrupt the first COPY original path hash (must be a plan path).
+                manifest = core.load_json(manifest_path)
+                copy_orig = [r["path"] for r in manifest["rows"] if r["policy"] == "COPY_BEFORE_REPLACEMENT"][0]
+                if e["path"] == copy_orig:
+                    e["sha256"] = "f" * 64
+                    break
+        _corrupt(_wrong_copy_hash, "CAPTURE_INPUT_MISMATCH|INVALID_RETENTION")
+        def _missing_dep(bad):
+            bad["capture_inputs"] = [e for e in bad["capture_inputs"]
+                                     if e["path"] != "scripts/survey_editorial_retention_v2.py"]
+        _corrupt(_missing_dep, "MISSING_P2R_DEP|RETENTION_MISMATCH")
+        def _moved_dest(bad):
+            for r in bad["rows"]:
+                if r["policy"] == "COPY_BEFORE_REPLACEMENT":
+                    r["retained_dest"] = r["retained_dest"].replace("/before/", "/moved/")
+                    break
+        # Moved dest to a nonexistent path refuses fail-closed at the retained
+        # read boundary (exact reachable point PATH_MISSING); a moved dest
+        # with bytes present refuses at the dest-mapping check below.
+        _corrupt(_moved_dest, "PATH_MISSING")
+        # Moved dest WITH bytes present: plant the moved file so the State
+        # read succeeds, then the independent dest recomputation must refuse.
+        bad = json.loads(good.decode("utf-8"))
+        moved_row = None
+        for r in bad["rows"]:
+            if r["policy"] == "COPY_BEFORE_REPLACEMENT":
+                moved_row = dict(r)
+                r["retained_dest"] = r["retained_dest"].replace("/before/", "/moved/")
+                break
+        self.assertIsNotNone(moved_row)
+        orig_dest = moved_row["retained_dest"]
+        moved_dest = orig_dest.replace("/before/", "/moved/")
+        planted = root / moved_dest
+        planted.parent.mkdir(parents=True, exist_ok=True)
+        planted.write_bytes((root / orig_dest).read_bytes())
+        manifest_path.write_bytes(core.json_bytes(bad))
+        try:
+            with self.assertRaisesRegex(RetentionError, "RETENTION_DEST_MISMATCH"):
+                retention.verify_retention(root, pp, manifest_path)
+        finally:
+            manifest_path.write_bytes(good)
+            try:
+                planted.unlink()
+            except OSError:
+                pass
+            # Remove planted parent dirs if empty (bottom-up).
+            p = planted.parent
+            retained_root = manifest_path.parent
+            while p != retained_root and p.is_dir():
+                try:
+                    p.rmdir()
+                except OSError:
+                    break
+                p = p.parent
+        self.assertEqual(retention.verify_retention(root, pp, manifest_path)["result"],
+                         "RETAINED_SET_VERIFIED")
+        def _bad_size(bad):
+            for r in bad["rows"]:
+                if r["policy"] == "COPY_BEFORE_REPLACEMENT":
+                    r["retained_byte_count"] = r["retained_byte_count"] + 1
+                    break
+        _corrupt(_bad_size, "RETENTION_MISMATCH|COPY_MEASUREMENT_MISMATCH|INVALID_RETENTION|COPY_DRIFT")
+        # Extra empty dir below retained/ refuses (closed inventory incl. dirs).
+        extra = manifest_path.parent / "extra-empty-dir"
+        extra.mkdir()
+        try:
+            with self.assertRaisesRegex(RetentionError, "INVALID_RETENTION"):
+                retention.verify_retention(root, pp, manifest_path)
+        finally:
+            extra.rmdir()
+        self.assertEqual(retention.verify_retention(root, pp, manifest_path)["result"],
+                         "RETAINED_SET_VERIFIED")
+
+    def test_verifier_staged_canonical_order(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-ord-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly order test, revised edition"
+            return authored
+
+        pp, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-or-1", _mut)
+        out = retention.capture_retention(root, state_path, pp)
+        manifest_path = root / out["manifest_path"]
+        good = manifest_path.read_bytes()
+
+        def _corrupt(mut, pattern: str) -> None:
+            bad = json.loads(good.decode("utf-8"))
+            mut(bad)
+            manifest_path.write_bytes(core.json_bytes(bad))
+            try:
+                with self.assertRaisesRegex(RetentionError, pattern):
+                    retention.verify_retention(root, pp, manifest_path)
+            finally:
+                manifest_path.write_bytes(good)
+
+        def _rev_rows(bad):
+            bad["rows"] = list(reversed(bad["rows"]))
+        _corrupt(_rev_rows, "RETENTION_ORDER_MISMATCH|RETENTION_MISMATCH")
+        def _rev_roles(bad):
+            for r in bad["rows"]:
+                if len(r["roles"]) > 1:
+                    r["roles"] = list(reversed(r["roles"]))
+                    break
+        _corrupt(_rev_roles, "RETENTION_ORDER_MISMATCH|RETENTION_MISMATCH")
+        def _keep_extra(bad):
+            for r in bad["rows"]:
+                if r["policy"] == "KEEP_IMMUTABLE":
+                    r["retained_sha256"] = "0" * 64
+                    break
+        _corrupt(_keep_extra, "RETENTION_MISMATCH|SCHEMA_INVALID|INVALID_RETENTION")
+        def _dup_inputs(bad):
+            bad["capture_inputs"] = bad["capture_inputs"] + [bad["capture_inputs"][0]]
+        _corrupt(_dup_inputs, "RETENTION_MISMATCH|RETENTION_ORDER_MISMATCH")
+        parsed = json.loads(good.decode("utf-8"))
+        reordered: dict = {}
+        for k in reversed(list(parsed.keys())):
+            reordered[k] = parsed[k]
+        manifest_path.write_bytes((json.dumps(reordered, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        try:
+            with self.assertRaisesRegex(RetentionError, "MANIFEST_NONCANONICAL|RETENTION_MISMATCH|INVALID_RETENTION"):
+                retention.verify_retention(root, pp, manifest_path)
+        finally:
+            manifest_path.write_bytes(good)
+        self.assertEqual(retention.verify_retention(root, pp, manifest_path)["result"],
+                         "RETAINED_SET_VERIFIED")
+
+    # ---- X / persistence ----
+
+    def test_keep_profile_distinction_and_all_drift(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-xprof-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly XProfile test, revised edition"
+            return authored
+
+        pp, _prep = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-x-1", _mut)
+        out = retention.capture_retention(root, state_path, pp)
+        manifest = core.load_json(root / out["manifest_path"])
+        v = retention.verify_retention(root, pp, root / out["manifest_path"])
+        self.assertEqual(v["result"], "RETAINED_SET_VERIFIED")
+        state_rows = [r for r in manifest["rows"] if "state:authority" in r["roles"]]
+        self.assertEqual(len(state_rows), 1)
+        rstate = json.loads((root / state_rows[0]["retained_dest"]).read_bytes().decode("utf-8"))
+        prof_path = rstate["profile"]["path"]
+        keep = [r for r in manifest["rows"] if r.get("retained_ref", {}).get("path") == prof_path]
+        self.assertEqual(len(keep), 1)
+        # Select the required KEEP Profile; any other KEEP is a generic kept
+        # row (honestly labelled: no synthetic X authority claimed).
+        other_keep = [r for r in manifest["rows"] if r["policy"] == "KEEP_IMMUTABLE"
+                      and r["path"] != prof_path]
+        self.assertTrue(other_keep, "expected another KEEP row for generic-drift oracle")
+        # Positive asserts distinct identity: generic KEEP differs from State Profile.
+        self.assertNotEqual(other_keep[0]["retained_ref"]["path"], prof_path)
+        self.assertNotEqual(other_keep[0]["retained_ref"]["sha256"], keep[0]["retained_ref"]["sha256"])
+        full = root / prof_path
+        original = full.read_bytes()
+        pre = _snapshot(root)
+        try:
+            full.write_bytes(original + b"\n")
+            with self.assertRaisesRegex(RetentionError, "PROFILE_DRIFT|INVALID_RETENTION|REF_DRIFT|REF_SIZE_MISMATCH"):
+                retention.verify_retention(root, pp, root / out["manifest_path"])
+        finally:
+            full.write_bytes(original)
+        post = _snapshot(root)
+        # Live KEEP file restored; only it differs transiently — assert restore.
+        self.assertEqual(pre["files"].get(prof_path), post["files"].get(prof_path))
+        victim = other_keep[0]["retained_ref"]["path"]
+        vfull = root / victim
+        vorig = vfull.read_bytes()
+        try:
+            vfull.write_bytes(vorig + b"\n")
+            with self.assertRaisesRegex(RetentionError, "INVALID_RETENTION|REF_DRIFT|REF_SIZE_MISMATCH|COPY_DRIFT"):
+                retention.verify_retention(root, pp, root / out["manifest_path"])
+        finally:
+            vfull.write_bytes(vorig)
+        self.assertEqual(retention.verify_retention(root, pp, root / out["manifest_path"])["result"],
+                         "RETAINED_SET_VERIFIED")
+
+    def test_persistence_live_state_replacement(self) -> None:
+        # Explicit live-State replacement persistence: mutate the mutable
+        # canonical State (not an arbitrary COPY), retained chain still verifies.
+        scratch, root = self._fresh_weekly("jgas-p2r-persist-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly persist test, revised edition"
+            return authored
+
+        pp, _prep = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ps-1", _mut)
+        out = retention.capture_retention(root, state_path, pp)
+        manifest = core.load_json(root / out["manifest_path"])
+        state_rows = [r for r in manifest["rows"] if "state:authority" in r["roles"]]
+        self.assertEqual(len(state_rows), 1)
+        live_state_rel = state_rows[0]["path"]
+        live_path = root / live_state_rel
+        self.assertEqual(live_path.resolve(), Path(state_path).resolve())
+        live_orig = live_path.read_bytes()
+        try:
+            live_path.write_bytes(live_orig + b"\n")
+            v = retention.verify_retention(root, pp, root / out["manifest_path"])
+            self.assertEqual(v["result"], "RETAINED_SET_VERIFIED")
+        finally:
+            live_path.write_bytes(live_orig)
+        ret_full = root / state_rows[0]["retained_dest"]
+        rorig = ret_full.read_bytes()
+        try:
+            ret_full.write_bytes(rorig + b"\n")
+            with self.assertRaisesRegex(RetentionError, "INVALID_RETENTION|COPY_DRIFT"):
+                retention.verify_retention(root, pp, root / out["manifest_path"])
+        finally:
+            ret_full.write_bytes(rorig)
+        proposed = manifest["proposed"]
+        staged = root / proposed["proposed_reader_ref"]["path"]
+        sorig = staged.read_bytes()
+        try:
+            staged.write_bytes(sorig + b"\n")
+            with self.assertRaisesRegex(RetentionError, "INVALID_RETENTION|REF_DRIFT|PROPOSED_DIGEST_MISMATCH"):
+                retention.verify_retention(root, pp, root / out["manifest_path"])
+        finally:
+            staged.write_bytes(sorig)
+        pp2, _prep2 = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ps-2", _mut)
+        with self.assertRaisesRegex(RetentionError, "HEADER_MISMATCH|INVALID_RETENTION|BASIS_MISMATCH"):
+            retention.verify_retention(root, pp2, root / out["manifest_path"])
+
+    def test_p1_refuses_after_capture_no_p1_git_in_verify(self) -> None:
+        from scripts import survey_editorial_correction_proposal_v2 as p1mod
+        scratch, root = self._fresh_weekly("jgas-p2r-postp1-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly postP1 test, revised edition"
+            return authored
+
+        pp, _prep = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-pp-1", _mut)
+        out = retention.capture_retention(root, state_path, pp)
+        self.assertEqual(out["result"], "RETAINED_SET_CAPTURED")
+        with self.assertRaisesRegex(ProposalError, "RETENTION_DEST_CONFLICT"):
+            p1mod.validate_proposal(root, state_path, pp)
+        with mock.patch.object(p1mod, "validate_proposal",
+                               side_effect=AssertionError("P1 must not be called")):
+            with mock.patch("subprocess.run", side_effect=AssertionError("Git must not be called")):
+                v = retention.verify_retention(root, pp, root / out["manifest_path"])
+        self.assertEqual(v["result"], "RETAINED_SET_VERIFIED")
+
+    # ---- write/fsync faults (exact codes) ----
+
+    def test_fault_write_zero_progress_fsync(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-fault-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut(tag: str):
+            def _f():
+                authored = core.load_json(chain["authored_path"])
+                authored["cover"]["headline"] = f"Weekly fault {tag}, revised edition"
+                return authored
+            return _f
+
+        pp_loop, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ft-loop", _mut("loop"))
+        real_write = os.write
+        calls = {"n": 0}
+
+        def _short_once(fd: int, data: bytes) -> int:
+            if calls["n"] == 0 and len(data) > 1:
+                calls["n"] += 1
+                return real_write(fd, data[:1])
+            return real_write(fd, data)
+
+        with mock.patch("os.write", side_effect=_short_once):
+            out = retention.capture_retention(root, state_path, pp_loop)
+        self.assertEqual(out["result"], "RETAINED_SET_CAPTURED")
+        pp_zero, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ft-zero", _mut("zero"))
+        live_before = _snapshot(root)
+        foreign_before = _snapshot(root)
+        with mock.patch("os.write", return_value=0):
+            with self.assertRaisesRegex(RetentionError, "WRITE_ZERO_PROGRESS"):
+                retention.capture_retention(root, state_path, pp_zero)
+        proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-ft-zero/retained"
+        self.assertTrue((root / proposal_dir).exists())
+        _assert_owned_delta_only(self, live_before, _snapshot(root), proposal_dir, "zero-progress owned-partial")
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp_zero)
+        pp_fsync, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ft-fsync", _mut("fsync"))
+        with mock.patch("os.fsync", side_effect=OSError("injected fsync failure")):
+            with self.assertRaisesRegex(RetentionError, "FSYNC_FAILED"):
+                retention.capture_retention(root, state_path, pp_fsync)
+        self.assertEqual(live_before["head"], _snapshot(root)["head"])
+        self.assertIsNotNone(foreign_before)
+
+    def test_fault_manifest_write_fsync_close_indeterminate(self) -> None:
+        # Manifest publish faults use INDETERMINATE_INVOCATION with distinct
+        # labels (B3). Target the manifest fd/phase exactly (not global close).
+        scratch, root = self._fresh_weekly("jgas-p2r-manifest-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut(tag: str):
+            def _f():
+                authored = core.load_json(chain["authored_path"])
+                authored["cover"]["headline"] = f"Weekly manifest {tag}, revised edition"
+                return authored
+            return _f
+
+        real_write = os.write
+        real_close = os.close
+        real_fsync = os.fsync
+
+        def _manifest_only_fail(kind: str, proposal_id: str, pattern: str) -> None:
+            pp, _ = _prepare_proposal_for(self, root, helper, chain, state_path, proposal_id, _mut(proposal_id))
+            state = {"manifest_fd": None, "writes": 0}
+            orig_open = os.open
+
+            def _open(name, *a, **k):
+                fd = orig_open(name, *a, **k)
+                try:
+                    sname = name if isinstance(name, str) else str(name)
+                except Exception:
+                    sname = ""
+                # Target ONLY the manifest publish open (exclusive create for
+                # write), not readback reads of existing manifests (O_RDONLY
+                # without O_CREAT). Reads must keep working.
+                flags = a[0] if a else k.get("flags", 0)
+                try:
+                    is_create = bool(flags & os.O_CREAT)
+                except Exception:
+                    is_create = False
+                if sname == "retention-manifest.json" and is_create:
+                    state["manifest_fd"] = fd
+                return fd
+
+            def _write(fd, data):
+                if fd == state["manifest_fd"]:
+                    state["writes"] += 1
+                    if kind == "write":
+                        raise OSError("injected manifest write failure")
+                    if kind == "zero":
+                        return 0
+                return real_write(fd, data)
+
+            def _fsync(fd):
+                if fd == state["manifest_fd"] and kind == "fsync":
+                    raise OSError("injected manifest fsync failure")
+                return real_fsync(fd)
+
+            def _close(fd):
+                if fd == state["manifest_fd"] and kind == "close":
+                    raise OSError("injected manifest close failure")
+                return real_close(fd)
+
+            with mock.patch("os.open", side_effect=_open):
+                with mock.patch("os.write", side_effect=_write):
+                    with mock.patch("os.fsync", side_effect=_fsync):
+                        with mock.patch("os.close", side_effect=_close):
+                            with self.assertRaisesRegex(RetentionError, pattern) as ctx:
+                                retention.capture_retention(root, state_path, pp)
+            exc = ctx.exception
+            self.assertEqual(exc.disposition, "INDETERMINATE_INVOCATION")
+            # Partial preserved, retry refuses (one-shot, no cleanup).
+            proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/{proposal_id}/retained"
+            self.assertTrue((root / proposal_dir).exists())
+            with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+                retention.capture_retention(root, state_path, pp)
+
+        _manifest_only_fail("write", "fixture-wk-mf-write", "MANIFEST_WRITE_FAILED")
+        _manifest_only_fail("zero", "fixture-wk-mf-zero", "MANIFEST_ZERO_PROGRESS")
+        _manifest_only_fail("fsync", "fixture-wk-mf-fsync", "MANIFEST_FSYNC_FAILED")
+        _manifest_only_fail("close", "fixture-wk-mf-close", "MANIFEST_CLOSE_FAILED")
+
+    def test_fault_combined_write_close_primary_preserved(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-combined-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly combined test, revised edition"
+            return authored
+
+        pp, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-cb-1", _mut)
+        before = _snapshot(root)
+        # Scope close failures to retention write fds only: track fds opened
+        # with O_CREAT (our exclusive creates) and fail only those closes.
+        # Global os.close mock would break subprocess/Git internals.
+        real_close = os.close
+        real_write = os.write
+        orig_open = os.open
+        tracked: set[int] = set()
+
+        def _open_track(name, *a, **k):
+            fd = orig_open(name, *a, **k)
+            flags = a[0] if a else k.get("flags", 0)
+            try:
+                if flags & os.O_CREAT:
+                    tracked.add(fd)
+            except Exception:
+                pass
+            return fd
+
+        def _write_fail(fd, data):
+            # Only fail retention write fds (tracked O_CREAT creates);
+            # subprocess pipe writes pass through.
+            if fd in tracked:
+                raise OSError("injected write failure")
+            return real_write(fd, data)
+
+        def _close_scoped(fd):
+            if fd in tracked:
+                raise OSError("injected close failure")
+            return real_close(fd)
+
+        with mock.patch("os.open", side_effect=_open_track):
+            with mock.patch("os.write", side_effect=_write_fail):
+                with mock.patch("os.close", side_effect=_close_scoped):
+                    with self.assertRaisesRegex(RetentionError, "WRITE_FAILED|MANIFEST_WRITE_FAILED") as ctx:
+                        retention.capture_retention(root, state_path, pp)
+        exc = ctx.exception
+        # Primary write error preserved (not overwritten by close error).
+        self.assertIn(exc.code, ("WRITE_FAILED", "MANIFEST_WRITE_FAILED"))
+        proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-cb-1/retained"
+        after = _snapshot(root)
+        # Only owned delta may exist; live originals unchanged.
+        for rel, sha in before["files"].items():
+            self.assertIn(rel, after["files"])
+            self.assertEqual(after["files"][rel], sha)
+        for rel in sorted(set(after["files"]) - set(before["files"])):
+            self.assertTrue(rel.startswith(proposal_dir), f"foreign write: {rel}")
+
+    # ---- B1 replacement injections ----
+
+    def test_replacement_root_ancestor_file_refuses(self) -> None:
+        # Genuine retained-root entry-replacement injection (B1): swap the
+        # claimed retained-root entry mid-invocation via fault hook; exact
+        # ROOT_IDENTITY_CHANGED refusal, partial preserved, retry refuses,
+        # no foreign writes. Ancestor/file injections are separate methods.
+        scratch, root = self._fresh_weekly("jgas-p2r-repl-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut(tag: str):
+            def _f():
+                authored = core.load_json(chain["authored_path"])
+                authored["cover"]["headline"] = f"Weekly repl {tag}, revised edition"
+                return authored
+            return _f
+
+        # Root replacement: swap retained root entry mid-write.
+        pp_root, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-rp-root", _mut("root"))
+        real_write = os.write
+        retained_rel = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-rp-root/retained"
+        swapped = {"done": False}
+
+        def _write_swap_root(fd: int, data: bytes) -> int:
+            n = real_write(fd, data)
+            if not swapped["done"]:
+                swapped["done"] = True
+                full = root / retained_rel
+                backup = root / (retained_rel + ".backup")
+                try:
+                    os.rename(full, backup)
+                    (root / retained_rel).mkdir()
+                    (root / retained_rel / "foreign-planted.txt").write_bytes(b"foreign")
+                except OSError:
+                    pass
+            return n
+
+        before = _snapshot(root)
+        with mock.patch("os.write", side_effect=_write_swap_root):
+            with self.assertRaisesRegex(RetentionError, "ROOT_IDENTITY_CHANGED|ANCESTOR_REPLACED"):
+                retention.capture_retention(root, state_path, pp_root)
+        after = _snapshot(root)
+        # No COPY bytes were written into the replacement foreign root by us
+        # beyond the attacker's own planted file; live originals unchanged.
+        for rel, sha in before["files"].items():
+            self.assertIn(rel, after["files"], f"live loss: {rel}")
+            self.assertEqual(after["files"][rel], sha, f"live drift: {rel}")
+        # Retry refuses (existing root, even replaced).
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp_root)
+
+    def test_replacement_ancestor_and_file(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-repl2-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut(tag: str):
+            def _f():
+                authored = core.load_json(chain["authored_path"])
+                authored["cover"]["headline"] = f"Weekly repl2 {tag}, revised edition"
+                return authored
+            return _f
+
+        # Ancestor replacement: swap proposal parent entry mid-write.
+        pp_anc, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-rp-anc", _mut("anc"))
+        real_write = os.write
+        proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-rp-anc"
+        swapped = {"done": False}
+
+        def _write_swap_anc(fd: int, data: bytes) -> int:
+            n = real_write(fd, data)
+            if not swapped["done"]:
+                swapped["done"] = True
+                full = root / proposal_dir
+                backup = Path(str(full) + ".backup")
+                try:
+                    os.rename(full, backup)
+                    full.mkdir()
+                except OSError:
+                    pass
+            return n
+
+        with mock.patch("os.write", side_effect=_write_swap_anc):
+            with self.assertRaisesRegex(RetentionError, "ROOT_IDENTITY_CHANGED|ANCESTOR_REPLACED|PATH_MISSING|PATH_UNREADABLE"):
+                retention.capture_retention(root, state_path, pp_anc)
+        # File replacement after healthy capture: the victim is swapped for
+        # same bytes under a new inode while an in-tree ".bak" copy remains.
+        # The closed retained inventory refuses the extra file
+        # (INVALID_RETENTION extra=...), which proves exact-inventory
+        # enforcement on the retained tree. A same-byte inode swap with no
+        # baseline and no inventory delta is beyond a fresh standalone
+        # verifier; capture-time identity continuity is proven instead by
+        # test_replacement_owned_file_midcapture_refuses.
+        pp_f, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-rp-file", _mut("file"))
+        out = retention.capture_retention(root, state_path, pp_f)
+        manifest = core.load_json(root / out["manifest_path"])
+        copy_rows = [r for r in manifest["rows"] if r["policy"] == "COPY_BEFORE_REPLACEMENT"]
+        self.assertTrue(copy_rows)
+        victim = root / copy_rows[0]["retained_dest"]
+        vorig = victim.read_bytes()
+        backup = victim.with_suffix(".bak")
+        shutil.copyfile(victim, backup)
+        try:
+            victim.unlink()
+            victim.write_bytes(vorig)  # same bytes, new inode
+            with self.assertRaisesRegex(RetentionError, "FILE_REPLACED|INVALID_RETENTION|COPY_DRIFT|STABILITY_VIOLATION"):
+                retention.verify_retention(root, pp_f, root / out["manifest_path"])
+        finally:
+            try:
+                victim.unlink()
+            except OSError:
+                pass
+            shutil.copyfile(backup, victim)
+            try:
+                backup.unlink()
+            except OSError:
+                pass
+
+    def test_replacement_owned_file_midcapture_refuses(self) -> None:
+        # Capture-time owned COPY file replacement (R4/B1): after all COPY
+        # writes complete, swap one owned COPY file for same bytes under a
+        # new inode just as manifest publish opens. The capture's pre-close
+        # reverify must refuse with FILE_REPLACED (pinned identity vs live
+        # entry); the partial is preserved, retry refuses, live originals
+        # are unchanged and no foreign path is written.
+        scratch, root = self._fresh_weekly("jgas-p2r-repl3-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly repl3 test, revised edition"
+            return authored
+
+        proposal_id = "fixture-wk-rp-own"
+        pp, _ = _prepare_proposal_for(self, root, helper, chain, state_path, proposal_id, _mut)
+        ppath = root / (pp.relative_to(root) if isinstance(pp, Path) and pp.is_absolute() else pp)
+        proposal = core.load_json(ppath)
+        copy_paths = [r["path"] for r in proposal["retention_plan"]
+                      if r["policy"] == "COPY_BEFORE_REPLACEMENT"]
+        self.assertTrue(copy_paths)
+        proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/{proposal_id}"
+        victim_rel = proposal_dir + "/retained/before/" + copy_paths[0]
+        victim = root / victim_rel
+        swapped = {"done": False}
+        orig_open = os.open
+
+        def _open_swap_manifest(name, *a, **k):
+            fd = orig_open(name, *a, **k)
+            try:
+                sname = name if isinstance(name, str) else str(name)
+            except Exception:
+                sname = ""
+            flags = a[0] if a else k.get("flags", 0)
+            try:
+                is_create = bool(flags & os.O_CREAT)
+            except Exception:
+                is_create = False
+            # Manifest publish opens after every COPY write+readback; swap
+            # one owned COPY file now so the pre-close recheck must catch it.
+            if sname == "retention-manifest.json" and is_create and not swapped["done"]:
+                swapped["done"] = True
+                data = victim.read_bytes()
+                victim.unlink()
+                victim.write_bytes(data)  # same bytes, new inode
+            return fd
+
+        before = _snapshot(root)
+        with mock.patch("os.open", side_effect=_open_swap_manifest):
+            with self.assertRaisesRegex(RetentionError, "FILE_REPLACED") as ctx:
+                retention.capture_retention(root, state_path, pp)
+        self.assertTrue(swapped["done"], "manifest-open hook never fired")
+        self.assertEqual(ctx.exception.disposition, "OWNED_PARTIAL")
+        proposal_retained = proposal_dir + "/retained"
+        self.assertTrue((root / proposal_retained).exists(), "partial not preserved")
+        after = _snapshot(root)
+        for rel, sha in before["files"].items():
+            self.assertIn(rel, after["files"], f"live loss: {rel}")
+            self.assertEqual(after["files"][rel], sha, f"live drift: {rel}")
+        for rel in sorted(set(after["files"]) - set(before["files"])):
+            self.assertTrue(rel.startswith(proposal_retained),
+                            f"foreign write during owned-file refusal: {rel}")
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp)
+
+    # ---- drift / inventory / HEAD / control ----
+
+    def test_drift_prefinal_and_finalization(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-drift-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut():
+            authored = core.load_json(chain["authored_path"])
+            authored["cover"]["headline"] = "Weekly drift test, revised edition"
+            return authored
+
+        pp, prepared = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-dr-1", _mut)
+        keep_path = None
+        for r in prepared["proposal"]["retention_plan"]:
+            if r["policy"] == "KEEP_IMMUTABLE":
+                keep_path = root / r["path"]
+                break
+        self.assertIsNotNone(keep_path)
+        keep_orig = keep_path.read_bytes()
+        real_write = os.write
+        mutated = {"done": False}
+
+        def _write_then_mutate(fd: int, data: bytes) -> int:
+            n = real_write(fd, data)
+            if not mutated["done"]:
+                mutated["done"] = True
+                keep_path.write_bytes(keep_orig + b"\n")
+            return n
+
+        with mock.patch("os.write", side_effect=_write_then_mutate):
+            with self.assertRaisesRegex(RetentionError, "FINALIZATION_REFUSED|STABILITY_VIOLATION|REF_DRIFT|FILE_REPLACED"):
+                retention.capture_retention(root, state_path, pp)
+        keep_path.write_bytes(keep_orig)
+        proposal_dir = f"sources/{W_ISSUE}/publication/v2/editorial-corrections/fixture-wk-dr-1/retained"
+        self.assertTrue((root / proposal_dir).exists())
+        with self.assertRaisesRegex(RetentionError, "RETAINED_ROOT_EXISTS"):
+            retention.capture_retention(root, state_path, pp)
+
+    def test_control_edition_head_drift_refuses(self) -> None:
+        scratch, root = self._fresh_weekly("jgas-p2r-ctrl-")
+        helper = p1t._new_weekly_helper(self, root)
+        built = p1t._build_weekly_validated(self, helper)
+        chain, state_path = built["chain"], built["state_path"]
+
+        def _mut(tag: str):
+            def _f():
+                authored = core.load_json(chain["authored_path"])
+                authored["cover"]["headline"] = f"Weekly ctrl {tag}, revised edition"
+                return authored
+            return _f
+
+        # New control file before finalization refuses.
+        pp_c, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ct-1", _mut("ct1"))
+        real_write = os.write
+        injected = {"done": False}
+
+        def _write_add_control(fd: int, data: bytes) -> int:
+            n = real_write(fd, data)
+            if not injected["done"]:
+                injected["done"] = True
+                (root / "config" / "injected-control-probe.json").write_bytes(b'{"probe": true}\n')
+            return n
+
+        with mock.patch("os.write", side_effect=_write_add_control):
+            with self.assertRaisesRegex(RetentionError, "FINALIZATION_REFUSED|CONTROL"):
+                retention.capture_retention(root, state_path, pp_c)
+        try:
+            (root / "config" / "injected-control-probe.json").unlink()
+        except OSError:
+            pass
+        # Empty edition dir before finalization refuses.
+        pp_e, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ct-2", _mut("ct2"))
+        injected2 = {"done": False}
+
+        def _write_add_dir(fd: int, data: bytes) -> int:
+            n = real_write(fd, data)
+            if not injected2["done"]:
+                injected2["done"] = True
+                # Empty dir inside the source tree (not under retained/).
+                prof = core.load_json(root / core.load_json(state_path)["profile"]["path"])
+                src = prof["paths"]["source_root"]
+                (root / src / "empty-probe-dir").mkdir(exist_ok=True)
+            return n
+
+        with mock.patch("os.write", side_effect=_write_add_dir):
+            with self.assertRaisesRegex(RetentionError, "FINALIZATION_REFUSED"):
+                retention.capture_retention(root, state_path, pp_e)
+        # HEAD change mid-invocation refuses.
+        pp_h, _ = _prepare_proposal_for(self, root, helper, chain, state_path, "fixture-wk-ct-3", _mut("ct3"))
+        moved = {"done": False}
+
+        def _write_move_head(fd: int, data: bytes) -> int:
+            n = real_write(fd, data)
+            if not moved["done"]:
+                moved["done"] = True
+                (root / "head-probe.txt").write_bytes(b"head move probe\n")
+                _run_git(root, "add", "head-probe.txt")
+                _run_git(root, "-c", "user.name=Synthetic DM021-P2R Fixture",
+                         "-c", "user.email=p2r-fixture@example.invalid",
+                         "commit", "-q", "-m", "Probe HEAD move during capture")
+            return n
+
+        with mock.patch("os.write", side_effect=_write_move_head):
+            with self.assertRaisesRegex(RetentionError, "HEAD_MOVED|FINALIZATION_REFUSED"):
+                retention.capture_retention(root, state_path, pp_h)
+
+
+if __name__ == "__main__":
+    unittest.main()

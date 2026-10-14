@@ -1,0 +1,184 @@
+test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses) ... ok
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... ok
+test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved) ... FAIL
+test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate) ... FAIL
+test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync) ... ok
+test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift) ... /usr/lib/python3.14/subprocess.py:1139: ResourceWarning: subprocess 2606530 is still running
+  _warn("subprocess %s is still running" % self.pid,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ok
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ok
+test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement) ... ok
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ok
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ok
+test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular) ... ok
+test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file) ... ok
+test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses) ... ok
+test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes) ... FAIL
+test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order) ... ok
+test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives) ... FAIL
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ok
+
+======================================================================
+FAIL: test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 252, in _close_all
+    os.close(fd)
+    ~~~~~~~~^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 606, in _git_head
+    proc = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root, capture_output=True, text=True,
+                          env=_sanitized_git_env(), timeout=30)
+  File "/usr/lib/python3.14/subprocess.py", line 555, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1071, in __init__
+    os.close(fd)
+    ~~~~~~~~^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+  File "/usr/lib/python3.14/subprocess.py", line 1071, in __init__
+    os.close(fd)
+    ~~~~~~~~^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+  File "/usr/lib/python3.14/subprocess.py", line 1039, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                        pass_fds, cwd, env,
+                        ^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+                        gid, gids, uid, umask,
+                        ^^^^^^^^^^^^^^^^^^^^^^
+                        start_new_session, process_group)
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 1949, in _execute_child
+    os.close(errpipe_read)
+    ~~~~~~~~^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+  File "/usr/lib/python3.14/subprocess.py", line 1933, in _execute_child
+    os.close(errpipe_write)
+    ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1241, in _execute_mock_call
+    raise effect
+OSError: injected close failure
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_retention_v2.RetentionError: GIT_UNAVAILABLE: [PRE_P1_PIN/REFUSED_PRE_WRITE] capture HEAD pin git rev-parse failed: injected close failure
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 907, in test_fault_combined_write_close_primary_preserved
+    with self.assertRaisesRegex(RetentionError, "WRITE_FAILED|MANIFEST_WRITE_FAILED") as ctx:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "WRITE_FAILED|MANIFEST_WRITE_FAILED" does not match "GIT_UNAVAILABLE: [PRE_P1_PIN/REFUSED_PRE_WRITE] capture HEAD pin git rev-parse failed: injected close failure"
+
+======================================================================
+FAIL: test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 414, in safe_read
+    os.close(fd)
+    ~~~~~~~~^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/unittest/mock.py", line 1247, in _execute_mock_call
+    result = effect(*args, **kwargs)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 870, in _close
+    raise OSError("injected manifest close failure")
+OSError: injected manifest close failure
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_retention_v2.RetentionError: CLOSE_FAILED: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] edition tree file close after read failed: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-mf-fsync/retained/retention-manifest.json: injected manifest close failure
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 890, in test_fault_manifest_write_fsync_close_indeterminate
+    _manifest_only_fail("close", "fixture-wk-mf-close", "MANIFEST_CLOSE_FAILED")
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 877, in _manifest_only_fail
+    with self.assertRaisesRegex(RetentionError, pattern) as ctx:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "MANIFEST_CLOSE_FAILED" does not match "CLOSE_FAILED: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] edition tree file close after read failed: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-mf-fsync/retained/retention-manifest.json: injected manifest close failure"
+
+======================================================================
+FAIL: test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 561, in test_verifier_capture_inputs_deps_dest_dirs_sizes
+    _corrupt(_wrong_copy_hash, "CAPTURE_INPUT_MISMATCH|INVALID_RETENTION")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 548, in _corrupt
+    self.assertEqual(diff, [out["manifest_path"]], f"verifier wrote beyond manifest: {diff}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: [] != ['sources/2026-W37/publication/v2/editoria[59 chars]son']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bi-1/retained/retention-manifest.json'
+
+- []
++ ['sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bi-1/retained/retention-manifest.json'] : verifier wrote beyond manifest: []
+
+======================================================================
+FAIL: test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives)
+----------------------------------------------------------------------
+scripts.survey_editorial_retention_v2.RetentionError: HEADER_MISMATCH: [VERIFY/INVALID] manifest proposal_ref.sha256 differs from supplied proposal bytes
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 487, in test_verifier_typed_hop_negatives
+    _check_both(_rm_state_p, _rm_state_m, "MISSING_STATE_AUTHORITY|INVALID_RETENTION|RETENTION_MISMATCH|SCHEMA_INVALID", "missing-state-authority")
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 470, in _check_both
+    with self.assertRaisesRegex(RetentionError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "MISSING_STATE_AUTHORITY|INVALID_RETENTION|RETENTION_MISMATCH|SCHEMA_INVALID" does not match "HEADER_MISMATCH: [VERIFY/INVALID] manifest proposal_ref.sha256 differs from supplied proposal bytes"
+
+----------------------------------------------------------------------
+Ran 18 tests in 5915.724s
+
+FAILED (failures=4)

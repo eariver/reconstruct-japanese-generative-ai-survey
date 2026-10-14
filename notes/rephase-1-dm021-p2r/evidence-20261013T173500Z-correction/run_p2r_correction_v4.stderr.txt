@@ -1,0 +1,47 @@
+test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses) ... ok
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... ok
+test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved) ... ok
+test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate) ... ok
+test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync) ... ok
+test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift) ... ok
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ok
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ok
+test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement) ... ok
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ok
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ok
+test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular) ... ok
+test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file) ... ok
+test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses) ... ok
+test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes) ... FAIL
+test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order) ... ok
+test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives) ... ok
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ok
+
+======================================================================
+FAIL: test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 294, in _open_dir_chain
+    fd = os.open(part, os.O_RDONLY | os.O_DIRECTORY | getattr(os, "O_NOFOLLOW", 0)
+                 | getattr(os, "O_NONBLOCK", 0), dir_fd=parent)
+FileNotFoundError: [Errno 2] No such file or directory: 'moved'
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_retention_v2.RetentionError: PATH_MISSING: [VERIFY/INVALID] retained State ancestor missing: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bi-1/retained/moved: [Errno 2] No such file or directory: 'moved'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 578, in test_verifier_capture_inputs_deps_dest_dirs_sizes
+    _corrupt(_moved_dest, "RETENTION_DEST_MISMATCH|RETENTION_MISMATCH|INVALID_RETENTION|HEADER_MISMATCH")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 547, in _corrupt
+    with self.assertRaisesRegex(RetentionError, pattern):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "RETENTION_DEST_MISMATCH|RETENTION_MISMATCH|INVALID_RETENTION|HEADER_MISMATCH" does not match "PATH_MISSING: [VERIFY/INVALID] retained State ancestor missing: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-bi-1/retained/moved: [Errno 2] No such file or directory: 'moved'"
+
+----------------------------------------------------------------------
+Ran 18 tests in 6028.841s
+
+FAILED (failures=1)

@@ -1,0 +1,111 @@
+SRC=/tmp/opencode/jgas-dm021p1-phaseA-20261011T160037Z/candidate-partial-b40de60
+DST=/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60
+--- preflight src ---
+total 32
+drwxrwxr-x 11 eariver eariver   300 Oct 12 01:01 .
+drwxrwxr-x  3 eariver eariver    60 Oct 12 01:01 ..
+drwxrwxr-x  7 eariver eariver   280 Oct 12 21:08 .git
+drwxrwxr-x  3 eariver eariver    60 Oct 12 01:01 .github
+-rw-rw-r--  1 eariver eariver   272 Oct  3 00:00 .gitignore
+-rw-rw-r--  1 eariver eariver   218 Oct  3 00:00 .latexmkrc
+-rw-rw-r--  1 eariver eariver 10498 Oct  3 00:00 AGENTS.md
+-rw-rw-r--  1 eariver eariver  9376 Oct  3 00:00 README.md
+drwxrwxr-x  3 eariver eariver   200 Oct 12 01:01 config
+drwxrwxr-x  3 eariver eariver  1340 Oct 12 01:01 docs
+drwxrwxr-x  2 eariver eariver  1580 Oct 12 09:08 schemas
+drwxrwxr-x  2 eariver eariver  4420 Oct 12 18:20 scripts
+drwxrwxr-x 17 eariver eariver   340 Oct 12 01:01 specials
+drwxrwxr-x  3 eariver eariver    60 Oct 12 01:01 templates
+drwxrwxr-x  2 eariver eariver  4140 Oct 12 18:20 tests
+--- byte copy (cp -a, no hardlinks, no reflink) ---
+copy_rc=0
+--- dst listing ---
+total 32
+drwxrwxr-x 11 eariver eariver   300 Oct 12 01:01 .
+drwxrwxr-x  3 eariver eariver    60 Oct 13 21:38 ..
+drwxrwxr-x  7 eariver eariver   280 Oct 12 21:08 .git
+drwxrwxr-x  3 eariver eariver    60 Oct 12 01:01 .github
+-rw-rw-r--  1 eariver eariver   272 Oct  3 00:00 .gitignore
+-rw-rw-r--  1 eariver eariver   218 Oct  3 00:00 .latexmkrc
+-rw-rw-r--  1 eariver eariver 10498 Oct  3 00:00 AGENTS.md
+-rw-rw-r--  1 eariver eariver  9376 Oct  3 00:00 README.md
+drwxrwxr-x  3 eariver eariver   200 Oct 12 01:01 config
+drwxrwxr-x  3 eariver eariver  1340 Oct 12 01:01 docs
+drwxrwxr-x  2 eariver eariver  1580 Oct 12 09:08 schemas
+drwxrwxr-x  2 eariver eariver  4420 Oct 12 18:20 scripts
+drwxrwxr-x 17 eariver eariver   340 Oct 12 01:01 specials
+drwxrwxr-x  3 eariver eariver    60 Oct 12 01:01 templates
+drwxrwxr-x  2 eariver eariver  4140 Oct 12 18:20 tests
+total 5748
+drwxrwxr-x  7 eariver eariver     280 Oct 12 21:08 .
+drwxrwxr-x 11 eariver eariver     300 Oct 12 01:01 ..
+-rw-rw-r--  1 eariver eariver     233 Oct  3 00:00 COMMIT_EDITMSG
+-rw-rw-r--  1 eariver eariver      41 Oct 12 01:01 HEAD
+-rw-rw-r--  1 eariver eariver     253 Oct  3 00:00 config
+-rw-rw-r--  1 eariver eariver      57 Oct  3 00:00 config.worktree
+-rw-rw-r--  1 eariver eariver      73 Oct  3 00:00 description
+drwxrwxr-x  2 eariver eariver     320 Oct 12 01:01 hooks
+-rw-rw-r--  1 eariver eariver 5859868 Oct 12 12:44 index
+drwxrwxr-x  2 eariver eariver      80 Oct 12 01:01 info
+drwxrwxr-x  3 eariver eariver      80 Oct 12 01:01 logs
+drwxrwxr-x 87 eariver eariver    1740 Oct 12 12:44 objects
+drwxrwxr-x  3 eariver eariver      60 Oct 12 01:01 refs
+-rw-rw-r--  1 eariver eariver      41 Oct  3 00:00 shallow
+--- sanitize ALL GIT_* then force 3 ---
+forced: GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 GIT_ALLOW_PROTOCOL=file
+residual_GIT_vars: GIT_ALLOW_PROTOCOL GIT_NO_LAZY_FETCH GIT_OPTIONAL_LOCKS 
+--- identity (read-only, no mutations) ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+revparse_rc=0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+tree_rc=0
+ M schemas/reader-surface-gate-v2.schema.json
+ M schemas/reader-surface-semantic-review-v2.schema.json
+ M scripts/survey_reader_surface_gate_v2.py
+?? schemas/editorial-correction-proposal-v2.schema.json
+?? schemas/longform-publication-source-manifest-v2.schema.json
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_editorial_correction_proposal_v2.py
+?? scripts/survey_longform_derivation_v2.py
+?? scripts/survey_longform_generated_v2.py
+?? scripts/survey_longform_semantic_publication_v2.py
+?? tests/test_survey_editorial_correction_proposal_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+?? tests/test_survey_longform_publication_integration_v2.py
+status_rc=0
+schemas/reader-surface-gate-v2.schema.json
+schemas/reader-surface-semantic-review-v2.schema.json
+scripts/survey_reader_surface_gate_v2.py
+diff_rc=0
+--- config/remote (must be inert) ---
+core.repositoryformatversion=1
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+extensions.worktreeconfig=true
+remote.origin.url=https://example.invalid/rephase-candidate-recovery.git
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+config_rc=0
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+remote_rc=0
+--- alternates/shallow/index checks ---
+no_alternates_OK
+-rw-rw-r-- 1 eariver eariver 5859868 Oct 13 21:38 /tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/.git/index
+-rw-rw-r-- 1 eariver eariver      41 Oct  3 00:00 /tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/.git/shallow
+gitdir_not_symlink_OK
+--- no-sharing inode check (src vs dst must differ) ---
+scripts/survey_editorial_correction_proposal_v2.py src=45:47040 dst=45:454531
+schemas/editorial-correction-proposal-v2.schema.json src=45:47041 dst=45:454311
+tests/test_survey_editorial_correction_proposal_v2.py src=45:47042 dst=45:454774
+.git/HEAD src=45:47016 dst=45:454041
+--- P1 13 presence + P2R 3 absence ---
+p1_13_check_done
+absent_OK:scripts/survey_editorial_retention_v2.py
+absent_OK:schemas/editorial-retention-manifest-v2.schema.json
+absent_OK:tests/test_survey_editorial_retention_v2.py
+--- runtime (probes only, no imports/tests) ---
+Python 3.14.4
+git version 2.53.0
+sys_exe=/usr/bin/python3
+MAKE_CANDIDATE_V1_DONE

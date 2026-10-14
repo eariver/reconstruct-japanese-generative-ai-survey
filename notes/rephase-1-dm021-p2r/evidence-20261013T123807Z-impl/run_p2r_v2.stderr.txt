@@ -1,0 +1,251 @@
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... FAIL
+test_fault_write_close_readback_identity_fifo (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_close_readback_identity_fifo) ... ERROR
+test_keep_x_profile_distinction_and_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_x_profile_distinction_and_drift) ... ERROR
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ERROR
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ERROR
+test_persistence_vs_eligibility_and_wrong_path (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_vs_eligibility_and_wrong_path) ... ERROR
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ERROR
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ok
+test_refuse_unsafe_schema_order_inputs (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_schema_order_inputs) ... ERROR
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ERROR
+
+======================================================================
+ERROR: test_fault_write_close_readback_identity_fifo (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_close_readback_identity_fifo)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-fault-8deyo_fv/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 539, in test_fault_write_close_readback_identity_fifo
+    out = retention.capture_retention(root, state_path, pp_loop)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-fault-8deyo_fv/.github/workflows'
+
+======================================================================
+ERROR: test_keep_x_profile_distinction_and_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_x_profile_distinction_and_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-xprof-b577834u/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 403, in test_keep_x_profile_distinction_and_drift
+    out = retention.capture_retention(root, state_path, pp)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-xprof-b577834u/.github/workflows'
+
+======================================================================
+ERROR: test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-longform-ak2pfebr/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 157, in test_longform_capture_verify_positive
+    out = retention.capture_retention(root, state_path, proposal_path)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-longform-ak2pfebr/.github/workflows'
+
+======================================================================
+ERROR: test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-postp1-gz8r6why/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 503, in test_p1_refuses_after_capture_no_p1_git_in_verify
+    out = retention.capture_retention(root, state_path, pp)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-postp1-gz8r6why/.github/workflows'
+
+======================================================================
+ERROR: test_persistence_vs_eligibility_and_wrong_path (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_vs_eligibility_and_wrong_path)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-persist-fo0vweu0/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 452, in test_persistence_vs_eligibility_and_wrong_path
+    out = retention.capture_retention(root, state_path, pp)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-persist-fo0vweu0/.github/workflows'
+
+======================================================================
+ERROR: test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-r1-dgd635ly/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 251, in test_r1_double_refresh_capture_verify
+    out1 = retention.capture_retention(root, state_path, pp1)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-r1-dgd635ly/.github/workflows'
+
+======================================================================
+ERROR: test_refuse_unsafe_schema_order_inputs (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_schema_order_inputs)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-neg-ig32qy_l/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 332, in test_refuse_unsafe_schema_order_inputs
+    out = retention.capture_retention(root, state_path, pp)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-neg-ig32qy_l/.github/workflows'
+
+======================================================================
+ERROR: test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-weekly-3todu2fj/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 208, in test_weekly_capture_verify_positive
+    out = retention.capture_retention(root, state_path, proposal_path)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-weekly-3todu2fj/.github/workflows'
+
+======================================================================
+FAIL: test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-drift-tvp7avjg/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-drift-tvp7avjg/.github/workflows'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 623, in test_drift_prefinal_and_finalization
+    with self.assertRaisesRegex(RetentionError, "FINALIZATION_REFUSED|STABILITY_VIOLATION|REF_DRIFT"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "FINALIZATION_REFUSED|STABILITY_VIOLATION|REF_DRIFT" does not match "TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-drift-tvp7avjg/.github/workflows'"
+
+----------------------------------------------------------------------
+Ran 10 tests in 2698.661s
+
+FAILED (failures=1, errors=8)
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ERROR
+
+======================================================================
+ERROR: test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 423, in _snapshot_expanded
+    st = full.lstat()
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 662, in lstat
+    return os.lstat(self)
+           ~~~~~~~~^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/jgas-p2r-weekly-i0pbfuyc/.github/workflows'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 208, in test_weekly_capture_verify_positive
+    out = retention.capture_retention(root, state_path, proposal_path)
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 638, in capture_retention
+    fmap, _dmap = _snapshot_expanded(session, [r], "control root", phase, disp)
+                  ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60/scripts/survey_editorial_retention_v2.py", line 425, in _snapshot_expanded
+    raise _fail("TREE_MISSING", phase, disp, f"{kind} base missing: {base}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: TREE_MISSING: [POST_P1_SNAPSHOT/REFUSED_PRE_WRITE] control root base missing: .github/workflows: [Errno 2] No such file or directory: '/tmp/jgas-p2r-weekly-i0pbfuyc/.github/workflows'
+
+----------------------------------------------------------------------
+Ran 1 test in 252.716s
+
+FAILED (errors=1)

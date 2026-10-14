@@ -1,0 +1,293 @@
+#!/usr/bin/env python3
+"""DRAFT runner v7 (E1) — NOT EXECUTED. Root reviews BEFORE any long run.
+
+Guards claimed (and enforced here, unlike v6):
+- Static final expected16 manifest `expected16-correction2.json`, prepared
+  BEFORE tests from post-edit pins; verified byte/mode/sha pre-run.
+- EXCLUSIVE outputs: every output path is refused if present (console-only
+  refusal, nothing created or overwritten); otherwise each is created with
+  `x`/`xb` (exclusive reservation) before use.
+- Child stdout/stderr go DIRECTLY to already-open exclusive binary files
+  (`Popen(stdout=fh, stderr=fh2)`); no pump threads, no buffering-until-exit.
+- Pre AND finally-post: checked Git rc, full raw status, tree, empty index,
+  all16 SHA+mode+size. Caches recorded, never deleted.
+- Actual runtime/argv/env/cwd recorded; inherited `GIT_*` stripped for all
+  children; Git trust override is the EXACT candidate path (no
+  `safe.directory=*` wildcard).
+- Immutable stage files (`stage-reserved/running/done`, each `x`-created
+  once, never overwritten) instead of a mutable state.json.
+- Child launch enclosed in try/finally: timeout/interruption still records
+  finally-post observations and a terminal stage; primary errors preserved.
+- No cleanup, no filtered status, no `-O` inside the long timeout, no
+  full-suite `-O`. Snapshot equality is not continuous proof.
+"""
+
+import json
+import os
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+CANDIDATE = Path("/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60").resolve()
+EV = Path(__file__).resolve().parent
+EXPECTED = json.load(open(EV / "expected16-correction2.json"))
+FIXED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+FIXED_TREE = "8ce3699861505f32d1d60bdc185d4d4f635aedb2"
+TIMEOUT_S = 14400
+SAFE_DIRECTORY = str(CANDIDATE)  # exact path only; never a wildcard.
+
+STDOUT_P = EV / "run_p2r_correction_v7.stdout.txt"
+STDERR_P = EV / "run_p2r_correction_v7.stderr.txt"
+EXIT_P = EV / "run_p2r_correction_v7.exit"
+PRE_P = EV / "run_p2r_correction_v7.pre.json"
+POST_P = EV / "run_p2r_correction_v7.post.json"
+META_P = EV / "run_p2r_correction_v7.meta.json"
+STAGE_RESERVED_P = EV / "run_p2r_correction_v7.stage-reserved.json"
+STAGE_RUNNING_P = EV / "run_p2r_correction_v7.stage-running.json"
+STAGE_DONE_P = EV / "run_p2r_correction_v7.stage-done.json"
+
+EXPECTED_STATUS_ROWS = {
+    " M schemas/reader-surface-gate-v2.schema.json",
+    " M schemas/reader-surface-semantic-review-v2.schema.json",
+    " M scripts/survey_reader_surface_gate_v2.py",
+    "?? schemas/editorial-correction-proposal-v2.schema.json",
+    "?? schemas/editorial-retention-manifest-v2.schema.json",
+    "?? schemas/longform-publication-source-manifest-v2.schema.json",
+    "?? schemas/longform-reader-input-v2.schema.json",
+    "?? scripts/survey_editorial_correction_proposal_v2.py",
+    "?? scripts/survey_editorial_retention_v2.py",
+    "?? scripts/survey_longform_derivation_v2.py",
+    "?? scripts/survey_longform_generated_v2.py",
+    "?? scripts/survey_longform_semantic_publication_v2.py",
+    "?? tests/test_survey_editorial_correction_proposal_v2.py",
+    "?? tests/test_survey_editorial_retention_v2.py",
+    "?? tests/test_survey_longform_derivation_v2.py",
+    "?? tests/test_survey_longform_publication_integration_v2.py",
+}
+
+
+def _refuse_console(msg: str) -> int:
+    print(f"RUNNER_REFUSAL: {msg}", file=sys.stderr)
+    return 40
+
+
+def _git(args: list[str], cwd: Path) -> subprocess.CompletedProcess:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update({"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"})
+    return subprocess.run(["git", "-c", f"safe.directory={SAFE_DIRECTORY}", *args],
+                          cwd=cwd, capture_output=True, text=True, env=env, timeout=60)
+
+
+def _git_checked(args: list[str], cwd: Path) -> str:
+    p = _git(args, cwd)
+    if p.returncode != 0:
+        raise RuntimeError(f"git {args} rc={p.returncode}: {p.stderr.strip()[:500]}")
+    return p.stdout
+
+
+def _observe(label: str) -> dict:
+    head = _git(["rev-parse", "HEAD"], CANDIDATE)
+    tree = _git(["rev-parse", "HEAD^{tree}"], CANDIDATE)
+    status = _git(["status", "--porcelain=v1", "--untracked-files=all"], CANDIDATE)
+    index = _git(["diff", "--cached", "--name-only"], CANDIDATE)
+    diff_wt = _git(["diff", "--name-only"], CANDIDATE)
+    for name, proc in (("rev-parse HEAD", head), ("rev-parse tree", tree),
+                       ("status", status), ("index", index), ("diff_wt", diff_wt)):
+        if proc.returncode != 0:
+            raise RuntimeError(f"observe {label}: git {name} rc={proc.returncode}: {proc.stderr.strip()[:300]}")
+    caches = []
+    for base in ("scripts", "tests", "schemas"):
+        d = CANDIDATE / base
+        for p in sorted(d.glob("__pycache__/*")):
+            caches.append(str(p.relative_to(CANDIDATE)))
+        for p in sorted(d.glob("*.pyc")):
+            caches.append(str(p.relative_to(CANDIDATE)))
+    import hashlib
+    files = {}
+    for rel in sorted(EXPECTED):
+        f = CANDIDATE / rel
+        try:
+            data = f.read_bytes()
+        except OSError as e:
+            files[rel] = {"error": str(e)}
+            continue
+        files[rel] = {"sha256": hashlib.sha256(data).hexdigest(),
+                      "bytes": len(data), "mode": oct(f.stat().st_mode & 0o777)}
+    return {"label": label, "head": head.stdout.strip(), "tree": tree.stdout.strip(),
+            "status": status.stdout, "index": index.stdout, "diff_wt": diff_wt.stdout,
+            "caches": caches, "files": files}
+
+
+def _check_pins(obs: dict, where: str) -> list[str]:
+    errors = []
+    if obs["head"] != FIXED_HEAD:
+        errors.append(f"{where} HEAD mismatch: {obs['head']!r}")
+    if obs["tree"] != FIXED_TREE:
+        errors.append(f"{where} tree mismatch: {obs['tree']!r}")
+    if obs["index"].strip() != "":
+        errors.append(f"{where} index non-empty: {obs['index'][:300]!r}")
+    for rel, exp in EXPECTED.items():
+        got = obs["files"].get(rel, {})
+        if got.get("sha256") != exp["sha256"] or got.get("mode") != exp["mode"] \
+                or got.get("bytes") != exp["bytes"]:
+            errors.append(f"{where} expected16 mismatch: {rel}: got={got} exp={exp}")
+    status_rows = set(obs["status"].splitlines())
+    missing = EXPECTED_STATUS_ROWS - status_rows
+    if missing:
+        errors.append(f"{where} status missing expected rows: {sorted(missing)}")
+    return errors
+
+
+def main() -> int:
+    # Exclusive preflight: refuse without creating/overwriting anything.
+    outputs = [STDOUT_P, STDERR_P, EXIT_P, PRE_P, POST_P, META_P,
+               STAGE_RESERVED_P, STAGE_RUNNING_P, STAGE_DONE_P]
+    for p in outputs:
+        if p.exists():
+            return _refuse_console(f"output exists (not overwriting): {p.name}")
+    started = datetime.now(timezone.utc)
+    # Exclusive reservation: hold the xb-created handles for the whole run.
+    out_fh = open(STDOUT_P, "xb")
+    err_fh = open(STDERR_P, "xb")
+    reserved = {"runner": "run_p2r_correction_v7.py", "pid": os.getpid(),
+                "started_utc": started.isoformat(), "candidate": str(CANDIDATE),
+                "timeout_s": TIMEOUT_S, "argv": sys.argv, "cwd": os.getcwd(),
+                "python": sys.version, "safe_directory": SAFE_DIRECTORY,
+                "phase": "reserved"}
+    with open(STAGE_RESERVED_P, "x") as f:
+        json.dump(reserved, f, indent=1)
+    meta = dict(reserved)
+    meta["env_git"] = {k: v for k, v in os.environ.items() if k.startswith("GIT")}
+    try:
+        import unittest  # noqa
+        meta["unittest"] = "available"
+    except Exception as e:
+        meta["unittest"] = str(e)
+    try:
+        pip = subprocess.run([sys.executable, "-m", "pip", "freeze"],
+                             capture_output=True, text=True, timeout=60)
+        meta["pip_freeze_rc"] = pip.returncode
+        meta["pip_freeze"] = pip.stdout[:6000]
+    except Exception as e:
+        meta["pip_freeze_error"] = str(e)
+    with open(META_P, "x") as f:
+        json.dump(meta, f, indent=1)
+    try:
+        pre = _observe("pre")
+    except RuntimeError as exc:
+        with open(PRE_P, "x") as f:
+            json.dump({"label": "pre", "observe_error": str(exc)}, f, indent=1)
+        with open(EXIT_P, "x") as f:
+            f.write("2\n")
+        with open(STAGE_DONE_P, "x") as f:
+            json.dump({"phase": "pre-observe-failed", "error": str(exc)}, f, indent=1)
+        return _refuse_console(f"pre observation failed: {exc}")
+    with open(PRE_P, "x") as f:
+        json.dump(pre, f, indent=1)
+    errors = _check_pins(pre, "pre")
+    if errors:
+        msg = "PRE-GUARD FAILED:\n" + "\n".join(errors) + "\n"
+        with open(STDOUT_P, "wb") as f:
+            f.write(msg.encode())
+        with open(STDERR_P, "wb") as f:
+            f.write(msg.encode())
+        post = _observe("finally-post-pre-guard-failure")
+        with open(POST_P, "x") as f:
+            json.dump(post, f, indent=1)
+        with open(EXIT_P, "x") as f:
+            f.write("2\n")
+        with open(STAGE_DONE_P, "x") as f:
+            json.dump({"phase": "pre-guard-failed", "errors": errors}, f, indent=1)
+        print(msg, file=sys.stderr)
+        return 2
+    cmd = [sys.executable, "-m", "unittest", "tests.test_survey_editorial_retention_v2", "-v"]
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update({"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file",
+                "PYTHONDONTWRITEBYTECODE": "0"})
+    child_rc: int | None = None
+    timed_out = False
+    interrupted = False
+    t0 = datetime.now(timezone.utc)
+    try:
+        # Direct redirect to already-open exclusive files; no pump threads.
+        proc = subprocess.Popen(cmd, cwd=CANDIDATE, stdout=out_fh, stderr=err_fh, env=env)
+        with open(STAGE_RUNNING_P, "x") as f:
+            json.dump({"phase": "child-running", "child_pid": proc.pid,
+                       "started_utc": t0.isoformat()}, f, indent=1)
+        print(f"v7 child pid={proc.pid} redirected to {STDOUT_P.name} {STDERR_P.name}", flush=True)
+        try:
+            child_rc = proc.wait(timeout=TIMEOUT_S)
+        except subprocess.TimeoutExpired:
+            timed_out = True
+            proc.kill()
+            try:
+                proc.wait(timeout=120)
+            except subprocess.SubprocessError:
+                pass
+            child_rc = 124
+    except KeyboardInterrupt:
+        interrupted = True
+        try:
+            proc.kill()
+        except Exception:
+            pass
+        child_rc = 130
+    finally:
+        try:
+            out_fh.flush()
+        except OSError:
+            pass
+        try:
+            err_fh.flush()
+        except OSError:
+            pass
+        try:
+            out_fh.close()
+        except OSError:
+            pass
+        try:
+            err_fh.close()
+        except OSError:
+            pass
+        t1 = datetime.now(timezone.utc)
+        try:
+            post = _observe("finally-post")
+        except RuntimeError as exc:
+            post = {"label": "finally-post", "observe_error": str(exc)}
+        with open(POST_P, "x") as f:
+            json.dump(post, f, indent=1)
+        post_errors = []
+        if "observe_error" in post:
+            post_errors.append(f"post observation failed: {post['observe_error']}")
+        else:
+            post_errors = _check_pins(post, "post")
+        wrapper_rc = 0
+        if interrupted:
+            wrapper_rc = 130
+        elif timed_out:
+            wrapper_rc = 124
+        elif child_rc != 0:
+            wrapper_rc = child_rc if child_rc is not None else 1
+        elif post_errors:
+            wrapper_rc = 3
+        with open(STDOUT_P, "ab") as f:
+            f.write(f"\n[WRAPPER child_rc={child_rc} wrapper_rc={wrapper_rc} "
+                    f"timed_out={timed_out} interrupted={interrupted}]\n".encode())
+            if post_errors:
+                f.write(("POST-GUARD: " + "; ".join(post_errors) + "\n").encode())
+        with open(EXIT_P, "x") as f:
+            f.write(f"{wrapper_rc}\n")
+        with open(STAGE_DONE_P, "x") as f:
+            json.dump({"phase": "done", "child_rc": child_rc, "wrapper_rc": wrapper_rc,
+                       "timed_out": timed_out, "interrupted": interrupted,
+                       "elapsed_s": (t1 - t0).total_seconds(),
+                       "post_errors": post_errors, "ended_utc": t1.isoformat()}, f, indent=1)
+        summary = (f"child_rc={child_rc} timed_out={timed_out} interrupted={interrupted} "
+                   f"post_errors={post_errors}\nwrapper_rc={wrapper_rc}")
+        print(summary)
+        return wrapper_rc
+
+
+if __name__ == "__main__":
+    sys.exit(main())

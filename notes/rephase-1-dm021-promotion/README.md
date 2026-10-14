@@ -1,5 +1,7 @@
 # DM021 promotion/adoption analysis — P2R retention-only selection
 
+**Implementation successor 2026-10-14:** [P2R implementation assessment](../../outputs/rephase-1-dm021-p2r-assessment.md) / [final qualified packet](../rephase-1-dm021-p2r/README.md) now controls continuation. Selected3A implemented, final25 plus separate optimized1, actual409+16file/fullpatch5b79218e; contract194fd7de unchanged. Next is retained-aware current-authority contract analysis before code. The unimplemented/next-P2R statements below describe this earlier design unit. Full promotion remains unselected, DM021 OPEN.
+
 2026-10-13 JST, **design bounded complete**, after Human Commit/Push `b3feb711d8aeaa5b32e323e94108bba52f89bd3c`. Fresh author-independent DESIGN_BOUNDED_PASS with mandatory Astra interface conditions. Candidate remains actual409 +13file P1 overlay, no source/schema/test/fixture/build change. Whole NOT_READY, step4/B3 OPEN, canonical audit unstarted, DM021 OPEN.
 
 ## Read first
