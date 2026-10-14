@@ -1,5 +1,7 @@
 # DM021-P2R implementation — bounded complete
 
+**Successor design 2026-10-15 JST:** [P2V current-basis contract2ea1d98f](../../outputs/rephase-1-dm021-current-authority-contract-decision.md) / [analysis and independent-review packet](../rephase-1-dm021-current-authority/README.md) now controls the next task. P2R source/final25/fullpatch5b79218e and all qualifications below remain unchanged. P2V is unimplemented; full promotion stays unselected and DM021 OPEN.
+
 2026-10-14. [Assessment / exact identity / next design-only task](../../outputs/rephase-1-dm021-p2r-assessment.md) is the current entry. Fixed [retention contract194fd7de](../../outputs/rephase-1-dm021-retention-contract-decision.md) unchanged. One-shot retained-root capture + standalone exact retained-set verification, **not current eligibility or full DM021 repair**. Whole NOT_READY, step4/B3 OPEN, canonical audit unstarted, DM021 OPEN. Stop at Human Commit Point.
 
 ## Read final evidence together
