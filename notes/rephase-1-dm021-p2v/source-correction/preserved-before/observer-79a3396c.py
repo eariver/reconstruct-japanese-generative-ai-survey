@@ -1,0 +1,614 @@
+#!/usr/bin/env python3
+"""DM021-P2V read-only retained-aware current-basis observer (corrected R1).
+
+Read-only observation combining fresh current-basis checks with exact
+retained-set verification. No writes, no approval, no reason enum, no State
+adoption, no CLI, no PASS generation, no bearer permission.
+
+Entry point:
+
+  observe_current_authority(root, state_path, proposal_path, manifest_path,
+                            scope_review_path=None) -> observation
+
+Three comparisons stay distinct: current basis vs supplied proposal (exact P1
+header/basis/proposed/plan + staged reader bytes), retained-set consistency
+(full P2R validation + exact row bytes/sizes/inventory), invocation-entry to
+final stability (ORIGINAL pins + full control/edition/retained inventories +
+HEAD, no resnapshot laundering).
+
+All refusals raise CurrentAuthorityError (ValueError) with machine-readable
+``CODE: [phase] detail`` prefix and chained original cause. No owned files,
+no new writer disposition.
+"""
+from __future__ import annotations
+
+import json
+import os
+import stat as _stat
+import subprocess
+from pathlib import Path
+from typing import Any
+
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+from scripts import survey_editorial_retention_v2 as retention
+from scripts import survey_production_v2 as core
+
+RESULT_NEEDS_SCOPE = "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE"
+RESULT_SCOPE_BOUND = "CURRENT_BASIS_OBSERVED_SCOPE_BOUND"
+
+PROPOSAL_SCHEMA = Path("schemas/editorial-correction-proposal-v2.schema.json")
+MANIFEST_SCHEMA = Path("schemas/editorial-retention-manifest-v2.schema.json")
+
+_UNSAFE_GIT_VARS = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+                    "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_PREFIX")
+
+
+class CurrentAuthorityError(ValueError):
+    """Typed read-only refusal with code/phase/detail/cause."""
+
+    def __init__(self, code: str, phase: str, detail: str,
+                 cause: BaseException | None = None) -> None:
+        super().__init__(f"{code}: [{phase}] {detail}")
+        self.code = code
+        self.phase = phase
+        self.detail = detail
+        if cause is not None:
+            self.__cause__ = cause
+
+
+def _fail(code: str, phase: str, detail: str, cause: BaseException | None = None) -> CurrentAuthorityError:
+    return CurrentAuthorityError(code, phase, detail, cause=cause)
+
+
+def _sanitized_head(root: Path, phase: str) -> str:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update({"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"})
+    try:
+        proc = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root,
+                              capture_output=True, text=True, env=env, timeout=30)
+    except (OSError, subprocess.SubprocessError) as exc:
+        raise _fail("GIT_UNAVAILABLE", phase, f"git rev-parse failed: {exc}", cause=exc) from exc
+    if proc.returncode != 0:
+        raise _fail("GIT_UNAVAILABLE", phase, f"git rev-parse rc={proc.returncode}: {proc.stderr.strip()}")
+    value = proc.stdout.strip()
+    if len(value) != 40 or any(c not in "0123456789abcdef" for c in value):
+        raise _fail("GIT_UNAVAILABLE", phase, f"HEAD not 40-hex: {value!r}")
+    return value
+
+
+def _wrap_p1(exc: BaseException, phase: str) -> CurrentAuthorityError:
+    text = str(exc)
+    code = text.split(":", 1)[0].strip() if ":" in text else "P1_REFUSED"
+    if not code or " " in code or len(code) > 64:
+        code = "P1_REFUSED"
+    return _fail(code, phase, f"P1: {text}", cause=exc)
+
+
+def _wrap_p2r(exc: BaseException, phase: str) -> CurrentAuthorityError:
+    text = str(exc)
+    code = text.split(":", 1)[0].strip() if ":" in text else "P2R_REFUSED"
+    if not code or " " in code or len(code) > 64:
+        code = "P2R_REFUSED"
+    return _fail(code, phase, f"P2R: {text}", cause=exc)
+
+
+def _attach_close(primary: CurrentAuthorityError, close_exc: BaseException) -> None:
+    detail = f"{primary.detail}; secondary closes: {close_exc}"
+    primary.detail = detail
+    primary.args = (f"{primary.code}: [{primary.phase}] {detail}",)
+
+
+def observe_current_authority(root: str | Path, state_path: str | Path,
+                              proposal_path: str | Path, manifest_path: str | Path,
+                              scope_review_path: str | Path | None = None) -> dict[str, Any]:
+    """Read-only current-basis + retained-set observation (no bearer permission)."""
+    # Refuse inherited Git routing BEFORE any Collector/Git-aware work.
+    for name in _UNSAFE_GIT_VARS:
+        if os.environ.get(name):
+            raise _fail("GIT_ENV_REFUSED", "PIN", f"inherited {name} refuses isolated observation")
+    live: Any = None
+    session: Any = None
+    # Sanitized scope throughout Git-aware P1/receipt calls; restores on exit.
+    with retention._sanitized_git_env_ctx():
+        try:
+            # Session FIRST (raw-safe root, no caller-alias resolve); use its root.
+            try:
+                session = retention._Session(str(root))
+            except Exception as exc:
+                raise _wrap_p2r(exc, "PIN") from exc
+            root_path = session.root_resolved
+            try:
+                live = p1mod._Collector(root_path)
+            except Exception as exc:
+                raise _wrap_p1(exc, "PIN") from exc
+            orig_head = live.head
+            try:
+                sanitized = _sanitized_head(root_path, "PIN")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                raise _fail("GIT_UNAVAILABLE", "PIN", f"sanitized HEAD pin failed: {exc}", cause=exc) from exc
+            if sanitized != orig_head:
+                raise _fail("HEAD_MISMATCH", "PIN", "collector HEAD differs from sanitized git HEAD")
+            # Early narrow pins BEFORE validators that reopen them (retained session;
+            # live re-pins inside layout/pipeline/scope with stability checks).
+            try:
+                prop_rel, prop_data = session.safe_read(str(proposal_path),
+                                                        "editorial correction proposal", "VERIFY", "INVALID")
+                man_rel, man_data = session.safe_read(str(manifest_path),
+                                                      "retention manifest", "VERIFY", "INVALID")
+                session.safe_read(PROPOSAL_SCHEMA.as_posix(), "proposal schema", "VERIFY", "INVALID")
+                session.safe_read(MANIFEST_SCHEMA.as_posix(), "retention manifest schema", "VERIFY", "INVALID")
+                _st_rel, st_data = session.safe_read(str(state_path), "Production State", "VERIFY", "INVALID")
+                session.safe_read(core.DEFAULT_CONFIG.as_posix(), "implementation config", "VERIFY", "INVALID")
+                try:
+                    st_obj = json.loads(st_data.decode("utf-8"))
+                except (UnicodeDecodeError, ValueError) as exc:
+                    raise _fail("STATE_UNREADABLE", "PIN", f"pinned State not JSON: {exc}", cause=exc) from exc
+                if not isinstance(st_obj, dict):
+                    raise _fail("STATE_UNREADABLE", "PIN", "pinned State is not an object")
+                prof_ref = st_obj.get("profile") or {}
+                if not isinstance(prof_ref, dict) or set(prof_ref) != {"path", "sha256"}:
+                    raise _fail("STATE_PROFILE_SHAPE", "PIN", "pinned State lacks exact profile ref")
+                session.safe_read(prof_ref["path"], "State-bound Profile", "VERIFY", "INVALID")
+                scope_rel_early: str | None = None
+                scope_data_early: bytes | None = None
+                if scope_review_path is not None:
+                    scope_rel_early, scope_data_early = session.safe_read(
+                        str(scope_review_path), "scope review record", "VERIFY", "INVALID")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                if isinstance(exc, retention.RetentionError):
+                    raise _wrap_p2r(exc, "PIN") from exc
+                raise _fail("PIN_FAILED", "PIN", f"narrow pin failed: {exc}", cause=exc) from exc
+            orig_proposal_sha = core.sha256_bytes(prop_data)
+            orig_manifest_sha = core.sha256_bytes(man_data)
+            orig_state_sha = core.sha256_bytes(st_data)
+            orig_scope_sha = core.sha256_bytes(scope_data_early) if scope_data_early is not None else None
+
+            # Authority BEFORE broad walks (inside layout helper).
+            try:
+                cfg_for_controls = json.loads(live.files[core.DEFAULT_CONFIG.as_posix()].decode("utf-8"))
+            except Exception as exc:
+                raise _fail("CONFIG_UNREADABLE", "SNAPSHOT", f"config not JSON: {exc}", cause=exc) from exc
+            # Cross-check early retained config vs live config (drift during entry).
+            try:
+                ret_cfg = session.files.get(core.DEFAULT_CONFIG.as_posix())
+                if ret_cfg is None or core.sha256_bytes(ret_cfg) != core.sha256_bytes(
+                        live.files[core.DEFAULT_CONFIG.as_posix()]):
+                    raise _fail("CONFIG_DRIFT", "PIN", "live vs retained config bytes differ")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                raise _fail("PIN_FAILED", "PIN", f"config cross-check failed: {exc}", cause=exc) from exc
+            try:
+                control_rels = retention._control_paths(cfg_for_controls, "VERIFY", "INVALID")
+            except Exception as exc:
+                raise _wrap_p2r(exc, "SNAPSHOT") from exc
+            try:
+                layout = p1mod._pin_proposal_layout(live, root_path, state_path, proposal_path)
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "AUTHORITY") from exc
+                raise _fail("AUTHORITY_FAILED", "AUTHORITY", f"layout/authority failed: {exc}", cause=exc) from exc
+            profile = layout["profile"]
+            state = layout["state"]
+            proposal = layout["proposal"]
+            proposal_id = layout["proposal_id"]
+            staged_authored = layout["staged_authored"]
+            staged_reader = layout["staged_reader"]
+            tree_entry = layout["tree_entry"]
+            # Cross-check shared-path ORIGINALs (live vs retained early pins).
+            try:
+                for rel in (prop_rel, _st_rel):
+                    lv = live.files.get(rel)
+                    rt = session.files.get(rel)
+                    if lv is None or rt is None or core.sha256_bytes(lv) != core.sha256_bytes(rt):
+                        raise _fail("PIN_DRIFT", "AUTHORITY", f"live vs retained bytes differ: {rel}")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                raise _fail("PIN_FAILED", "AUTHORITY", f"pin cross-check failed: {exc}", cause=exc) from exc
+            try:
+                source_root_rel = profile["paths"]["source_root"]
+                survey_root_rel = profile["paths"]["survey_root"]
+            except (KeyError, TypeError) as exc:
+                raise _fail("PROFILE_ROOT_INVALID", "SNAPSHOT", f"profile roots invalid: {exc}", cause=exc) from exc
+            # Snapshots in retained session only (never populate live col.files).
+            try:
+                ctrl_files, ctrl_dirs, ctrl_sizes = retention._snapshot_expanded(
+                    session, control_rels, "control", "VERIFY", "INVALID")
+                src_files, src_dirs, src_sizes = retention._snapshot_expanded(
+                    session, [source_root_rel, survey_root_rel], "edition", "VERIFY", "INVALID")
+            except Exception as exc:
+                raise _wrap_p2r(exc, "SNAPSHOT") from exc
+            init_ctrl = (dict(ctrl_files), dict(ctrl_dirs), dict(ctrl_sizes))
+            init_src = (dict(src_files), dict(src_dirs), dict(src_sizes))
+            init_tree = dict(tree_entry)
+            # Preserve ORIGINAL consumed maps for final boundary (no laundering).
+            orig_live_map = dict(live.files)
+            orig_ret_map = dict(session.files)
+
+            # Same-invocation retained validation (actual P2R, no trust).
+            try:
+                verified = retention.verify_retention(root_path, proposal_path, manifest_path)
+            except Exception as exc:
+                raise _wrap_p2r(exc, "RETAINED") from exc
+            if not isinstance(verified, dict) or verified.get("result") != retention.RESULT_VERIFIED:
+                raise _fail("RETAINED_NOT_VERIFIED", "RETAINED", "P2R did not return VERIFIED")
+            if not isinstance(verified.get("proposal_sha256"), str) or \
+                    not isinstance(verified.get("manifest_sha256"), str):
+                raise _fail("RETAINED_SHAPE", "RETAINED", "P2R SHAs must be hex strings")
+            if verified.get("proposal_sha256") != orig_proposal_sha:
+                raise _fail("PROPOSAL_SHA_MISMATCH", "RETAINED",
+                            "P2R proposal SHA differs from originally pinned proposal bytes")
+            if verified.get("manifest_sha256") != orig_manifest_sha:
+                raise _fail("MANIFEST_SHA_MISMATCH", "RETAINED",
+                            "P2R manifest SHA differs from originally pinned manifest bytes")
+            checked = verified.get("checked")
+            if not isinstance(checked, dict):
+                raise _fail("RETAINED_SHAPE", "RETAINED", "P2R checked must be a mapping")
+            for k in ("copy_files", "keep_refs"):
+                v = checked.get(k)
+                if not isinstance(v, int) or v < 0:
+                    raise _fail("RETAINED_SHAPE", "RETAINED", f"P2R checked.{k} must be a non-negative int")
+            try:
+                manifest_obj = json.loads(man_data.decode("utf-8"))
+                proposal_obj = json.loads(prop_data.decode("utf-8"))
+            except (UnicodeDecodeError, ValueError) as exc:
+                raise _fail("MANIFEST_UNREADABLE", "RETAINED", f"pinned JSON unreadable: {exc}", cause=exc) from exc
+            if not isinstance(manifest_obj, dict) or not isinstance(proposal_obj, dict):
+                raise _fail("MANIFEST_UNREADABLE", "RETAINED", "pinned proposal/manifest must be objects")
+            if manifest_obj.get("proposal_ref", {}).get("sha256") != orig_proposal_sha:
+                raise _fail("HEADER_MISMATCH", "RETAINED", "manifest proposal_ref.sha256 != pinned proposal bytes")
+            if manifest_obj.get("basis") != proposal_obj.get("basis"):
+                raise _fail("BASIS_MISMATCH", "RETAINED", "manifest basis != pinned proposal basis")
+            if manifest_obj.get("proposed") != proposal_obj.get("proposed"):
+                raise _fail("PROPOSED_MISMATCH", "RETAINED", "manifest proposed != pinned proposal proposed")
+            rows = manifest_obj.get("rows")
+            plan = proposal_obj.get("retention_plan")
+            if not isinstance(rows, list) or not isinstance(plan, list):
+                raise _fail("RETENTION_MISMATCH", "RETAINED", "rows/plan must be lists")
+            if len(rows) != len(plan):
+                raise _fail("RETENTION_MISMATCH", "RETAINED", "manifest row count != proposal plan count")
+            for prow in plan:
+                if not isinstance(prow, dict):
+                    raise _fail("PLAN_SHAPE", "RETAINED", "plan row must be an object")
+                if prow.get("policy") == "COPY_BEFORE_REPLACEMENT":
+                    if "retained_sha256" in prow or "retained_byte_count" in prow:
+                        raise _fail("PLAN_SHAPE", "RETAINED", "P1 plan COPY carries manifest-only measured fields")
+                    if "retained_dest" not in prow:
+                        raise _fail("PLAN_SHAPE", "RETAINED", "P1 plan COPY lacks retained_dest")
+            for mrow in rows:
+                if not isinstance(mrow, dict):
+                    raise _fail("RETENTION_MISMATCH", "RETAINED", "manifest row must be an object")
+                if mrow.get("policy") == "COPY_BEFORE_REPLACEMENT":
+                    for k in ("retained_dest", "retained_sha256", "retained_byte_count"):
+                        if k not in mrow:
+                            raise _fail("RETENTION_MISMATCH", "RETAINED", f"manifest COPY missing {k}")
+                    if not isinstance(mrow.get("retained_sha256"), str) or \
+                            not isinstance(mrow.get("retained_byte_count"), int):
+                        raise _fail("RETENTION_MISMATCH", "RETAINED", "manifest COPY measured types invalid")
+                    if mrow["retained_sha256"] != mrow["sha256"] or \
+                            mrow["retained_byte_count"] != mrow["byte_count"]:
+                        raise _fail("RETENTION_MISMATCH", "RETAINED", "manifest COPY measurement != source row")
+                else:
+                    if mrow.get("retained_ref") != {"path": mrow["path"], "sha256": mrow["sha256"]}:
+                        raise _fail("RETENTION_MISMATCH", "RETAINED", "manifest KEEP ref != source")
+            # Re-pin every COPY/KEEP + staged bytes in observer session.
+            try:
+                for r in rows:
+                    if r.get("policy") == "COPY_BEFORE_REPLACEMENT":
+                        _rel, back = session.safe_read(r["retained_dest"], "COPY rehash", "VERIFY", "INVALID")
+                        if core.sha256_bytes(back) != r["sha256"] or len(back) != r["byte_count"]:
+                            raise _fail("COPY_DRIFT", "RETAINED", f"COPY drift: {r['retained_dest']}")
+                    else:
+                        session.repinned(r["retained_ref"], f"KEEP recheck {r['path']}",
+                                         "VERIFY", "INVALID", expected_size=r["byte_count"])
+                proposed_blk = proposal_obj.get("proposed") or {}
+                if not isinstance(proposed_blk, dict):
+                    raise _fail("PROPOSED_MISMATCH", "RETAINED", "proposed must be an object")
+                authoring_ref = proposed_blk.get("authoring_input_ref") or {}
+                reader_ref = proposed_blk.get("proposed_reader_ref") or {}
+                session.repinned({"path": authoring_ref.get("path", ""),
+                                  "sha256": authoring_ref.get("sha256", "")},
+                                 "staged authoring_input_ref", "VERIFY", "INVALID")
+                session.repinned({"path": reader_ref.get("path", ""),
+                                  "sha256": reader_ref.get("sha256", "")},
+                                 "staged proposed_reader_ref", "VERIFY", "INVALID")
+                if reader_ref.get("sha256") != proposed_blk.get("proposed_reader_canonical_sha256"):
+                    raise _fail("PROPOSED_DIGEST_MISMATCH", "RETAINED", "reader ref != canonical sha")
+                _rr, reader_bytes_ret = session.safe_read(reader_ref.get("path", ""),
+                                                          "staged proposed reader", "VERIFY", "INVALID")
+                if core.sha256_bytes(reader_bytes_ret) != proposed_blk.get("proposed_reader_canonical_sha256"):
+                    raise _fail("PROPOSED_DIGEST_MISMATCH", "RETAINED", "staged reader != canonical digest")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                if isinstance(exc, retention.RetentionError):
+                    raise _wrap_p2r(exc, "RETAINED") from exc
+                raise _fail("RETAINED_PIN_FAILED", "RETAINED", f"retained re-pin failed: {exc}", cause=exc) from exc
+            try:
+                expected_dir = layout["expected_dir"]
+                retained_rel = expected_dir + "/retained"
+                inv_files, inv_dirs, inv_sizes = retention._retained_inventory(
+                    session, retained_rel, "VERIFY", "INVALID")
+                exp_files_set, exp_dirs_set = retention._retained_expected_sets(
+                    rows, man_rel, retained_rel)
+                if not isinstance(exp_files_set, set) or not isinstance(exp_dirs_set, set):
+                    raise _fail("RETAINED_SHAPE", "RETAINED", "expected sets must be sets")
+                if set(inv_files) != exp_files_set or set(inv_dirs) != exp_dirs_set:
+                    raise _fail("INVALID_RETENTION", "RETAINED", "retained inventory != expected sets")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                raise _wrap_p2r(exc, "RETAINED") from exc
+
+            # Common current derivation + supplied comparisons (live store only).
+            try:
+                change_desc = (proposal.get("proposed") or {}).get("change_description")
+                data = p1mod._pipeline_data(live, root_path, Path(state_path),
+                                            staged_authored, proposal_id, change_desc)
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "DERIVE") from exc
+                raise _fail("DERIVE_FAILED", "DERIVE", f"current derivation failed: {exc}", cause=exc) from exc
+            if not isinstance(data, dict) or not isinstance(data.get("proposal"), dict):
+                raise _fail("DERIVE_SHAPE", "DERIVE", "pipeline data must carry a proposal mapping")
+            try:
+                live_state_rel = live.rel(live.safe(str(state_path), "Production State"))
+                live_state_sha = core.sha256_bytes(live.files[live_state_rel])
+                basis_state = (data["proposal"].get("basis") or {}).get("state_ref") or {}
+                if basis_state.get("path") != live_state_rel or basis_state.get("sha256") != live_state_sha:
+                    raise _fail("STATE_REF_MISMATCH", "COMPARE", "live State != rederived basis.state_ref")
+                supplied_basis_state = (proposal.get("basis") or {}).get("state_ref") or {}
+                if supplied_basis_state != basis_state:
+                    raise _fail("BASIS_MISMATCH", "COMPARE", "supplied basis.state_ref != rederived live State")
+                staged_rel = live.rel(staged_reader)
+                pinned_staged = live.files.get(staged_rel)
+                live_staged_now = staged_reader.read_bytes()
+                if pinned_staged is None or live_staged_now != pinned_staged:
+                    raise _fail("STABILITY_VIOLATION", "COMPARE", "staged reader changed mid-inspection")
+                if not isinstance(data.get("proposed_canonical"), (bytes, bytearray)):
+                    raise _fail("DERIVE_SHAPE", "COMPARE", "proposed_canonical must be bytes")
+                p1mod._compare_supplied_to_rederived(proposal, data["proposal"],
+                                                     live_staged_now, bytes(data["proposed_canonical"]))
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "COMPARE") from exc
+                raise _fail("COMPARE_FAILED", "COMPARE", f"supplied comparison failed: {exc}", cause=exc) from exc
+            # Cross-binding in exact stored order (no sorting into agreement).
+            try:
+                live_plan = data["proposal"].get("retention_plan")
+                if not isinstance(live_plan, list) or len(live_plan) != len(rows):
+                    raise _fail("RETENTION_MISMATCH", "COMPARE", "live plan count != retained manifest count")
+                for lp, mr in zip(live_plan, rows):
+                    if not isinstance(lp, dict) or not isinstance(mr, dict):
+                        raise _fail("RETENTION_MISMATCH", "COMPARE", "plan/manifest rows must be objects")
+                    for k in ("roles", "path", "sha256", "byte_count", "policy"):
+                        if lp.get(k) != mr.get(k):
+                            raise _fail("RETENTION_MISMATCH", "COMPARE",
+                                        f"live vs retained row {k} differs: {lp.get('path')}")
+                    if lp.get("policy") == "KEEP_IMMUTABLE":
+                        if lp.get("retained_ref") != mr.get("retained_ref"):
+                            raise _fail("RETENTION_MISMATCH", "COMPARE", "live vs retained KEEP ref differs")
+                    else:
+                        if lp.get("retained_dest") != mr.get("retained_dest"):
+                            raise _fail("RETENTION_MISMATCH", "COMPARE", "live vs retained COPY dest differs")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                raise _fail("COMPARE_FAILED", "COMPARE", f"live/retained cross-binding failed: {exc}", cause=exc) from exc
+
+            # Optional scope BEFORE final FULL receipt (scope pinned early; live
+            # re-pin inside validator compared to early ORIGINAL below).
+            try:
+                state2_abs = live.safe(str(state_path), "Production State")
+                state2 = json.loads(live.files[live.rel(state2_abs)].decode("utf-8"))
+                profile2 = p1mod._load_profile(live, state2)
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "SCOPE") from exc
+                raise _fail("SCOPE_FAILED", "SCOPE", f"scope State/Profile reload failed: {exc}", cause=exc) from exc
+            scope_ref = None
+            try:
+                if scope_review_path is None:
+                    outcome = RESULT_NEEDS_SCOPE
+                else:
+                    s_rel, s_data = session.safe_read(str(scope_review_path),
+                                                      "scope review record", "VERIFY", "INVALID")
+                    if orig_scope_sha is not None and core.sha256_bytes(s_data) != orig_scope_sha:
+                        raise _fail("SCOPE_DRIFT", "SCOPE", "scope bytes changed since early pin")
+                    scope_ref = {"path": s_rel, "sha256": core.sha256_bytes(s_data)}
+                    res = p1mod._validate_scope(live, root_path, scope_review_path,
+                                                proposal, state2, profile2)
+                    if res == p1mod.RESULT_BOUND:
+                        outcome = RESULT_SCOPE_BOUND
+                    elif res == p1mod.RESULT_REQUIRED:
+                        outcome = RESULT_NEEDS_SCOPE
+                    else:
+                        raise _fail("SCOPE_INVALID", "SCOPE", f"unknown scope result: {res}")
+                    # Live scope bytes must equal early retained ORIGINAL.
+                    live_scope_rel = None
+                    for rel in live.files:
+                        if rel == s_rel:
+                            live_scope_rel = rel
+                            break
+                    if live_scope_rel is not None and orig_scope_sha is not None:
+                        if core.sha256_bytes(live.files[live_scope_rel]) != orig_scope_sha:
+                            raise _fail("SCOPE_DRIFT", "SCOPE", "live vs early scope bytes differ")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "SCOPE") from exc
+                if isinstance(exc, retention.RetentionError):
+                    raise _wrap_p2r(exc, "SCOPE") from exc
+                raise _fail("SCOPE_FAILED", "SCOPE", f"scope binding failed: {exc}", cause=exc) from exc
+            # Actual full receipt/current-tool recheck AFTER scope.
+            try:
+                p1mod._final_full_receipt_recheck(live, root_path, data, "observe")
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "RECEIPT") from exc
+                raise _fail("RECEIPT_FAILED", "RECEIPT", f"final receipt recheck failed: {exc}", cause=exc) from exc
+            # Fresh retained revalidation after shared-data equality.
+            try:
+                verified2 = retention.verify_retention(root_path, proposal_path, manifest_path)
+            except Exception as exc:
+                raise _wrap_p2r(exc, "RETAINED") from exc
+            if verified2.get("proposal_sha256") != orig_proposal_sha or \
+                    verified2.get("manifest_sha256") != orig_manifest_sha:
+                raise _fail("RETAINED_STABILITY", "RETAINED", "second retained verification SHA differs")
+
+            # Declared final boundary AFTER later reads: ORIGINAL pins + ALL
+            # inputs/schemas/module/HEAD + full control/edition/retained
+            # dirs+files zero-delta (incl. outside-edition raw via reverify which
+            # covers every consumed file), then checked closes. No laundering.
+            try:
+                live.reverify()
+            except Exception as exc:
+                raise _wrap_p1(exc, "FINAL") from exc
+            try:
+                session.reverify("VERIFY", "INVALID")
+            except Exception as exc:
+                raise _wrap_p2r(exc, "FINAL") from exc
+            # Later reads that extend the window (snapshots, inventories, deps).
+            try:
+                ctrl_files2, ctrl_dirs2, ctrl_sizes2 = retention._snapshot_expanded(
+                    session, control_rels, "control", "VERIFY", "INVALID")
+                src_files2, src_dirs2, src_sizes2 = retention._snapshot_expanded(
+                    session, [source_root_rel, survey_root_rel], "edition", "VERIFY", "INVALID")
+                if (ctrl_files2, ctrl_dirs2, ctrl_sizes2) != (init_ctrl[0], init_ctrl[1], init_ctrl[2]):
+                    raise _fail("CONTROL_DRIFT", "FINAL", "control snapshot changed during call")
+                if (src_files2, src_dirs2, src_sizes2) != (init_src[0], init_src[1], init_src[2]):
+                    raise _fail("EDITION_DRIFT", "FINAL", "edition snapshot changed during call")
+                if p1mod._tree_map(root_path, Path(source_root_rel), Path(survey_root_rel)) != init_tree:
+                    raise _fail("TREE_MOVED", "FINAL", "edition tree changed during call")
+                inv_files2, inv_dirs2, _ = retention._retained_inventory(
+                    session, retained_rel, "VERIFY", "INVALID")
+                if set(inv_files2) != exp_files_set or set(inv_dirs2) != exp_dirs_set:
+                    raise _fail("INVALID_RETENTION", "FINAL", "final retained inventory drifted")
+                for dep in (PROPOSAL_SCHEMA.as_posix(), MANIFEST_SCHEMA.as_posix(),
+                            Path("scripts/survey_editorial_correction_proposal_v2.py").as_posix(),
+                            Path("scripts/survey_editorial_current_authority_v2.py").as_posix()):
+                    session.safe_read(dep, "source dep", "VERIFY", "INVALID")
+                if _sanitized_head(root_path, "FINAL") != orig_head:
+                    raise _fail("HEAD_MOVED", "FINAL", "HEAD changed during inspection")
+                if live.head != orig_head:
+                    raise _fail("HEAD_MOVED", "FINAL", "collector HEAD changed during inspection")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                if isinstance(exc, retention.RetentionError):
+                    raise _wrap_p2r(exc, "FINAL") from exc
+                raise _fail("FINAL_FAILED", "FINAL", f"final boundary failed: {exc}", cause=exc) from exc
+            # FINAL ORIGINAL-pin checks AFTER later helper reads (incl.
+            # outside-edition raw: every consumed file vs entry ORIGINAL).
+            try:
+                for rel, orig_bytes in orig_live_map.items():
+                    cur = live.files.get(rel)
+                    if cur is None or cur != orig_bytes:
+                        raise _fail("PIN_DRIFT", "FINAL", f"live pin changed after later reads: {rel}")
+                for rel, orig_bytes in orig_ret_map.items():
+                    cur = session.files.get(rel)
+                    if cur is None or cur != orig_bytes:
+                        raise _fail("PIN_DRIFT", "FINAL", f"retained pin changed after later reads: {rel}")
+                live.reverify()
+                session.reverify("VERIFY", "INVALID")
+            except CurrentAuthorityError:
+                raise
+            except Exception as exc:
+                if isinstance(exc, p1mod.ProposalError):
+                    raise _wrap_p1(exc, "FINAL") from exc
+                if isinstance(exc, retention.RetentionError):
+                    raise _wrap_p2r(exc, "FINAL") from exc
+                raise _fail("FINAL_FAILED", "FINAL", f"final pin recheck failed: {exc}", cause=exc) from exc
+            # Checked closes before success (primary-preserving).
+            try:
+                session._close_all("VERIFY", "VERIFIED")
+            except Exception as exc:
+                raise _fail("CLOSE_FAILED", "CLOSE", f"descriptor close failed: {exc}", cause=exc) from exc
+
+            # Build observation from bound rels (no resolve after close).
+            graph = data.get("graph")
+            if not isinstance(graph, dict) or not isinstance(graph.get("nodes"), list) or \
+                    not isinstance(graph.get("edges"), list):
+                raise _fail("DERIVE_SHAPE", "FINAL", "graph must carry nodes/edges lists")
+            copy_n = checked.get("copy_files")
+            keep_n = checked.get("keep_refs")
+            plan_rows = data["proposal"].get("retention_plan")
+            if not isinstance(plan_rows, list):
+                raise _fail("DERIVE_SHAPE", "FINAL", "retention plan must be a list")
+            plan_copy = sum(1 for r in plan_rows if isinstance(r, dict) and r.get("policy") == "COPY_BEFORE_REPLACEMENT")
+            plan_keep = sum(1 for r in plan_rows if isinstance(r, dict) and r.get("policy") == "KEEP_IMMUTABLE")
+            if copy_n != plan_copy or keep_n != plan_keep:
+                raise _fail("MEASURED_MISMATCH", "FINAL", "P2R counts != live plan counts")
+            live_hashes = {rel: core.sha256_bytes(b) for rel, b in live.files.items()}
+            ret_hashes = {rel: core.sha256_bytes(b) for rel, b in session.files.items()}
+            merged: dict[str, str] = dict(live_hashes)
+            for rel, sha in ret_hashes.items():
+                if rel in merged and merged[rel] != sha:
+                    raise _fail("INPUT_HASH_CONFLICT", "FINAL", f"live/retained hash conflict: {rel}")
+                merged[rel] = sha
+            # No producer-extras blanket check: capture_inputs historical extras are
+            # NOT re-proven as current authority (contract §4.7).
+            for ref_label, ref in (("state", {"path": _st_rel, "sha256": orig_state_sha}),
+                                   ("proposal", {"path": prop_rel, "sha256": orig_proposal_sha}),
+                                   ("manifest", {"path": man_rel, "sha256": orig_manifest_sha})):
+                if not isinstance(ref["path"], str) or not isinstance(ref["sha256"], str) or \
+                        len(ref["sha256"]) != 64:
+                    raise _fail("REF_SHAPE", "FINAL", f"{ref_label} ref must be {{path,64-hex}}")
+            _scope_out: dict[str, str] | None = None
+            if scope_ref is not None:
+                if set(scope_ref) != {"path", "sha256"} or len(scope_ref["sha256"]) != 64:
+                    raise _fail("REF_SHAPE", "FINAL", "scope ref must be {{path,64-hex}}")
+                _scope_out = {"path": scope_ref["path"], "sha256": scope_ref["sha256"]}
+            basis = data["proposal"].get("basis") or {}
+            for k in ("before_graph_digest", "preserved_upstream_digest"):
+                v = basis.get(k)
+                if not isinstance(v, str) or not v:
+                    raise _fail("MEASURED_SHAPE", "FINAL", f"basis.{k} must be a non-empty string")
+            return {
+                "result": outcome,
+                "state_ref": {"path": _st_rel, "sha256": orig_state_sha},
+                "proposal_ref": {"path": prop_rel, "sha256": orig_proposal_sha},
+                "retention_manifest_ref": {"path": man_rel, "sha256": orig_manifest_sha},
+                "scope_review_ref": _scope_out,
+                "observed_head": orig_head,
+                "measured": {
+                    "before_graph_digest": basis["before_graph_digest"],
+                    "preserved_upstream_digest": basis["preserved_upstream_digest"],
+                    "proposed_reader_sha256": core.sha256_bytes(bytes(data["proposed_canonical"])),
+                    "graph_nodes": len(graph["nodes"]),
+                    "graph_edges": len(graph["edges"]),
+                    "copy_files": copy_n,
+                    "keep_refs": keep_n,
+                },
+                "input_hashes": merged,
+            }
+        except CurrentAuthorityError as primary:
+            if session is not None and not getattr(session, "_closed", True):
+                try:
+                    session._close_all("VERIFY", "INVALID", prior=None)
+                except Exception as close_exc:
+                    _attach_close(primary, close_exc)
+            raise
+        except Exception as exc:
+            if isinstance(exc, p1mod.ProposalError):
+                primary = _wrap_p1(exc, "FINAL")
+            elif isinstance(exc, retention.RetentionError):
+                primary = _wrap_p2r(exc, "FINAL")
+            elif isinstance(exc, CurrentAuthorityError):
+                primary = exc
+            else:
+                primary = _fail("OBSERVER_FAILED", "FINAL", f"unexpected observer failure: {exc}", cause=exc)
+            if session is not None and not getattr(session, "_closed", True):
+                try:
+                    session._close_all("VERIFY", "INVALID", prior=None)
+                except Exception as close_exc:
+                    _attach_close(primary, close_exc)
+            raise primary from exc

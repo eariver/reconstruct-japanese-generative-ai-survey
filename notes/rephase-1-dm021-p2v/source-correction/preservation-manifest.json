@@ -1,0 +1,47 @@
+{
+ "before": {
+  "P1": {
+   "sha256": "cdd69fe7c24de6dda9ee503cfcfbc791a9d7e421141dbb23586f1e4431c27eab",
+   "bytes": 113535
+  },
+  "observer": {
+   "sha256": "79a3396cf07d85cfeb11df9f85910ba8aed2ed63f965713edab5b076d580d3f4",
+   "bytes": 37896
+  },
+  "test": {
+   "sha256": "c7ba6d4a4cdde985129b5b5096110a4d839b09f80f15c0d5c68fad2a450be71b",
+   "bytes": 32749
+  },
+  "expected18_draft": {
+   "sha256": "c6bb1fad2ad98048ac5783a381cfe342dbb89ec766118d792d5af6244a227f48",
+   "bytes": 3142
+  }
+ },
+ "after": {
+  "P1": {
+   "sha256": "cdd69fe7c24de6dda9ee503cfcfbc791a9d7e421141dbb23586f1e4431c27eab",
+   "bytes": 113535,
+   "change": "UNCHANGED (no actual bug; private factoring preserved)"
+  },
+  "observer": {
+   "sha256": "79a3396cf07d85cfeb11df9f85910ba8aed2ed63f965713edab5b076d580d3f4",
+   "bytes": 37896,
+   "change": "UNCHANGED (V1-V5 inspection passes; R2 root fixes already done)"
+  },
+  "test": {
+   "sha256": "e00ccddf5c4053cf2a10846cccbaa812d10ff4537849d7fde11a04677a37b5eb",
+   "bytes": 65422,
+   "change": "CORRECTED per R2 (see correction-report.md; diff test-c7ba-to-e00ccd.diff 1105 lines)"
+  },
+  "expected18_source_correction": {
+   "note": "new static18 under this packet; old manifests untouched"
+  }
+ },
+ "candidate": {
+  "head": "409b292756dd1277b9dfae87679934c0d2ce251c",
+  "tree": "8ce3699861505f32d1d60bdc185d4d4f635aedb2",
+  "status_rows": 102,
+  "source": "18 (3M15A) +84 caches"
+ },
+ "history": "Original implementation-report.md + evidence-corrections.md overclaims preserved as history in preserved-before/; this correction annotates, does not overwrite."
+}

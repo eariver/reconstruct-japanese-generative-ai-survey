@@ -1,0 +1,40 @@
+# DM021-P2V internal code/draft return (for root readback BEFORE long run)
+
+2026-10-15 JST. General internal return. No long tests/proof executed. Source available, new candidate implemented 2A1M per Astra selection `astra-implementation-selection.md` (6 mandatory corrections). Stop at code/draft return; await root review/selection before any long fixture/test run.
+
+## 1. Preparation (read-only, accurate attribution)
+
+- Reconstruct `b385deb69f5472377737ea2a4138b2d20b119dec` clean except untracked `notes/rephase-1-dm021-p2v/{task,interface-proposal,source-binding,astra-implementation-selection}.md` (preexisting) + NEW return files below. No branches/commits/network/intake/Production/adoption. All Git via sanitized env (strip `GIT_*`, force `GIT_NO_LAZY_FETCH=1/GIT_OPTIONAL_LOCKS=0/GIT_ALLOW_PROTOCOL=file`), checked rc.
+- P2R active `/tmp/opencode/jgas-dm021p2r-impl-20261013T123807Z/candidate-partial-b40de60` + apply `/tmp/opencode/jgas-dm021p2r-verify-20261014T000007Z/candidate-partial-b40de60` both available, detached `409b292…/8ce36998…`, 100 rows (16+84) each, preserved untouched (no restores/copies/cleanups).
+- NEW candidate `/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60`: `cp -a` byte copy of active (no `--link`, new inodes verified for pack files, no hardlinks/sharing), detached `409b292…`, empty branch (detached), `config --local` inert (`origin https://example.invalid/rephase-candidate-recovery.git`), no `objects/info/alternates`, no candidate branch/commit. Status 102 rows (18 source 3M+15A +84 caches), `diff --cached` empty, `diff --name-only` exactly 3 tracked (`reader-surface-gate` 2 schemas +1 script). 84 caches preserved (path-set equal to static, byte authority remains P2R v9 pre/post).
+- No historical scripts rerun, no old-suite transfer, no subagents. Phase A `interface-proposal.md` kept intact (selection overrides contradictory parts; this report corrects PhaseA125/141 per selection points 3–4).
+
+## 2. Implemented delta (selected 2A1M only, 0 schema/P2R)
+
+Future composite 18 paths 3M15A vs 409; `expected18-draft.json` in this packet (18 entries). Inherited15 byte-identical to `expected16-correction2c.json` (all except P1 module). 0 schema changes, P2R module/schema/test unchanged (`3833b14a/347e5499/4155baab`).
+
+- M `scripts/survey_editorial_correction_proposal_v2.py`: `5d2fde45` 110155B → `cdd69fe7` 113535B (+3380B). Private factoring only, no public signature/schema/scope-meaning change. `diff -u` vs active P1 = 333 lines (row-split + pipeline split + layout/comparator + validate refactor). Exact changes:
+  - `_retention_rows_for_graph` (data-only rows+safety, COPY `retained_dest` only, no measured fields) + `_require_retention_dests_absent` (absent-only) + `_retention_plan` wrapper (rows+absence, preserves P1 behavior). Corrects PhaseA125: P1 COPY has dest only.
+  - `_pipeline_data` (no acceptance/tree, returns data+`profile`) + `_pipeline` wrapper (data + absent + `reverify` + tree, strips `profile` to preserve public shape). Public `prepare_proposal` still structurally calls `_pipeline`.
+  - `_pin_proposal_layout(col,root,state_path_value,proposal_path_value)` (no trusted profile arg; inside: config/proposal pins + schema/id, actual `_validated_state_profile_for_tree`, canonical dir/layout/staged/description, then tree snapshot; returns bundle with state/cfg/profile/staged/tree). Fixes PhaseA96–100.
+  - `_compare_supplied_to_rederived` (shared ALL-field: 7 header keys, basis exact, authoring/reader/canonical/description exact, ref-digest consistency, P1 retention exact, staged bytes). Public `validate_proposal` now layout→`_pipeline`→shared comparison→scope→final receipt→stability; returns supplied UNCHANGED + input_hashes/measured intact.
+- A `scripts/survey_editorial_current_authority_v2.py`: `d52f154b` 28977B 0o664. `observe_current_authority(root,state_path,proposal_path,manifest_path,scope_review_path=None)` read-only; `CurrentAuthorityError(code,phase,detail,cause=None)` (no `owned`, no writer status). Strict canonical State byte eq, fresh `_pipeline_data` rederivation, actual `verify_retention` full verification (compares returned 2 SHAs to ORIGINAL pins; rows/ref bytes re-pinned in separate retained session; never invents row hashes — corrects PhaseA141), optional `_validate_scope` before `_final_full_receipt_recheck`, second `verify_retention` after later helpers, final ORIGINAL-pin + ALL-input/schema/module/HEAD + full control/edition/retained dirs+files zero-delta then checked closes, no resnapshot laundering. Live `_Collector` vs retained/control/edition `_Session` snapshots separate; full-tree scans never populate `col.files`. No enum/skip/verified token/pending basis/State forge/cleanup; no producer-extras blanket check; no creator/anti-rollback/bearer claims.
+- A `tests/test_survey_editorial_current_authority_v2.py`: `a2b2823d` 11658B 0o664. 13 focused tests (collection below); independent fixture source commits changed P1+new2 BEFORE authority; Longform/Weekly/R1-owner; P1 baseline/postcapture; scope after-capture ordinary/valid/invalid; mutable persistence-positive/current-negative; KEEP drift both-refuse; real control change/artifact-HEAD conditional; missing/extra/empty-dir; alias/special/late inventory + bytes/close faults; immediate no-write/injection deltas BEFORE repair. No old25/36 transfer.
+
+## 3. Cheap checks only (cache-isolated, no bytecode, persisted)
+
+- `py_compile` 3 files with `PYTHONDONTWRITEBYTECODE=1 PYTHONPYCACHEPREFIX=/tmp/opencode/p2v-cache-absent-20261014T224000Z` (absent prefix, no pyc writes), sanitized Git: rc=0. Python 3.14.4 `/usr/bin/python3` (no candidate imports for compile).
+- Collection with same isolation (imports candidate modules for counting only, no test execution): `tests found: 13` rc=0. Names in `/tmp/opencode/p2v-check-20261014T224000Z/collection.txt` (transient; summarized here, not a raw packet): `test_public_api_has_no_caller_token`, `test_error_shape_no_owned`, `test_longform_observe_needs_scope`, `test_weekly_observe_scope_bound_after_capture`, `test_p1_baseline_and_postcapture_refusal`, `test_scope_matrix_ordinary_invalid`, `test_mutable_persistence_positive_current_negative`, `test_keep_drift_refuses_both`, `test_r1_stale_active_refuses`, `test_real_control_change_and_artifact_head`, `test_retained_missing_extra_empty_dir`, `test_alias_special_and_late_inventory`, `test_close_fault_primary_preserved`.
+- No long fixture/test runs, no proof execution, no historical script execution. New script versions persisted before execute (hashes above = executed versions for compile/collection).
+
+## 4. Drafts for root (NOT EXECUTED)
+
+- `run_p2v_v1.py.DRAFT`: enforces static18+inherited15 + preknown 84 cache path/hash/mode/size + FULL 102-row status + HEAD/tree/index rc PRE and finally-POST, direct exclusive O_EXCL stdout/stderr, argv/cwd/interpreter/forced-env only (no secrets/env dump), absent cache prefix + `PYTHONDONTWRITEBYTECODE=1`, timeouts/interrupt propagation + reap-own-process-group, no output overwrite on refusal, no silent logging errors, no rerunner claim. Focused P2V 13 + affected P1/P2R only after approval.
+- `proof_apply18_v1.py.DRAFT`: all-entry dirs/nlink/symlink/walk-error/inode-set separation, effective config/remote, clean409 via `git archive HEAD` (NEW2 absent asserted WITHOUT reading them), disposable-index complete18patch generation (no active `add -N`), saved SHA + all18 static bytes/modes/status after apply in NEW independent copy, no source cleanup.
+- Both drafts implement guards (not print-only); exact commands/method counts follow approval + actual diff.
+
+## 5. Blocker
+
+No real >budget/fixture blocking found: factoring fits 2A1M without duplicating validator or expanding public API; fixture path uses existing accepted-chain recipes + independent committed source. If long-run shows unconstructible authority or scope expansion needed, General will stop with exact blocker (file:line + range + why reuse fails) before any expansion.
+
+Awaiting root readback/selection before any long run. Whole NOT_READY, step4/B3 OPEN, audit unstarted, DM021 OPEN. No commit/push.

@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""P2V proof v2 DRAFT (NOT EXECUTED — for root readback before long run).
+
+Executable draft: NEW independent byte-copy of the actual available Git
+DB/worktree (never archive/fake-root/borrowed-active-DB/temp-index object
+writes), declared 18-overlay revert to clean actual409 in that COPY only
+(3 modified restored from HEAD, 15 new absent; clean observation never reads
+absent NEW files), separate independent disposable DB/index for saved
+complete18patch generation, full all-entry/dirs/nlink/symlink/walk-error/
+inode-set separation, effective config/remote, exact HEAD/tree/index/full
+status/static18 + saved-patch SHA checks. Explicit failures, no bare assert.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import shutil
+import stat as _stat
+import subprocess
+import sys
+from pathlib import Path
+
+SOURCE_CAND = Path("/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60")
+STATIC18 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2v/expected18-draft.json")
+EXPECTED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+EXPECTED_TREE = "8ce3699861505f32d1d60bdc185d4d4f635aedb2"
+OVERLAY_3M = ["schemas/reader-surface-gate-v2.schema.json",
+              "schemas/reader-surface-semantic-review-v2.schema.json",
+              "scripts/survey_reader_surface_gate_v2.py"]
+OVERLAY_15A = ["schemas/editorial-correction-proposal-v2.schema.json",
+               "schemas/editorial-retention-manifest-v2.schema.json",
+               "schemas/longform-publication-source-manifest-v2.schema.json",
+               "schemas/longform-reader-input-v2.schema.json",
+               "scripts/survey_editorial_correction_proposal_v2.py",
+               "scripts/survey_editorial_current_authority_v2.py",
+               "scripts/survey_editorial_retention_v2.py",
+               "scripts/survey_longform_derivation_v2.py",
+               "scripts/survey_longform_generated_v2.py",
+               "scripts/survey_longform_semantic_publication_v2.py",
+               "tests/test_survey_editorial_correction_proposal_v2.py",
+               "tests/test_survey_editorial_current_authority_v2.py",
+               "tests/test_survey_editorial_retention_v2.py",
+               "tests/test_survey_longform_derivation_v2.py",
+               "tests/test_survey_longform_publication_integration_v2.py"]
+
+FORCED_ENV = {"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"}
+
+
+class ProofFailed(RuntimeError):
+    pass
+
+
+def _env() -> dict[str, str]:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update(FORCED_ENV)
+    return env
+
+
+def _git(cwd: Path, env: dict, *args: str) -> str:
+    try:
+        proc = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True,
+                              env=env, timeout=60)
+    except subprocess.TimeoutExpired as exc:
+        raise ProofFailed(f"git {' '.join(args)} timeout") from exc
+    if proc.returncode != 0:
+        raise ProofFailed(f"git {' '.join(args)} rc={proc.returncode}: {proc.stderr.strip()[:400]}")
+    return proc.stdout
+
+
+def _all_entry_git(gitdir: Path) -> dict:
+    files: dict[str, tuple] = {}
+    ndirs = 0
+    nsym = 0
+    errors: list[str] = []
+    for dirpath, dirnames, filenames in os.walk(gitdir, topdown=True, followlinks=False):
+        ndirs += 1
+        for n in list(dirnames) + filenames:
+            p = Path(dirpath) / n
+            try:
+                st = p.lstat()
+            except OSError as exc:
+                errors.append(f"{p}: {exc}")
+                continue
+            if _stat.S_ISLNK(st.st_mode):
+                nsym += 1
+            if _stat.S_ISREG(st.st_mode):
+                files[str(p.relative_to(gitdir))] = (st.st_dev, st.st_ino, _stat.S_IMODE(st.st_mode),
+                                                      st.st_nlink, st.st_size)
+    if errors:
+        raise ProofFailed(f"walk errors: {errors[:3]}")
+    return {"files": files, "ndirs": ndirs, "nsym": nsym}
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        print("usage: proof_apply18_v2.py.DRAFT <new-outdir>", file=sys.stderr)
+        return 2
+    outdir = Path(sys.argv[1])
+    try:
+        outdir.mkdir(parents=True, exist_ok=False)
+    except FileExistsError as exc:
+        raise ProofFailed(f"outdir exists: {outdir}") from exc
+    env = _env()
+    # 1. NEW independent byte-copy of actual available DB/worktree (cp -a, no links).
+    clean = outdir / "clean409-copy"
+    if clean.exists():
+        raise ProofFailed(f"clean copy exists: {clean}")
+    shutil.copytree(SOURCE_CAND, clean, symlinks=True, dirs_exist_ok=False,
+                    ignore=shutil.ignore_patterns("__pycache__"))
+    # All-entry isolation: source vs copy share no dev/ino; no alternates.
+    src_inv = _all_entry_git(SOURCE_CAND / ".git")
+    cpy_inv = _all_entry_git(clean / ".git")
+    if (clean / ".git" / "objects" / "info" / "alternates").exists():
+        raise ProofFailed("alternates present in copy")
+    s_set = {(d, i) for d, i, _, _, _ in src_inv["files"].values()}
+    for rel, (d, i, _, nlink, _) in cpy_inv["files"].items():
+        if (d, i) in s_set:
+            raise ProofFailed(f"shared inode with source: {rel}")
+        if nlink != 1:
+            raise ProofFailed(f"nlink != 1 in copy: {rel} nlink={nlink}")
+    # Effective config/remote observed in COPY (inert, no writes).
+    cfg = _git(clean, env, "config", "--local", "--list")
+    remote = _git(clean, env, "remote", "-v")
+    if "example.invalid" not in remote:
+        raise ProofFailed("copy origin not inert")
+    # 2. Declared 18-overlay revert in COPY ONLY to clean actual409:
+    # 3 modified restored from HEAD, 15 new absent (never read absent NEW).
+    for rel in OVERLAY_3M:
+        out = _git(clean, env, "checkout", "--", rel)
+    for rel in OVERLAY_15A:
+        p = clean / rel
+        # Only unlink declared new overlay paths; caches untouched.
+        try:
+            p.unlink()
+        except FileNotFoundError as exc:
+            raise ProofFailed(f"overlay revert missing new file: {rel}") from exc
+    head = _git(clean, env, "rev-parse", "HEAD").strip()
+    if head != EXPECTED_HEAD:
+        raise ProofFailed(f"clean HEAD {head} != {EXPECTED_HEAD}")
+    status = _git(clean, env, "status", "--porcelain=v1", "-uall")
+    if status.strip() != "":
+        raise ProofFailed(f"clean status must be empty, got {len(status.splitlines())} rows")
+    # Clean observation never reads absent NEW files: assert absence WITHOUT open.
+    for rel in OVERLAY_15A:
+        if (clean / rel).exists() or (clean / rel).is_symlink():
+            raise ProofFailed(f"clean copy still has NEW file: {rel}")
+    # 3. Saved complete18patch via SEPARATE independent disposable DB/index
+    # (never temp index in active DB, never object writes to source).
+    disp = outdir / "disposable-patch-copy"
+    shutil.copytree(SOURCE_CAND, disp, symlinks=True, dirs_exist_ok=False,
+                    ignore=shutil.ignore_patterns("__pycache__"))
+    patch = outdir / "complete-p2v-18path.patch"
+    fd = os.open(patch, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+    os.close(fd)
+    # Disposable index inside disposable copy only.
+    denv = dict(env)
+    denv["GIT_INDEX_FILE"] = str(outdir / "disposable-index")
+    _git(disp, denv, "read-tree", "HEAD")
+    _git(disp, denv, "add", "--", *OVERLAY_3M, *OVERLAY_15A)
+    diff = _git(disp, denv, "diff", "--cached", "--binary")
+    patch.write_text(diff)
+    sha = hashlib.sha256(patch.read_bytes()).hexdigest()
+    (outdir / "patch.sha256").write_text(sha + "\n")
+    # 4. Apply in ANOTHER new independent copy + full checks (static18/status).
+    applied = outdir / "applied18-copy"
+    shutil.copytree(clean, applied, symlinks=True, dirs_exist_ok=False)
+    ap = subprocess.run(["git", "apply", "--check", str(patch)], cwd=applied,
+                        capture_output=True, text=True, env=env, timeout=60)
+    if ap.returncode != 0:
+        raise ProofFailed(f"apply --check rc={ap.returncode}: {ap.stderr[:400]}")
+    ap2 = subprocess.run(["git", "apply", str(patch)], cwd=applied,
+                         capture_output=True, text=True, env=env, timeout=60)
+    if ap2.returncode != 0:
+        raise ProofFailed(f"apply rc={ap2.returncode}: {ap2.stderr[:400]}")
+    static18 = json.loads(STATIC18.read_bytes())
+    for rel, pin in static18.items():
+        data = (applied / rel).read_bytes()
+        if hashlib.sha256(data).hexdigest() != pin["sha256"]:
+            raise ProofFailed(f"applied hash: {rel}")
+    st = _git(applied, env, "status", "--porcelain=v1", "-uall")
+    if len([l for l in st.splitlines() if l]) == 0:
+        raise ProofFailed("applied status empty (patch did not land)")
+    print(f"DRAFT proof v2 ready; patch={patch} sha={sha[:12]}")
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except ProofFailed as exc:
+        print(f"PROOF_REFUSED: {exc}", file=sys.stderr)
+        raise SystemExit(3)

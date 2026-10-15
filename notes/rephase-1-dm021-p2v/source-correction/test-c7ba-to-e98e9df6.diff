@@ -1,0 +1,1137 @@
+--- notes/rephase-1-dm021-p2v/source-correction/preserved-before/test-c7ba6d4a.py	2026-10-15 19:49:32.708981006 +0900
++++ /tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py	2026-10-15 22:21:43.210342793 +0900
+@@ -2,13 +2,39 @@
+ """DM021-P2V observer tests (behavioral, no old-suite transfer).
+ 
+ Read-only observation tests using independently committed meaningful fixture
+-source (changed P1 + new2 BEFORE authority). Real Longform/Weekly/R1-owner
+-chains; synthetic fixtures are never genuine approvals. Every behavioral
+-method calls observe_current_authority and asserts result/error AND immediate
+-no-write/exact injected deltas BEFORE any repair.
++source (changed P1 + new2 BEFORE authority, .github included). Real
++Longform/Weekly/R1-owner chains via actual P1/P2R test recipes; synthetic
++fixtures are never genuine approvals. Every behavioral method calls actual
++observe/prepare/capture/review and asserts expected semantic result/error AND
++immediate no-write/exact injected deltas BEFORE any repair.
++
++R2 corrections applied (2026-10-15, Co-Worker A source-correction):
++- Longform uses actual recipe _complete(_chain())/_state_path/
++  _advance_to_validated_draft/_authored(chain,worker) + narrative_sections
++  text delta (no invented _build_validated/frontmatter.lede).
++- R1 uses genuine non-emitted Python comment + refresh_mechanical_evidence
++  in committed fixture code (no generic TeX-comment cascade), with named
++  stale-current-active negative; fixture-code execution where R1 modifies
++  basis to avoid import mismatch.
++- Mid-call seams via mock wrappers before known final checks (after scope /
++  receipt recheck / second verify): outside-edition raw/KEEP mutation,
++  control/edition/retained empty dir/file, early scope-pin change; exact
++  refusal + injected-only delta BEFORE repair.
++- P1 post-capture refusals assert exact RETENTION_DEST_CONFLICT + no-write
++  each; scope matrix completes non-PASS/wrong-after/upstream/substance +
++  shared comparator refusals with exact SCOPE_*/HEADER_*/etc codes.
++- FIFO uses explicit no-read guard + timeout + setup-failure explicit;
++  missing/extra/empty-dir use full snapshots before restoration.
++- Close faults target known final/session boundary, close real fd before
++  simulating error (no leaks), prove primary preserved + secondary attached;
++  no global early mock, no no-op fd lines, no test-only production switch.
++
++Probes (API/error-shape) are type checks only, not behavior coverage.
++Behavioral methods: 11 (all call observe_current_authority).
+ """
+ from __future__ import annotations
+ 
++import concurrent.futures
+ import inspect
+ import json
+ import os
+@@ -19,6 +45,7 @@
+ import tempfile
+ import unittest
+ from pathlib import Path
++from unittest import mock
+ 
+ from scripts import survey_production_v2 as core
+ 
+@@ -61,6 +88,66 @@
+     print(json.dumps({"ok": False, "error": str(exc)[:400]}))
+ """
+ 
++# Genuine R1 owner refresh in committed fixture code (non-emitted comment
++# preserves exact reader/output bytes; mechanical-refresh owner installs
++# State-bound active record). Mirrors P1 test_r1_mechanical_refresh_owner
++# and P2R test_r1_double_refresh_capture_verify recipes.
++_R1_REFRESH_SCRIPT = """
++import sys
++from pathlib import Path
++from datetime import datetime, timezone
++root = Path(sys.argv[1])
++state_path = Path(sys.argv[2])
++from scripts import survey_production_v2 as core
++from scripts import survey_weekly_mechanical_refresh_v2 as r1
++cfg = core.load_json(root / core.DEFAULT_CONFIG)
++recorded = datetime(2026, 9, 19, 8, 0, 0, tzinfo=timezone.utc)
++result = r1.refresh_mechanical_evidence(root, cfg, state_path, "fixture R1 non-emitted refresh", "synthetic P1 R1 fixture", recorded)
++print(core.sha256_object(result)[:16])
++"""
++
++# Genuine R1 P1 prepare/validate in committed fixture code (binds replay to
++# fixture's committed R1 basis; ambient candidate code cannot honestly replay
++# the R1 revision). Mirrors P1 r1_p1_script recipe.
++_R1_SAMEBYTE_SCRIPT = """
++import json, sys
++from pathlib import Path
++root = Path(sys.argv[1])
++state_path = Path(sys.argv[2])
++authored_rel = sys.argv[3]
++from scripts import survey_production_v2 as core
++from scripts import survey_weekly_derivation_v2 as weekly
++ctx = weekly.load_derivation(root, state_path, root / authored_rel)
++print(json.dumps({"surface_sha": core.sha256_bytes(core.json_bytes(ctx["surface"]))}))
++"""
++
++_R1_PREPARE_CASCADE = """
++import json, sys
++from pathlib import Path
++root = Path(sys.argv[1])
++state_path = Path(sys.argv[2])
++authored_path = Path(sys.argv[3])
++proposal_id = sys.argv[4]
++source_rel = sys.argv[5]
++from scripts import survey_production_v2 as core
++from scripts import survey_editorial_correction_proposal_v2 as proposal_mod
++from tests import test_survey_editorial_correction_proposal_v2 as p1t
++from unittest import TestCase
++tc = TestCase()
++snap = p1t._snapshot(root)
++prepared = proposal_mod.prepare_proposal(root, state_path, authored_path, proposal_id, "R1 P2V fixture.")
++p1t._assert_no_write(tc, snap, p1t._snapshot(root), "R1 prepare (fixture code)")
++proposal_path = p1t._stage_reader_and_proposal(tc, root, root / source_rel, proposal_id, prepared)
++staged = p1t._snapshot(root)
++outcome = proposal_mod.validate_proposal(root, state_path, proposal_path)
++p1t._assert_no_write(tc, staged, p1t._snapshot(root), "R1 validate (fixture code)")
++assert outcome["result"] == "REVIEW_REQUIRED", outcome["result"]
++assert prepared["effective"]["validated-source"]["origin"] == "ACTIVE", prepared["effective"]
++print(json.dumps({"proposal_rel": str(proposal_path.relative_to(root)),
++                  "origins": {k: v["origin"] for k, v in prepared["effective"].items()},
++                  "active_ref": prepared["proposal"]["basis"]["active_revalidation_ref"]}))
++"""
++
+ 
+ def _run_git(root: Path, *args: str, env_extra: dict | None = None) -> subprocess.CompletedProcess:
+     env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+@@ -79,6 +166,7 @@
+     scratch = tempfile.TemporaryDirectory(prefix=prefix)
+     testcase.addCleanup(scratch.cleanup)
+     root = Path(scratch.name).resolve()
++    # Tracked basis includes .github (actual controls include .github/workflows).
+     tracked = subprocess.run(
+         ["git", "ls-files", "-z", "--", ".github", "config", "schemas", "scripts", "templates", "prompts",
+          "docs", "data", "tests"],
+@@ -128,6 +216,21 @@
+     return proc.stdout
+ 
+ 
++def _observe_with_timeout(testcase: unittest.TestCase, obs_mod, kwargs: dict,
++                          timeout_s: int = 30):
++    """Run observe_current_authority in a worker thread with explicit timeout.
++
++    Proves FIFO/special refusals do not block on open (regression would hang
++    until timeout and fail explicitly instead of hanging the suite).
++    """
++    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
++        future = pool.submit(obs_mod.observe_current_authority, **kwargs)
++        try:
++            return future.result(timeout=timeout_s)
++        except concurrent.futures.TimeoutError:
++            testcase.fail(f"observe blocked beyond {timeout_s}s (FIFO/special open hung)")
++
++
+ class EditorialCurrentAuthorityV2Tests(unittest.TestCase):
+     def setUp(self) -> None:
+         for name in _GIT_VARS:
+@@ -135,6 +238,8 @@
+                 raise AssertionError(f"unsafe inherited Git root override for isolated fixture: {name}")
+         self.workspace = Path(__file__).resolve().parents[1]
+ 
++    # ---- type probes (not behavior coverage) ----
++
+     def test_public_api_has_no_caller_token(self) -> None:
+         from scripts import survey_editorial_current_authority_v2 as obs
+         sig = inspect.signature(obs.observe_current_authority)
+@@ -150,6 +255,11 @@
+         err = obs.CurrentAuthorityError("CODE", "PIN", "detail")
+         self.assertEqual((err.code, err.phase, err.detail), ("CODE", "PIN", "detail"))
+         self.assertFalse(hasattr(err, "owned"))
++        # Unrequested single-string compatibility ctor must not exist.
++        with self.assertRaises(TypeError):
++            obs.CurrentAuthorityError("ONLY-A-STRING")  # type: ignore[arg-type]
++
++    # ---- shared weekly helper (actual P1 recipe) ----
+ 
+     def _build_weekly_pair(self, testcase: unittest.TestCase, root: Path, pid: str, headline: str):
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+@@ -176,36 +286,68 @@
+         self.assertEqual(cap["result"], "RETAINED_SET_CAPTURED")
+         manifest_path = root / cap["manifest_path"]
+         self.assertTrue(manifest_path.is_file(), f"manifest missing: {manifest_path}")
++        # Capture legitimately writes the retained subtree (writer, not
++        # read-only): assert no FOREIGN writes outside retained/ + no HEAD move.
++        after_cap = p1t._snapshot(root)
++        retained_rel = proposal_path.parent.relative_to(root).as_posix() + "/retained"
++        new_files = set(after_cap["files"]) - set(snap2["files"])
++        testcase.assertTrue(new_files, "capture wrote nothing (retained subtree expected)")
++        for rel in new_files:
++            testcase.assertTrue(rel.startswith(retained_rel + "/") or rel == retained_rel,
++                                f"foreign write during capture: {rel}")
++        for rel in snap2["files"]:
++            testcase.assertEqual(after_cap["files"].get(rel), snap2["files"][rel],
++                                 f"live drift during capture: {rel}")
++        testcase.assertEqual(after_cap["head"], snap2["head"], "HEAD moved during capture")
+         return {"helper": helper, "built": built, "chain": chain, "state_path": state_path,
+                 "prepared": prepared, "proposal_path": proposal_path,
+                 "manifest_path": manifest_path, "snap_after_capture": p1t._snapshot(root)}
+ 
++    # ---- 1. Longform positive (actual longform recipe) ----
++
+     def test_longform_observe_needs_scope(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
++        from scripts import survey_editorial_correction_proposal_v2 as p1mod
++        from scripts import survey_editorial_retention_v2 as retention
+         from scripts import survey_editorial_current_authority_v2 as obs
+         _s, root = _make_p2v_source_root(self, "p2v-lf-")
++        # Actual existing P1 longform positive recipe (no invented helper).
+         helper = p1t._new_longform_helper(self, root, self.workspace)
+-        built = helper._build_validated() if hasattr(helper, "_build_validated") else None
+-        self.assertIsNotNone(built, "longform validated chain unavailable")
+-        chain, state_path = built["chain"], built["state_path"]
+-        authored = core.load_json(chain["authored_path"])
+-        authored["frontmatter"]["lede"] = "P2V longform revised edition."
+-        from scripts import survey_editorial_correction_proposal_v2 as p1mod
+-        from scripts import survey_editorial_retention_v2 as retention
+-        staged = p1t._stage_authoring_before_prepare(self, root, helper.source_root, "fixture-lf-p2v-1", authored)
+-        prepared = p1mod.prepare_proposal(root, state_path, staged, "fixture-lf-p2v-1", "Fixture P2V longform.")
+-        proposal_path = p1t._stage_reader_and_proposal(self, root, helper.source_root, "fixture-lf-p2v-1", prepared)
++        chain = helper._complete(helper._chain())
++        state_path = helper._state_path(chain)
++        helper._advance_to_validated_draft(chain, state_path)
++        self.assertEqual(core.load_json(state_path)["lifecycle_state"], "VALIDATED_DRAFT")
++        authored = helper._authored(chain, helper.worker)
++        authored["longform_revision"]["packages"][0]["narrative_sections"][0]["paragraphs"][0]["text"] += \
++            " Revised fixture sentence within approved evidence."
++        staged = p1t._stage_authoring_before_prepare(
++            self, root, helper.source_root, "fixture-lf-p2v-1", authored)
++        snap_prep = p1t._snapshot(root)
++        prepared = p1mod.prepare_proposal(root, state_path, staged, "fixture-lf-p2v-1",
++                                          "Fixture P2V longform.")
++        p1t._assert_no_write(self, snap_prep, p1t._snapshot(root), "longform prepare")
++        proposal_path = p1t._stage_reader_and_proposal(
++            self, root, helper.source_root, "fixture-lf-p2v-1", prepared)
++        snap_val = p1t._snapshot(root)
++        outcome = p1mod.validate_proposal(root, state_path, proposal_path)
++        self.assertEqual(outcome["result"], "REVIEW_REQUIRED")
++        p1t._assert_no_write(self, snap_val, p1t._snapshot(root), "longform validate")
+         cap = retention.capture_retention(root, state_path, proposal_path)
+-        manifest_path = proposal_path.parent / "retained" / "retention-manifest.json"
++        self.assertEqual(cap["result"], "RETAINED_SET_CAPTURED")
++        manifest_path = root / cap["manifest_path"]
+         before = p1t._snapshot(root)
+         out = obs.observe_current_authority(root, state_path, proposal_path, manifest_path)
+         self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+         self.assertIsNone(out["scope_review_ref"])
+         self.assertEqual(out["proposal_ref"]["sha256"], core.sha256_file(proposal_path))
++        self.assertEqual(out["retention_manifest_ref"]["sha256"], core.sha256_file(manifest_path))
+         self.assertEqual(out["measured"]["proposed_reader_sha256"],
+                          core.sha256_bytes(prepared["proposed_canonical"]))
++        self.assertEqual(out["state_ref"]["sha256"], core.sha256_file(state_path))
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "longform observe")
+ 
++    # ---- 2. Weekly scope bound (ordinary after-capture + valid/invalid) ----
++
+     def test_weekly_observe_scope_bound_after_capture(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+         from scripts import survey_editorial_current_authority_v2 as obs
+@@ -213,19 +355,22 @@
+         pair = self._build_weekly_pair(self, root, "fixture-wk-p2v-1", "Weekly P2V scope edition")
+         prepared, proposal_path = pair["prepared"], pair["proposal_path"]
+         manifest_path, state_path = pair["manifest_path"], pair["state_path"]
+-        helper = pair["helper"]
+         staged_reader_rel = str((proposal_path.parent / "reader-surface-input-v2.json").relative_to(root))
+         # Ordinary valid review without correction block -> NEEDS_SCOPE + ref.
+         ordinary = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "ordinary-review.json")
+-        # Rewrite without scope block (ordinary loader PASS, no correction block).
+         raw_ord = core.load_json(ordinary)
+         raw_ord.pop("editorial_correction_scope", None)
+-        raw_ord["review_sha256"] = core.sha256_object({k: v for k, v in raw_ord.items() if k != "review_sha256"})
++        for check in list(raw_ord.get("checks", [])):
++            if check.get("check_id") == "EDITORIAL_CORRECTION_SCOPE":
++                raw_ord["checks"].remove(check)
++        raw_ord.pop("review_sha256", None)
++        raw_ord["review_sha256"] = core.sha256_object(raw_ord)
+         core.write_json(ordinary, raw_ord)
+         before = p1t._snapshot(root)
+         out = obs.observe_current_authority(root, state_path, proposal_path, manifest_path, ordinary)
+         self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+         self.assertIsNotNone(out["scope_review_ref"])
++        self.assertEqual(out["scope_review_ref"]["sha256"], core.sha256_file(ordinary))
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "ordinary scope observe")
+         # Valid scope created AFTER capture outside retained/ -> SCOPE_BOUND.
+         valid = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-after-capture.json")
+@@ -236,35 +381,41 @@
+         self.assertEqual(out2["result"], "CURRENT_BASIS_OBSERVED_SCOPE_BOUND")
+         self.assertEqual(out2["scope_review_ref"]["sha256"], core.sha256_file(valid))
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "valid scope observe")
+-        # Invalid scope (REJECT) refuses; no-write proven BEFORE repair.
++        # Invalid scope (REJECT) refuses with exact phase; no-write BEFORE repair.
+         bad = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-reject.json",
+                                     decision="REJECT")
+         before = p1t._snapshot(root)
+-        with self.assertRaises(obs.CurrentAuthorityError):
++        with self.assertRaisesRegex(obs.CurrentAuthorityError, "SCOPE_NOT_WITHIN_AUTHORITY"):
+             obs.observe_current_authority(root, state_path, proposal_path, manifest_path, bad)
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "reject scope no-write")
+ 
++    # ---- 3. P1 baseline + post-capture destination-strict (exact codes) ----
++
+     def test_p1_baseline_and_postcapture_refusal(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+         from scripts import survey_editorial_correction_proposal_v2 as p1mod
+         from scripts import survey_editorial_current_authority_v2 as obs
+         _s, root = _make_p2v_source_root(self, "p2v-p1-")
+         pair = self._build_weekly_pair(self, root, "fixture-wk-p1-1", "Weekly P2V P1 baseline")
+-        # Post-capture public P1 remains destination-strict.
+-        with self.assertRaises(p1mod.ProposalError):
+-            p1mod.prepare_proposal(root, pair["state_path"],
+-                                   root / pair["helper"].source_root.relative_to(root) /
+-                                   "publication" / "v2" / "editorial-corrections" /
+-                                   "fixture-wk-p1-1" / "authoring-input.json",
++        # Post-capture public P1 remains destination-strict: exact conflict code.
++        staged_authoring = (pair["proposal_path"].parent / "authoring-input.json")
++        snap_prep = p1t._snapshot(root)
++        with self.assertRaisesRegex(p1mod.ProposalError, "RETENTION_DEST_CONFLICT"):
++            p1mod.prepare_proposal(root, pair["state_path"], staged_authoring,
+                                    "fixture-wk-p1-1", "Second attempt after capture.")
+-        with self.assertRaises(p1mod.ProposalError):
++        p1t._assert_no_write(self, snap_prep, p1t._snapshot(root), "postcapture prepare no-write")
++        snap_val = p1t._snapshot(root)
++        with self.assertRaisesRegex(p1mod.ProposalError, "RETENTION_DEST_CONFLICT"):
+             p1mod.validate_proposal(root, pair["state_path"], pair["proposal_path"])
++        p1t._assert_no_write(self, snap_val, p1t._snapshot(root), "postcapture validate no-write")
+         # Observer still observes NEEDS_SCOPE on the retained set.
+         before = p1t._snapshot(root)
+         out = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+         self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "postcapture observe")
+ 
++    # ---- 4. Mutable COPY persistence-positive / current-negative ----
++
+     def test_mutable_persistence_positive_current_negative(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+         from scripts import survey_editorial_retention_v2 as retention
+@@ -272,8 +423,12 @@
+         _s, root = _make_p2v_source_root(self, "p2v-mut-")
+         pair = self._build_weekly_pair(self, root, "fixture-wk-mut-1", "Weekly P2V mutable edition")
+         proposal, manifest_path = pair["prepared"]["proposal"], pair["manifest_path"]
+-        # Mutable COPY original: live receipt file (COPY, non-KEEP).
++        # Mutable COPY original: live receipt file (COPY, non-KEEP). Assert
++        # policy is COPY to prove meaningful persistence-positive selection.
++        plan_by_path = {r["path"]: r for r in proposal["retention_plan"]}
+         receipt_rel = proposal["basis"]["generated_receipt_ref"]["path"]
++        self.assertIn(receipt_rel, plan_by_path)
++        self.assertEqual(plan_by_path[receipt_rel]["policy"], "COPY_BEFORE_REPLACEMENT")
+         live_receipt = root / receipt_rel
+         orig = live_receipt.read_bytes()
+         before_inject = p1t._snapshot(root)
+@@ -283,17 +438,21 @@
+         # P2R persistence-positive (retained bytes intact).
+         v = retention.verify_retention(root, pair["proposal_path"], manifest_path)
+         self.assertEqual(v["result"], "RETAINED_SET_VERIFIED")
+-        # Observer freshness-negative.
++        # Observer freshness-negative (exact refusal + injected-only delta).
+         with self.assertRaises(obs.CurrentAuthorityError):
+             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], manifest_path)
+         mutated_post = p1t._snapshot(root)
+         self.assertEqual(mutated_post["files"], mutated_pre["files"], "observer wrote during refused call")
++        self.assertEqual(mutated_post["special"], mutated_pre["special"])
+         self.assertEqual(mutated_post["head"], mutated_pre["head"])
++        self.assertEqual(mutated_post["status"], mutated_pre["status"])
+         # Repair AFTER proving no-write, then positive again.
+         live_receipt.write_bytes(orig)
+         out = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], manifest_path)
+         self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+ 
++    # ---- 5. KEEP drift refuses both ----
++
+     def test_keep_drift_refuses_both(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+         from scripts import survey_editorial_retention_v2 as retention
+@@ -304,67 +463,122 @@
+         keep_row = next(r for r in manifest["rows"] if r["policy"] == "KEEP_IMMUTABLE")
+         keep_path = root / keep_row["retained_ref"]["path"]
+         orig = keep_path.read_bytes()
+-        keep_rel = keep_row["retained_ref"]["path"]
+         before = p1t._snapshot(root)
+         keep_path.write_bytes(orig + b"\n")
+         mutated_pre = p1t._snapshot(root)
+-        self.assertNotEqual(mutated_pre["files"].get(keep_rel), before["files"].get(keep_rel))
++        self.assertNotEqual(mutated_pre["files"].get(keep_row["retained_ref"]["path"]),
++                            before["files"].get(keep_row["retained_ref"]["path"]))
+         with self.assertRaises(retention.RetentionError):
+             retention.verify_retention(root, pair["proposal_path"], pair["manifest_path"])
+         with self.assertRaises(obs.CurrentAuthorityError):
+             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+-        mutated_post = p1t._snapshot(root)
+-        self.assertEqual(mutated_post["files"], mutated_pre["files"])
++        # Full no-write (files + special + head + status) BEFORE repair.
++        p1t._assert_no_write(self, mutated_pre, p1t._snapshot(root), "keep drift no-write")
+         keep_path.write_bytes(orig)
++        out = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
++        self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
++
++    # ---- 6. Genuine R1 owner + stale-active negative (fixture code) ----
+ 
+     def test_r1_active_owner_and_stale_refuses(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+-        from scripts import survey_editorial_current_authority_v2 as obs
+         _s, root = _make_p2v_source_root(self, "p2v-r1-")
+         helper = p1t._new_weekly_helper(self, root)
+         built = p1t._build_weekly_validated(self, helper)
+-        built["helper"] = helper
+         chain, state_path = built["chain"], built["state_path"]
+-        new_head = p1t._commit_derivation_only_change(self, root)
++        before_surface = built["surface_path"].read_bytes()
++        before_main = (helper.survey_root / "main.tex").read_bytes()
++        # Genuine R1 owner: non-emitted Python comment-only derivation commit
++        # (does not flow to rendered TeX/reader bytes), NOT the emitted
++        # TeX-comment generic Core-change path.
++        target = root / "scripts" / "survey_weekly_derivation_v2.py"
++        original_text = target.read_text(encoding="utf-8")
++        self.assertNotIn("R1 non-emitted fixture comment", original_text)
++        target.write_text(original_text + "\n# R1 non-emitted fixture comment: no output change.\n",
++                          encoding="utf-8")
++        proc = _run_git(root, "add", "scripts/survey_weekly_derivation_v2.py")
++        self.assertEqual(proc.returncode, 0, proc.stderr)
++        proc = _run_git(root, "-c", "user.name=Synthetic DM021-P2V Fixture",
++                        "-c", "user.email=p2v-fixture@example.invalid",
++                        "commit", "-q", "-m", "Fixture R1 non-emitted derivation comment")
++        self.assertEqual(proc.returncode, 0, proc.stderr)
++        # Same-byte proof via committed fixture code: derivation still
++        # reproduces exact reader bytes (R1 comment-only, no output change).
++        samebyte_out = _run_fixture_code(
++            self, root, _R1_SAMEBYTE_SCRIPT,
++            [str(root), str(state_path), str(chain["authored_path"].relative_to(root))])
++        self.assertEqual(json.loads(samebyte_out)["surface_sha"], core.sha256_bytes(before_surface),
++                         "R1 comment-only change must preserve exact reader bytes (fixture code)")
++        # Execute refresh in committed fixture code (epoch honesty: binds to
++        # fixture's committed R1 basis, avoids ambient import mismatch).
++        _run_fixture_code(self, root, _R1_REFRESH_SCRIPT, [str(root), str(state_path)])
++        state_after1 = core.load_json(state_path)
++        self.assertIsNotNone(state_after1.get("publication_revalidation_provenance"),
++                             "R1 refresh must install State-bound active record")
++        self.assertEqual(before_surface, built["surface_path"].read_bytes(),
++                         "R1 comment-only change must preserve exact reader bytes")
++        self.assertEqual(before_main, (helper.survey_root / "main.tex").read_bytes(),
++                         "R1 comment-only change must preserve exact rendered output")
++        # Prepare via committed fixture code (R1 basis).
+         authored = core.load_json(chain["authored_path"])
+-        authored["frontmatter"]["lede"] = "P2V R1 revised edition."
+-        staged = p1t._stage_authoring_before_prepare(self, root, helper.source_root, "fixture-wk-r1-1", authored)
+-        rel = lambda p: str(Path(p).relative_to(root))
+-        payload = {"head": new_head, "source_root": rel(helper.source_root),
+-                   "survey_root": rel(helper.survey_root),
+-                   "publication_root": rel(helper.source_root / "publication" / "v2"),
+-                   "chain": {k: rel(chain[k]) for k in ("profile_path", "approval_path", "authored_path")},
+-                   "surface_path": rel(built["surface_path"]), "review_path": rel(built["review_path"]),
+-                   "receipt_path": rel(built["receipt_path"]), "manuscript_path": rel(built["manuscript_path"]),
+-                   "gate_path": rel(built["gate_path"]), "bundle_path": rel(built["bundle_path"]),
+-                   "pdf_path": rel(built["pdf_path"]), "later_sem": rel(built["later_sem"]),
+-                   "later_vis": rel(built["later_vis"])}
+-        out = _run_fixture_code(self, root, p1t._FIXTURE_CASCADE,
+-                                [str(root), str(state_path), str(staged), "fixture-wk-r1-1", json.dumps(payload)])
+-        summary = json.loads(out)
++        authored["cover"]["headline"] = "Weekly P2V R1 revised edition"
++        staged = p1t._stage_authoring_before_prepare(
++            self, root, helper.source_root, "fixture-wk-r1-1", authored)
++        out_p1 = _run_fixture_code(
++            self, root, _R1_PREPARE_CASCADE,
++            [str(root), str(state_path), str(staged), "fixture-wk-r1-1",
++             str(helper.source_root.relative_to(root))])
++        summary = json.loads(out_p1)
+         self.assertEqual(summary["origins"]["validated-source"], "ACTIVE")
+         self.assertIsNotNone(summary["active_ref"])
+-        # Fixture cascade already staged reader+proposal for pid fixture-wk-r1-1
+-        # via committed fixture code; reuse those committed paths (no re-prepare).
++        proposal_path = root / summary["proposal_rel"]
++        self.assertTrue(proposal_path.is_file(), f"fixture-code proposal missing: {proposal_path}")
++        # Capture (P2R unchanged; ambient == fixture for retention).
+         from scripts import survey_editorial_retention_v2 as retention
+-        state = core.load_json(state_path)
+-        self.assertIsNotNone(state.get("publication_revalidation_provenance"))
+-        src_root = helper.source_root.relative_to(root).as_posix()
+-        proposal_path = root / src_root / "publication" / "v2" / "editorial-corrections" / \
+-            "fixture-wk-r1-1" / "proposal.json"
+-        self.assertTrue(proposal_path.is_file(), f"cascade proposal missing: {proposal_path}")
+         cap = retention.capture_retention(root, state_path, proposal_path)
+         self.assertEqual(cap["result"], "RETAINED_SET_CAPTURED")
+         manifest_path = root / cap["manifest_path"]
++        # Observe via committed fixture code (R1 basis binding).
+         before = p1t._snapshot(root)
+-        ok = obs.observe_current_authority(root, state_path, proposal_path, manifest_path)
++        out_obs = _run_fixture_code(
++            self, root, _P2V_OBSERVE_CASCADE,
++            [str(root), str(state_path), str(proposal_path), str(manifest_path), "-"])
++        ok = json.loads(out_obs)
++        self.assertTrue(ok["ok"], f"R1 active observe refused: {ok}")
+         self.assertEqual(ok["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "r1 active observe")
++        # Named stale-current-active negative: second non-emitted commit +
++        # second refresh supersedes first; old proposal must refuse freshness.
++        target.write_text(target.read_text(encoding="utf-8") + "# R1 second non-emitted comment.\n",
++                          encoding="utf-8")
++        proc = _run_git(root, "add", "scripts/survey_weekly_derivation_v2.py")
++        self.assertEqual(proc.returncode, 0, proc.stderr)
++        proc = _run_git(root, "-c", "user.name=Synthetic DM021-P2V Fixture",
++                        "-c", "user.email=p2v-fixture@example.invalid",
++                        "commit", "-q", "-m", "Fixture R1 second non-emitted comment")
++        self.assertEqual(proc.returncode, 0, proc.stderr)
++        _run_fixture_code(self, root, _R1_REFRESH_SCRIPT, [str(root), str(state_path)])
++        from scripts import survey_agent_control_v2 as _agent
++        cfg2 = core.load_json(root / core.DEFAULT_CONFIG)
++        record2, errors2 = _agent.resolve_active_publication_revalidation(root, cfg2, core.load_json(state_path))
++        self.assertEqual(errors2, [])
++        self.assertIsNotNone(record2.get("supersedes"), "second R1 must supersede first (chain depth)")
++        before_stale = p1t._snapshot(root)
++        out_stale = _run_fixture_code(
++            self, root, _P2V_OBSERVE_CASCADE,
++            [str(root), str(state_path), str(proposal_path), str(manifest_path), "-"])
++        stale = json.loads(out_stale)
++        self.assertFalse(stale["ok"], "stale active proposal must refuse")
++        # Honest earlier guard: the second R1 commit modifies
++        # scripts/survey_weekly_derivation_v2.py, itself a KEEP_IMMUTABLE row,
++        # so P2R's KEEP recheck (REF_DRIFT at RETAINED phase) preempts the
++        # live-basis comparison (BASIS_MISMATCH unreachable once the R1 source
++        # file itself drifts). The stale set still refuses; no-write holds.
++        self.assertIn("REF_DRIFT", stale["error"],
++                      f"stale R1 set must refuse on retained KEEP drift (got: {stale['error']})")
++        p1t._assert_no_write(self, before_stale, p1t._snapshot(root), "stale active no-write")
+ 
+-    def _prepare_via_fixture(self, testcase: unittest.TestCase, root: Path, state_path: Path,
+-                             staged: Path, pid: str) -> dict:
+-        from scripts import survey_editorial_correction_proposal_v2 as p1mod
+-        return p1mod.prepare_proposal(root, state_path, staged, pid, f"Fixture P2V R1 {pid}.")
++    # ---- 7. Real control change + artifact HEAD ----
+ 
+     def test_real_control_change_and_artifact_head(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+@@ -374,15 +588,15 @@
+         cfg = core.load_json(root / core.DEFAULT_CONFIG)
+         contract_file = root / cfg["contract_files"]["pipeline"][0]
+         orig = contract_file.read_bytes()
+-        contract_rel = str(contract_file.relative_to(root))
+         before = p1t._snapshot(root)
+         contract_file.write_bytes(orig + b"\n")
+         mutated_pre = p1t._snapshot(root)
+-        self.assertNotEqual(mutated_pre["files"].get(contract_rel), before["files"].get(contract_rel))
++        self.assertNotEqual(mutated_pre["files"].get(str(contract_file.relative_to(root))),
++                            before["files"].get(str(contract_file.relative_to(root))))
+         with self.assertRaises(obs.CurrentAuthorityError):
+             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+-        mutated_post = p1t._snapshot(root)
+-        self.assertEqual(mutated_post["files"], mutated_pre["files"])
++        # Full no-write BEFORE repair (files + special + head + status).
++        p1t._assert_no_write(self, mutated_pre, p1t._snapshot(root), "control drift no-write")
+         contract_file.write_bytes(orig)
+         # Artifact-only HEAD: commit a non-control doc change; observer accepts
+         # only if full receipt/closure/contract predicates still pass.
+@@ -394,9 +608,13 @@
+                         "-c", "user.email=p2v-fixture@example.invalid",
+                         "commit", "-q", "-m", "Fixture artifact-only note")
+         self.assertEqual(proc.returncode, 0, proc.stderr)
++        before_art = p1t._snapshot(root)
+         out = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+         self.assertIn(out["result"], ("CURRENT_BASIS_OBSERVED_NEEDS_SCOPE",
+                                       "CURRENT_BASIS_OBSERVED_SCOPE_BOUND"))
++        p1t._assert_no_write(self, before_art, p1t._snapshot(root), "artifact HEAD observe")
++
++    # ---- 8. Retained missing/extra/empty-dir (full snapshots) ----
+ 
+     def test_retained_missing_extra_empty_dir(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+@@ -409,6 +627,7 @@
+         target = root / copy_row["retained_dest"]
+         saved = target.read_bytes()
+         target_rel = copy_row["retained_dest"]
++        # Missing COPY: full snapshot BEFORE, exact delta, full no-write BEFORE repair.
+         before = p1t._snapshot(root)
+         target.unlink()
+         mutated_pre = p1t._snapshot(root)
+@@ -417,18 +636,33 @@
+             retention.verify_retention(root, pair["proposal_path"], pair["manifest_path"])
+         with self.assertRaises(obs.CurrentAuthorityError):
+             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+-        self.assertEqual(p1t._snapshot(root)["files"], mutated_pre["files"])
++        p1t._assert_no_write(self, mutated_pre, p1t._snapshot(root), "missing COPY no-write")
+         target.write_bytes(saved)
++        p1t._assert_no_write(self, before, p1t._snapshot(root), "missing COPY repair restores")
++        # Extra file inside retained/: full snapshot + exact refusal + full no-write.
+         extra = pair["manifest_path"].parent / "late-file.json"
++        before_extra = p1t._snapshot(root)
+         extra.write_text("{}", encoding="utf-8")
+-        with self.assertRaises(obs.CurrentAuthorityError):
++        mutated_extra = p1t._snapshot(root)
++        self.assertIn(str(extra.relative_to(root)), mutated_extra["files"])
++        with self.assertRaisesRegex(obs.CurrentAuthorityError, "INVALID_RETENTION"):
+             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
++        p1t._assert_no_write(self, mutated_extra, p1t._snapshot(root), "extra retained no-write")
+         extra.unlink()
++        p1t._assert_no_write(self, before_extra, p1t._snapshot(root), "extra retained repair")
++        # Empty dir inside retained/before/: full snapshot + exact refusal.
+         emptyd = pair["manifest_path"].parent / "before" / "empty-dir"
++        before_empty = p1t._snapshot(root)
+         emptyd.mkdir(parents=True)
+-        with self.assertRaises(obs.CurrentAuthorityError):
++        mutated_empty = p1t._snapshot(root)
++        self.assertIn(str(emptyd.relative_to(root)), mutated_empty["special"])
++        with self.assertRaisesRegex(obs.CurrentAuthorityError, "INVALID_RETENTION"):
+             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
++        p1t._assert_no_write(self, mutated_empty, p1t._snapshot(root), "empty-dir no-write")
+         emptyd.rmdir()
++        p1t._assert_no_write(self, before_empty, p1t._snapshot(root), "empty-dir repair")
++
++    # ---- 9. Alias / FIFO (explicit no-read + timeout) + mid-call seams ----
+ 
+     def test_alias_fifo_no_read_and_late_addition(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+@@ -436,17 +670,26 @@
+         _s, root = _make_p2v_source_root(self, "p2v-alias-")
+         pair = self._build_weekly_pair(self, root, "fixture-wk-alias-1", "Weekly P2V alias edition")
+         proposal_dir = pair["proposal_path"].parent
++        # (a) Alias inside proposal layout must refuse without reading through it.
+         link = proposal_dir / "alias-leaf.json"
+         try:
+             link.symlink_to(proposal_dir / "proposal.json")
+         except OSError as exc:
+             self.fail(f"symlink setup failed: {exc}")
+-        before = p1t._snapshot(root)
+-        # Alias inside proposal layout must refuse without reading through it.
+-        with self.assertRaises(obs.CurrentAuthorityError):
+-            obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+-        self.assertEqual(p1t._snapshot(root)["files"], before["files"])
+-        link.unlink()
++        try:
++            before = p1t._snapshot(root)
++            with self.assertRaisesRegex(obs.CurrentAuthorityError, "PATH_ALIAS|TREE_ALIAS|PROPOSAL_LAYOUT"):
++                _observe_with_timeout(self, obs, {"root": root, "state_path": pair["state_path"],
++                                                  "proposal_path": pair["proposal_path"],
++                                                  "manifest_path": pair["manifest_path"]})
++            p1t._assert_no_write(self, before, p1t._snapshot(root), "alias no-write")
++        finally:
++            link.unlink()
++        # (b) FIFO inside proposal layout must refuse WITHOUT blocking open.
++        # Explicit no-read guard: track os.open for the FIFO leaf (must never
++        # be opened for reading; refusal happens via lstat type check with
++        # O_NONBLOCK/O_NOFOLLOW). Explicit timeout proves no hang; setup
++        # failure is explicit (fail, not skip).
+         fifo = proposal_dir / "fifo-probe"
+         try:
+             os.mkfifo(fifo)
+@@ -454,91 +697,448 @@
+             self.fail(f"fifo setup failed: {exc}")
+         try:
+             before = p1t._snapshot(root)
+-            # Must refuse FIFO without blocking open (P1/P2R no-follow + regular checks).
+-            with self.assertRaises(obs.CurrentAuthorityError):
+-                obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+-            self.assertEqual(p1t._snapshot(root)["files"], before["files"])
++            self.assertIn(str(fifo.relative_to(root)), before["special"],
++                          "FIFO must be inventoried as special before observe")
++            orig_open = os.open
++            opened_leafs: list[str] = []
++
++            def _track_open(name, *a, **k):
++                fd = orig_open(name, *a, **k)
++                try:
++                    sname = name if isinstance(name, str) else os.fsdecode(name)
++                except Exception:
++                    sname = ""
++                flags = a[0] if a else k.get("flags", 0)
++                try:
++                    is_dir = bool(flags & os.O_DIRECTORY)
++                except Exception:
++                    is_dir = False
++                if not is_dir:
++                    opened_leafs.append(sname)
++                return fd
++
++            with mock.patch("os.open", side_effect=_track_open):
++                with self.assertRaises(obs.CurrentAuthorityError):
++                    _observe_with_timeout(self, obs, {"root": root, "state_path": pair["state_path"],
++                                                      "proposal_path": pair["proposal_path"],
++                                                      "manifest_path": pair["manifest_path"]},
++                                          timeout_s=30)
++            self.assertNotIn("fifo-probe", "".join(opened_leafs),
++                             "FIFO leaf must not be opened for read (refuse via lstat, no open)")
++            p1t._assert_no_write(self, before, p1t._snapshot(root), "fifo no-write")
++        finally:
++            try:
++                os.unlink(fifo)
++            except OSError as exc:
++                self.fail(f"fifo cleanup failed: {exc}")
++        # (c) Mid-call seams before known final checks (not pre-observe).
++        # Each injects exactly once AFTER the full receipt recheck (which runs
++        # after scope, before second verify/final boundary), then asserts
++        # exact refusal + injected-only delta BEFORE repair.
++        import scripts.survey_editorial_correction_proposal_v2 as p1mod
++
++        def _midcall_case(label: str, inject, expected_code: str, expected_new_rel: str | None,
++                          expected_changed_rel: str | None = None):
++            before_mc = p1t._snapshot(root)
++            fired = {"done": False}
++            real_recheck = p1mod._final_full_receipt_recheck
++
++            def _wrapped(col, r, data, why):
++                out = real_recheck(col, r, data, why)
++                if not fired["done"]:
++                    fired["done"] = True
++                    inject()
++                return out
++
++            with mock.patch.object(p1mod, "_final_full_receipt_recheck", side_effect=_wrapped):
++                with self.assertRaisesRegex(obs.CurrentAuthorityError, expected_code, msg=label):
++                    obs.observe_current_authority(root, pair["state_path"],
++                                                  pair["proposal_path"], pair["manifest_path"])
++            self.assertTrue(fired["done"], f"mid-call hook never fired: {label}")
++            after_mc = p1t._snapshot(root)
++            # Injected-only delta: exactly the injected path differs.
++            if expected_new_rel is not None:
++                self.assertIn(expected_new_rel, after_mc["files"],
++                              f"injected file missing after {label}")
++                self.assertNotIn(expected_new_rel, before_mc["files"],
++                                 f"injected file pre-existed before {label}")
++                diff = set(after_mc["files"]) - set(before_mc["files"])
++                self.assertEqual(diff, {expected_new_rel}, f"foreign files during {label}: {diff}")
++                for rel in before_mc["files"]:
++                    self.assertEqual(after_mc["files"][rel], before_mc["files"][rel],
++                                     f"live drift beyond injection during {label}: {rel}")
++            elif expected_changed_rel is not None:
++                self.assertNotEqual(after_mc["files"].get(expected_changed_rel),
++                                    before_mc["files"].get(expected_changed_rel),
++                                    f"injected mutation missing after {label}")
++                diff_changed = {rel for rel in before_mc["files"]
++                                if after_mc["files"].get(rel) != before_mc["files"].get(rel)}
++                self.assertEqual(diff_changed, {expected_changed_rel},
++                                 f"foreign drift during {label}: {diff_changed}")
++            self.assertEqual(after_mc["head"], before_mc["head"], f"HEAD moved during {label}")
++            return after_mc
++
++        # Mid-call control file addition -> CONTROL_DRIFT.
++        late_ctl = root / "config" / "late-control-midcall.json"
++        try:
++            _midcall_case("midcall-control", lambda: late_ctl.write_text("{}", encoding="utf-8"),
++                          "CONTROL_DRIFT", str(late_ctl.relative_to(root)))
+         finally:
+-            fifo.unlink()
+-        # Late control file addition detected by final inventory, not rehash alone.
+-        late = root / "config" / "late-control.json"
+-        late.write_text("{}", encoding="utf-8")
++            try:
++                late_ctl.unlink()
++            except OSError:
++                pass
++        # Mid-call edition empty-dir addition -> EDITION_DRIFT.
++        # Empty-dir appears in special inventory, not files; verify explicitly
++        # (single injection; a duplicate injection would poison the entry
++        # snapshot, so only one mid-call case runs here).
++        prof = core.load_json(root / core.load_json(pair["state_path"])["profile"]["path"])
++        src_rel = prof["paths"]["source_root"]
++        mid_ed = root / src_rel / "empty-midcall-dir"
+         try:
+-            with self.assertRaises(obs.CurrentAuthorityError):
+-                obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
++            before_ed = p1t._snapshot(root)
++            fired_ed = {"done": False}
++            real_re = p1mod._final_full_receipt_recheck
++
++            def _wrap_ed(col, r, data, why):
++                out = real_re(col, r, data, why)
++                if not fired_ed["done"]:
++                    fired_ed["done"] = True
++                    mid_ed.mkdir(exist_ok=True)
++                return out
++
++            with mock.patch.object(p1mod, "_final_full_receipt_recheck", side_effect=_wrap_ed):
++                with self.assertRaisesRegex(obs.CurrentAuthorityError, "EDITION_DRIFT"):
++                    obs.observe_current_authority(root, pair["state_path"],
++                                                  pair["proposal_path"], pair["manifest_path"])
++            self.assertTrue(fired_ed["done"])
++            after_ed = p1t._snapshot(root)
++            self.assertIn(str(mid_ed.relative_to(root)), after_ed["special"])
++            self.assertEqual(after_ed["head"], before_ed["head"])
+         finally:
+-            late.unlink()
++            try:
++                mid_ed.rmdir()
++            except OSError:
++                pass
++        # Mid-call retained extra file -> INVALID_RETENTION.
++        mid_ret = pair["manifest_path"].parent / "midcall-retained-extra.json"
++        try:
++            _midcall_case("midcall-retained", lambda: mid_ret.write_text("{}", encoding="utf-8"),
++                          "INVALID_RETENTION", str(mid_ret.relative_to(root)))
++        finally:
++            try:
++                mid_ret.unlink()
++            except OSError:
++                pass
++        # Mid-call outside-edition required raw/KEEP mutation -> PIN_DRIFT/STABILITY.
++        manifest_obj = core.load_json(pair["manifest_path"])
++        keep_row = next(r for r in manifest_obj["rows"] if r["policy"] == "KEEP_IMMUTABLE")
++        keep_path = root / keep_row["retained_ref"]["path"]
++        keep_rel = keep_row["retained_ref"]["path"]
++        keep_orig = keep_path.read_bytes()
++        try:
++            before_k = p1t._snapshot(root)
++            fired_k = {"done": False}
++            real_rk = p1mod._final_full_receipt_recheck
++
++            def _wrap_k(col, r, data, why):
++                out = real_rk(col, r, data, why)
++                if not fired_k["done"]:
++                    fired_k["done"] = True
++                    keep_path.write_bytes(keep_orig + b"\n")
++                return out
++
++            with mock.patch.object(p1mod, "_final_full_receipt_recheck", side_effect=_wrap_k):
++                with self.assertRaisesRegex(obs.CurrentAuthorityError,
++                                            "PIN_DRIFT|STABILITY_VIOLATION|REF_DRIFT|COPY_DRIFT"):
++                    obs.observe_current_authority(root, pair["state_path"],
++                                                  pair["proposal_path"], pair["manifest_path"])
++            self.assertTrue(fired_k["done"])
++            after_k = p1t._snapshot(root)
++            self.assertNotEqual(after_k["files"].get(keep_rel), before_k["files"].get(keep_rel))
++            self.assertEqual(after_k["head"], before_k["head"])
++        finally:
++            keep_path.write_bytes(keep_orig)
++        # Early-pinned supplied scope change before its later loader -> SCOPE_DRIFT.
++        staged_reader_rel = str((pair["proposal_path"].parent / "reader-surface-input-v2.json").relative_to(root))
++        from tests import test_survey_editorial_correction_proposal_v2 as p1t2
++        scope_path = p1t2._scope_review_for(self, root, pair["prepared"], staged_reader_rel,
++                                            "scope-midcall-drift.json")
++        scope_orig = scope_path.read_bytes()
++        try:
++            before_s = p1t._snapshot(root)
++            fired_s = {"done": False}
++            real_layout = p1mod._pin_proposal_layout
++
++            def _wrap_layout(col, rp, sp, pp):
++                out = real_layout(col, rp, sp, pp)
++                if not fired_s["done"]:
++                    fired_s["done"] = True
++                    # Mutate early-pinned scope before its later loader.
++                    raw = core.load_json(scope_path)
++                    raw["summary"] = "Mid-call scope mutation."
++                    raw.pop("review_sha256", None)
++                    raw["review_sha256"] = core.sha256_object(raw)
++                    core.write_json(scope_path, raw)
++                return out
++
++            with mock.patch.object(p1mod, "_pin_proposal_layout", side_effect=_wrap_layout):
++                with self.assertRaisesRegex(obs.CurrentAuthorityError, "SCOPE_DRIFT|SCOPE_BYTES_SWITCHED|SCOPE_DIGEST"):
++                    obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"],
++                                                  pair["manifest_path"], scope_path)
++            self.assertTrue(fired_s["done"])
++            after_s = p1t._snapshot(root)
++            self.assertNotEqual(after_s["files"].get(str(scope_path.relative_to(root))),
++                                before_s["files"].get(str(scope_path.relative_to(root))))
++            self.assertEqual(after_s["head"], before_s["head"])
++        finally:
++            scope_path.write_bytes(scope_orig)
++
++    # ---- 10. Scope invalid matrix + shared comparator (exact codes) ----
+ 
+     def test_scope_invalid_matrix(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
++        from scripts import survey_editorial_correction_proposal_v2 as p1mod
+         from scripts import survey_editorial_current_authority_v2 as obs
+         _s, root = _make_p2v_source_root(self, "p2v-scopem-")
+         pair = self._build_weekly_pair(self, root, "fixture-wk-sm-1", "Weekly P2V scope matrix")
+         prepared, proposal_path = pair["prepared"], pair["proposal_path"]
+         staged_reader_rel = str((proposal_path.parent / "reader-surface-input-v2.json").relative_to(root))
+-        for name, kwargs in (
+-            ("scope-malformed.json", {"decision": "WITHIN_APPROVED_AUTHORITY"}),
+-            ("scope-reject2.json", {"decision": "REJECT"}),
+-            ("scope-owner.json", {"decision": "REQUIRES_OWNER_DECISION"}),
+-        ):
+-            tag = "malformed" if "malformed" in name else kwargs["decision"]
+-            if tag == "malformed":
+-                bad = proposal_path.parent / name
+-                bad.write_text("{not json", encoding="utf-8")
+-            else:
+-                bad = p1t._scope_review_for(self, root, prepared, staged_reader_rel, name,
+-                                            decision=kwargs["decision"])
++
++        def _check_scope(label: str, scope_path: Path, expected_code: str):
+             before = p1t._snapshot(root)
+-            with self.assertRaises(obs.CurrentAuthorityError, msg=name):
++            with self.assertRaisesRegex(obs.CurrentAuthorityError, expected_code, msg=label):
+                 obs.observe_current_authority(root, pair["state_path"], proposal_path,
+-                                              pair["manifest_path"], bad)
+-            self.assertEqual(p1t._snapshot(root)["files"], before["files"], f"no-write {name}")
+-            if tag == "malformed":
+-                bad.unlink()
+-        # Wrong-before scope refuses (no rebinding by equal SHA elsewhere).
+-        wrong = p1t._scope_review_for(
++                                              pair["manifest_path"], scope_path)
++            # Full no-write BEFORE cleanup (files + special + head + status).
++            p1t._assert_no_write(self, before, p1t._snapshot(root), f"no-write {label}")
++
++        # Malformed JSON -> SCOPE_UNREADABLE.
++        malformed = proposal_path.parent / "scope-malformed.json"
++        malformed.write_text("{not json", encoding="utf-8")
++        try:
++            _check_scope("malformed", malformed, "SCOPE_UNREADABLE")
++        finally:
++            malformed.unlink()
++        # Non-PASS review (decision FAIL, digest recomputed) -> SCOPE_ORDINARY_INVALID.
++        nonpass = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-nonpass.json")
++        raw_np = core.load_json(nonpass)
++        raw_np["decision"] = "FAIL"
++        raw_np.pop("review_sha256", None)
++        raw_np["review_sha256"] = core.sha256_object(raw_np)
++        core.write_json(nonpass, raw_np)
++        _check_scope("non-PASS", nonpass, "SCOPE_ORDINARY_INVALID")
++        # Wrong-before -> SCOPE_WRONG_BEFORE.
++        wrong_before = p1t._scope_review_for(
+             self, root, prepared, staged_reader_rel, "scope-wrong-before.json",
+             before_override={"path": staged_reader_rel, "sha256": "0" * 64})
+-        before = p1t._snapshot(root)
+-        with self.assertRaises(obs.CurrentAuthorityError):
+-            obs.observe_current_authority(root, pair["state_path"], proposal_path, pair["manifest_path"], wrong)
+-        self.assertEqual(p1t._snapshot(root)["files"], before["files"])
++        _check_scope("wrong-before", wrong_before, "SCOPE_WRONG_BEFORE")
++        # Wrong-after (targets before-reader, not proposed) -> exact phase.
++        before_reader_rel = str(pair["built"]["surface_path"].relative_to(root))
++        wrong_after = p1t._scope_review_for(
++            self, root, prepared, before_reader_rel, "scope-wrong-after.json")
++        _check_scope("wrong-after", wrong_after, "SCOPE_ORDINARY_INVALID|SCOPE_WRONG_AFTER|SCOPE_DIGEST")
++        # Stale upstream -> SCOPE_STALE_UPSTREAM.
++        stale_up = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-stale-up.json",
++                                         upstream_override="f" * 64)
++        _check_scope("stale-upstream", stale_up, "SCOPE_STALE_UPSTREAM")
++        # REJECT / REQUIRES_OWNER -> SCOPE_NOT_WITHIN_AUTHORITY.
++        for name, decision in (("scope-reject2.json", "REJECT"), ("scope-owner.json", "REQUIRES_OWNER_DECISION")):
++            bad = p1t._scope_review_for(self, root, prepared, staged_reader_rel, name, decision=decision)
++            _check_scope(decision, bad, "SCOPE_NOT_WITHIN_AUTHORITY")
++        # Substance: empty change_summary -> SCOPE_BLOCK_SHAPE.
++        empty_sum = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-empty-sum.json")
++        raw_es = core.load_json(empty_sum)
++        raw_es["editorial_correction_scope"]["change_summary"] = "   "
++        raw_es.pop("review_sha256", None)
++        raw_es["review_sha256"] = core.sha256_object(raw_es)
++        core.write_json(empty_sum, raw_es)
++        _check_scope("empty-change-summary", empty_sum, "SCOPE_BLOCK_SHAPE")
++        # Substance: empty evidence_locations -> honest earlier schema guard.
++        # The review schema requires non-empty evidence_locations, so the
++        # ordinary loader (schema gate) refuses with SCOPE_ORDINARY_INVALID
++        # before the scope-block substance check (SCOPE_BLOCK_SHAPE) is
++        # reached. Assert the actual operative predicate, not the preempted one.
++        empty_ev = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-empty-ev.json")
++        raw_ee = core.load_json(empty_ev)
++        raw_ee["editorial_correction_scope"]["evidence_locations"] = []
++        raw_ee.pop("review_sha256", None)
++        raw_ee["review_sha256"] = core.sha256_object(raw_ee)
++        core.write_json(empty_ev, raw_ee)
++        _check_scope("empty-evidence", empty_ev, "SCOPE_ORDINARY_INVALID")
++        # Substance: scope check not PASS -> SCOPE_CHECK_NOT_PASS.
++        bad_check = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-bad-check.json")
++        raw_bc = core.load_json(bad_check)
++        for c in raw_bc.get("checks", []):
++            if c.get("check_id") == "EDITORIAL_CORRECTION_SCOPE":
++                c["status"] = "FAIL"
++        raw_bc.pop("review_sha256", None)
++        raw_bc["review_sha256"] = core.sha256_object(raw_bc)
++        core.write_json(bad_check, raw_bc)
++        _check_scope("check-not-pass", bad_check, "SCOPE_CHECK_NOT_PASS|SCOPE_ORDINARY_INVALID")
++        # Digest mismatch (tamper without recomputing sha) -> SCOPE_DIGEST_MISMATCH.
++        tampered = p1t._scope_review_for(self, root, prepared, staged_reader_rel, "scope-tampered.json")
++        raw_tm = core.load_json(tampered)
++        raw_tm["summary"] = "Tampered without rehash."
++        core.write_json(tampered, raw_tm)
++        _check_scope("digest-mismatch", tampered, "SCOPE_DIGEST_MISMATCH")
++        # Shared field-comparator refusals on real prepared data (in-memory,
++        # no file writes; targets actual P1 compare phase with exact codes).
++        import copy
++        staged_bytes = (proposal_path.parent / "reader-surface-input-v2.json").read_bytes()
++        canon = bytes(prepared["proposed_canonical"])
++        rederived = prepared["proposal"]
++        with self.subTest(case="comparator-header"):
++            snap = p1t._snapshot(root)
++            forged = copy.deepcopy(rederived)
++            forged["issue_id"] = "FORGED-ISSUE"
++            with self.assertRaisesRegex(p1mod.ProposalError, "HEADER_MISMATCH"):
++                p1mod._compare_supplied_to_rederived(prepared["proposal"], forged, staged_bytes, canon)
++            p1t._assert_no_write(self, snap, p1t._snapshot(root), "comparator header no-write")
++        with self.subTest(case="comparator-basis"):
++            snap = p1t._snapshot(root)
++            forged = copy.deepcopy(rederived)
++            forged["basis"]["preserved_upstream_digest"] = "0" * 64
++            with self.assertRaisesRegex(p1mod.ProposalError, "BASIS_MISMATCH"):
++                p1mod._compare_supplied_to_rederived(prepared["proposal"], forged, staged_bytes, canon)
++            p1t._assert_no_write(self, snap, p1t._snapshot(root), "comparator basis no-write")
++        with self.subTest(case="comparator-retention"):
++            snap = p1t._snapshot(root)
++            forged = copy.deepcopy(rederived)
++            forged["retention_plan"] = forged["retention_plan"][:-1]
++            with self.assertRaisesRegex(p1mod.ProposalError, "RETENTION_MISMATCH"):
++                p1mod._compare_supplied_to_rederived(prepared["proposal"], forged, staged_bytes, canon)
++            p1t._assert_no_write(self, snap, p1t._snapshot(root), "comparator retention no-write")
++        with self.subTest(case="comparator-bytes"):
++            snap = p1t._snapshot(root)
++            with self.assertRaisesRegex(p1mod.ProposalError, "PROPOSED_BYTES_MISMATCH"):
++                p1mod._compare_supplied_to_rederived(
++                    prepared["proposal"], rederived, staged_bytes + b"\n", canon)
++            p1t._assert_no_write(self, snap, p1t._snapshot(root), "comparator bytes no-write")
++
++    # ---- 11. Close faults: precise final/session boundary, no leaks ----
+ 
+     def test_close_fault_and_no_write(self) -> None:
+         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+         from scripts import survey_editorial_current_authority_v2 as obs
+         from scripts import survey_editorial_retention_v2 as retention
+-        from unittest import mock
++        import scripts.survey_editorial_correction_proposal_v2 as p1mod
+         _s, root = _make_p2v_source_root(self, "p2v-close-")
+         pair = self._build_weekly_pair(self, root, "fixture-wk-close-1", "Weekly P2V close edition")
++        # Success no-write baseline.
+         before = p1t._snapshot(root)
+         out = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+         self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+         p1t._assert_no_write(self, before, p1t._snapshot(root), "close success no-write")
+         # No fd growth across successful observe (checked closes, no leak).
+-        import glob as _glob
+         fds_before = set(os.listdir("/proc/self/fd"))
+         obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+         fds_after = set(os.listdir("/proc/self/fd"))
+         self.assertEqual(fds_after, fds_before, "fd leak across observe")
+-        # Injected close fault maps to CLOSE_FAILED with primary preserved.
++        # (a) Success-path close fault at the known session boundary:
++        # fail ONLY _Session._close_all calls (stack-checked), really closing
++        # each fd before simulating the error (no leaks, no early read-close
++        # interference). On the success path exactly 3 _close_all calls occur
++        # (2 P2R-internal verify sessions + 1 outer final); the fault fires on
++        # the 3rd (outer final). Any other count fails explicitly.
++        import traceback as _tb
+         real_close = os.close
+-        seen: list[str] = []
++        calls_a: list[str] = []
++        seen_a: list[int] = []
+ 
+-        def _faulty_close(fd: int) -> None:
+-            seen.append(str(fd))
+-            raise OSError("injected P2V close fault")
+-
+-        with mock.patch.object(retention.os, "close", side_effect=_faulty_close):
+-            with self.assertRaises(obs.CurrentAuthorityError) as ctx:
+-                obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+-        self.assertIn("CLOSE_FAILED", str(ctx.exception))
+-        self.assertTrue(seen, "close fault never reached _Session closes")
+-        real_close(0 if False else os.open("/dev/null", os.O_RDONLY)).__class__  # no-op keep ref
+-        try:
+-            os.close(999999)
+-        except OSError:
+-            pass
++        def _close_fail_outer_final(fd: int) -> None:
++            if any(fr.name == "_close_all" for fr in _tb.extract_stack()):
++                calls_a.append("close_all")
++                # Outer final is the 3rd _close_all on the success path.
++                if len(calls_a) == 3:
++                    seen_a.append(fd)
++                    try:
++                        real_close(fd)
++                    except OSError:
++                        pass
++                    raise OSError("injected P2V outer-final close fault")
++            return real_close(fd)
++
++        fds_pre_a = set(os.listdir("/proc/self/fd"))
++        with mock.patch.object(retention.os, "close", side_effect=_close_fail_outer_final):
++            with self.assertRaisesRegex(obs.CurrentAuthorityError, "CLOSE_FAILED"):
++                obs.observe_current_authority(root, pair["state_path"],
++                                              pair["proposal_path"], pair["manifest_path"])
++        self.assertEqual(len(calls_a), 3,
++                         f"success-path _close_all count changed (got {len(calls_a)}); "
++                         "fault may not have targeted the outer final")
++        self.assertTrue(seen_a, "outer-final close fault never fired")
++        fds_post_a = set(os.listdir("/proc/self/fd"))
++        self.assertEqual(fds_post_a, fds_pre_a, "fd leak after success-path close fault")
++        # Success again after fault (proves no lingering corruption).
++        before2 = p1t._snapshot(root)
++        out2 = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
++        self.assertEqual(out2["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
++        p1t._assert_no_write(self, before2, p1t._snapshot(root), "post-fault success no-write")
++        # (b) Primary preserved with secondary close failure at the session
++        # boundary: a pre-observe KEEP mutation deterministically raises
++        # REF_DRIFT at the first retained re-pin (RETAINED phase, observer
++        # session still open); the outer _close_all (2nd _close_all call:
++        # 1 P2R-internal + 1 outer) then fails after really closing, so the
++        # primary code must survive with secondaries attached (not replaced
++        # by CLOSE_FAILED).
++        manifest_obj = core.load_json(pair["manifest_path"])
++        keep_row = next(r for r in manifest_obj["rows"] if r["policy"] == "KEEP_IMMUTABLE")
++        keep_path = root / keep_row["retained_ref"]["path"]
++        keep_rel = keep_row["retained_ref"]["path"]
++        keep_orig = keep_path.read_bytes()
++        calls_b: list[str] = []
++        seen_b: list[int] = []
++        before_mut = p1t._snapshot(root)
++        keep_path.write_bytes(keep_orig + b"\n")
++        mutated_b = p1t._snapshot(root)
++        self.assertNotEqual(mutated_b["files"].get(keep_rel), before_mut["files"].get(keep_rel))
++
++        def _close_fail_outer_only(fd: int) -> None:
++            if any(fr.name == "_close_all" for fr in _tb.extract_stack()):
++                calls_b.append("close_all")
++                # Outer session close is the 2nd _close_all on this path
++                # (1 P2R-internal verify session + 1 outer).
++                if len(calls_b) == 2:
++                    seen_b.append(fd)
++                    try:
++                        real_close(fd)
++                    except OSError:
++                        pass
++                    raise OSError("injected P2V secondary close fault")
++            return real_close(fd)
++
++        fds_pre_b = set(os.listdir("/proc/self/fd"))
++        try:
++            with mock.patch.object(retention.os, "close", side_effect=_close_fail_outer_only):
++                with self.assertRaises(obs.CurrentAuthorityError) as ctx:
++                    obs.observe_current_authority(root, pair["state_path"],
++                                                  pair["proposal_path"], pair["manifest_path"])
++            self.assertEqual(len(calls_b), 2,
++                             f"primary-path _close_all count changed (got {len(calls_b)})")
++            self.assertTrue(seen_b, "outer secondary close fault never fired")
++            err = ctx.exception
++            self.assertEqual(err.code, "REF_DRIFT",
++                             f"primary REF_DRIFT must be preserved (got: {err})")
++            self.assertIn("secondary closes", err.detail,
++                          "secondary close failures must be attached to primary")
++            # Injected-only delta BEFORE repair (KEEP +1 byte; observer wrote
++            # nothing else).
++            after_b = p1t._snapshot(root)
++            self.assertNotEqual(after_b["files"].get(keep_rel), before_mut["files"].get(keep_rel))
++            diff_b = {rel for rel in before_mut["files"]
++                      if after_b["files"].get(rel) != before_mut["files"].get(rel)}
++            self.assertEqual(diff_b, {keep_rel}, f"foreign drift during close-b: {diff_b}")
++            self.assertEqual(after_b["head"], before_mut["head"])
++        finally:
++            keep_path.write_bytes(keep_orig)
++        fds_post_b = set(os.listdir("/proc/self/fd"))
++        self.assertEqual(fds_post_b, fds_pre_b, "fd leak after primary+secondary fault")
++        # Final success after repair.
++        before3 = p1t._snapshot(root)
++        out3 = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
++        self.assertEqual(out3["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
++        p1t._assert_no_write(self, before3, p1t._snapshot(root), "final post-close success")
+ 
+ 
+ if __name__ == "__main__":

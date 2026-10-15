@@ -1,0 +1,188 @@
+#!/usr/bin/env python3
+"""P2V runner v2 DRAFT (NOT EXECUTED — for root readback before long run).
+
+Executable draft: explicit guard failures (no bare assert so `python -O`
+cannot optimize checks away), exact full 102 raw rows + HEAD/tree/index/Git rc
+PRE and finally-POST, static18 + independent inherited15 + exact 84 cache
+path/hash/mode/size, actual child argv/cwd/runtime, direct held exclusive
+durable stdout/stderr, no secrets, exit/timeout/interrupt propagation, own
+process-group cleanup, TMPDIR under /tmp/opencode, new/absent cache prefix
+kept unused for bytecode writes, all output/script versions preserved with
+O_EXCL (never overwrite refused collisions).
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import signal
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+CANDIDATE = Path("/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60")
+STATIC18 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2v/expected18-draft.json")
+EXPECTED16 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2v/evidence-20261015T010000Z-r1preservation/preserved-expected18-draft.json")
+P2R_EXPECTED16 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/expected16-correction2c.json")
+CACHE_STATIC = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/cache-inventory-static.json")
+EXPECTED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+EXPECTED_TREE = "8ce3699861505f32d1d60bdc185d4d4f635aedb2"
+TIMEOUT_S = 5400
+
+FORCED_ENV = {"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"}
+
+
+class GuardFailed(RuntimeError):
+    pass
+
+
+def _refuse(msg: str) -> GuardFailed:
+    return GuardFailed(msg)
+
+
+def _sanitized_env(cache_prefix: Path, tmpdir: Path) -> dict[str, str]:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_") and k != "PYTHONPATH"}
+    env.update(FORCED_ENV)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    env["PYTHONPYCACHEPREFIX"] = str(cache_prefix)
+    env["TMPDIR"] = str(tmpdir)
+    return env
+
+
+def _git(cwd: Path, env: dict, *args: str, timeout: int = 60) -> str:
+    try:
+        proc = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True,
+                              env=env, timeout=timeout)
+    except subprocess.TimeoutExpired as exc:
+        raise _refuse(f"git {' '.join(args)} timeout after {timeout}s") from exc
+    if proc.returncode != 0:
+        raise _refuse(f"git {' '.join(args)} rc={proc.returncode}: {proc.stderr.strip()[:500]}")
+    return proc.stdout
+
+
+def _check_full_state(cand: Path, env: dict, label: str) -> dict:
+    head = _git(cand, env, "rev-parse", "HEAD").strip()
+    if head != EXPECTED_HEAD:
+        raise _refuse(f"{label} HEAD {head} != {EXPECTED_HEAD}")
+    tree = _git(cand, env, "rev-parse", "HEAD^{tree}").strip()
+    if tree != EXPECTED_TREE:
+        raise _refuse(f"{label} tree {tree} != {EXPECTED_TREE}")
+    status = _git(cand, env, "status", "--porcelain=v1", "-uall")
+    rows = [l for l in status.splitlines() if l]
+    if len(rows) != 102:
+        raise _refuse(f"{label} status rows {len(rows)} != 102")
+    src = sorted(l for l in rows if "__pycache__" not in l)
+    cache = sorted(l for l in rows if "__pycache__" in l)
+    if len(src) != 18 or len(cache) != 84:
+        raise _refuse(f"{label} src {len(src)}/cache {len(cache)} != 18/84")
+    cached = _git(cand, env, "diff", "--cached", "--name-only").strip()
+    if cached != "":
+        raise _refuse(f"{label} staged delta must be empty: {cached!r}")
+    static18 = json.loads(STATIC18.read_bytes())
+    if len(static18) != 18:
+        raise _refuse(f"{label} static18 entries {len(static18)} != 18")
+    for rel, pin in static18.items():
+        p = cand / rel
+        if not p.is_file():
+            raise _refuse(f"{label} static18 missing: {rel}")
+        data = p.read_bytes()
+        if hashlib.sha256(data).hexdigest() != pin["sha256"]:
+            raise _refuse(f"{label} static18 hash: {rel}")
+        if len(data) != pin["bytes"]:
+            raise _refuse(f"{label} static18 size: {rel}")
+        import stat as _stat
+        if oct(p.stat().st_mode & 0o777) != pin["mode"]:
+            raise _refuse(f"{label} static18 mode: {rel}")
+    exp16 = json.loads(P2R_EXPECTED16.read_bytes())
+    for rel, pin in exp16.items():
+        if rel == "scripts/survey_editorial_correction_proposal_v2.py":
+            continue
+        if static18.get(rel) != pin:
+            raise _refuse(f"{label} inherited15 drift: {rel}")
+    cache_static = json.loads(CACHE_STATIC.read_bytes())["files"]
+    if len(cache_static) != 84:
+        raise _refuse(f"{label} cache static {len(cache_static)} != 84")
+    status_cache = set(l[3:].strip() for l in cache)
+    if set(cache_static) != status_cache:
+        only_a = sorted(set(cache_static) - status_cache)[:5]
+        only_b = sorted(status_cache - set(cache_static))[:5]
+        raise _refuse(f"{label} cache path-set mismatch static-only={only_a} status-only={only_b}")
+    for rel, pin in cache_static.items():
+        p = cand / rel
+        if not p.is_file():
+            raise _refuse(f"{label} cache missing: {rel}")
+        data = p.read_bytes()
+        if hashlib.sha256(data).hexdigest() != pin["sha256"]:
+            raise _refuse(f"{label} cache hash: {rel}")
+        if len(data) != pin["bytes"]:
+            raise _refuse(f"{label} cache size: {rel}")
+        import stat as _stat
+        if oct(p.stat().st_mode & 0o777) != pin["mode"]:
+            raise _refuse(f"{label} cache mode: {rel}")
+    return {"head": head, "tree": tree, "src_rows": src, "cache_rows": cache}
+
+
+def main() -> int:
+    if len(sys.argv) != 2:
+        print("usage: run_p2v_v2.py.DRAFT <new-outdir>", file=sys.stderr)
+        return 2
+    outdir = Path(sys.argv[1])
+    try:
+        outdir.mkdir(parents=True, exist_ok=False)
+    except FileExistsError as exc:
+        raise _refuse(f"outdir already exists (no duplicate process): {outdir}") from exc
+    # Exclusive durable streams held BEFORE spawn (O_EXCL, no overwrite).
+    stdout_p, stderr_p = outdir / "run_p2v_v2.stdout.txt", outdir / "run_p2v_v2.stderr.txt"
+    meta_p, pre_p = outdir / "run_p2v_v2.meta.json", outdir / "run_p2v_v2.pre.json"
+    for p in (stdout_p, stderr_p, meta_p, pre_p):
+        fd = os.open(p, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+        os.close(fd)
+    tmpdir = Path("/tmp/opencode") / "p2v-tmp-20261015T010000Z"
+    try:
+        tmpdir.mkdir(parents=False, exist_ok=False)
+    except FileExistsError as exc:
+        raise _refuse(f"TMPDIR already exists: {tmpdir}") from exc
+    cache_prefix = Path("/tmp/opencode") / "p2v-pycache-absent-v2-20261015T010000Z"
+    if cache_prefix.exists():
+        raise _refuse(f"cache prefix must be absent: {cache_prefix}")
+    cache_prefix.mkdir(parents=False, exist_ok=False)
+    env = _sanitized_env(cache_prefix, tmpdir)
+    record = {"argv": list(sys.argv), "cwd": str(Path.cwd()), "interpreter": sys.version,
+              "forced_env": FORCED_ENV, "candidate": str(CANDIDATE),
+              "timeout_s": TIMEOUT_S, "tmpdir": str(tmpdir)}
+    meta_p.write_text(json.dumps(record, indent=1))
+    pre = _check_full_state(CANDIDATE, env, "PRE")
+    pre_p.write_text(json.dumps({"head": pre["head"], "tree": pre["tree"],
+                                 "src": len(pre["src_rows"]), "cache": len(pre["cache_rows"])}, indent=1))
+    # Child: focused P2V 13 + affected P1/P2R subsets (no old-suite transfer).
+    # Exact command recorded; stdout/stderr go to ALREADY-OPEN exclusive files.
+    cmd = [sys.executable, "-m", "unittest", "tests.test_survey_editorial_current_authority_v2", "-v"]
+    with open(stdout_p, "wb") as so, open(stderr_p, "wb") as se:
+        try:
+            proc = subprocess.Popen(cmd, cwd=CANDIDATE, stdout=so, stderr=se, env=env,
+                                    start_new_session=True)
+        except OSError as exc:
+            raise _refuse(f"child spawn failed: {exc}") from exc
+        try:
+            rc = proc.wait(timeout=TIMEOUT_S)
+        except subprocess.TimeoutExpired as exc:
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGTERM)
+            except OSError:
+                pass
+            raise _refuse(f"child timeout after {TIMEOUT_S}s") from exc
+        if rc != 0:
+            raise _refuse(f"child rc={rc} (see durable stdout/stderr, no overwrite)")
+    post = _check_full_state(CANDIDATE, env, "POST")
+    (outdir / "run_p2v_v2.post.json").write_text(json.dumps(
+        {"head": post["head"], "rows_src": len(post["src_rows"])}, indent=1))
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except GuardFailed as exc:
+        print(f"GUARD_REFUSED: {exc}", file=sys.stderr)
+        raise SystemExit(3)

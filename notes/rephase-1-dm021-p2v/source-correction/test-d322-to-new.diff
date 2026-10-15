@@ -1,0 +1,86 @@
+33c33,36
+< Behavioral methods: 11 (all call observe_current_authority).
+---
+> Behavioral methods: 12 (all call observe_current_authority).
+> B1 addition (2026-10-16): test_live_state_drift_refuses — isolated live-State
+> byte negative (State is a COPY state:authority row); prior 13 bodies/setup
+> unchanged (see source-correction/old13-bodyhash.json).
+1151a1155,1232
+> 
+>     # ---- 12. Isolated live-State byte negative (B1) ----
+> 
+>     def test_live_state_drift_refuses(self) -> None:
+>         # B1: the central STATE_REF/BASIS guard is code-present; prove it
+>         # behaviorally with a State-ONLY mutation (all other freshness
+>         # negatives mutate receipt/KEEP/contract/retained/R1 bytes). State is
+>         # a COPY plan row (state:authority), never KEEP, so retained
+>         # persistence still verifies while current basis must refuse.
+>         from tests import test_survey_editorial_correction_proposal_v2 as p1t
+>         from scripts import survey_editorial_retention_v2 as retention
+>         from scripts import survey_editorial_current_authority_v2 as obs
+>         from scripts import survey_agent_control_v2 as agent
+>         _s, root = _make_p2v_source_root(self, "p2v-st-")
+>         pair = self._build_weekly_pair(self, root, "fixture-wk-st-1", "Weekly P2V State edition")
+>         proposal = pair["prepared"]["proposal"]
+>         state_file = Path(pair["state_path"])
+>         state_rel = proposal["basis"]["state_ref"]["path"]
+>         # State is exactly the expected COPY row, never KEEP.
+>         plan_by_path = {r["path"]: r for r in proposal["retention_plan"]}
+>         self.assertIn(state_rel, plan_by_path, "State missing from retention plan")
+>         state_row = plan_by_path[state_rel]
+>         self.assertEqual(state_row["policy"], "COPY_BEFORE_REPLACEMENT")
+>         self.assertIn("state:authority", state_row["roles"])
+>         self.assertTrue(all("state:authority" not in (r.get("roles") or [])
+>                             for r in proposal["retention_plan"] if r["path"] != state_rel),
+>                         "duplicate state:authority role")
+>         manifest = core.load_json(pair["manifest_path"])
+>         mstate_rows = [r for r in manifest["rows"] if "state:authority" in (r.get("roles") or [])]
+>         self.assertEqual(len(mstate_rows), 1, "unique state:authority manifest row required")
+>         self.assertEqual(mstate_rows[0]["policy"], "COPY_BEFORE_REPLACEMENT")
+>         # Append whitespace to live State bytes ONLY: same parsed JSON and
+>         # strict agent validation still clean, so setup is not broken.
+>         orig = state_file.read_bytes()
+>         mutated_obj = json.loads((orig + b"\n").decode("utf-8"))
+>         self.assertEqual(mutated_obj, json.loads(orig.decode("utf-8")),
+>                          "whitespace append must preserve parsed JSON")
+>         cfg = core.load_json(root / core.DEFAULT_CONFIG)
+>         self.assertEqual(agent.validate_agent_state(root, cfg, mutated_obj), [],
+>                          "strict State validation must stay clean (setup not broken)")
+>         before = p1t._snapshot(root)
+>         state_file.write_bytes(orig + b"\n")
+>         mutated_pre = p1t._snapshot(root)
+>         self.assertNotEqual(mutated_pre["files"].get(state_rel), before["files"].get(state_rel))
+>         # P2R still verifies retained persistence (COPY bytes intact).
+>         v = retention.verify_retention(root, pair["proposal_path"], pair["manifest_path"])
+>         self.assertEqual(v["result"], "RETAINED_SET_VERIFIED")
+>         # P2V refuses on exact current-basis/raw-State mismatch (BASIS, not
+>         # a generic STATE_INVALID from broken setup).
+>         with self.assertRaisesRegex(obs.CurrentAuthorityError, "BASIS_MISMATCH"):
+>             obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+>         # Immediate full no-write BEFORE repair.
+>         p1t._assert_no_write(self, mutated_pre, p1t._snapshot(root), "state drift no-write")
+>         # Restore exact bytes → positive again.
+>         state_file.write_bytes(orig)
+>         before_ok = p1t._snapshot(root)
+>         out = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"], pair["manifest_path"])
+>         self.assertEqual(out["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+>         self.assertEqual(out["state_ref"]["sha256"], core.sha256_bytes(orig))
+>         p1t._assert_no_write(self, before_ok, p1t._snapshot(root), "state repair positive")
+>         # Cheap wrong-path clone: same bytes at an unreferenced path passed as
+>         # state_path must fail canonical-path validation.
+>         clone = pair["helper"].source_root / "unreferenced-state-clone.json"
+>         clone.write_bytes(orig)
+>         try:
+>             before_clone = p1t._snapshot(root)
+>             with self.assertRaisesRegex(obs.CurrentAuthorityError, "STATE_NOT_CANONICAL|STATE_CANONICAL"):
+>                 obs.observe_current_authority(root, clone, pair["proposal_path"], pair["manifest_path"])
+>             p1t._assert_no_write(self, before_clone, p1t._snapshot(root), "clone-state no-write")
+>             # Canonical State with the unreferenced clone still present stays
+>             # valid (no invented historical inventory rejects it).
+>             before_canon = p1t._snapshot(root)
+>             out2 = obs.observe_current_authority(root, pair["state_path"], pair["proposal_path"],
+>                                                  pair["manifest_path"])
+>             self.assertEqual(out2["result"], "CURRENT_BASIS_OBSERVED_NEEDS_SCOPE")
+>             p1t._assert_no_write(self, before_canon, p1t._snapshot(root), "clone-present canonical positive")
+>         finally:
+>             clone.unlink()

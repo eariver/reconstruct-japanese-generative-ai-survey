@@ -1,0 +1,23 @@
+# Astra P2V code/draft review R2 — complete the actual oracles and guards
+
+2026-10-15 JST. Observer79a3396c improves entry pins/sanitized calls/final windows. Preserve cdd69/79a339/c7ba and v2 drafts/report before changes. No long run approved; the revised evidence drafts still do not enforce what their headers claim.
+
+## Behavioral test corrections before execution
+
+1. Longform test188 calls optional nonexistent `_build_validated`, yielding None. Use the actual existing P1 longform positive recipe: `_complete(_chain())`, `_state_path`, `_advance_to_validated_draft`, `_authored(chain,worker)`, meaningful `longform_revision.packages[0].narrative_sections[0].paragraphs[0].text` delta, then P1 stage/capture/observe. Don't substitute an invented `frontmatter.lede` field or gate around missing helper attributes.
+2. R1 test328 uses `_commit_derivation_only_change`, whose docstring explicitly says emitted TeX-comment change, and `_FIXTURE_CASCADE` is the generic Core-change path. This is NOT the real R1 owner. Follow P1 test1733 onward/P2R actual R1 fixture: non-emitted Python comment commit(s), `survey_weekly_mechanical_refresh_v2.refresh_mechanical_evidence` in committed fixture code, meaningful supersedes chain, then stage/capture/observe through actual fixture imports. Add the named stale-current-active negative; the current test has none. No forged pointer or mislabeled generic cascade.
+3. Claimed 'late control addition' at464 is created BEFORE observe, so it only tests existing untracked-control refusal. Implement actual mid-call seams before known final checks: e.g. after optional scope or second P2R verification, mutate outside-edition required raw/KEEP; add control/edition/retained empty dir/file; assert exact refusal and immediate injected-only no-write delta BEFORE repair. Include an early-pinned supplied scope change before its later loader.
+4. Existing post-capture P1 refusal tests must assert destination-conflict code, not any ProposalError; assert no-write for each call. Complete advertised scope negative cases (non-PASS/wrong-after/upstream/substance) and shared field-comparator refusals rather than relying solely on P2R catches. Preserve meaningful type-vs-behavior counts.
+5. FIFO presence alone plus broad observer exception is not explicit no-read; guard attempted reads/timeout, with setup failure explicit. Missing/extra/empty-dir cases need full snapshots before restoration, not file-only comparison or no comparison at all. Close injection should target a known final/session boundary, close the real fd before simulating the error where appropriate to avoid leaking test fds, and prove primary error preservation with a secondary close failure. Delete no-op arbitrary fd lines537–541. No test-only production behavior switch.
+
+## Runner v2 blockers (actual code)
+
+- No finally-post on child failure/timeout (raises175 before177), no KeyboardInterrupt handling, SIGTERM not reaped/escalated, no child/wrapper exit artifact. Count/substring source split does not prove exact18 rows. PRE/POST persist counts, not full raw status or measured pins/cache inventory. Outputs are reserved then closed and reopened wb; supposed absent cache prefix is mkdir'd. Actual cmd/PID/forced Python vars/deps not durably recorded. Implement these required checks and return semantics, not comments. Use P2R final v9 as a READ-ONLY design reference, never execute it and never assume its guards certify a new runner.
+
+## Proof v2 blockers (actual code)
+
+- `_all_entry_git` doesn't fail on traversal errors, counts but never rejects symlinks/special entries, omits directory identities. Source nlink/alternate check incomplete; remote is substring. Clean tree/index not checked; restore uses index not explicit HEAD. Applied checks only hashes, not mode/size/exact18 status/HEAD/tree/index. Saved patch hash is generated and printed, not independently compared to a pinned saved hash before apply. No durable complete raw command/guard/error record. Implement actual separate generation and saved-patch apply, independent DBs, all-entry checks and immutable exclusive outputs. No archive/fake-root or borrowed active Git DB.
+
+## Work assignment
+
+Separate bounded Co-Workers may handle (A) shipping observer/tests and (B) evidence-runner/proof tooling, with non-overlapping write scopes. Root reads both before execution. Both must preserve earlier records and correct overclaims by annotation; do not delete or overwrite executed drafts/results. No long tests/proof until selection. Inherited15, P2R/schema/config remain unchanged; more than2A1M is a blocker. No candidate commit/network/Production/adoption or automatic next unit. This remains implementation in progress, not a completed Human Commit Point.

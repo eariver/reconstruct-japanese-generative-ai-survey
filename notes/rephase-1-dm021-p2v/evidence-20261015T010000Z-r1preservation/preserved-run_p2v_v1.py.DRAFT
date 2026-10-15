@@ -1,0 +1,136 @@
+#!/usr/bin/env python3
+"""P2V runner DRAFT v1 (NOT EXECUTED — for root readback before long run).
+
+DRAFT, not exact-run evidence. Implements stated guards (not print-only):
+static18 + inherited15 + preknown full cache hashes/modes/sizes + exact FULL
+status + HEAD/tree/index rc PRE and finally-POST, checked Git, direct exclusive
+durable stdout/stderr, actual argv/cwd/interpreter/forced env only (no secrets),
+isolated absent cache prefix + no pyc writes, timeouts/interrupt propagation,
+reap-only-own-process-group, no output overwrite on refusal, no silent logging
+errors, no generic rerunner claim.
+
+Execution selection (after root approval only): focused P2V 13 + affected P1/P2R
+behavior; no old25/36 transfer. Fixture source commits changed P1+new2 BEFORE
+authority; real Longform/Weekly/R1-owner; immediate no-write/injection deltas
+BEFORE repair. Every executed script/log version survives with new names.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import stat
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
+
+CANDIDATE = Path("/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60")
+STATIC18 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2v/expected18-draft.json")
+EXPECTED16 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/expected16-correction2c.json")
+CACHE_STATIC = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/cache-inventory-static.json")
+EXPECTED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+EXPECTED_TREE = "8ce3699861505f32d1d60bdc185d4d4f635aedb2"
+TIMEOUT_S = 3600
+
+FORCED_ENV = {"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"}
+
+
+def _sanitized_env() -> dict[str, str]:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update(FORCED_ENV)
+    env["PYTHONDONTWRITEBYTECODE"] = "1"
+    # Absent cache prefix enforced by caller (must not exist before run).
+    return env
+
+
+def _run_git(cwd: Path, *args: str, env: dict) -> subprocess.CompletedProcess:
+    # Checked rc, no inherited GIT_* route, timeout, reap-only-own-process.
+    try:
+        proc = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True,
+                              env=env, timeout=60)
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError(f"git {' '.join(args)} timeout: {exc}") from exc
+    if proc.returncode != 0:
+        raise RuntimeError(f"git {' '.join(args)} rc={proc.returncode}: {proc.stderr.strip()}")
+    return proc
+
+
+def _check_pre(cand: Path, env: dict, out: dict) -> None:
+    # HEAD/tree/index/status PRE with checked rc.
+    head = _run_git(cand, "rev-parse", "HEAD", env=env).stdout.strip()
+    tree = _run_git(cand, "rev-parse", "HEAD^{tree}", env=env).stdout.strip()
+    assert head == EXPECTED_HEAD, f"HEAD {head} != {EXPECTED_HEAD}"
+    assert tree == EXPECTED_TREE, f"tree {tree} != {EXPECTED_TREE}"
+    status = _run_git(cand, "status", "--porcelain=v1", "-uall", env=env).stdout
+    rows = [l for l in status.splitlines() if l]
+    assert len(rows) == 102, f"status rows {len(rows)} != 102 (18 source +84 caches)"
+    src = [l for l in rows if "__pycache__" not in l]
+    cache = [l for l in rows if "__pycache__" in l]
+    assert len(src) == 18 and len(cache) == 84, f"src {len(src)} cache {len(cache)}"
+    cached = _run_git(cand, "diff", "--cached", "--name-only", env=env).stdout.strip()
+    assert cached == "", f"staged delta must be empty: {cached!r}"
+    # static18 + inherited15.
+    static18 = json.loads(STATIC18.read_bytes())
+    assert len(static18) == 18, "static18 must have 18 entries"
+    for rel, pin in static18.items():
+        data = (cand / rel).read_bytes()
+        assert hashlib.sha256(data).hexdigest() == pin["sha256"], f"hash {rel}"
+        assert len(data) == pin["bytes"], f"size {rel}"
+        assert oct((cand / rel).stat().st_mode & 0o777) == pin["mode"], f"mode {rel}"
+    exp16 = json.loads(EXPECTED16.read_bytes())
+    p1 = "scripts/survey_editorial_correction_proposal_v2.py"
+    for rel, pin in exp16.items():
+        if rel == p1:
+            continue
+        assert static18[rel] == pin, f"inherited15 drift: {rel}"
+    # Preknown full cache hashes/modes/sizes + path-set.
+    cache_static = json.loads(CACHE_STATIC.read_bytes())["files"]
+    assert len(cache_static) == 84
+    status_cache = set(l[3:].strip() for l in rows if "__pycache__" in l)
+    assert set(cache_static) == status_cache, "cache path-set != static"
+    for rel, pin in cache_static.items():
+        p = cand / rel
+        assert p.is_file(), f"cache missing: {rel}"
+        data = p.read_bytes()
+        assert hashlib.sha256(data).hexdigest() == pin["sha256"], f"cache hash {rel}"
+        assert len(data) == pin["bytes"], f"cache size {rel}"
+        assert oct(p.stat().st_mode & 0o777) == pin["mode"], f"cache mode {rel}"
+    out["pre"] = {"head": head, "tree": tree, "rows": len(rows)}
+
+
+def main() -> int:
+    # Direct exclusive durable outputs: open handles BEFORE spawn, no overwrite
+    # on refusal (O_EXCL), no silent logging errors (explicit fsync + rc).
+    outdir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("/tmp/opencode/p2v-run-20261014T224000Z")
+    outdir.mkdir(parents=True, exist_ok=False)
+    stdout_p = outdir / "run_p2v_v1.stdout.txt"
+    stderr_p = outdir / "run_p2v_v1.stderr.txt"
+    # O_EXCL guards: refuse if outputs already exist (no duplicate process).
+    for p in (stdout_p, stderr_p):
+        fd = os.open(p, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+        os.close(fd)
+    env = _sanitized_env()
+    cache_prefix = Path(tempfile.gettempdir()) / "p2v-pycache-absent-20261014T224000Z"
+    assert not cache_prefix.exists(), f"cache prefix must be absent: {cache_prefix}"
+    cache_prefix.mkdir(parents=True, exist_ok=False)
+    env["PYTHONPYCACHEPREFIX"] = str(cache_prefix)
+    record = {"argv": sys.argv, "cwd": str(Path.cwd()), "interpreter": sys.version,
+              "forced_env": FORCED_ENV, "candidate": str(CANDIDATE)}
+    (outdir / "run_p2v_v1.meta.json").write_text(json.dumps(record, indent=1))
+    _check_pre(CANDIDATE, env, record)
+    # Focused tests only (DRAFT command; executed after root approval):
+    #   python3 -m unittest tests.test_survey_editorial_current_authority_v2 -v
+    #   + affected P1/P2R subsets chosen after diff (no old25/36 transfer).
+    # Child stdout/stderr go DIRECTLY to already-open exclusive files (no pipe
+    # truncation, no env dump, no secrets). Timeout + SIGTERM propagation to
+    # own process group only; non-zero rc fails without output overwrite.
+    # Finally-POST: repeat _check_pre-equivalent FULL status/HEAD/tree/index +
+    # cache hashes + static18; any drift fails; no source cleanup.
+    (outdir / "run_p2v_v1.pre.json").write_text(json.dumps(record.get("pre"), indent=1))
+    print(f"DRAFT runner v1 ready for root readback; no execution yet. outdir={outdir}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -1,0 +1,82 @@
+#!/usr/bin/env python3
+"""P2V proof DRAFT v1 (NOT EXECUTED — for root readback before long run).
+
+DRAFT, not exact-run evidence. Checks all Git entries incl. dirs/link counts,
+inode-set separation, effective config/remote observations, actual clean409
+without reading removed NEW files, exact saved complete18patch hash and all18
+static bytes/modes/status after application. No active-index add-N, cleanup only
+declared disposable-copy preparation, no source cleanup.
+
+Complete18patch is generated with disposable index/copy only (never active
+add-N), directly relative to clean actual409 (contains all prior overlays).
+Final saved-patch apply in NEW independent actual409 copy; clean observation
+must not try to read removed NEW files.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import stat
+import subprocess
+import sys
+from pathlib import Path
+
+CANDIDATE = Path("/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60")
+STATIC18 = Path("/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2v/expected18-draft.json")
+EXPECTED_HEAD = "409b292756dd1277b9dfae87679934c0d2ce251c"
+
+FORCED_ENV = {"GIT_NO_LAZY_FETCH": "1", "GIT_OPTIONAL_LOCKS": "0", "GIT_ALLOW_PROTOCOL": "file"}
+
+
+def _env() -> dict[str, str]:
+    env = {k: v for k, v in os.environ.items() if not k.startswith("GIT_")}
+    env.update(FORCED_ENV)
+    return env
+
+
+def _git(cwd: Path, *args: str, env: dict) -> subprocess.CompletedProcess:
+    try:
+        proc = subprocess.run(["git", *args], cwd=cwd, capture_output=True, text=True,
+                              env=env, timeout=60)
+    except subprocess.TimeoutExpired as exc:
+        raise RuntimeError(f"git {' '.join(args)} timeout") from exc
+    if proc.returncode != 0:
+        raise RuntimeError(f"git {' '.join(args)} rc={proc.returncode}: {proc.stderr.strip()}")
+    return proc
+
+
+def main() -> int:
+    outdir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("/tmp/opencode/p2v-proof-20261014T224000Z")
+    outdir.mkdir(parents=True, exist_ok=False)
+    env = _env()
+    # All-entry inventory: dirs/link counts/symlinks/walk errors/inode sets.
+    # Candidate .git inspection (no alternates/hardlinks/object sharing).
+    gitdir = CANDIDATE / ".git"
+    assert (gitdir / "objects" / "info" / "alternates").exists() is False, "alternates must not exist"
+    cfg = _git(CANDIDATE, "config", "--local", "--list", env=env).stdout
+    assert "example.invalid" in _git(CANDIDATE, "remote", "-v", env=env).stdout, "origin must stay inert"
+    # Inode-set separation (sample pack inodes differ from P2R active copy).
+    # Effective config/remote observed, not assumed.
+    # Clean409 preparation (disposable copy only): git archive HEAD (actual409)
+    # into NEW temp dir (no overlay, no NEW files). Clean observation lists
+    # status/HEAD/tree and asserts NEW2 absent WITHOUT reading them.
+    #   git --work-tree=<clean> archive HEAD | tar -x -C <clean>
+    #   git -C <clean> rev-parse HEAD/tree + status (must be clean, 0 rows)
+    #   assert not (clean/scripts/survey_editorial_current_authority_v2.py).exists()
+    # Complete18patch generation (disposable index only, never active add-N):
+    #   GIT_INDEX_FILE=<tmp-index> git add --intent-to-add? NO (no add-N).
+    #   Use `git diff --no-index`? NO — use disposable copy: `cp -a` candidate
+    #   to disposable dir, `git --git-dir=<cand-git> diff`? Correct approach:
+    #   `GIT_INDEX_FILE=<disposable> git read-tree HEAD` then `git add` in
+    #   disposable index only, `git diff --cached > complete18.patch`, hash it.
+    # Saved hash check: sha256(complete18.patch) recorded; static18 bytes/modes
+    # re-verified in applied copy; full status must show 18 source rows.
+    # No source cleanup (84 caches preserved in candidate; removals only in
+    # declared disposable preparation, never run no-write).
+    print(f"DRAFT proof v1 ready for root readback; no execution yet. outdir={outdir}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

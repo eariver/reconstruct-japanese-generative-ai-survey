@@ -1,0 +1,95 @@
+test_alias_fifo_no_read_and_late_addition (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_alias_fifo_no_read_and_late_addition) ... FAIL
+test_close_fault_and_no_write (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_close_fault_and_no_write) ... FAIL
+test_error_shape_no_owned (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_error_shape_no_owned) ... ok
+test_keep_drift_refuses_both (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_keep_drift_refuses_both) ... ok
+test_longform_observe_needs_scope (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_longform_observe_needs_scope) ... ok
+test_mutable_persistence_positive_current_negative (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_mutable_persistence_positive_current_negative) ... ok
+test_p1_baseline_and_postcapture_refusal (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_p1_baseline_and_postcapture_refusal) ... ok
+test_public_api_has_no_caller_token (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_public_api_has_no_caller_token) ... ok
+test_r1_active_owner_and_stale_refuses (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_r1_active_owner_and_stale_refuses) ... FAIL
+test_real_control_change_and_artifact_head (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_real_control_change_and_artifact_head) ... ok
+test_retained_missing_extra_empty_dir (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_retained_missing_extra_empty_dir) ... ok
+test_scope_invalid_matrix (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_scope_invalid_matrix) ... FAIL
+test_weekly_observe_scope_bound_after_capture (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_weekly_observe_scope_bound_after_capture) ... ok
+
+======================================================================
+FAIL: test_alias_fifo_no_read_and_late_addition (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_alias_fifo_no_read_and_late_addition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 807, in test_alias_fifo_no_read_and_late_addition
+    with self.assertRaisesRegex(obs.CurrentAuthorityError, "EDITION_DRIFT"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: CurrentAuthorityError not raised
+
+======================================================================
+FAIL: test_close_fault_and_no_write (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_close_fault_and_no_write)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 1107, in test_close_fault_and_no_write
+    self.assertIn("PIN_DRIFT", str(err),
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+                  f"primary PIN_DRIFT must be preserved (got: {err})")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'PIN_DRIFT' not found in "CLOSE_FAILED: [RETAINED] P2R: CLOSE_FAILED: [VERIFY/INVALID] editorial correction proposal close after read failed: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-close-1/proposal.json: injected P2V secondary close fault; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: CLOSE_FAILED: [VERIFY/INVALID] descriptor close failed: injected P2V secondary close fault" : primary PIN_DRIFT must be preserved (got: CLOSE_FAILED: [RETAINED] P2R: CLOSE_FAILED: [VERIFY/INVALID] editorial correction proposal close after read failed: sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-close-1/proposal.json: injected P2V secondary close fault; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: ['injected P2V secondary close fault']; secondary closes: CLOSE_FAILED: [VERIFY/INVALID] descriptor close failed: injected P2V secondary close fault)
+
+======================================================================
+FAIL: test_r1_active_owner_and_stale_refuses (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_r1_active_owner_and_stale_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 572, in test_r1_active_owner_and_stale_refuses
+    self.assertIn("BASIS_MISMATCH", stale["error"],
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                  f"stale active must refuse on rederived basis (got: {stale['error']})")
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BASIS_MISMATCH' not found in 'REF_DRIFT: [RETAINED] P2R: REF_DRIFT: [VERIFY/INVALID] KEEP recheck scripts/survey_weekly_derivation_v2.py bytes differ from recorded sha256: scripts/survey_weekly_derivation_v2.py' : stale active must refuse on rederived basis (got: REF_DRIFT: [RETAINED] P2R: REF_DRIFT: [VERIFY/INVALID] KEEP recheck scripts/survey_weekly_derivation_v2.py bytes differ from recorded sha256: scripts/survey_weekly_derivation_v2.py)
+
+======================================================================
+FAIL: test_scope_invalid_matrix (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_scope_invalid_matrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1795, in _validate_scope
+    authority = surface_gate.load_and_validate_reader_surface_semantic_review(
+        root, raw_path, expected_issue_id=state.get("issue_id"),
+        expected_publication_profile=profile.get("publication_profile"),
+        expected_surface_path=after_ref["path"],
+        expected_surface_sha256=after_ref["sha256"], require_pass=True)
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/scripts/survey_reader_surface_gate_v2.py", line 997, in load_and_validate_reader_surface_semantic_review
+    schema_gate.validate_instance(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        raw, repo_root / SEMANTIC_REVIEW_SCHEMA, label="Semantic Review Record"
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/scripts/survey_schema_v2.py", line 68, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: Semantic Review Record fails /tmp/opencode/evidence-20261015T220000Z-full-tmpdir/p2v-scopem-2fwe9_z3/schemas/reader-surface-semantic-review-v2.schema.json: $.editorial_correction_scope.evidence_locations: [] should be non-empty
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/scripts/survey_editorial_current_authority_v2.py", line 426, in observe_current_authority
+    res = p1mod._validate_scope(live, root_path, scope_review_path,
+                                proposal, state2, profile2)
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1801, in _validate_scope
+    raise _fail("SCOPE_ORDINARY_INVALID", str(exc)) from exc
+scripts.survey_editorial_correction_proposal_v2.ProposalError: SCOPE_ORDINARY_INVALID: Semantic Review Record fails /tmp/opencode/evidence-20261015T220000Z-full-tmpdir/p2v-scopem-2fwe9_z3/schemas/reader-surface-semantic-review-v2.schema.json: $.editorial_correction_scope.evidence_locations: [] should be non-empty
+
+The above exception was the direct cause of the following exception:
+
+scripts.survey_editorial_current_authority_v2.CurrentAuthorityError: SCOPE_ORDINARY_INVALID: [SCOPE] P1: SCOPE_ORDINARY_INVALID: Semantic Review Record fails /tmp/opencode/evidence-20261015T220000Z-full-tmpdir/p2v-scopem-2fwe9_z3/schemas/reader-surface-semantic-review-v2.schema.json: $.editorial_correction_scope.evidence_locations: [] should be non-empty
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 960, in test_scope_invalid_matrix
+    _check_scope("empty-evidence", empty_ev, "SCOPE_BLOCK_SHAPE")
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 906, in _check_scope
+    with self.assertRaisesRegex(obs.CurrentAuthorityError, expected_code, msg=label):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "SCOPE_BLOCK_SHAPE" does not match "SCOPE_ORDINARY_INVALID: [SCOPE] P1: SCOPE_ORDINARY_INVALID: Semantic Review Record fails /tmp/opencode/evidence-20261015T220000Z-full-tmpdir/p2v-scopem-2fwe9_z3/schemas/reader-surface-semantic-review-v2.schema.json: $.editorial_correction_scope.evidence_locations: [] should be non-empty" : empty-evidence
+
+----------------------------------------------------------------------
+Ran 13 tests in 5404.048s
+
+FAILED (failures=4)

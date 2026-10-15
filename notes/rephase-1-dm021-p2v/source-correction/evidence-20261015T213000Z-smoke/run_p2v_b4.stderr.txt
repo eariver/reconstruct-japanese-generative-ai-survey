@@ -1,0 +1,22 @@
+test_longform_observe_needs_scope (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_longform_observe_needs_scope) ... ok
+test_weekly_observe_scope_bound_after_capture (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_weekly_observe_scope_bound_after_capture) ... FAIL
+
+======================================================================
+FAIL: test_weekly_observe_scope_bound_after_capture (tests.test_survey_editorial_current_authority_v2.EditorialCurrentAuthorityV2Tests.test_weekly_observe_scope_bound_after_capture)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 343, in test_weekly_observe_scope_bound_after_capture
+    pair = self._build_weekly_pair(self, root, "fixture-wk-p2v-1", "Weekly P2V scope edition")
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_current_authority_v2.py", line 289, in _build_weekly_pair
+    p1t._assert_no_write(testcase, snap2, p1t._snapshot(root), "p2v capture no extra writes outside retained")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 158, in _assert_no_write
+    testcase.assertEqual(after["files"], before["files"], f"tree write during {label}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'.gi[66311 chars]n/v2/editorial-corrections/fixture-wk-p2v-1/re[32207 chars]f94'} != {'.gi[66311 chars]n/v2/interactive-semantic-publication-input.js[28383 chars]f94'}
+Diff is 100944 characters long. Set self.maxDiff to None to see it. : tree write during p2v capture no extra writes outside retained
+
+----------------------------------------------------------------------
+Ran 2 tests in 695.978s
+
+FAILED (failures=1)
