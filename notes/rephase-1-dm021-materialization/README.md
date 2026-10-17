@@ -1,0 +1,20 @@
+# DM021 materialization/admission/promotion analysis — P3S selection
+
+**Design bounded complete, 2026-10-17 JST** (closeout clock2026-10-16T16:55:44Z; analysis/contract document date2026-10-16 retained). Fresh author-independent DESIGN_BOUNDED_PASS with mandatory Astra S1–S5. At Human's explicit request, Astra executed `git add .`, committed prior P2V closeout as **5595d214375f77c93fc3376799fb29b145bc5e32** with message `Astra work RE: Phase 1 continuation`, and pushed reconstruct/main normally; clean HEAD/origin equality observed. No candidate/Production commit authority follows. This new design/entry work is uncommitted at its next Human Commit Point.
+
+## Read first
+
+1. [Astra selected P3S staged source contract](../../outputs/rephase-1-dm021-staged-source-contract-decision.md), SHA256 **42eb8dbbb1eeda362b264847c80bdbf478b433ab1fe9777e7fe49c8ed9df3472**: actual reviewed TeX/Bib/style materialization +independent replay in a closed proposal-owned namespace, expected3A/0M including1schema. Full live adoption remains unselected.
+2. [Task](task.md), [source-binding summary](source-binding.md), preserved [initial General proposal](analysis.md), [Astra M1–M6 feedback](astra-feedback.md), [first correction](correction.md), [Astra R2 feedback](astra-feedback-r2.md), [second correction](correction2.md). Contract supersedes incompatible proposals, not a silent edit of history.
+3. [Independent actual-source design review, including scoped §7](independent-design-review.md) with mandatory [Astra resolution / S1–S5 and qualifications](astra-review-resolution.md). DESIGN_BOUNDED_PASS only; no runtime/implementation/adoption acceptance. Integrated promotion is deferred for unresolved predicates, not because file count intrinsically prevents review.
+4. [P2V assessment / current source / qualifications](../../outputs/rephase-1-dm021-p2v-assessment.md); P1/P2R/P2V contracts07e89990/194fd7de/2ea1d98f unchanged.
+
+## Basis / corrections
+
+Source remains `/tmp/opencode/jgas-dm021p2v-impl-20261014T224000Z/candidate-partial-b40de60`, actual409b292/tree8ce36998 +18file3M15A+84 caches, P1cdd69/observer79a339/testc567. General all18 hashes/modes/sizes and status counts are read-only summarized observations, not a persisted raw packet; cache bytes not rehashed/executed. Fullpatchdc5ae07b and prior scoped13+1 evidence remain their original scope. No new runtime/fixture/test/build/source/copy/restoration/network evidence.
+
+Initial analysis's required direct-reader role/4th-Gate inference, public P1-after-retention preflight, adoption-first circularity, zero live-invalid window, fully-specified P4/zero downstream changes and reader-only P3 are superseded. Correction1's State-byte-unchanged⇒healthy/only-review-binding-gap claim is also withdrawn. Final selection further corrects blanket failed-manifest invalidity, source-only tool-pin incompleteness and historical scope-helper reuse. Ordinary explicit-path artifact validation is distinct from generated receipt/Gate path requirements; build tooling exists, but managed staged-build/adoption integration is not selected here.
+
+Selected P3S has present consumers: its exact replay verifier and source inspection, or inputs to a separate disposable build without admission/rendered-approval claims. Existing P1 remains destination-strict; P2R/P2V merely coexist with the new source set, not consume its TeX. Artifact replay may survive mutable live-State changes only with required refs/KEEP/replay dependencies intact; no current-before authority, creator or bearer permission follows. Exact four-file namespace, immutable completion last, no existing-root takeover/retry/cleanup, full original-pin drift/failure checks.
+
+Next after Human continuation: concrete P3S API/schema/dependency/scope-adapter/filesystem/fixture return to Astra, then selected implementation only after that return. Current18 unchanged; future21path3M18A is planned, not implemented. Whole NOT_READY, step4/B3 OPEN, canonical audit unstarted, DM021 OPEN. Stop at design Human Commit Point; no automatic full promoter or candidate commit.

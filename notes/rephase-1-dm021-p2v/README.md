@@ -1,5 +1,7 @@
 # DM021-P2V implementation — bounded complete
 
+**Successor design 2026-10-17 JST:** [P3S contract42eb8dbb](../../outputs/rephase-1-dm021-staged-source-contract-decision.md) / [materialization analysis packet](../rephase-1-dm021-materialization/README.md) controls continuation. P2V code/scoped13+1/fullpatchdc5ae07b below unchanged; its closeout was committed/pushed5595d21 by Astra under explicit Human delegation. P3S is unimplemented; next concrete S1–S5 return before code, full promotion/DM021 still OPEN.
+
 2026-10-16 JST. [Assessment/current source/next design task](../../outputs/rephase-1-dm021-p2v-assessment.md) controls continuation. Fixed [contract2ea1d98f](../../outputs/rephase-1-dm021-current-authority-contract-decision.md) unchanged. Selected2A1M/0schema: read-only observer plus private P1 factoring/test. **Scoped13+1, not a full14 run.** Whole NOT_READY, step4/B3 OPEN, audit unstarted, DM021 OPEN; stop at Human Commit Point.
 
 ## Read final evidence together

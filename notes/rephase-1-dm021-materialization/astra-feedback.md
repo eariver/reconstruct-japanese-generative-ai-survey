@@ -1,0 +1,37 @@
+# Astra materialization analysis review — initial proposal not selected
+
+2026-10-16 JST. Preserve initial623-line analysis/source-binding. Root read actual controller `_collect_pending_rows`, Gate derivation binding, P1/P2R/P2V invariants and prior source interfaces. Significant proposed conclusions are unsupported; no P3/P4 code or architecture is selected by the initial return.
+
+## M1 — changed-row coverage claim is false
+
+`_collect_pending_rows:726` iterates **checkpoint.artifacts**, not every changed file in the tree. Reader JSON absent from those7 rows is NOT itself iterated and does not automatically hit740. Distinguish direct checkpoint roles from transitive receipt/reader/review dependencies. New editorial authority/full closure is needed, but “reader JSON not a role ⇒ must add direct role” is not established. Do not change stage configuration, exact P1 seven-row contract or reason+role schema based on that inference. The existing controller supports changed surface rows under its restricted reason; a new reason alone is insufficient, but neither a new role nor a fourth Gate route is logically compelled without choosing a representation.
+
+## M2 — impossible preflight and circular adoption
+
+Analysis293 calls public P1 validate after retention, which necessarily refuses; P2V already exists to combine fresh common P1 data and retained validation. A writer's fresh call should use actual P2V with scope in its own invocation, without trusting a prior returned dict. Don't call destination-strict public P1 on a retained proposal or hide an ignore flag.
+
+“Adoption→readback” does not solve the cycle: revalidation1931 calls the Gate; Gate1174 calls Longform receipt; receipt698 calls healthy-State readback **before** revalidation writes State at2032. The old State is invalid once current artifacts are replaced. Simply postponing readback cannot establish adoption evidence, and saying normal generation/QA runs then revalidation omits this concrete path. Candidate builder consumes reviewed bytes, not publishers. Analysis§5.3 also puts generation/QA after adoption though adoption requires them before. Withdraw “fully specified P4/no cycle” until a real checked context/public post-adoption resolution is defined; no bare caller boolean/pending token, manufactured State/Profile or setter-first circular authority.
+
+## M3 — review/path and failure-window claims
+
+An explicit versioned reader relation can preserve the pre-TeX review path; it does NOT by itself eliminate the interval between live replacement and new State adoption. “Zero invalid-live window” is false absent a different atomic/versioned authority design (not proved). Distinguish staged-only healthy-live preparation, bounded invalid-live install window, and ordinary post-build semantic/visual + Human Preview obligations. No extra mandatory semantic review default; no promise costs are zero/unbounded by fiat.
+
+P4's existing-output refusal conflicts with replacing necessarily existing canonical reader/source/receipt targets. After live writes fail, originals cannot truthfully be reported unchanged. Enumerate phases/write sets and ownership/recovery without borrowing retention-only guarantees indiscriminately. State/receipt/tool/source guards remain necessary, but a semantic string saying “normal chain” supplies none of them. Existing unadopted Candidate files (P1 observed) also need a precise replacement/versioned-path disposition; “zero downstream changes” is not proven.
+
+## M4 — proposed P3 is not the requested post-review materialization
+
+P1 prepare already independently derives proposed canonical reader bytes; current tests stage those exact bytes, not opaque invented content. The current P2V workflow already requires proposal+reader+retention+scope. A new helper that writes only the reader JSON goes backwards before that workflow and leaves proposal.json staging manual. It may be convenient automation, but no lifecycle-saving/necessary-next-unit case is made; do not pick it just because2A is small.
+
+Analyze instead a minimal **post-review staged source materializer**: consume existing P2V scope-bound proposal/retention in its own fresh invocation, render actual main.tex/references.bib/jgaisurvey.sty with existing deterministic renderers at a disjoint, canonical proposal-owned namespace, and provide a strict replay/readback artifact/API that can be used now (e.g. checked source inspection/build input) without pretending live receipt/Gate/State adoption. Define exact current-vs-historical readback semantics and future promotion debt. This is a candidate boundary for analysis, not a selected implementation.
+
+If that staged component is recommended, budget its real module/schema/test/changes, output manifest/receipt and failure behavior. Its outputs must not be claimed consumed by unchanged P1/P2R/P2V (those validate reader/before state, not new TeX). Existing public validators for manifest/bundle may accept explicit paths independently of Gate's canonical restriction; cite exact checks rather than asserting all consumers uniformly require live canonical paths. Compare against a coherent integrated writer if feasible; a10-file diff is not intrinsically unreviewable merely because prior increments were smaller.
+
+## M5 — do not silently design a dead-end receipt
+
+For staged source capture, decide whether readback is current-before readiness (calls fresh P2V and stops after live adoption) or artifact integrity/replay independent of mutable originals, or two explicitly distinct APIs. A manifest tied to old raw State cannot automatically be the final after-adoption source receipt. Likewise a full P2V input_hashes map includes edition snapshots: after creating output/manifest, blindly requiring equality to a fresh observer map creates self-inclusion differences. Record concrete stable refs and distinguish invocation snapshots from historical metadata; no self-hash recursion. An artifact-only HEAD commit must not automatically invalidate a receipt merely because observer.observed_head differs; current route tool predicates remain material. Define independent tool basis and accepted/reader/serialization bindings rather than handwaving schema validity.
+
+Preserve exact proposed-reader/scope path+SHA, before/active/proposed identities, actual old-byte retention and no generated PASS. Build outputs/aux cleanup/PDF/manuscript/QA boundaries must be explicit; no implied full rendering/approval acceptance from deterministic TeX replay. State how later adoption will consume/revalidate staged bytes without rebinding review/source/PDF paths by equal SHA. If unsolved, mark the precise debt; do not call P4 fully specified.
+
+## M6 — concrete return and evidence precision
+
+Return a corrected source/consumer matrix; real preflight/materialization/replay state machine and exact scope/partial/retry/ownership boundaries; alternatives/costs; minimal useful budget/oracles; full-promotion unresolved questions separated from selected-to-be-defined staged scope. Source citations must be actual function start/call: Weekly validate_reader_input is383, not726 (receipt); Longform validate_receipt starts665, not660. No reads/tests/network/newsource. Source observations are summaries unless raw persisted; cache byte checks remain inherited, not newly proved. Preserved contracts are current selected constraints, not immutable architecture authority against a justified explicit later decision. No new Human role/Gate or production-owned fixture requirement.
