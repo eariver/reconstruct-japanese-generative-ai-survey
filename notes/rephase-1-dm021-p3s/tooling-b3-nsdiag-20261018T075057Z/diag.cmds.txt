@@ -1,0 +1,10 @@
+PYTHONDONTWRITEBYTECODE=1 PYTHONPYCACHEPREFIX=/tmp/opencode/p3s-b3-nsdiag-20261018T075057Z-nocache-absent TMPDIR=/tmp/opencode python3 notes/rephase-1-dm021-p3s/verification-tools/run_p3s_b3.py --help
+# D1 rc=0 stdout=940B stderr=0B (recorded in d1.help.*)
+
+PYTHONDONTWRITEBYTECODE=1 PYTHONPYCACHEPREFIX=/tmp/opencode/p3s-b3-nsdiag-20261018T075057Z-nocache-absent TMPDIR=/tmp/opencode python3 notes/rephase-1-dm021-p3s/verification-tools/run_p3s_b3.py --manifest /tmp/opencode/p3s-b3-nsdiag-20261018T075057Z/no-such.json --candidate /tmp/opencode/p3s-b3-nsdiag-20261018T075057Z/nope --outdir /tmp/opencode/p3s-b3-nsdiag-20261018T075057Z/out-missing --cache-inventory notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/cache-inventory-static.json --p2v-expected18 notes/rephase-1-dm021-p2v/source-correction/expected18-source-correction-v5.json
+# D2 rc=40 stderr="RUNNER_REFUSAL: manifest missing/non-regular: ..." (recorded in d2.missing.*)
+
+PYTHONDONTWRITEBYTECODE=1 PYTHONPYCACHEPREFIX=/tmp/opencode/p3s-b3-nsdiag-20261018T075057Z-nocache-absent TMPDIR=/tmp/opencode python3 notes/rephase-1-dm021-p3s/verification-tools/run_p3s_b3.py --manifest notes/rephase-1-dm021-p2v/source-correction/expected18-source-correction-v5.json --candidate /tmp/opencode/p3s-b3-nsdiag-20261018T075057Z/nope --outdir /tmp/opencode/p3s-b3-nsdiag-20261018T075057Z/collide --cache-inventory notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/cache-inventory-static.json --p2v-expected18 notes/rephase-1-dm021-p2v/source-correction/expected18-source-correction-v5.json
+# D3 rc=40 stderr="RUNNER_REFUSAL: outdir exists (not overwriting, ...)" stdout=0B (recorded in d3.collide.*)
+
+# All three ran with clean inherited env (no GIT_*/PYTHON*/TMPDIR); no candidate paths exist or were touched; no GEN/PROOF execution; no network.

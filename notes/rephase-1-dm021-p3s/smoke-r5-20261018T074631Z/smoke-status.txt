@@ -1,0 +1,76 @@
+# P3S R5 bounded smoke O1/O2 — single execution result (FAILURE at runner launch, no test executed)
+date_utc=20261018T074727Z
+packet=notes/rephase-1-dm021-p3s/smoke-r5-20261018T074631Z
+candidate=/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60
+manifest=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/draft-history-r5/static21.json
+runner=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/verification-tools/run_p3s_b2.py
+cache=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2r/evidence-20261014T000000Z-correction2/cache-inventory-static.json
+p2vexp=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p2v/source-correction/expected18-source-correction-v5.json
+outdir=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r5-20261018T074631Z/run-b2-o1o2
+fixture_raw=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r5-20261018T074631Z/fixture-raw (via P3S_DURABLE_OUTDIR)
+python=/usr/bin/python3 version=Python 3.14.4 exe=/usr/bin/python3
+tests_requested=2
+  tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay
+  tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o2_weekly_materialize_and_replay
+runner_timeout=7200
+inner_bounds=materialize/fault1800 verify600 (operational only)
+
+## PRE-launch verification (sanitized env, read-only, before launch)
+candidate_head=409b292756dd1277b9dfae87679934c0d2ce251c
+candidate_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+detached=yes (git symbolic-ref -q HEAD rc=1)
+index_empty=yes (git diff --cached --name-only empty, 0 bytes)
+worktree_diff_3M=yes (schemas/reader-surface-gate-v2.schema.json, schemas/reader-surface-semantic-review-v2.schema.json, scripts/survey_reader_surface_gate_v2.py)
+remote=inert (origin https://example.invalid/rephase-candidate-recovery.git fetch+push)
+alternates=absent (no .git/objects/info/alternates)
+status_rows=105 (3M + 18A + 84 pyc; non-pyc 21 = 3M+18A)
+runner_tmpdir_absent=yes (/tmp/opencode/run-b2-o1o2-tmpdir missing pre-launch)
+runner_cache_prefix_absent=yes (/tmp/opencode/run-b2-o1o2-nocache-absent missing pre-launch)
+runner_outdir_absent=yes (packet/run-b2-o1o2 missing pre-launch)
+env_GIT=none inherited
+static21_sha=13751b25a6c5c882dcf92a01959c2af0eb8030d82c007ecd6a83d6c485362fcf
+runner_sha=4a8e2ac0aaccc130178aadb3790b54e4da187ac95c99c766ed09dac183ef2f6d
+cache_sha=75bc4e9fc030425eae3b7ca85a990f9ddffe09968352b04630bb260abc3a6b76
+p2vexp_sha=7462c04edea2941eeceb8f4fe943e0ec31a911250b78fc52d50fbaddce81118a
+
+## Launch (single execution, background PID persisted, no duplicate)
+launch_pid=3526468 (recorded in launch.pid immediately after nohup &)
+launch_cmd=see launch.cmd.sh (absolute args, P3S_DURABLE_OUTDIR exported)
+wrapper_stdout=launch.stdout (0 bytes, empty)
+wrapper_stderr=launch.stderr (514 bytes, full traceback below)
+wrapper_rc=NOT reaped across tool shell boundary (wait: not a child of this shell, rc=127 for wait itself); runner produced NO outdir/run_p3s_b2.exit (outdir never created); Python fatal traceback implies process exit 1; recorded honestly, not fabricated.
+poll_+5s=process already exited (kill -0: no such process); outdir absent; fixture-raw absent
+
+## Full raw failure (launch.stderr verbatim)
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/verification-tools/run_p3s_b2.py", line 672, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/verification-tools/run_p3s_b2.py", line 356, in main
+    if not os.lexists(manifest_p) or not manifest_p.is_file():
+           ^^^^^^^^^^
+AttributeError: module 'os' has no attribute 'lexists'
+
+## Exact stage/guard result
+stage=runner launch validation BEFORE outdir creation (main() arg/output gates, run_p3s_b2.py lines 356-367), BEFORE PRE observe/_check_pins, BEFORE child Popen.
+guard_result=FATAL tooling defect (not candidate PRE-GUARD): AttributeError: module 'os' has no attribute 'lexists' at run_p3s_b2.py line 356 (manifest existence gate). Same wrong call recurs at lines 359,362,365,370,373 (cache/p2v/outdir/tmpdir/cache-prefix gates) and 569 (post cache-prefix check); correct call is os.path.lexists. Caught by main() generic except Exception -> terminal["fatal"], launch_rc=1. No PRE/POST observe ran, no _check_pins ran, no child launched.
+classification=runner B2 draft defect, NOT candidate static21/HEAD/tree/status/cache failure and NOT a test refusal. No fixture DBs created (runner TMPDIR never made it past validation). No candidate/reconstruct changes made.
+
+## Child/test outcomes
+child_launched=no (runner crashed before Popen)
+child_rc=none
+tests_executed=0 of 2 requested
+  - test_o1_longform_materialize_and_replay: NOT EXECUTED
+  - test_o2_weekly_materialize_and_replay: NOT EXECUTED
+time_elapsed_child=none
+skipped=none recorded (no unittest output; outdir/run_p3s_b2.stdout.txt absent)
+incomplete=both methods unexecuted due to runner launch failure
+durable_child_raw=absent (fixture-raw never created; no child outputs)
+
+## POST
+post_observe=absent (no run-b2-o1o2/post.json; outdir never created)
+post_status_rows=unchanged by this job (no writes to candidate; candidate status still 105 rows pre-launch observed; no post rehash claimed here)
+static_inputs_post=not re-pinned by runner (runner crashed before pre-guard pins); frozen R5 static21 preserved unmodified.
+
+## Disposition
+Return for root diagnosis BEFORE any changes or rerun. No autonomous test alteration, no fixture repair, no timeout relabel, no full-suite continuation. No candidate/reconstruct commit/push, no Production/network. Single execution only; will not duplicate without new explicit authorization.

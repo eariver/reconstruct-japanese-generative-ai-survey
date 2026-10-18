@@ -1,0 +1,9 @@
+# Astra write-fault/R1 batch selection and R9 diagnosis boundary
+
+2026-10-18. R9 replay/late-fault batch `smoke-r9-batch-d-20261018T100340Z/` ran9/4449.573s: O8/O11/O11d succeeded, O9/O10/O11b/O11c/O11e/O11f failed; child/runner/launcher1, post_errors[] reported. Exact failures/raw remain for diagnosis, not automatically interpreted as runtime defects or accepted earlier-guard coverage. R9 runtime7059166e/schema4fa61723/testb9f41323 stay frozen during the next work.
+
+Authorize one separate read-only-source execution of NINE still-unexecuted methods: O12a (actual `test_o12_partial_manifest_and_zeroed_output` or current spelling), O12b, O12c, O12d, O12e, O12f, O13, O14, real R1. Resolve/persist exact method names from parsed source, no guesses, no -f, no whole-module default. Same R9 static21, B3/B4 runner14400/outer15000, fresh unique packet/run basename/cache/TMPDIR and explicit durable fixture-raw; all fixed21/18/84/HEAD/tree/detached/index guards. No code edits or reruns. Return every actual method/subcase outcome, duration, child/runner/launcher/timeout/log errors and PRE/POST. Never count partial subcases as complete method success.
+
+A separate Worker may analyze the six saved R9 failures READ ONLY while this batch runs; neither may edit candidate source until both return. Diagnosis must distinguish a truly changed same-inode byte payload from a no-op (O10), timeout flag presence versus true timeout (O9), early guard preemption versus the selected late boundary (O11b/c), and actual nested snapshot/identity failure codes (O11e/f). Missing intended seam coverage needs corrected injection timing, not just broad exception acceptance. No new standalone fixtures/tests during diagnosis. Required late control/retained additions must still test final original-baseline guards after later real helpers.
+
+No commit/push/network/Production, no next implementation unit. This is still incomplete P3S verification, not a closeout or Human Commit Point.

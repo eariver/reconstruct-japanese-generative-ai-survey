@@ -1,0 +1,1316 @@
+#!/usr/bin/env python3
+"""DM021-P3S post-review staged source materialization + standalone replay.
+
+Two entry points (no CLI, no State adoption, no Gate/Candidate/PDF):
+
+  materialize_staged_source(root, state_path, proposal_path,
+                            retention_manifest_path, scope_review_path)
+      One-shot current-scoped writer. Calls actual fresh P2V
+      ``observe_current_authority`` INSIDE its own invocation (lazy import so
+      the observer never leaks into the verifier's claimed closure), renders
+      the already-derived proposed reader through the existing route
+      renderers, exclusively claims ``<proposal_dir>/staged-source/`` with
+      exactly main.tex + references.bib + jgaisurvey.sty, publishes the staged
+      manifest LAST, then runs standalone replay + a second fresh P2V and
+      compares stable facts only.
+
+  verify_staged_source(root, proposal_path, staged_manifest_path)
+      Standalone read-only retained/staged consistency + deterministic replay.
+      Never calls P2V, never validates current State, never compares current
+      HEAD to producer HEAD. Derives the expected retention path from the
+      supplied staged manifest and the historical namespace from P2R-verified
+      retained bytes.
+
+All refusals raise StagedSourceError (a ValueError) with structured
+code/phase/disposition/detail/owned/cause. Pre-write refusals create nothing;
+post-claim failures preserve owned partials and never report success; a failed
+close/final check that leaves complete valid bytes reports
+INDETERMINATE_INVOCATION (not success); later artifact verification may then
+attest byte-consistency only.
+"""
+from __future__ import annotations
+
+import json
+import os
+import stat as _stat
+import subprocess
+import sys
+from pathlib import Path
+from typing import Any
+
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+from scripts import survey_editorial_retention_v2 as retention
+from scripts import survey_longform_derivation_v2 as longform_derivation
+from scripts import survey_longform_generated_v2 as longform_generated
+from scripts import survey_production_v2 as core
+from scripts import survey_reader_surface_gate_v2 as surface_gate
+from scripts import survey_schema_v2 as schema_gate
+from scripts import survey_weekly_derivation_v2 as weekly
+
+RESULT_MATERIALIZED = "STAGED_SOURCE_MATERIALIZED"
+RESULT_VERIFIED = "STAGED_SOURCE_REPLAY_VERIFIED"
+
+STAGED_DIRNAME = "staged-source"
+MANIFEST_FILENAME = "staged-source-manifest.json"
+MAIN_FILENAME = "main.tex"
+BIBLIOGRAPHY_FILENAME = "references.bib"
+STYLE_FILENAME = "jgaisurvey.sty"
+
+STAGED_SCHEMA = Path("schemas/editorial-staged-source-manifest-v2.schema.json")
+STAGED_MODULE = Path("scripts/survey_editorial_staged_source_v2.py")
+P2V_MODULE = Path("scripts/survey_editorial_current_authority_v2.py")
+STYLE_PATH = Path("templates/survey/jgaisurvey.sty")
+
+LONGFORM_ROUTE = "LONGFORM_GENERATED_V1"
+WEEKLY_ROUTE = "WEEKLY_GENERATED_V2"
+
+LONGFORM_READER_SCHEMA = Path("schemas/longform-reader-input-v2.schema.json")
+LONGFORM_RECEIPT_SCHEMA = Path("schemas/longform-publication-source-manifest-v2.schema.json")
+LONGFORM_SEMANTIC_PUBLICATION = Path("scripts/survey_longform_semantic_publication_v2.py")
+WEEKLY_READER_SCHEMA = Path("schemas/reader-surface-input-v2.schema.json")
+WEEKLY_RECEIPT_SCHEMA = Path("schemas/weekly-publication-source-manifest-v2.schema.json")
+WEEKLY_SEMANTIC_PUBLICATION = Path("scripts/survey_weekly_semantic_publication_v2.py")
+PROPOSAL_SCHEMA = p1mod.PROPOSAL_SCHEMA
+RETENTION_MANIFEST_SCHEMA = retention.MANIFEST_SCHEMA
+REVIEW_SCHEMA = surface_gate.SEMANTIC_REVIEW_SCHEMA
+GATE_SCHEMA = surface_gate.SURFACE_GATE_SCHEMA
+
+_UNSAFE_GIT_VARS = ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE", "GIT_OBJECT_DIRECTORY",
+                    "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_COMMON_DIR", "GIT_PREFIX")
+
+# Fixed shared load closure: every repo .py reachable via top-level imports
+# from this module's own top-level imports (AST-derived, fixpoint). All are
+# loaded at verifier import time, hence all are pinned for runtime binding.
+# Nested (function-local) imports on paths the writer/verifier never execute
+# (e.g. R1 refresh, screening internals) are NOT pinned; any new call edge to
+# them is an exact blocker requiring an S2 extension, never silent execution.
+_SHARED_PY = (
+    "scripts/render_article_draft_tex.py",
+    "scripts/survey_agent_control_v2.py",
+    "scripts/survey_agent_tool_v2.py",
+    "scripts/survey_architecture_v2.py",
+    "scripts/survey_architecture_v2_base.py",
+    "scripts/survey_bibliography_access_provenance_v2.py",
+    "scripts/survey_completeness_v2.py",
+    "scripts/survey_drafting_citation_refs_v2.py",
+    "scripts/survey_drafting_v2.py",
+    "scripts/survey_drafting_v2_base.py",
+    "scripts/survey_editorial_correction_proposal_v2.py",
+    "scripts/survey_editorial_retention_v2.py",
+    "scripts/survey_evidence_v2.py",
+    "scripts/survey_longform_derivation_v2.py",
+    "scripts/survey_longform_generated_v2.py",
+    "scripts/survey_production_v2.py",
+    "scripts/survey_publication_v2.py",
+    "scripts/survey_quality_v2.py",
+    "scripts/survey_reader_fidelity_v2.py",
+    "scripts/survey_reader_publication_v2.py",
+    "scripts/survey_reader_surface_gate_v2.py",
+    "scripts/survey_review_attention_v2.py",
+    "scripts/survey_schema_v2.py",
+    "scripts/survey_screening_v2.py",
+    "scripts/survey_weekly_derivation_v2.py",
+    "scripts/validate_article_draft.py",
+    "scripts/weekly_pipeline.py",
+)
+
+_SHARED_SCHEMAS = (
+    "schemas/editorial-correction-proposal-v2.schema.json",
+    "schemas/editorial-retention-manifest-v2.schema.json",
+    "schemas/editorial-staged-source-manifest-v2.schema.json",
+    "schemas/reader-surface-gate-v2.schema.json",
+    "schemas/reader-surface-semantic-review-v2.schema.json",
+)
+
+
+def _route_code_deps(route: str) -> tuple[str, ...]:
+    """Exact fixed sorted-unique replay dependency set for one route."""
+    if route == LONGFORM_ROUTE:
+        extra = (LONGFORM_READER_SCHEMA.as_posix(), LONGFORM_RECEIPT_SCHEMA.as_posix(),
+                 LONGFORM_SEMANTIC_PUBLICATION.as_posix())
+    elif route == WEEKLY_ROUTE:
+        extra = (WEEKLY_READER_SCHEMA.as_posix(), WEEKLY_RECEIPT_SCHEMA.as_posix(),
+                 WEEKLY_SEMANTIC_PUBLICATION.as_posix())
+    else:
+        raise StagedSourceError("UNKNOWN_ROUTE", "PIN", "REFUSED_PRE_WRITE",
+                                f"unsupported staged route: {route}")
+    members = (set(_SHARED_PY) | set(_SHARED_SCHEMAS) | set(extra)
+               | {STAGED_MODULE.as_posix(), STYLE_PATH.as_posix()})
+    ordered = tuple(sorted(members))
+    if len(ordered) != 27 + 5 + 3 + 1 + 1:
+        raise StagedSourceError("CODE_DEPS_SHAPE", "PIN", "REFUSED_PRE_WRITE",
+                                f"fixed S2 set changed size: {len(ordered)}")
+    return ordered
+
+
+class StagedSourceError(ValueError):
+    """Typed staged-source refusal with structured fields."""
+
+    def __init__(self, code: str, phase: str, disposition: str, detail: str,
+                 owned: dict[str, Any] | None = None,
+                 cause: BaseException | None = None) -> None:
+        super().__init__(f"{code}: [{phase}/{disposition}] {detail}")
+        self.code = code
+        self.phase = phase
+        self.disposition = disposition
+        self.detail = detail
+        self.owned: dict[str, Any] = owned if owned is not None else {}
+        if cause is not None:
+            self.__cause__ = cause
+
+
+def _fail(code: str, phase: str, disposition: str, detail: str,
+          owned: dict[str, Any] | None = None,
+          cause: BaseException | None = None) -> StagedSourceError:
+    return StagedSourceError(code, phase, disposition, detail, owned, cause)
+
+
+class _SessionScopeReader:
+    """Narrow safe-reader shim exposing ONLY the surface P1 scope uses.
+
+    P1 ``_validate_scope`` touches exactly one collector method,
+    ``col.safe(value, label)``, plus passed proposal/State/Profile data.
+    This shim backs ``safe`` with an actual P2R ``_Session`` (dirfd/no-follow
+    pins over the retained history) so no live ``_Collector`` (live HEAD +
+    config) is ever constructed in the artifact verifier, and no dummy
+    HEAD/config values or fabricated former-State dicts are introduced.
+    """
+
+    def __init__(self, session: Any) -> None:
+        self._session = session
+        self._root = session.root_resolved
+        self.rels: list[str] = []
+
+    def safe(self, value: str | Path, label: str) -> Path:
+        rel, _data = self._session.safe_read(value, label, "VERIFY", "INVALID")
+        if rel not in self.rels:
+            self.rels.append(rel)
+        return self._root / rel
+
+
+def _canonical_json_bytes(value: Any) -> bytes:
+    """Deterministic canonical bytes: recursive dict-key ordering.
+
+    Mapping keys sort ascending at every level; arrays preserve semantic
+    order (``code_deps`` is pre-sorted by path at construction and enforced).
+    Serialized with the existing ``core.json_bytes`` (indent 2 + newline).
+    """
+
+    def _canon(node: Any) -> Any:
+        if isinstance(node, dict):
+            return {k: _canon(node[k]) for k in sorted(node)}
+        if isinstance(node, (list, tuple)):
+            return [_canon(item) for item in node]
+        return node
+
+    return core.json_bytes(_canon(value))
+
+
+def _manifest_digest(manifest: dict[str, Any]) -> str:
+    """Self-digest excluding the digest field (review_sha256 precedent)."""
+    body = {k: v for k, v in manifest.items() if k != "manifest_digest"}
+    return core.sha256_object(body)
+
+
+def _ordered_sized_ref(ref: dict[str, Any], label: str, phase: str, disp: str) -> dict[str, Any]:
+    if not isinstance(ref, dict) or set(ref) != {"path", "sha256", "byte_count"}:
+        raise _fail("REF_SHAPE", phase, disp, f"{label} is not an exact {{path,sha256,byte_count}} record")
+    if not isinstance(ref["path"], str) or not ref["path"]:
+        raise _fail("REF_SHAPE", phase, disp, f"{label} has invalid path")
+    if not isinstance(ref["sha256"], str) or len(ref["sha256"]) != 64:
+        raise _fail("REF_SHAPE", phase, disp, f"{label} has invalid sha256")
+    if not isinstance(ref["byte_count"], int) or ref["byte_count"] < 1:
+        raise _fail("REF_SHAPE", phase, disp, f"{label} has invalid byte_count")
+    return {"path": ref["path"], "sha256": ref["sha256"], "byte_count": ref["byte_count"]}
+
+
+def _ordered_ref(ref: dict[str, Any], label: str, phase: str, disp: str) -> dict[str, Any]:
+    if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+        raise _fail("REF_SHAPE", phase, disp, f"{label} is not an exact {{path,sha256}} record")
+    return {"path": ref["path"], "sha256": ref["sha256"]}
+
+
+def _check_contract_identity(ci: Any, phase: str, disp: str) -> dict[str, str]:
+    expected = ("pipeline_contract_version", "pipeline_contract_sha256",
+                "quality_contract_version", "quality_contract_sha256",
+                "research_profile_version", "research_profile_sha256",
+                "publication_profile_version", "publication_profile_sha256")
+    if not isinstance(ci, dict) or set(ci) != set(expected):
+        raise _fail("CONTRACT_IDENTITY_SHAPE", phase, disp,
+                    "basis.contract_identity must carry the strict 8 keys")
+    return {k: ci[k] for k in expected}
+
+
+def _attach_close(primary: StagedSourceError, close_exc: BaseException) -> None:
+    detail = f"{primary.detail}; secondary closes: {close_exc}"
+    primary.detail = detail
+    primary.owned.setdefault("secondary_close_errors", []).append(str(close_exc))
+    primary.args = (f"{primary.code}: [{primary.phase}/{primary.disposition}] {detail}",)
+
+
+def _close_session(session: Any, phase: str, disp: str, primary: StagedSourceError | None = None) -> None:
+    """Checked close that never drops StagedSourceError diagnostics.
+
+    ``_Session._close_all`` only attaches secondaries to a ``RetentionError``
+    prior, so a ``StagedSourceError`` primary is never passed as ``prior``;
+    close failures are caught here as ``RetentionError`` and attached
+    manually (or raised when no primary is in flight).
+    """
+    try:
+        session._close_all(phase, disp)
+    except Exception as exc:
+        if primary is not None:
+            _attach_close(primary, exc)
+        else:
+            raise _fail("CLOSE_FAILED", phase, disp,
+                        f"descriptor close failed: {exc}", cause=exc) from exc
+
+
+def _check_runtime_binding(root: Path, pinned: dict[str, str], phase: str, disp: str) -> None:
+    """Tripwire (not a hotpatch proof): every loaded S2 .py must resolve to
+    the pinned repo-rel path with matching bytes. File-pin-only entries
+    (semantic-publication producers, schemas, style) are byte-compared from
+    disk, never imported, and are skipped here."""
+    for rel, sha in sorted(pinned.items()):
+        if not rel.endswith(".py"):
+            continue
+        if rel in (LONGFORM_SEMANTIC_PUBLICATION.as_posix(),
+                   WEEKLY_SEMANTIC_PUBLICATION.as_posix()):
+            continue
+        stem = Path(rel).stem
+        mod = sys.modules.get("scripts." + stem)
+        if mod is None or not hasattr(mod, "__file__") or mod.__file__ is None:
+            raise _fail("RUNTIME_BINDING_MISSING", phase, disp,
+                        f"S2 module not loaded for binding: {rel}")
+        loaded = Path(str(mod.__file__))
+        expected = root / rel
+        try:
+            same = loaded.resolve() == expected.resolve()
+        except OSError:
+            same = False
+        if not same:
+            # Tolerate a __pycache__ .pyc whose implied source is the pin.
+            if loaded.suffix == ".pyc" and loaded.name.startswith(stem + "."):
+                same = True
+            else:
+                raise _fail("RUNTIME_BINDING_PATH", phase, disp,
+                            f"S2 module resolves away from pinned path: {rel}")
+        try:
+            if loaded.suffix == ".pyc":
+                data = expected.read_bytes()
+            else:
+                data = loaded.read_bytes()
+        except OSError as exc:
+            raise _fail("RUNTIME_BINDING_UNREADABLE", phase, disp,
+                        f"S2 module unreadable for binding: {rel}: {exc}") from exc
+        if core.sha256_bytes(data) != sha:
+            raise _fail("TOOL_DRIFT", phase, disp,
+                        f"S2 runtime bytes differ from pin: {rel}")
+
+
+def _route_of(proposal: dict[str, Any], retention_manifest: dict[str, Any],
+              phase: str, disp: str) -> str:
+    """Renderer route derives from valid publication labels, never a caller enum."""
+    try:
+        profile = proposal["publication_profile"]
+    except (KeyError, TypeError) as exc:
+        raise _fail("ROUTE_UNKNOWN", phase, disp, f"proposal lacks publication_profile: {exc}") from exc
+    if profile == p1mod.LONGFORM_ROUTE:
+        route = LONGFORM_ROUTE
+    elif profile == p1mod.WEEKLY_ROUTE:
+        route = WEEKLY_ROUTE
+    else:
+        raise _fail("ROUTE_UNKNOWN", phase, disp, f"unsupported publication_profile: {profile}")
+    manifest_profile = ((retention_manifest.get("proposal_ref") or {}).get("publication_profile"))
+    if manifest_profile != profile:
+        raise _fail("ROUTE_MISMATCH", phase, disp,
+                    "retention proposal_ref publication_profile differs from proposal")
+    return route
+
+
+def materialize_staged_source(root: str | Path, state_path: str | Path,
+                              proposal_path: str | Path,
+                              retention_manifest_path: str | Path,
+                              scope_review_path: str | Path) -> dict[str, Any]:
+    """One-shot current-scoped staged-source writer (no live writes)."""
+    # Lazy P2V import: writer-only dependency, never in verifier closure.
+    from scripts import survey_editorial_current_authority_v2 as observer  # noqa: PLC0415
+
+    for name in _UNSAFE_GIT_VARS:
+        if os.environ.get(name):
+            raise _fail("GIT_ENV_REFUSED", "PIN", "REFUSED_PRE_WRITE",
+                        f"inherited {name} refuses isolated materialization")
+    session: Any = None
+    live: Any = None
+    owned: dict[str, Any] = {"staged_dir": None, "owned_files": [], "owned_dirs": [],
+                             "observed_extra": [], "secondary_close_errors": []}
+    phase = "PIN"
+    disp = "REFUSED_PRE_WRITE"
+    try:
+        # W0: strict current root BEFORE any broad inventory.
+        try:
+            session = retention._Session(root)
+        except Exception as exc:
+            raise _fail("ROOT_UNSAFE", phase, disp,
+                        f"repo root refused: {exc}", cause=exc) from exc
+        root_path = session.root_resolved
+        head_pinned = retention._git_head(root_path, "materialize HEAD pin", phase, disp)
+        # Narrow pins: State/config/State-bound Profile, proposal, retention
+        # manifest, scope review, schemas, style, every S2 file, P2V module.
+        st_rel, st_data = session.safe_read(str(state_path), "Production State", phase, disp)
+        try:
+            state_obj = json.loads(st_data.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise _fail("STATE_UNREADABLE", phase, disp, f"pinned State not JSON: {exc}") from exc
+        if not isinstance(state_obj, dict):
+            raise _fail("STATE_UNREADABLE", phase, disp, "pinned State is not an object")
+        prof_ref = state_obj.get("profile") or {}
+        if not isinstance(prof_ref, dict) or set(prof_ref) != {"path", "sha256"}:
+            raise _fail("STATE_PROFILE_SHAPE", phase, disp, "pinned State lacks exact profile ref")
+        prof_rel, prof_data = session.safe_read(prof_ref["path"], "State-bound Profile", phase, disp)
+        if core.sha256_bytes(prof_data) != prof_ref["sha256"]:
+            raise _fail("PROFILE_DRIFT", phase, disp, "State-bound Profile bytes drifted")
+        prop_rel, prop_data = session.safe_read(str(proposal_path),
+                                                "editorial correction proposal", phase, disp)
+        if prop_rel.split("/")[-1] != "proposal.json":
+            raise _fail("PROPOSAL_FILENAME", phase, disp, "proposal file must be named proposal.json")
+        man_rel, man_data = session.safe_read(str(retention_manifest_path),
+                                              "retention manifest", phase, disp)
+        if man_rel.split("/")[-1] != "retention-manifest.json":
+            raise _fail("MANIFEST_FILENAME", phase, disp, "manifest file must be named retention-manifest.json")
+        scope_rel, scope_data = session.safe_read(str(scope_review_path),
+                                                  "scope review record", phase, disp)
+        try:
+            proposal_obj = json.loads(prop_data.decode("utf-8"))
+            manifest_obj = json.loads(man_data.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise _fail("PIN_UNREADABLE", phase, disp, f"pinned proposal/manifest not JSON: {exc}") from exc
+        for schema_rel in (PROPOSAL_SCHEMA.as_posix(), RETENTION_MANIFEST_SCHEMA.as_posix(),
+                           STAGED_SCHEMA.as_posix(), REVIEW_SCHEMA.as_posix(), GATE_SCHEMA.as_posix(),
+                           STYLE_PATH.as_posix(), STAGED_MODULE.as_posix(), P2V_MODULE.as_posix()):
+            session.safe_read(schema_rel, "staged pin " + schema_rel, phase, disp)
+        for schema_rel, payload, label in (
+                (PROPOSAL_SCHEMA, proposal_obj, "editorial correction proposal"),
+                (RETENTION_MANIFEST_SCHEMA, manifest_obj, "editorial retention manifest")):
+            try:
+                schema_gate.validate_instance(payload, root_path / schema_rel, label=label + " shape")
+            except ValueError as exc:
+                raise _fail("SCHEMA_INVALID", phase, disp, f"{label} schema invalid: {exc}") from exc
+        try:
+            # Staged schema file must itself be a valid JSON Schema (no instance to check yet).
+            schema_gate.load_schema(root_path / STAGED_SCHEMA)
+        except ValueError as exc:
+            raise _fail("SCHEMA_INVALID", phase, disp, f"staged schema file invalid: {exc}") from exc
+        session.safe_read(PROPOSAL_SCHEMA.as_posix(), "proposal schema recheck", phase, disp)
+        session.safe_read(RETENTION_MANIFEST_SCHEMA.as_posix(), "retention schema recheck", phase, disp)
+        route = _route_of(proposal_obj, manifest_obj, phase, disp)
+        code_deps = _route_code_deps(route)
+        dep_pins: dict[str, str] = {}
+        dep_sizes: dict[str, int] = {}
+        # Route schemas pinned per route (reader DIRECT-USE, receipt FILE-PIN).
+        route_schemas = (LONGFORM_READER_SCHEMA, LONGFORM_RECEIPT_SCHEMA) \
+            if route == LONGFORM_ROUTE else (WEEKLY_READER_SCHEMA, WEEKLY_RECEIPT_SCHEMA)
+        for schema_rel in route_schemas:
+            session.safe_read(schema_rel.as_posix(), "route schema pin", phase, disp)
+        try:
+            if route == LONGFORM_ROUTE:
+                schema_gate.validate_instance(
+                    json.loads(session.files[LONGFORM_READER_SCHEMA.as_posix()].decode("utf-8")),
+                    root_path / LONGFORM_READER_SCHEMA, label="route reader schema file")
+        except ValueError as exc:
+            raise _fail("SCHEMA_INVALID", phase, disp, f"route schema invalid: {exc}") from exc
+        for dep in code_deps:
+            _rel, _data = session.safe_read(dep, "S2 dep pin", phase, disp)
+            dep_pins[dep] = core.sha256_bytes(_data)
+            dep_sizes[dep] = len(_data)
+        _check_runtime_binding(root_path, dep_pins, phase, disp)
+        orig_proposal_sha = core.sha256_bytes(prop_data)
+        orig_manifest_sha = core.sha256_bytes(man_data)
+        orig_state_sha = core.sha256_bytes(st_data)
+        orig_scope_sha = core.sha256_bytes(scope_data)
+        style_rel = STYLE_PATH.as_posix()
+        style_bytes = session.files[style_rel]
+        try:
+            live = p1mod._Collector(root_path)
+        except Exception as exc:
+            raise _fail("PIN_FAILED", phase, disp,
+                        f"live collector refused: {exc}", cause=exc) from exc
+        try:
+            sanitized = retention._sanitized_git_env()
+            proc = subprocess.run(["git", "rev-parse", "HEAD"], cwd=root_path,
+                                  capture_output=True, text=True, env=sanitized, timeout=30)
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise _fail("GIT_UNAVAILABLE", phase, disp, f"sanitized HEAD pin failed: {exc}") from exc
+        if proc.returncode != 0 or proc.stdout.strip() != live.head or live.head != head_pinned:
+            raise _fail("HEAD_MISMATCH", phase, disp, "collector/sanitized/pinned HEAD disagree")
+        try:
+            layout = p1mod._pin_proposal_layout(live, root_path, state_path, proposal_path)
+        except Exception as exc:
+            raise _fail("LAYOUT_REFUSED", phase, disp,
+                        f"canonical proposal layout refused: {exc}", cause=exc) from exc
+        if layout["proposal"] != proposal_obj:
+            raise _fail("PROPOSAL_MISMATCH", phase, disp, "layout proposal differs from pinned proposal bytes")
+        expected_dir = layout["expected_dir"]
+        profile = layout["profile"]
+        state = layout["state"]
+        staged_authored = layout["staged_authored"]
+        staged_reader = layout["staged_reader"]
+        tree_entry = layout["tree_entry"]
+        # Cross-check live vs retained ORIGINALs (no laundering).
+        for rel, data in ((prop_rel, prop_data), (st_rel, st_data)):
+            if live.files.get(rel) is None or core.sha256_bytes(live.files[rel]) != core.sha256_bytes(data):
+                raise _fail("PIN_DRIFT", phase, disp, f"live vs retained bytes differ: {rel}")
+        try:
+            source_root_rel = profile["paths"]["source_root"]
+            survey_root_rel = profile["paths"]["survey_root"]
+        except (KeyError, TypeError) as exc:
+            raise _fail("PROFILE_ROOT_INVALID", phase, disp, f"profile roots invalid: {exc}") from exc
+        staged_rel = expected_dir + "/" + STAGED_DIRNAME
+        # W1: snapshots only AFTER canonical roots (never before).
+        try:
+            cfg = json.loads(session.files[core.DEFAULT_CONFIG.as_posix()].decode("utf-8"))
+            control_rels = retention._control_paths(cfg, phase, disp)
+            ctrl_files, ctrl_dirs, ctrl_sizes = retention._snapshot_expanded(
+                session, control_rels, "control", phase, disp)
+            src_files, src_dirs, src_sizes = retention._snapshot_expanded(
+                session, [source_root_rel, survey_root_rel], "edition", phase, disp)
+            ret_rel = expected_dir + "/retained"
+            ret_files, ret_dirs, ret_sizes = retention._retained_inventory(
+                session, ret_rel, phase, disp)
+            man_rows = manifest_obj.get("rows")
+            if not isinstance(man_rows, list):
+                raise _fail("RETENTION_MISMATCH", phase, disp, "retention manifest rows must be a list")
+            exp_files_set, exp_dirs_set = retention._retained_expected_sets(
+                man_rows, man_rel, ret_rel)
+            if set(ret_files) != exp_files_set or set(ret_dirs) != exp_dirs_set:
+                raise _fail("INVALID_RETENTION", phase, disp, "retained inventory != expected sets")
+        except StagedSourceError:
+            raise
+        except Exception as exc:
+            if isinstance(exc, retention.RetentionError):
+                raise _fail("SNAPSHOT_FAILED", phase, disp,
+                            f"snapshot failed: {exc}", cause=exc) from exc
+            raise _fail("SNAPSHOT_FAILED", phase, disp, f"snapshot failed: {exc}", cause=exc) from exc
+        init_ctrl = (dict(ctrl_files), dict(ctrl_dirs), dict(ctrl_sizes))
+        init_src = (dict(src_files), dict(src_dirs), dict(src_sizes))
+        init_ret = (dict(ret_files), dict(ret_dirs), dict(ret_sizes))
+        init_tree = dict(tree_entry)
+        orig_live_map = dict(live.files)
+        orig_ret_map = dict(session.files)
+        # Staged root must be absent (any entry incl. byte-equal refuses).
+        try:
+            os.lstat(root_path / staged_rel)
+            raise _fail("STAGED_ROOT_EXISTS", phase, disp,
+                        f"staged root already present (no overwrite/takeover): {staged_rel}")
+        except FileNotFoundError:
+            pass
+        except StagedSourceError:
+            raise
+        except OSError as exc:
+            raise _fail("PATH_UNREADABLE", phase, disp,
+                        f"staged root unreadable: {staged_rel}: {exc}") from exc
+        # W2: fresh in-call P2V with scope; SCOPE_BOUND required.
+        phase = "OBSERVE"
+        with retention._sanitized_git_env_ctx():
+            try:
+                observed = observer.observe_current_authority(
+                    root_path, state_path, proposal_path, retention_manifest_path, scope_review_path)
+            except Exception as exc:
+                raise _fail("OBSERVER_REFUSED", phase, disp,
+                            f"fresh current-authority observation refused: {exc}", cause=exc) from exc
+        if not isinstance(observed, dict) or observed.get("result") != observer.RESULT_SCOPE_BOUND:
+            raise _fail("OBSERVER_NOT_BOUND", phase, disp, "fresh P2V did not return SCOPE_BOUND")
+        for key, orig in (("state_ref", orig_state_sha), ("proposal_ref", orig_proposal_sha),
+                          ("retention_manifest_ref", orig_manifest_sha),
+                          ("scope_review_ref", orig_scope_sha)):
+            ref = observed.get(key)
+            if not isinstance(ref, dict) or ref.get("sha256") != orig:
+                raise _fail("OBSERVER_MISMATCH", phase, disp,
+                            f"fresh P2V {key} differs from original pin")
+        obs_measured = observed.get("measured") or {}
+        if obs_measured.get("before_graph_digest") != (proposal_obj.get("basis") or {}).get("before_graph_digest"):
+            raise _fail("OBSERVER_MISMATCH", phase, disp, "fresh P2V before digest differs from proposal basis")
+        if obs_measured.get("preserved_upstream_digest") != \
+                (proposal_obj.get("basis") or {}).get("preserved_upstream_digest"):
+            raise _fail("OBSERVER_MISMATCH", phase, disp, "fresh P2V upstream digest differs from proposal basis")
+        # W3 (decided): pinned staged reader + P2V digest + canonicalizer +
+        # actual renderers. No redundant private _pipeline_data, no public P1.
+        phase = "PRE_WRITE"
+        disp = "REFUSED_PRE_WRITE"
+        reader_ref = (proposal_obj.get("proposed") or {}).get("proposed_reader_ref") or {}
+        canon_sha = (proposal_obj.get("proposed") or {}).get("proposed_reader_canonical_sha256")
+        if reader_ref.get("sha256") != canon_sha:
+            raise _fail("PROPOSED_DIGEST_MISMATCH", phase, disp, "proposal reader ref != canonical sha")
+        try:
+            staged_rel = live.rel(staged_reader)
+        except Exception as exc:
+            raise _fail("PIN_FAILED", phase, disp, f"staged reader rel failed: {exc}") from exc
+        pinned_staged = live.files.get(staged_rel)
+        try:
+            live_staged_now = staged_reader.read_bytes()
+        except OSError as exc:
+            raise _fail("PATH_UNREADABLE", phase, disp, f"staged reader unreadable: {exc}") from exc
+        if pinned_staged is None or live_staged_now != pinned_staged:
+            raise _fail("STABILITY_VIOLATION", phase, disp, "staged reader changed mid-inspection")
+        _rr, reader_bytes_ret = session.safe_read(reader_ref.get("path", ""),
+                                                  "staged proposed reader", phase, disp)
+        if core.sha256_bytes(reader_bytes_ret) != canon_sha or \
+                core.sha256_bytes(live_staged_now) != canon_sha:
+            raise _fail("PROPOSED_DIGEST_MISMATCH", phase, disp, "staged reader != canonical digest")
+        if obs_measured.get("proposed_reader_sha256") != canon_sha:
+            raise _fail("OBSERVER_MISMATCH", phase, disp, "fresh P2V proposed digest != canonical digest")
+        try:
+            reader_text = live_staged_now.decode("utf-8")
+            reader_obj = json.loads(reader_text)
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise _fail("READER_UNREADABLE", phase, disp, f"staged reader not JSON: {exc}") from exc
+        try:
+            if route == LONGFORM_ROUTE:
+                reviewed = longform_derivation.validate_longform_reader_input(root_path, reader_obj)
+                if live_staged_now != longform_derivation.canonical_reader_bytes(reviewed):
+                    raise _fail("READER_NONCANONICAL", phase, disp,
+                                "staged reader FILE bytes != canonical rederived bytes")
+                main_text = longform_generated.render_main(reviewed)
+                bib_text = longform_generated.render_bibliography(reviewed)
+                longform_generated.validate_heading_syntax(reviewed)
+                longform_generated.validate_generated_closure(main_text, style_bytes.decode("utf-8"))
+            else:
+                reviewed = weekly.validate_reader_input(root_path, reader_obj)
+                main_text = weekly.render_main(reviewed)
+                bib_text = weekly.render_bibliography(reviewed)
+                weekly.validate_generated_closure(main_text, style_bytes.decode("utf-8"))
+        except (ValueError, UnicodeDecodeError) as exc:
+            raise _fail("RENDER_REFUSED", phase, disp, f"renderer/closure refused: {exc}") from exc
+        main_bytes = main_text.encode("utf-8")
+        bib_bytes = bib_text.encode("utf-8")
+        expected_outputs = {"main": (MAIN_FILENAME, main_bytes),
+                            "bibliography": (BIBLIOGRAPHY_FILENAME, bib_bytes),
+                            "style": (STYLE_FILENAME, style_bytes)}
+        # Preflight all 4 prospective outputs + schema bytes + closed inventory.
+        manifest_pre: dict[str, Any] = {
+            "schema_version": "2.0-rc1",
+            "kind": "EDITORIAL_STAGED_SOURCE_V1",
+            "status": "STAGED_ONLY",
+            "proposal_ref": {"path": prop_rel, "sha256": orig_proposal_sha,
+                             "proposal_id": proposal_obj["proposal_id"],
+                             "issue_id": proposal_obj["issue_id"],
+                             "research_profile": proposal_obj["research_profile"],
+                             "publication_profile": proposal_obj["publication_profile"]},
+            "retention_manifest_ref": {"path": man_rel, "sha256": orig_manifest_sha},
+            "scope_review_ref": {"path": scope_rel, "sha256": orig_scope_sha},
+            "issue_id": proposal_obj["issue_id"],
+            "research_profile": proposal_obj["research_profile"],
+            "publication_profile": proposal_obj["publication_profile"],
+            "route": route,
+            "basis": proposal_obj["basis"],
+            "proposed": proposal_obj["proposed"],
+            "outputs": {role: {"path": staged_rel + "/" + name,
+                                "sha256": core.sha256_bytes(data),
+                                "byte_count": len(data)}
+                        for role, (name, data) in expected_outputs.items()},
+            "style_input_ref": {"path": style_rel, "sha256": core.sha256_bytes(style_bytes),
+                                "byte_count": len(style_bytes)},
+            "code_deps": [{"path": dep, "sha256": dep_pins[dep], "byte_count": dep_sizes[dep]}
+                          for dep in code_deps],
+            "producer_head": head_pinned,
+        }
+        manifest_pre["manifest_digest"] = _manifest_digest(manifest_pre)
+        try:
+            schema_gate.validate_instance(manifest_pre, root_path / STAGED_SCHEMA,
+                                          label="staged source manifest preflight")
+        except ValueError as exc:
+            raise _fail("SCHEMA_INVALID", phase, disp, f"projected staged manifest invalid: {exc}") from exc
+        if manifest_pre["basis"] != proposal_obj["basis"]:
+            raise _fail("BASIS_MISMATCH", phase, disp, "projected basis != proposal basis")
+        if manifest_pre["proposed"] != proposal_obj["proposed"]:
+            raise _fail("PROPOSED_MISMATCH", phase, disp, "projected proposed != proposal proposed")
+        if [d["path"] for d in manifest_pre["code_deps"]] != list(code_deps):
+            raise _fail("CODE_DEPS_MISMATCH", phase, disp, "projected code_deps != fixed sorted S2 set")
+        _check_contract_identity(manifest_pre["basis"].get("contract_identity"), phase, disp)
+        manifest_bytes = _canonical_json_bytes(manifest_pre)
+        if core.sha256_bytes(manifest_bytes) == b"":
+            raise _fail("MANIFEST_EMPTY", phase, disp, "projected manifest bytes empty")
+        # Re-verify the staged root is still absent immediately before claim.
+        try:
+            os.lstat(root_path / staged_rel)
+            raise _fail("STAGED_ROOT_EXISTS", phase, disp,
+                        f"staged root appeared before claim: {staged_rel}")
+        except FileNotFoundError:
+            pass
+        except StagedSourceError:
+            raise
+        except OSError as exc:
+            raise _fail("PATH_UNREADABLE", phase, disp,
+                        f"staged root unreadable before claim: {exc}") from exc
+        # W4 CLAIM: exclusive dirfd mkdir + entry/fd identity; then files.
+        phase = "CLAIM"
+        disp = "OWNED_PARTIAL"
+        owned["staged_dir"] = staged_rel
+        parent_fd: int | None = None
+        staged_fd: int | None = None
+        try:
+            prop_parts = staged_rel.split("/")[:-1]
+            # _open_dir_chain tracks every opened ancestor fd in
+            # session._open_fds for checked close; never append twice here.
+            parent_fd = session._open_dir_chain(prop_parts, "staged parent", phase, disp) \
+                if prop_parts else session.root_fd
+            try:
+                os.mkdir(STAGED_DIRNAME, dir_fd=parent_fd)
+            except FileExistsError as exc:
+                raise _fail("STAGED_ROOT_EXISTS", phase, disp,
+                            f"staged root raced into existence: {staged_rel}", owned) from exc
+            except OSError as exc:
+                raise _fail("STAGED_ROOT_CREATE_FAILED", phase, disp,
+                            f"staged root mkdir failed: {staged_rel}: {exc}", owned) from exc
+            try:
+                staged_fd = os.open(STAGED_DIRNAME, os.O_RDONLY | os.O_DIRECTORY |
+                                    getattr(os, "O_NOFOLLOW", 0), dir_fd=parent_fd)
+            except OSError as exc:
+                raise _fail("STAGED_ROOT_OPEN_FAILED", phase, disp,
+                            f"staged root open failed: {staged_rel}: {exc}", owned) from exc
+            session._open_fds.append(staged_fd)
+            try:
+                st = os.fstat(staged_fd)
+            except OSError as exc:
+                owned["observed_extra"].append({"path": staged_rel, "note": "fstat failed, identity unknown"})
+                raise _fail("STAGED_ROOT_FSTAT_FAILED", phase, disp,
+                            f"staged root fstat failed before any write: {staged_rel}: {exc}",
+                            owned) from exc
+            if not _stat.S_ISDIR(st.st_mode):
+                raise _fail("STAGED_ROOT_NOT_DIR", phase, disp,
+                            f"claimed staged root is not a directory: {staged_rel}", owned)
+            try:
+                ent = session._entry_identity(parent_fd, STAGED_DIRNAME, "staged root", phase, disp)
+            except Exception as exc:
+                raise _fail("STAGED_ROOT_IDENTITY_FAILED", phase, disp,
+                            f"staged root entry identity failed: {exc}", owned) from exc
+            if (st.st_dev, st.st_ino) != (ent[0], ent[1]):
+                raise _fail("STAGED_ROOT_REPLACED", phase, disp,
+                            f"staged root replaced between mkdir and open: {staged_rel}", owned)
+            owned["owned_dirs"].append({"path": staged_rel, "dev": st.st_dev, "ino": st.st_ino})
+            owned["staged_identity"] = (st.st_dev, st.st_ino)
+        except StagedSourceError:
+            raise
+        except Exception as exc:
+            if isinstance(exc, retention.RetentionError):
+                raise _fail("CLAIM_FAILED", phase, disp,
+                            f"staged root claim failed: {exc}", owned, cause=exc) from exc
+            raise _fail("CLAIM_FAILED", phase, disp,
+                        f"staged root claim failed: {exc}", owned, cause=exc) from exc
+        # W4 files + W5 manifest LAST (all exclusive, fstat-bound, read back).
+        try:
+            _emit_outputs(session, staged_fd, staged_rel, expected_outputs, owned, phase, disp,
+                          manifest_name=None, manifest_bytes=None)
+            _emit_outputs(session, staged_fd, staged_rel, {}, owned, phase, disp,
+                          manifest_name=MANIFEST_FILENAME, manifest_bytes=manifest_bytes)
+        except StagedSourceError:
+            raise
+        _verify_outputs_and_manifest(session, staged_rel, expected_outputs, manifest_bytes, phase, disp)
+        _verify_outputs_and_manifest(session, staged_rel, expected_outputs, manifest_bytes, phase, disp)
+        owned_identities = {entry["path"]: (entry["dev"], entry["ino"]) for entry in owned["owned_files"]}
+        # W6: standalone replay in this module, then second fresh P2V.
+        phase = "REPLAY"
+        disp = "INDETERMINATE_INVOCATION"
+        try:
+            replayed = verify_staged_source(root_path, proposal_path, staged_rel + "/" + MANIFEST_FILENAME)
+        except Exception as exc:
+            raise _fail("REPLAY_UNVERIFIED", phase, disp,
+                        f"standalone staged replay refused: {exc}", owned, cause=exc) from exc
+        if not isinstance(replayed, dict) or replayed.get("result") != RESULT_VERIFIED:
+            raise _fail("REPLAY_UNVERIFIED", phase, disp, "standalone staged replay did not verify", owned)
+        if replayed.get("staged_manifest_ref", {}).get("sha256") != core.sha256_bytes(manifest_bytes):
+            raise _fail("REPLAY_MISMATCH", phase, disp, "replay manifest ref != original manifest bytes", owned)
+        phase = "OBSERVE"
+        with retention._sanitized_git_env_ctx():
+            try:
+                observed2 = observer.observe_current_authority(
+                    root_path, state_path, proposal_path, retention_manifest_path, scope_review_path)
+            except Exception as exc:
+                raise _fail("OBSERVER2_REFUSED", phase, disp,
+                            f"second fresh observation refused: {exc}", owned, cause=exc) from exc
+        if not isinstance(observed2, dict) or observed2.get("result") != observer.RESULT_SCOPE_BOUND:
+            raise _fail("OBSERVER2_NOT_BOUND", phase, disp, "second P2V did not return SCOPE_BOUND", owned)
+        for key, orig in (("state_ref", orig_state_sha), ("proposal_ref", orig_proposal_sha),
+                          ("retention_manifest_ref", orig_manifest_sha),
+                          ("scope_review_ref", orig_scope_sha)):
+            ref = observed2.get(key)
+            if not isinstance(ref, dict) or ref.get("sha256") != orig:
+                raise _fail("OBSERVER2_MISMATCH", phase, disp,
+                            f"second P2V {key} differs from original pin", owned)
+        obs2_measured = observed2.get("measured") or {}
+        if obs2_measured.get("proposed_reader_sha256") != canon_sha:
+            raise _fail("OBSERVER2_MISMATCH", phase, disp, "second P2V proposed digest moved", owned)
+        if observed2.get("observed_head") != head_pinned:
+            raise _fail("HEAD_MOVED", phase, disp, "HEAD moved during materialization", owned)
+        # W7 FINAL: original inputs/outputs + exact inventories AFTER later
+        # helpers, compared to ORIGINAL expected values (never rebaselined).
+        phase = "FINAL"
+        if retention._git_head(root_path, "materialize HEAD final", phase, disp) != head_pinned:
+            raise _fail("HEAD_MOVED", phase, disp, "HEAD changed by final boundary", owned)
+        if live.head != head_pinned:
+            raise _fail("HEAD_MOVED", phase, disp, "collector HEAD changed by final boundary", owned)
+        try:
+            fin_files, fin_dirs, fin_sizes = retention._snapshot_expanded(
+                session, [staged_rel], "staged final", phase, disp)
+            want_files = {staged_rel + "/" + name for _role, (name, _data)
+                          in list(expected_outputs.items()) + [("manifest", (MANIFEST_FILENAME, manifest_bytes))]}
+            if set(fin_files) != want_files or set(fin_dirs) != {staged_rel}:
+                raise _fail("STAGED_DRIFT", phase, disp, "final staged inventory != exact 4-file closure", owned)
+            for _role, (name, data) in list(expected_outputs.items()) + \
+                    [("manifest", (MANIFEST_FILENAME, manifest_bytes))]:
+                if fin_files.get(staged_rel + "/" + name) != core.sha256_bytes(data) or \
+                        fin_sizes.get(staged_rel + "/" + name) != len(data):
+                    raise _fail("OUTPUT_DRIFT", phase, disp, f"final staged bytes moved: {name}", owned)
+            # Same-inode in-place edit detection: entry identity must still be
+            # the owned identity AND bytes must equal ORIGINAL expected bytes.
+            prop_parts = staged_rel.split("/")[:-1]
+            check_parent = session._open_dir_chain(prop_parts, "staged final parent", phase, disp) \
+                if prop_parts else session.root_fd
+            try:
+                check_staged = os.open(STAGED_DIRNAME, os.O_RDONLY | os.O_DIRECTORY |
+                                       getattr(os, "O_NOFOLLOW", 0), dir_fd=check_parent)
+            except OSError as exc:
+                raise _fail("STAGED_ROOT_REOPEN_FAILED", phase, disp,
+                            f"final staged reopen failed: {exc}", owned) from exc
+            session._open_fds.append(check_staged)
+            try:
+                for _role, (name, data) in list(expected_outputs.items()) + \
+                        [("manifest", (MANIFEST_FILENAME, manifest_bytes))]:
+                    ent = session._entry_identity(check_staged, name, "final " + name, phase, disp)
+                    if name == MANIFEST_FILENAME:
+                        continue
+                    key = staged_rel + "/" + name
+                    if (ent[0], ent[1]) != owned_identities.get(key):
+                        raise _fail("FILE_REPLACED", phase, disp,
+                                    f"staged file identity changed after self-readback: {name}", owned)
+            finally:
+                try:
+                    os.close(check_staged)
+                except OSError as exc:
+                    raise _fail("CLOSE_FAILED", phase, disp,
+                                f"final staged dir close failed: {exc}", owned) from exc
+                finally:
+                    if check_staged in session._open_fds:
+                        session._open_fds.remove(check_staged)
+            # Owned delta is the ONLY allowed edition change vs W1 snapshot.
+            fin_e_files, fin_e_dirs, _fin_e_sizes = retention._snapshot_expanded(
+                session, [source_root_rel, survey_root_rel], "edition final", phase, disp)
+            new_files = set(fin_e_files) - set(init_src[0])
+            new_dirs = set(fin_e_dirs) - set(init_src[1])
+            if new_files != want_files or new_dirs != {staged_rel}:
+                raise _fail("EDITION_DRIFT", phase, disp,
+                            f"final edition delta != exact owned staged set: {sorted(new_files)}", owned)
+            if retention._git_head(root_path, "materialize HEAD final2", phase, disp) != head_pinned:
+                raise _fail("HEAD_MOVED", phase, disp, "HEAD changed at final close", owned)
+            for rel, orig_bytes in orig_ret_map.items():
+                cur = session.files.get(rel)
+                if cur is None or cur != orig_bytes:
+                    raise _fail("PIN_DRIFT", phase, disp,
+                                f"retained pin changed after later reads: {rel}", owned)
+            for rel, orig_bytes in orig_live_map.items():
+                cur = live.files.get(rel)
+                if cur is None or cur != orig_bytes:
+                    raise _fail("PIN_DRIFT", phase, disp,
+                                f"live pin changed after later reads: {rel}", owned)
+            live.reverify()
+            session.reverify(phase, disp)
+        except StagedSourceError:
+            raise
+        except Exception as exc:
+            if isinstance(exc, retention.RetentionError):
+                raise _fail("FINAL_FAILED", phase, disp, f"final boundary failed: {exc}", owned,
+                            cause=exc) from exc
+            raise _fail("FINAL_FAILED", phase, disp, f"final boundary failed: {exc}", owned,
+                        cause=exc) from exc
+        _close_session(session, "CLOSE", "MATERIALIZED")
+        session = None
+        return {
+            "result": RESULT_MATERIALIZED,
+            "proposal_ref": {"path": prop_rel, "sha256": orig_proposal_sha},
+            "retention_manifest_ref": {"path": man_rel, "sha256": orig_manifest_sha},
+            "scope_review_ref": {"path": scope_rel, "sha256": orig_scope_sha},
+            "staged_manifest_ref": {"path": staged_rel + "/" + MANIFEST_FILENAME,
+                                    "sha256": core.sha256_bytes(manifest_bytes)},
+            "outputs": {role: {"path": staged_rel + "/" + name,
+                                "sha256": core.sha256_bytes(data), "byte_count": len(data)}
+                        for role, (name, data) in expected_outputs.items()},
+            "style_input_ref": {"path": style_rel, "sha256": core.sha256_bytes(style_bytes),
+                                "byte_count": len(style_bytes)},
+            "code_deps": [{"path": dep, "sha256": dep_pins[dep], "byte_count": dep_sizes[dep]}
+                          for dep in code_deps],
+            "observed_head": head_pinned,
+            "measured": {
+                "before_graph_digest": (proposal_obj.get("basis") or {}).get("before_graph_digest"),
+                "preserved_upstream_digest": (proposal_obj.get("basis") or {}).get("preserved_upstream_digest"),
+                "proposed_reader_sha256": canon_sha,
+                "copy_files": (observed.get("measured") or {}).get("copy_files"),
+                "keep_refs": (observed.get("measured") or {}).get("keep_refs"),
+                "stable_p2v": {
+                    "before": obs2_measured.get("before_graph_digest"),
+                    "upstream": obs2_measured.get("preserved_upstream_digest"),
+                    "proposed_reader": obs2_measured.get("proposed_reader_sha256"),
+                    "head_first": observed.get("observed_head"),
+                    "head_second": observed2.get("observed_head"),
+                },
+            },
+            "manifest_digest": manifest_pre["manifest_digest"],
+        }
+    except StagedSourceError as primary:
+        if session is not None:
+            _close_session(session, primary.phase, primary.disposition, primary)
+            session = None
+        raise
+    except Exception as exc:
+        wrapped = _fail("WRITER_FAILED", phase, disp, f"unexpected writer failure: {exc}",
+                        owned, cause=exc)
+        if session is not None:
+            _close_session(session, phase, disp, wrapped)
+            session = None
+        raise wrapped from exc
+
+
+def _write_owned_file(session: Any, staged_fd: int, staged_rel: str, leaf: str,
+                      data: bytes, owned: dict[str, Any], phase: str, disp: str) -> None:
+    """Exclusive no-follow create + fstat identity BEFORE any byte is written."""
+    try:
+        fd = os.open(leaf, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, "O_NOFOLLOW", 0),
+                      0o666, dir_fd=staged_fd)
+    except FileExistsError as exc:
+        raise _fail("STAGED_FILE_EXISTS", phase, disp,
+                    f"staged file raced into existence: {staged_rel}/{leaf}", owned) from exc
+    except OSError as exc:
+        raise _fail("STAGED_FILE_CREATE_FAILED", phase, disp,
+                    f"staged file create failed: {staged_rel}/{leaf}: {exc}", owned) from exc
+    try:
+        st = os.fstat(fd)
+    except OSError as exc:
+        owned["observed_extra"].append({"path": staged_rel + "/" + leaf,
+                                        "note": "fstat failed, identity unknown"})
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        raise _fail("STAGED_FILE_FSTAT_FAILED", phase, disp,
+                    f"staged file fstat failed before any write: {leaf}: {exc}", owned) from exc
+    if not _stat.S_ISREG(st.st_mode):
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        raise _fail("STAGED_FILE_NOT_REGULAR", phase, disp,
+                    f"created staged file is not regular: {leaf}", owned)
+    try:
+        ent = session._entry_identity(staged_fd, leaf, "staged " + leaf, phase, disp)
+    except Exception as exc:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        raise _fail("STAGED_FILE_IDENTITY_FAILED", phase, disp,
+                    f"staged file entry identity failed: {leaf}: {exc}", owned) from exc
+    if (st.st_dev, st.st_ino) != (ent[0], ent[1]):
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+        raise _fail("STAGED_FILE_REPLACED", phase, disp,
+                    f"staged file replaced between create and fstat: {leaf}", owned)
+    try:
+        view = memoryview(data)
+        while view:
+            try:
+                written = os.write(fd, view)
+            except OSError as exc:
+                raise _fail("STAGED_FILE_WRITE_FAILED", phase, disp,
+                            f"staged file short/failed write: {leaf}: {exc}", owned) from exc
+            if written <= 0:
+                raise _fail("STAGED_FILE_WRITE_FAILED", phase, disp,
+                            f"staged file zero write: {leaf}", owned)
+            view = view[written:]
+    finally:
+        try:
+            os.close(fd)
+        except OSError as exc:
+            raise _fail("CLOSE_FAILED", phase, disp,
+                        f"staged file close failed: {leaf}: {exc}", owned) from exc
+    try:
+        back = session.safe_read(staged_rel + "/" + leaf, "staged readback " + leaf, phase, disp)[1]
+    except Exception as exc:
+        raise _fail("STAGED_FILE_READBACK_FAILED", phase, disp,
+                    f"staged file readback failed: {leaf}: {exc}", owned) from exc
+    if back != data:
+        raise _fail("STAGED_FILE_READBACK_MISMATCH", phase, disp,
+                    f"staged file readback != expected bytes: {leaf}", owned)
+    owned["owned_files"].append({"path": staged_rel + "/" + leaf, "dev": st.st_dev, "ino": st.st_ino,
+                                 "sha256": core.sha256_bytes(data), "byte_count": len(data)})
+
+
+def _emit_outputs(session: Any, staged_fd: int, staged_rel: str,
+                  expected_outputs: dict[str, tuple[str, bytes]], owned: dict[str, Any],
+                  phase: str, disp: str,
+                  manifest_name: str | None = None, manifest_bytes: bytes | None = None) -> None:
+    for _role, (name, data) in expected_outputs.items():
+        _write_owned_file(session, staged_fd, staged_rel, name, data, owned, phase, disp)
+    if manifest_name is not None and manifest_bytes is not None:
+        _write_owned_file(session, staged_fd, staged_rel, manifest_name, manifest_bytes,
+                          owned, phase, disp)
+
+
+def _verify_outputs_and_manifest(session: Any, staged_rel: str,
+                                 expected_outputs: dict[str, tuple[str, bytes]],
+                                 manifest_bytes: bytes, phase: str, disp: str) -> None:
+    for _role, (name, data) in list(expected_outputs.items()) + \
+            [("manifest", (MANIFEST_FILENAME, manifest_bytes))]:
+        _rel, back = session.safe_read(staged_rel + "/" + name,
+                                       "staged verify " + name, phase, disp)
+        if back != data:
+            raise _fail("OUTPUT_MISMATCH", phase, disp,
+                        f"staged file != expected bytes: {name}")
+    want = {staged_rel + "/" + name for _role, (name, _data)
+            in list(expected_outputs.items()) + [("manifest", (MANIFEST_FILENAME, manifest_bytes))]}
+    got_files, got_dirs, _got_sizes = retention._snapshot_expanded(
+        session, [staged_rel], "staged verify", phase, disp)
+    if set(got_files) != want or set(got_dirs) != {staged_rel}:
+        raise _fail("STAGED_SET_MISMATCH", phase, disp, "staged set != exact 4-file closure")
+
+
+def verify_staged_source(root: str | Path, proposal_path: str | Path,
+                         staged_manifest_path: str | Path) -> dict[str, Any]:
+    """Standalone read-only staged-set verification + deterministic replay.
+
+    No P2V, no current-State validation, no HEAD comparison. Historical
+    namespace comes from P2R-verified retained bytes only.
+    """
+    for name in _UNSAFE_GIT_VARS:
+        if os.environ.get(name):
+            raise _fail("GIT_ENV_REFUSED", "PIN", "INVALID",
+                        f"inherited {name} refuses isolated verification")
+    session: Any = None
+    phase = "PIN"
+    disp = "INVALID"
+    try:
+        try:
+            session = retention._Session(root)
+        except Exception as exc:
+            raise _fail("ROOT_UNSAFE", phase, disp, f"repo root refused: {exc}",
+                        cause=exc) from exc
+        root_path = session.root_resolved
+        # V1: safe-pin supplied proposal + staged manifest; schema pins first.
+        prop_rel, prop_data = session.safe_read(str(proposal_path),
+                                                "editorial correction proposal", phase, disp)
+        if prop_rel.split("/")[-1] != "proposal.json":
+            raise _fail("PROPOSAL_FILENAME", phase, disp, "proposal file must be named proposal.json")
+        sm_rel, sm_data = session.safe_read(str(staged_manifest_path),
+                                            "staged source manifest", phase, disp)
+        if sm_rel.split("/")[-1] != MANIFEST_FILENAME:
+            raise _fail("MANIFEST_FILENAME", phase, disp,
+                        "staged manifest file must be named " + MANIFEST_FILENAME)
+        for schema_rel in (PROPOSAL_SCHEMA.as_posix(), RETENTION_MANIFEST_SCHEMA.as_posix(),
+                           STAGED_SCHEMA.as_posix(), REVIEW_SCHEMA.as_posix(), GATE_SCHEMA.as_posix()):
+            session.safe_read(schema_rel, "verifier schema pin", phase, disp)
+        try:
+            proposal = retention._parse_json_strict(prop_data, "editorial correction proposal",
+                                                    phase, disp, "PROPOSAL_UNREADABLE")
+            staged = retention._parse_json_strict(sm_data, "staged source manifest",
+                                                  phase, disp, "MANIFEST_UNREADABLE")
+        except retention.RetentionError as exc:
+            raise _fail("PIN_UNREADABLE", phase, disp, f"pinned JSON unreadable: {exc}",
+                        cause=exc) from exc
+        if not isinstance(proposal, dict) or not isinstance(staged, dict):
+            raise _fail("PIN_UNREADABLE", phase, disp, "proposal/manifest must be objects")
+        if staged.get("proposal_ref", {}).get("path") != prop_rel or \
+                staged.get("proposal_ref", {}).get("sha256") != core.sha256_bytes(prop_data):
+            raise _fail("PROPOSAL_REF_MISMATCH", phase, disp,
+                        "staged proposal_ref != supplied proposal bytes")
+        try:
+            schema_gate.validate_instance(proposal, root_path / PROPOSAL_SCHEMA,
+                                          label="editorial correction proposal")
+            schema_gate.validate_instance(staged, root_path / STAGED_SCHEMA,
+                                          label="editorial staged source manifest")
+        except ValueError as exc:
+            raise _fail("SCHEMA_INVALID", phase, disp, f"schema invalid: {exc}") from exc
+        for schema_rel in (PROPOSAL_SCHEMA.as_posix(), STAGED_SCHEMA.as_posix()):
+            session.safe_read(schema_rel, "verifier schema recheck", phase, disp)
+        try:
+            profile_label = proposal["publication_profile"]
+        except (KeyError, TypeError) as exc:
+            raise _fail("ROUTE_UNKNOWN", phase, disp, f"proposal lacks publication_profile: {exc}") from exc
+        route = _route_of(proposal, {"proposal_ref": staged.get("proposal_ref")}, phase, disp)
+        if staged.get("publication_profile") != profile_label or staged.get("route") != route:
+            raise _fail("ROUTE_MISMATCH", phase, disp, "staged manifest labels != proposal route")
+        code_deps = _route_code_deps(route)
+        got_deps = staged.get("code_deps")
+        if not isinstance(got_deps, list) or [d.get("path") for d in got_deps] != list(code_deps):
+            raise _fail("CODE_DEPS_MISMATCH", phase, disp,
+                        "staged code_deps != fixed sorted S2 set for route")
+        dep_pins: dict[str, str] = {}
+        dep_sizes: dict[str, int] = {}
+        for dep in code_deps:
+            _rel, _data = session.safe_read(dep, "S2 dep pin", phase, disp)
+            dep_pins[dep] = core.sha256_bytes(_data)
+            dep_sizes[dep] = len(_data)
+        for row in got_deps:
+            ordered = _ordered_sized_ref(row, "staged code_dep", phase, disp)
+            if dep_pins[ordered["path"]] != ordered["sha256"] or \
+                    dep_sizes[ordered["path"]] != ordered["byte_count"]:
+                raise _fail("TOOL_DRIFT", phase, disp,
+                            f"staged code_dep pin != current bytes: {ordered['path']}")
+        route_schemas = (LONGFORM_READER_SCHEMA, LONGFORM_RECEIPT_SCHEMA) \
+            if route == LONGFORM_ROUTE else (WEEKLY_READER_SCHEMA, WEEKLY_RECEIPT_SCHEMA)
+        for schema_rel in route_schemas:
+            session.safe_read(schema_rel.as_posix(), "route schema pin", phase, disp)
+        _check_runtime_binding(root_path, dep_pins, phase, disp)
+        orig_proposal_sha = core.sha256_bytes(prop_data)
+        orig_staged_sha = core.sha256_bytes(sm_data)
+        lock_map = dict(session.files)
+        # V2: full P2R verification on the manifest-declared retention path.
+        phase = "RETAINED"
+        man_ref = staged.get("retention_manifest_ref") or {}
+        if set(man_ref) != {"path", "sha256"}:
+            raise _fail("REF_SHAPE", phase, disp, "staged retention_manifest_ref must be exact {path,sha256}")
+        ret_man_rel, ret_man_data = session.safe_read(man_ref["path"], "retention manifest", phase, disp)
+        if core.sha256_bytes(ret_man_data) != man_ref["sha256"]:
+            raise _fail("RETENTION_REF_DRIFT", phase, disp, "retention manifest bytes != staged ref")
+        try:
+            ret_manifest = retention._parse_json_strict(ret_man_data, "retention manifest",
+                                                        phase, disp, "MANIFEST_UNREADABLE")
+        except retention.RetentionError as exc:
+            raise _fail("PIN_UNREADABLE", phase, disp, f"retention manifest unreadable: {exc}",
+                        cause=exc) from exc
+        try:
+            schema_gate.validate_instance(ret_manifest, root_path / RETENTION_MANIFEST_SCHEMA,
+                                          label="editorial retention manifest")
+        except ValueError as exc:
+            raise _fail("SCHEMA_INVALID", phase, disp, f"retention manifest schema invalid: {exc}") from exc
+        try:
+            with retention._sanitized_git_env_ctx():
+                verified = retention.verify_retention(root_path, proposal_path, man_ref["path"])
+        except Exception as exc:
+            raise _fail("P2R_REFUSED", phase, disp, f"P2R verification refused: {exc}",
+                        cause=exc) from exc
+        if not isinstance(verified, dict) or verified.get("result") != retention.RESULT_VERIFIED:
+            raise _fail("RETAINED_NOT_VERIFIED", phase, disp, "P2R did not return VERIFIED")
+        if verified.get("proposal_sha256") != orig_proposal_sha or \
+                verified.get("manifest_sha256") != core.sha256_bytes(ret_man_data):
+            raise _fail("RETAINED_SHA_MISMATCH", phase, disp, "P2R SHAs != original pins")
+        checked = verified.get("checked") or {}
+        # Independent typed I1 hops from ORIGINAL pinned bytes (P2R returns
+        # hashes/counts, not a decoded chain — decode here, compare after).
+        if ret_manifest.get("proposal_ref", {}).get("sha256") != orig_proposal_sha:
+            raise _fail("HEADER_MISMATCH", phase, disp, "retention proposal_ref != pinned proposal bytes")
+        if ret_manifest.get("basis") != proposal.get("basis"):
+            raise _fail("BASIS_MISMATCH", phase, disp, "retention basis != pinned proposal basis")
+        if ret_manifest.get("proposed") != proposal.get("proposed"):
+            raise _fail("PROPOSED_MISMATCH", phase, disp, "retention proposed != pinned proposal proposed")
+        rows = ret_manifest.get("rows")
+        plan = proposal.get("retention_plan")
+        if not isinstance(rows, list) or not isinstance(plan, list) or len(rows) != len(plan):
+            raise _fail("RETENTION_MISMATCH", phase, disp, "retention rows/plan shape mismatch")
+        try:
+            proposal_dir = prop_rel.rsplit("/", 1)[0]
+            state_rows = [r for r in rows if "state:authority" in (r.get("roles") or [])]
+            if len(state_rows) != 1:
+                raise _fail("MISSING_STATE_AUTHORITY", phase, disp, "unique state:authority row required")
+            srow = state_rows[0]
+            basis = proposal.get("basis") or {}
+            if srow.get("policy") != "COPY_BEFORE_REPLACEMENT":
+                raise _fail("INVALID_RETENTION", phase, disp, "state:authority must be COPY")
+            if srow.get("path") != (basis.get("state_ref") or {}).get("path") or \
+                    srow.get("sha256") != (basis.get("state_ref") or {}).get("sha256"):
+                raise _fail("STATE_REF_MISMATCH", phase, disp, "state:authority != proposal basis.state_ref")
+            provisional = retention._expected_retained_dest(proposal_dir, srow["path"])
+            if srow.get("retained_dest") != provisional:
+                raise _fail("RETENTION_DEST_MISMATCH", phase, disp, "COPY dest != recomputed provisional dest")
+            _srel, sdata = session.safe_read(srow["retained_dest"], "retained State", phase, disp)
+            if core.sha256_bytes(sdata) != srow["sha256"] or len(sdata) != srow["byte_count"]:
+                raise _fail("INVALID_RETENTION", phase, disp, "retained State bytes differ from row")
+            rstate = retention._parse_json_strict(sdata, "retained State", phase, disp, "INVALID_RETENTION")
+            rprof = rstate.get("profile") or {}
+            if not isinstance(rprof, dict) or set(rprof) != {"path", "sha256"}:
+                raise _fail("INVALID_RETENTION", phase, disp, "retained State lacks exact profile ref")
+            matches = [r for r in rows if r.get("policy") == "KEEP_IMMUTABLE"
+                       and r.get("retained_ref", {}).get("path") == rprof.get("path")
+                       and r.get("retained_ref", {}).get("sha256") == rprof.get("sha256")]
+            if len(matches) != 1:
+                raise _fail("MISSING_PROFILE_MATCH", phase, disp, "unique matching KEEP Profile row required")
+            _prel, pdata = session.safe_read(matches[0]["retained_ref"]["path"],
+                                             "required KEEP Profile", phase, disp)
+            if core.sha256_bytes(pdata) != rprof.get("sha256"):
+                raise _fail("PROFILE_DRIFT", phase, disp, "KEEP Profile bytes drifted")
+            rprofile = retention._parse_json_strict(pdata, "KEEP Profile", phase, disp, "INVALID_RETENTION")
+            if rstate.get("issue_id") != proposal.get("issue_id"):
+                raise _fail("LABEL_MISMATCH", phase, disp, "retained State issue != proposal issue")
+            for label_key in ("research_profile", "publication_profile"):
+                if rstate.get(label_key) != proposal.get(label_key):
+                    raise _fail("LABEL_MISMATCH", phase, disp, f"retained State {label_key} != proposal")
+            if rprofile.get("issue_id") != proposal.get("issue_id"):
+                raise _fail("LABEL_MISMATCH", phase, disp, "KEEP Profile issue != proposal issue")
+            source_root_rel = rprofile["paths"]["source_root"]
+            survey_root_rel = rprofile["paths"]["survey_root"]
+        except StagedSourceError:
+            raise
+        except Exception as exc:
+            if isinstance(exc, retention.RetentionError):
+                raise _fail("CHAIN_FAILED", phase, disp, f"historical chain failed: {exc}",
+                            cause=exc) from exc
+            raise _fail("CHAIN_FAILED", phase, disp, f"historical chain failed: {exc}",
+                        cause=exc) from exc
+        try:
+            expected_dir = (Path(source_root_rel) / "publication" / "v2" /
+                            "editorial-corrections" / proposal["proposal_id"]).as_posix()
+        except (KeyError, TypeError) as exc:
+            raise _fail("PROPOSAL_LAYOUT", phase, disp, f"cannot derive canonical proposal dir: {exc}") from exc
+        if proposal_dir != expected_dir:
+            raise _fail("PROPOSAL_LAYOUT", phase, disp, "proposal file outside canonical retained dir")
+        staged_rel = expected_dir + "/" + STAGED_DIRNAME
+        if sm_rel != staged_rel + "/" + MANIFEST_FILENAME:
+            raise _fail("STAGED_NAMESPACE", phase, disp, "staged manifest outside canonical staged dir")
+        if staged.get("issue_id") != proposal.get("issue_id"):
+            raise _fail("LABEL_MISMATCH", phase, disp, "staged issue != proposal issue")
+        # V3: scope through the narrow Session adapter + retained State/Profile.
+        phase = "SCOPE"
+        scope_ref = staged.get("scope_review_ref") or {}
+        if set(scope_ref) != {"path", "sha256"}:
+            raise _fail("REF_SHAPE", phase, disp, "staged scope_review_ref must be exact {path,sha256}")
+        _screl, scdata = session.safe_read(scope_ref["path"], "scope review record", phase, disp)
+        if core.sha256_bytes(scdata) != scope_ref["sha256"]:
+            raise _fail("SCOPE_DRIFT", phase, disp, "scope review bytes != staged ref")
+        if rprofile.get("publication_profile") != profile_label:
+            raise _fail("LABEL_MISMATCH", phase, disp, "KEEP Profile publication_profile != proposal")
+        shim = _SessionScopeReader(session)
+        try:
+            outcome = p1mod._validate_scope(shim, root_path, scope_ref["path"], proposal, rstate, rprofile)
+        except Exception as exc:
+            raise _fail("SCOPE_REFUSED", phase, disp, f"existing scope rules refused: {exc}",
+                        cause=exc) from exc
+        if outcome != p1mod.RESULT_BOUND:
+            raise _fail("SCOPE_NOT_BOUND", phase, disp, f"scope did not bind: {outcome}")
+        try:
+            session.reverify(phase, disp)
+        except Exception as exc:
+            raise _fail("SCOPE_REVERIFY_FAILED", phase, disp,
+                        f"post-scope reverify failed: {exc}", cause=exc) from exc
+        # V4: deterministic replay from pinned staged reader bytes.
+        phase = "REPLAY"
+        reader_ref = (proposal.get("proposed") or {}).get("proposed_reader_ref") or {}
+        canon_sha = (proposal.get("proposed") or {}).get("proposed_reader_canonical_sha256")
+        try:
+            staged_reader_rel = session.repinned(reader_ref, "staged proposed reader", phase, disp)
+        except Exception as exc:
+            raise _fail("READER_PIN_FAILED", phase, disp, f"staged reader pin failed: {exc}",
+                        cause=exc) from exc
+        reader_bytes = session.files[staged_reader_rel]
+        if core.sha256_bytes(reader_bytes) != canon_sha:
+            raise _fail("PROPOSED_DIGEST_MISMATCH", phase, disp, "staged reader != canonical digest")
+        try:
+            reader_obj = json.loads(reader_bytes.decode("utf-8"))
+        except (UnicodeDecodeError, ValueError) as exc:
+            raise _fail("READER_UNREADABLE", phase, disp, f"staged reader not JSON: {exc}") from exc
+        try:
+            if route == LONGFORM_ROUTE:
+                reviewed = longform_derivation.validate_longform_reader_input(root_path, reader_obj)
+                if reader_bytes != longform_derivation.canonical_reader_bytes(reviewed):
+                    raise _fail("READER_NONCANONICAL", phase, disp,
+                                "staged reader FILE bytes != canonical rederived bytes")
+                main_text = longform_generated.render_main(reviewed)
+                bib_text = longform_generated.render_bibliography(reviewed)
+                style_text = session.files[STYLE_PATH.as_posix()].decode("utf-8")
+                longform_generated.validate_heading_syntax(reviewed)
+                longform_generated.validate_generated_closure(main_text, style_text)
+            else:
+                reviewed = weekly.validate_reader_input(root_path, reader_obj)
+                main_text = weekly.render_main(reviewed)
+                bib_text = weekly.render_bibliography(reviewed)
+                style_text = session.files[STYLE_PATH.as_posix()].decode("utf-8")
+                weekly.validate_generated_closure(main_text, style_text)
+        except (ValueError, UnicodeDecodeError) as exc:
+            raise _fail("REPLAY_MISMATCH", phase, disp, f"deterministic replay refused: {exc}") from exc
+        expected = {role: (staged.get("outputs") or {}).get(role) or {} for role in ("main", "bibliography", "style")}
+        replay_bytes = {"main": main_text.encode("utf-8"), "bibliography": bib_text.encode("utf-8"),
+                        "style": session.files[STYLE_PATH.as_posix()]}
+        for role, data in replay_bytes.items():
+            row = expected[role]
+            if row.get("path") != staged_rel + "/" + {"main": MAIN_FILENAME,
+                                                      "bibliography": BIBLIOGRAPHY_FILENAME,
+                                                      "style": STYLE_FILENAME}[role]:
+                raise _fail("OUTPUT_PATH_MISMATCH", phase, disp, f"staged {role} path not canonical")
+            _orel, oback = session.safe_read(row.get("path", ""), "staged output " + role, phase, disp)
+            if oback != data or core.sha256_bytes(data) != row.get("sha256") or \
+                    len(data) != row.get("byte_count"):
+                raise _fail("REPLAY_MISMATCH", phase, disp, f"staged {role} != deterministic replay bytes")
+        if replay_bytes["style"] != session.files[STYLE_PATH.as_posix()]:
+            raise _fail("STYLE_MISMATCH", phase, disp, "staged style != pinned style input")
+        # V5: exact closed set + manifest self-digest/canonical bytes.
+        phase = "VERIFY"
+        got_files, got_dirs, _got_sizes = retention._snapshot_expanded(
+            session, [staged_rel], "staged verify", phase, disp)
+        want = {staged_rel + "/" + name for name in (MAIN_FILENAME, BIBLIOGRAPHY_FILENAME,
+                                                     STYLE_FILENAME, MANIFEST_FILENAME)}
+        if set(got_files) != want or set(got_dirs) != {staged_rel}:
+            raise _fail("STAGED_SET_MISMATCH", phase, disp, "staged set != exact 4-file closure")
+        if _manifest_digest(staged) != staged.get("manifest_digest"):
+            raise _fail("MANIFEST_DIGEST_MISMATCH", phase, disp, "staged manifest self-digest mismatch")
+        if _canonical_json_bytes({k: v for k, v in staged.items()}) != sm_data:
+            raise _fail("MANIFEST_NONCANONICAL", phase, disp, "staged manifest bytes != canonical projection")
+        # V6 FINAL: full staged/retained inventories + original pins after later reads.
+        phase = "FINAL"
+        try:
+            fin_files, fin_dirs, _fin_sizes = retention._snapshot_expanded(
+                session, [staged_rel], "staged final", phase, disp)
+            if set(fin_files) != want or set(fin_dirs) != {staged_rel}:
+                raise _fail("STAGED_DRIFT", phase, disp, "final staged inventory drifted")
+            for rel, orig_bytes in lock_map.items():
+                cur = session.files.get(rel)
+                if cur is None or cur != orig_bytes:
+                    raise _fail("PIN_DRIFT", phase, disp,
+                                f"consumed pin changed after later reads: {rel}")
+            if session.files.get(sm_rel) != sm_data or session.files.get(prop_rel) != prop_data:
+                raise _fail("PIN_DRIFT", phase, disp, "supplied bytes changed after later reads")
+            session.reverify(phase, disp)
+        except StagedSourceError:
+            raise
+        except Exception as exc:
+            if isinstance(exc, retention.RetentionError):
+                raise _fail("FINAL_FAILED", phase, disp, f"final boundary failed: {exc}",
+                            cause=exc) from exc
+            raise _fail("FINAL_FAILED", phase, disp, f"final boundary failed: {exc}",
+                        cause=exc) from exc
+        _close_session(session, "CLOSE", "VERIFIED")
+        session = None
+        return {
+            "result": RESULT_VERIFIED,
+            "proposal_ref": {"path": prop_rel, "sha256": orig_proposal_sha},
+            "staged_manifest_ref": {"path": sm_rel, "sha256": orig_staged_sha},
+            "observed_refs": {
+                "retention_manifest_ref": {"path": ret_man_rel,
+                                           "sha256": core.sha256_bytes(ret_man_data)},
+                "scope_review_ref": {"path": _screl, "sha256": core.sha256_bytes(scdata)},
+                "code_deps": [{"path": dep, "sha256": dep_pins[dep], "byte_count": dep_sizes[dep]}
+                               for dep in code_deps],
+            },
+            "measured": {
+                "proposed_reader_sha256": canon_sha,
+                "replay_main_sha256": core.sha256_bytes(replay_bytes["main"]),
+                "replay_bib_sha256": core.sha256_bytes(replay_bytes["bibliography"]),
+                # Any style mismatch already refused above (STYLE_MISMATCH /
+                # per-role replay equality); reaching here proves the match.
+                "style_match": True,
+                "closure_count": len(code_deps),
+            },
+        }
+    except StagedSourceError as primary:
+        if session is not None:
+            _close_session(session, primary.phase, primary.disposition, primary)
+            session = None
+        raise
+    except Exception as exc:
+        if isinstance(exc, retention.RetentionError):
+            wrapped = _fail("VERIFIER_FAILED", phase, disp,
+                            f"retention layer refused: {exc}", cause=exc)
+        else:
+            wrapped = _fail("VERIFIER_FAILED", phase, disp,
+                            f"unexpected verifier failure: {exc}", cause=exc)
+        if session is not None:
+            _close_session(session, phase, disp, wrapped)
+            session = None
+        raise wrapped from exc

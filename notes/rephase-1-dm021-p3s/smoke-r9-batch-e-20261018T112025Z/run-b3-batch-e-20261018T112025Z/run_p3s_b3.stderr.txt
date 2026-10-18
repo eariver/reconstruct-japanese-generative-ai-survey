@@ -1,0 +1,48 @@
+test_o12a_preexisting_tamper_verify (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12a_preexisting_tamper_verify)
+O12a verify-level tamper: truncated manifest / extra dir / zeroed output. ... ok
+test_o12b_during_write_faults_incomplete (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class. ... ok
+test_o12c_fsync_close_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12c_fsync_close_indeterminate)
+O12c fsync/close faults with complete bytes → INDETERMINATE + owned partials. ... ok
+test_o12d_manifest_failure_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12d_manifest_failure_indeterminate)
+O12d manifest write/close faults → INDETERMINATE; valid bytes stay verifiable. ... ok
+test_o12e_fstat_identity_mismatch (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12e_fstat_identity_mismatch)
+O12e fstat-vs-entry identity mismatch refuses with exact owned partials. ... ok
+test_o12f_short_partial_combined_close (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary. ... ok
+test_o13_immediate_no_write_before_repair (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o13_immediate_no_write_before_repair)
+O13 every refusal proves no-write with the fault still present. ... ok
+test_o14_byte_equal_existing_root_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o14_byte_equal_existing_root_refuses)
+O14 byte-equal pre-existing staged set still refuses writer takeover. ... ok
+test_r1_genuine_owner_binds_materialization (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh. ... FAIL
+
+======================================================================
+FAIL: test_r1_genuine_owner_binds_materialization (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2536, in test_r1_genuine_owner_binds_materialization
+    out = _run_fixture_code(self, root, p2vt._R1_REFRESH_SCRIPT,
+                            [str(root), str(state_path)])
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 521, in _run_fixture_code
+    testcase.assertEqual(res["rc"], 0,
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+                         f"fixture-code step failed; raw in {res['durable_dir']}:\nSTDOUT:\n{res['out_s']}\nSTDERR:\n{res['err_s'][-4000:]}")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : fixture-code step failed; raw in /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-e-20261018T112025Z/run-b3-batch-e-20261018T112025Z/fixture-raw/p3s-fixture-code-_awqasgu:
+STDOUT:
+
+STDERR:
+Traceback (most recent call last):
+  File "<string>", line 11, in <module>
+    result = r1.refresh_mechanical_evidence(root, cfg, state_path, "fixture R1 non-emitted refresh", "synthetic P1 R1 fixture", recorded)
+  File "/tmp/opencode/run-b3-batch-e-20261018T112025Z-tmpdir/jgas-p3s-r1-chpodlh9/scripts/survey_weekly_mechanical_refresh_v2.py", line 1078, in refresh_mechanical_evidence
+    raise MechanicalRefreshError("unsupported control/criteria/schema change outside weekly_derivation.py")
+scripts.survey_weekly_mechanical_refresh_v2.MechanicalRefreshError: unsupported control/criteria/schema change outside weekly_derivation.py
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 5810.125s
+
+FAILED (failures=1)

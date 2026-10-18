@@ -1,0 +1,22 @@
+test_o7_scope_refusals (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write. ... ok
+test_o8_path_ref_schema_inventory_tamper (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write. ... FAIL
+
+======================================================================
+FAIL: test_o8_path_ref_schema_inventory_tamper (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 1616, in test_o8_path_ref_schema_inventory_tamper
+    self.assertEqual(outcome.get("code"), code, label)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'BASIS_MISMATCH' != 'CONTRACT_IDENTITY_MISMATCH'
+- BASIS_MISMATCH
++ CONTRACT_IDENTITY_MISMATCH
+ : contract-identity
+
+----------------------------------------------------------------------
+Ran 2 tests in 953.654s
+
+FAILED (failures=1)

@@ -1,0 +1,97 @@
+test_o8_path_ref_schema_inventory_tamper (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write. ... ok
+test_o9_alias_fifo_no_read (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang. ... FAIL
+test_o10_same_inode_vs_new_inode (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct). ... FAIL
+test_o11_root_preexisting_and_postreadback_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11_root_preexisting_and_postreadback_drift)
+O11 pre-existing root refuses; staged output swap after readback refuses. ... ok
+test_o11b_midcall_reader_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta. ... FAIL
+test_o11c_late_control_retained (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at later boundaries. ... FAIL
+test_o11d_drift_before_claim_manifest (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11d_drift_before_claim_manifest)
+O11d drift after render/before claim and after source/before manifest. ... ok
+test_o11e_post_readback_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay. ... FAIL
+test_o11f_root_ancestor_replace (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses. ... FAIL
+
+======================================================================
+FAIL: test_o9_alias_fifo_no_read (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 1684, in test_o9_alias_fifo_no_read
+    self.assertNotIn("timeout", json.dumps(outcome),
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     f"FIFO case blocked instead of refusing: {outcome}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'timeout' unexpectedly found in '{"ok": false, "error": "StagedSourceError: LAYOUT_REFUSED: [PIN/REFUSED_PRE_WRITE] canonical proposal layout refused: PROPOSAL_LAYOUT: proposal directory entry invalid reader-surface-input-v2.json: PATH_NOT_REGULAR: proposal directory entry reader-surface-input-v2.json not a regular file: sources/SP001/publication/v2/editorial-corrections/fixture-lf-p3s-9/reader-surface-input-v2.json", "code": "LAYOUT_REFUSED", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}, "durable_dir": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924", "meta": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.meta.json", "meta_pre": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.meta_pre.json", "raw_stdout": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.stdout.bin", "raw_stderr": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.stderr.bin", "script": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.script.py", "script_sha256": "55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb", "stdout_full": "{\\"ok\\": false, \\"error\\": \\"StagedSourceError: LAYOUT_REFUSED: [PIN/REFUSED_PRE_WRITE] canonical proposal layout refused: PROPOSAL_LAYOUT: proposal directory entry invalid reader-surface-input-v2.json: PATH_NOT_REGULAR: proposal directory entry reader-surface-input-v2.json not a regular file: sources/SP001/publication/v2/editorial-corrections/fixture-lf-p3s-9/reader-surface-input-v2.json\\", \\"code\\": \\"LAYOUT_REFUSED\\", \\"phase\\": \\"PIN\\", \\"disposition\\": \\"REFUSED_PRE_WRITE\\", \\"owned_files\\": 0, \\"owned\\": {}}\\n", "stderr_full": "", "timeout": false, "interrupted": false}' : FIFO case blocked instead of refusing: {'ok': False, 'error': 'StagedSourceError: LAYOUT_REFUSED: [PIN/REFUSED_PRE_WRITE] canonical proposal layout refused: PROPOSAL_LAYOUT: proposal directory entry invalid reader-surface-input-v2.json: PATH_NOT_REGULAR: proposal directory entry reader-surface-input-v2.json not a regular file: sources/SP001/publication/v2/editorial-corrections/fixture-lf-p3s-9/reader-surface-input-v2.json', 'code': 'LAYOUT_REFUSED', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924', 'meta': '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.meta.json', 'meta_pre': '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.meta_pre.json', 'raw_stdout': '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.stdout.bin', 'raw_stderr': '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.stderr.bin', 'script': '/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r9-batch-d-20261018T100340Z/run-b3-batch-d-20261018T100340Z/fixture-raw/p3s-p3s-_772u924/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: LAYOUT_REFUSED: [PIN/REFUSED_PRE_WRITE] canonical proposal layout refused: PROPOSAL_LAYOUT: proposal directory entry invalid reader-surface-input-v2.json: PATH_NOT_REGULAR: proposal directory entry reader-surface-input-v2.json not a regular file: sources/SP001/publication/v2/editorial-corrections/fixture-lf-p3s-9/reader-surface-input-v2.json", "code": "LAYOUT_REFUSED", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o10_same_inode_vs_new_inode (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 1754, in test_o10_same_inode_vs_new_inode
+    self.assertFalse(outcome.get("ok"))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+AssertionError: True is not false
+
+======================================================================
+FAIL: test_o11b_midcall_reader_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2136, in test_o11b_midcall_reader_drift
+    self.assertEqual(outcome.get("code"), "STABILITY_VIOLATION")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'LAYOUT_REFUSED' != 'STABILITY_VIOLATION'
+- LAYOUT_REFUSED
++ STABILITY_VIOLATION
+
+
+======================================================================
+FAIL: test_o11c_late_control_retained (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at later boundaries.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2244, in test_o11c_late_control_retained
+    self.assertEqual(outcome.get("code"), "ORIGINAL_DRIFT")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'OBSERVER_REFUSED' != 'ORIGINAL_DRIFT'
+- OBSERVER_REFUSED
++ ORIGINAL_DRIFT
+
+
+======================================================================
+FAIL: test_o11e_post_readback_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2386, in test_o11e_post_readback_replay
+    self.assertEqual(outcome.get("code"), "FILE_REPLACED")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'SNAPSHOT_FAILED' != 'FILE_REPLACED'
+- SNAPSHOT_FAILED
++ FILE_REPLACED
+
+
+======================================================================
+FAIL: test_o11f_root_ancestor_replace (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2422, in test_o11f_root_ancestor_replace
+    self.assertEqual(outcome.get("code"), "STAGED_ROOT_REPLACED")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'STAGED_ROOT_ENTRY_FAILED' != 'STAGED_ROOT_REPLACED'
+- STAGED_ROOT_ENTRY_FAILED
++ STAGED_ROOT_REPLACED
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 4449.573s
+
+FAILED (failures=6)

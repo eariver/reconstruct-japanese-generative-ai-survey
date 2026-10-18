@@ -1,0 +1,157 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/editorial-staged-source-manifest-v2.schema.json",
+  "title": "Survey Production Core v2 Editorial Staged Source Manifest (post-review, one-shot)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "status",
+    "proposal_ref",
+    "retention_manifest_ref",
+    "scope_review_ref",
+    "issue_id",
+    "research_profile",
+    "publication_profile",
+    "route",
+    "basis",
+    "proposed",
+    "outputs",
+    "style_input_ref",
+    "code_deps",
+    "producer_head",
+    "manifest_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "kind": {"const": "EDITORIAL_STAGED_SOURCE_V1"},
+    "status": {"const": "STAGED_ONLY"},
+    "proposal_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "proposal_id", "issue_id", "research_profile", "publication_profile"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "proposal_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+        "issue_id": {"type": "string", "minLength": 1},
+        "research_profile": {"type": "string", "minLength": 1},
+        "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]}
+      }
+    },
+    "retention_manifest_ref": {"$ref": "#/$defs/ref"},
+    "scope_review_ref": {"$ref": "#/$defs/ref"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"type": "string", "minLength": 1},
+    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+    "route": {"enum": ["LONGFORM_GENERATED_V1", "WEEKLY_GENERATED_V2"]},
+    "basis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_ref",
+        "validation_checkpoint_ref",
+        "active_revalidation_ref",
+        "active_reader_input_ref",
+        "before_graph_digest",
+        "preserved_upstream_digest",
+        "generated_receipt_ref",
+        "renderer_commit",
+        "contract_identity"
+      ],
+      "properties": {
+        "state_ref": {"$ref": "#/$defs/ref"},
+        "validation_checkpoint_ref": {"$ref": "#/$defs/ref"},
+        "active_revalidation_ref": {
+          "anyOf": [{"$ref": "#/$defs/ref"}, {"type": "null"}]
+        },
+        "active_reader_input_ref": {"$ref": "#/$defs/ref"},
+        "before_graph_digest": {"$ref": "#/$defs/sha256"},
+        "preserved_upstream_digest": {"$ref": "#/$defs/sha256"},
+        "generated_receipt_ref": {"$ref": "#/$defs/ref"},
+        "renderer_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "contract_identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "pipeline_contract_version",
+            "pipeline_contract_sha256",
+            "quality_contract_version",
+            "quality_contract_sha256",
+            "research_profile_version",
+            "research_profile_sha256",
+            "publication_profile_version",
+            "publication_profile_sha256"
+          ],
+          "properties": {
+            "pipeline_contract_version": {"type": "string", "minLength": 1},
+            "pipeline_contract_sha256": {"$ref": "#/$defs/sha256"},
+            "quality_contract_version": {"type": "string", "minLength": 1},
+            "quality_contract_sha256": {"$ref": "#/$defs/sha256"},
+            "research_profile_version": {"type": "string", "minLength": 1},
+            "research_profile_sha256": {"$ref": "#/$defs/sha256"},
+            "publication_profile_version": {"type": "string", "minLength": 1},
+            "publication_profile_sha256": {"$ref": "#/$defs/sha256"}
+          }
+        }
+      }
+    },
+    "proposed": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authoring_input_ref",
+        "proposed_reader_ref",
+        "proposed_reader_canonical_sha256",
+        "change_description"
+      ],
+      "properties": {
+        "authoring_input_ref": {"$ref": "#/$defs/ref"},
+        "proposed_reader_ref": {"$ref": "#/$defs/ref"},
+        "proposed_reader_canonical_sha256": {"$ref": "#/$defs/sha256"},
+        "change_description": {"type": "string", "minLength": 1}
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["main", "bibliography", "style"],
+      "properties": {
+        "main": {"$ref": "#/$defs/sized_ref"},
+        "bibliography": {"$ref": "#/$defs/sized_ref"},
+        "style": {"$ref": "#/$defs/sized_ref"}
+      }
+    },
+    "style_input_ref": {"$ref": "#/$defs/sized_ref"},
+    "code_deps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/sized_ref"}
+    },
+    "producer_head": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "manifest_digest": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sized_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_count"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

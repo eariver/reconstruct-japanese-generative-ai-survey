@@ -1,0 +1,41 @@
+test_o9_alias_fifo_no_read (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang. ... ok
+test_o10_same_inode_vs_new_inode (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct). ... ok
+test_o11b_midcall_reader_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta. ... ok
+test_o11c_late_control_retained (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at FINAL boundary. ... ok
+test_o11e_post_readback_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay. ... ok
+test_o11f_root_ancestor_replace (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses. ... ok
+test_r1_genuine_owner_binds_materialization (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh. ... FAIL
+
+======================================================================
+FAIL: test_r1_genuine_owner_binds_materialization (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2597, in test_r1_genuine_owner_binds_materialization
+    prep_json = _run_fixture_code(
+        self, root, _R1_FIXTURE_PREPARE_SCRIPT,
+        [str(root), str(state_path), str(chain["authored_path"]),
+         str(helper.source_root), "fixture-wk-p3s-r1", "scope-review-p3s-r1.json"])
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 521, in _run_fixture_code
+    testcase.assertEqual(res["rc"], 0,
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+                         f"fixture-code step failed; raw in {res['durable_dir']}:\nSTDOUT:\n{res['out_s']}\nSTDERR:\n{res['err_s'][-4000:]}")
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : fixture-code step failed; raw in /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/smoke-r10-batch-f-20261018T130506Z/run-b3-batch-f-20261018T130506Z/fixture-raw/p3s-fixture-code-nwfqxli6:
+STDOUT:
+
+STDERR:
+04a676c414288808892c0d6ee19bcb9baf83b4b0c602005', 'tests/test_survey_production_v2.py': '6dbdc781da2582867dad6c3c2738986a63d7ed4e04aff9375f343c0a35685876', 'tests/test_survey_profiled_freeze_v2.py': 'd159cd0a97feab2727bab2cedad9d16e035015705f3b8107e5c8d03a9e8c922f', 'tests/test_survey_publication_revalidation_v2.py': 'c6b6e24579a594f47030489ed99799de1604854edf979abc68c550e22d070457', 'tests/test_survey_publication_v2.py': '48188a74dd5da1f3dc9f5516ba0d89902323aad5b8f7e4875a06241fc9acc941', 'tests/test_survey_quality_v2.py': 'f346cc1490a02a94a7a764b78d74d037458353cd458486d5095368f1df010769', 'tests/test_survey_reader_fidelity_parser_v2.py': 'd9103d898ce0121cf3968710956e7fa5fdf78b07d431010809f4655f1a0f613a', 'tests/test_survey_reader_fidelity_v2.py': 'a364f096d5953bd1792b0f8fbe81a1fc2e4e291ea5bd92e948f9736c8d2b51c3', 'tests/test_survey_reader_surface_gate_v2.py': '2157c7fb55c21f469161480ce4942ab28fff8730571d8b086eca625efbffa21b', 'tests/test_survey_release_checkpoint_v2.py': 'e5780ebacd6768d18e44a84d20136463a3b47a38a94f19d6f750459e64d7b51f', 'tests/test_survey_review_attention_v2.py': 'a9cf09a4ad18724dcc4a54a9357280f33d6b6e3d7faf7ad4ec221d6e66ca3b51', 'tests/test_survey_screening_archive_v2.py': '3aa9bdf237278e1ce4c6479d35e9a26e31054be8c0adec3e5e00a1d62beafebc', 'tests/test_survey_screening_v2.py': '55a680b381f4cd0b3def10789aa7b52cd0b5340051d91aea34d32b571cab8bd7', 'tests/test_survey_semantic_publication_v2.py': 'c23884e7460b8e2c3ff1171c3671eb33d07ba70c764892a36b591f6e306c7961', 'tests/test_survey_stage_validation_v2.py': '6b376293d00c141b24ac8d29eb68f5ca151d46a7e1358cdee31be9839e53071c', 'tests/test_survey_state_publication_authority_v2.py': 'c9f6bd9135a8c617cbd6d57ff0500fcc58f6325b8aa99a843435df755da728b2', 'tests/test_survey_weekly_evidence_authority_v2.py': 'a665cc75e7ce3f070b56e2abb8ae88c3457cbeaf7d0969aa247c12817b0ed614', 'tests/test_survey_weekly_mechanical_refresh_v2.py': '06d157fd8f4a65a832f4a764035c47dc97665b8481fa86b0c8db29b31a040b04', 'tests/test_survey_wu008_contract_identity.py': '0eaf11488150f8eb8d558daf124cfb55a0e23b967e6914b7c851f81da827e81a', 'tests/test_survey_x_intake_v2.py': '673332583d851d80733b95f3f603488752b8e51dd65db5a09fab8a359011ad58', 'tests/test_validate_article_draft.py': 'ef6f111cc47d71b326e09b214e0a79a29fa845a718a164155d7e71ea6c999718', 'tests/test_validate_evidence_run.py': '0b741d8c6f00ccee13edaa3bd8ea44df2636d49dfbc183d71d1c3bc30b753da3', 'tests/test_validate_issue_architecture.py': '61b133e69317585f7b5ce0cbed84092dfa81bc3318e22b53c8ce764c84a93d49', 'tests/test_validate_issue_architecture_page_cap.py': 'd65ac9338c037f43ade3d893c83c046b70ff8c959790d110a67608a31104c259', 'tests/test_validate_issue_synthesis.py': '7f75db0f8400bcea880aac2adde1f7ca625e6228633fc230f4e405213656e727', 'tests/test_validate_screening_result.py': '10f24987734bb07f8ae791c0670b8c372eef7b75bc3a0494f3d226918c7145fe', 'tests/test_weekly_carryover_ledger.py': '7f30b31d66220fc6ac75e194fc43d9352581da6acf833ed0eab8efff1f752fc7', 'tests/test_weekly_evidence_revision.py': 'b680567ae89a005506627b9498cafa8d93d913fa54b97086df43c3638044ff00', 'tests/test_weekly_interactive_evidence.py': '91e20990061a03b0658cb094ef57aad9d4f81f9a3791909237d266d89a7ef722', 'tests/test_weekly_interactive_screening.py': '6846c6950bdad9d950bb26e784c69680c139954269334df84bbe80c734e2fe7c', 'tests/test_weekly_pipeline.py': 'a9eddd58627cc35d289e0a8764a10d0feb8f3cea2eba6769bc1d4b6a36408f86', 'tests/test_weekly_pr_control.py': 'dc9441ebf5c12839aeda7d423e54e1df0bde64c0db99b27a726729111403ab79', 'views-accepted/2bc26ddc0099ee4283e341058dc77784dd80a52f275e49d0bceb3b3d276c3d67/edition-views-accepted.json': '0550fca2c882a18e8b87f99eff76beab09d04298decee57afd8577fd5f5e448e', 'views-accepted/2bc26ddc0099ee4283e341058dc77784dd80a52f275e49d0bceb3b3d276c3d67/views/view-12a1f44ab9a5d18cd288.json': 'f150a40020a6decc2218acfccc9894fe88a0aaa489ecc65c8f30230ee71cf253', 'views-input/view-12a1f44ab9a5d18cd288.json': 'f150a40020a6decc2218acfccc9894fe88a0aaa489ecc65c8f30230ee71cf253'}
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 3664.477s
+
+FAILED (failures=1)

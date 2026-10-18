@@ -1,0 +1,22 @@
+test_o3_coexistence_p1_refuse_p2r_p2v (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o3_coexistence_p1_refuse_p2r_p2v)
+O3 P1 still refuses retained destination; P2R/P2V coexist (no TeX use). ... ok
+test_o4_live_state_mutation_replay_ok_materializer_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses. ... FAIL
+
+======================================================================
+FAIL: test_o4_live_state_mutation_replay_ok_materializer_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 1248, in test_o4_live_state_mutation_replay_ok_materializer_refuses
+    self.assertEqual(outcome.get("code"), "PIN_FAILED")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'LAYOUT_REFUSED' != 'PIN_FAILED'
+- LAYOUT_REFUSED
++ PIN_FAILED
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 951.172s
+
+FAILED (failures=1)

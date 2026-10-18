@@ -1,0 +1,26 @@
+# R5 smoke O1/O2 result — single authorized retry (B4 launcher + B3 runner)
+packet=notes/rephase-1-dm021-p3s/smoke-r5b3-20261018T075549Z
+date_utc=20261018T081453Z
+candidate=/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60
+candidate_head=409b292756dd1277b9dfae87679934c0d2ce251c (detached, verified pre-launch and current)
+candidate_tree=8ce3699861505f32d1d60bdc185d4d4f635aedb2
+candidate_status_rows=105 pre and post (3M+18A+84pyc; index empty; remote inert example.invalid; no alternates)
+manifest=draft-history-r5/static21.json sha=13751b25a6c5c882dcf92a01959c2af0eb8030d82c007ecd6a83d6c485362fcf bytes=3670 (21 entries; 18/18 + 84/84 verified)
+module=7059166e075d1a10aacdd375bb8193881f0bfb2ca3e67dd142e175a349031c65 (126181B)
+test=6b35a3e5d64817d5cdfd2ad5e06fc990089c2eb6ea4e920858a3e437fb5627c5 (120814B)
+schema=4fa6172338072258f1f3c204b27331ac79a35b2af9d42ac6a2e8be7a34e32e46
+runner=verification-tools/run_p3s_b3.py sha=dc695ace024ee5980b559d6a6c82d75eb7c0c6909d40d91ab1c87935a666ec52
+launcher=verification-tools/launch_p3s_smoke_b4.py sha=9a943c4a30ce919f64ee9b203f5f6548d9494ec019aa7a42b612a303b58d16fa
+python=/usr/bin/python3 3.14.4 (actual available, no install)
+tests=2 requested, 2 executed, 0 skipped/incomplete:
+  test_o1_longform_materialize_and_replay ... ok
+  test_o2_weekly_materialize_and_replay ... ok
+  Ran 2 tests in 855.750s — OK
+child_rc=0 runner_wrapper_rc=0 launcher_wrapper_rc=0 launch.exit=0
+runner_outdir=notes/rephase-1-dm021-p3s/smoke-r5b3-20261018T075549Z/run-b3-o1o2 (unique basename run-b3-o1o2; TMPDIR /tmp/opencode/run-b3-o1o2-tmpdir; cache prefix /tmp/opencode/run-b3-o1o2-nocache-absent)
+fixture_raw=notes/rephase-1-dm021-p3s/smoke-r5b3-20261018T075549Z/run-b3-o1o2/fixture-raw (EXACT P3S_DURABLE_OUTDIR; 4 durable child dirs; survives fixture cleanup)
+PRE=run_p3s_b3.pre.json head409/tree8ce/105 rows, no pre_errors (child launched)
+POST=run_p3s_b3.post.json head409/tree8ce/105 rows == PRE rows; post_errors=[] (stage-done.json wrapper_rc=0)
+timeouts=runner7200 launcher7800; elapsed_child_session=857.382133s
+original_failed_smoke=smoke-r5-20261018T074631Z preserved untouched (B2 os.lexists fatal, 0 tests; wait127 was later-shell artifact, not runner rc — not repeated here)
+no_source_edits=yes; no_rerun=yes; single_execution=yes (PID 3530213 observed to exit, not duplicated)

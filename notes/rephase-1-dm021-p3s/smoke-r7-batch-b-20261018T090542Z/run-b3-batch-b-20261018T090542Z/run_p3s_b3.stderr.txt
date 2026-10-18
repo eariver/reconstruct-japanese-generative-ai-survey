@@ -1,0 +1,25 @@
+test_o4_live_state_mutation_replay_ok_materializer_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses. ... ok
+test_o5_artifact_only_head_independence (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o5_artifact_only_head_independence)
+O5 artifact-only commit keeps replay VERIFIED without HEAD comparison. ... ok
+test_o6a_tool_drift_reaches_check (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6a_tool_drift_reaches_check)
+O6a TOOL_DRIFT via standalone artifact dependency tamper (verifier). ... ok
+test_o6b_keep_drift_preempts_honestly (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6b_keep_drift_preempts_honestly)
+O6b KEEP-byte drift reports the earlier KEEP refusal, not TOOL_DRIFT. ... ok
+test_o7_scope_refusals (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write. ... FAIL
+
+======================================================================
+FAIL: test_o7_scope_refusals (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-dm021p3s-impl-20261017T092635Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 1434, in test_o7_scope_refusals
+    self.assertIn("SCOPE_NOT_WITHIN_AUTHORITY", outcome.get("error", ""))
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'SCOPE_NOT_WITHIN_AUTHORITY' not found in "StagedSourceError: OBSERVER_REFUSED: [OBSERVE/REFUSED_PRE_WRITE] fresh current-authority observation refused: SCOPE_ORDINARY_INVALID: [SCOPE] P1: SCOPE_ORDINARY_INVALID: Semantic Review Record fails /tmp/opencode/run-b3-batch-b-20261018T090542Z-tmpdir/jgas-p3s-o7-zvsxfq9s/schemas/reader-surface-semantic-review-v2.schema.json: $.editorial_correction_scope.decision: 'NEEDS_SCOPE_DETAIL' is not one of ['WITHIN_APPROVED_AUTHORITY', 'REQUIRES_OWNER_DECISION', 'REJECT']"
+
+----------------------------------------------------------------------
+Ran 5 tests in 1975.991s
+
+FAILED (failures=1)
