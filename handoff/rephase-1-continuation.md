@@ -1,5 +1,21 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-19 roadmap replan + first-task closeout
+
+**再計画と最初のtaskを完了し、Human Commit Pointで停止。** 全体の正本は[completion roadmap](../outputs/rephase-1-completion-roadmap-20261019.md)。目的はWeekly＋必要Specialの品質/根拠/権限を保つ総lifecycle work削減、完成は実採用/実運用・費用確認・旧通常経路廃止まで。初回routeや局所PASSだけで完了しない。
+
+最初のR1は[actual-source統合admission可否判断](../outputs/rephase-1-integrated-admission-feasibility-decision.md)。提出2案をNO-GOとし、Astra＋[fresh独立review（必須§9）](../notes/rephase-1-roadmap-replan-20261019/independent-roadmap-decision-review.md)でreplan/rejection/next-taskに限るBOUNDED_PASS。**implementation-ready契約は未成立**、新runtime/test/PDFbuildなし。元draftの3A/無変更consumer、invalid-live window、自動review生成等の案を実装指示として使わない。
+
+**次の最初の行動（Human continuation後）:** decision§5をGeneralへ委任。現21sourceの**initial generated Weekly＋THEMATIC/LONGFORM_SPECIALで実disposable build→必要PDF/log/digestの明示transfer→strict receipt/Gate/QA/Candidate/State integration witness**。実source/PDFの作者別semantic/visual点検とsynthetic authority/type-fixtureを別に記録。Human Preview/Production採用はAgentが生成しない。実測blockerだけ最小修復/影響回帰/独立reviewで閉じる。新editorial helperは追加しない。
+
+**Source availability:** `/tmp/opencode/jgas-roadmap-r1-20261018T163842Z/candidate-partial-b40de60`、actual detached409/tree8ce＋21path3M18A/cache0。4parent inputs＋complete21patch e449d029cをDIRECT適用、[current raw21/21](../notes/rephase-1-roadmap-replan-20261019/admission/current-source-verification-20261019T000525Z/README.md)。旧/tmpとcache84は不在。復元時raw未保存・後発current観測の範囲を[必須資格付け](../notes/rephase-1-roadmap-replan-20261019/admission/restoration-evidence-correction.md)とdecision§2で確認。availableなら再復元せず、実行fixtureは新独立DBとして分離確認。missing26309/runtime非同梱継続、過去PASS転用なし。
+
+**DM022:** [新intake](../notes/rephase-1-roadmap-replan-20261019/dm022-intake/README.md)、Summaryc8d0ecc1/blob0a0fe3eb＋Issue562、3 GET。pre-Architecture accepted-upstream訂正のmaterial入力、DM021と異なるstage/権限。初稿「reconstruct影響なし」は撤回。全22再監査/一般main追従/rebaselineではない。
+
+開始workspace Human HEADeb6b79b・clean、今回のroadmap/decision/packet/入口更新は未commit。candidate新HEADなし。wholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN。次順序はinitial build統合→必要訂正/Profile対応→固定候補/audit→Human採用/運用→効果/旧経路廃止。通常Commit/PushはHuman担当。
+
+## Preserved P3S closeout (following next/source-location text is historical)
+
 更新: 2026-10-19 JST P3S実装closeout（final evidence 20261018 UTC）。**契約42eb8dbbのpost-review staged TeX/Bib/style生成＋独立replayをBOUNDED IMPLEMENTATION COMPLETE。選択3A/0M、root closeout＋fresh作者別final review＋必須supplementでBOUNDED PASS。** 実detached409b292/tree8ce＋21file3M18A＋84cache、R11 module7059166e126181B/schema4fa617235627B/testa3bb0f23147845B、static21 1c0e339c。完全21patch `e449d029c8775ee28ee610f224997a57b0cd68664194c6720a6038ce9a3012fa` 1233670Bをclean409へDIRECT適用（inherited18内包）。
 
 **QUALIFIED SCOPED26**（R5–R11の8batch ran/success/fail表が正、最終R11-G 7/7 5634.188s＝R1＋affected6）。full26一括runなし、module/schemaはR5以来不変。GEN＋保存patch clean409 apply PROOF完了（apply数値rcは別artifactでなくfail-closed progression）。初回B2 os.lexists 0-test/rc未取得wait127、中間oracle/fixture欠陥、R6完了後provider error（orphanでない）、tool-adapter差異は保存。missing26309blobs/runtime非同梱、globalCAS/crash/真承認/migration/adoptionなし、full-suite推論なし。

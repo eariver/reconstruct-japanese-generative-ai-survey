@@ -4,6 +4,16 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
+**Current 2026-10-19: completion roadmap re-evaluated; first post-replan feasibility task completed with a reasoned NO-GO for both proposed minimal editorial-admission designs.** Fresh independent bounded review supports that disposition, not implementation readiness. The next task is real initial Weekly + Thematic/Longform build-to-admission integration. Pause at the Human Commit Point.
+
+1. [Current completion roadmap: objective, finish line, sequence and cost criteria](outputs/rephase-1-completion-roadmap-20261019.md)
+2. [First-task result and concrete next task (§5)](outputs/rephase-1-integrated-admission-feasibility-decision.md)
+3. [Current handoff](handoff/rephase-1-continuation.md) and [replan packet / mandatory independent review §9](notes/rephase-1-roadmap-replan-20261019/README.md)
+
+DM-022 is now a scoped architectural/acceptance input; [captured Summary + Issue562 and corrected disposition](notes/rephase-1-roadmap-replan-20261019/dm022-intake/README.md). Whole candidate remains NOT_READY, final audit unstarted, adoption and net savings unestablished. Ordinary Commit/Push remain Human-owned.
+
+### Historical 2026-09 preparation entry (preserved, not the current task)
+
 **Next-session preparation is complete; no implementation or tests were started in this preparation.** B3 remains open, f1 unchanged, whole candidate NOT_READY. The selected first implementation increment is exact stage-selected Reader Manuscript binding, delegated to a Sol Co-Worker; Astra plans/reviews. Canonical seven-point audit has not started.
 
 1. [Re:Phase 1 handoff](handoff/rephase-1-continuation.md)

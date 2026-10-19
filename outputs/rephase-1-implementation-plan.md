@@ -1,5 +1,9 @@
 # Re:Phase next-session implementation plan
 
+**CURRENT 2026-10-19 replan:** 全体計画は[completion roadmap](rephase-1-completion-roadmap-20261019.md)へ集約した。最初の[actual-source admission可否task](rephase-1-integrated-admission-feasibility-decision.md)は提出2案NO-GOで完了、fresh独立review（packet必須§9）はreplan/rejection/次taskのみBOUNDED_PASS。次は同decision§5の**initial Weekly＋Thematic/Longform実disposable-build/transfer/public-admission統合witness**。implementation-ready editorial contractではない。ここでHuman Commit Point。以下の累積closeout/nextは当時の記録であり、新planに優先しない。
+
+## Historical implementation plans / closeouts
+
 **LATEST 2026-10-19 JST — DM021-P3S implementation bounded complete:** [assessment](rephase-1-dm021-p3s-assessment.md), [packet / mandatory root closeout + independent final review/supplement](../notes/rephase-1-dm021-p3s/README.md). Selected3A/0M, actual409+21file3M18A/fullpatche449d029c (1233670B DIRECT clean409, inherited18 included), R11 module7059166e/schema4fa61723/testa3bb0f23, static21 1c0e339c, 84 caches separately pinned. QUALIFIED SCOPED26 across R5–R11 (exact8-batch timelines authoritative; final R11-G 7/7 5634.188s = R1+affected6), NOT a full26 run; module/schema unchanged since R5. Saved-patch GEN+clean409 apply PROOF complete; first-B2/provider/oracle/fixture/tooling failures preserved.
 
 **Next after Human continuation:** concrete checked editorial admission / full-promotion contract analysis with actual final21 source and unresolved reason/State/receipt/review-context/install-window/Candidate collision, BEFORE any implementation selection. Do NOT start the next unit now or impose an arbitrary path-budget prohibition. Stop at Human Commit Point; wholeNOT_READY/step4B3 OPEN/audit unstarted/DM021 OPEN. Older next-P3S-implementation instructions below are historical.
