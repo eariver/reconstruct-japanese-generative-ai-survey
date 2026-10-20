@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_publication_v2 as pub;from pathlib import Path;pub.validate_candidate(Path('.'),Path('sources/2026-W37/publication/v2/publication-candidate-v2.json'),issue_id='2026-W37')
+                                                                              ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n3a-pdf-swap/scripts/survey_publication_v2.py", line 781, in validate_candidate
+    bundle = quality.validate_bundle(repo_root, bundle_path, issue_id=payload["issue_id"])
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n3a-pdf-swap/scripts/survey_quality_v2.py", line 272, in validate_bundle
+    raise ValueError("quality review pdf bytes drifted after validation")
+ValueError: quality review pdf bytes drifted after validation

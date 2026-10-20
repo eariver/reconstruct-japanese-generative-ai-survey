@@ -4,6 +4,12 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
+**Current 2026-10-20: initial real-build/admission witness bounded complete for generated Weekly and Thematic/Longform.** Both real PDFs reached strict publication readback and synthetic-authority RELEASED fixtures. A one-line shared-style contrast repair was implemented, rebuilt and independently inspected. Actual content/visual inspection retains production semantic NO-GO for the placeholder editions; whole candidate remains NOT_READY.
+
+Start with the [current assessment / next R3 task](outputs/rephase-1-initial-build-integration-assessment.md), [mandatory root closeout + independent resolution](notes/rephase-1-initial-build-integration/astra-closeout-resolution.md), then the [overall completion roadmap](outputs/rephase-1-completion-roadmap-20261019.md). Pause at the Human Commit Point; ordinary Commit/Push remain Human-owned.
+
+### Prior roadmap reset (historical next-task entry)
+
 **Current 2026-10-19: completion roadmap re-evaluated; first post-replan feasibility task completed with a reasoned NO-GO for both proposed minimal editorial-admission designs.** Fresh independent bounded review supports that disposition, not implementation readiness. The next task is real initial Weekly + Thematic/Longform build-to-admission integration. Pause at the Human Commit Point.
 
 1. [Current completion roadmap: objective, finish line, sequence and cost criteria](outputs/rephase-1-completion-roadmap-20261019.md)

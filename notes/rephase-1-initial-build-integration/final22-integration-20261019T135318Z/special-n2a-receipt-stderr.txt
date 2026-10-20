@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_longform_generated_v2 as g;from scripts import survey_production_v2 as core;from pathlib import Path;g.validate_receipt(Path('.'),Path('sources/SP001/publication/v2/validated-source-manifest.json'),Path('sources/SP001/production-state.json'))
+                                                                                                                                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n2a-tex-tamper/scripts/survey_longform_generated_v2.py", line 698, in validate_receipt
+    context = longform.load_derivation_for_readback(
+        root, state_file, _safe(root, authored["publication-semantic-input"]["path"], "authored input")
+    )
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n2a-tex-tamper/scripts/survey_longform_derivation_v2.py", line 1165, in load_derivation_for_readback
+    raise ValueError("Production State invalid for Longform readback: " + "; ".join(errors))
+ValueError: Production State invalid for Longform readback: Stage Checkpoint artifact drift: validated-source; Publication Candidate source bytes drifted; invalid Release Record authority: frozen artifact bytes drift before release: source_path

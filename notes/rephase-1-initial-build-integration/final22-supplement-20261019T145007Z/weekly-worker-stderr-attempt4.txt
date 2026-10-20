@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-supplement-20261019T145007Z/transfer_exclusive.py", line 73, in transfer_exact
+    path.resolve().relative_to(repo_root)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 489, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/tmp/opencode/jgas-supplement-builds-20261019T145007Z/weekly-stage-attempt4' is not in the subpath of '/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/weekly-supp4'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-supplement-20261019T145007Z/worker_supplement_route.py", line 724, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-supplement-20261019T145007Z/worker_supplement_route.py", line 307, in main
+    post = xfer_exact(FIX, stage, survey_root, expected, on_error=_on_xfer_error)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-supplement-20261019T145007Z/transfer_exclusive.py", line 75, in transfer_exact
+    raise ValueError(f"transfer refused: {label} escapes repository: {path}") from exc
+ValueError: transfer refused: staging directory escapes repository: /tmp/opencode/jgas-supplement-builds-20261019T145007Z/weekly-stage-attempt4

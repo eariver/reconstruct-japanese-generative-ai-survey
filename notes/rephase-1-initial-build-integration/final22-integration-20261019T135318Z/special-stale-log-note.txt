@@ -1,0 +1,7 @@
+Stale ignored leftover found 2026-10-19 (attempt4 transfer preflight correctly refused):
+  surveys/special/SP001/main.log sha256=61d524f7dad45e8f9604fd414b6da24e57c40e0d208d73360b51b9a8f021c718
+Origin: attempt1 (no-suffix) successful transfer; `git clean -fd` does not remove
+gitignored `*.log` (.gitignore:8), so it survived two resets. Only ignored file
+(`git status --ignored` shows no other `!!` entries). Removing this single stale
+file now (recorded here); no other fixture bytes touched. Future resets must also
+clear ignored `*.log` (explicit rm, not blind -x).

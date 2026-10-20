@@ -1,0 +1,28 @@
+# Raw command record — preparation 20261019T132209Z (cwd/workdir, env, exit)
+
+Workdir for all bash tool calls: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+Git sanitization for evidence runs: env -u GIT_DIR -u GIT_WORK_TREE -u GIT_INDEX_FILE -u GIT_CEILING_DIRECTORIES + GIT_NO_LAZY_FETCH=1 GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_OPTIONAL_LOCKS=0
+Pre-enforcement inherited env: NO_INHERITED_GIT_ENV (verified via `env | grep -E '^GIT_'` before enforcement).
+Python runs used system python3 3.14.4; targeted import probes used PYTHONDONTWRITEBYTECODE=1.
+
+1. `git rev-parse HEAD; git status --porcelain=v1 --branch; git log --oneline -5` — cwd workspace — exit 0 — HEAD 4b83a52, branch main...origin/main, status clean (branch line only).
+2. `ls -la /tmp/opencode/; ls -la /tmp/.../candidate-partial-b40de60 | head` — exit 0 — source present, 11 entries incl .git.
+3. `date -u +%Y%m%dT%H%M%SZ; env|grep GIT_||echo NO_INHERITED; git config --list --show-origin|head; git status; git rev-parse HEAD; git rev-parse --show-toplevel; ls -la <source>|head` — exit 0 — TS 20261019T132209Z, NO_INHERITED_GIT_ENV, workspace config origin github.com/.../reconstruct..., source listing confirmed.
+4. `ls -la static21.json; sha256sum static21.json; wc -c static21.json; ls -la notes/|head; ls -la /tmp/opencode/; ls -ld <new-tmp>||echo ABSENT_OK; ls -ld <packet>||echo ABSENT_OK` — exit 0 — static21 1c0e339c... 3670B, packet+tmp ABSENT_OK (ls absent rc!=0, overall 0 via ||).
+5. `mkdir notes/rephase-1-initial-build-integration && mkdir -p .../evidence-20261019T132209Z && ls -ld ...; echo MKDIR_EXIT:$?` — exit 0 — MKDIR_EXIT:0.
+6. Write `prepare_verify_20261019T132209Z.py` via Write (dedicated editor; apply_patch absent, disclosed) — sha256 247a9306... 23299B — no execution yet (BEFORE-save satisfied).
+7. `ls -la evidence/; sha256sum script; wc -c script; ls -l prepare_before_*||echo ABSENT_OK_PRE_BEFORE` — exit 0 — evidence empty, script hashed, before-logs ABSENT_OK.
+8. `env -u GIT_* ... python3 .../prepare_verify_...py > .../prepare_before_stdout.txt 2> .../prepare_before_stderr.txt; echo -n $? > .../prepare_before_exit.txt; echo EXIT:$(cat ...); wc -l ...; wc -c ...; sha256sum ...` — exit 0 — script EXIT:0, stdout 157L, stderr 0B, sha 2e1ec5c7....
+9. Read-only recipe reads (Read tool, no bash exit): `.latexmkrc`, `.github`, `config`, `templates`, `.github/workflows`, `templates/survey`, `survey-production-v2-requirements.txt`, `build-weekly-survey.yml`, `build-special-pdf.yml`, `jgaisurvey.sty[1:120]`, `weekly-final-main.tex.in[1:80]` — all success.
+10. `PYTHONDONTWRITEBYTECODE=1 python3 -c "import sys; ... try:"` — exit 1 — SyntaxError (one-liner try slab failure, recorded as failure, NOT hidden); pip/tex probes in same call: pip3 NOT_FOUND, pip NOT_FOUND, `python3 -m pip` FAIL? No — second probe corrected (see 11). lualatex/latexmk/biber/bibtex NOT_FOUND.
+11. `PYTHONDONTWRITEBYTECODE=1 python3 -c "import sys; print(sys.version)"; echo EXIT:$?; ... -c "import jsonschema..." ; echo EXIT_JSONSCHEMA:$?; ... -c "import pypdf..."; python3 -m pip --version` — exit 0 — python 3.14.4 EXIT:0, jsonschema 4.23.0 EXIT:0, pypdf 6.16.2 EXIT:0, pip 26.2.1 EXIT:0.
+12. `fc-list | grep -i -E "harano|Noto.*CJK|..."|head; fc-list|wc -l; command -v docker||echo NOT_FOUND; command -v qpdf||echo NOT_FOUND; gs --version; pdfinfo -v|head` — exit 0 — Noto CJK present, docker NOT_FOUND, qpdf NOT_FOUND, gs 10.06.0, pdfinfo 26.01.0.
+13. `fc-list | grep -i harano || echo HARANO_NOT_FOUND; fc-list : family|...|grep ...|head` — exit 0 (grep rc=1 → || branch) — HARANO_NOT_FOUND, Noto Sans/Serif CJK JP present.
+14. `ls -ld /tmp/.../jgas-initial-build-20261019T132209Z||echo ABSENT_OK; test -L ...&&echo SYMLINK_FAIL||echo NO_SYMLINK_OK; ls -la /tmp/opencode/; ls -l evidence/|cat` — exit 0 — ABSENT_OK, NO_SYMLINK_OK.
+15. `mkdir /tmp/opencode/jgas-initial-build-20261019T132209Z && ls -ld ...; echo MKDIR_EXIT:$?; ls -l copy_*||echo COPY_LOGS_ABSENT_OK` — exit 0 — MKDIR_EXIT:0, copy logs absent OK.
+16. `env -u GIT_* ... cp -a <source> <dest>/candidate-partial-b40de60 > copy_stdout.txt 2> copy_stderr.txt; echo -n $? > copy_exit.txt; echo COPY_EXIT:$(cat ...); ls -ld <dest>; wc -c copy_*` — exit 0 — COPY_EXIT:0, stdout/stderr 0B.
+17. `ls -l prepare_after_*||echo AFTER_LOGS_ABSENT_OK; ls -ld <dest>; test -L ...||echo NO_SYMLINK_OK` — exit 0 — after-logs absent OK, dest no symlink.
+18. `env -u GIT_* ... python3 .../prepare_verify_...py --dest <dest> > prepare_after_stdout.txt 2> prepare_after_stderr.txt; echo -n $? > prepare_after_exit.txt; echo EXIT:$(cat ...); wc -l ...; sha256sum ...` — exit 0 — EXIT:0, 183L, sha f0ab8bc9....
+19. Packet README + this commands.log written via Write (no overwrite of evidence raws).
+
+No network/install attempted. No historical runner/test executed. No commit created. Failures preserved: python one-liner SyntaxError exit 1, ls-absent rc!=0 (handled via ||), grep-harano rc=1 (handled), missing-tool rc=127 probes (recorded, not failures of this unit).

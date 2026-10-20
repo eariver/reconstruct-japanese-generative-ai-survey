@@ -1,0 +1,61 @@
+ATTEMPT=2 TOOLROOT=/tmp/opencode/jgas-texlive-20261019T133205Z TEXDIR=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+PRIOR_FAIL=attempt1 SYSVAR defaulted to /usr/local/texlive (profile omitted SYS paths)
+
+=== STEP 11: re-verify reused download digest (no re-download without record) ===
+--- clock 2026-10-19T13:33:18Z
+DL_BYTES=5274055
+DL_SHA256=5d9c826900a1d7a18479c3d37f60524eb78479214e03c88c055cc4c5dff2bd9c
+DL_DIGEST_REUSE_OK
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 12: fresh TEXDIR skeleton (remove partial empty dir from failed attempt) ===
+--- clock 2026-10-19T13:33:18Z
+drwxrwxr-x 2 eariver eariver 40 Oct 19 22:33 /tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+drwxrwxr-x 2 eariver eariver 40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-config
+drwxrwxr-x 2 eariver eariver 40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-home
+drwxrwxr-x 2 eariver eariver 40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-var
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 13: write corrected unattended profile (ALL paths under toolroot) ===
+--- clock 2026-10-19T13:33:18Z
+selected_scheme scheme-small
+TEXDIR /tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+TEXMFLOCAL /tmp/opencode/jgas-texlive-20261019T133205Z/texlive/texmf-local
+TEXMFSYSVAR /tmp/opencode/jgas-texlive-20261019T133205Z/texlive/texmf-var
+TEXMFSYSCONFIG /tmp/opencode/jgas-texlive-20261019T133205Z/texlive/texmf-config
+TEXMFHOME /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-home
+TEXMFVAR /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-var
+TEXMFCONFIG /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-config
+binary_x86_64-linux 1
+option_doc 0
+option_src 0
+option_autobackup 0
+option_desktop_integration 0
+option_file_assocs 0
+option_fmt 1
+option_letter 0
+option_post_code 1
+option_adjustpath 0
+option_w32_multi_user 0
+option_adjustrepo 1
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 14: run installer with TEXMF* env UNSET (profile sole source; no sudo) ===
+--- clock 2026-10-19T13:33:18Z
+INSTALL_START_UTC=2026-10-19T13:33:18Z
+Automated TeX Live installation using profile: /tmp/opencode/jgas-texlive-20261019T133205Z/texlive.profile
+Loading https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/tlpkg/texlive.tlpdb
+Installing TeX Live 2026 from: https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet (verified)
+Platform: x86_64-linux => 'GNU/Linux on x86_64'
+Distribution: net  (downloading)
+Using URL: https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet
+Directory for temporary files: /tmp/tdQY3J1kA7
+INSTALL_EXIT:1
+INSTALL_END_UTC=2026-10-19T13:33:21Z
+STEP_EXIT:1 DURATION_S:3
+STEP_FAIL_RECORDED (not hidden)
+INSTALL_DURATION_S:3
+tmpfs           7.5G   59M  7.5G   1% /tmp
+ls: cannot access '/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux': No such file or directory
+drwxrwxr-x 2 eariver eariver 40 Oct 19 22:33 /tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+=== SUMMARY failures=1 (installer still blocked; mechanism above) ===

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_weekly_derivation_v2 as g;from scripts import survey_production_v2 as core;from pathlib import Path;g.validate_receipt(Path('.'),Path('sources/2026-W37/publication/v2/validated-source-manifest.json'),Path('sources/2026-W37/production-state.json'))
+                                                                                                                                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n1-extra-input/scripts/survey_weekly_derivation_v2.py", line 752, in validate_receipt
+    validate_survey_build_directory(root, context["profile"]["paths"]["survey_root"])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n1-extra-input/scripts/survey_weekly_derivation_v2.py", line 122, in validate_survey_build_directory
+    raise ValueError(f"Weekly survey build directory contains undeclared entry: {entry.name}")
+ValueError: Weekly survey build directory contains undeclared entry: extra.sty

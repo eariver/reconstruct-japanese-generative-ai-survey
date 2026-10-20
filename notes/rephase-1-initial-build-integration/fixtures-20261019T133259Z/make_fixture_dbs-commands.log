@@ -1,0 +1,61 @@
+# make_fixture_dbs 20261019T133259Z cwd-explicit command log
+INHERITED_GIT_ENV={}
+CMD git rev-parse HEAD cwd=SOURCE exit=0
+409b292756dd1277b9dfae87679934c0d2ce251c
+CMD git rev-parse HEAD^{tree} cwd=SOURCE exit=0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+CMD git status --porcelain=v1 --untracked-files=all cwd=SOURCE exit=0
+ M schemas/reader-surface-gate-v2.schema.json
+ M schemas/reader-surface-semantic-review-v2.schema.json
+ M scripts/survey_reader_surface_gate_v2.py
+?? schemas/editorial-correction-proposal-v2.schema.json
+?? schemas/editorial-retention-manifest-v2.schema.json
+?? schemas/editorial-staged-source-manifest-v2.schema.json
+?? schemas/longform-publication-source-manifest-v2.schema.json
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_editorial_correction_proposal_v2.py
+?? scripts/survey_editorial_current_authority_v2.py
+?? scripts/survey_editorial_retention_v2.py
+?? scripts/survey_editorial_staged_source_v2.py
+?? scripts/survey_longform_derivation_v2.py
+?? scripts/survey_longform_generated_v2.py
+?? scripts/survey_longform_semantic_publication_v2.py
+?? tests/test_survey_editorial_correction_proposal_v2.py
+?? tests/test_survey_editorial_current_authority_v2.py
+?? tests/test_survey_editorial_retention_v2.py
+?? tests/test_survey_editorial_staged_source_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+?? tests/test_survey_longform_publication_integration_v2.py
+STATIC21 source check mismatches=[]
+--- fixture weekly-fixture ---
+CMD mkdir /tmp/opencode/jgas-initial-fixtures-20261019T133259Z/weekly-fixture exit=0
+COPIED 707 files into weekly-fixture
+STATIC21 fixture weekly-fixture mismatches=[]
+CMD git init -q cwd=weekly-fixture exit=0 stderr=
+CMD git remote add origin https://example.invalid/initial-build-fixture.git cwd=weekly-fixture exit=0 stderr=
+CMD git add -A cwd=weekly-fixture exit=0 stderr=
+CMD git commit cwd=weekly-fixture exit=0 stdout= stderr=
+CMD git rev-parse HEAD cwd=weekly-fixture exit=0
+CMD git rev-parse HEAD^{tree} cwd=weekly-fixture exit=0
+CMD git status --porcelain=v1 --untracked-files=all cwd=weekly-fixture exit=0
+CMD git config --local --list cwd=weekly-fixture exit=0
+CMD git remote -v cwd=weekly-fixture exit=0
+SEPARATION weekly-fixture: dest_git=765 src_git=83 recon_git=2567 overlap_src=0 overlap_recon=0
+HARDLINK21 weekly-fixture shared=[]
+MANIFEST weekly-fixture head=88813a01accb320b5948e368618e4061a4d72e0b tree=3e01284d3fd716e02a5dd6f15d972e33287229ec
+--- fixture special-fixture ---
+CMD mkdir /tmp/opencode/jgas-initial-fixtures-20261019T133259Z/special-fixture exit=0
+COPIED 707 files into special-fixture
+STATIC21 fixture special-fixture mismatches=[]
+CMD git init -q cwd=special-fixture exit=0 stderr=
+CMD git remote add origin https://example.invalid/initial-build-fixture.git cwd=special-fixture exit=0 stderr=
+CMD git add -A cwd=special-fixture exit=0 stderr=
+CMD git commit cwd=special-fixture exit=0 stdout= stderr=
+CMD git rev-parse HEAD cwd=special-fixture exit=0
+CMD git rev-parse HEAD^{tree} cwd=special-fixture exit=0
+CMD git status --porcelain=v1 --untracked-files=all cwd=special-fixture exit=0
+CMD git config --local --list cwd=special-fixture exit=0
+CMD git remote -v cwd=special-fixture exit=0
+SEPARATION special-fixture: dest_git=765 src_git=83 recon_git=2567 overlap_src=0 overlap_recon=0
+HARDLINK21 special-fixture shared=[]
+MANIFEST special-fixture head=d4078d1bc851b9977289acf4b9cd6560c080b69e tree=3e01284d3fd716e02a5dd6f15d972e33287229ec

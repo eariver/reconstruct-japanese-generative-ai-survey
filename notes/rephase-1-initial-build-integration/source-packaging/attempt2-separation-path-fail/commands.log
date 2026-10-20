@@ -1,0 +1,313 @@
+commands.log initialized
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 rev-parse HEAD CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 rev-parse HEAD
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 rev-parse HEAD^{tree} CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 rev-parse HEAD^{tree}
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 symbolic-ref -q HEAD CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 1 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 symbolic-ref -q HEAD
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 status --porcelain=v1 --untracked-files=all CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 status --porcelain=v1 --untracked-files=all
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 diff HEAD --name-only CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 diff HEAD --name-only
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 diff --cached --name-only CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 diff --cached --name-only
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 ls-files --others --exclude-standard CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 ls-files --others --exclude-standard
+CMD: python3 -c 
+import json, hashlib, stat
+from pathlib import Path
+import os
+ws = Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey')
+src = Path('/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60')
+static21 = Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/draft-history-r11/static21.json')
+pins = json.loads(static21.read_text())
+style_path = 'templates/survey/jgaisurvey.sty'
+style_sha = '035645caa06eb77e5416ae7a54bc1fb7b987e0b575a02bd4b512bccb5d683aec'
+style_bytes = int('6569')
+fails = 0
+# check 21
+for rel in sorted(pins):
+    exp = pins[rel]
+    fp = src / rel
+    if not fp.exists():
+        print(f'MISSING {rel}')
+        fails += 1
+        continue
+    data = fp.read_bytes()
+    h = hashlib.sha256(data).hexdigest()
+    ln = len(data)
+    mode = oct(stat.S_IMODE(fp.stat().st_mode))
+    ok = (h == exp.get('sha256') and ln == exp.get('bytes') and mode == exp.get('mode'))
+    print(f"{'OK' if ok else 'MISMATCH'} {rel} sha={h} bytes={ln} mode={mode} exp={exp.get('sha256')}/{exp.get('bytes')}/{exp.get('mode')}")
+    if not ok:
+        fails += 1
+# style
+fp = src / style_path
+if not fp.exists():
+    print(f'MISSING {style_path}')
+    fails += 1
+else:
+    data = fp.read_bytes()
+    h = hashlib.sha256(data).hexdigest()
+    ln = len(data)
+    mode = oct(stat.S_IMODE(fp.stat().st_mode))
+    ok = (h == style_sha and ln == style_bytes and mode == '0o664')
+    print(f"{'OK' if ok else 'MISMATCH'} {style_path} sha={h} bytes={ln} mode={mode} exp={style_sha}/{style_bytes}/0o664")
+    if not ok:
+        fails += 1
+    # before-sha sanity: HEAD version must equal before
+    print(f'STYLE_AFTER pin check done fails={fails}')
+print(f'PIN_SUMMARY fails={fails}')
+exit(1 if fails else 0)
+ CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: python3 -c 
+import json, hashlib, stat
+from pathlib import Path
+import os
+ws = Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey')
+src = Path('/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60')
+static21 = Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm021-p3s/draft-history-r11/static21.json')
+pins = json.loads(static21.read_text())
+style_path = 'templates/survey/jgaisurvey.sty'
+style_sha = '035645caa06eb77e5416ae7a54bc1fb7b987e0b575a02bd4b512bccb5d683aec'
+style_bytes = int('6569')
+fails = 0
+# check 21
+for rel in sorted(pins):
+    exp = pins[rel]
+    fp = src / rel
+    if not fp.exists():
+        print(f'MISSING {rel}')
+        fails += 1
+        continue
+    data = fp.read_bytes()
+    h = hashlib.sha256(data).hexdigest()
+    ln = len(data)
+    mode = oct(stat.S_IMODE(fp.stat().st_mode))
+    ok = (h == exp.get('sha256') and ln == exp.get('bytes') and mode == exp.get('mode'))
+    print(f"{'OK' if ok else 'MISMATCH'} {rel} sha={h} bytes={ln} mode={mode} exp={exp.get('sha256')}/{exp.get('bytes')}/{exp.get('mode')}")
+    if not ok:
+        fails += 1
+# style
+fp = src / style_path
+if not fp.exists():
+    print(f'MISSING {style_path}')
+    fails += 1
+else:
+    data = fp.read_bytes()
+    h = hashlib.sha256(data).hexdigest()
+    ln = len(data)
+    mode = oct(stat.S_IMODE(fp.stat().st_mode))
+    ok = (h == style_sha and ln == style_bytes and mode == '0o664')
+    print(f"{'OK' if ok else 'MISMATCH'} {style_path} sha={h} bytes={ln} mode={mode} exp={style_sha}/{style_bytes}/0o664")
+    if not ok:
+        fails += 1
+    # before-sha sanity: HEAD version must equal before
+    print(f'STYLE_AFTER pin check done fails={fails}')
+print(f'PIN_SUMMARY fails={fails}')
+exit(1 if fails else 0)
+
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:schemas/reader-surface-gate-v2.schema.json CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:schemas/reader-surface-gate-v2.schema.json
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:schemas/reader-surface-semantic-review-v2.schema.json CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:schemas/reader-surface-semantic-review-v2.schema.json
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:scripts/survey_reader_surface_gate_v2.py CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:scripts/survey_reader_surface_gate_v2.py
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:templates/survey/jgaisurvey.sty CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 show HEAD:templates/survey/jgaisurvey.sty
+CMD: mkdir -p /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: mkdir -p /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy
+CMD: mkdir -p /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: mkdir -p /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy
+CMD: cp -a /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60 CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: cp -a /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60
+CMD: cp -a /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60 CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: cp -a /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60 /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60
+CMD: python3 -c 
+import os
+from pathlib import Path
+from collections import defaultdict
+def collect(root):
+    dot = Path(root) / '.git'
+    out = {}
+    for cur, dirs, files in os.walk(dot, followlinks=False):
+        for f in files:
+            q = Path(cur) / f
+            try:
+                if q.is_symlink() or not q.is_file():
+                    continue
+                st = q.stat()
+                out[str(q.relative_to(Path(root)))] = f'{st.st_dev}:{st.st_ino}'
+            except OSError as e:
+                out[str(q.relative_to(Path(root)))] = f'ERR:{e}'
+    return out
+src = collect('/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60')
+gen = collect('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60')
+prf = collect('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60')
+rec = collect('/home/eariver/git/reconstruct-japanese-generative-ai-survey')
+print(f'src .git files={len(src)} gen={len(gen)} proof={len(prf)} recon={len(rec)}')
+holders = defaultdict(list)
+for rel, di in src.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'src:{rel}')
+for rel, di in gen.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'gen:{rel}')
+for rel, di in prf.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'proof:{rel}')
+for rel, di in rec.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'recon:{rel}')
+shared = {di:h for di,h in holders.items() if len(h)>1}
+cross = {}
+for di,h in shared.items():
+    domains = set(x.split(':')[0] for x in h)
+    if len(domains)>1:
+        cross[di]=h
+print(f'collisions total={len(shared)} cross-domain={len(cross)} expected 0/0')
+for di in sorted(list(cross))[:20]:
+    print(f' shared {di} {cross[di][:4]}')
+# worktree 22 hardlink check src vs gen vs proof
+import pathlib
+known = '''schemas/editorial-correction-proposal-v2.schema.json
+schemas/editorial-retention-manifest-v2.schema.json
+schemas/editorial-staged-source-manifest-v2.schema.json
+schemas/longform-publication-source-manifest-v2.schema.json
+schemas/longform-reader-input-v2.schema.json
+schemas/reader-surface-gate-v2.schema.json
+schemas/reader-surface-semantic-review-v2.schema.json
+scripts/survey_editorial_correction_proposal_v2.py
+scripts/survey_editorial_current_authority_v2.py
+scripts/survey_editorial_retention_v2.py
+scripts/survey_editorial_staged_source_v2.py
+scripts/survey_longform_derivation_v2.py
+scripts/survey_longform_generated_v2.py
+scripts/survey_longform_semantic_publication_v2.py
+scripts/survey_reader_surface_gate_v2.py
+templates/survey/jgaisurvey.sty
+tests/test_survey_editorial_correction_proposal_v2.py
+tests/test_survey_editorial_current_authority_v2.py
+tests/test_survey_editorial_retention_v2.py
+tests/test_survey_editorial_staged_source_v2.py
+tests/test_survey_longform_derivation_v2.py
+tests/test_survey_longform_publication_integration_v2.py'''.splitlines()
+wshare=[]
+for rel in known:
+    try:
+        a = (Path('/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60')/rel).stat()
+        b = (Path('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60')/rel).stat()
+        c = (Path('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60')/rel).stat()
+        if (a.st_dev,a.st_ino)==(b.st_dev,b.st_ino): wshare.append(f'src-gen:{rel}')
+        if (a.st_dev,a.st_ino)==(c.st_dev,c.st_ino): wshare.append(f'src-proof:{rel}')
+        if (b.st_dev,b.st_ino)==(c.st_dev,c.st_ino): wshare.append(f'gen-proof:{rel}')
+    except OSError as e:
+        print(f'STAT_FAIL {rel} {e}')
+print(f'worktree hardlink-shared count={len(wshare)} expected=0')
+for w in wshare: print(f' shared {w}')
+fails = 0
+if cross: fails+=1
+if wshare: fails+=1
+print(f'SEPARATION fails={fails}')
+exit(1 if fails else 0)
+ CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 0 CMD: python3 -c 
+import os
+from pathlib import Path
+from collections import defaultdict
+def collect(root):
+    dot = Path(root) / '.git'
+    out = {}
+    for cur, dirs, files in os.walk(dot, followlinks=False):
+        for f in files:
+            q = Path(cur) / f
+            try:
+                if q.is_symlink() or not q.is_file():
+                    continue
+                st = q.stat()
+                out[str(q.relative_to(Path(root)))] = f'{st.st_dev}:{st.st_ino}'
+            except OSError as e:
+                out[str(q.relative_to(Path(root)))] = f'ERR:{e}'
+    return out
+src = collect('/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60')
+gen = collect('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60')
+prf = collect('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60')
+rec = collect('/home/eariver/git/reconstruct-japanese-generative-ai-survey')
+print(f'src .git files={len(src)} gen={len(gen)} proof={len(prf)} recon={len(rec)}')
+holders = defaultdict(list)
+for rel, di in src.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'src:{rel}')
+for rel, di in gen.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'gen:{rel}')
+for rel, di in prf.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'proof:{rel}')
+for rel, di in rec.items():
+    if not di.startswith('ERR:'):
+        holders[di].append(f'recon:{rel}')
+shared = {di:h for di,h in holders.items() if len(h)>1}
+cross = {}
+for di,h in shared.items():
+    domains = set(x.split(':')[0] for x in h)
+    if len(domains)>1:
+        cross[di]=h
+print(f'collisions total={len(shared)} cross-domain={len(cross)} expected 0/0')
+for di in sorted(list(cross))[:20]:
+    print(f' shared {di} {cross[di][:4]}')
+# worktree 22 hardlink check src vs gen vs proof
+import pathlib
+known = '''schemas/editorial-correction-proposal-v2.schema.json
+schemas/editorial-retention-manifest-v2.schema.json
+schemas/editorial-staged-source-manifest-v2.schema.json
+schemas/longform-publication-source-manifest-v2.schema.json
+schemas/longform-reader-input-v2.schema.json
+schemas/reader-surface-gate-v2.schema.json
+schemas/reader-surface-semantic-review-v2.schema.json
+scripts/survey_editorial_correction_proposal_v2.py
+scripts/survey_editorial_current_authority_v2.py
+scripts/survey_editorial_retention_v2.py
+scripts/survey_editorial_staged_source_v2.py
+scripts/survey_longform_derivation_v2.py
+scripts/survey_longform_generated_v2.py
+scripts/survey_longform_semantic_publication_v2.py
+scripts/survey_reader_surface_gate_v2.py
+templates/survey/jgaisurvey.sty
+tests/test_survey_editorial_correction_proposal_v2.py
+tests/test_survey_editorial_current_authority_v2.py
+tests/test_survey_editorial_retention_v2.py
+tests/test_survey_editorial_staged_source_v2.py
+tests/test_survey_longform_derivation_v2.py
+tests/test_survey_longform_publication_integration_v2.py'''.splitlines()
+wshare=[]
+for rel in known:
+    try:
+        a = (Path('/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60')/rel).stat()
+        b = (Path('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60')/rel).stat()
+        c = (Path('/tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60')/rel).stat()
+        if (a.st_dev,a.st_ino)==(b.st_dev,b.st_ino): wshare.append(f'src-gen:{rel}')
+        if (a.st_dev,a.st_ino)==(c.st_dev,c.st_ino): wshare.append(f'src-proof:{rel}')
+        if (b.st_dev,b.st_ino)==(c.st_dev,c.st_ino): wshare.append(f'gen-proof:{rel}')
+    except OSError as e:
+        print(f'STAT_FAIL {rel} {e}')
+print(f'worktree hardlink-shared count={len(wshare)} expected=0')
+for w in wshare: print(f' shared {w}')
+fails = 0
+if cross: fails+=1
+if wshare: fails+=1
+print(f'SEPARATION fails={fails}')
+exit(1 if fails else 0)
+
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60 remote -v CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 128 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60 remote -v
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60 config --show-origin --list CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 128 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60 config --show-origin --list
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60 rev-parse HEAD CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 128 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/gen-copy/candidate-partial-b40de60/candidate-partial-b40de60 rev-parse HEAD
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60 remote -v CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 128 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60 remote -v
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60 config --show-origin --list CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 128 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60 config --show-origin --list
+CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60 rev-parse HEAD CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+EXIT: 128 CMD: git --no-optional-locks -C /tmp/opencode/jgas-style22-packaging-20261019T141600Z/proof-copy/candidate-partial-b40de60/candidate-partial-b40de60 rev-parse HEAD

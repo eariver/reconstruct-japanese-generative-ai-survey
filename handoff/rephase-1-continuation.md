@@ -1,5 +1,19 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-20 JST initial real-build integration closeout
+
+**Human Commit Pointで停止。** [current assessment/次task§5](../outputs/rephase-1-initial-build-integration-assessment.md)、[root closeout](../notes/rephase-1-initial-build-integration/astra-closeout-resolution.md)、必須[独立final resolution §§2–6](../notes/rephase-1-initial-build-integration/independent-final-resolution.md)、[visual resolution](../notes/rephase-1-initial-build-integration/independent-postfix-visual-resolution.md)を読む。
+
+R2 bounded complete: initial Weekly＋Thematic/Longformの実TL2026 PDF各5pp、strict receipt/Gate/QA/Candidate、synthetic Preview/Freeze/Release到達。共有styleのtechnicalnote titleにdark `coltitle=SurveyInk`を追加し実画像で修復確認。placeholder editionは両方Production semantic NO-GO、真正Human承認ではない。元RELEASED positivesはcheck-then-copy、新exclusive helperの補足はVALIDATED_DRAFTまで、別runの証拠を一括扱いしない。Gate負例はDRAFT正常decoy＋VALIDATED late-file-swap seam。旧25負例の限定・raw喪失/clean/editor逸脱は必須resolution。
+
+Source: `/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60`、actual409/tree8ce＋22paths4M18A/cache0、inherited21不変/style035645ca6569B。完全22patch **7c82ec47eb82dc56210b82063fe04c583d29cd36df5ce19f48297ebd4f000334**/1233999Bは`notes/rephase-1-initial-build-integration/source-packaging/complete22-409-clean.patch`。4parent inputs→clean409へDIRECT適用（21内包）。独立check/apply各0/22pins/status一致、2line whitespace警告あり。現proofは`/tmp/opencode/jgas-style22-packaging-20261019T141700Z/proof-copy/candidate-partial-b40de60`。availableなら復元しない。旧script再実行/古いpatch重ね/ネット再取得なし。Missing26309/TeX・runtime非同梱継続。
+
+次はHuman continuation後、**R3統合editorial訂正操作の契約/実装選択**（assessment§5）。actual22と実build/外部persisted review入力を使いcanonical durable checked context対versioned publication setを具体比較し、reader変更→通常Candidate復帰・失敗復旧まで閉じる。旧reason-only/無変更consumer案の再提出、新孤立helperは選ばない。必要Profile/代表的資料の品質/DM022等を保持し、全体完了を2routeへ縮めない。
+
+開始Human HEAD4b83a52・clean、今回packet/assessment/entry未commit、candidate新HEADなし。wholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN。通常Commit/Push・Production採用はHuman-owned。
+
+## Preserved roadmap-reset closeout (historical next/source entries)
+
 ## Current — 2026-10-19 roadmap replan + first-task closeout
 
 **再計画と最初のtaskを完了し、Human Commit Pointで停止。** 全体の正本は[completion roadmap](../outputs/rephase-1-completion-roadmap-20261019.md)。目的はWeekly＋必要Specialの品質/根拠/権限を保つ総lifecycle work削減、完成は実採用/実運用・費用確認・旧通常経路廃止まで。初回routeや局所PASSだけで完了しない。

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_longform_derivation_v2 as drv;from pathlib import Path;drv.load_derivation_for_readback(Path('.'),Path('sources/SP001/synthetic-ghost-state.json'),Path('sources/SP001/publication/v2/interactive-semantic-publication-input.json'))
+                                                                                      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n8-ghost/scripts/survey_longform_derivation_v2.py", line 1165, in load_derivation_for_readback
+    raise ValueError("Production State invalid for Longform readback: " + "; ".join(errors))
+ValueError: Production State invalid for Longform readback: Production State fails schemas/survey-production-state.schema.json: $.lifecycle_state: 'COMPLETE' is not one of ['ISSUE_INITIALIZED', 'DISCOVERY_COLLECTED', 'CANDIDATES_NORMALIZED', 'EVIDENCE_REVIEWED', 'SELECTION_COMPLETE', 'ARCHITECTURE_ESTABLISHED', 'DRAFT_COMPLETE', 'VALIDATED_DRAFT', 'RELEASE_CANDIDATE', 'FROZEN', 'RELEASED']

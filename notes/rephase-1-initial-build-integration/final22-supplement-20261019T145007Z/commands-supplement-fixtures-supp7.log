@@ -1,0 +1,16 @@
+CMD git rev-parse HEAD | cwd=/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/weekly-final22 | exit=0
+CMD git archive HEAD | cwd=/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/weekly-final22 | exit=0 bytes=8284160
+ARCHIVE weekly: 707 tracked files materialized (expect 707)
+COPYGIT weekly: .git byte-copied (no hardlinks)
+CMD git rev-parse HEAD | cwd=/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/weekly-supp7 | exit=0
+CMD git status --porcelain=v1 --untracked-files=all | cwd=/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/weekly-supp7 | exit=0
+CMD git config --local --list | cwd=/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/weekly-supp7 | exit=0
+SEPARATION weekly: dest_git=765 overlap_src=0 overlap_recon=0
+CMD git rev-parse HEAD | cwd=/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22 | exit=0
+CMD git archive HEAD | cwd=/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22 | exit=0 bytes=8284160
+ARCHIVE special: 707 tracked files materialized (expect 707)
+COPYGIT special: .git byte-copied (no hardlinks)
+CMD git rev-parse HEAD | cwd=/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/special-supp7 | exit=0
+CMD git status --porcelain=v1 --untracked-files=all | cwd=/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/special-supp7 | exit=0
+CMD git config --local --list | cwd=/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/special-supp7 | exit=0
+SEPARATION special: dest_git=765 overlap_src=0 overlap_recon=0

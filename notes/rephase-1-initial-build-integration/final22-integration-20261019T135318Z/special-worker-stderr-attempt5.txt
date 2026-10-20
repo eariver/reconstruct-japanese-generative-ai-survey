@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-integration-20261019T135318Z/worker_final22_route.py", line 661, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-integration-20261019T135318Z/worker_final22_route.py", line 587, in main
+    frozen_ctx = drv.load_derivation_for_readback(FIX, sp / "production-state.json", chain["archive_path"])
+  File "/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22/scripts/survey_longform_derivation_v2.py", line 1182, in load_derivation_for_readback
+    return _derive_authority_context(root, state, state_path, profile, profile_path, cfg, authored_path, issue_id)
+  File "/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22/scripts/survey_longform_derivation_v2.py", line 1078, in _derive_authority_context
+    surface = build_longform_reader_input(
+        issue_id, profile, architecture, authored, synthesis_result, ordered, records
+    )
+  File "/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22/scripts/survey_longform_derivation_v2.py", line 629, in build_longform_reader_input
+    raise ValueError("publication-authored longform input envelope invalid")
+ValueError: publication-authored longform input envelope invalid

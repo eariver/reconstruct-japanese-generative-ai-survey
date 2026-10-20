@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_reader_surface_gate_v2 as sg;from pathlib import Path;sg.load_and_validate_reader_surface_semantic_review(Path('.'),Path('sources/2026-W37/publication/v2/reader-surface-semantic-review-v2.json'),expected_issue_id='2026-W37',expected_publication_profile='WEEKLY_MAGAZINE',expected_surface_path=Path('sources/2026-W37/publication/v2/reader-surface-input-v2.json'),expected_surface_sha256='136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635',require_pass=True)
+                                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n5a-stale-surface/scripts/survey_reader_surface_gate_v2.py", line 1072, in load_and_validate_reader_surface_semantic_review
+    raise ValueError(
+        f"Reviewed surface bytes drifted for {surface_rel}: recorded {surface_sha}, current disk {current_disk_sha}"
+    )
+ValueError: Reviewed surface bytes drifted for sources/2026-W37/publication/v2/reader-surface-input-v2.json: recorded 136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635, current disk 69cfbff5b51dd4c4820f8384bac58beb851db4e37c4a465ce214a91977394d5d

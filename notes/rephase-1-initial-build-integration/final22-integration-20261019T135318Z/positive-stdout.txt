@@ -1,0 +1,41 @@
+worker weekly: exit=0 duration_s=245.8
+worker special: exit=1 duration_s=124.5
+--- special stderr tail ---
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-integration-20261019T135318Z/worker_final22_route.py", line 640, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-integration-20261019T135318Z/worker_final22_route.py", line 516, in main
+    reader_publication.build_review_record(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        FIX, manuscript_path, pdf_path, pages, kind, checks,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "synthetic type-fixture (NOT genuine reviewer, NOT Human)",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant(f"{DAY}T05:30:00+09:00"), rp)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22/scripts/survey_reader_publication_v2.py", line 505, in build_review_record
+    fidelity.validate_review_depth(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        profile,
+        ^^^^^^^^
+    ...<4 lines>...
+        review_kind,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22/scripts/survey_reader_fidelity_v2.py", line 460, in validate_review_depth
+    _require_evidence(
+    ~~~~~~~~~~~~~~~~~^
+        architecture_fidelity,
+        ^^^^^^^^^^^^^^^^^^^^^^
+        package_markers | coverage_locations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "ARCHITECTURE_CONTENT_FIDELITY",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-final22-fixtures-20261019T135318Z/special-final22/scripts/survey_reader_fidelity_v2.py", line 362, in _require_evidence
+    raise ValueError(f"{label} must bind exact review evidence; missing={missing}")
+ValueError: ARCHITECTURE_CONTENT_FIDELITY must bind exact review evidence; missing=['package:pkg-001']
+

@@ -1,0 +1,129 @@
+TOOLROOT=/tmp/opencode/jgas-texlive-20261019T133205Z TEXDIR=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+EVIDIR=notes/rephase-1-initial-build-integration/evidence-toolchain-20261019T133205Z
+SCOPE TEXMFHOME=/tmp/opencode/jgas-texlive-20261019T133205Z/texmf-home TEXMFVAR=/tmp/opencode/jgas-texlive-20261019T133205Z/texmf-var TEXMFCONFIG=/tmp/opencode/jgas-texlive-20261019T133205Z/texmf-config TEXMFCACHE=/tmp/opencode/jgas-texlive-20261019T133205Z/texmf-var
+URL=https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+
+=== STEP 1: platform arch/libc/disk (before installer platform select) ===
+--- clock 2026-10-19T13:32:34Z
+Linux
+MACHINE:x86_64
+ldd (Ubuntu GLIBC 2.43-2ubuntu2.4) 2.43
+Copyright (C) 2024 Free Software Foundation, Inc.
+64
+PERL: This is perl 5, version 40, subversion 1 (v5.40.1) built for x86_64-linux-gnu-thread-multi 
+Filesystem      Size  Used Avail Use% Mounted on
+tmpfs           7.5G   42M  7.5G   1% /tmp
+               total        used        free      shared  buff/cache   available
+Mem:            14Gi       2.3Gi       8.1Gi       110Mi       5.0Gi        12Gi
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 2: toolroot layout (must exist from preparation; no source writes) ===
+--- clock 2026-10-19T13:32:34Z
+drwxrwxr-x 7 eariver eariver 140 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z
+drwxrwxr-x 2 eariver eariver  40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/cache
+drwxrwxr-x 2 eariver eariver  40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/download
+drwxrwxr-x 2 eariver eariver  40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-config
+drwxrwxr-x 2 eariver eariver  40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-home
+drwxrwxr-x 2 eariver eariver  40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-var
+SOURCE_TOUCH_CHECK: none (this script never references candidate-partial paths)
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 3: download official install-tl over https (record resolved URL/date/digest) ===
+--- clock 2026-10-19T13:32:34Z
+REQUEST_URL=https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+REQUEST_DATE_UTC=2026-10-19T13:32:34Z
+RESOLVED_URL:https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/install-tl-unx.tar.gz
+HTTP_CODE:200
+SIZE_DOWNLOAD:5274055
+CURL_EXIT:0
+DOWNLOAD_DATE_UTC=2026-10-19T13:32:37Z
+DOWNLOAD_BYTES=5274055
+DOWNLOAD_SHA256=5d9c826900a1d7a18479c3d37f60524eb78479214e03c88c055cc4c5dff2bd9c
+STEP_EXIT:0 DURATION_S:3
+
+=== STEP 4: safe archive inspection (no absolute paths, no .. traversal) ===
+--- clock 2026-10-19T13:32:37Z
+install-tl-20261019/
+install-tl-20261019/install-tl
+install-tl-20261019/release-texlive.txt
+install-tl-20261019/tlpkg/
+install-tl-20261019/tlpkg/installer/
+install-tl-20261019/tlpkg/installer/COPYING.MinGW-runtime.txt
+install-tl-20261019/tlpkg/installer/config.guess
+install-tl-20261019/tlpkg/installer/ctan-mirrors.pl
+install-tl-20261019/tlpkg/installer/curl/
+install-tl-20261019/tlpkg/installer/curl/curl-ca-bundle.crt
+install-tl-20261019/tlpkg/installer/curl/curl.exe
+install-tl-20261019/tlpkg/installer/install-menu-extl.pl
+install-tl-20261019/tlpkg/installer/install-menu-text.pl
+install-tl-20261019/tlpkg/installer/install-tl-gui.tcl
+install-tl-20261019/tlpkg/installer/installer-options.txt
+install-tl-20261019/tlpkg/installer/texlion.gif
+install-tl-20261019/tlpkg/installer/tl-cmd.bat
+install-tl-20261019/tlpkg/installer/tl-tray-menu.ini
+install-tl-20261019/tlpkg/installer/wtestopenfiles.exe
+install-tl-20261019/tlpkg/installer/xz/
+--- full entry count ---
+98
+--- unsafe entry scan (leading / or .. component) ---
+ARCHIVE_SAFE_OK (no absolute/traversal entries)
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 5: safe extraction to installer dir (fresh; no overwrite of prior extract without record) ===
+--- clock 2026-10-19T13:32:37Z
+EXTRACT_EXIT:0
+total 144
+drwxrwxr-x 4 eariver eariver    160 Oct 19 22:32 .
+drwxrwxr-x 8 eariver eariver    160 Oct 19 22:32 ..
+-rw-r--r-- 1 eariver eariver   2098 Sep 29  2006 LICENSE.CTAN
+-rw-r--r-- 1 eariver eariver   5129 Mar 15  2024 LICENSE.TL
+-rwxr-xr-x 1 eariver eariver 129246 Oct 13 00:37 install-tl
+-rw-r--r-- 1 eariver eariver    350 Mar  2  2026 release-texlive.txt
+drwxr-xr-x 4 eariver eariver     80 Oct 19 08:48 texmf-dist
+drwxr-xr-x 7 eariver eariver    140 Oct 19 08:48 tlpkg
+INSTALL_TL_VERSION_HINT:# This file is licensed under the GNU General Public License version 2
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 6: write unattended profile (scheme-small, TEXDIR under toolroot, no docs/src to save disk) ===
+--- clock 2026-10-19T13:32:37Z
+selected_scheme scheme-small
+TEXDIR /tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+TEXMFCONFIG /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-config
+TEXMFHOME /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-home
+TEXMFVAR /tmp/opencode/jgas-texlive-20261019T133205Z/texmf-var
+binary_x86_64-linux 1
+option_doc 0
+option_src 0
+option_autobackup 0
+option_desktop_integration 0
+option_file_assocs 0
+option_fmt 1
+option_letter 0
+option_post_code 1
+option_sys_bin /usr/local/bin
+option_sys_info /usr/local/share/info
+option_sys_man /usr/local/share/man
+option_w32_multi_user 0
+option_adjustrepo 1
+STEP_EXIT:0 DURATION_S:0
+
+=== STEP 7: run installer (user-space, no sudo, portable paths under toolroot) ===
+--- clock 2026-10-19T13:32:37Z
+INSTALL_START_UTC=2026-10-19T13:32:37Z
+Automated TeX Live installation using profile: /tmp/opencode/jgas-texlive-20261019T133205Z/texlive.profile
+Loading https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet/tlpkg/texlive.tlpdb
+Installing TeX Live 2026 from: https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet (verified)
+Platform: x86_64-linux => 'GNU/Linux on x86_64'
+Distribution: net  (downloading)
+Using URL: https://ftp.jaist.ac.jp/pub/CTAN/systems/texlive/tlnet
+Directory for temporary files: /tmp/cG3f9tfMrn
+Installing to: /tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+INSTALL_EXIT:13
+INSTALL_END_UTC=2026-10-19T13:32:41Z
+STEP_EXIT:13 DURATION_S:4
+STEP_FAIL_RECORDED (not hidden)
+INSTALL_DURATION_S:4
+tmpfs           7.5G   59M  7.5G   1% /tmp
+ls: cannot access '/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux': No such file or directory
+drwxrwxr-x 2 eariver eariver 40 Oct 19 22:32 /tmp/opencode/jgas-texlive-20261019T133205Z/texlive
+=== SUMMARY failures=1 (installer blocker; report actual mechanism) ===

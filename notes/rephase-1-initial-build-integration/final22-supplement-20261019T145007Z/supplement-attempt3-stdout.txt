@@ -1,0 +1,11 @@
+worker weekly: exit=1 duration_s=74.0
+--- weekly stderr tail ---
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-supplement-20261019T145007Z/worker_supplement_route.py", line 722, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-initial-build-integration/final22-supplement-20261019T145007Z/worker_supplement_route.py", line 255, in main
+    assert not stage.exists(), f"stage dir exists {stage}"
+           ^^^^^^^^^^^^^^^^^^
+AssertionError: stage dir exists /tmp/opencode/jgas-supplement-builds-20261019T145007Z/weekly-stage
+

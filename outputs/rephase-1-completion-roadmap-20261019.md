@@ -4,6 +4,8 @@
 
 本書を**現在の全体計画の入口**とする。旧plan・各unitの判断/証拠は履歴として保持し、旧「next」を再実行指示にしない。進捗率・終了日の数値は、未評価の統合/実運用費を隠すため付けない。
 
+**2026-10-20 R2 closeout:** [initial real-build integration assessment](rephase-1-initial-build-integration-assessment.md)と必須root/独立resolutionでR2をbounded completeとした。実PDF/公開admissionとsynthetic lifecycle、style1行修復まで。placeholder editionsのProduction semanticsはNO-GOのまま。次の具体taskは同assessment§5のR3統合訂正操作契約/実装選択。全体finish lineは不変。
+
 **R1実行後の更新:** [実source可否判断](rephase-1-integrated-admission-feasibility-decision.md)で、提出された小規模admission拡張2案をNO-GOとした。R1は不採用・次投資判断として完了し、実装可能な契約は未成立。下記順序を、初回実build/admissionを先に実証する形へ更新した。新admission実装の承認ではない。
 
 ## 1. 目的と完了条件
@@ -51,7 +53,7 @@ DM022を「別Productionだから無関係」とも「新しいので最優先�
 |---|---|---|---|
 | **R0 再計画（本書）** | 目的、残作業、順序、次taskを固定 | Astraが本書を選択しR1開始。ここではCommit Pointを挟まない | 小、広範探索はCo-Worker |
 | **R1 訂正から通常工程復帰までの統合可否判断（今回完了）** | actual409＋final21でreason/State/receipt/review-context/install-window/Candidate衝突を照合。DM022との境界も明示 | 提出2案はNO-GO。canonical/context拡張とversioned/active-role方式は比較対象として保持し、初回build/admissionの実証を次投資に選択。**今回の最初のtask/次Commit Point** | source復元＋2作者案review。implementation-readyとはしない |
-| **R2 初回実build/admission統合witness（次task）** | 現21のWeekly＋Thematic/Longform initial route。disposable build→必要PDF/log/digest transfer→strict receipt/Gate/QA/Candidate/State、実内容/visual review | 両routeの実PDFと公開admission、正負/partial transfer、必要な最小修復・回帰、作者別review、work比較。詳細はR1判断§5 | 中〜大。実環境とbuild-owner境界の不確実性を先に減らす |
+| **R2 初回実build/admission統合witness（bounded complete）** | Weekly＋Thematic/Longform実PDF/strict admission、共有style1行修復、実内容/visual点検、final22保存patch | 複数runの限定証拠で完了。元synthetic lifecycleはRELEASED、新exclusive transfer補足はVALIDATED_DRAFT。Production semantic NO-GOは保持。[結果/次task](rephase-1-initial-build-integration-assessment.md) | 実build共通境界を実証。初期toolchain約1GB、全費用/純削減未測定 |
 | **R3 必要訂正・Profileを含む通常運用の完成** | R2の実build/QA入力・費用を使いcanonical/context拡張対versioned方式を統合選択。reader訂正→public readback→fresh Candidate→通常工程復帰を実装。DM016/017/022と必要Special/Retrospectiveをsourceでdispositionし必要経路を実装/検証 | 初回＋同一reader機械更新＋reader変更＋accepted-upstream訂正＋失敗再開のcapability表を閉じる。必要機能のunsupportedは残せない。単なるwriter成功を完了としない | 大。変更path数の恣意的上限なし。新欠陥は影響/費用判断後に最小修復。未実行Human approvalをfixtureで認定しない |
 | **R4 一つの採用候補を固定・監査** | 必要差分を統合しsource/parent/tree/依存runtime/必要asset/復元手順を引渡し可能にする。影響診断・必須CI/環境check・同期。current Productionとの移行base比較はHuman許可取得後 | exact candidateへのfresh作者別七観点auditと指摘解消、履歴/旧版の扱い、除去対象、切戻し、採用手順、残費用が揃う。candidate commit/Productionアクセス拡大は既存権限に従う | 中〜大。missing historical blobsを無条件全取得せず、必要閉包と未対象を明示 |
 | **R5 Human採用判断・限定実運用** | 明示許可の下で新規Weekly/必要Specialから導入。真正semantic/visual/Human Gate、実CI/Releaseを確認 | 実運用での品質/根拠/権限の非劣化、移行失敗/rollback手順の有効性。既存RELEASEDを再承認扱いにしない | 実edition依存。現時点でProduction mutationは未許可 |

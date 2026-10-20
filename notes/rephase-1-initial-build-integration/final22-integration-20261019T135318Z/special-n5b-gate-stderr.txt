@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_reader_surface_gate_v2 as gate;from pathlib import Path;gate.validate_reader_surface_gate(Path('.'),Path('sources/SP001/publication/v2/reader-surface-gate-v2.json'),state_path=Path('sources/SP001/production-state.json'))
+                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5b-stale-source/scripts/survey_reader_surface_gate_v2.py", line 1821, in validate_reader_surface_gate
+    inspected = _inspect_gate_record(
+        repo_root,
+    ...<3 lines>...
+        expected_manuscript_path=expected_manuscript_path,
+    )
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5b-stale-source/scripts/survey_reader_surface_gate_v2.py", line 1729, in _inspect_gate_record
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Reader-Surface Gate scanned surface bytes drifted for surveys/special/SP001/main.tex: recorded 0d0e305dbc4c9453833afa07e18f2b21d0dc4f26395e1fec94cb654efe1b98b8, current disk 7cf454ab2b8af72608467c7ba35e2bb10616576ab28f0449055f9673fd0a8ddb

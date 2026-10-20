@@ -1,0 +1,81 @@
+{
+  "weekly-N1": {
+    "fault": "undeclared extra.sty",
+    "builddir_oracle": {
+      "exit": 1,
+      "err_tail": "~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n1-extra-input/scripts/survey_weekly_derivation_v2.py\", line 122, in validate_survey_build_directory\n    raise ValueError(f\"Weekly survey build directory contains undeclared entry: {entry.name}\")\nValueError: Weekly survey build directory contains undeclared entry: extra.sty\n"
+    },
+    "receipt_oracle": {
+      "exit": 1,
+      "err_tail": "~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n1-extra-input/scripts/survey_weekly_derivation_v2.py\", line 122, in validate_survey_build_directory\n    raise ValueError(f\"Weekly survey build directory contains undeclared entry: {entry.name}\")\nValueError: Weekly survey build directory contains undeclared entry: extra.sty\n"
+    },
+    "repair": "removed; build-dir validation PASS",
+    "watch_unchanged": true
+  },
+  "weekly-N2a": {
+    "fault": "main.tex appended byte at RELEASED",
+    "oracle": {
+      "exit": 1,
+      "matched": [
+        "Production State invalid for Weekly derivation",
+        "validated-source"
+      ],
+      "full_message": "ValueError: Production State invalid for Weekly derivation: Stage Checkpoint artifact drift: validated-source; Publication Candidate source bytes drifted; invalid Release Record authority: frozen artifact bytes drift before release: source_path"
+    },
+    "note": "state-derivation guard preempts receipt replay at RELEASED (honest preemption, not the replay oracle)",
+    "after": {
+      "sources/2026-W37/production-state.json": "aff63810b4da0e10745aa0da7114bde6ac6f7b4b22b45c22a103af56980229df",
+      "sources/2026-W37/publication/v2/reader-surface-input-v2.json": "136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635",
+      "sources/2026-W37/publication/v2/validated-source-manifest.json": "c459fda12c941f4b1cd8a83cd21c6b74ea40194e1e7eef885a76e6da1f5fefa0",
+      "sources/2026-W37/publication/v2/reader-manuscript-v2.json": "321f16cc5f44609ceaea13f5a6846c548fee26d7118154eb31d9e0a84b924d6f",
+      "sources/2026-W37/publication/v2/reader-surface-gate-v2.json": "47aea922af29be52bf1defec7984f3a16efc1703d6aaed26a955022568a7809c",
+      "sources/2026-W37/publication/v2/quality-regression-bundle-v2.json": "bd93c8c5cc5f4d83096d0bc5aa9c68e05ee9a65d30d729ce92c6568a7d4f7aa0",
+      "sources/2026-W37/publication/v2/publication-candidate-v2.json": "1037ca14cf21c048e9e7ee235c5343405e44c23a08b6f5326e44e47c3afcde01",
+      "sources/2026-W37/publication/v2/freeze-record-v2.json": "99a97d159f93433984f839fc26162bf5b7f3a885a8d25e7d34ae8549f67b1788",
+      "sources/2026-W37/publication/v2/release-manifest-v2.json": "f16b62e8e285de7bd2a1a6d18464d3f7721f0d44d30afd1be8848946423965b0",
+      "sources/2026-W37/publication/v2/release-record-v2.json": "28b1f10bb8e27cc1629b02f8a7174de8bb33043bce71ff1234fa66bb4629dae4",
+      "sources/2026-W37/publication/v2/merge-verification-v2.json": "879c46021d981085fa4af2c221bf1739999b5d10958059edebb3510858a3db32"
+    },
+    "repair": "restored; receipt replay PASS"
+  },
+  "weekly-N2b": {
+    "fault": "receipt outputs.primary.sha256 flipped (state untouched)",
+    "oracle": {
+      "exit": 1,
+      "matched": "Weekly deterministic primary replay mismatch"
+    },
+    "repair": "restored; receipt replay PASS"
+  },
+  "weekly-N3a": {
+    "fault": "main.pdf swapped with special bytes",
+    "oracle_bundle": {
+      "exit": 1,
+      "matched": "quality review pdf bytes drifted after validation"
+    },
+    "state_observation": {
+      "exit": 0,
+      "rows": "['Stage Checkpoint artifact drift: publication-pdf', 'quality review pdf bytes drifted after validation', 'invalid Release Record authority: quality review pdf bytes drifted after validation']\n"
+    },
+    "note": "bundle checked before candidate's own PDF comparison (honest preemption); candidate-level oracle in N3c",
+    "repair": "restored; candidate PASS"
+  },
+  "weekly-N3c": {
+    "fault": "candidate pdf binding rewritten to other-route bytes (digest recomputed with real hash); bundle+files untouched",
+    "oracle": {
+      "exit": 1,
+      "matched": "Publication Candidate PDF authority diverges from coupled quality bundle"
+    }
+  },
+  "weekly-N3b": {
+    "fault": "digest zeroed",
+    "oracle": {
+      "kind": "harness-transfer-postread",
+      "expected": "0000000000000000000000000000000000000000000000000000000000000000",
+      "actual": "899f0f2a405bfeedd057debaec55e76a084940a9a1eaa92b8de84bf3cbd97563",
+      "verdict": "REFUSE (mismatch)"
+    },
+    "state_unchanged": true,
+    "bundle_candidate_unchanged": true,
+    "repair": "restored; postread equal"
+  }
+}

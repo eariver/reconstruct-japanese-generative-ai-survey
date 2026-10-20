@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_reader_publication_v2 as rp;from pathlib import Path;rp.validate_review_record(Path('.'),Path('sources/SP001/publication/v2/semantic-editorial-review-v2.json'),issue_id='SP001',expected_kind='SEMANTIC_EDITORIAL')
+                                                                                    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5b-stale-source/scripts/survey_reader_publication_v2.py", line 586, in validate_review_record
+    manuscript = validate_manuscript_manifest(
+        repo_root,
+        manuscript_path,
+        issue_id=payload["issue_id"],
+    )
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5b-stale-source/scripts/survey_reader_publication_v2.py", line 393, in validate_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5b-stale-source/scripts/survey_reader_publication_v2.py", line 207, in _validate_manifest_semantics
+    source_path = _validate_artifact_ref(
+        repo_root,
+    ...<2 lines>...
+        sized=True,
+    )
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5b-stale-source/scripts/survey_reader_publication_v2.py", line 102, in _validate_artifact_ref
+    raise ValueError(f"{label} authority drift")
+ValueError: Reader primary source authority drift

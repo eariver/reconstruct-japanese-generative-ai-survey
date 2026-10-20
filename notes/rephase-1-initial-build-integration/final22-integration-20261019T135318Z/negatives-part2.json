@@ -1,0 +1,78 @@
+{
+  "weekly-N4a": {
+    "fault": "decoy same-issue manuscript at gate site",
+    "oracle": {
+      "exit": 1,
+      "matched": "MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript"
+    },
+    "watch_unchanged": true
+  },
+  "weekly-N4b": {
+    "fault": "coverage-dropped decoy manuscript at candidate-build site",
+    "oracle": {
+      "exit": 1,
+      "matched": "Reader Architecture coverage mismatch"
+    },
+    "watch_unchanged": true,
+    "decoy_candidate_absent": true
+  },
+  "weekly-N5a": {
+    "fault": "surface byte appended after review",
+    "oracle": {
+      "exit": 1,
+      "matched": "Reviewed surface SHA-256 mismatch"
+    },
+    "repair": "surface restored; review validation PASS"
+  },
+  "weekly-N5b": {
+    "fault": "main.tex byte appended after reviews",
+    "oracle_review": {
+      "exit": 1,
+      "matched": "Reader primary source authority drift",
+      "note": "manuscript semantics preempts the review-source comparison (honest preemption, documented)"
+    },
+    "oracle_gate": {
+      "exit": 1,
+      "matched": "scanned surface bytes drifted"
+    },
+    "repair": "source restored; gate PASS"
+  },
+  "special-N4a": {
+    "fault": "decoy same-issue manuscript at gate site",
+    "oracle": {
+      "exit": 1,
+      "matched": "MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript"
+    },
+    "watch_unchanged": true
+  },
+  "special-N4b": {
+    "fault": "coverage-dropped decoy manuscript at candidate-build site",
+    "oracle": {
+      "exit": 1,
+      "matched": "Reader Architecture coverage mismatch"
+    },
+    "watch_unchanged": true,
+    "decoy_candidate_absent": true
+  },
+  "special-N5a": {
+    "fault": "surface byte appended after review",
+    "oracle": {
+      "exit": 1,
+      "matched": "Reviewed surface SHA-256 mismatch"
+    },
+    "repair": "surface restored; review validation PASS"
+  },
+  "special-N5b": {
+    "fault": "main.tex byte appended after reviews",
+    "oracle_review": {
+      "exit": 1,
+      "matched": "Reader primary source authority drift",
+      "note": "manuscript semantics preempts the review-source comparison (honest preemption, documented)"
+    },
+    "oracle_gate": {
+      "exit": 1,
+      "matched": "scanned surface bytes drifted"
+    },
+    "repair": "source restored; gate PASS"
+  }
+}

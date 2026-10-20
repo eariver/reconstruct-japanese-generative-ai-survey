@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_reader_surface_gate_v2 as sg;from pathlib import Path;sg.load_and_validate_reader_surface_semantic_review(Path('.'),Path('sources/SP001/publication/v2/reader-surface-semantic-review-v2.json'),expected_issue_id='SP001',expected_publication_profile='LONGFORM_SPECIAL',expected_surface_path=Path('sources/SP001/publication/v2/reader-surface-input-v2.json'),expected_surface_sha256='f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5',require_pass=True)
+                                                                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n5a-stale-surface/scripts/survey_reader_surface_gate_v2.py", line 1072, in load_and_validate_reader_surface_semantic_review
+    raise ValueError(
+        f"Reviewed surface bytes drifted for {surface_rel}: recorded {surface_sha}, current disk {current_disk_sha}"
+    )
+ValueError: Reviewed surface bytes drifted for sources/SP001/publication/v2/reader-surface-input-v2.json: recorded f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5, current disk b84d80cf367f0f7169e77cfdf43d976f718fe5bd964a1089a94f77083676d777

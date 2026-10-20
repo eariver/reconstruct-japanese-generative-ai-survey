@@ -1,0 +1,78 @@
+{
+  "weekly-C1": {
+    "fault": "destinations pre-existing (positive transfer)",
+    "oracle": {
+      "exit": "FileExistsError",
+      "message": "[Errno 17] File exists: '/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/weekly-supp5/surveys/weekly/2026-W37/main.pdf'"
+    },
+    "no_takeover": true
+  },
+  "weekly-C2": {
+    "fault": "staging dir has trio only (failed-build stand-in)",
+    "oracle": {
+      "exit": "ValueError",
+      "matched": "transfer refused: no built main.pdf in staging dir"
+    }
+  },
+  "weekly-C3": {
+    "fault": "staged main.log unreadable (chmod 000)",
+    "oracle": {
+      "exit": "PermissionError",
+      "matched": "PermissionError"
+    },
+    "immediate_after_inventory": [
+      "jgaisurvey.sty",
+      "main.pdf",
+      "main.tex",
+      "references.bib"
+    ],
+    "state_qa_unchanged": true
+  },
+  "weekly-C4": {
+    "restore": "NEW target full transfer OK; postread equal",
+    "partial_preserved": [
+      "jgaisurvey.sty",
+      "main.pdf",
+      "main.tex",
+      "references.bib"
+    ]
+  },
+  "special-C1": {
+    "fault": "destinations pre-existing (positive transfer)",
+    "oracle": {
+      "exit": "FileExistsError",
+      "message": "[Errno 17] File exists: '/tmp/opencode/jgas-supplement-fixtures-20261019T145007Z/special-supp5/surveys/special/SP001/main.pdf'"
+    },
+    "no_takeover": true
+  },
+  "special-C2": {
+    "fault": "staging dir has trio only (failed-build stand-in)",
+    "oracle": {
+      "exit": "ValueError",
+      "matched": "transfer refused: no built main.pdf in staging dir"
+    }
+  },
+  "special-C3": {
+    "fault": "staged main.log unreadable (chmod 000)",
+    "oracle": {
+      "exit": "PermissionError",
+      "matched": "PermissionError"
+    },
+    "immediate_after_inventory": [
+      "jgaisurvey.sty",
+      "main.pdf",
+      "main.tex",
+      "references.bib"
+    ],
+    "state_qa_unchanged": true
+  },
+  "special-C4": {
+    "restore": "NEW target full transfer OK; postread equal",
+    "partial_preserved": [
+      "jgaisurvey.sty",
+      "main.pdf",
+      "main.tex",
+      "references.bib"
+    ]
+  }
+}

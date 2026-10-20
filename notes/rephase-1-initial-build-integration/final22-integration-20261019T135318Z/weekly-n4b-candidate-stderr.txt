@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_publication_v2 as pub;from pathlib import Path;pub.build_candidate(Path('.'),'2026-W37','WEEKLY_MAGAZINE',Path('sources/2026-W37/publication/v2/reader-manuscript-decoy2-v2.json'),Path('surveys/weekly/2026-W37/main.tex'),Path('surveys/weekly/2026-W37/main.pdf'),5,Path('sources/2026-W37/publication/v2/quality-regression-bundle-v2.json'),Path('sources/2026-W37/publication/v2/semantic-editorial-review-v2.json'),Path('sources/2026-W37/publication/v2/visual-review-v2.json'),Path('sources/2026-W37/publication/v2/publication-candidate-decoy-v2.json'))
+                                                                              ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n4b-decoy-candidate/scripts/survey_publication_v2.py", line 687, in build_candidate
+    manuscript = reader.validate_manuscript_manifest(repo_root, manuscript_file, issue_id=issue_id)
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n4b-decoy-candidate/scripts/survey_reader_publication_v2.py", line 393, in validate_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n4b-decoy-candidate/scripts/survey_reader_publication_v2.py", line 248, in _validate_manifest_semantics
+    raise ValueError(f"Reader Architecture coverage mismatch: missing={missing} extra={extra}")
+ValueError: Reader Architecture coverage mismatch: missing=[('pkg-001', 'subject identity')] extra=[]

@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_weekly_derivation_v2 as g;from scripts import survey_production_v2 as core;from pathlib import Path;g.validate_receipt(Path('.'),Path('sources/2026-W37/publication/v2/validated-source-manifest.json'),Path('sources/2026-W37/production-state.json'))
+                                                                                                                                   ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n2-tex-tamper/scripts/survey_weekly_derivation_v2.py", line 737, in validate_receipt
+    context = load_derivation(root, state_file, _safe(root, authored["publication-semantic-input"]["path"], "authored input"), pending_basis)
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n2-tex-tamper/scripts/survey_weekly_derivation_v2.py", line 489, in load_derivation
+    raise ValueError("Production State invalid for Weekly derivation: " + "; ".join(errors))
+ValueError: Production State invalid for Weekly derivation: Stage Checkpoint artifact drift: validated-source; Publication Candidate source bytes drifted; invalid Release Record authority: frozen artifact bytes drift before release: source_path

@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    from scripts import survey_reader_surface_gate_v2 as gate;from pathlib import Path;gate.validate_reader_surface_gate(Path('.'),Path('sources/2026-W37/publication/v2/reader-surface-gate-v2.json'),expected_manuscript_path=Path('sources/2026-W37/publication/v2/reader-manuscript-decoy-v2.json'),state_path=Path('sources/2026-W37/production-state.json'))
+                                                                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n4a-decoy-gate/scripts/survey_reader_surface_gate_v2.py", line 1821, in validate_reader_surface_gate
+    inspected = _inspect_gate_record(
+        repo_root,
+    ...<3 lines>...
+        expected_manuscript_path=expected_manuscript_path,
+    )
+  File "/tmp/opencode/jgas-final22-neg-20261019T135318Z/weekly-neg-n4a-decoy-gate/scripts/survey_reader_surface_gate_v2.py", line 1689, in _inspect_gate_record
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: Reader-Surface Gate MANUSCRIPT_MANIFEST does not bind the exact expected Reader Manuscript: expected sources/2026-W37/publication/v2/reader-manuscript-decoy-v2.json (426a3286138160573f164fccdf91d83aa7d0d77cbc52e94556b8dc7d06d3af4a), got sources/2026-W37/publication/v2/reader-manuscript-v2.json (321f16cc5f44609ceaea13f5a6846c548fee26d7118154eb31d9e0a84b924d6f)

@@ -1,5 +1,7 @@
 # Step 4 — Astra Profile/application disposition
 
+**Current 2026-10-20:** [initial real-build/admission integration](rephase-1-initial-build-integration-assessment.md) bounded complete on409＋22。初回Weekly/Thematic実PDFとsynthetic lifecycle接続・stylecontrast1行修復、独立点検まで。Production contentNO-GO/必要Profile/DM022・代表的資料での品質対応は残り、step4/B3/application OPEN/NOT_READY。次は同assessment§5の統合訂正操作設計/実装選択。
+
 **Current plan override 2026-10-19:** [completion roadmap](rephase-1-completion-roadmap-20261019.md)と[actual-source admission NO-GO/次task§5](rephase-1-integrated-admission-feasibility-decision.md)が現在の順序を定める。次はinitial Weekly＋Thematic/Longform実build/transfer/public-admission統合witness。以下の各dated nextは歴史。必要Special/Retrospective/upstream/DM022を全体完了から外さず、step4/B3/applicationは引続きOPEN/NOT_READY。
 
 Recorded 2026-09-27, clock observed `2026-09-27T17:48:49+09:00`. **Initial bounded inventory complete; application integration incomplete.** Author-side architecture/source review, not implementation, executed defect reproduction, independent audit or adoption. B remains `c04f32ad46109403e8a63faaa8394a90ee6b869c`, tree `7dbcbbdb499ea6c7d33417a16144107320e1fd06`, parent `cb96ab97045b0d0767f38806809d33e383bac73d`. Root independently read those Git identities. Production baseline remains `774dd39a951c9ac3818e83dfffd4c7666efb0a20`.

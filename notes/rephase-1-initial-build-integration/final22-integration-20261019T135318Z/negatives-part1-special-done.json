@@ -1,0 +1,81 @@
+{
+  "special-N1": {
+    "fault": "undeclared extra.sty",
+    "builddir_oracle": {
+      "exit": 1,
+      "err_tail": "~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n1-extra-input/scripts/survey_longform_generated_v2.py\", line 203, in validate_survey_build_directory\n    raise ValueError(f\"Longform survey build directory contains undeclared entry: {entry.name}\")\nValueError: Longform survey build directory contains undeclared entry: extra.sty\n"
+    },
+    "receipt_oracle": {
+      "exit": 1,
+      "err_tail": "~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n1-extra-input/scripts/survey_longform_generated_v2.py\", line 203, in validate_survey_build_directory\n    raise ValueError(f\"Longform survey build directory contains undeclared entry: {entry.name}\")\nValueError: Longform survey build directory contains undeclared entry: extra.sty\n"
+    },
+    "repair": "removed; build-dir validation PASS",
+    "watch_unchanged": true
+  },
+  "special-N2a": {
+    "fault": "main.tex appended byte at RELEASED",
+    "oracle": {
+      "exit": 1,
+      "matched": [
+        "Production State invalid for Longform readback",
+        "validated-source"
+      ],
+      "full_message": "ValueError: Production State invalid for Longform readback: Stage Checkpoint artifact drift: validated-source; Publication Candidate source bytes drifted; invalid Release Record authority: frozen artifact bytes drift before release: source_path"
+    },
+    "note": "state-derivation guard preempts receipt replay at RELEASED (honest preemption, not the replay oracle)",
+    "after": {
+      "sources/SP001/production-state.json": "d2020dcd60fc8c77477bbce41e7ec2400aa5094597ed3442be4f7256d2f84684",
+      "sources/SP001/publication/v2/reader-surface-input-v2.json": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+      "sources/SP001/publication/v2/validated-source-manifest.json": "19cc212c26ee2ef666500d77414df935fc322e3d49b64b0166bb0b8794c13ad5",
+      "sources/SP001/publication/v2/reader-manuscript-v2.json": "8d6b5eab6052f9a22a4e54bb38447a8aed87ad10d1175f8eadd01c0ffd12654d",
+      "sources/SP001/publication/v2/reader-surface-gate-v2.json": "cca1bb6525c04d8d3e806edd204be45ae764997722abaed397f8d6d2b959bdb6",
+      "sources/SP001/publication/v2/quality-regression-bundle-v2.json": "263cca0a1399f634667742a04667353310001b665c2466a1b8b5523e7c155c83",
+      "sources/SP001/publication/v2/publication-candidate-v2.json": "a018c7c2f436344c165821a16b98c4f9d806f99956b10b41edf7fd3276e129a4",
+      "sources/SP001/publication/v2/freeze-record-v2.json": "82749bec5b9e36e5926a8f48905fade8d15bc66f40e5316e8986e97b7b8dae15",
+      "sources/SP001/publication/v2/release-manifest-v2.json": "cf0a8fc41acc0d8a554561c7f18836e2be4e4bbef583ddbda5f17ee8f5ec88c9",
+      "sources/SP001/publication/v2/release-record-v2.json": "3c2c0aa55dcfb63159f295c90b1a7da213ed90f787e0dc476eff3a7d434f3f4d",
+      "sources/SP001/publication/v2/merge-verification-v2.json": "d5a25aa97b7e6e55e6876dc6f530766fe9349db4890dc9e639bf4fa86a384c5e"
+    },
+    "repair": "restored; receipt replay PASS"
+  },
+  "special-N2b": {
+    "fault": "receipt outputs.primary.sha256 flipped (state untouched)",
+    "oracle": {
+      "exit": 1,
+      "matched": "Longform deterministic primary replay mismatch"
+    },
+    "repair": "restored; receipt replay PASS"
+  },
+  "special-N3a": {
+    "fault": "main.pdf swapped with weekly bytes",
+    "oracle_bundle": {
+      "exit": 1,
+      "matched": "quality review pdf bytes drifted after validation"
+    },
+    "state_observation": {
+      "exit": 0,
+      "rows": "['Stage Checkpoint artifact drift: publication-pdf', 'quality review pdf bytes drifted after validation', 'invalid Release Record authority: quality review pdf bytes drifted after validation']\n"
+    },
+    "note": "bundle checked before candidate's own PDF comparison (honest preemption); candidate-level oracle in N3c",
+    "repair": "restored; candidate PASS"
+  },
+  "special-N3c": {
+    "fault": "candidate pdf binding rewritten to other-route bytes (digest recomputed with real hash); bundle+files untouched",
+    "oracle": {
+      "exit": 1,
+      "matched": "Publication Candidate PDF authority diverges from coupled quality bundle"
+    }
+  },
+  "special-N3b": {
+    "fault": "digest zeroed",
+    "oracle": {
+      "kind": "harness-transfer-postread",
+      "expected": "0000000000000000000000000000000000000000000000000000000000000000",
+      "actual": "71a2c98ac3ff3542a820bd535940e9e71b56491536348bf159ae8acfbdb90c3b",
+      "verdict": "REFUSE (mismatch)"
+    },
+    "state_unchanged": true,
+    "bundle_candidate_unchanged": true,
+    "repair": "restored; postread equal"
+  }
+}

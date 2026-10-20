@@ -1,0 +1,21 @@
+# Astra postbuild findings and selected correction
+
+Root directly read real raster Special p3 and Weekly p3, generated Longform main.tex and shared style. Independent postbuild report inspected all10 pages. Real build/log-gate/receipt success remains separate from production semantics (NO-GO both).
+
+## Findings disposition
+
+1. **SELECT FIX — technicalnote title contrast.** `templates/survey/jgaisurvey.sty:178–188` sets light `SurveyRule` frame/title background while inheriting white title text. Actual Special p3 confirms poor contrast. Add explicit dark `coltitle=SurveyInk` for this environment, retaining the existing background/frame/layout and all other box styles. Justified one-line shared-style repair; no generated-TeX hand edit. Co-Worker implements in NEW independent candidate copy, not either original/source fixture. No candidate commit.
+2. **DEFER GENERAL LAYOUT REWRITE.** Five pages of sparse synthetic content is an actual observation, but does not establish that every forced break is wrong on real-length editions. Longform main.tex has explicit breaks at cover/frontmatter/references, not after every section. Synthesis heading inside multicols follows flow; awkwardness is recorded, not automatically a faulty authority contract. Need representative long-form content before replacing global layout. Do not silently waive this for eventual production acceptance.
+3. **RETAIN CITATION/LOCALE FINDINGS.** Cross-comparison row citation in last cell is visually ambiguous; per-cell provenance is not proved by this single-DID fixture. Bibliography date localization needs deliberate policy. Preserve for the needed content/Profile acceptance work rather than changing review identity/source-binding semantics in this build task.
+4. **Production content NO-GO stays.** Existing fixture URLs/prose/evidence are synthetic; no style fix turns these into publishable research. Independent inspection must remain separate from schema-valid synthetic PASS records used solely for lifecycle integration.
+5. **Proceed with explicit synthetic lifecycle.** The independent report's recommendation not to promote these PDFs into real Candidate/State/adoption is respected. Isolated test fixtures may still invoke the actual Candidate/State/Preview/Freeze/Release APIs with clearly synthetic approval, as selected by decision§5. This establishes type/authority wiring and actual PDF identity, not genuine approval or publication readiness.
+
+## Execution after correction
+
+- Preserve baseline21 fixture builds and findings. Prepare one-line style delta as final22 composite (21 inherited unchanged plus shared style modified). Root reviews actual diff before new source authority.
+- Create NEW independently source-committed fixtures from final22, then regenerate accepted initial inputs/reviews/TeX, real builds and explicit transfer for BOTH routes (shared style affects both). Do not update old receipt/review/source bytes to force them through a new contract epoch. Toolchain reused, no unnecessary setup rerun.
+- Reuse current-unit fixture recipes only after adapting/inspecting exact new destinations and correcting known guards; save new scripts before execution and retain all attempts. No old historical runner.
+- Assemble actual exact-manuscript Gate, measured deterministic check records where their predicate is actually implemented, and explicitly synthetic semantic/visual records for unproved semantic checks. Use actual PDF page count/hash. Never declare placeholder research quality measured.
+- Run DRAFT_COMPLETE admission, VALIDATED_DRAFT inherited Gate admission, publication Candidate, synthetic Preview/Freeze/Release readback using actual APIs. On real code blocker return exact failure/minimal fix. No authority-success stubs.
+- Required negatives: extra build input, source/PDF/hash substitution, wrong manuscript, stale pre/postrender reviews, failed build/partial transfer. Use independent negative copies, exact expected error/no-write scope, and successful repaired control where meaningful; do not leave positive fixtures tampered.
+- Fresh post-fix visual resolution and final author-independent code/evidence review remain required. No new content/research/approval claims and no whole-project readiness inference.

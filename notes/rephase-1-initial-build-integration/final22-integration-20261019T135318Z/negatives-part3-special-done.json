@@ -1,0 +1,28 @@
+{
+  "special-N6": {
+    "fault": "undefined control sequence in build-dir main.tex copy",
+    "engine": {
+      "exit": 12,
+      "duration_s": 5.4
+    },
+    "transfer": "NOT attempted (engine FAIL); destinations absent",
+    "state_unchanged": true,
+    "repair": "tex fixed; rebuilt pdf content-identical (extracted text + 5 pages equal); trailer /ID differs (per-run random identifier); transfer OK"
+  },
+  "special-N7": {
+    "fault": "staged main.log unreadable (chmod 000)",
+    "oracle": {
+      "verdict": "REFUSE",
+      "exc": "PermissionError",
+      "message": "[Errno 13] Permission denied: '/tmp/opencode/jgas-final22-neg-20261019T135318Z/special-neg-n7-stage/main.log'"
+    },
+    "partial_set": [
+      "jgaisurvey.sty",
+      "main.pdf",
+      "main.tex",
+      "references.bib"
+    ],
+    "state_qa_admission_unchanged": true,
+    "repair": "perms restored; transfer OK; postread equal"
+  }
+}
