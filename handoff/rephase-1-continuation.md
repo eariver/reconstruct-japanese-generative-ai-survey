@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-20 JST R3 operation contract selection
+
+**設計unit完了、Human Commit Pointで停止。** [契約d880f53e](../outputs/rephase-1-editorial-operation-contract-decision.md)、[必須root resolution/next implementation task§3](../notes/rephase-1-editorial-operation-contract/astra-review-resolution.md)、[technical review（末尾訂正必須）](../notes/rephase-1-editorial-operation-contract/independent-technical-design-review.md)、[operation review（§9必須）](../notes/rephase-1-editorial-operation-contract/independent-operation-design-review.md)を読む。
+
+採用: exact P1 proposed-reader/authoringとP3S staged4を再利用し、`proposal/publication/`で実PDF/manuscript→外部persisted review→QA/Gate/Candidate→sealを完成、その後Stateの既存revalidation pointerだけを切替。旧canonical publication/Candidate保持・inactive、Profile不変、canonicalCandidate installなし。Strict新record branch、cumulative legacy canonical anchor、active-role consumer全接続を選択。Worker draftsの残る矛盾はpacket READMEで不採用にした。
+
+**次:** Generalがactual22から具体module/import/schema/CLI/write-set/closure mapを返しAstra確認後、契約§9のwhole2route operationを実装・実build/影響回帰・独立reviewまで進める。孤立helperを終了物にしない。繰返しprePreview訂正、R1×2→訂正、inertset/foreign/Statefailure/resume/publiccaller負例を含む。既存R1 afterversionedはpre-write拒否、versioned機械renewalは明示残課題。DM022/必要Profile/代表的資料品質/audit/Human採用/実測削減を保持。
+
+Sourceは下記R2のactual409＋22/fullpatch7c82ec47のまま。今回source/runtime/tests/build/fixture/DB/network変更なし。Current observationは転記/hash/status観測、cacheはdepth-limited、汎用guardや全隔離の再証明なし。開始HumanHEAD1442468clean、今回contract/analysis/reviews/入口未commit。wholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN。通常Commit/PushはHuman担当。
+
+## Preserved R2 closeout (historical next-task text)
+
 ## Current — 2026-10-20 JST initial real-build integration closeout
 
 **Human Commit Pointで停止。** [current assessment/次task§5](../outputs/rephase-1-initial-build-integration-assessment.md)、[root closeout](../notes/rephase-1-initial-build-integration/astra-closeout-resolution.md)、必須[独立final resolution §§2–6](../notes/rephase-1-initial-build-integration/independent-final-resolution.md)、[visual resolution](../notes/rephase-1-initial-build-integration/independent-postfix-visual-resolution.md)を読む。

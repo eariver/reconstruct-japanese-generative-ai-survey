@@ -4,6 +4,12 @@ External architecture review and reconstruction workspace for `eariver/japanese-
 
 ## Re:Phase 1 — start here
 
+**Current 2026-10-20: R3 editorial-operation contract selected and independently reviewed (design scope).** Prepare an immutable versioned publication set with external reviews and a complete Candidate, then activate it through the existing State pointer. Source22 unchanged; implementation is next after this Human Commit Point.
+
+Start with the [selected contract](outputs/rephase-1-editorial-operation-contract-decision.md), [mandatory review resolution / implementation task](notes/rephase-1-editorial-operation-contract/astra-review-resolution.md), and [overall roadmap](outputs/rephase-1-completion-roadmap-20261019.md). Revised-set mechanical renewal remains an explicit readiness gap; whole candidate NOT_READY. Ordinary Commit/Push remain Human-owned.
+
+### Prior R2 closeout (historical next-task entry)
+
 **Current 2026-10-20: initial real-build/admission witness bounded complete for generated Weekly and Thematic/Longform.** Both real PDFs reached strict publication readback and synthetic-authority RELEASED fixtures. A one-line shared-style contrast repair was implemented, rebuilt and independently inspected. Actual content/visual inspection retains production semantic NO-GO for the placeholder editions; whole candidate remains NOT_READY.
 
 Start with the [current assessment / next R3 task](outputs/rephase-1-initial-build-integration-assessment.md), [mandatory root closeout + independent resolution](notes/rephase-1-initial-build-integration/astra-closeout-resolution.md), then the [overall completion roadmap](outputs/rephase-1-completion-roadmap-20261019.md). Pause at the Human Commit Point; ordinary Commit/Push remain Human-owned.
