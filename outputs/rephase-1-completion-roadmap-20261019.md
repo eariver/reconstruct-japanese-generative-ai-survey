@@ -4,6 +4,8 @@
 
 本書を**現在の全体計画の入口**とする。旧plan・各unitの判断/証拠は履歴として保持し、旧「next」を再実行指示にしない。進捗率・終了日の数値は、未評価の統合/実運用費を隠すため付けない。
 
+**2026-10-23 renewal design closeout:** [versioned same-reader Core renewal契約§§9/11](rephase-1-versioned-renewal-contract-decision.md)を限定選択。旧history／新current source-proofを分離、U exact-target reuseとC実build・新review、fresh basis/COPYとsole State pointer、通常consumer/Freeze・repeat／renewal→editorialを同単位に含める。作者別technical/operator final reviewは**契約選択のみ**。全accepted-authority predicate切出しとexact schema/digest/closure等のpre-code readinessはOPEN、Astra確認まで実装不可。actual57は不変。全体完成線・DM022/Profile/代表的品質/audit/Human運用/実測削減を縮めない。
+
 **2026-10-23 selected R3 operation closeout:** [実装assessment](rephase-1-editorial-operation-implementation-assessment.md)でversioned editorial操作を限定完了。両route各2訂正・実PDF・normal synthetic lifecycle・R1×2 anchor/resume/faults、strict57-path source deliveryをqualified compositeで受入れ。次は同assessment§5のversioned same-reader mechanical-renewal契約。全R3/DM021/whole完了ではなく、機械renewal・DM022/必要Profile/代表的品質等を維持する。
 
 **2026-10-20 R3 design closeout:** [immutable publication set/explicit activation契約](rephase-1-editorial-operation-contract-decision.md)を選択し、技術・運用別の独立design review＋必須訂正でDESIGN_BOUNDED_PASS。次は同契約§9/packet root resolution§3の具体interface return→whole operation実装・検証。全R3完了ではなく、既存R1 afterversionedの拒否と未選択versioned機械renewal、DM022/必要Profile/代表的品質の残課題を明示維持。Source22不変、今回runtimeなし。

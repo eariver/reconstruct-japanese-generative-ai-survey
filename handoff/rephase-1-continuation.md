@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-23 JST versioned same-reader renewal contract selection
+
+**Human Commit Pointで停止。契約選択は限定完了、実装前readiness gateはOPEN。** [選択契約§§9/11](../outputs/rephase-1-versioned-renewal-contract-decision.md) SHA256 **478f00510791b76af24aa7d61f398f0608f7ad8ae7808008c660f2bea6fbfdcf**、[mandatory root resolution](../notes/rephase-1-versioned-renewal-contract/astra-review-resolution.md)、[独立technical](../notes/rephase-1-versioned-renewal-contract/independent-technical-design-review.md)／[独立operator](../notes/rephase-1-versioned-renewal-contract/independent-operator-design-review.md)の**各final-binding addendum**を読む。
+
+選択: 旧証拠と旧tool epochの有限history検証＋新current source-proof＋統合renewal操作。Uは元pathの同一reader/source/manuscript/PDF/reviewを保持し新current proof/QA/Gate/Candidateを作る（rebuild主張なし）。Cは新targetで実build＋新外部postrender review。新basisは直前State COPY／旧不変版KEEP。Candidate/seal完成後、既存State pointerだけを新typed renewal recordへ切替。通常consumerへのproof伝搬、repeat renewal／renewal→editorialは必須実装対象。現コードで利用可能とはしていない。
+
+**次の最初の行動（Human continuation後）:** Generalに契約§§9/11の具体pre-code returnを委任。全accepted-authority predicate（Ledger/Discovery/X/Materiality/completeness、P1 pipelineを含む）を失わないState-free切出し、exact schema/digest/keyword/import/closure/epoch/mode/recipe/CLI/write/seam mapを返させる。Astra確認まで実装しない。解けないpredicateは正確なblocker／契約修正、hash-onlyやpending迂回は不可。独立reviewはこのgateを免除していない。
+
+Sourceは下記actual409＋57/fullpatch659063dcのまま、available proof-copyをread-only利用。新runtime/test/build/fixture/復元/network/Commitなし。開始HumanHEAD8f77571、初期未追跡調査を保持しpacket/output/入口を追記。WholeNOT_READY／step4B3OPEN／audit未開始／DM021+022OPEN。通常Commit/PushはHuman-owned。
+
+## Preserved R3 implementation closeout (historical next-task entry)
+
 ## Current — 2026-10-23 JST selected editorial operation implementation closeout
 
 **Human Commit Pointで停止。** [実装assessment/次task§5](../outputs/rephase-1-editorial-operation-implementation-assessment.md)、[mandatory root closeout](../notes/rephase-1-editorial-operation-implementation/astra-closeout-resolution.md)、[独立operation review](../notes/rephase-1-editorial-operation-implementation/independent-final-operation-resolution.md)＋**[packaging supplement](../notes/rephase-1-editorial-operation-implementation/independent-final-packaging-resolution.md)**、[actual reader/visual](../notes/rephase-1-editorial-operation-implementation/independent-final-reader-visual-inspection.md)を先に読む。
