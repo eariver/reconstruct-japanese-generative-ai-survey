@@ -1,0 +1,68 @@
+test_actions_artifact_authority_tamper_fails_state_validation (tests.test_survey_state_publication_authority_v2.SurveyStatePublicationAuthorityV2Tests.test_actions_artifact_authority_tamper_fails_state_validation) ... ERROR
+test_actions_artifact_preview_state_remains_valid_without_local_pdf (tests.test_survey_state_publication_authority_v2.SurveyStatePublicationAuthorityV2Tests.test_actions_artifact_preview_state_remains_valid_without_local_pdf) ... ERROR
+
+======================================================================
+ERROR: test_actions_artifact_authority_tamper_fails_state_validation (tests.test_survey_state_publication_authority_v2.SurveyStatePublicationAuthorityV2Tests.test_actions_artifact_authority_tamper_fails_state_validation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_publication_set_v2.py", line 286, in load_and_validate_json_strict
+    schema_gate.validate_instance(value, schema_path, label=label)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_schema_v2.py", line 68, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: selection prior Stage Checkpoint fails /tmp/tmpwjqrvedi/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_state_publication_authority_v2.py", line 204, in test_actions_artifact_authority_tamper_fails_state_validation
+    errors = core.validate_state_semantics(root, cfg, state)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 849, in validate_state_semantics
+    candidate = _resolve_active_candidate_path(repo_root, cfg, state, profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 81, in _resolve_active_candidate_path
+    sel = _require_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 45, in _require_selection
+    sel = _setmod.resolve_publication_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_publication_set_v2.py", line 1423, in resolve_publication_selection
+    validation_record = load_and_validate_json_strict(
+        root, validation_ref["path"], root / CHECKPOINT_SCHEMA, "selection prior Stage Checkpoint"
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_publication_set_v2.py", line 288, in load_and_validate_json_strict
+    raise PublicationSetError(f"{label} invalid: {exc}") from exc
+scripts.survey_publication_set_v2.PublicationSetError: selection prior Stage Checkpoint invalid: selection prior Stage Checkpoint fails /tmp/tmpwjqrvedi/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property
+
+======================================================================
+ERROR: test_actions_artifact_preview_state_remains_valid_without_local_pdf (tests.test_survey_state_publication_authority_v2.SurveyStatePublicationAuthorityV2Tests.test_actions_artifact_preview_state_remains_valid_without_local_pdf)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_publication_set_v2.py", line 286, in load_and_validate_json_strict
+    schema_gate.validate_instance(value, schema_path, label=label)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_schema_v2.py", line 68, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: selection prior Stage Checkpoint fails /tmp/tmp2s8vebf_/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_state_publication_authority_v2.py", line 192, in test_actions_artifact_preview_state_remains_valid_without_local_pdf
+    self.assertEqual(core.validate_state_semantics(root, cfg, state), [])
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 849, in validate_state_semantics
+    candidate = _resolve_active_candidate_path(repo_root, cfg, state, profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 81, in _resolve_active_candidate_path
+    sel = _require_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 45, in _require_selection
+    sel = _setmod.resolve_publication_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_publication_set_v2.py", line 1423, in resolve_publication_selection
+    validation_record = load_and_validate_json_strict(
+        root, validation_ref["path"], root / CHECKPOINT_SCHEMA, "selection prior Stage Checkpoint"
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_publication_set_v2.py", line 288, in load_and_validate_json_strict
+    raise PublicationSetError(f"{label} invalid: {exc}") from exc
+scripts.survey_publication_set_v2.PublicationSetError: selection prior Stage Checkpoint invalid: selection prior Stage Checkpoint fails /tmp/tmp2s8vebf_/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.227s
+
+FAILED (errors=2)

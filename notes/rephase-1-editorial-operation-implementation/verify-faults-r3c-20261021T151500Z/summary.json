@@ -1,0 +1,165 @@
+{
+  "frozen_head": "0d9857e6132fb314a2e2ba141da79c54f4ec5e06",
+  "pass": 10,
+  "fail": 16,
+  "total": 26,
+  "dt": 19.49357351200888,
+  "cases": [
+    {
+      "name": "A0_source_and_positives",
+      "status": "FAIL",
+      "dt": 0.009980119008105248,
+      "detail": "ASSERT: frozen dirty ?? scripts/__pycache__/\n"
+    },
+    {
+      "name": "A1_healthy_controls",
+      "status": "BLOCKER",
+      "dt": 1.1494107650069054,
+      "detail": "CurrentAuthorityError: P2V_AFTER_ACTIVATION_REFUSED: [PIN] ordinary receipt must not call P2V after versioned activation (proposal basis active_revalidation_ref must match State pointer for true repeat)"
+    },
+    {
+      "name": "B7_orphan_collision_then_resume",
+      "status": "BLOCKER",
+      "dt": 1.8753518410085235,
+      "detail": "CurrentAuthorityError: MANUSCRIPT_INVALID: [DERIVE] P1: MANUSCRIPT_INVALID: reader manuscript validation failed: Reader staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B1_record_write_fault",
+      "status": "BLOCKER",
+      "dt": 1.8156464849889744,
+      "detail": "CurrentAuthorityError: MANUSCRIPT_INVALID: [DERIVE] P1: MANUSCRIPT_INVALID: reader manuscript validation failed: Reader staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B2_state_temp_write_fault",
+      "status": "BLOCKER",
+      "dt": 1.8109428850002587,
+      "detail": "CurrentAuthorityError: MANUSCRIPT_INVALID: [DERIVE] P1: MANUSCRIPT_INVALID: reader manuscript validation failed: Reader staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B3_state_replace_fault",
+      "status": "BLOCKER",
+      "dt": 1.8244099830044433,
+      "detail": "CurrentAuthorityError: MANUSCRIPT_INVALID: [DERIVE] P1: MANUSCRIPT_INVALID: reader manuscript validation failed: Reader staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B4_postread_fault",
+      "status": "BLOCKER",
+      "dt": 1.8103515260154381,
+      "detail": "CurrentAuthorityError: MANUSCRIPT_INVALID: [DERIVE] P1: MANUSCRIPT_INVALID: reader manuscript validation failed: Reader staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B5_fsync_swallowed_BLOCKER",
+      "status": "FAIL",
+      "dt": 0.904210829990916,
+      "detail": "ASSERT: fsync fault classified unexpectedly: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B8_foreign_samebytes_inode_BLOCKER",
+      "status": "FAIL",
+      "dt": 0.8854399609845132,
+      "detail": "ASSERT: foreign inode refused but seam unclear (need ownership check): EditorialError: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B9_already_active",
+      "status": "BLOCKER",
+      "dt": 1.0472010239900555,
+      "detail": "EditorialError: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "B10_indeterminate",
+      "status": "FAIL",
+      "dt": 0.49479081301251426,
+      "detail": "ASSERT: indeterminate resume wrong seam: EditorialError: SELECTION_BEFORE: [RESUME/REFUSED_PRE_WRITE] before selection failed: selection active revalidation missing: /tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-indeterminate/sources/2026-W37/publication/v2/publication-surface-revalidation-UNKNOWN.json"
+    },
+    {
+      "name": "B11_conflict_intent",
+      "status": "PASS",
+      "dt": 0.6559462909935974,
+      "detail": ""
+    },
+    {
+      "name": "C_inert_not_adopted",
+      "status": "BLOCKER",
+      "dt": 0.6680854410224129,
+      "detail": "EditorialError: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "C_unknown_branch",
+      "status": "PASS",
+      "dt": 0.43151778701576404,
+      "detail": ""
+    },
+    {
+      "name": "C_seal_roles",
+      "status": "PASS",
+      "dt": 0.42433787998743355,
+      "detail": ""
+    },
+    {
+      "name": "C_research_drift",
+      "status": "FAIL",
+      "dt": 1.0800063479982782,
+      "detail": "ASSERT: research drift wrong seam: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py"
+    },
+    {
+      "name": "C_authoring_reader_mismatch",
+      "status": "PASS",
+      "dt": 0.5865704379975796,
+      "detail": ""
+    },
+    {
+      "name": "C_reviews",
+      "status": "PASS",
+      "dt": 0.4430158000031952,
+      "detail": ""
+    },
+    {
+      "name": "C_tamper",
+      "status": "PASS",
+      "dt": 0.5808842979895417,
+      "detail": ""
+    },
+    {
+      "name": "C_wrong_candidate_manuscript_gate",
+      "status": "PASS",
+      "dt": 0.17997536700568162,
+      "detail": ""
+    },
+    {
+      "name": "C_canonical_old_candidate",
+      "status": "PASS",
+      "dt": 0.14512249099789187,
+      "detail": ""
+    },
+    {
+      "name": "C_chain_anchor",
+      "status": "PASS",
+      "dt": 0.26300948997959495,
+      "detail": ""
+    },
+    {
+      "name": "C_state_predecessor_drift",
+      "status": "FAIL",
+      "dt": 0.09571396201499738,
+      "detail": "ASSERT: cp -a failed cp: '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/shared-ro/scripts/revise_special_annual_reference_pagination_v2.py' \u304b\u3089 '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-state-drift/scripts/revise_special_annual_reference_pagination_v2.py' \u3078\u306e\u30b3\u30d4\u30fc\u6642\u306e\u30a8\u30e9\u30fc: \u30c7\u30a3\u30b9\u30af\u4f7f\u7528\u91cf\u5236\u9650\u3092\u8d85\u904e\u3057\u307e\u3057\u305f\ncp: '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/shared-ro/scripts/revise_special_annual_reference_pagination_v3.py' \u304b\u3089 '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-state-drift/scripts/revise_special_annual_refer"
+    },
+    {
+      "name": "C_approved_foreign",
+      "status": "FAIL",
+      "dt": 0.1565438149846159,
+      "detail": "ASSERT: cp -a failed cp: '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/shared-ro/.github/workflows/build-special-pdf.yml' \u304b\u3089 '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-approved-foreign/.github/workflows/build-special-pdf.yml' \u3078\u306e\u30b3\u30d4\u30fc\u6642\u306e\u30a8\u30e9\u30fc: \u30c7\u30a3\u30b9\u30af\u4f7f\u7528\u91cf\u5236\u9650\u3092\u8d85\u904e\u3057\u307e\u3057\u305f\ncp: '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/shared-ro/.github/workflows/build-weekly-survey.yml' \u304b\u3089 '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-approved-foreign/.github/workflows/build-weekly-survey.yml' \u3078\u306e\u30b3\u30d4\u30fc\u6642\u306e\u30a8\u30e9\u30fc: \u30c7\u30a3\u30b9\u30af\u4f7f\u7528\u91cf\u5236\u9650\u3092\u8d85\u904e\u3057\u307e\u3057\u305f\ncp"
+    },
+    {
+      "name": "C_canonical_writers",
+      "status": "PASS",
+      "dt": 0.0009937940048985183,
+      "detail": ""
+    },
+    {
+      "name": "C_build_failure",
+      "status": "FAIL",
+      "dt": 0.10924114601220936,
+      "detail": "ASSERT: cp -a failed cp: '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/shared-ro/.github/workflows/build-special-pdf.yml' \u304b\u3089 '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-build-fail/.github/workflows/build-special-pdf.yml' \u3078\u306e\u30b3\u30d4\u30fc\u6642\u306e\u30a8\u30e9\u30fc: \u30c7\u30a3\u30b9\u30af\u4f7f\u7528\u91cf\u5236\u9650\u3092\u8d85\u904e\u3057\u307e\u3057\u305f\ncp: '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/shared-ro/.github/workflows/build-weekly-survey.yml' \u304b\u3089 '/tmp/opencode/jgas-faults-r3c-20261021T151500Z/fault-build-fail/.github/workflows/build-weekly-survey.yml' \u3078\u306e\u30b3\u30d4\u30fc\u6642\u306e\u30a8\u30e9\u30fc: \u30c7\u30a3\u30b9\u30af\u4f7f\u7528\u91cf\u5236\u9650\u3092\u8d85\u904e\u3057\u307e\u3057\u305f\ncp: '/tmp/open"
+    }
+  ]
+}

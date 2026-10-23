@@ -1,0 +1,45 @@
+/tmp/opencode/jgas-weekly-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/normalize_special_legacy_partial_enums.py:4: SyntaxWarning: "\_" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\_"? A raw string is also an option.
+  Older derived Special revisions could contain labels such as ``モデル\_RELEASE``
+/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/normalize_special_legacy_partial_enums.py:4: SyntaxWarning: "\_" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\_"? A raw string is also an option.
+  Older derived Special revisions could contain labels such as ``モデル\_RELEASE``
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 876, in validate_editorial_receipt
+    ctx = _longform_r.load_derivation_for_readback(repo, _safe(repo, state_rel, "Production State"), _safe(repo, new_authoring_rel, "NEW proposed authoring"))
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_longform_derivation_v2.py", line 1182, in load_derivation_for_readback
+    return _derive_authority_context(root, state, state_path, profile, profile_path, cfg, authored_path, issue_id)
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_longform_derivation_v2.py", line 1066, in _derive_authority_context
+    records, card_refs = _longform_records(
+                         ~~~~~~~~~~~~~~~~~^
+        root, matrix_ref["artifact_path"], ledger_ref["artifact_path"], discovery_ref["artifact_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        evidence_ref["artifact_path"], implementation_sha, selected_ids,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_longform_derivation_v2.py", line 442, in _longform_records
+    acceptance, _package = evidence.validate_evidence_acceptance(root, acceptance_path, implementation_sha)
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_evidence_v2.py", line 1131, in validate_evidence_acceptance
+    validate_evidence_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_evidence_v2.py", line 741, in validate_evidence_package_basis
+    raise ValueError(f"Evidence package basis drift: {sha_key}")
+ValueError: Evidence package basis drift: state_sha256
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-lifecycle-r3c-20261021T160000Z/verify_save_negative.py", line 181, in main
+    rv = edpub.validate_editorial_receipt(life_root, f"{pub_dir}/validated-source-manifest.json", state_rel)
+  File "/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 878, in validate_editorial_receipt
+    raise _fail("ROUTE_REDERIVE", "VALIDATE", "REFUSED_PRE_WRITE", f"longform load_derivation_for_readback on NEW authoring failed: {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: ROUTE_REDERIVE: [VALIDATE/REFUSED_PRE_WRITE] longform load_derivation_for_readback on NEW authoring failed: Evidence package basis drift: state_sha256
+/tmp/opencode/jgas-weekly-lifecycle-neg-20261021T160000Z/candidate-partial-b40de60/scripts/normalize_special_legacy_partial_enums.py:4: SyntaxWarning: "\_" is an invalid escape sequence. Such sequences will not work in the future. Did you mean "\\_"? A raw string is also an option.
+  Older derived Special revisions could contain labels such as ``モデル\_RELEASE``
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-lifecycle-r3c-20261021T160000Z/verify_save_negative.py", line 260, in main
+    stage_validation_n.validate_stage(neg_path, neg_cfg, tmp_path, {"publication-candidate": neg_path/active_rel}, neg_ok, __import__("datetime").datetime.now(__import__("datetime").timezone.utc))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-weekly-lifecycle-neg-20261021T160000Z/candidate-partial-b40de60/scripts/survey_stage_validation_v2.py", line 734, in validate_stage
+    raise StageValidationError("Production State invalid before stage validation: " + "; ".join(errors))
+scripts.survey_stage_validation_v2.StageValidationError: Production State invalid before stage validation: pending checkpoint must not carry provenance: freeze; pending checkpoint must not carry provenance: release; Production State history length must exactly match lifecycle position; Production State next_action drift: None != 'stage:publication-candidate'; Production State terminal_reason drift: 'COMPLETE' != None

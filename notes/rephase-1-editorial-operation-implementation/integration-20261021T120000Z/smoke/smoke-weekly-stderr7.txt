@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T134500Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1600, in prepare_publication
+    tmp_validated = reader.validate_manuscript_manifest(repo, tmp_manuscript, issue_id=issue_id)
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T134500Z/candidate-partial-b40de60/scripts/survey_reader_publication_v2.py", line 447, in validate_manuscript_manifest
+    raise ValueError("Reader Manuscript content digest mismatch")
+ValueError: Reader Manuscript content digest mismatch
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 281, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 162, in main
+    prepared_paths = edpub.prepare_publication(
+        root,
+    ...<4 lines>...
+        toolchain_spec_path.relative_to(root) if isinstance(toolchain_spec_path, Path) and toolchain_spec_path.is_absolute() else toolchain_spec_path,
+        datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T134500Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1602, in prepare_publication
+    raise _fail("MANUSCRIPT_INVALID", "PREPARE", "PRESERVED_INCOMPLETE", f"temp manuscript invalid; preserved at {tmp_manuscript}: {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: MANUSCRIPT_INVALID: [PREPARE/PRESERVED_INCOMPLETE] temp manuscript invalid; preserved at /tmp/opencode/editorial-manuscript-tmyrbfyf/reader-manuscript-v2.json: Reader Manuscript content digest mismatch

@@ -1,0 +1,402 @@
+{
+  "schema_version": "2.0-rc1",
+  "pipeline_contract_version": "2.0-rc1",
+  "quality_contract_version": "2.0-rc1",
+  "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic",
+  "contract_files": {
+    "pipeline": [
+      "docs/survey-production-core-v2-redesign-authority.md",
+      "docs/survey-production-core-v2-redesign-plan-after-w33-sp001.md",
+      "docs/survey-production-core-v2-github-actions-policy.md",
+      "docs/survey-production-core-v2-operator-execution-bridge.md",
+      "docs/survey-production-core-v2-postintegration-amendment.md",
+      "docs/survey-production-core-v2-workflow-responsibility-inventory.md",
+      "docs/survey-production-core-v2-execution-record-policy.md",
+      "docs/survey-production-core-v2-authority.md",
+      "docs/survey-production-core-v2-agent-first-reaudit-2026-08-22.md",
+      "docs/survey-production-core-v2-contract-normalization-second-audit-amendment.md",
+      "docs/survey-production-core-v2-minimum-vertical-slice-second-audit-amendment.md",
+      "docs/survey-production-core-v2-whole-system-audit-2026-08-22.md",
+      "docs/survey-production-core-v2-whole-system-audit-remediation-closure.md",
+      "docs/survey-production-core-v2-x-source-intake.md",
+      "config/survey-production-v2-requirements.txt",
+      "config/publication-review-v2.json",
+      "config/prompts/grok/x-source-intake-base-v1.md",
+      "config/prompts/grok/x-source-intake-weekly-v1.md",
+      "config/prompts/grok/x-source-intake-special-v1.md",
+      "schemas/x-source-intake-v2.schema.json",
+      "schemas/operator-execution-request-v2.schema.json",
+      "schemas/human-gate-review-record-v2.schema.json",
+      "schemas/human-gate-review-index-v2.schema.json",
+      "schemas/operator-pending-gate-invalidation-v2.schema.json",
+      "schemas/survey-discovery-record.schema.json",
+      "schemas/discovery-acceptance-v2.schema.json",
+      "schemas/screening-v2-run-package.schema.json",
+      "schemas/screening-v2-batch-result.schema.json",
+      "config/prompts/source-screening-v2.md",
+      "schemas/evidence-v2-run-package.schema.json",
+      "schemas/evidence-v2-task.schema.json",
+      "schemas/evidence-v2-card.schema.json",
+      "schemas/evidence-authority-supplement-v2.schema.json",
+      "schemas/edition-evidence-view.schema.json",
+      "schemas/materiality-ledger.schema.json",
+      "schemas/profile-completeness-result.schema.json",
+      "config/prompts/evidence-verification-v2.md",
+      "schemas/candidate-matrix-v2.schema.json",
+      "schemas/candidate-selection-v2.schema.json",
+      "schemas/issue-architecture-v2.schema.json",
+      "schemas/architecture-review-summary-v2.schema.json",
+      "schemas/architecture-review-attention-v2.schema.json",
+      "schemas/architecture-approval-record-v2.schema.json",
+      "schemas/draft-v2-package.schema.json",
+      "schemas/draft-v2-result.schema.json",
+      "schemas/profile-synthesis-v2-input.schema.json",
+      "schemas/profile-synthesis-v2-result.schema.json",
+      "config/prompts/article-drafting-v2.md",
+      "config/prompts/profile-synthesis-v2.md",
+      "schemas/reader-manuscript-v2.schema.json",
+      "schemas/publication-review-record-v2.schema.json",
+      "schemas/quality-regression-bundle-v2.schema.json",
+      "schemas/publication-candidate-v2.schema.json",
+      "schemas/publication-preview-approval-v2.schema.json",
+      "schemas/visual-review-record-v2.schema.json",
+      "schemas/freeze-record-v2.schema.json",
+      "schemas/release-manifest-v2.schema.json",
+      "schemas/merge-verification-v2.schema.json",
+      "schemas/release-record-v2.schema.json",
+      "schemas/stage-checkpoint-v2.schema.json",
+      "schemas/review-finding-v2.schema.json",
+      "schemas/repair-set-v2.schema.json"
+    ],
+    "quality": [
+      "docs/survey-production-core-v2-historical-invariants.md",
+      "docs/survey-production-core-v2-historical-production-deep-audit.md",
+      "docs/survey-production-core-v2-issue-prevention-checklist.md"
+    ]
+  },
+  "operator_model": {
+    "primary_operator": "CHATGPT",
+    "local_stage_control": "COMPACT_AGENT_CHECKPOINT",
+    "deterministic_execution_modes": ["DIRECT_LOCAL_CLI", "GITHUB_ACTIONS_OPERATOR_BRIDGE"],
+    "direct_local_cli_preferred": true,
+    "normal_human_gates": ["ARCHITECTURE_REVIEW", "PUBLICATION_PREVIEW"],
+    "autonomous_until_gate": true,
+    "exception_gate_principle": "Use only when a genuine Owner/editorial/publication decision cannot be derived safely from repository authority.",
+    "deterministic_failure_principle": "Retry or repair edition-local/transient failures autonomously when editorial scope and approved bytes do not change; shared Core defects return to Core maintenance."
+  },
+  "implementation_control_roots": ["config", "schemas", "scripts", ".github/workflows"],
+  "workflow_control": {
+    "dispatch_ref": "main",
+    "operator_execution_bridge_workflow": "survey-production-v2-operator-bridge.yml",
+    "operator_execution_trusted_workflow": "survey-production-v2-operator-bridge.yml",
+    "publication_preview_export_workflow": "survey-production-v2-export-publication-preview.yml",
+    "release_workflow": "survey-production-v2-release.yml",
+    "release_reconciliation": {
+      "external_key": "release_identity",
+      "existing_release_policy": "VERIFY_EXACT_BYTES_THEN_RESUME"
+    },
+    "handler_dispatch": {
+      "stage:release": "survey-production-v2-release.yml"
+    }
+  },
+  "external_source_intake": {
+    "x_grok": {
+      "provider": "xAI",
+      "transport": "GOOGLE_DRIVE",
+      "drive_root_name": "Grok_X_SourseIntake",
+      "drive_categories": {
+        "WEEKLY": "Weekly",
+        "RETROSPECTIVE_PERIOD": "Retrospective_Special",
+        "THEMATIC": "Thematic_Special"
+      },
+      "series_category": {
+        "GENERATIVE_AI_FOUNDATIONS": "Generative_AI_Foundations"
+      },
+      "profile_policy": {
+        "WEEKLY": "REQUIRED_BY_PROFILE",
+        "RETROSPECTIVE_PERIOD": "CHATGPT_DECIDES",
+        "THEMATIC": "CHATGPT_DECIDES"
+      },
+      "evidence_role": "DISCOVERY_AND_COMMUNITY_SIGNAL_ONLY",
+      "repository_write_authority": "CHATGPT_IMPORT_AFTER_GOOGLE_DRIVE_RECEIPT"
+    }
+  },
+  "research_profiles": {
+    "WEEKLY": {
+      "version": "2.0-rc1",
+      "temporal_policies": ["ROLLING_WINDOW"],
+      "role_namespace": "WEEKLY:",
+      "synthesis_payload_required": ["signals", "current_interpretation", "carry_over_summary"]
+    },
+    "RETROSPECTIVE_PERIOD": {
+      "version": "2.0-rc1",
+      "temporal_policies": ["BOUNDED_PERIOD"],
+      "role_namespace": "PERIOD:",
+      "synthesis_payload_required": ["period_synthesis", "cross_feature_relationships", "residual_boundaries"]
+    },
+    "THEMATIC": {
+      "version": "2.0-rc1",
+      "temporal_policies": ["OPEN_HISTORY_AS_OF", "CURRENT_STATE_AS_OF"],
+      "role_namespace": "THEMATIC:",
+      "synthesis_payload_required": ["branch_transition_synthesis", "parallel_competing_relations", "unresolved_lineage_questions", "historical_attribution_boundaries"]
+    }
+  },
+  "publication_profiles": {
+    "WEEKLY_MAGAZINE": {
+      "version": "2.0-rc1",
+      "role_namespace": "WEEKLY_MAGAZINE:",
+      "synthesis_payload_required": []
+    },
+    "LONGFORM_SPECIAL": {
+      "version": "2.0-rc1",
+      "role_namespace": "LONGFORM_SPECIAL:",
+      "synthesis_payload_required": []
+    }
+  },
+  "quality_review": {
+    "core": [
+      {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "kind": "DETERMINISTIC"},
+      {"check_id": "IDENTIFIER_PRESERVATION", "kind": "DETERMINISTIC"},
+      {"check_id": "SOURCE_SPECIFIC_FAIL_CLOSED_NOTES", "kind": "AGENT_SEMANTIC"},
+      {"check_id": "BIBLIOGRAPHY_METADATA", "kind": "AGENT_SEMANTIC"},
+      {"check_id": "POST_TRANSFORM_SEMANTIC_REVALIDATION", "kind": "AGENT_SEMANTIC"},
+      {"check_id": "PDF_PREFLIGHT", "kind": "DETERMINISTIC"}
+    ],
+    "research_profiles": {
+      "WEEKLY": [
+        {"check_id": "WEEKLY_WHY_THIS_ISSUE", "kind": "AGENT_SEMANTIC"},
+        {"check_id": "WEEKLY_LATE_BREAKING_SINGLE_HOME", "kind": "AGENT_SEMANTIC"},
+        {"check_id": "WEEKLY_WATCHLIST_READER_SEMANTICS", "kind": "AGENT_SEMANTIC"},
+        {"check_id": "WEEKLY_CARRY_OVER_DISPOSITION", "kind": "AGENT_SEMANTIC"}
+      ],
+      "RETROSPECTIVE_PERIOD": [
+        {"check_id": "PERIOD_SCOPE_LABEL_IDENTITY", "kind": "DETERMINISTIC"},
+        {"check_id": "CHRONOLOGY_SOURCE_MAPPING", "kind": "DETERMINISTIC"},
+        {"check_id": "REQUIRED_SYNTHESIS_SURVIVAL", "kind": "AGENT_SEMANTIC"}
+      ],
+      "THEMATIC": [
+        {"check_id": "THEMATIC_RESEARCH_CLOSURE", "kind": "AGENT_SEMANTIC"},
+        {"check_id": "THEMATIC_HISTORICAL_ATTRIBUTION", "kind": "AGENT_SEMANTIC"}
+      ]
+    },
+    "publication_profiles": {
+      "WEEKLY_MAGAZINE": [
+        {"check_id": "WEEKLY_RENDERED_PAGE_REVIEW", "kind": "AGENT_VISUAL"}
+      ],
+      "LONGFORM_SPECIAL": [
+        {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "kind": "DETERMINISTIC"},
+        {"check_id": "TOC_HIERARCHY", "kind": "AGENT_VISUAL"},
+        {"check_id": "TECHNICAL_NOTES_TAIL_NEEDSPACE", "kind": "AGENT_VISUAL"},
+        {"check_id": "LONGFORM_PAGE_BALANCE", "kind": "AGENT_VISUAL"}
+      ]
+    }
+  },
+  "human_gates": ["ARCHITECTURE_REVIEW", "PUBLICATION_PREVIEW"],
+  "terminal_reasons": ["HUMAN_GATE_REACHED", "EXCEPTION_GATE_REQUIRED", "COMPLETE"],
+  "lifecycle_states": [
+    "ISSUE_INITIALIZED",
+    "DISCOVERY_COLLECTED",
+    "CANDIDATES_NORMALIZED",
+    "EVIDENCE_REVIEWED",
+    "SELECTION_COMPLETE",
+    "ARCHITECTURE_ESTABLISHED",
+    "DRAFT_COMPLETE",
+    "VALIDATED_DRAFT",
+    "RELEASE_CANDIDATE",
+    "FROZEN",
+    "RELEASED"
+  ],
+  "orchestration": {
+    "retry_policies": {
+      "LOCAL_SCRIPT": {"retryable": true, "max_attempts": 3},
+      "WORKFLOW_DISPATCH": {"retryable": false, "max_attempts": 1}
+    },
+    "gate_at_state": {
+      "ARCHITECTURE_ESTABLISHED": "ARCHITECTURE_REVIEW",
+      "RELEASE_CANDIDATE": "PUBLICATION_PREVIEW"
+    },
+    "gate_inputs": {
+      "ARCHITECTURE_REVIEW": [
+        {"name": "issue-architecture", "path": "{source_root}/architecture-v2.json"},
+        {"name": "architecture-review-summary", "path": "{source_root}/architecture-review-summary-v2.json"},
+        {"name": "architecture-review-attention", "path": "{source_root}/architecture-review-attention-v2.json"}
+      ],
+      "PUBLICATION_PREVIEW": [
+        {"name": "publication-candidate", "path": "{source_root}/publication/v2/publication-candidate-v2.json"}
+      ]
+    },
+    "human_gate_revision_boundaries": {
+      "ARCHITECTURE_REVIEW": [
+        "ISSUE_INITIALIZED",
+        "DISCOVERY_COLLECTED",
+        "CANDIDATES_NORMALIZED",
+        "EVIDENCE_REVIEWED",
+        "SELECTION_COMPLETE"
+      ],
+      "PUBLICATION_PREVIEW": [
+        "ISSUE_INITIALIZED",
+        "DISCOVERY_COLLECTED",
+        "CANDIDATES_NORMALIZED",
+        "EVIDENCE_REVIEWED",
+        "SELECTION_COMPLETE",
+        "ARCHITECTURE_ESTABLISHED",
+        "DRAFT_COMPLETE",
+        "VALIDATED_DRAFT"
+      ]
+    },
+    "operator_pending_gate_invalidation_boundaries": {
+      "ARCHITECTURE_REVIEW": [
+        "ISSUE_INITIALIZED",
+        "DISCOVERY_COLLECTED",
+        "CANDIDATES_NORMALIZED",
+        "EVIDENCE_REVIEWED",
+        "SELECTION_COMPLETE"
+      ],
+      "PUBLICATION_PREVIEW": []
+    },
+    "canonical_regeneration_artifacts": [
+      {"name": "materiality-ledger", "path": "{source_root}/materiality-ledger-v2.json", "owner_state": "CANDIDATES_NORMALIZED"},
+      {"name": "profile-completeness", "path": "{source_root}/profile-completeness-v2.json", "owner_state": "CANDIDATES_NORMALIZED"},
+      {"name": "candidate-matrix", "path": "{source_root}/candidate-matrix-v2.json", "owner_state": "EVIDENCE_REVIEWED"},
+      {"name": "candidate-selection", "path": "{source_root}/candidate-selection-v2.json", "owner_state": "EVIDENCE_REVIEWED"},
+      {"name": "selection-architecture-input", "path": "{source_root}/orchestration/v2/interactive/selection-architecture-input.json", "owner_state": "EVIDENCE_REVIEWED"},
+      {"name": "issue-architecture", "path": "{source_root}/architecture-v2.json", "owner_state": "SELECTION_COMPLETE"},
+      {"name": "architecture-review-summary", "path": "{source_root}/architecture-review-summary-v2.json", "owner_state": "SELECTION_COMPLETE"},
+      {"name": "architecture-review-attention", "path": "{source_root}/architecture-review-attention-v2.json", "owner_state": "SELECTION_COMPLETE"}
+    ],
+    "stage_plan": {
+      "ISSUE_INITIALIZED": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:discovery",
+        "validator": "validate:discovery",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "DISCOVERY_COLLECTED",
+        "checkpoints": ["discovery"],
+        "artifacts": [
+          {"name": "discovery-acceptance", "path": "{source_root}/discovery/discovery-accepted-v2.json"}
+        ]
+      },
+      "DISCOVERY_COLLECTED": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:screening",
+        "validator": "validate:screening",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "CANDIDATES_NORMALIZED",
+        "checkpoints": ["screening"]
+      },
+      "CANDIDATES_NORMALIZED": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:evidence-materiality-completeness",
+        "validator": "validate:evidence-materiality-completeness",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "EVIDENCE_REVIEWED",
+        "checkpoints": ["evidence", "materiality", "completeness"]
+      },
+      "EVIDENCE_REVIEWED": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:selection",
+        "validator": "validate:selection",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "SELECTION_COMPLETE",
+        "checkpoints": ["selection"]
+      },
+      "SELECTION_COMPLETE": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:architecture",
+        "validator": "validate:architecture",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "ARCHITECTURE_ESTABLISHED",
+        "checkpoints": ["architecture"],
+        "artifacts": [
+          {"name": "issue-architecture", "path": "{source_root}/architecture-v2.json"},
+          {"name": "architecture-review-summary", "path": "{source_root}/architecture-review-summary-v2.json"},
+          {"name": "architecture-review-attention", "path": "{source_root}/architecture-review-attention-v2.json"}
+        ]
+      },
+      "ARCHITECTURE_ESTABLISHED": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:drafting-synthesis",
+        "validator": "validate:drafting-synthesis",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "DRAFT_COMPLETE",
+        "checkpoints": ["draft"]
+      },
+      "DRAFT_COMPLETE": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:reader-publication-validation",
+        "validator": "validate:reader-publication",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "VALIDATED_DRAFT",
+        "checkpoints": ["validation"],
+        "artifacts": [
+          {"name": "reader-manuscript", "path": "{source_root}/publication/v2/reader-manuscript-v2.json"},
+          {"name": "validated-source", "path": "{survey_root}/main.tex"},
+          {"name": "publication-pdf", "path": "{survey_root}/main.pdf"},
+          {"name": "quality-regression-bundle", "path": "{source_root}/publication/v2/quality-regression-bundle-v2.json"},
+          {"name": "semantic-review", "path": "{source_root}/publication/v2/semantic-editorial-review-v2.json"},
+          {"name": "visual-review", "path": "{source_root}/publication/v2/visual-review-v2.json"}
+        ]
+      },
+      "VALIDATED_DRAFT": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:publication-candidate",
+        "validator": "validate:publication-candidate",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "RELEASE_CANDIDATE",
+        "checkpoints": [],
+        "artifacts": [
+          {"name": "publication-candidate", "path": "{source_root}/publication/v2/publication-candidate-v2.json"}
+        ]
+      },
+      "RELEASE_CANDIDATE": {
+        "action_kind": "LOCAL_SCRIPT",
+        "handler": "stage:freeze",
+        "validator": "validate:freeze",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "FROZEN",
+        "checkpoints": ["freeze"],
+        "artifacts": [
+          {"name": "freeze-record", "path": "{source_root}/publication/v2/freeze-record-v2.json"},
+          {"name": "release-manifest", "path": "{source_root}/publication/v2/release-manifest-v2.json"}
+        ]
+      },
+      "FROZEN": {
+        "action_kind": "WORKFLOW_DISPATCH",
+        "handler": "stage:release",
+        "validator": "validate:release",
+        "validator_version": "2.0-rc1",
+        "handoff_required": false,
+        "next_state": "RELEASED",
+        "checkpoints": ["release"],
+        "retry_policy": {"retryable": true, "max_attempts": 2},
+        "idempotency": {"mode": "EXTERNAL_KEY", "key": "release_identity"},
+        "artifacts": [
+          {"name": "merge-verification", "path": "{source_root}/publication/v2/merge-verification-v2.json"},
+          {"name": "release-record", "path": "{source_root}/publication/v2/release-record-v2.json"}
+        ]
+      }
+    }
+  },
+  "state_authority": {
+    "authoritative_filename": "production-state.json",
+    "profile_filename": "production-profile.json",
+    "legacy_filename": "pipeline-state.json",
+    "legacy_mode": "NON_AUTHORITATIVE_READ_ONLY",
+    "checkpoint_attestation_dir": "orchestration/v2/attestations",
+    "agent_checkpoint_dir": "orchestration/v2/checkpoints",
+    "operator_invalidation_dir": "execution/operator-invalidations",
+    "architecture_approval_path": "gates/architecture-approval.json",
+    "publication_preview_approval_path": "gates/publication-preview-approval.json",
+    "human_review_dir": "gates/reviews",
+    "human_review_index_path": "gates/review-index.json"
+  }
+}

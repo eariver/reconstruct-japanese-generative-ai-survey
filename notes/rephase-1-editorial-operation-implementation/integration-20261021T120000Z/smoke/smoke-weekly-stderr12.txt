@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 281, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 227, in main
+    set_ref = edpub.finalize_publication(root, _rel(state_path), _rel(proposal_path), _rel(staged_manifest_path), _rel(det_checks_path), _rel(sem_path), _rel(vis_path), datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T150000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1992, in finalize_publication
+    raise _fail("REVIEW_NOT_PASS", "FINALIZE", "REFUSED_PRE_WRITE", f"{label} review decision is not PASS")
+scripts.survey_editorial_publication_v2.EditorialError: REVIEW_NOT_PASS: [FINALIZE/REFUSED_PRE_WRITE] semantic review decision is not PASS

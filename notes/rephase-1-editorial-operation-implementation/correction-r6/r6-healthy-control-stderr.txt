@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r6-20261023T000000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 676, in _verify_staged
+    return staged.verify_staged_source(root, proposal_rel, staged_rel)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r6-20261023T000000Z/candidate-partial-b40de60/scripts/survey_editorial_staged_source_v2.py", line 1880, in verify_staged_source
+    _check_runtime_binding(root_path, dep_pins, phase, disp)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r6-20261023T000000Z/candidate-partial-b40de60/scripts/survey_editorial_staged_source_v2.py", line 609, in _check_runtime_binding
+    raise _fail("RUNTIME_BINDING_PATH", phase, disp,
+                f"S2 module resolves away from pinned path: {rel}")
+scripts.survey_editorial_staged_source_v2.StagedSourceError: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 9, in <module>
+    v=high.validate_prepared_set(repo, r'sources/2026-W37/production-state.json', r'sources/2026-W37/publication/v2/editorial-corrections/wk-r5b-2/publication/publication-set.json')
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r6-20261023T000000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 2585, in validate_prepared_set
+    receipt = validate_editorial_receipt(repo, receipt_rel, state_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r6-20261023T000000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 893, in validate_editorial_receipt
+    proof = _verify_staged(repo, proposal_rel, staged_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r6-20261023T000000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 678, in _verify_staged
+    raise _fail("STAGED_REFUSED", "PIN", "REFUSED_PRE_WRITE", f"P3S staged proof refused: {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: RUNTIME_BINDING_PATH: [PIN/INVALID] S2 module resolves away from pinned path: scripts/render_article_draft_tex.py

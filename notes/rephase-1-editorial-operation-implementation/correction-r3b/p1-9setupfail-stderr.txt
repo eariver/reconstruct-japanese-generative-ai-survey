@@ -1,0 +1,203 @@
+EEEEEEEEE
+======================================================================
+ERROR: test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1452, in test_artifact_only_vs_control_drift_and_tree
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-drift-u8ifh57_/.latexmkrc
+
+======================================================================
+ERROR: test_candidate_observed_and_stale (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_candidate_observed_and_stale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1677, in test_candidate_observed_and_stale
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-cand-e86a8cb6/.latexmkrc
+
+======================================================================
+ERROR: test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1028, in test_honest_predecessor_original_vs_active
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-predecessor-w58m78vn/.latexmkrc
+
+======================================================================
+ERROR: test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_longform_semantic_publication_v2.py", line 348, in main
+    "closure": generated.current_closure(root),
+               ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_longform_generated_v2.py", line 529, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_longform_generated_v2.py", line 177, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_longform_generated_v2.py", line 142, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-longform-ga9tev6r/.latexmkrc
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 837, in test_longform_prose_correction_end_to_end
+    built = helper._advance_to_validated_draft(chain, state_path)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_longform_publication_integration_v2.py", line 493, in _advance_to_validated_draft
+    surface_path = self._pass1(chain, state_path)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_longform_publication_integration_v2.py", line 280, in _pass1
+    self.assertEqual(longform_publication.main(), 0)
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_longform_semantic_publication_v2.py", line 351, in main
+    raise SystemExit(f"Longform current implementation basis invalid: {exc}") from exc
+SystemExit: Longform current implementation basis invalid: .latexmkrc missing or unsafe: /tmp/jgas-p1-longform-ga9tev6r/.latexmkrc
+
+======================================================================
+ERROR: test_ordinary_reviews_stay_compatible (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_ordinary_reviews_stay_compatible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1331, in test_ordinary_reviews_stay_compatible
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-compat-dv39fags/.latexmkrc
+
+======================================================================
+ERROR: test_proposal_binding_and_retention (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_proposal_binding_and_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1353, in test_proposal_binding_and_retention
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-bind-h3_zndvb/.latexmkrc
+
+======================================================================
+ERROR: test_r1_mechanical_refresh_owner (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_r1_mechanical_refresh_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1742, in test_r1_mechanical_refresh_owner
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-r1-e0hrm2gu/.latexmkrc
+
+======================================================================
+ERROR: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1093, in test_refusal_and_scope_matrix
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-matrix-3gaai1__/.latexmkrc
+
+======================================================================
+ERROR: test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 936, in test_weekly_envelope_positive_and_body_negatives
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 203, in _build_weekly_validated
+    testcase.assertEqual(weekly_publication.main(), 0)
+                         ~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_semantic_publication_v2.py", line 118, in main
+    weekly._verify_head_bytes(root, core.repository_commit_sha(root), weekly.current_closure(root))
+                                                                      ~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 588, in current_closure
+    return [_artifact(root, path.as_posix(), root / path) for path in CURRENT_CLOSURE]
+            ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 141, in _artifact
+    safe = _safe(root, path, name)
+  File "/tmp/opencode/jgas-r3b-test-20261021T141500Z/candidate-partial-b40de60/scripts/survey_weekly_derivation_v2.py", line 110, in _safe
+    raise ValueError(f"{label} missing or unsafe: {raw}")
+ValueError: .latexmkrc missing or unsafe: /tmp/jgas-p1-weekly-18n2xwyu/.latexmkrc
+
+----------------------------------------------------------------------
+Ran 9 tests in 51.974s
+
+FAILED (errors=9)

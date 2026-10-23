@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 257, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 75, in main
+    outcome2 = proposal_mod.validate_proposal(root, state_path, proposal_path)
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T120000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 2087, in validate_proposal
+    result = _pipeline(col, root_path, Path(state_path), staged_authored, proposal_id, tree_entry,
+                       supplied_proposed.get("change_description"))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T120000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1706, in _pipeline
+    _require_retention_dests_absent(col, data["proposal"]["retention_plan"])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T120000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1447, in _require_retention_dests_absent
+    raise _fail("RETENTION_DEST_CONFLICT",
+                f"retention destination already present (no overwrite): {dest}")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: RETENTION_DEST_CONFLICT: retention destination already present (no overwrite): sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/retained/before/sources/2026-W37/production-state.json

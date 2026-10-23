@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W37",
+  "from_state": "DRAFT_COMPLETE",
+  "to_state": "VALIDATED_DRAFT",
+  "checkpoints": [
+    "validation"
+  ],
+  "recorded_at": "2026-09-18T21:10:00Z",
+  "implementation": {
+    "repository_commit_sha": "0d9857e6132fb314a2e2ba141da79c54f4ec5e06",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "3754c71733aa70e3e5397a6870d1c41f2e63686355cde9fa02f3c26bb6b9abac",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+  },
+  "artifacts": [
+    {
+      "name": "publication-pdf",
+      "path": "surveys/weekly/2026-W37/main.pdf",
+      "sha256": "b3e44df802e407df3d586bb3d4b3a7db17bc868565f04a061077f7d8de3e44bd"
+    },
+    {
+      "name": "quality-regression-bundle",
+      "path": "sources/2026-W37/publication/v2/quality-regression-bundle-v2.json",
+      "sha256": "910006dd58a81370f555bf2a4a0439d8dd54941da3ae5c9cf92f53f8122d008a"
+    },
+    {
+      "name": "reader-manuscript",
+      "path": "sources/2026-W37/publication/v2/reader-manuscript-v2.json",
+      "sha256": "60ecf0f405f33a96724c5b627618ade9ad2360103446b613ce48b8bda39de517"
+    },
+    {
+      "name": "reader-surface-gate",
+      "path": "sources/2026-W37/publication/v2/reader-surface-gate-v2.json",
+      "sha256": "c5c6e93e7c3c5824f05ead4eb6bef83deef7515aa2bfdc8840240d1a3e53b99c"
+    },
+    {
+      "name": "semantic-review",
+      "path": "sources/2026-W37/publication/v2/semantic-editorial-review-v2.json",
+      "sha256": "d5aba55b9db6f79fec437aebd48941c41a5f6fa7c453d53f14af30d92b38d251"
+    },
+    {
+      "name": "validated-source",
+      "path": "surveys/weekly/2026-W37/main.tex",
+      "sha256": "ed510c486c0c5545ddaed15f468b850e235255c5dd746409cc8136682e114f5f"
+    },
+    {
+      "name": "visual-review",
+      "path": "sources/2026-W37/publication/v2/visual-review-v2.json",
+      "sha256": "f03a45fa850fc16d23aac8c057a69d29540bf663f782ff11ac1a1d55335e1230"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "synthetic Weekly fixture using actual stage validator",
+      "evidence": "actual stage validator PASS for exact synthetic edition authorities",
+      "result": {
+        "path": "sources/2026-W37/orchestration/v2/reviews/DRAFT_COMPLETE-core-contract.json",
+        "sha256": "bd44797af6d141904ffa7a583e7eafdc02e79a82c43b58e449b7748da31aa07f"
+      }
+    }
+  ],
+  "summary": "Synthetic Weekly DRAFT_COMPLETE fixture stage was validated."
+}

@@ -1,0 +1,22 @@
+Old unlink+rewrite foreign-inode test fails on ext4 (inode reuse), passes on tmpfs.
+Run: REGRESS=/home/eariver/tmp-opencode/jgas-r5-regress-20261022T120000Z/candidate-partial-b40de60 (ext4, /home)
+Test: tests.test_survey_editorial_activation_faults_r4c.ActivationFaultsR4cTests.test_foreign_same_byte_record_identity_refused (old version: rec.unlink(); rec.write_bytes(payload))
+
+Output (captured 2026-10-22, TMPDIR=/home/eariver/tmp-r5-test):
+test_foreign_same_byte_record_identity_refused (...) ... FAIL
+AssertionError: True is not false : same-byte foreign inode must not match ownership (inode+bytes, not bytes alone)
+Ran 4 tests, FAILED (failures=1) [other 3 pass]
+
+Isolation check on ext4 (replacement dir on /home):
+ owned (2050, 20464300)
+ cur1 (2050, 20464300) match1 True
+ cur2 (2050, 20464300) match2 True (inode reused after unlink+rewrite, nlink 1)
+-> Same inode reused, so _record_identity_matches returns True (incorrectly matches foreign as owned).
+
+Same test on tmpfs (DST /tmp/opencode, tmpfs):
+ owned (45, 1414078) cur1 (45, 1414078) match1 True
+ cur2 (45, 1414079) match2 False -> passes (new inode).
+
+Fix: replacement file WHILE original exists + os.replace (actual foreign new inode, no mock).
+New test passes on both ext4 and tmpfs (verified).
+Old test file preserved as test_survey_editorial_activation_faults_r4c.py.pre-r5fix.

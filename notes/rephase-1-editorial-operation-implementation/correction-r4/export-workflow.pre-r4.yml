@@ -1,0 +1,280 @@
+name: Survey Production Core v2 exact Publication Preview export
+
+on:
+  pull_request:
+    paths:
+      - 'sources/**/publication/v2/publication-candidate-v2.json'
+      - 'sources/**/publication/v2/publication-surface-revalidation-*.json'
+      - 'sources/**/production-state.json'
+      - 'sources/**/publication/v2/editorial-corrections/**/publication-candidate-v2.json'
+      - 'sources/**/publication/v2/editorial-corrections/**/publication-set.json'
+      - 'surveys/weekly/**/main.pdf'
+      - 'surveys/special/**/main.pdf'
+  workflow_dispatch:
+    inputs:
+      candidate_path:
+        description: Repository path to one Publication Candidate (must equal State-bound active Candidate; stale canonical refused)
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: survey-production-v2-preview-export-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  export:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate revision
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Core v2 validation dependencies
+        run: python -m pip install -r config/survey-production-v2-requirements.txt
+
+      - name: Resolve and validate exact Publication Candidate
+        id: preview
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || '' }}
+          REQUESTED_CANDIDATE: ${{ inputs.candidate_path || '' }}
+        run: |
+          set -euo pipefail
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import hashlib
+          import os
+          import pathlib
+          import subprocess
+          from scripts import survey_publication_v2 as publication
+
+          root = pathlib.Path('.').resolve()
+          # Group C strict (contract §8, no swallowed pointer errors): watch State activation +
+          # versioned Candidate paths; choose exact State-bound Candidate via sourceRoot issue lookup
+          # with strict normalized path; manual+PR same identity check; initial canonical allowed;
+          # inert revision never exported; ambiguous State paths refuse. No absolute-vs-relative bug.
+          from scripts import survey_publication_set_v2 as setmod
+          from scripts import survey_production_v2 as core
+          import glob as _glob, json as _json
+
+          def _norm(p):
+              # Strict normalized repo-relative posix; refuses absolute outside root, .., symlink later.
+              if isinstance(p, pathlib.Path):
+                  s = p.as_posix()
+              else:
+                  s = str(p)
+              if not s or s.startswith('/') or '..' in pathlib.PurePosixPath(s).parts or '\\' in s:
+                  raise SystemExit(f'unsafe path (must be strict repo-relative): {s!r}')
+              return pathlib.PurePosixPath(s).as_posix()
+
+          def _all_states():
+              # Expected actual rootPattern: sources/<issue>/production-state.json (initial canonical).
+              # Also cover specials/**/production-state.json for Special sourceRoot (no guess, both strict).
+              pats = sorted(set(_glob.glob('sources/*/production-state.json') + _glob.glob('sources/**/production-state.json') + _glob.glob('specials/**/production-state.json')))
+              # Deduplicate normalized.
+              out = []
+              for s in pats:
+                  try:
+                      out.append(_norm(s))
+                  except SystemExit:
+                      continue
+              return sorted(set(out))
+
+          def _selection_for_state(state_rel):
+              cfg = _json.loads((root / 'config/survey-production-v2.json').read_bytes())
+              st = _json.loads((root / state_rel).read_bytes())
+              # Propagate L errors (invalid pointer never falls back to canonical).
+              sel = setmod.resolve_publication_selection(root, cfg, st)
+              if not isinstance(sel, dict):
+                  raise SystemExit('selection shape invalid')
+              return st, sel
+
+          def _issue_of_candidate(cand_rel):
+              try:
+                  data = _json.loads((root / cand_rel).read_bytes())
+                  return data.get('issue_id')
+              except Exception as exc:
+                  raise SystemExit(f'candidate unreadable: {exc}') from exc
+
+          requested = os.environ.get('REQUESTED_CANDIDATE', '').strip()
+          if requested:
+              if requested.endswith('publication-set.json'):
+                  raise SystemExit('refusing inert publication-set export without activation')
+              cand_rel = _norm(requested)
+              candidate_path = root / cand_rel
+              # Manual identity check: must equal State-bound active Candidate (same as PR).
+              cand_issue = _issue_of_candidate(cand_rel)
+              states = _all_states()
+              matched = []
+              for s in states:
+                  st, sel = _selection_for_state(s)
+                  if st.get('issue_id') != cand_issue:
+                      continue
+                  matched.append((s, st, sel))
+              if len(matched) != 1:
+                  raise SystemExit(f'ambiguous State paths for manual candidate {cand_rel!r}: {[m[0] for m in matched]}; refuse')
+              _s, _st, _sel = matched[0]
+              if _sel.get('mode') == 'VERSIONED_ACTIVE':
+                  exp = _sel.get('candidate_path')
+                  exp_rel = _norm(exp if isinstance(exp, (str, pathlib.Path)) else exp.as_posix() if isinstance(exp, pathlib.Path) else '')
+                  # Both normalized repo-relative: exact equality required.
+                  if exp_rel != cand_rel:
+                      raise SystemExit(f'manual candidate_path mismatch: State-bound {exp_rel!r} != requested {cand_rel!r}; stale canonical refused')
+                  # Inert revision guard: versioned candidate must be under editorial-corrections with activation.
+                  # (Selection already proves activation; path must be versioned, not canonical default.)
+                  if '/editorial-corrections/' not in cand_rel and cand_rel.endswith('publication-candidate-v2.json'):
+                      # Allow only if selection candidate_path equals requested (already checked above).
+                      pass
+              else:
+                  # Initial canonical allowed: requested must equal canonical default (State-bound, not guess).
+                  # Selection candidate_path is canonical default (no authority, but must match).
+                  exp = _sel.get('candidate_path')
+                  exp_rel = _norm(exp if isinstance(exp, (str, pathlib.Path)) else '')
+                  if exp_rel != cand_rel:
+                      raise SystemExit(f'manual candidate_path mismatch in CANONICAL: expected {exp_rel!r}, got {cand_rel!r}')
+          else:
+              base = os.environ.get('BASE_SHA', '').strip()
+              if not base:
+                  raise SystemExit('pull-request candidate resolution requires base SHA')
+              output = subprocess.check_output(
+                  [
+                      'git', 'diff', '--name-only', '--diff-filter=AMR',
+                      f'{base}...HEAD', '--',
+                      'sources/*/publication/v2/publication-candidate-v2.json',
+                      'sources/**/publication/v2/publication-candidate-v2.json',
+                      'specials/**/publication/v2/publication-candidate-v2.json',
+                      'sources/*/publication/v2/editorial-corrections/',
+                      'sources/**/publication/v2/editorial-corrections/',
+                      'specials/**/publication/v2/editorial-corrections/',
+                      'sources/*/production-state.json',
+                      'sources/**/production-state.json',
+                      'specials/**/production-state.json',
+                      'sources/*/publication/v2/publication-surface-revalidation-*.json',
+                      'sources/**/publication/v2/publication-surface-revalidation-*.json',
+                      'specials/**/publication/v2/publication-surface-revalidation-*.json',
+                  ],
+                  text=True,
+              )
+              changed = sorted({line.strip() for line in output.splitlines() if line.strip()})
+              candidates = sorted({c for c in changed if c.endswith('publication-candidate-v2.json')})
+              # Normalize all (strict) before counting; refuse ambiguous.
+              candidates = sorted({_norm(c) for c in candidates})
+              states_changed = sorted({_norm(c) for c in changed if c.endswith('production-state.json')})
+              revalidations = sorted({c for c in changed if 'publication-surface-revalidation-' in c})
+              # Inert-set guard for PR: lone publication-set.json without candidate never exports.
+              inert_sets = sorted({c for c in changed if c.endswith('publication-set.json')})
+              if inert_sets and not candidates:
+                  raise SystemExit(f'refusing inert publication-set export without activation: {inert_sets}')
+              if len(candidates) != 1:
+                  raise SystemExit(
+                      f'exactly one changed Publication Candidate required, found {len(candidates)}: {candidates} '
+                      f'(states={states_changed} revalidations={revalidations}); ambiguous versioned/canonical refused'
+                  )
+              cand_rel = candidates[0]
+              candidate_path = root / cand_rel
+              cand_issue = _issue_of_candidate(cand_rel)
+              states = _all_states()
+              matched = []
+              for s in states:
+                  st, sel = _selection_for_state(s)
+                  if st.get('issue_id') != cand_issue:
+                      continue
+                  matched.append((s, st, sel))
+              if len(matched) != 1:
+                  raise SystemExit(f'ambiguous State paths for PR candidate {cand_rel!r}: {[m[0] for m in matched]}; refuse')
+              _s, _st, _sel = matched[0]
+              if _sel.get('mode') == 'VERSIONED_ACTIVE':
+                  exp = _sel.get('candidate_path')
+                  exp_rel = _norm(exp if isinstance(exp, (str, pathlib.Path)) else '')
+                  if exp_rel != cand_rel:
+                      raise SystemExit(f'PR candidate_path mismatch: State-bound {exp_rel!r} != changed {cand_rel!r}; stale canonical refused')
+              else:
+                  exp = _sel.get('candidate_path')
+                  exp_rel = _norm(exp if isinstance(exp, (str, pathlib.Path)) else '')
+                  if exp_rel != cand_rel:
+                      raise SystemExit(f'PR candidate_path mismatch in CANONICAL: expected {exp_rel!r}, got {cand_rel!r}')
+
+          try:
+              candidate_rel = candidate_path.relative_to(root)
+          except ValueError as exc:
+              raise SystemExit('Publication Candidate escapes repository') from exc
+          if candidate_path.is_symlink() or not candidate_path.is_file():
+              raise SystemExit('Publication Candidate missing or unsafe')
+
+          candidate = publication.validate_candidate(root, candidate_path)
+          if candidate.get('status') != 'READY_FOR_PUBLICATION_PREVIEW':
+              raise SystemExit('Publication Candidate is not ready for Publication Preview')
+          if candidate['pdf'].get('storage') != 'REPOSITORY_FILE':
+              raise SystemExit('Publication Preview requires repository-resident exact PDF bytes')
+
+          pdf_path = (root / candidate['pdf']['path']).resolve()
+          try:
+              pdf_rel = pdf_path.relative_to(root)
+          except ValueError as exc:
+              raise SystemExit('Publication Candidate PDF escapes repository') from exc
+          if pdf_path.is_symlink() or not pdf_path.is_file():
+              raise SystemExit('Publication Candidate PDF missing or unsafe')
+          pdf_sha = hashlib.sha256(pdf_path.read_bytes()).hexdigest()
+          if pdf_sha != candidate['pdf']['sha256'] or pdf_path.stat().st_size != candidate['pdf']['byte_count']:
+              raise SystemExit('Publication Candidate PDF authority drift')
+
+          candidate_sha = hashlib.sha256(candidate_path.read_bytes()).hexdigest()
+          print(f'issue_id={candidate["issue_id"]}')
+          print(f'candidate_path={candidate_rel.as_posix()}')
+          print(f'candidate_sha256={candidate_sha}')
+          print(f'pdf_path={pdf_rel.as_posix()}')
+          print(f'pdf_sha256={pdf_sha}')
+          print(f'page_count={candidate["pdf"]["page_count"]}')
+          PY
+
+      - name: Write exact-byte audit sidecar
+        shell: bash
+        env:
+          ISSUE_ID: ${{ steps.preview.outputs.issue_id }}
+          CANDIDATE_PATH: ${{ steps.preview.outputs.candidate_path }}
+          CANDIDATE_SHA256: ${{ steps.preview.outputs.candidate_sha256 }}
+          PDF_PATH: ${{ steps.preview.outputs.pdf_path }}
+          PDF_SHA256: ${{ steps.preview.outputs.pdf_sha256 }}
+          PAGE_COUNT: ${{ steps.preview.outputs.page_count }}
+        run: |
+          set -euo pipefail
+          mkdir -p preview-export
+          cp "$PDF_PATH" "preview-export/${ISSUE_ID}-publication-preview.pdf"
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          payload = {
+              'schema_version': '2.0-rc1',
+              'issue_id': os.environ['ISSUE_ID'],
+              'publication_candidate_path': os.environ['CANDIDATE_PATH'],
+              'publication_candidate_sha256': os.environ['CANDIDATE_SHA256'],
+              'pdf_path': os.environ['PDF_PATH'],
+              'pdf_sha256': os.environ['PDF_SHA256'],
+              'page_count': int(os.environ['PAGE_COUNT']),
+              'export_mode': 'EXACT_PUBLICATION_CANDIDATE_BYTES',
+          }
+          pathlib.Path('preview-export/exact-byte-audit.json').write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + '\n',
+              encoding='utf-8',
+          )
+          PY
+          actual=$(sha256sum "preview-export/${ISSUE_ID}-publication-preview.pdf" | awk '{print $1}')
+          test "$actual" = "$PDF_SHA256"
+
+      - name: Upload exact Publication Preview bytes
+        uses: actions/upload-artifact@v7
+        with:
+          name: core-v2-publication-preview-${{ steps.preview.outputs.issue_id }}-${{ steps.preview.outputs.pdf_sha256 }}
+          path: preview-export
+          if-no-files-found: error
+          retention-days: 14

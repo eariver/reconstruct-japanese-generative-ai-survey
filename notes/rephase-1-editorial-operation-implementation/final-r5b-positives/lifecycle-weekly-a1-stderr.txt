@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/final-r5b-positives/lifecycle-r5b-20261022T150000Z.py", line 123, in main
+    return _run(route, R, root, notes, exp_head, exp_tree, exp_count, inert_manifest,
+                core, pubmod, setmod, stage_validation, agent, profiled,
+                release_ckpt, reader_gate, edpub, orch, handoff, humangate)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/final-r5b-positives/lifecycle-r5b-20261022T150000Z.py", line 239, in _run
+    assert isinstance(exp_rows, list) and all(set(r) == {"name", "path"} or "sha256" in r for r in exp_rows), exp_rows
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: [{'name': 'freeze-record', 'checkpoint': None, 'path': 'sources/2026-W37/publication/v2/freeze-record-v2.json', 'required': True}, {'name': 'release-manifest', 'checkpoint': None, 'path': 'sources/2026-W37/publication/v2/release-manifest-v2.json', 'required': True}]

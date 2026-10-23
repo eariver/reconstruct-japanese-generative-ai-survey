@@ -1,0 +1,42 @@
+test_foreign_before_candidate_refused (tests.test_survey_publication_set_v2.ActivationTests.test_foreign_before_candidate_refused) ... ok
+test_full_activation_validates_and_selects_active (tests.test_survey_publication_set_v2.ActivationTests.test_full_activation_validates_and_selects_active) ... ok
+test_repeated_activation_before_state (tests.test_survey_publication_set_v2.ActivationTests.test_repeated_activation_before_state) ... ok
+test_seal_trio_mismatch_refused (tests.test_survey_publication_set_v2.ActivationTests.test_seal_trio_mismatch_refused) ... ok
+test_stage_resolver (tests.test_survey_publication_set_v2.ActivationTests.test_stage_resolver) ... ok
+test_derive_anchor_empty_chain_returns_validation (tests.test_survey_publication_set_v2.AnchorTests.test_derive_anchor_empty_chain_returns_validation) ... ok
+test_later_legacy_after_editorial_refused (tests.test_survey_publication_set_v2.AnchorTests.test_later_legacy_after_editorial_refused) ... ok
+test_normalize_rejects_unknown_branch (tests.test_survey_publication_set_v2.AnchorTests.test_normalize_rejects_unknown_branch) ... ok
+test_parse_sequence_rules (tests.test_survey_publication_set_v2.AnchorTests.test_parse_sequence_rules) ... ok
+test_before_digest_deterministic_and_candidate_sensitive (tests.test_survey_publication_set_v2.DigestTests.test_before_digest_deterministic_and_candidate_sensitive) ... ok
+test_before_digest_rejects_wrong_shape (tests.test_survey_publication_set_v2.DigestTests.test_before_digest_rejects_wrong_shape) ... ok
+test_non_cumulative_legacy_refused (tests.test_survey_publication_set_v2.LegacyAnchorTests.test_non_cumulative_legacy_refused) ... ok
+test_r1_anchor_and_live_effective (tests.test_survey_publication_set_v2.LegacyAnchorTests.test_r1_anchor_and_live_effective) ... FAIL
+test_raw_refusals (tests.test_survey_publication_set_v2.RawLoaderTests.test_raw_refusals) ... ok
+test_legacy_schema_validates_old_record_shape (tests.test_survey_publication_set_v2.RevalidationSchemaTests.test_legacy_schema_validates_old_record_shape) ... ok
+test_revalidation_has_two_strict_branches (tests.test_survey_publication_set_v2.RevalidationSchemaTests.test_revalidation_has_two_strict_branches) ... ok
+test_seal_schema_requires_exact_15 (tests.test_survey_publication_set_v2.SealSchemaTests.test_seal_schema_requires_exact_15) ... ok
+test_seal_schema_top_keys_exact (tests.test_survey_publication_set_v2.SealSchemaTests.test_seal_schema_top_keys_exact) ... ok
+test_agent_review_cannot_fake_deterministic_result (tests.test_survey_agent_control_v2.SurveyAgentControlV2Tests.test_agent_review_cannot_fake_deterministic_result) ... ok
+test_compact_checkpoint_cannot_advance_on_review_only_without_stage_authority (tests.test_survey_agent_control_v2.SurveyAgentControlV2Tests.test_compact_checkpoint_cannot_advance_on_review_only_without_stage_authority) ... ok
+test_new_contract_version_can_validate_next_stage_without_rewriting_initial_profile (tests.test_survey_agent_control_v2.SurveyAgentControlV2Tests.test_new_contract_version_can_validate_next_stage_without_rewriting_initial_profile) ... ok
+test_normal_progress_stops_at_architecture_human_gate_not_internal_stages (tests.test_survey_agent_control_v2.SurveyAgentControlV2Tests.test_normal_progress_stops_at_architecture_human_gate_not_internal_stages) ... ok
+test_stage_checkpoint_records_current_implementation_not_initialization_pin (tests.test_survey_agent_control_v2.SurveyAgentControlV2Tests.test_stage_checkpoint_records_current_implementation_not_initialization_pin) ... ok
+
+======================================================================
+FAIL: test_r1_anchor_and_live_effective (tests.test_survey_publication_set_v2.LegacyAnchorTests.test_r1_anchor_and_live_effective)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_publication_set_v2.py", line 396, in test_r1_anchor_and_live_effective
+    self.assertEqual(selection["canonical7"]["publication-pdf"]["sha256"],
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                     json.loads((fix.root / f"{SOURCE_ROOT}/checkpoints-validation.json").read_text())["artifacts"][2]["sha256"])
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '5c022cfc09808fbce95541264d43486c516061ee0b206f879f162aa911b0c78f' != '17e6dd85cf02e6846e4688c3c40ce14e5f04360fdf5bab34ddf45abb2878bca6'
+- 5c022cfc09808fbce95541264d43486c516061ee0b206f879f162aa911b0c78f
++ 17e6dd85cf02e6846e4688c3c40ce14e5f04360fdf5bab34ddf45abb2878bca6
+
+
+----------------------------------------------------------------------
+Ran 23 tests in 1.947s
+
+FAILED (failures=1)

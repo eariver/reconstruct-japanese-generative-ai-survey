@@ -1,0 +1,103 @@
+===0 SOURCE===
+HEAD=ce90246b907c86e9bdeb930dec0e83a5637f2805 TREE=53349a4efbdd5e3b4153a8e5975101fdd59f132b
+PINS_OK final R6 low ecd7faca agent c132c944 P1 23e3a45f closure22 contract67 TL OK
+===1 BOOTSTRAP===
+{
+  "issue_id": "2026-W37",
+  "structured_surface": "sources/2026-W37/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "2026-W37",
+  "source_root": "sources/2026-W37",
+  "survey_root": "surveys/weekly/2026-W37",
+  "source_manifest": "sources/2026-W37/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/weekly/2026-W37/main.tex",
+  "bibliography": "surveys/weekly/2026-W37/references.bib",
+  "style": "surveys/weekly/2026-W37/jgaisurvey.sty",
+  "subject_result": "sources/2026-W37/publication/v2/quality/subject-entity-property-binding.json",
+  "identifier_tokens": [
+    "2026-W37",
+    "Target Model"
+  ]
+}
+BOOTSTRAP_OK sources/2026-W37/production-state.json
+===R1a COMMIT (actual helper)===
+R1a_HEAD=fcc480b18de1f59e813b0940fb1693a711f91571
+R1a_REFRESH rc=0 dt=7.8s out={"result": "OK", "keys": ["gate", "receipt", "retention", "revalidation_record", "state", "supersedes"]}
+ err_tail=
+R1a_RECORD={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json', 'sha256': 'd0c824702798f9993fdc5cf55fc73de199d1ef4ae0d0f25366053a83b6fed915'}
+R1a_CUMULATIVE_FULL_UNION_OK 1+6=7
+R1a_RETENTION_OK sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-r1a-verify/retained/retention-manifest.json
+===R1b COMMIT (second distinct)===
+R1b_HEAD=30a7b957de1b58ac0533cc0d3f5d33b495109b41
+R1b_REFRESH rc=0 dt=8.8s out={"result": "OK", "keys": ["gate", "receipt", "retention", "revalidation_record", "state", "supersedes"]}
+
+R1b_SUPERSEDES_FIRST_OK
+R1b_CUMULATIVE_FULL_UNION_OK
+R1b_RETENTION_OK sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-r1b-verify/retained/retention-manifest.json
+OLD_RETENTION_REFUSAL_OK RetentionError
+===VERSIONED CORRECTION (changed reader)===
+CORR_PROPOSAL=sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/proposal.json
+CORR_P2R_OK sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+SCOPE=sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/scope-review-v2.json
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE_OK dt=32.0s {"proposal_dir": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6", "publication_dir": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/publication", "build": {"pdf": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/publication/build/main.pdf", "log": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/publication/build/main.log", "digest": "sources/2026-W37/publication/v2/editori
+REAL_PDF pages=5 bytes=61239
+REVIEW SEMANTIC_EDITORIAL
+REVIEW VISUAL
+FINALIZE_OK dt=22.2s {"set_ref": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/publication/publication-set.json", "set_sha256": "0faab09778a87db611d68ad50c6eed13fc20a851d7ec6372b0650ece80004180"}
+INERT_HEALTHY
+ACTIVATE dt=33.9s {"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json", "state_path": "sources/2026-W37/production-state.json", "observed": "new"}
+ANCHOR_IS_R1B_OK R3_SUPERSEDES_R2_OK
+CANONICAL7_GATE reader-surface-gate={'path': 'sources/2026-W37/publication/v2/reader-surface-gate-v2.json', 'sha256': '952feb7484b65ec64e45927cdf631d10e1e84fe89378f91075ddb478a794b143', 'byte_count': 5006, 'origin': 'ORIGINAL'} IS_R1B_NOT_ORIGINAL
+ACTIVE15_OK ['authoring-input', 'bibliography', 'build-log', 'pdf-digest', 'publication-candidate', 'publication-pdf', 'quality-regression-bundle', 'reader-input', 'reader-manuscript', 'reader-surface-gate', 'semantic-review', 'source-receipt', 'style', 'validated-source', 'visual-review']
+ACTIVE_CANDIDATE_OK {'path': 'sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/publication/publication-candidate-v2.json', 'sha256': 'dc684ab0ed901a8607e57468fc519cdc645b9144ca815d6d39f52f458c73c810'}
+DERIVED_ANCHOR_MATCH historical links OK unchanged research implied via P1 scope/basis
+ORIGINAL_CANONICAL_AFTER_R1B_UNCHANGED_OK
+RECEIPT_HEALTHY_AFTER
+GATE_PASSED_AFTER
+CANDIDATE_AFTER READY_FOR_PUBLICATION_PREVIEW
+HISTORY_AFTER HISTORICAL_VALID
+ALREADY_ACTIVE_READONLY_OK {'status': 'ALREADY_ACTIVE', 'record_path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json', 'state_path': 'sources/2026-W37/production-state.json', 'observed': 'new'}
+CLI_R1_AFTER rc=2 out= err=R1 mechanical refresh refused in VERSIONED_ACTIVE/invalid mode before any write: canonical operation refused in revised mode (use versioned editorial operation) (versioned renewal unselected §10; no editorial-reason bypass)
+
+CLI_R1_AFTER_REFUSE_PREWRITE_OK oldState no guards
+CLI_CANON_AFTER rc=2 out=
+CLI_CANON_AFTER_REFUSE_PREWRITE_OK
+CLI_FAKE rc=2 out=
+CLI_FAKE_REFUSE_PREWRITE_OK
+SUMMARY {
+  "source_head": "ce90246b907c86e9bdeb930dec0e83a5637f2805",
+  "r1a": "fcc480b18de1f59e813b0940fb1693a711f91571",
+  "r1b": "30a7b957de1b58ac0533cc0d3f5d33b495109b41",
+  "r1a_record": {
+    "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json",
+    "sha256": "d0c824702798f9993fdc5cf55fc73de199d1ef4ae0d0f25366053a83b6fed915"
+  },
+  "r1b_record": {
+    "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+    "sha256": "35fef3dd4a000a8ac807000ea9dce03490ac33bdefd5e3c668b66417350c0273"
+  },
+  "anchor": {
+    "kind": "LEGACY_REVALIDATION",
+    "ref": {
+      "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+      "sha256": "35fef3dd4a000a8ac807000ea9dce03490ac33bdefd5e3c668b66417350c0273"
+    }
+  },
+  "set": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-finalr6/publication/publication-set.json",
+  "record": "sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json",
+  "timings": {
+    "r1a": 7.7551782809896395,
+    "r1b": 8.770364494004752,
+    "prepare": 32.04192302399315,
+    "finalize": 22.204219476960134,
+    "activate": 33.86907874298049
+  },
+  "total": 222.18656975601334
+}
+FINAL_R6_DIAGNOSTIC_BOUNDED_DONE terminal 0 no whole PASS no HumanCommitPoint production NO_GO

@@ -1,0 +1,240 @@
+=== R3 editorial-op implementation copy preparation ===
+stamp_utc=20261020T131527Z
+src=/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60
+dst_root=/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z (NEW unique root)
+dst=/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60
+repro_root=/home/eariver/git/reconstruct-japanese-generative-ai-survey
+--- inherited git env (must be empty for GIT_DIR etc) ---
+GIT_DIR=unset
+GIT_WORK_TREE=unset
+GIT_INDEX_FILE=unset
+GIT_OBJECT_DIRECTORY=unset
+GIT_ALTERNATE_OBJECT_DIRECTORIES=unset
+GIT_COMMON_DIR=unset
+GIT_PREFIX=unset
+--- workspace head (reconstruct, read-only) ---
+df635550c4683a43da731f33c90f88703e303034
+exit_head=0
+df63555 Astra work RE: Phase 1 continuation (human commit)
+1442468 Astra work RE: Phase 1 continuation (human commit)
+4b83a52 Astra work RE: Phase 1 continuation (human commit)
+exit_log=0
+?? notes/rephase-1-editorial-operation-implementation/prep-stderr-20261020T131500Z.txt
+?? notes/rephase-1-editorial-operation-implementation/prep-stdout-20261020T131500Z.txt
+?? notes/rephase-1-editorial-operation-implementation/prepare_implementation_copy_20261020T131500Z.sh
+exit_ws_status=0
+--- source identity (sanitized, read-only) ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+exit_src_head=0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+exit_src_tree=0
+exit_src_symbolic=1 (1 expected detached)
+ M schemas/reader-surface-gate-v2.schema.json
+ M schemas/reader-surface-semantic-review-v2.schema.json
+ M scripts/survey_reader_surface_gate_v2.py
+ M templates/survey/jgaisurvey.sty
+?? schemas/editorial-correction-proposal-v2.schema.json
+?? schemas/editorial-retention-manifest-v2.schema.json
+?? schemas/editorial-staged-source-manifest-v2.schema.json
+?? schemas/longform-publication-source-manifest-v2.schema.json
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_editorial_correction_proposal_v2.py
+?? scripts/survey_editorial_current_authority_v2.py
+?? scripts/survey_editorial_retention_v2.py
+?? scripts/survey_editorial_staged_source_v2.py
+?? scripts/survey_longform_derivation_v2.py
+?? scripts/survey_longform_generated_v2.py
+?? scripts/survey_longform_semantic_publication_v2.py
+?? tests/test_survey_editorial_correction_proposal_v2.py
+?? tests/test_survey_editorial_current_authority_v2.py
+?? tests/test_survey_editorial_retention_v2.py
+?? tests/test_survey_editorial_staged_source_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+?? tests/test_survey_longform_publication_integration_v2.py
+exit_src_status=0
+22
+exit_src_status_count=0
+exit_src_cached=0 (empty expected)
+schemas/reader-surface-gate-v2.schema.json
+schemas/reader-surface-semantic-review-v2.schema.json
+scripts/survey_reader_surface_gate_v2.py
+templates/survey/jgaisurvey.sty
+exit_src_diff=0
+4
+exit_src_diff_count=0
+file:.git/config	core.repositoryformatversion=1
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	extensions.worktreeconfig=true
+file:.git/config	remote.origin.url=https://example.invalid/rephase-candidate-recovery.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+file:.git/config.worktree	core.sparsecheckout=true
+file:.git/config.worktree	core.sparsecheckoutcone=true
+exit_src_config=0
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+exit_src_remote=0
+--- source git safety ---
+exclude
+sparse-checkout
+exit_src_gitinfo=0
+# git ls-files --others --exclude-from=.git/info/exclude
+# Lines that start with '#' are comments.
+# For a project mostly in C, the following would be a good set of
+# exclude patterns (uncomment them if you want to use them):
+# *.[oa]
+exit_src_exclude=0
+ls: cannot access '/tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/.git/objects/info/': No such file or directory
+exit_src_objects_info=2 (non-zero expected: no objects/info dir)
+cat: /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/.git/objects/info/alternates: No such file or directory
+exit_src_alternates1=1 (non-zero expected absent)
+cat: /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/.git/info/alternates: No such file or directory
+exit_src_alternates2=1 (non-zero expected absent)
+applypatch-msg.sample
+commit-msg.sample
+fsmonitor-watchman.sample
+post-update.sample
+pre-applypatch.sample
+pre-commit.sample
+pre-merge-commit.sample
+pre-push.sample
+pre-rebase.sample
+pre-receive.sample
+prepare-commit-msg.sample
+push-to-checkout.sample
+sendemail-validate.sample
+update.sample
+exit_src_hooks=0 (only *.sample expected)
+no_active_hooks (expected)
+exit_src_active_hooks=0
+774dd39a951c9ac3818e83dfffd4c7666efb0a20
+exit_src_shallow=0
+409b292756dd1277b9dfae87679934c0d2ce251c
+exit_src_HEADfile=0
+-rw-rw-r-- 1 eariver eariver 5859953 Oct 19 22:53 /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/.git/index
+exit_src_index=0
+--- source manifest / patch / static21 / style ---
+7c82ec47eb82dc56210b82063fe04c583d29cd36df5ce19f48297ebd4f000334  notes/rephase-1-initial-build-integration/source-packaging/complete22-409-clean.patch
+exit_patch_sha=0
+1233999 notes/rephase-1-initial-build-integration/source-packaging/complete22-409-clean.patch
+exit_patch_bytes=0
+pin_check OK=22 TOTAL=22 MISMATCHES=0
+exit_pins=0
+1c0e339ceb31ddb8d565580f4e0d0b2140085cc414bb766b46872fdc8a2ef1a5  notes/rephase-1-dm021-p3s/draft-history-r11/static21.json
+exit_static21=0
+035645caa06eb77e5416ae7a54bc1fb7b987e0b575a02bd4b512bccb5d683aec  /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/templates/survey/jgaisurvey.sty
+exit_style=0
+6569 /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/templates/survey/jgaisurvey.sty
+exit_style_bytes=0
+--- TL2026 probe (availability only, no installer/test/build) ---
+x86_64-linux
+exit_texbin=0
+jgaisurvey.sty
+main.aux
+main.bbl
+main.bcf
+main.blg
+main.fdb_latexmk
+main.fls
+main.log
+exit_weeklybuild=0
+jgaisurvey.sty
+main.aux
+main.bbl
+main.bcf
+main.blg
+main.fdb_latexmk
+main.fls
+main.log
+exit_specialbuild=0
+14
+exit_tmpcount=0
+--- create NEW DST root (no overwrite of existing) ---
+exit_mkdir=0
+--- filesystem copy (independent, no hardlinks, no git mutation) ---
+exit_cp=0
+--- DST verification (same identity, independent inodes) ---
+409b292756dd1277b9dfae87679934c0d2ce251c
+exit_dst_head=0
+8ce3699861505f32d1d60bdc185d4d4f635aedb2
+exit_dst_tree=0
+exit_dst_symbolic=1 (1 expected detached)
+ M schemas/reader-surface-gate-v2.schema.json
+ M schemas/reader-surface-semantic-review-v2.schema.json
+ M scripts/survey_reader_surface_gate_v2.py
+ M templates/survey/jgaisurvey.sty
+?? schemas/editorial-correction-proposal-v2.schema.json
+?? schemas/editorial-retention-manifest-v2.schema.json
+?? schemas/editorial-staged-source-manifest-v2.schema.json
+?? schemas/longform-publication-source-manifest-v2.schema.json
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/survey_editorial_correction_proposal_v2.py
+?? scripts/survey_editorial_current_authority_v2.py
+?? scripts/survey_editorial_retention_v2.py
+?? scripts/survey_editorial_staged_source_v2.py
+?? scripts/survey_longform_derivation_v2.py
+?? scripts/survey_longform_generated_v2.py
+?? scripts/survey_longform_semantic_publication_v2.py
+?? tests/test_survey_editorial_correction_proposal_v2.py
+?? tests/test_survey_editorial_current_authority_v2.py
+?? tests/test_survey_editorial_retention_v2.py
+?? tests/test_survey_editorial_staged_source_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+?? tests/test_survey_longform_publication_integration_v2.py
+exit_dst_status=0
+exit_dst_cached=0 (empty expected)
+schemas/reader-surface-gate-v2.schema.json
+schemas/reader-surface-semantic-review-v2.schema.json
+scripts/survey_reader_surface_gate_v2.py
+templates/survey/jgaisurvey.sty
+exit_dst_diff=0
+file:.git/config	core.repositoryformatversion=1
+file:.git/config	core.filemode=true
+file:.git/config	core.bare=false
+file:.git/config	core.logallrefupdates=true
+file:.git/config	extensions.worktreeconfig=true
+file:.git/config	remote.origin.url=https://example.invalid/rephase-candidate-recovery.git
+file:.git/config	remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+file:.git/config.worktree	core.sparsecheckout=true
+file:.git/config.worktree	core.sparsecheckoutcone=true
+exit_dst_config=0
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+exit_dst_remote=0
+dst_no_active_hooks (expected)
+exit_dst_active_hooks=0
+cat: /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/.git/objects/info/alternates: No such file or directory
+exit_dst_alternates1=1 (non-zero expected)
+cat: /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/.git/info/alternates: No such file or directory
+exit_dst_alternates2=1 (non-zero expected)
+409b292756dd1277b9dfae87679934c0d2ce251c
+exit_dst_HEADfile=0
+--- inode independence (sample: index + 3 worktree files + 1 object) ---
+45:117009 /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/.git/index
+45:553471 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/.git/index
+exit_inode_index=0
+45:116752 /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/scripts/survey_agent_control_v2.py
+45:553214 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_agent_control_v2.py
+exit_inode_agent=0
+45:116797 /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/templates/survey/jgaisurvey.sty
+45:553259 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/templates/survey/jgaisurvey.sty
+exit_inode_style=0
+45:116503 /tmp/opencode/jgas-style-correction-20261019T135318Z/candidate-partial-b40de60/schemas/publication-surface-revalidation.schema.json
+45:552965 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/schemas/publication-surface-revalidation.schema.json
+exit_inode_schema=0
+.git/index src=45:117009 dst=45:553471 shared=False
+scripts/survey_agent_control_v2.py src=45:116752 dst=45:553214 shared=False
+templates/survey/jgaisurvey.sty src=45:116797 dst=45:553259 shared=False
+schemas/publication-surface-revalidation.schema.json src=45:116503 dst=45:552965 shared=False
+SHARED_COUNT= 0
+exit_inode_compare=0
+--- DST pin recheck (22/22, no source mutation) ---
+dst_pin_check OK=22 TOTAL=22 MISMATCHES=0
+exit_dst_pins=0
+--- no source mutation recheck ---
+22
+exit_src_status_recheck=0
+DST_ROOT=/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z
+DST=/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60
+=== DONE (no code edits, no commits, no network) ===

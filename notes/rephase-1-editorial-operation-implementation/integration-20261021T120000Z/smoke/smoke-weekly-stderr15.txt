@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T154500Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 2019, in finalize_publication
+    gate_report = gate.evaluate_reader_surface_gate(
+        repo,
+    ...<4 lines>...
+        state_path=_safe(repo, state_rel_f, "Production State"),
+    )
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T154500Z/candidate-partial-b40de60/scripts/survey_reader_surface_gate_v2.py", line 1510, in evaluate_reader_surface_gate
+    raise ValueError("explicit structured reader surface differs from semantic review target")
+ValueError: explicit structured reader surface differs from semantic review target
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 281, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 227, in main
+    set_ref = edpub.finalize_publication(root, _rel(state_path), _rel(proposal_path), _rel(staged_manifest_path), _rel(det_checks_path), _rel(sem_path), _rel(vis_path), datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T154500Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 2028, in finalize_publication
+    raise _fail("GATE_BUILD", "FINALIZE", "REFUSED_PRE_WRITE", f"Gate pure evaluation failed: {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: GATE_BUILD: [FINALIZE/REFUSED_PRE_WRITE] Gate pure evaluation failed: explicit structured reader surface differs from semantic review target

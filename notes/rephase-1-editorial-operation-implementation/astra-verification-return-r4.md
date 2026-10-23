@@ -1,0 +1,21 @@
+# Verification return R4 — lifecycle/readback/recovery and storage
+
+Evidence on R3c runtime: both second prePreview corrections passed; R1×2→editorial activation now has healthy State/receipt/Gate/Candidate with the correct latest-legacy canonical anchor and pre-write canonical-writer refusals. These remain typed fixtures; production semantic NO-GO persists.
+
+The lifecycle worker's terminal0 is **not** a full clean lifecycle/readback PASS: its summary also reports export failure and Longform post-RELEASED receipt failure. Require every selected assertion to affect final result, with PARTIAL where a captured blocker remains. No source fixes were made by test workers.
+
+## Central source corrections authorized
+
+1. Preview export passes an absolute resolver Path into a relative-only normalizer. Normalize the internally resolved expected path relative to the verified repo root, retaining raw relative-only validation for caller input, exact State selection, containment/alias checks, ambiguity/inert-set refusal. Execute the actual workflow predicate; a helper that only notes “would refuse” is not enough.
+2. Standalone Longform receipt after RELEASED fails `Evidence package basis drift: state_sha256`. Diagnose current vs historical accepted-stage basis in the actual route loader. Preserve strict current State/current research/tool proof and historical checkpoint binding. Do not waive the error, forge a package basis, rewrite a receipt, or require an external caller to set a generic pending/ignore flag. Public receipt itself must work normally after activation and later lifecycle.
+3. Dynamically proved orphan fork: ordinary activate with old State and an already complete inert record for the same before/set creates another r3. Detect the exact existing operation intent and refuse before writes; require explicit `resume_activation` of that record. No filesystem “latest” selection, no automatic orphan adoption. Sequence allocation must not silently evade the selected collision/resume semantics.
+4. Observed fsync errors must propagate/classify, not `except OSError: pass`. If changing shared agent record/State writers, preserve old behavior except the warranted error reporting and run affected legacy regressions. No new durability/CAS guarantee is inferred.
+5. After record creation, recheck exact owned inode+expected bytes immediately before State write. Same-byte foreign replacement is not ownership. Preserve primary+secondary errors and old/new/unknown disposition; never delete a possibly referenced record. Prove via actual fault seams with no fake validators.
+
+Also retain source/evidence qualifications: source tree SHA transcription inconsistencies must be resolved from actual Git; a previous snapshot gained untracked bytecode, so “untouched/cache0” cannot be carried forward automatically. Test-cache purging contrary to instructions is a deviation, not evidence of clean execution. Do not rerun successful tests merely to conceal these histories.
+
+## Storage decision — preserve content, reclaim only known inactive scratch
+
+Worker D observed EDQUOT during new independent copies. A separate storage Worker may **archive and remove only explicitly inventoried inactive early R3 smoke copies created in this unit**, after full archive/member/content/mode verification and a final unchanged-tree check. This is archival compaction, not `git clean`, reset, raw deletion, or unknown-file cleanup. Preserve all packet raw files, active implementation/frozen source/positive/negative cases needed for current review, all original22/R2 inputs/fixtures, and toolchain. Save archive + SHA/member manifest + relocation mapping durably in the workspace before removing those known scratch copies. Do not extract/execute old artifacts. If identity/ownership/activity or lossless content check is uncertain, stop on that path.
+
+Record exact candidate directories and every removal outcome. Archived bytes support historical content access, not inode continuity or a certified restoration runner. Do not retroactively repair any previously lost raw. No broad `/tmp` sweep or unrequested user-data deletion. Whole operation remains in progress until corrected source/required runtime matrix, independent review and packaging are complete.

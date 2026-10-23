@@ -1,0 +1,11 @@
+# R6 matrix adjudication — exact cross-binding, not filename restrictions
+
+Root read `final-r5b-faults/matrix_a2.py:282–323`. The test copies the semantic review, changes **only the seal role path** plus its self-digest, and leaves Candidate's semantic-review ref at the original path. Its UNEXPECTED_PASS is a real **Candidate↔seal cross-binding defect**. Do not fix it by inventing a mandatory review filename: contract permits supplied repo-contained immutable review paths.
+
+Required fix: both low seal identity and high full-set validation must compare each Candidate ref to the corresponding selected role by **path AND SHA**, and declared byte/page counts where present; do likewise for manuscript/source/supports, bundle source/PDF/Profile, each review's manuscript/source/PDF, Gate exact manuscript/receipt/early scope and build-record trio/outputs. A same-SHA different review-record location is permissible only when every selected dependent ref consistently names that supplied final file; it is not interchangeable with the already selected role merely by hash.
+
+Also enforce the actual contract negative: same-SHA **reviewed-target** rebind (early reader or later manuscript/source/PDF path) must refuse even after fresh enclosing digests. A copied review-record with unchanged reviewed targets is a distinct control, not that negative. Reviews may be outside `P/publication/` if exact supplied refs are safely contained in the repo; don't silently narrow the reviewed contract to inside-only.
+
+Remaining matrix gaps are explicit, not automatically waived: current accepted-ref mismatch should be exercised on an inert target receipt with a fresh self-digest (e.g. same-byte alternative Profile ref) so retained originals remain healthy; public prepare failure/extra input; chain depth32 and cycle handling. For impossible hash-consistent cycles, label public SHA refusal and a separate defensive-branch probe rather than fabricating a public deep-cycle witness. Keep all actual failure layers/preemptions distinct.
+
+R5b two-route/repeat/lifecycle and IO/resume results retain their exact source scope. Final correction requires fresh affected verification + independent resolution and source packaging; no broad old-suite rerun solely to inflate coverage. Source remains an uncommitted overlay, original22 untouched, whole NOT_READY.

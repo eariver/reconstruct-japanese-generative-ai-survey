@@ -1,0 +1,87 @@
+=== H pure checks (no fixtures, no builds) ===
+2026年 10月 21日 水曜日 00:44:02 UTC
+exit_date=0
+dst=/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60
+--- H-owned py_compile (no bytecode) ---
+OK scripts/survey_editorial_publication_v2.py
+OK scripts/survey_reader_publication_v2.py
+OK scripts/survey_reader_surface_gate_v2.py
+OK scripts/survey_weekly_derivation_v2.py
+OK scripts/survey_longform_generated_v2.py
+exit_py=0
+--- H-owned schema JSON ---
+OK schemas/editorial-publication-source-manifest-v2.schema.json
+OK schemas/editorial-publication-build-record-v2.schema.json
+OK schemas/editorial-manuscript-spec-v2.schema.json
+OK schemas/editorial-toolchain-spec-v2.schema.json
+OK schemas/reader-manuscript-v2.schema.json
+OK schemas/reader-surface-gate-v2.schema.json
+exit_schema=0
+--- closure counts (H-owned declarations) ---
+weekly 22 expected 22
+longform 27 expected 27
+exit_closure=0
+--- H-owned status/diff (disjoint, no L/C edits by H) ---
+ M schemas/publication-surface-revalidation.schema.json
+ M schemas/reader-manuscript-v2.schema.json
+ M schemas/reader-surface-gate-v2.schema.json
+ M schemas/reader-surface-semantic-review-v2.schema.json
+ M scripts/survey_handoff_v2.py
+ M scripts/survey_human_gate_v2.py
+ M scripts/survey_orchestrator_v2.py
+ M scripts/survey_production_v2.py
+ M scripts/survey_profiled_freeze_v2.py
+ M scripts/survey_reader_publication_v2.py
+ M scripts/survey_reader_surface_gate_v2.py
+ M scripts/survey_stage_validation_v2.py
+ M scripts/survey_weekly_derivation_v2.py
+ M templates/survey/jgaisurvey.sty
+?? schemas/editorial-correction-proposal-v2.schema.json
+?? schemas/editorial-manuscript-spec-v2.schema.json
+?? schemas/editorial-publication-build-record-v2.schema.json
+?? schemas/editorial-publication-set-v2.schema.json
+?? schemas/editorial-publication-source-manifest-v2.schema.json
+?? schemas/editorial-retention-manifest-v2.schema.json
+?? schemas/editorial-staged-source-manifest-v2.schema.json
+?? schemas/editorial-toolchain-spec-v2.schema.json
+?? schemas/longform-publication-source-manifest-v2.schema.json
+?? schemas/longform-reader-input-v2.schema.json
+?? scripts/__pycache__/survey_editorial_publication_v2.cpython-314.pyc
+?? scripts/__pycache__/survey_longform_generated_v2.cpython-314.pyc
+?? scripts/__pycache__/survey_reader_publication_v2.cpython-314.pyc
+?? scripts/__pycache__/survey_reader_surface_gate_v2.cpython-314.pyc
+?? scripts/__pycache__/survey_weekly_derivation_v2.cpython-314.pyc
+?? scripts/survey_editorial_correction_proposal_v2.py
+?? scripts/survey_editorial_current_authority_v2.py
+?? scripts/survey_editorial_publication_v2.py
+?? scripts/survey_editorial_retention_v2.py
+?? scripts/survey_editorial_staged_source_v2.py
+?? scripts/survey_longform_derivation_v2.py
+?? scripts/survey_longform_generated_v2.py
+?? scripts/survey_longform_semantic_publication_v2.py
+?? tests/test_survey_editorial_correction_proposal_v2.py
+?? tests/test_survey_editorial_current_authority_v2.py
+?? tests/test_survey_editorial_retention_v2.py
+?? tests/test_survey_editorial_staged_source_v2.py
+?? tests/test_survey_longform_derivation_v2.py
+?? tests/test_survey_longform_publication_integration_v2.py
+exit_status=0
+--- H-owned diff stat ---
+ schemas/reader-manuscript-v2.schema.json   |  12 +-
+ schemas/reader-surface-gate-v2.schema.json |  32 +++++
+ scripts/survey_reader_publication_v2.py    |  49 ++++++-
+ scripts/survey_reader_surface_gate_v2.py   | 224 +++++++++++++++++++++++++++--
+ scripts/survey_weekly_derivation_v2.py     |  14 ++
+ 5 files changed, 317 insertions(+), 14 deletions(-)
+exit_diffstat=0
+--- H new files exist ---
+-rw-rw-r-- 1 eariver eariver  2338 Oct 21 09:39 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/schemas/editorial-manuscript-spec-v2.schema.json
+-rw-rw-r-- 1 eariver eariver  2972 Oct 21 09:39 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/schemas/editorial-publication-build-record-v2.schema.json
+-rw-rw-r-- 1 eariver eariver  3047 Oct 21 09:39 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/schemas/editorial-publication-source-manifest-v2.schema.json
+-rw-rw-r-- 1 eariver eariver   868 Oct 21 09:39 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/schemas/editorial-toolchain-spec-v2.schema.json
+-rw-rw-r-- 1 eariver eariver 59958 Oct 21 09:43 /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py
+exit_new=0
+--- SRC untouched (original22) ---
+src_pin OK=22 TOTAL=22
+exit_src=0
+=== DONE ===

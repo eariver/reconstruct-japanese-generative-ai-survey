@@ -1,0 +1,530 @@
+EEEEEEEEEEEEEEEEEEEEEEEEE
+======================================================================
+ERROR: test_capture_postverify_inplace_edit_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_capture_postverify_inplace_edit_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1768, in test_capture_postverify_inplace_edit_refuses
+    scratch, root = self._fresh_weekly("jgas-p2r-inplace-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-inplace-0botv32u/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_capture_readback_control_edition_injection_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_capture_readback_control_edition_injection_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1674, in test_capture_readback_control_edition_injection_refuses
+    scratch, root = self._fresh_weekly("jgas-p2r-readback-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-readback-avpugx4h/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1601, in test_control_edition_head_drift_refuses
+    scratch, root = self._fresh_weekly("jgas-p2r-ctrl-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-ctrl-5k8kxwdx/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1563, in test_drift_prefinal_and_finalization
+    scratch, root = self._fresh_weekly("jgas-p2r-drift-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-drift-3mrkyqiu/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1178, in test_fault_combined_write_close_primary_preserved
+    scratch, root = self._fresh_weekly("jgas-p2r-combined-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-combined-yvqv4aup/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_fault_create_identity_and_close_preservation (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_create_identity_and_close_preservation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1242, in test_fault_create_identity_and_close_preservation
+    scratch, root = self._fresh_weekly("jgas-p2r-ident-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-ident-d50boggp/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1100, in test_fault_manifest_write_fsync_close_indeterminate
+    scratch, root = self._fresh_weekly("jgas-p2r-manifest-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-manifest-1tcia2z4/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_fault_primary_read_close_secondary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_primary_read_close_secondary_preserved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1301, in test_fault_primary_read_close_secondary_preserved
+    scratch, root = self._fresh_weekly("jgas-p2r-primsec-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-primsec-6tcknc36/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1054, in test_fault_write_zero_progress_fsync
+    scratch, root = self._fresh_weekly("jgas-p2r-fault-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-fault-7xs8nz5_/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 926, in test_keep_profile_distinction_and_all_drift
+    scratch, root = self._fresh_weekly("jgas-p2r-xprof-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-xprof-vg21z288/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 191, in test_longform_capture_verify_positive
+    scratch, root = self._fresh_longform("jgas-p2r-longform-")
+                    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 186, in _fresh_longform
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-longform-2v3tnvtd/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1030, in test_p1_refuses_after_capture_no_p1_git_in_verify
+    scratch, root = self._fresh_weekly("jgas-p2r-postp1-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-postp1-h7rmmpxv/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 982, in test_persistence_live_state_replacement
+    scratch, root = self._fresh_weekly("jgas-p2r-persist-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-persist-4os0lhq1/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 265, in test_r1_double_refresh_capture_verify
+    scratch, root = self._fresh_weekly("jgas-p2r-r1-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-r1-0lo26xix/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 332, in test_refuse_existing_retained_root
+    scratch, root = self._fresh_weekly("jgas-p2r-exists-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-exists-5o43far5/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 367, in test_refuse_unsafe_paths_aliases_nonregular
+    scratch, root = self._fresh_weekly("jgas-p2r-paths-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-paths-l5508xnk/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1425, in test_replacement_ancestor_and_file
+    scratch, root = self._fresh_weekly("jgas-p2r-repl2-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-repl2-7_mt1uim/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_replacement_owned_file_midcapture_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_owned_file_midcapture_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1499, in test_replacement_owned_file_midcapture_refuses
+    scratch, root = self._fresh_weekly("jgas-p2r-repl3-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-repl3-w9qy0pi_/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 1378, in test_replacement_root_ancestor_file_refuses
+    scratch, root = self._fresh_weekly("jgas-p2r-repl-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-repl-eb6ak0bn/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 533, in test_verifier_capture_inputs_deps_dest_dirs_sizes
+    scratch, root = self._fresh_weekly("jgas-p2r-bind-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-bind-jyy5urk2/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_verifier_late_retained_additions_refuse (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_late_retained_additions_refuse)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 846, in test_verifier_late_retained_additions_refuse
+    scratch, root = self._fresh_weekly("jgas-p2r-lateadd-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-lateadd-eokg8s8s/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 693, in test_verifier_staged_canonical_order
+    scratch, root = self._fresh_weekly("jgas-p2r-ord-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-ord-g9q2gafq/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_verifier_state_labels_required (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_state_labels_required)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 763, in test_verifier_state_labels_required
+    scratch, root = self._fresh_weekly("jgas-p2r-labels-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-labels-clbqdq_u/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 443, in test_verifier_typed_hop_negatives
+    scratch, root = self._fresh_weekly("jgas-p2r-typed-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-typed-ghbu_eob/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+======================================================================
+ERROR: test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 243, in test_weekly_capture_verify_positive
+    scratch, root = self._fresh_weekly("jgas-p2r-weekly-")
+                    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 183, in _fresh_weekly
+    return _make_p2r_source_root(self, prefix)
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_retention_v2.py", line 77, in _make_p2r_source_root
+    shutil.copyfile(workspace / relative, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 328, in copyfile
+    _fastcopy_copy_file_range(fsrc, fdst)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 167, in _fastcopy_copy_file_range
+    raise err
+  File "/usr/lib/python3.14/shutil.py", line 154, in _fastcopy_copy_file_range
+    n_copied = os.copy_file_range(infd, outfd, blocksize, offset_dst=offset)
+OSError: [Errno 122] Disk quota exceeded: '/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/docs/survey-production-core-v2-minimum-vertical-slice.md' -> '/tmp/jgas-p2r-weekly-h7uj0dlc/docs/survey-production-core-v2-minimum-vertical-slice.md'
+
+----------------------------------------------------------------------
+Ran 25 tests in 0.490s
+
+FAILED (errors=25)

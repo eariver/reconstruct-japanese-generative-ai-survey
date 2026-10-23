@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 281, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 162, in main
+    prepared_paths = edpub.prepare_publication(
+        root,
+    ...<4 lines>...
+        toolchain_spec_path.relative_to(root) if isinstance(toolchain_spec_path, Path) and toolchain_spec_path.is_absolute() else toolchain_spec_path,
+        datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T141500Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1712, in prepare_publication
+    raise _fail("BUILD_OUTPUT", "PREPARE", "PRESERVED_INCOMPLETE", f"build output missing: {rel}")
+scripts.survey_editorial_publication_v2.EditorialError: BUILD_OUTPUT: [PREPARE/PRESERVED_INCOMPLETE] build output missing: sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/build/main.log

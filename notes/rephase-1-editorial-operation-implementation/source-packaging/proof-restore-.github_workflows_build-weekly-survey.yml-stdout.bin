@@ -1,0 +1,114 @@
+name: Build weekly survey PDF
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_id:
+        description: Weekly issue to build; leave empty to build the latest issue
+        required: false
+        type: string
+  push:
+    paths:
+      - 'surveys/weekly/**'
+      - 'templates/survey/**'
+      - '.latexmkrc'
+      - '.github/workflows/build-weekly-survey.yml'
+  pull_request:
+    paths:
+      - 'surveys/weekly/**'
+      - 'templates/survey/**'
+      - '.latexmkrc'
+      - '.github/workflows/build-weekly-survey.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  resolve-issue:
+    runs-on: ubuntu-latest
+    outputs:
+      issue_id: ${{ steps.resolve.outputs.issue_id }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Resolve weekly issue
+        id: resolve
+        shell: bash
+        env:
+          REQUESTED_ISSUE: ${{ inputs.issue_id }}
+        run: |
+          set -euo pipefail
+          issue="$REQUESTED_ISSUE"
+          if [ -z "$issue" ]; then
+            issue="$(find surveys/weekly -mindepth 2 -maxdepth 2 -name main.tex -printf '%h\n' \
+              | xargs -r -n1 basename \
+              | sort \
+              | tail -n1)"
+          fi
+          if ! [[ "$issue" =~ ^[0-9]{4}-W[0-9]{2}$ ]]; then
+            echo "::error::Unable to resolve a valid weekly issue: ${issue}"
+            exit 2
+          fi
+          test -s "surveys/weekly/${issue}/main.tex"
+          echo "issue_id=${issue}" >> "$GITHUB_OUTPUT"
+          echo "Building weekly issue ${issue}"
+
+  build:
+    needs: resolve-issue
+    runs-on: ubuntu-latest
+    env:
+      ISSUE_ID: ${{ needs.resolve-issue.outputs.issue_id }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - name: Set reproducible PDF timestamp
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+          echo 'FORCE_SOURCE_DATE=1' >> "$GITHUB_ENV"
+
+      - name: Compile weekly issue with LuaLaTeX
+        uses: xu-cheng/latex-action@v4
+        with:
+          root_file: main.tex
+          working_directory: surveys/weekly/${{ env.ISSUE_ID }}
+          texlive_version: 2026
+          os: debian
+          latexmk_use_lualatex: true
+
+      - name: Validate final TeX log
+        working-directory: surveys/weekly/${{ env.ISSUE_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s main.pdf
+          test -s main.log
+
+          if grep -E -n 'LaTeX Warning: (There were undefined references|Citation .* undefined)|Package biblatex Warning: Please (re)?run|Overfull \\hbox|Underfull \\hbox|Missing character:' main.log; then
+            echo '::error::Final TeX log contains publication-blocking warnings.'
+            exit 1
+          fi
+
+          echo 'Final TeX log passed publication-warning gate.'
+
+      - name: Record PDF digest
+        working-directory: surveys/weekly/${{ env.ISSUE_ID }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          sha256sum main.pdf | tee main.pdf.sha256
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: japanese-generative-ai-survey-${{ env.ISSUE_ID }}
+          path: |
+            surveys/weekly/${{ env.ISSUE_ID }}/main.pdf
+            surveys/weekly/${{ env.ISSUE_ID }}/main.pdf.sha256
+          if-no-files-found: error
+          retention-days: 14

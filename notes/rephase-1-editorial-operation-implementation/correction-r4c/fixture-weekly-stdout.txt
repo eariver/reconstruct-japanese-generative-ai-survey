@@ -1,0 +1,65 @@
+===0 SOURCE===
+HEAD=b54a1f21a5b6b58b39777b3c5ae402219ff87715
+LSFILES=719 (expect 719)
+TOOLCHAIN=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux/lualatex
+===1 BOOTSTRAP===
+{
+  "issue_id": "2026-W37",
+  "structured_surface": "sources/2026-W37/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "2026-W37",
+  "source_root": "sources/2026-W37",
+  "survey_root": "surveys/weekly/2026-W37",
+  "source_manifest": "sources/2026-W37/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/weekly/2026-W37/main.tex",
+  "bibliography": "surveys/weekly/2026-W37/references.bib",
+  "style": "surveys/weekly/2026-W37/jgaisurvey.sty",
+  "subject_result": "sources/2026-W37/publication/v2/quality/subject-entity-property-binding.json",
+  "identifier_tokens": [
+    "2026-W37",
+    "Target Model"
+  ]
+}
+BOOTSTRAP_OK state=sources/2026-W37/production-state.json
+=== CYCLE wk-r4c-1 headline='Weekly tested method, revised edition' ===
+P2R_OK manifest=sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-1/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+SCOPE=sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-1/scope-review-v2.json
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=26.5s
+REAL_PDF pages=5 bytes=61239
+FINALIZE {"set_ref": "sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-1/publication/publication-set.json", "set_sha256": "a343caab288b454260883161606dd57af50cea7da263e78d523c122f31d9c938"}
+INERT_HEALTHY
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json", "state_path": "sources/2026-W37/production-state.json", "observed": "new"}
+FIRST_ANCHOR={"kind": "VALIDATION_CHECKPOINT", "ref": {"path": "sources/2026-W37/orchestration/v2/checkpoints/DRAFT_COMPLETE.json", "sha256": "8ceabd22b4bf591c0433d26cecf89cc5a5da9578f722fc0f53f6972d2d15146d"}}
+FIRST_SELECTION mode=VERSIONED_ACTIVE candidate=sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-1/publication/publication-candidate-v2.json
+FIRST_HISTORY status=HISTORICAL_VALID
+=== CYCLE wk-r4c-2 headline='Weekly tested method — Second Editorial Correction' ===
+STAGED_AUTH /tmp/opencode/jgas-weekly-r4c-20261021T161000Z/candidate-partial-b40de60/sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-2/authoring-input.json
+P1_PREPARE proposal=wk-r4c-2 reader_sha=b13d9202d1f57a4da396eb3888ad5361099956233cc09783c5c5dca468927ad0
+P1_VALIDATE REVIEW_REQUIRED
+P2R_OK manifest=sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-2/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+SCOPE=sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-2/scope-review-v2.json
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=92.6s
+REAL_PDF pages=5 bytes=63397
+FINALIZE {"set_ref": "sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-2/publication/publication-set.json", "set_sha256": "e89723499d3bae696c5b259cf3e26c8864853523b83cf6f601764fc3e3d5642a"}
+INERT_HEALTHY
+INERT_CHECKPOINT /tmp/opencode/jgas-weekly-r4c-inert-20261021T161000Z/candidate-partial-b40de60 head=b54a1f21a5b6b58b39777b3c5ae402219ff87715
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json", "state_path": "sources/2026-W37/production-state.json", "observed": "new"}
+SECOND supersedes={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json', 'sha256': 'b90871ae0916f5eaab09b1e2165fcad64f39763beafe2b5fa1bf9eada732cace'}
+SECOND_ANCHOR_RETAINED={"kind": "VALIDATION_CHECKPOINT", "ref": {"path": "sources/2026-W37/orchestration/v2/checkpoints/DRAFT_COMPLETE.json", "sha256": "8ceabd22b4bf591c0433d26cecf89cc5a5da9578f722fc0f53f6972d2d15146d"}}
+SECOND_STATE_HEALTHY
+SECOND_SELECTION mode=VERSIONED_ACTIVE candidate=sources/2026-W37/publication/v2/editorial-corrections/wk-r4c-2/publication/publication-candidate-v2.json
+SECOND_OLD_IMMUTABLE_KEEP_OK
+SECOND_RECEIPT issue=2026-W37
+SECOND_GATE_PASSED
+SECOND_CANDIDATE status=READY_FOR_PUBLICATION_PREVIEW
+=== SECOND CORRECTION ACTIVATED (terminal) ===
+EXIT:0

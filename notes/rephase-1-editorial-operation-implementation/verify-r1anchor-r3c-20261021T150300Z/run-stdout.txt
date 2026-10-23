@@ -1,0 +1,110 @@
+===0 SOURCE===
+HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 TREE=44bfc1864d269e338bdb64bcc030e5fd558bf060
+PINS_OK low d2909bba agent 05f1ee03 P1 23e3a45f closure22 contract67 TL OK
+===1 BOOTSTRAP===
+{
+  "issue_id": "2026-W37",
+  "structured_surface": "sources/2026-W37/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "136c0dd8a2bf4c5b4323993ff3882524c760d902f2a463b93bcd6fe95a948635",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "2026-W37",
+  "source_root": "sources/2026-W37",
+  "survey_root": "surveys/weekly/2026-W37",
+  "source_manifest": "sources/2026-W37/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/weekly/2026-W37/main.tex",
+  "bibliography": "surveys/weekly/2026-W37/references.bib",
+  "style": "surveys/weekly/2026-W37/jgaisurvey.sty",
+  "subject_result": "sources/2026-W37/publication/v2/quality/subject-entity-property-binding.json",
+  "identifier_tokens": [
+    "2026-W37",
+    "Target Model"
+  ]
+}
+BOOTSTRAP_OK sources/2026-W37/production-state.json
+ORIG_ARTIFACTS=7
+===R1a COMMIT (actual _commit_r1_nonemitted_comment)===
+R1a_HEAD=3390d2936cbb7a243198d9d2acc042cfc09439ba CLOSURE22 CONTRACT67 UNCHANGED
+R1a_REFRESH rc=0 dt=7.2s out={"result": "OK", "keys": ["gate", "receipt", "retention", "revalidation_record", "state", "supersedes"]}
+ err_tail=
+R1a_RECORD={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json', 'sha256': 'a82cfc2f6ae59fdc376ee91f79a8532b06a0e8900c9d37027c3fc0f1dc72c692'}
+R1a_CUMULATIVE_OK 1+6=7
+R1a_RETENTION_OK sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-r1a-verify/retained/retention-manifest.json
+===R1b COMMIT (second distinct AST-neutral)===
+R1b_HEAD=cc68a077f67d81aa243f14b2416b5b88096baaa9 CLOSURE22 CONTRACT67 UNCHANGED
+R1b_REFRESH rc=0 dt=7.9s out={"result": "OK", "keys": ["gate", "receipt", "retention", "revalidation_record", "state", "supersedes"]}
+
+R1b_RECORD={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json', 'sha256': '05360dd4ad35ad60fd44732edc002043baf459626e30e821173a16d38033f81d'}
+R1b_SUPERSEDES_FIRST_OK
+R1b_CUMULATIVE_OK
+R1b_RETENTION_OK sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-r1b-verify/retained/retention-manifest.json
+OLD_RETENTION_REFUSAL_OK RetentionError
+===VERSIONED CORRECTION===
+CORR_PROPOSAL=sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/proposal.json
+CORR_P2R_OK sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+SCOPE=sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/scope-review-v2.json
+P2V_SCOPE_BOUND
+P3S_MATERIALIZE={'result': 'STAGED_SOURCE_MATERIALIZED', 'proposal_ref': {'path': 'sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/proposal.json', 'sha256': '9277a1db01c53daf696bc62aeff8021e92845f668b73b424f705b408b511f30f'}, 'retention_manifest_ref': {'path': 'sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/retained/retention-manifest.json', 'sha256': '2f4fedaeef04840c536ad6b85d8860084ba156f4b67e371a47db746d04d28f32'}, 'scope_review_ref': {'path': 'sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/scope-review-v2.json', 'sha256': '8e
+P3S_VERIFIED50
+PREPARE_OK dt=30.5s {"proposal_dir": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c", "publication_dir": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication", "build": {"pdf": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication/build/main.pdf", "log": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication/build/main.log", "digest": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication/build/main.pdf.sha256"}, "build_record": "sources/2026-W37/publicatio
+REAL_PDF pages=5 bytes=61239
+REVIEW SEMANTIC_EDITORIAL
+REVIEW VISUAL
+FINALIZE_OK dt=20.6s {"set_ref": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication/publication-set.json", "set_sha256": "9305209c765e05c68afc735192143bfa932d7dd32fa9abcaa5a9cf4a3131b804"}
+INERT_HEALTHY
+ACTIVATE dt=31.3s {"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json", "state_path": "sources/2026-W37/production-state.json", "observed": "new"}
+ANCHOR={"kind": "LEGACY_REVALIDATION", "ref": {"path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json", "sha256": "05360dd4ad35ad60fd44732edc002043baf459626e30e821173a16d38033f81d"}}
+ANCHOR_IS_R1B_OK R3_SUPERSEDES_R2_OK
+CANONICAL7_GATE reader-surface-gate={'path': 'sources/2026-W37/publication/v2/reader-surface-gate-v2.json', 'sha256': '66c0eeef74fd8f6a4b8957e6964c75997dd84b308c552afbe92c6388f5ce786f', 'byte_count': 5006, 'origin': 'ORIGINAL'}
+CANONICAL7_IS_R1B_NOT_ORIGINAL_OK 4keys
+DERIVED_ANCHOR_MATCH historical links OK
+OLD_CANONICAL_BYTE_EXACT_AFTER_R1B_OK
+EFFECTIVE7 keys=['publication-pdf', 'quality-regression-bundle', 'reader-manuscript', 'reader-surface-gate', 'semantic-review', 'validated-source', 'visual-review']
+ACTIVE_CANDIDATE_OK {'path': 'sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication/publication-candidate-v2.json', 'sha256': '74cd71caa9b38c99687613e585ec64faab14a92ffd05782df23a5713a23d9c05'}
+RECEIPT_HEALTHY_AFTER
+GATE_PASSED_AFTER
+CANDIDATE_AFTER READY_FOR_PUBLICATION_PREVIEW
+HISTORY_AFTER HISTORICAL_VALID
+ALREADY_ACTIVE_OK {'status': 'ALREADY_ACTIVE', 'record_path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json', 'state_path': 'sources/2026-W37/production-state.json', 'observed': 'new'}
+R1_AFTER rc=3 out=REFUSED:MechanicalRefreshError:R1 mechanical refresh refused in VERSIONED_ACTIVE/invalid mode before any write: canonical operation refused in revised mode (use versioned editorial operation) (versioned renewal unselected §10; no editorial-reason bypass)
+
+R1_AFTER_REFUSE_PREWRITE_OK
+CANON_AFTER rc=3 out=REFUSED:AgentControlError:canonical revalidation refused in revised mode: canonical operation refused in revised mode (use versioned editorial operation)
+
+CANON_AFTER_REFUSE_PREWRITE_OK
+FAKE rc=3 out=REFUSED:AgentControlError:publication revalidation writer refuses REVIEWED_EDITORIAL_CORRECTION (must use new versioned activation via survey_editorial_publication_v2)
+
+FAKE_REFUSE_PREWRITE_OK
+SUMMARY {
+  "source_head": "0d9857e6132fb314a2e2ba141da79c54f4ec5e06",
+  "r1a": "3390d2936cbb7a243198d9d2acc042cfc09439ba",
+  "r1b": "cc68a077f67d81aa243f14b2416b5b88096baaa9",
+  "r1a_record": {
+    "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json",
+    "sha256": "a82cfc2f6ae59fdc376ee91f79a8532b06a0e8900c9d37027c3fc0f1dc72c692"
+  },
+  "r1b_record": {
+    "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+    "sha256": "05360dd4ad35ad60fd44732edc002043baf459626e30e821173a16d38033f81d"
+  },
+  "anchor": {
+    "kind": "LEGACY_REVALIDATION",
+    "ref": {
+      "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+      "sha256": "05360dd4ad35ad60fd44732edc002043baf459626e30e821173a16d38033f81d"
+    }
+  },
+  "set": "sources/2026-W37/publication/v2/editorial-corrections/fixture-wk-corr-r3c/publication/publication-set.json",
+  "record": "sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json",
+  "timings": {
+    "r1a": 7.223587346001295,
+    "r1b": 7.937006476015085,
+    "prepare": 30.521548728022026,
+    "finalize": 20.619319656019798,
+    "activate": 31.259659461997217
+  },
+  "total": 204.80795851600124
+}
+DIAGNOSTIC_BOUNDED_DONE terminal 0 no whole PASS no production approval

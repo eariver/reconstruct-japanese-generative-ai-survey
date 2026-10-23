@@ -1,0 +1,44 @@
+PACKET=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-weekly-consumers-20261021T090000Z
+SRC=/tmp/opencode/jgas-editorial-r2v-20261021T084804Z/candidate-partial-b40de60 HEAD=4ff2d8562502db36223332c45c9cc5d01bb93156
+SRC ls-files=717 (expect 717 tracked lines)
+===0 COPY===
+cp -a exit=0 stderr=''
+COPY elapsed=0.070s
+SRC_HEAD=4ff2d8562502db36223332c45c9cc5d01bb93156
+DST_HEAD=4ff2d8562502db36223332c45c9cc5d01bb93156 SAME=True
+SRC_TREE=4a0c5343937151af0c0ad4522177441acd0e8fcc DST_TREE=4a0c5343937151af0c0ad4522177441acd0e8fcc SAME=True
+SRC_LSFILES=717 DST_LSFILES=717
+INODE scripts/survey_schema_v2.py SRC=45:752368 1 DST=45:756222 1 INDEPENDENT=True
+INODE scripts/survey_editorial_publication_v2.py SRC=45:752637 1 DST=45:756241 1 INDEPENDENT=True
+INODE .git/HEAD SRC=45:752681 1 DST=45:756525 1 INDEPENDENT=True
+ALTERNATES exists=False (expect False)
+REMOTE='' (expect empty/inert)
+SRC_HEAD_AFTER_COPY=4ff2d8562502db36223332c45c9cc5d01bb93156 UNCHANGED=True
+===0b 717 HASH COMPARE===
+MANIFEST lines=717 (expect 717)
+HASH mismatches=0
+UNTRACKED/AUTH sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/publication-set.json DST_exists=True SRC_exists=True
+UNTRACKED/AUTH sources/2026-W37/production-state.json DST_exists=True SRC_exists=True
+UNTRACKED/AUTH sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json DST_exists=True SRC_exists=True
+RESIDUE __pycache__: '/tmp/opencode/jgas-editorial-wk2-verify-20261021T090000Z/candidate-partial-b40de60/scripts/__pycache__\n/tmp/opencode/jgas-editorial-wk2-verify-20261021T090000Z/candidate-partial-b40de60/scripts/__pyca' (expect empty, preserved if absent)
+RESIDUE tmpvr07sdme: '' (expect empty, preserved if absent)
+===COPY VERIFIED===
+===1 HEALTHY CONFIRM (no rebuild)=== STATE lifecycle=VALIDATED_DRAFT pointer={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json', 'sha256': '25f2e168c0fe78142ab8674db32cd4f587e9c2d36d11809c0993a8928c96eb67'}
+RECEIPT_ACTIVE OK elapsed=5.978s
+RECEIPT issue=2026-W37
+GATE_ACTIVE OK elapsed=0.266s
+GATE status=PASSED
+CANDIDATE_ACTIVE OK elapsed=0.669s
+CANDIDATE status=READY_FOR_PUBLICATION_PREVIEW
+ALREADY_ACTIVE OK elapsed=14.543s
+ACTIVATE repeat={'status': 'ALREADY_ACTIVE', 'record_path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json', 'state_path': 'sources/2026-W37/production-state.json', 'observed': 'new'}
+SELECTION OK elapsed=0.097s
+SELECTION mode=VERSIONED_ACTIVE candidate=sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/publication-candidate-v2.json
+===1 HEALTHY CONFIRMED (no PDF rebuild)===
+===2 SECOND CORRECTION wk-smoke-2 ===
+PRIOR captured 13 files
+BEFORE_STATE sha=4bab695d37f1a037884b09ef85f6b28494e44e59b56ee0eb72d3cb9040a5a3f2
+BASE headline='Weekly tested method — Editorial Correction'
+NEW headline='Weekly tested method — Second Editorial Correction'
+STAGED_AUTHORING sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-2/authoring-input.json sha=a2a21c6ce641b2d899a2b980b2941979f74c708cb0615e0ea9e7bc34aecd05ba
+P1_PREPARE FAILED: VERSIONED_ROW_SHAPE: versioned row fields invalid (expected path/sha256/byte_count/origin): reader-manuscript

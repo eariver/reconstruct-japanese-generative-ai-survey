@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-longform-20261021T090000Z/20-second-correction-lifecycle.py", line 358, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-longform-20261021T090000Z/20-second-correction-lifecycle.py", line 120, in main
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T091000Z/candidate-partial-b40de60/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T091000Z/candidate-partial-b40de60/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T091000Z/candidate-partial-b40de60/tests/test_survey_evidence_v2.py", line 98, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        root,
+        ^^^^^
+    ...<4 lines>...
+        core.parse_instant("2026-08-22T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T091000Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1049, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/opencode/jgas-editorial-longform-20261021T091000Z/candidate-partial-b40de60/sources/SP001/production-profile.json or /tmp/opencode/jgas-editorial-longform-20261021T091000Z/candidate-partial-b40de60/sources/SP001/production-state.json already exists

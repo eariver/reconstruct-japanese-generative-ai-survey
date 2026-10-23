@@ -1,0 +1,23 @@
+BINDING_OK route=longform root=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/final-r6/longform
+HEAD=ce90246b907c86e9bdeb930dec0e83a5637f2805 TREE=53349a4efbdd5e3b4153a8e5975101fdd59f132b
+START VALIDATED_DRAFT active=sources/SP001/publication/v2/editorial-corrections/lf-r6-2/publication/publication-candidate-v2.json
+PREVIEW_BEFORE_STRICT_OK receipt=SP001 gate=PASSED cand=READY history=r1+r2 HISTORICAL_VALID
+ADVANCE RELEASE_CANDIDATE/HUMAN_GATE_REACHED
+PREVIEW synthetic approved, binds active candidate
+ORCHESTRATOR producer rows=[('freeze-record', 'sources/SP001/publication/v2/freeze-record-v2.json'), ('release-manifest', 'sources/SP001/publication/v2/release-manifest-v2.json')]
+HANDOFF contract keys=['freeze', 'freeze-record', 'release-manifest']
+HANDOFF contract absent-future (no fabrication): freeze
+RESOLVERS active-candidate OK (orchestrator/handoff/humangate SHA-pinned)
+HANDOFF_BUILD_REFUSED_PREWRITE_OK gate='Production State semantic inconsistency'
+HANDOFF_GATE_LABEL basis-gate-preempts-stage-gate (helper checkpoint authorities agent-healthy/not-basis-canonical; stage-gate branch NOT reached in fixtures, NOT counted exercised)
+HANDOFF_BUILD_NOWRITE_OK (refusal left zero file deltas)
+FREEZE dt=4.3s
+HANDOFF producer contract agrees with built freeze outputs
+ADVANCE FROZEN
+FROZEN_STRICT_OK receipt=SP001 gate=PASSED cand=READY history=r1+r2 HISTORICAL_VALID
+ADVANCE RELEASED
+RELEASED_STRICT_OK receipt=SP001 gate=PASSED cand=READY history=r1+r2 HISTORICAL_VALID
+HISTORY [{'from': 'VALIDATED_DRAFT', 'to': 'RELEASE_CANDIDATE', 'recorded_at': '2026-10-22T17:08:25Z', 'repository_commit_sha': 'ce90246b907c86e9bdeb930dec0e83a5637f2805'}, {'from': 'RELEASE_CANDIDATE', 'to': 'FROZEN', 'recorded_at': '2026-10-22T17:08:46Z', 'repository_commit_sha': 'ce90246b907c86e9bdeb930dec0e83a5637f2805'}, {'from': 'FROZEN', 'to': 'RELEASED', 'recorded_at': '2026-10-22T17:09:16Z', 'repository_commit_sha': 'ce90246b907c86e9bdeb930dec0e83a5637f2805'}]
+ARTIFACTS text=3488B pngs=5
+EPOCH_MANIFEST final-epoch-longform-manifest.json
+=== LIFECYCLE longform RELEASED (terminal, strict) ===

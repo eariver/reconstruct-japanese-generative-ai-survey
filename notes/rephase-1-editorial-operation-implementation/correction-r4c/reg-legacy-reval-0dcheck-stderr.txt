@@ -1,0 +1,85 @@
+EEE
+======================================================================
+ERROR: test_n10_full_weekly_chain_no_human_decision (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n10_full_weekly_chain_no_human_decision)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/tests/test_survey_publication_revalidation_v2.py", line 1011, in test_n10_full_weekly_chain_no_human_decision
+    stage_validation.validate_stage(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.root, self.cfg, fix.src / "production-state.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        {"publication-candidate": cand_path}, report_path, T0 + timedelta(hours=2),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 742, in validate_stage
+    prior = _prior_artifacts(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 272, in _prior_artifacts
+    sel = _require_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 53, in _require_selection
+    sel = _setmod.resolve_publication_selection(root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_publication_set_v2.py", line 1704, in resolve_publication_selection
+    anchored_legacy7 = _anchored_canonical7(root, validation_record, anchor)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_publication_set_v2.py", line 1531, in _anchored_canonical7
+    raise PublicationSetError("selection anchor legacy preserved artifact mismatch (must equal original)")
+scripts.survey_publication_set_v2.PublicationSetError: selection anchor legacy preserved artifact mismatch (must equal original)
+
+======================================================================
+ERROR: test_n4_post_preview_forged_activation_fails (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_n4_post_preview_forged_activation_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/tests/test_survey_publication_revalidation_v2.py", line 845, in test_n4_post_preview_forged_activation_fails
+    self._approve_preview(fix)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/tests/test_survey_publication_revalidation_v2.py", line 806, in _approve_preview
+    stage_validation.validate_stage(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.root, self.cfg, fix.src / "production-state.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        {"publication-candidate": cand_path}, report_path, T0 + timedelta(hours=2),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 742, in validate_stage
+    prior = _prior_artifacts(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 272, in _prior_artifacts
+    sel = _require_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 53, in _require_selection
+    sel = _setmod.resolve_publication_selection(root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_publication_set_v2.py", line 1704, in resolve_publication_selection
+    anchored_legacy7 = _anchored_canonical7(root, validation_record, anchor)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_publication_set_v2.py", line 1531, in _anchored_canonical7
+    raise PublicationSetError("selection anchor legacy preserved artifact mismatch (must equal original)")
+scripts.survey_publication_set_v2.PublicationSetError: selection anchor legacy preserved artifact mismatch (must equal original)
+
+======================================================================
+ERROR: test_t11_weekly_viability_and_t13_chain (tests.test_survey_publication_revalidation_v2.PublicationRevalidationTests.test_t11_weekly_viability_and_t13_chain)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/tests/test_survey_publication_revalidation_v2.py", line 678, in test_t11_weekly_viability_and_t13_chain
+    stage_validation.validate_stage(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.root, self.cfg, state_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        {"publication-candidate": cand_path},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        report_path, T0 + timedelta(hours=2),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 742, in validate_stage
+    prior = _prior_artifacts(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 272, in _prior_artifacts
+    sel = _require_selection(repo_root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_stage_validation_v2.py", line 53, in _require_selection
+    sel = _setmod.resolve_publication_selection(root, cfg, state)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_publication_set_v2.py", line 1704, in resolve_publication_selection
+    anchored_legacy7 = _anchored_canonical7(root, validation_record, anchor)
+  File "/tmp/opencode/jgas-r3c-regress-check-20261021T161000Z/scripts/survey_publication_set_v2.py", line 1531, in _anchored_canonical7
+    raise PublicationSetError("selection anchor legacy preserved artifact mismatch (must equal original)")
+scripts.survey_publication_set_v2.PublicationSetError: selection anchor legacy preserved artifact mismatch (must equal original)
+
+----------------------------------------------------------------------
+Ran 3 tests in 2.222s
+
+FAILED (errors=3)

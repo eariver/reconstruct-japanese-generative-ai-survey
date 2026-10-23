@@ -1,0 +1,148 @@
+#!/usr/bin/env python3
+"""R4c activation fault regressions: fsync classification + foreign inode + orphan intent.
+
+Real code paths only (no validation-success mocks):
+- record/state fsync faults use a real OS fault seam (os.fsync patched to raise)
+  and assert the real writers classify + preserve bytes. No validators involved.
+- foreign same-byte inode uses real files + real shared ownership helper.
+- orphan intent uses real _next_record_seq + real _refuse_if_intent_exists on a
+  synthetic temp repo (profile/source_root/pub dir/State pointer only; no
+  validator fixtures needed because these units call no validators).
+Temp dirs under the repo clone only (disposable copies); never the snapshot.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import tempfile
+import unittest
+from pathlib import Path
+
+from scripts import survey_agent_control_v2 as agent
+from scripts import survey_editorial_publication_v2 as edpub
+
+
+def _repo_root() -> Path:
+    return Path(".").resolve()
+
+
+def _sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+class ActivationFaultsR4cTests(unittest.TestCase):
+    def test_record_fsync_fault_classified_and_preserved(self) -> None:
+        root = _repo_root()
+        with tempfile.TemporaryDirectory(dir=root) as td:
+            rec = Path(td) / "publication-surface-revalidation-r1.json"
+            orig_fsync = os.fsync
+
+            def _bad_fsync(fd: int) -> None:
+                raise OSError("simulated fsync fault")
+
+            os.fsync = _bad_fsync  # type: ignore[assignment]
+            try:
+                with self.assertRaises(agent.AgentControlError) as ctx:
+                    agent._exclusive_create_record_bytes(rec, b'{"kind":1}', "test record")
+            finally:
+                os.fsync = orig_fsync
+            self.assertIn("fsync", str(ctx.exception).lower())
+            # Owned partial preserved, never deleted.
+            self.assertTrue(rec.is_file(), "record partial must be preserved on fsync fault")
+
+    def test_state_temp_fsync_fault_classified_and_live_preserved(self) -> None:
+        root = _repo_root()
+        with tempfile.TemporaryDirectory(dir=root) as td:
+            state = Path(td) / "production-state.json"
+            state.write_bytes(b'{"old":1}')
+            orig_fsync = os.fsync
+
+            def _bad_fsync(fd: int) -> None:
+                raise OSError("simulated fsync fault")
+
+            os.fsync = _bad_fsync  # type: ignore[assignment]
+            try:
+                with self.assertRaises(agent.AgentControlError) as ctx:
+                    agent._atomic_replace_state_bytes(state, b'{"old":1}', b'{"new":1}', "test State")
+            finally:
+                os.fsync = orig_fsync
+            self.assertIn("fsync", str(ctx.exception).lower())
+            self.assertEqual(state.read_bytes(), b'{"old":1}', "live State must be preserved")
+
+    def test_foreign_same_byte_record_identity_refused(self) -> None:
+        root = _repo_root()
+        with tempfile.TemporaryDirectory(dir=root) as td:
+            rec = Path(td) / "r2.json"
+            payload = b'{"same":1}'
+            owned = agent._exclusive_create_record_bytes(rec, payload, "owned test")
+            self.assertTrue(agent._record_identity_matches(rec, owned, payload))
+            # Foreign swap: new inode, identical bytes.
+            rec.unlink()
+            rec.write_bytes(payload)
+            self.assertFalse(
+                agent._record_identity_matches(rec, owned, payload),
+                "same-byte foreign inode must not match ownership (inode+bytes, not bytes alone)",
+            )
+            self.assertTrue(rec.is_file(), "referenced record must never be deleted")
+
+    def test_orphan_predecessor_plus1_and_intent_refusal(self) -> None:
+        root = _repo_root()
+        with tempfile.TemporaryDirectory(dir=root) as td:
+            base = Path(td)
+            rel = base.relative_to(root).as_posix()
+            prof_path = base / "profile.json"
+            prof_path.write_text(json.dumps({"paths": {"source_root": f"{rel}/src"}}))
+            pub = base / "src" / "publication" / "v2"
+            pub.mkdir(parents=True)
+            r1 = pub / "publication-surface-revalidation-r1.json"
+            r1.write_bytes(b'{"seq":1}')
+            r2 = pub / "publication-surface-revalidation-r2.json"
+            r2.write_bytes(b'{"seq":2,"orphan":true}')
+            state = {
+                "profile": {"path": f"{rel}/profile.json", "sha256": _sha(prof_path.read_bytes())},
+                "publication_revalidation_provenance": {
+                    "path": f"{rel}/src/publication/v2/publication-surface-revalidation-r1.json",
+                    "sha256": _sha(r1.read_bytes()),
+                },
+            }
+            # Predecessor r1 -> next must be r2 (existing orphan), never r3 fork.
+            rec_path, nxt = edpub._next_record_seq(root, {}, state)
+            self.assertEqual(nxt, 2, "next must be predecessor+1, not max+1 fork")
+            self.assertTrue(rec_path.is_file(), "r2 collision must exist for ordinary refusal")
+            # Same intent elsewhere (r5) must also refuse ordinary activate.
+            record_base = {
+                "issue_id": "ISSUE",
+                "supersedes": dict(state["publication_revalidation_provenance"]),
+                "before_state_ref": {"path": f"{rel}/production-state.json", "sha256": "a" * 64},
+                "set_ref": {
+                    "path": f"{rel}/src/publication/v2/editorial-corrections/x/publication/publication-set.json",
+                    "sha256": "b" * 64,
+                },
+                "prior_checkpoint": {"path": "c.json", "sha256": "c" * 64},
+            }
+            r5 = {
+                "kind": "EDITORIAL_PUBLICATION_ACTIVATION_V1",
+                "reason_class": "REVIEWED_EDITORIAL_CORRECTION",
+                "issue_id": "ISSUE",
+                "supersedes": dict(record_base["supersedes"]),
+                "before_state_ref": dict(record_base["before_state_ref"]),
+                "set_ref": dict(record_base["set_ref"]),
+                "prior_checkpoint": dict(record_base["prior_checkpoint"]),
+            }
+            (pub / "publication-surface-revalidation-r5.json").write_text(json.dumps(r5))
+            with self.assertRaises(Exception) as ctx:
+                edpub._refuse_if_intent_exists(
+                    root, record_base, f"{rel}/src/publication/v2/publication-surface-revalidation-r2.json"
+                )
+            self.assertIn("INTENT_COLLISION", str(ctx.exception))
+            # Different intent must not refuse.
+            other = dict(record_base)
+            other["set_ref"] = {"path": "different.json", "sha256": "c" * 64}
+            edpub._refuse_if_intent_exists(
+                root, other, f"{rel}/src/publication/v2/publication-surface-revalidation-r2.json"
+            )
+
+
+if __name__ == "__main__":
+    unittest.main()

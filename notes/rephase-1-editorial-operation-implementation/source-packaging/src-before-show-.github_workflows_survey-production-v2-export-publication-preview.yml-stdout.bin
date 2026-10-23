@@ -1,0 +1,156 @@
+name: Survey Production Core v2 exact Publication Preview export
+
+on:
+  pull_request:
+    paths:
+      - 'sources/**/publication/v2/publication-candidate-v2.json'
+      - 'surveys/weekly/**/main.pdf'
+      - 'surveys/special/**/main.pdf'
+  workflow_dispatch:
+    inputs:
+      candidate_path:
+        description: Repository path to one Publication Candidate
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: survey-production-v2-preview-export-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  export:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout exact candidate revision
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.head_ref || github.ref }}
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install Core v2 validation dependencies
+        run: python -m pip install -r config/survey-production-v2-requirements.txt
+
+      - name: Resolve and validate exact Publication Candidate
+        id: preview
+        shell: bash
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha || '' }}
+          REQUESTED_CANDIDATE: ${{ inputs.candidate_path || '' }}
+        run: |
+          set -euo pipefail
+          python - <<'PY' >> "$GITHUB_OUTPUT"
+          import hashlib
+          import os
+          import pathlib
+          import subprocess
+          from scripts import survey_publication_v2 as publication
+
+          root = pathlib.Path('.').resolve()
+          requested = os.environ.get('REQUESTED_CANDIDATE', '').strip()
+          if requested:
+              candidate_rel = pathlib.PurePosixPath(requested)
+              if candidate_rel.is_absolute() or '..' in candidate_rel.parts:
+                  raise SystemExit('unsafe candidate_path')
+              candidate_path = (root / candidate_rel).resolve()
+          else:
+              base = os.environ.get('BASE_SHA', '').strip()
+              if not base:
+                  raise SystemExit('pull-request candidate resolution requires base SHA')
+              output = subprocess.check_output(
+                  [
+                      'git', 'diff', '--name-only', '--diff-filter=AMR',
+                      f'{base}...HEAD', '--',
+                      'sources/*/publication/v2/publication-candidate-v2.json',
+                  ],
+                  text=True,
+              )
+              candidates = sorted({line.strip() for line in output.splitlines() if line.strip()})
+              if len(candidates) != 1:
+                  raise SystemExit(
+                      f'exactly one changed Publication Candidate required, found {len(candidates)}: {candidates}'
+                  )
+              candidate_path = (root / candidates[0]).resolve()
+
+          try:
+              candidate_rel = candidate_path.relative_to(root)
+          except ValueError as exc:
+              raise SystemExit('Publication Candidate escapes repository') from exc
+          if candidate_path.is_symlink() or not candidate_path.is_file():
+              raise SystemExit('Publication Candidate missing or unsafe')
+
+          candidate = publication.validate_candidate(root, candidate_path)
+          if candidate.get('status') != 'READY_FOR_PUBLICATION_PREVIEW':
+              raise SystemExit('Publication Candidate is not ready for Publication Preview')
+          if candidate['pdf'].get('storage') != 'REPOSITORY_FILE':
+              raise SystemExit('Publication Preview requires repository-resident exact PDF bytes')
+
+          pdf_path = (root / candidate['pdf']['path']).resolve()
+          try:
+              pdf_rel = pdf_path.relative_to(root)
+          except ValueError as exc:
+              raise SystemExit('Publication Candidate PDF escapes repository') from exc
+          if pdf_path.is_symlink() or not pdf_path.is_file():
+              raise SystemExit('Publication Candidate PDF missing or unsafe')
+          pdf_sha = hashlib.sha256(pdf_path.read_bytes()).hexdigest()
+          if pdf_sha != candidate['pdf']['sha256'] or pdf_path.stat().st_size != candidate['pdf']['byte_count']:
+              raise SystemExit('Publication Candidate PDF authority drift')
+
+          candidate_sha = hashlib.sha256(candidate_path.read_bytes()).hexdigest()
+          print(f'issue_id={candidate["issue_id"]}')
+          print(f'candidate_path={candidate_rel.as_posix()}')
+          print(f'candidate_sha256={candidate_sha}')
+          print(f'pdf_path={pdf_rel.as_posix()}')
+          print(f'pdf_sha256={pdf_sha}')
+          print(f'page_count={candidate["pdf"]["page_count"]}')
+          PY
+
+      - name: Write exact-byte audit sidecar
+        shell: bash
+        env:
+          ISSUE_ID: ${{ steps.preview.outputs.issue_id }}
+          CANDIDATE_PATH: ${{ steps.preview.outputs.candidate_path }}
+          CANDIDATE_SHA256: ${{ steps.preview.outputs.candidate_sha256 }}
+          PDF_PATH: ${{ steps.preview.outputs.pdf_path }}
+          PDF_SHA256: ${{ steps.preview.outputs.pdf_sha256 }}
+          PAGE_COUNT: ${{ steps.preview.outputs.page_count }}
+        run: |
+          set -euo pipefail
+          mkdir -p preview-export
+          cp "$PDF_PATH" "preview-export/${ISSUE_ID}-publication-preview.pdf"
+          python - <<'PY'
+          import json
+          import os
+          import pathlib
+          payload = {
+              'schema_version': '2.0-rc1',
+              'issue_id': os.environ['ISSUE_ID'],
+              'publication_candidate_path': os.environ['CANDIDATE_PATH'],
+              'publication_candidate_sha256': os.environ['CANDIDATE_SHA256'],
+              'pdf_path': os.environ['PDF_PATH'],
+              'pdf_sha256': os.environ['PDF_SHA256'],
+              'page_count': int(os.environ['PAGE_COUNT']),
+              'export_mode': 'EXACT_PUBLICATION_CANDIDATE_BYTES',
+          }
+          pathlib.Path('preview-export/exact-byte-audit.json').write_text(
+              json.dumps(payload, ensure_ascii=False, indent=2) + '\n',
+              encoding='utf-8',
+          )
+          PY
+          actual=$(sha256sum "preview-export/${ISSUE_ID}-publication-preview.pdf" | awk '{print $1}')
+          test "$actual" = "$PDF_SHA256"
+
+      - name: Upload exact Publication Preview bytes
+        uses: actions/upload-artifact@v7
+        with:
+          name: core-v2-publication-preview-${{ steps.preview.outputs.issue_id }}-${{ steps.preview.outputs.pdf_sha256 }}
+          path: preview-export
+          if-no-files-found: error
+          retention-days: 14

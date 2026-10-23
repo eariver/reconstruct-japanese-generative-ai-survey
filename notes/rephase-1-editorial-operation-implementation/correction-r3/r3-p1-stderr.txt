@@ -1,0 +1,283 @@
+test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree) ... ERROR
+test_candidate_observed_and_stale (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_candidate_observed_and_stale) ... ERROR
+test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active) ... ERROR
+test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end) ... ERROR
+test_ordinary_reviews_stay_compatible (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_ordinary_reviews_stay_compatible) ... ERROR
+test_proposal_binding_and_retention (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_proposal_binding_and_retention) ... ERROR
+test_r1_mechanical_refresh_owner (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_r1_mechanical_refresh_owner) ... ERROR
+test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix) ... ERROR
+test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives) ... ERROR
+
+======================================================================
+ERROR: test_artifact_only_vs_control_drift_and_tree (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_artifact_only_vs_control_drift_and_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1452, in test_artifact_only_vs_control_drift_and_tree
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_candidate_observed_and_stale (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_candidate_observed_and_stale)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1677, in test_candidate_observed_and_stale
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_honest_predecessor_original_vs_active (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_honest_predecessor_original_vs_active)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1028, in test_honest_predecessor_original_vs_active
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_longform_prose_correction_end_to_end (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_longform_prose_correction_end_to_end)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 835, in test_longform_prose_correction_end_to_end
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 525, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_ordinary_reviews_stay_compatible (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_ordinary_reviews_stay_compatible)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1331, in test_ordinary_reviews_stay_compatible
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_proposal_binding_and_retention (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_proposal_binding_and_retention)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1353, in test_proposal_binding_and_retention
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_r1_mechanical_refresh_owner (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_r1_mechanical_refresh_owner)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1742, in test_r1_mechanical_refresh_owner
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_refusal_and_scope_matrix (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_refusal_and_scope_matrix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 1093, in test_refusal_and_scope_matrix
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+======================================================================
+ERROR: test_weekly_envelope_positive_and_body_negatives (tests.test_survey_editorial_correction_proposal_v2.EditorialCorrectionProposalV2Tests.test_weekly_envelope_positive_and_body_negatives)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 936, in test_weekly_envelope_positive_and_body_negatives
+    built = _build_weekly_validated(self, helper)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 470, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 204, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 156, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/editorial-manuscript-spec-v2.schema.json
+
+----------------------------------------------------------------------
+Ran 9 tests in 3.567s
+
+FAILED (errors=9)

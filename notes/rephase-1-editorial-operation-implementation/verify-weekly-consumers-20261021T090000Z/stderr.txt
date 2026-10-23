@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-weekly-consumers-20261021T090000Z/verify_weekly_consumers.py", line 314, in main
+    prepared=proposal_mod.prepare_proposal(root, state_path_rel, staged_authoring_rel, PROPOSAL2, "Smoke weekly second envelope correction.")
+  File "/tmp/opencode/jgas-editorial-wk2-verify-20261021T090000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1984, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/tmp/opencode/jgas-editorial-wk2-verify-20261021T090000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1704, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/tmp/opencode/jgas-editorial-wk2-verify-20261021T090000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1517, in _pipeline_data
+    effective, active_record = _active_effective(col, root, cfg, state, original_rows)
+                               ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-wk2-verify-20261021T090000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 478, in _active_effective
+    raise _fail("VERSIONED_ROW_SHAPE", f"versioned row fields invalid (expected path/sha256/byte_count/origin): {rname}")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: VERSIONED_ROW_SHAPE: versioned row fields invalid (expected path/sha256/byte_count/origin): reader-manuscript

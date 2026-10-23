@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/editorial-publication-source-manifest-v2.schema.json",
+  "title": "Survey Editorial Publication Source Manifest (EDITORIAL_PUBLICATION_SOURCE_V1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "issue_id",
+    "research_profile",
+    "publication_profile",
+    "generator_route",
+    "proposal_ref",
+    "retention_manifest_ref",
+    "staged_manifest_ref",
+    "scope_review_ref",
+    "reviewed_reader_input",
+    "authored_refs",
+    "accepted_refs",
+    "current_tools",
+    "outputs",
+    "receipt_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "kind": {"const": "EDITORIAL_PUBLICATION_SOURCE_V1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"enum": ["WEEKLY", "THEMATIC"]},
+    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+    "generator_route": {"enum": ["WEEKLY_GENERATED_V2", "LONGFORM_GENERATED_V1"]},
+    "proposal_ref": {"$ref": "#/$defs/artifact"},
+    "retention_manifest_ref": {"$ref": "#/$defs/artifact"},
+    "staged_manifest_ref": {"$ref": "#/$defs/artifact"},
+    "scope_review_ref": {"$ref": "#/$defs/artifact"},
+    "reviewed_reader_input": {"$ref": "#/$defs/artifact"},
+    "authored_refs": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {"$ref": "#/$defs/namedArtifact"}
+    },
+    "accepted_refs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/namedArtifact"}
+    },
+    "current_tools": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_commit_sha", "contract", "closure"],
+      "properties": {
+        "repository_commit_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "contract": {"type": "object"},
+        "closure": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/namedArtifact"}}
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["primary", "bibliography", "style"],
+      "properties": {
+        "primary": {"$ref": "#/$defs/artifact"},
+        "bibliography": {"$ref": "#/$defs/artifact"},
+        "style": {"$ref": "#/$defs/artifact"}
+      }
+    },
+    "receipt_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "namedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

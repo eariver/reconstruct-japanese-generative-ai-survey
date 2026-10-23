@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-r1-anchor-20261021T093000Z/verify-r1-anchor-v2.py", line 675, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-r1-anchor-20261021T093000Z/verify-r1-anchor-v2.py", line 509, in main
+    res = edpub.activate_publication(FIX_ROOT, _rel2(state_path), set_rel, "WorkerC weekly editorial correction", "workerc-executor", datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-workerC-r1anchor-20261021T093000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 3064, in activate_publication
+    raise _fail("POSTREPLACE_FAIL", "ACTIVATE", "EXPLICIT_RECOVERY", f"primary activation wrote record+State but postreplace failed; observed {observed}; record at {record_rel} preserved (never delete); secondary: {'; '.join(secondary_errors)}")
+scripts.survey_editorial_publication_v2.EditorialError: POSTREPLACE_FAIL: [ACTIVATE/EXPLICIT_RECOVERY] primary activation wrote record+State but postreplace failed; observed new; record at sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json preserved (never delete); secondary: post set invalid: STATE_INVALID: [VALIDATE/REFUSED_PRE_WRITE] strict Production State invalid: Stage Checkpoint artifact drift: reader-surface-gate; post State agent invalid: Stage Checkpoint artifact drift: reader-surface-gate
+Command exited with non-zero status 2
+	Command being timed: "python3 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-r1-anchor-20261021T093000Z/verify-r1-anchor-v2.py /tmp/opencode/jgas-workerC-r1anchor-20261021T093000Z/candidate-partial-b40de60 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-r1-anchor-20261021T093000Z"
+	User time (seconds): 142.54
+	System time (seconds): 20.18
+	Percent of CPU this job got: 100%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:42.29
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 672876
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 1
+	Minor (reclaiming a frame) page faults: 1496122
+	Voluntary context switches: 22843
+	Involuntary context switches: 2929
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 512
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 2

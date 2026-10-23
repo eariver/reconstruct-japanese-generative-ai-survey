@@ -1,0 +1,161 @@
+#!/usr/bin/env python3
+"""Bounded content-keyed schema cache — behavior + regression tests (no timing claims).
+
+Covers, with real files in isolated temp dirs (no DST mutation):
+- valid instance passes, invalid instance fails (no success masking by cache)
+- schema drift at same path detected (same path, different bytes → new behavior, not stale)
+- invalid schema rejected even after prior valid at same path (no stale valid cache)
+- external file $ref never cached (changing external file changes behavior, not stale)
+- bounded LRU (cache size stays within _CACHE_MAX after many distinct schemas)
+Timing is measured separately (see freeze/timing notes); these tests assert correctness only.
+"""
+from __future__ import annotations
+
+import json
+import tempfile
+import unittest
+from pathlib import Path
+
+from scripts import survey_schema_v2 as schema_gate
+
+
+def _write(path: Path, obj: dict) -> None:
+    path.write_text(json.dumps(obj), encoding="utf-8")
+
+
+class SchemaCacheBehaviorTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.root = Path(self.tmp.name)
+        # Isolate cache between tests (clear LRU, no cross-test stale).
+        schema_gate._CACHE.clear()
+
+    def _schema(self, name: str, required_field: str = "name") -> Path:
+        p = self.root / name
+        _write(p, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "additionalProperties": False,
+            "required": [required_field],
+            "properties": {required_field: {"type": "string", "minLength": 1}},
+        })
+        return p
+
+    def test_valid_passes_invalid_fails_same_schema(self) -> None:
+        sp = self._schema("s.json", "name")
+        schema_gate.validate_instance({"name": "ok"}, sp, label="t")
+        with self.assertRaises(schema_gate.SchemaConformanceError):
+            schema_gate.validate_instance({"name": ""}, sp, label="t")
+        with self.assertRaises(schema_gate.SchemaConformanceError):
+            schema_gate.validate_instance({"other": "x"}, sp, label="t")
+        # Repeat valid still passes (cache hit must not mask invalid, nor bless valid without check).
+        schema_gate.validate_instance({"name": "ok2"}, sp, label="t")
+
+    def test_schema_drift_same_path_detected(self) -> None:
+        sp = self._schema("drift.json", "name")
+        schema_gate.validate_instance({"name": "ok"}, sp, label="t")
+        # Drift: same path, different schema (require `title` instead of `name`).
+        _write(sp, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["title"],
+            "properties": {"title": {"type": "string"}},
+        })
+        # Old instance must now fail (not stale old schema).
+        with self.assertRaises(schema_gate.SchemaConformanceError):
+            schema_gate.validate_instance({"name": "ok"}, sp, label="t")
+        # New shape passes.
+        schema_gate.validate_instance({"title": "t"}, sp, label="t")
+
+    def test_invalid_schema_rejected_even_after_valid(self) -> None:
+        sp = self._schema("bad.json", "name")
+        schema_gate.validate_instance({"name": "ok"}, sp, label="t")
+        # Overwrite same path with invalid schema (type not object at top is still object, but bad $schema ref).
+        # Use truly invalid: `type` as number (metaschema violation).
+        sp.write_text(json.dumps({"type": 123}), encoding="utf-8")
+        with self.assertRaises(schema_gate.SchemaConformanceError):
+            schema_gate.validate_instance({"name": "ok"}, sp, label="t")
+        with self.assertRaises(schema_gate.SchemaConformanceError):
+            schema_gate.load_schema(sp)
+
+    def test_external_file_ref_never_cached(self) -> None:
+        # Outer schema refs external file (relative, not `#/`).
+        ext = self.root / "card.json"
+        _write(ext, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["v"],
+            "properties": {"v": {"type": "string"}},
+        })
+        outer = self.root / "outer.json"
+        _write(outer, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {"card": {"$ref": "card.json"}},
+        })
+        # load_schema resolves? jsonschema Draft202012Validator without registry will treat
+        # relative file $ref as unresolved on iter_errors (may fail or pass depending on retriever).
+        # Our contract: external-ref schemas must NOT use cache (always fresh compile).
+        # Assert cache stays empty after validating with external ref (skip-cache path).
+        before = len(schema_gate._CACHE)
+        try:
+            schema_gate.validate_instance({"card": {"v": "x"}}, outer, label="t")
+        except Exception:
+            pass  # resolution failure (unresolvable ref) is acceptable; key point is no stale cache entry
+        self.assertEqual(len(schema_gate._CACHE), before, "external-ref schema must not populate cache")
+        # Change external file: behavior must change (not stale). Rewrite card to require `w`.
+        _write(ext, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "additionalProperties": False,
+            "required": ["w"],
+            "properties": {"w": {"type": "string"}},
+        })
+        # Re-validate same outer+instance: must not return stale success from before.
+        # (If resolver fails both times, still no cache growth.)
+        try:
+            schema_gate.validate_instance({"card": {"v": "x"}}, outer, label="t")
+        except Exception:
+            pass
+        self.assertEqual(len(schema_gate._CACHE), before)
+        # At least assert no cache entry was created for outer (skip-cache holds regardless of pass/fail).
+        self.assertFalse(any("outer.json" in str(k[0]) for k in schema_gate._CACHE.keys()))
+
+    def test_external_dynamic_ref_never_cached(self) -> None:
+        # Same skip-cache contract for $dynamicRef/$recursiveRef (any non-# reference semantics).
+        ext = self.root / "card2.json"
+        _write(ext, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "$dynamicAnchor": "card",
+            "type": "object",
+            "required": ["v"],
+            "properties": {"v": {"type": "string"}},
+        })
+        outer = self.root / "outer2.json"
+        _write(outer, {
+            "$schema": "https://json-schema.org/draft/2020-12/schema",
+            "type": "object",
+            "properties": {"card": {"$dynamicRef": "card2.json#card"}},
+        })
+        before = len(schema_gate._CACHE)
+        try:
+            schema_gate.validate_instance({"card": {"v": "x"}}, outer, label="t")
+        except Exception:
+            pass
+        self.assertEqual(len(schema_gate._CACHE), before, "external $dynamicRef must not populate cache")
+        self.assertFalse(any("outer2.json" in str(k[0]) for k in schema_gate._CACHE.keys()))
+
+    def test_bounded_lru(self) -> None:
+        # Create more distinct schemas than _CACHE_MAX; cache must stay bounded.
+        for i in range(schema_gate._CACHE_MAX + 10):
+            sp = self._schema(f"s{i}.json", f"f{i}")
+            schema_gate.validate_instance({f"f{i}": "x"}, sp, label="t")
+        self.assertLessEqual(len(schema_gate._CACHE), schema_gate._CACHE_MAX)
+        self.assertGreater(len(schema_gate._CACHE), 0)
+
+
+if __name__ == "__main__":
+    unittest.main()

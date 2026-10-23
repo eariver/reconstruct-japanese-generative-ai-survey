@@ -1,0 +1,64 @@
+PACKET=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-lifecycle-r3c-20261021T160000Z
+SRC_FROZEN HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+SRC_POSITIVE HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+===0 COPY weekly positive post-second===
+cp -a exit=0 stderr=''
+COPY elapsed placeholder (bash timed externally)
+SRC_HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 DST_HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 SAME=True
+LSFILES src=718 dst=718 (expect 718)
+INODE scripts/survey_schema_v2.py SRC=45:936146 1 DST=45:1008956 1
+INODE scripts/survey_editorial_publication_v2.py SRC=45:936165 1 DST=45:1008975 1
+INODE .git/HEAD SRC=45:936445 1 DST=45:1009255 1
+ALTERNATES exists=False (expect False)
+REMOTE='origin\thttps://example.invalid/workerR3c-longform-fixture3.git (fetch)\norigin\thttps://example.invalid/workerR3c-longform-fixture3.git (push)' (expect empty or example.invalid inert)
+FROZEN manifest head=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 tree=44cbfc1864d269e338bdbd6060305e5fd558060 count=718
+HASH mismatches=0
+SRC_POSITIVE HEAD_AFTER_COPY=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 UNCHANGED=True
+STATE lifecycle=VALIDATED_DRAFT pointer={'path': 'sources/SP001/publication/v2/publication-surface-revalidation-r2.json', 'sha256': 'f2877eb749706203843c5954f6498178d25d58985cf40226b141c726d4c4451f'}
+LEAVES ['lf-r3c-1', 'lf-r3c-2'] (expect ['lf-r3c-1','lf-r3c-2'])
+SELECTION mode=VERSIONED_ACTIVE cand=sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json
+OLD pins captured 6
+ACTIVE set sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-set.json
+ACTIVE pdf sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/build/main.pdf pages=5 sha=c373686f61ee61e66a5e86eaae9860c7ba8f475d498125d8f560296772b79307
+RECEIPT SP001
+GATE PASSED
+CAND READY_FOR_PUBLICATION_PREVIEW
+===3 VALIDATED_DRAFT->RELEASE_CANDIDATE===
+REQUIRED_CURRENT VALIDATED_DRAFT={'publication-candidate'}
+STAGE VALIDATED_DRAFT OK elapsed=3.436s
+CHECKPOINT /tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/sources/SP001/orchestration/v2/checkpoints/VALIDATED_DRAFT.json elapsed=0.675s
+ADVANCE to RELEASE_CANDIDATE terminal=HUMAN_GATE_REACHED elapsed=1.260s
+===Preview synthetic (actual records, explicit type-only)===
+PREVIEW approved elapsed=3.560s gates={'architecture_review': 'approved', 'publication_preview': 'approved'}
+APPROVAL ref={'path': 'sources/SP001/gates/publication-preview-approval.json', 'sha256': 'f6fcb8de8c786970b99d89097c6dbfba4eee039540a2070086df880a948a3253'}
+APPROVAL pdf=c373686f61ee61e66a5e86eaae9860c7ba8f475d498125d8f560296772b79307
+PLACEHOLDER synthetic approval, NO production semantic PASS
+===resolvers + export (actual behaviors, no AST proof)===
+ORCH gate rows=[{'name': 'publication-candidate', 'path': 'sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json', 'sha256': 'efc04e8b058bbabd4c2b72d60c5cdd253385b29a78f3d289655b49d6bf46e077', 'required': True}]
+CURRENT stage RELEASE_CANDIDATE artifacts=[{'name': 'freeze-record', 'path': '{source_root}/publication/v2/freeze-record-v2.json'}, {'name': 'release-manifest', 'path': '{source_root}/publication/v2/release-manifest-v2.json'}]
+HANDOFF resolver sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json (expect active sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json)
+HUMANGATE resolver sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json
+HUMANGATE reviewed 2 rows
+EXPORT manual matched=[('sources/SP001/production-state.json', 'VERSIONED_ACTIVE')]
+EXPORT BLOCKER (workflow absolute-vs-relative, continue lifecycle): SystemExit: unsafe path (must be strict repo-relative): '/tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json'
+===Freeze -> FROZEN===
+FREEZE elapsed=4.219s freeze=sources/SP001/publication/v2/freeze-record-v2.json manifest=sources/SP001/publication/v2/release-manifest-v2.json
+REQUIRED_CURRENT RELEASE_CANDIDATE={'release-manifest', 'visual-review-record', 'freeze-record'}
+CAND active visual sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/visual-review-v2.json
+CONFIG stage_plan RELEASE_CANDIDATE artifacts=[{'name': 'freeze-record', 'path': '{source_root}/publication/v2/freeze-record-v2.json'}, {'name': 'release-manifest', 'path': '{source_root}/publication/v2/release-manifest-v2.json'}]
+STAGE RELEASE_CANDIDATE OK elapsed=7.007s
+CHECKPOINT FREEZE /tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/sources/SP001/orchestration/v2/checkpoints/RELEASE_CANDIDATE.json elapsed=1.335s
+ADVANCE to FROZEN
+STATE after FROZEN errs=[]
+HISTORY after FROZEN [{'from': 'VALIDATED_DRAFT', 'to': 'RELEASE_CANDIDATE', 'recorded_at': '2026-10-21T15:12:21Z', 'repository_commit_sha': '0d9857e6132fb314a2e2ba141da79c54f4ec5e06'}, {'from': 'RELEASE_CANDIDATE', 'to': 'FROZEN', 'recorded_at': '2026-10-21T15:12:42Z', 'repository_commit_sha': '0d9857e6132fb314a2e2ba141da79c54f4ec5e06'}]
+===Release -> RELEASED offline===
+MERGED_SHA 0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+MERGE built elapsed=0.792s
+RELEASE record built elapsed=0.786s
+RELEASE checkpoint /tmp/opencode/jgas-longform-lifecycle-20261021T160000Z/candidate-partial-b40de60/sources/SP001/orchestration/v2/checkpoints/FROZEN.json elapsed=2.117s
+ADVANCE to RELEASED
+STATE after RELEASED errs=[]
+HISTORY after RELEASED [{'from': 'VALIDATED_DRAFT', 'to': 'RELEASE_CANDIDATE', 'recorded_at': '2026-10-21T15:12:21Z', 'repository_commit_sha': '0d9857e6132fb314a2e2ba141da79c54f4ec5e06'}, {'from': 'RELEASE_CANDIDATE', 'to': 'FROZEN', 'recorded_at': '2026-10-21T15:12:42Z', 'repository_commit_sha': '0d9857e6132fb314a2e2ba141da79c54f4ec5e06'}, {'from': 'FROZEN', 'to': 'RELEASED', 'recorded_at': '2026-10-21T15:12:49Z', 'repository_commit_sha': '0d9857e6132fb314a2e2ba141da79c54f4ec5e06'}]
+OLD_IMMUTABLE_KEEP_OK across all later stages
+TOTAL elapsed=53.097s
+LONGFORM LIFECYCLE COMPLETE (synthetic type-only, NO production semantic PASS)

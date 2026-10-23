@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/editorial-publication-set-v2.schema.json",
+  "title": "Survey Production Core v2 Editorial Publication Set Seal (immutable, inert)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "kind",
+    "status",
+    "issue_id",
+    "research_profile",
+    "publication_profile",
+    "proposal_ref",
+    "staged_manifest_ref",
+    "build_record_ref",
+    "roles",
+    "set_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "kind": {"const": "EDITORIAL_PUBLICATION_SET_V1"},
+    "status": {"const": "SEALED_INERT"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"type": "string", "minLength": 1},
+    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+    "proposal_ref": {"$ref": "#/$defs/ref"},
+    "staged_manifest_ref": {"$ref": "#/$defs/ref"},
+    "build_record_ref": {"$ref": "#/$defs/ref"},
+    "roles": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reader-input",
+        "authoring-input",
+        "source-receipt",
+        "reader-manuscript",
+        "validated-source",
+        "bibliography",
+        "style",
+        "publication-pdf",
+        "build-log",
+        "pdf-digest",
+        "quality-regression-bundle",
+        "semantic-review",
+        "visual-review",
+        "reader-surface-gate",
+        "publication-candidate"
+      ],
+      "properties": {
+        "reader-input": {"$ref": "#/$defs/file_ref"},
+        "authoring-input": {"$ref": "#/$defs/file_ref"},
+        "source-receipt": {"$ref": "#/$defs/file_ref"},
+        "reader-manuscript": {"$ref": "#/$defs/file_ref"},
+        "validated-source": {"$ref": "#/$defs/file_ref"},
+        "bibliography": {"$ref": "#/$defs/file_ref"},
+        "style": {"$ref": "#/$defs/file_ref"},
+        "publication-pdf": {"$ref": "#/$defs/file_ref"},
+        "build-log": {"$ref": "#/$defs/file_ref"},
+        "pdf-digest": {"$ref": "#/$defs/file_ref"},
+        "quality-regression-bundle": {"$ref": "#/$defs/file_ref"},
+        "semantic-review": {"$ref": "#/$defs/file_ref"},
+        "visual-review": {"$ref": "#/$defs/file_ref"},
+        "reader-surface-gate": {"$ref": "#/$defs/file_ref"},
+        "publication-candidate": {"$ref": "#/$defs/file_ref"}
+      }
+    },
+    "set_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "file_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_count"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

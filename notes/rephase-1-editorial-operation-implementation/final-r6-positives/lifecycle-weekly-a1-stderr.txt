@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/final-r6-positives/lifecycle-r6-20261023T010000Z.py", line 291, in _run
+    handoff.build_handoff(root, cfg, root / state_rel,
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          {"publication-candidate": root / cand_rel},
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                          {name: root / row["path"] for name, row in contract.items()
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                           if isinstance(row, dict) and isinstance(row.get("path"), str)})
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/final-r6/weekly/scripts/survey_handoff_v2.py", line 97, in build_handoff
+    core.verify_state_basis(repo_root, cfg, state, pinned)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/final-r6/weekly/scripts/survey_production_v2.py", line 995, in verify_state_basis
+    raise ValueError("Production State semantic inconsistency: " + "; ".join(semantic_errors))
+ValueError: Production State semantic inconsistency: checkpoint discovery authority path is not canonical; checkpoint screening authority path is not canonical; checkpoint evidence authority path is not canonical; checkpoint materiality authority path is not canonical; checkpoint completeness authority path is not canonical; checkpoint selection authority path is not canonical; checkpoint architecture authority path is not canonical; checkpoint draft authority path is not canonical; checkpoint validation authority path is not canonical
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/final-r6-positives/lifecycle-r6-20261023T010000Z.py", line 123, in main
+    return _run(route, R, root, notes, exp_head, exp_tree, exp_count, inert_manifest,
+                core, pubmod, setmod, stage_validation, agent, profiled,
+                release_ckpt, reader_gate, edpub, orch, handoff, humangate)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/final-r6-positives/lifecycle-r6-20261023T010000Z.py", line 298, in _run
+    assert "does not require a production Stage Handoff" in str(exc), str(exc)[:300]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Production State semantic inconsistency: checkpoint discovery authority path is not canonical; checkpoint screening authority path is not canonical; checkpoint evidence authority path is not canonical; checkpoint materiality authority path is not canonical; checkpoint completeness authority path is 

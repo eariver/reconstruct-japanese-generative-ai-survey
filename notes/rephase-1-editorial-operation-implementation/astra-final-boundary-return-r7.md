@@ -1,0 +1,8 @@
+# R7 final public-boundary corrections
+
+Final R6 matrix closed exact review-role/target binding, current accepted refs, public prepare process failure, and classified IO/resume cases. Two actual boundary defects remain; they are not waived by normal two-revision positives.
+
+1. `survey_agent_control_v2.main` validate-state uses undefined `repo_root` in the new strict loader; the local variable is `root`. Fix the CLI boundary and inspect other new loader calls in `main`. Run the actual public validate-state CLI on healthy initial/revised/FROZEN/RELEASED and malformed/outside-root inputs, including the inherited DM004 required-call regression. A NameError is not a controlled validation refusal.
+2. Depth limit32 means **at most32 records including active**. Actual legacy behavior and selected contract permit32; R6's31-positive/32-refused is an off-by-one, not boundary PASS. Correct every relevant low/agent/high walk/prewrite count consistently: valid32 passes, valid33 refuses before adoption/write. Sequence numbers may have gaps; count links, not numeric suffix magnitude. Preserve full original union/cumulative legacy semantics and all hash/chronology checks. Source-bound typed legacy chain fixtures are not actual R1×33 operation evidence.
+
+Preserve R6 source/evidence, including the mistaken32-refusal PASS wording, as history. New narrowly changed source requires fresh affected boundary/CLI checks and independent resolution; normal/IO proof scopes may remain qualified where their code paths are unchanged, but no automatic exact-epoch PASS transfer. Whole unit still awaits final source packaging/evidence review; no new feature or Human Gate is selected.

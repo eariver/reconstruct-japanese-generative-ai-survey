@@ -1,0 +1,14 @@
+# Group C initial cheap tests (pre-revision, 5/5 PASS — presence/shape only, NOT behavioral proof)
+# Runner: PYTHONDONTWRITEBYTECODE=1 manual import (no pytest in env), no fixtures, no authority generation.
+# Archived before CHANGES_REQUIRED edits. New R1 revision must replace shape-presence tests with behavioral tests.
+
+PASS test_config_contract_files_only_five_new
+PASS test_group_c_only_frozen_apis
+PASS test_p3s_exact50
+PASS test_refusal_helpers_present
+PASS test_resolvers_present
+
+# Independent review verdict on these: §7 — cheap tests are not behavioral integration.
+# Required: invalid pointer/selection fail propagation, resolver path correct, actual signatures,
+# normal Preview/Freeze/Release in both modes, repeat, R1x2 anchor, active-vs-historical, §9 negatives.
+# Reports WORKS/proves repeat only after run, not shape-presence.

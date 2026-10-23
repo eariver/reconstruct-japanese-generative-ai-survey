@@ -1,0 +1,161 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/publication-surface-revalidation.schema.json",
+  "title": "Survey Production Core v2 Publication Surface Revalidation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "issue_id",
+    "reason_class",
+    "reason",
+    "lifecycle",
+    "prior_checkpoint",
+    "superseded_artifacts",
+    "preserved_artifacts",
+    "validation",
+    "core",
+    "executor",
+    "recorded_at",
+    "supersedes",
+    "establishment"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "reason_class": {"const": "REVIEWED_CORE_CHANGE"},
+    "reason": {"type": "string", "minLength": 1},
+    "lifecycle": {"const": "VALIDATED_DRAFT"},
+    "prior_checkpoint": {"$ref": "#/$defs/authority"},
+    "superseded_artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/superseded_artifact"}
+    },
+    "preserved_artifacts": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/preserved_artifact"}
+    },
+    "validation": {"$ref": "#/$defs/validation"},
+    "core": {"$ref": "#/$defs/core"},
+    "executor": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "supersedes": {
+      "description": "Exact authority reference to the prior revalidation record this round supersedes, or null for the first round. The referenced file must remain immutable on disk.",
+      "oneOf": [{"$ref": "#/$defs/authority"}, {"type": "null"}]
+    },
+    "establishment": {
+      "description": "Provenance snapshot proving the record was established under sanctioned pre-decision conditions. Audit evidence reviewed alongside operation gates; post-decision agreement with Human-approved bytes is enforced separately.",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "state_sha256",
+        "lifecycle",
+        "architecture_review",
+        "publication_preview",
+        "freeze",
+        "release",
+        "implementation_commit_sha",
+        "recorded_at"
+      ],
+      "properties": {
+        "state_sha256": {"$ref": "#/$defs/sha256"},
+        "lifecycle": {"const": "VALIDATED_DRAFT"},
+        "architecture_review": {"const": "approved"},
+        "publication_preview": {"const": "pending"},
+        "freeze": {"const": "pending"},
+        "release": {"const": "pending"},
+        "implementation_commit_sha": {"$ref": "#/$defs/gitsha"},
+        "recorded_at": {"type": "string", "format": "date-time"}
+      }
+    }
+  },
+  "$defs": {
+    "authority": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "superseded_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "prior_sha256", "new_sha256", "byte_count"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "prior_sha256": {"$ref": "#/$defs/sha256"},
+        "new_sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "preserved_artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manuscript",
+        "quality_bundle",
+        "semantic_review",
+        "visual_review",
+        "pdf",
+        "deterministic_checks",
+        "summary"
+      ],
+      "properties": {
+        "manuscript": {"$ref": "#/$defs/authority"},
+        "quality_bundle": {"$ref": "#/$defs/authority"},
+        "semantic_review": {"$ref": "#/$defs/authority"},
+        "visual_review": {"$ref": "#/$defs/authority"},
+        "pdf": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "sha256", "byte_count", "page_count"],
+          "properties": {
+            "path": {"type": "string", "minLength": 1},
+            "sha256": {"$ref": "#/$defs/sha256"},
+            "byte_count": {"type": "integer", "minimum": 1},
+            "page_count": {"type": "integer", "minimum": 1}
+          }
+        },
+        "deterministic_checks": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["check_id", "status"],
+            "properties": {
+              "check_id": {"type": "string", "minLength": 1},
+              "status": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        "summary": {"type": "string", "minLength": 1}
+      }
+    },
+    "core": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract", "implementation_commit_sha"],
+      "properties": {
+        "contract": {"type": "object"},
+        "implementation_commit_sha": {"$ref": "#/$defs/gitsha"}
+      }
+    },
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitsha": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+  }
+}

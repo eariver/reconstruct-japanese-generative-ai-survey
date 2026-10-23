@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-lifecycle-r3c-20261021T160000Z/verify_weekly_lifecycle.py", line 252, in main
+    appr = agent.approve_publication_preview(root, cfg, root/state_rel, "synthetic-weekly-human-fixture", datetime.now(timezone.utc), "synthetic:weekly-preview-wk-r3c-2")
+  File "/tmp/opencode/jgas-weekly-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_agent_control_v2.py", line 1801, in approve_publication_preview
+    publication.build_preview_approval(repo_root, candidate, approval_path, reviewed_by, reviewed_at, review_reference)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-weekly-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_publication_v2.py", line 851, in build_preview_approval
+    _write_immutable(output_path, payload, "Publication Preview approval")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-weekly-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_publication_v2.py", line 70, in _write_immutable
+    core.write_json(path, payload)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-weekly-lifecycle-20261021T160000Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 135, in write_json
+    path.write_bytes(json_bytes(data))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 797, in write_bytes
+    with self.open(mode='wb') as f:
+         ~~~~~~~~~^^^^^^^^^^^
+OSError: [Errno 122] Disk quota exceeded

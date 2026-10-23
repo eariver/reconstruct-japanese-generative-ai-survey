@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 283, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 271, in main
+    cv = pubmod.validate_candidate(root, _rel(cand_path))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T173000Z/candidate-partial-b40de60/scripts/survey_publication_v2.py", line 750, in validate_candidate
+    payload = schema_gate.load_and_validate_json(path, repo_root / CANDIDATE_SCHEMA, label="Publication Candidate")
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T173000Z/candidate-partial-b40de60/scripts/survey_schema_v2.py", line 72, in load_and_validate_json
+    if path.is_symlink() or not path.is_file():
+       ^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'is_symlink'

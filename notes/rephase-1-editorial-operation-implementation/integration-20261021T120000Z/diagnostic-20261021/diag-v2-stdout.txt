@@ -1,0 +1,76 @@
+DIAG_V2_START root=/tmp/opencode/jgas-editorial-diag-20261021T000000Z/candidate-partial-b40de60 pid=341500
+BEFORE_HEAD feb4d1fcd36566653b2dbe58eefc5311daecc7ee STATUS_LINES=10
+BEFORE_HASHES {"sources/2026-W37/production-state.json": "fb9204bd862cfa359fd39e15a3115d36fef265ac293e392f55c48464acc1fde7", "sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/publication-candidate-v2.json": "b86f7eea19ebec57bfc2f50794c4524e1a55541845e7ff320715cdb2e0876c04", "sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/publication-set.json": "79cf3a2c9c9516389efe5ceae206e4b37131d0bb4ab178958fd74f3a7ab7edf8", "sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/reader-surface-gate-v2.json": "ec6ca0b89ebcd2c89a8deeba6eb628746c722e80a00cc46101bd5d8cf6da8292", "sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/publication/validated-source-manifest.json": "95e3b2ab482055e51a2ab9e8a710fec05edbd2a66ac8cc9872f3cc046529fb17", "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json": "037fecc30d7b9e9374767c277598598e3f1f95871cf152f8f55815197fdf9032"}
+=== SAMEPROCESS_ROUND 1 t=0.7s ===
+CALL scripts.survey_editorial_publication_v2.validate_prepared_set #1 t=0.7s
+CALL scripts.survey_editorial_publication_v2.validate_editorial_receipt #1 t=0.7s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #1 t=2.6s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #1 t=3.0s
+SAMPLER_STACK _keywords.py:44:additionalProperties | validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:432:descend
+SAMPLER_STACK validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:680:lookup | parse.py:668:urldefrag | <string>:1:<lambda>
+SAMPLER_STACK survey_agent_control_v2.py:633:resolve_checkpoint_artifact | survey_agent_control_v2.py:677:_resolve_checkpoint_artifact | survey_agent_control_v2.py:1414:_resolve_publication_revalidation | survey_agent_control_v2.py:1271:_check_revalidation_agreement | survey_publication_set_v2.py:1485:resolve_publication_selection | survey_publication_set_v2.py:967:derive_canonical_anchor | survey_publication_set_v2.py:224:read_repo_bytes | survey_publication_set_v2.py:201:_read_bytes_nofollow
+SAMPLER_STACK _keywords.py:44:additionalProperties | validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:460:_validate_reference
+SAMPLER_STACK _keywords.py:296:properties | validators.py:432:descend | _keywords.py:44:additionalProperties | validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:463:_validate_reference | _core.py:682:lookup | _core.py:418:get_or_retrieve
+SAMPLER_STACK validators.py:432:descend | _keywords.py:296:properties | validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:432:descend | _keywords.py:334:allOf | validators.py:424:descend | validators.py:348:evolve
+SAMPLER_STACK survey_agent_control_v2.py:1332:resolve_active_publication_revalidation | survey_agent_control_v2.py:1407:_resolve_publication_revalidation | survey_publication_set_v2.py:1066:validate_activation_record | survey_publication_set_v2.py:553:validate_seal | survey_publication_set_v2.py:270:load_json_strict | survey_publication_set_v2.py:224:read_repo_bytes | survey_publication_set_v2.py:171:resolve_raw_path | survey_publication_set_v2.py:138:_walk_existing_ancestors
+RETURN scripts.survey_editorial_publication_v2.validate_editorial_receipt #1 t=39.6s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #2 t=39.7s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #2 t=40.1s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #3 t=40.1s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #3 t=40.5s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #4 t=40.6s
+SAMPLER_STACK validators.py:432:descend | _keywords.py:296:properties | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:682:lookup | _core.py:420:get_or_retrieve | <attrs generated methods referencing._core.Retrieved>:32:__init__
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #4 t=40.9s
+CALL scripts.survey_reader_surface_gate_v2.validate_reader_surface_gate #1 t=41.0s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #5 t=41.0s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #5 t=41.4s
+RETURN scripts.survey_reader_surface_gate_v2.validate_reader_surface_gate #1 t=41.4s
+CALL scripts.survey_publication_v2.validate_candidate #1 t=41.4s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #6 t=41.5s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #6 t=41.8s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #7 t=41.9s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #7 t=42.2s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #8 t=42.3s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #8 t=42.7s
+RETURN scripts.survey_publication_v2.validate_candidate #1 t=42.7s
+RETURN scripts.survey_editorial_publication_v2.validate_prepared_set #1 t=42.7s
+VALIDATE_SET_OK round=1 dt=42.1s
+CALL scripts.survey_editorial_publication_v2.validate_editorial_receipt #2 t=42.7s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #9 t=44.7s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #9 t=45.0s
+SAMPLER_STACK _keywords.py:44:additionalProperties | validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:463:_validate_reference | _core.py:695:lookup | jsonschema.py:618:resolve | _core.py:707:in_subresource | _make.py:631:evolve
+SAMPLER_STACK _keywords.py:296:properties | validators.py:432:descend | _keywords.py:275:ref | validators.py:432:descend | _keywords.py:285:type | _keywords.py:285:<genexpr> | validators.py:455:is_type | _types.py:90:is_type
+SAMPLER_STACK validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:680:lookup | parse.py:592:urljoin | parse.py:501:_urlsplit
+SAMPLER_STACK _keywords.py:296:properties | validators.py:432:descend | _keywords.py:44:additionalProperties | validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:463:_validate_reference | _core.py:695:lookup | jsonschema.py:615:resolve
+SAMPLER_STACK validators.py:432:descend | _keywords.py:279:dynamicRef | validators.py:463:_validate_reference | _core.py:695:lookup | jsonschema.py:618:resolve | _core.py:707:in_subresource | parse.py:592:urljoin | parse.py:517:_urlsplit
+SAMPLER_STACK _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:680:lookup | parse.py:592:urljoin | parse.py:522:_urlsplit | parse.py:423:_splitnetloc
+SAMPLER_STACK validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:424:descend | validators.py:348:evolve | <attrs generated methods jsonschema.validators.create.<locals>.Validator>:32:__init__ | validators.py:283:__attrs_post_init__
+SAMPLER_STACK validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:680:lookup | parse.py:592:urljoin | parse.py:501:_urlsplit
+RETURN scripts.survey_editorial_publication_v2.validate_editorial_receipt #2 t=81.8s
+RECEIPT_OK round=1 dt=39.1s
+CALL scripts.survey_reader_surface_gate_v2.validate_reader_surface_gate #2 t=81.8s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #10 t=81.9s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #10 t=82.3s
+RETURN scripts.survey_reader_surface_gate_v2.validate_reader_surface_gate #2 t=82.3s
+GATE_OK round=1 dt=0.5s status=PASSED
+CALL scripts.survey_publication_v2.validate_candidate #2 t=82.3s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #11 t=82.3s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #11 t=82.7s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #12 t=82.8s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #12 t=83.1s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #13 t=83.2s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #13 t=83.5s
+RETURN scripts.survey_publication_v2.validate_candidate #2 t=83.6s
+CAND_OK round=1 dt=1.3s
+CALL scripts.survey_editorial_publication_v2.activate_publication #1 t=83.6s
+CALL scripts.survey_editorial_publication_v2.validate_prepared_set #2 t=83.6s
+CALL scripts.survey_editorial_publication_v2.validate_editorial_receipt #3 t=83.6s
+CALL scripts.survey_editorial_staged_source_v2.verify_staged_source #14 t=85.5s
+RETURN scripts.survey_editorial_staged_source_v2.verify_staged_source #14 t=85.9s
+SAMPLER_STACK _keywords.py:279:dynamicRef | validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:697:lookup | _core.py:722:_evolve
+SAMPLER_STACK validators.py:342:evolve | validators.py:1400:validator_for | <frozen _collections_abc>:801:__contains__ | _utils.py:20:__getitem__ | _utils.py:13:normalize | parse.py:334:geturl | parse.py:559:urlunsplit | parse.py:119:_coerce_args
+SAMPLER_STACK _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:463:_validate_reference | _core.py:680:lookup | parse.py:592:urljoin | parse.py:522:_urlsplit | parse.py:422:_splitnetloc
+SAMPLER_STACK validators.py:342:evolve | validators.py:1400:validator_for | <frozen _collections_abc>:801:__contains__ | _utils.py:20:__getitem__ | _utils.py:13:normalize | parse.py:334:geturl | parse.py:565:urlunsplit | parse.py:568:_urlunsplit
+SAMPLER_STACK survey_agent_control_v2.py:1407:_resolve_publication_revalidation | survey_publication_set_v2.py:1066:validate_activation_record | survey_publication_set_v2.py:563:validate_seal | survey_publication_set_v2.py:746:_validate_build_record_bindings | survey_publication_set_v2.py:270:load_json_strict | survey_publication_set_v2.py:224:read_repo_bytes | survey_publication_set_v2.py:171:resolve_raw_path | survey_publication_set_v2.py:138:_walk_existing_ancestors
+SAMPLER_STACK validators.py:432:descend | _keywords.py:334:allOf | validators.py:432:descend | _keywords.py:275:ref | validators.py:432:descend | _keywords.py:296:properties | validators.py:432:descend | _keywords.py:282:type
+SAMPLER_STACK survey_agent_control_v2.py:1332:resolve_active_publication_revalidation | survey_agent_control_v2.py:1414:_resolve_publication_revalidation | survey_agent_control_v2.py:1271:_check_revalidation_agreement | survey_publication_set_v2.py:1485:resolve_publication_selection | survey_publication_set_v2.py:967:derive_canonical_anchor | survey_publication_set_v2.py:224:read_repo_bytes | survey_publication_set_v2.py:171:resolve_raw_path | survey_publication_set_v2.py:138:_walk_existing_ancestors

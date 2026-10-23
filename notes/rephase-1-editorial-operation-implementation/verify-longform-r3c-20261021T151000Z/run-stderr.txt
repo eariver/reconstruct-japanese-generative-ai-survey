@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r3b/verify-longform-r3c-20261021T150000Z.py", line 391, in <module>
+    rc = main()
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r3b/verify-longform-r3c-20261021T150000Z.py", line 313, in main
+    first = _cycle("lf-r3c-1", " Revised fixture sentence within approved evidence.", True)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r3b/verify-longform-r3c-20261021T150000Z.py", line 283, in _cycle
+    reader_pub.build_review_record(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        FIX_ROOT, manuscript_path, pdf_path, pages, kind, checks,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        f"r3c synthetic LF {kind} reviewer", datetime.now(timezone.utc),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        pubdir / fname)
+        ^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-longform-r3c-20261021T151000Z/candidate-partial-b40de60/scripts/survey_reader_publication_v2.py", line 562, in build_review_record
+    fidelity.validate_review_depth(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        profile,
+        ^^^^^^^^
+    ...<4 lines>...
+        review_kind,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-longform-r3c-20261021T151000Z/candidate-partial-b40de60/scripts/survey_reader_fidelity_v2.py", line 460, in validate_review_depth
+    _require_evidence(
+    ~~~~~~~~~~~~~~~~~^
+        architecture_fidelity,
+        ^^^^^^^^^^^^^^^^^^^^^^
+        package_markers | coverage_locations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "ARCHITECTURE_CONTENT_FIDELITY",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-longform-r3c-20261021T151000Z/candidate-partial-b40de60/scripts/survey_reader_fidelity_v2.py", line 362, in _require_evidence
+    raise ValueError(f"{label} must bind exact review evidence; missing={missing}")
+ValueError: ARCHITECTURE_CONTENT_FIDELITY must bind exact review evidence; missing=['Section 1 — Evidence-bound headline', 'package:pkg-001']

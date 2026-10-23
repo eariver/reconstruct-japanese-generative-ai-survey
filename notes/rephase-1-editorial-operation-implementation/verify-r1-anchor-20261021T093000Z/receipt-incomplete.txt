@@ -1,0 +1,7 @@
+STATE_INVALID: [VALIDATE/REFUSED_PRE_WRITE] strict Production State invalid: Stage Checkpoint artifact drift: reader-surface-gate
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-r1-anchor-20261021T093000Z/verify-refusals-after-v3.py", line 131, in main
+    rv=edpub.validate_editorial_receipt(FIX_ROOT, str(pubdir/"validated-source-manifest.json".replace(".json",".json")) if False else str((pubdir/"validated-source-manifest.json").relative_to(FIX_ROOT)), str(state_path.relative_to(FIX_ROOT)))
+  File "/tmp/opencode/jgas-workerC-r1anchor-20261021T093000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 608, in validate_editorial_receipt
+    raise _fail("STATE_INVALID", "VALIDATE", "REFUSED_PRE_WRITE", "strict Production State invalid: " + "; ".join(state_errors))
+scripts.survey_editorial_publication_v2.EditorialError: STATE_INVALID: [VALIDATE/REFUSED_PRE_WRITE] strict Production State invalid: Stage Checkpoint artifact drift: reader-surface-gate

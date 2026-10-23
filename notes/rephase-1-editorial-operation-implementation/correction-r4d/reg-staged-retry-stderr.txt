@@ -1,0 +1,37 @@
+EE
+======================================================================
+ERROR: test_o12b_during_write_faults_incomplete (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 1949, in test_o12b_during_write_faults_incomplete
+    _scratch, root = _make_p3s_source_root(self, f"jgas-p3s-o12b-{fault}-")
+                     ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 102, in _make_p3s_source_root
+    shutil.copyfile(source, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 315, in copyfile
+    with open(dst, 'wb') as fdst:
+         ~~~~^^^^^^^^^^^
+OSError: [Errno 122] Disk quota exceeded
+
+======================================================================
+ERROR: test_o12f_short_partial_combined_close (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 2237, in test_o12f_short_partial_combined_close
+    _scratch3, root3 = _make_p3s_source_root(self, "jgas-p3s-o12f-combined-")
+                       ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-r4d2-regress-20261021T170000Z/candidate-partial-b40de60/tests/test_survey_editorial_staged_source_v2.py", line 102, in _make_p3s_source_root
+    shutil.copyfile(source, destination)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/shutil.py", line 315, in copyfile
+    with open(dst, 'wb') as fdst:
+         ~~~~^^^^^^^^^^^
+OSError: [Errno 122] Disk quota exceeded
+
+----------------------------------------------------------------------
+Ran 2 tests in 129.279s
+
+FAILED (errors=2)

@@ -1,0 +1,28 @@
+HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+=== BASE ===
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+BASE_OK state=sources/SP001/production-state.json issue=SP001
+=== CYCLE lf-r3c-1 ===
+P1_PREPARE lf-r3c-1 reader_sha=e5105b317d65fb7d805520a3dbfe9b973141f241c02cb70c3a9e3dbd9a1a5c12
+P1_VALIDATE REVIEW_REQUIRED
+P2R_OK sources/SP001/publication/v2/editorial-corrections/lf-r3c-1/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=28.9s
+REAL_PDF pages=5 bytes=79530
+EXIT:2

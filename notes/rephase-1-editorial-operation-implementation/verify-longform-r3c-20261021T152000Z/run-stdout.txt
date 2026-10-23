@@ -1,0 +1,52 @@
+HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+=== BASE ===
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+BASE_OK state=sources/SP001/production-state.json issue=SP001
+=== CYCLE lf-r3c-1 ===
+P1_PREPARE lf-r3c-1 reader_sha=e5105b317d65fb7d805520a3dbfe9b973141f241c02cb70c3a9e3dbd9a1a5c12
+P1_VALIDATE REVIEW_REQUIRED
+P2R_OK sources/SP001/publication/v2/editorial-corrections/lf-r3c-1/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=28.8s
+REAL_PDF pages=5 bytes=79530
+FINALIZE {"set_ref": "sources/SP001/publication/v2/editorial-corrections/lf-r3c-1/publication/publication-set.json", "set_sha256": "e04568a9c6d25f2ba85c3aa5ea94df44b81f55268b0cac0a9d13b804317a15b8"}
+INERT_HEALTHY
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/SP001/publication/v2/publication-surface-revalidation-r1.json", "state_path": "sources/SP001/production-state.json", "observed": "new"}
+FIRST_SELECTION candidate=sources/SP001/publication/v2/editorial-corrections/lf-r3c-1/publication/publication-candidate-v2.json
+=== CYCLE lf-r3c-2 ===
+P1_PREPARE lf-r3c-2 reader_sha=50733c97c436172b5d634242ce20997602667d7d56273d202bd0a133dfe0c0c6
+P1_VALIDATE REVIEW_REQUIRED
+P2R_OK sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=95.8s
+REAL_PDF pages=5 bytes=79757
+FINALIZE {"set_ref": "sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-set.json", "set_sha256": "0a9e2d2100255b2d4c5eb517600f2dcc236482af088bd3849bb4d3afa6f3d88f"}
+INERT_HEALTHY
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/SP001/publication/v2/publication-surface-revalidation-r2.json", "state_path": "sources/SP001/production-state.json", "observed": "new"}
+SECOND_ANCHOR_RETAINED={"kind": "VALIDATION_CHECKPOINT", "ref": {"path": "sources/SP001/orchestration/v2/checkpoints/DRAFT_COMPLETE.json", "sha256": "5a9f9372794bbe152923e0c35e7b5ced3cf9b3947bfb0f75375a75a61d4fc115"}}
+SECOND_STATE_HEALTHY
+SECOND_SELECTION candidate=sources/SP001/publication/v2/editorial-corrections/lf-r3c-2/publication/publication-candidate-v2.json
+SECOND_OLD_IMMUTABLE_KEEP_OK
+SECOND_RECEIPT issue=SP001
+SECOND_GATE_PASSED
+SECOND_CANDIDATE status=READY_FOR_PUBLICATION_PREVIEW
+=== SECOND LONGFORM CORRECTION ACTIVATED (terminal) ===
+EXIT:0

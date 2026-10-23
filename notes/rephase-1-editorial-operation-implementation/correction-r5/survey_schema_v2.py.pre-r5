@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""Common fail-closed JSON Schema conformance for Survey Production Core v2.
+
+Model/external artifacts must pass this layer before a semantic validator may
+accept them as Production State authority. Semantic validators remain necessary:
+JSON Schema proves structural conformance, not editorial/provenance correctness.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+from typing import Any
+
+try:
+    import jsonschema
+except ImportError as exc:  # fail closed rather than silently skipping schema validation
+    raise RuntimeError(
+        "Survey Production Core v2 requires jsonschema; install config/survey-production-v2-requirements.txt"
+    ) from exc
+
+import collections
+import hashlib
+
+# Bounded content-keyed cache of immutable compiled validators + metaschema check only.
+# - Every call still safe-checks path (no symlink, regular file), reads current bytes,
+#   hashes content, parses fresh JSON, and validates fresh instance + format via the
+#   (possibly reused) compiled validator. No instance/authority/result caching.
+# - Key includes all resolution inputs: absolute resolved schema path + content sha256 +
+#   jsonschema library version + draft identifier + format-checker identity.
+#   Changed bytes at the same path miss (different sha) and re-run check_schema +
+#   re-compile; same bytes hit and skip only the redundant metaschema + compile work.
+# - Schemas with external file refs (`$ref` not starting with `#`) are NEVER cached:
+#   their compiled validator would bind stale external bytes. They are re-checked
+#   and re-compiled on every call (correctness over speed for that rare case).
+# - Bounded LRU (64 entries, stdlib only, no new scripts imports so P3S closure unchanged).
+_FORMAT_CHECKER = jsonschema.FormatChecker()
+_JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+_DRAFT_ID = "draft2020-12"
+_FORMAT_ID = "default-formats"
+_CACHE_MAX = 64
+_CACHE: "collections.OrderedDict[tuple, Any]" = collections.OrderedDict()
+
+
+class SchemaConformanceError(ValueError):
+    """Raised when an artifact fails its declared JSON Schema."""
+
+
+def _format_path(parts: list[Any]) -> str:
+    if not parts:
+        return "$"
+    value = "$"
+    for part in parts:
+        if isinstance(part, int):
+            value += f"[{part}]"
+        else:
+            value += f".{part}"
+    return value
+
+
+def _has_external_ref(node: Any) -> bool:
+    """True if schema contains any reference semantics beyond internal fragment.
+
+    Covers `$ref`, `$dynamicRef`, `$recursiveRef` whose value does not start with `#`
+    (external file/URL, e.g. `card.json`, `https://...`). Such schemas are never
+    cached: compiled validator would bind stale external bytes; file-pin check still
+    runs every call via fresh bytes read, but validator is re-compiled fresh (no cache).
+    Internal `#/...` refs (including `#/$defs/...`, `#/$defs/...` dynamic anchors in same file)
+    are safe to cache (same-file content is in the key via sha).
+    """
+    if isinstance(node, dict):
+        for key in ("$ref", "$dynamicRef", "$recursiveRef"):
+            ref = node.get(key)
+            if isinstance(ref, str) and not ref.startswith("#"):
+                return True
+        return any(_has_external_ref(v) for v in node.values())
+    if isinstance(node, list):
+        return any(_has_external_ref(v) for v in node)
+    return False
+
+
+def _cache_key(resolved_abs: str, content_sha: str) -> tuple:
+    return (resolved_abs, content_sha, _JSONSCHEMA_VERSION, _DRAFT_ID, _FORMAT_ID)
+
+
+def _get_compiled_validator(schema_path: Path, schema_bytes: bytes, schema_dict: dict[str, Any]) -> Any:
+    """Return compiled Draft202012Validator, reusing bounded content-keyed cache when safe.
+
+    Caller has already safe-checked path, read bytes, parsed fresh dict.
+    - If external refs present: skip cache entirely (re-check + re-compile every call).
+    - Else: key includes absolute resolved path + content sha + library/draft/format ids.
+      Hit reuses compiled validator (skips only redundant check_schema + compile).
+      Miss runs check_schema (fail-closed on invalid), compiles, stores LRU bounded.
+    """
+    if _has_external_ref(schema_dict):
+        try:
+            jsonschema.Draft202012Validator.check_schema(schema_dict)
+        except jsonschema.exceptions.SchemaError as exc:
+            raise SchemaConformanceError(f"invalid JSON Schema {schema_path}: {exc.message}") from exc
+        return jsonschema.Draft202012Validator(schema_dict, format_checker=_FORMAT_CHECKER)
+    try:
+        resolved_abs = str(schema_path.resolve())
+    except OSError as exc:
+        raise SchemaConformanceError(f"schema path unresolvable: {schema_path}: {exc}") from exc
+    content_sha = hashlib.sha256(schema_bytes).hexdigest()
+    key = _cache_key(resolved_abs, content_sha)
+    hit = _CACHE.get(key)
+    if hit is not None:
+        try:
+            _CACHE.move_to_end(key)
+        except KeyError:
+            pass
+        return hit
+    try:
+        jsonschema.Draft202012Validator.check_schema(schema_dict)
+    except jsonschema.exceptions.SchemaError as exc:
+        raise SchemaConformanceError(f"invalid JSON Schema {schema_path}: {exc.message}") from exc
+    validator = jsonschema.Draft202012Validator(schema_dict, format_checker=_FORMAT_CHECKER)
+    _CACHE[key] = validator
+    _CACHE.move_to_end(key)
+    while len(_CACHE) > _CACHE_MAX:
+        _CACHE.popitem(last=False)
+    return validator
+
+
+def load_schema(schema_path: Path) -> dict[str, Any]:
+    if schema_path.is_symlink() or not schema_path.is_file():
+        raise SchemaConformanceError(f"schema path is missing or unsafe: {schema_path}")
+    try:
+        raw = schema_path.read_bytes()
+    except OSError as exc:
+        raise SchemaConformanceError(f"cannot load schema {schema_path}: {exc}") from exc
+    try:
+        value = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise SchemaConformanceError(f"cannot load schema {schema_path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise SchemaConformanceError(f"schema must be a JSON object: {schema_path}")
+    # Populate/bypass cache for metaschema check only; always return fresh dict.
+    # _get_compiled_validator runs check_schema on miss (fail-closed) and skips it on hit
+    # (same content already passed). No instance/result caching here.
+    _get_compiled_validator(schema_path, raw, value)
+    return value
+
+
+def validate_instance(instance: Any, schema_path: Path, *, label: str = "artifact") -> None:
+    """Fail closed if *instance* does not conform to *schema_path*.
+
+    Errors are deterministically sorted by JSON path so CI and production logs
+    identify the first stable structural defect without depending on dict order.
+    Fresh instance + format validation runs on every call via the (possibly reused)
+    compiled validator; only redundant metaschema + compile work is skipped on hit.
+    """
+
+    if schema_path.is_symlink() or not schema_path.is_file():
+        raise SchemaConformanceError(f"schema path is missing or unsafe: {schema_path}")
+    try:
+        raw = schema_path.read_bytes()
+    except OSError as exc:
+        raise SchemaConformanceError(f"cannot load schema {schema_path}: {exc}") from exc
+    try:
+        schema = json.loads(raw.decode("utf-8"))
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise SchemaConformanceError(f"cannot load schema {schema_path}: {exc}") from exc
+    if not isinstance(schema, dict):
+        raise SchemaConformanceError(f"schema must be a JSON object: {schema_path}")
+    validator = _get_compiled_validator(schema_path, raw, schema)
+    errors = sorted(validator.iter_errors(instance), key=lambda err: (list(err.absolute_path), err.message))
+    if errors:
+        first = errors[0]
+        location = _format_path(list(first.absolute_path))
+        raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+
+
+def load_and_validate_json(path: Path, schema_path: Path, *, label: str = "artifact") -> dict[str, Any]:
+    if path.is_symlink() or not path.is_file():
+        raise SchemaConformanceError(f"{label} path is missing or unsafe: {path}")
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise SchemaConformanceError(f"cannot load {label} {path}: {exc}") from exc
+    if not isinstance(value, dict):
+        raise SchemaConformanceError(f"{label} must be a JSON object: {path}")
+    validate_instance(value, schema_path, label=label)
+    return value

@@ -1,0 +1,9 @@
+# Workspace-local runtime decision — actual EDQUOT
+
+After verified archival of six inactive early R3 copies, new full `/tmp/opencode` fixture copies still fail EDQUOT despite `df` free space. The R5 Worker used unselected `/home/eariver/tmp-opencode` and `/dev/shm` paths and removed one failed partial copy. Those deviations and original outcomes are retained, not described as compliant preparation. Do not delete or overwrite those external files to conceal the history.
+
+Root now explicitly selects **workspace-local `.rephase-1-editorial-runtime/`** for new isolated fixture/source/build work. It is outside evidence packets and ignored by the root `.gitignore` to prevent accidental staging of nested Git databases. This is within the authorized writable workspace, not another arbitrary external-home location. Existing `/tmp/opencode` source/toolchain/fixtures remain read-only unless already owned by an explicitly selected operation.
+
+Before any fixture Git operation, verify its own `.git` and `git rev-parse --show-toplevel/--absolute-git-dir` equal that fixture, not reconstruct; sanitize inherited Git-root/config variables, use inert origin, and verify object/inode separation. Meaningful independent source/artifact fixture commits retain their prior authorization; ordinary candidate/reconstruct commit/Push remains Human-owned. Set no-bytecode/external cache and TMPDIR before imports. Test only in separate copies, never the frozen SOURCE image.
+
+Durable raw/patch/source manifests continue under `notes/rephase-1-editorial-operation-implementation/`. Rootdisk vs tmpfs results retain their exact filesystem/run scope; foreign-inode tests create the replacement while the original still exists to avoid allocator-reuse ambiguity. A failed source snapshot is not a valid Git fixture. No blanket cleanup, Git clean/reset, raw deletion, automatic old-runner use, or lost-evidence reconstruction is authorized.

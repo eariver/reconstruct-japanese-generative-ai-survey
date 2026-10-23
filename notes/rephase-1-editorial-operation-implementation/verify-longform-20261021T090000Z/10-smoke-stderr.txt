@@ -1,0 +1,33 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-longform-20261021T090000Z/10-smoke-longform-activation.py", line 393, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-longform-20261021T090000Z/10-smoke-longform-activation.py", line 335, in main
+    reader_pub.build_review_record(root, manuscript_path, pdf_path, page_count, kind, checks,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                   f"synthetic LF editorial {kind} reviewer", datetime.now(timezone.utc), out_path)
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T090000Z/candidate-partial-b40de60/scripts/survey_reader_publication_v2.py", line 562, in build_review_record
+    fidelity.validate_review_depth(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        profile,
+        ^^^^^^^^
+    ...<4 lines>...
+        review_kind,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T090000Z/candidate-partial-b40de60/scripts/survey_reader_fidelity_v2.py", line 495, in validate_review_depth
+    _require_evidence(
+    ~~~~~~~~~~~~~~~~~^
+        longform_depth,
+        ^^^^^^^^^^^^^^^
+        density_required,
+        ^^^^^^^^^^^^^^^^^
+        "below-target LONGFORM_TECHNICAL_DEPTH",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-editorial-longform-20261021T090000Z/candidate-partial-b40de60/scripts/survey_reader_fidelity_v2.py", line 362, in _require_evidence
+    raise ValueError(f"{label} must bind exact review evidence; missing={missing}")
+ValueError: below-target LONGFORM_TECHNICAL_DEPTH must bind exact review evidence; missing=['page-plan:5/12']

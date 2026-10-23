@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 281, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 227, in main
+    set_ref = edpub.finalize_publication(root, _rel(state_path), _rel(proposal_path), _rel(staged_manifest_path), _rel(det_checks_path), _rel(sem_path), _rel(vis_path), datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1852, in finalize_publication
+    receipt = validate_editorial_receipt(repo, receipt_rel_f, state_rel_f)
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 662, in validate_editorial_receipt
+    raise _fail("AUTHORED_MISMATCH", "VALIDATE", "REFUSED_PRE_WRITE", "receipt proposed-publication-authoring must equal proposal proposed.authoring_input_ref")
+scripts.survey_editorial_publication_v2.EditorialError: AUTHORED_MISMATCH: [VALIDATE/REFUSED_PRE_WRITE] receipt proposed-publication-authoring must equal proposal proposed.authoring_input_ref

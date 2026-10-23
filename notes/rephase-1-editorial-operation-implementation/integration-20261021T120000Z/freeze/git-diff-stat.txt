@@ -1,0 +1,24 @@
+ .github/workflows/build-special-pdf.yml            |  26 +
+ .github/workflows/build-weekly-survey.yml          |  27 +
+ ...ey-production-v2-export-publication-preview.yml | 140 ++++-
+ config/survey-production-v2.json                   |   5 +
+ .../publication-surface-revalidation.schema.json   | 223 ++++---
+ schemas/reader-manuscript-v2.schema.json           |  12 +-
+ schemas/reader-surface-gate-v2.schema.json         |  32 +
+ .../reader-surface-semantic-review-v2.schema.json  |  32 +
+ scripts/run_semantic_publication_v2_interactive.py |  56 +-
+ ...run_semantic_publication_v2_interactive_base.py |   3 +
+ scripts/survey_agent_control_v2.py                 | 653 +++++++++++++++------
+ scripts/survey_handoff_v2.py                       |  28 +-
+ scripts/survey_human_gate_v2.py                    |  34 +-
+ scripts/survey_orchestrator_v2.py                  |  56 +-
+ scripts/survey_production_v2.py                    |  48 +-
+ scripts/survey_profiled_freeze_v2.py               |  36 +-
+ scripts/survey_reader_publication_v2.py            |  59 +-
+ scripts/survey_reader_surface_gate_v2.py           | 243 +++++++-
+ scripts/survey_semantic_quality_v2.py              |  10 +
+ scripts/survey_stage_validation_v2.py              | 120 ++++
+ scripts/survey_weekly_derivation_v2.py             |  14 +
+ scripts/survey_weekly_mechanical_refresh_v2.py     |  21 +
+ templates/survey/jgaisurvey.sty                    |   1 +
+ 23 files changed, 1589 insertions(+), 290 deletions(-)

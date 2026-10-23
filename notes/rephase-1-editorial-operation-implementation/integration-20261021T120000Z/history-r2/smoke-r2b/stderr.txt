@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 283, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 47, in main
+    built = p1t._build_weekly_validated(tc, helper)
+  File "/tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/tests/test_survey_editorial_correction_proposal_v2.py", line 177, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/tests/test_survey_increment_b_weekly_derivation_v2.py", line 88, in init_profile
+    return core.initialize(
+           ~~~~~~~~~~~~~~~^
+        repo_root, active_cfg, profile, head, "ARCHITECTURE_REVIEW",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        core.parse_instant("2026-09-19T02:05:00+09:00"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/scripts/survey_production_v2.py", line 1049, in initialize
+    raise ValueError(f"refusing destructive v2 initialization: {profile_path} or {state_path} already exists")
+ValueError: refusing destructive v2 initialization: /tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/sources/2026-W37/production-profile.json or /tmp/opencode/jgas-editorial-r2b-20261021T000000Z/candidate-partial-b40de60/sources/2026-W37/production-state.json already exists

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 258, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 160, in main
+    prepared_paths = edpub.prepare_publication(root, state_path, proposal_path, staged_manifest_path, manuscript_spec_path, toolchain_spec_path, datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T123000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1408, in prepare_publication
+    proposal_rel_init = _lexical_rel(repo, str(proposal_path), "proposal")
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T123000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 203, in _lexical_rel
+    raise _fail("ESCAPE", "PIN", "REFUSED_PRE_WRITE", f"{label} absolute path refused: {raw!r}")
+scripts.survey_editorial_publication_v2.EditorialError: ESCAPE: [PIN/REFUSED_PRE_WRITE] proposal absolute path refused: '/tmp/opencode/jgas-editorial-smoke-20261021T123000Z/candidate-partial-b40de60/sources/2026-W37/publication/v2/editorial-corrections/wk-smoke-1/proposal.json'

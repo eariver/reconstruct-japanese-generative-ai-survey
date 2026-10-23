@@ -1,0 +1,31 @@
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 96, in _dispatch_generated_receipt
+    validated = _edpub.validate_editorial_receipt(root, receipt_path, state_path)
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 572, in validate_editorial_receipt
+    receipt_rel = _lexical_rel(repo, str(receipt_path), "editorial receipt")
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 203, in _lexical_rel
+    raise _fail("ESCAPE", "PIN", "REFUSED_PRE_WRITE", f"{label} absolute path refused: {raw!r}")
+scripts.survey_editorial_publication_v2.EditorialError: ESCAPE: [PIN/REFUSED_PRE_WRITE] editorial receipt absolute path refused: '/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/sources/2026-W37/publication/v2/editorial-corrections/wk-r3c-1/publication/validated-source-manifest.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r3b/verify-weekly-r3c-20261021T143000Z.py", line 422, in <module>
+    rc = main()
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r3b/verify-weekly-r3c-20261021T143000Z.py", line 354, in main
+    second = _cycle("wk-r3c-2", "Weekly tested method \u2014 Second Editorial Correction", False)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r3b/verify-weekly-r3c-20261021T143000Z.py", line 174, in _cycle
+    prepared = proposal_mod.prepare_proposal(
+        FIX_ROOT, state_rel, staged_auth, proposal_id,
+        "R3c weekly second envelope correction.")
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 2097, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1817, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 1664, in _pipeline_data
+    dispatched = _dispatch_generated_receipt(root, receipt_file, state_file)
+  File "/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/scripts/survey_editorial_correction_proposal_v2.py", line 98, in _dispatch_generated_receipt
+    raise _fail("EDITORIAL_RECEIPT_INVALID", str(exc)) from exc
+scripts.survey_editorial_correction_proposal_v2.ProposalError: EDITORIAL_RECEIPT_INVALID: ESCAPE: [PIN/REFUSED_PRE_WRITE] editorial receipt absolute path refused: '/tmp/opencode/jgas-weekly-r3c-20261021T143000Z/candidate-partial-b40de60/sources/2026-W37/publication/v2/editorial-corrections/wk-r3c-1/publication/validated-source-manifest.json'

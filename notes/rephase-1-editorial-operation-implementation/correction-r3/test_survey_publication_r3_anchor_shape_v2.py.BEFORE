@@ -1,0 +1,253 @@
+#!/usr/bin/env python3
+"""R3 focused correction tests: versioned 4-key rows + R1x2 anchored canonical.
+
+Covers the two R3 blockers without claiming a real second correction:
+- low resolve_publication_selection returns canonical7/effective7 as exactly
+  {path,sha256,byte_count,origin} (4 keys, byte_count from SHA-verified live
+  bytes) in CANONICAL no-pointer, legacy R1x2, and VERSIONED_ACTIVE modes;
+- R1x2 anchor is the LATEST legacy (r2); anchored canonical7 Gate SHA equals
+  the cumulative live bytes (not the raw original SHA); contract paths kept;
+- incomplete/malformed/drift refused (stored byte_count mismatch, live drift,
+  bad origin, missing keys);
+- P1 VERSIONED_ROW_SHAPE predicate satisfied by low output (repeat-correction
+  blocker cleared at the interface level);
+- agent editorial validation consumes the anchored canonical7: live Gate equals
+  anchor (not original), so the old POSTREPLACE_FAIL drift is gone, while the
+  active seal seven are checked independently via low.
+
+All fixtures are synthetic in temp dirs; never the implementation copy.
+Bytecode stays outside the source tree (run with -B / PYTHONDONTWRITEBYTECODE).
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import sys
+import tempfile
+import unittest
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+import test_survey_publication_set_v2 as base
+
+
+def _sha(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def _assert_row_4key(test: unittest.TestCase, row: dict, name: str, live: bytes, origin: str) -> None:
+    test.assertIsInstance(row, dict, f"row not a mapping: {name}")
+    test.assertEqual(set(row), {"path", "sha256", "byte_count", "origin"}, f"row keys wrong: {name}")
+    test.assertEqual(row["sha256"], _sha(live), f"row sha not live bytes: {name}")
+    test.assertEqual(row["byte_count"], len(live), f"row byte_count not live length: {name}")
+    test.assertEqual(row["origin"], origin, f"row origin wrong: {name}")
+
+
+class R3RowShapeTests(unittest.TestCase):
+    def test_canonical_no_pointer_returns_verified_4key(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = base.EditorialFixture(Path(tmp))
+            base.build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{base.SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {
+                "issue_id": base.ISSUE,
+                "research_profile": "WEEKLY",
+                "publication_profile": "WEEKLY_MAGAZINE",
+                "profile": fix.ref(f"{base.SOURCE_ROOT}/production-profile.json"),
+                "checkpoint_provenance": {
+                    "validation": fix.ref(f"{base.SOURCE_ROOT}/checkpoints-validation.json")
+                },
+                "publication_revalidation_provenance": None,
+            }
+            selection = pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+            self.assertEqual(selection["mode"], "CANONICAL")
+            self.assertEqual(selection["canonical_anchor"]["kind"], "VALIDATION_CHECKPOINT")
+            for name in pubset.PUBLICATION_ROLES_7:
+                for table in ("canonical7", "effective7"):
+                    row = selection[table][name]
+                    live = (fix.root / row["path"]).read_bytes()
+                    _assert_row_4key(self, row, f"{table}/{name}", live, "ORIGINAL")
+
+    def test_r1x2_anchor_is_latest_and_canonical_is_cumulative(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = base.EditorialFixture(Path(tmp))
+            base.build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{base.SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {
+                "issue_id": base.ISSUE,
+                "research_profile": "WEEKLY",
+                "publication_profile": "WEEKLY_MAGAZINE",
+                "profile": fix.ref(f"{base.SOURCE_ROOT}/production-profile.json"),
+                "checkpoint_provenance": {
+                    "validation": fix.ref(f"{base.SOURCE_ROOT}/checkpoints-validation.json")
+                },
+                "publication_revalidation_provenance": None,
+            }
+            val_doc = json.loads((fix.root / f"{base.SOURCE_ROOT}/checkpoints-validation.json").read_text())
+            original_gate = next(r["sha256"] for r in val_doc["artifacts"] if r["name"] == "reader-surface-gate")
+            # R1: Gate bytes move v1 -> v2 (mirrors the reported 7342 -> 35c3 delta).
+            gate_v2 = b'{"gate":"r1-updated"}'
+            _, r1ref = base.build_legacy(
+                fix, 1,
+                {("reader-surface-gate", f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json"): gate_v2},
+                None,
+            )
+            # R2: cumulative against ORIGINAL (prior_sha == original), Gate stays v2,
+            # manuscript moves v1 -> v3.
+            ms_v3 = b'{"v":3 manuscript r3}'
+            _, r2ref = base.build_legacy(
+                fix, 2,
+                {("reader-surface-gate", f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json"): gate_v2,
+                 ("reader-manuscript", f"{base.SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json"): ms_v3},
+                r1ref,
+            )
+            state["publication_revalidation_provenance"] = dict(r2ref)
+            selection = pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+            self.assertEqual(selection["mode"], "CANONICAL")
+            self.assertEqual(selection["canonical_anchor"]["kind"], "LEGACY_REVALIDATION")
+            self.assertEqual(selection["canonical_anchor"]["ref"], r2ref)
+            # Anchored canonical Gate equals cumulative live bytes, NOT the original.
+            self.assertEqual(selection["canonical7"]["reader-surface-gate"]["sha256"], _sha(gate_v2))
+            self.assertNotEqual(selection["canonical7"]["reader-surface-gate"]["sha256"], original_gate)
+            # Legacy mode: canonical7 and effective7 agree (both anchored).
+            self.assertEqual(selection["canonical7"], selection["effective7"])
+            for name in pubset.PUBLICATION_ROLES_7:
+                live = (fix.root / selection["canonical7"][name]["path"]).read_bytes()
+                _assert_row_4key(self, selection["canonical7"][name], f"canonical7/{name}", live, "ORIGINAL")
+                live_eff = (fix.root / selection["effective7"][name]["path"]).read_bytes()
+                _assert_row_4key(self, selection["effective7"][name], f"effective7/{name}", live_eff, "ORIGINAL")
+            # P1 repeat-correction shape predicate now holds on low output.
+            for name in pubset.PUBLICATION_ROLES_7:
+                self.assertEqual(
+                    set(selection["effective7"][name]),
+                    {"path", "sha256", "byte_count", "origin"},
+                    f"P1 VERSIONED_ROW_SHAPE still blocked: {name}",
+                )
+
+
+class R3RefusalTests(unittest.TestCase):
+    def _legacy_state(self, fix) -> tuple[dict, dict, dict]:
+        base.build_validation(fix)
+        profile = fix.profile()
+        fix.write(f"{base.SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+        state = {
+            "issue_id": base.ISSUE,
+            "research_profile": "WEEKLY",
+            "publication_profile": "WEEKLY_MAGAZINE",
+            "profile": fix.ref(f"{base.SOURCE_ROOT}/production-profile.json"),
+            "checkpoint_provenance": {
+                "validation": fix.ref(f"{base.SOURCE_ROOT}/checkpoints-validation.json")
+            },
+            "publication_revalidation_provenance": None,
+        }
+        gate_v2 = b'{"gate":"r1-updated"}'
+        _, r1ref = base.build_legacy(
+            fix, 1,
+            {("reader-surface-gate", f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json"): gate_v2},
+            None,
+        )
+        return state, r1ref, {"gate_v2": gate_v2}
+
+    def test_stored_byte_count_mismatch_refused(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = base.EditorialFixture(Path(tmp))
+            state, r1ref, _ = self._legacy_state(fix)
+            # Corrupt the stored byte_count inside the legacy record (SHA stays
+            # valid so only the size cross-check can catch it).
+            doc = json.loads((fix.root / r1ref["path"]).read_bytes())
+            doc["superseded_artifacts"][0]["byte_count"] = doc["superseded_artifacts"][0]["byte_count"] + 1
+            fix.write(r1ref["path"], json.dumps(doc).encode())
+            bad_ref = fix.ref(r1ref["path"])
+            state["publication_revalidation_provenance"] = dict(bad_ref)
+            with self.assertRaises(ValueError):
+                pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+
+    def test_live_drift_refused(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = base.EditorialFixture(Path(tmp))
+            state, r1ref, ctx = self._legacy_state(fix)
+            state["publication_revalidation_provenance"] = dict(r1ref)
+            # Live file drifts after the record pin (SHA mismatch).
+            (fix.root / f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json").write_bytes(b'{"gate":"forged"}')
+            with self.assertRaises(ValueError):
+                pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+
+    def test_digest_rejects_bad_origin_and_accepts_4key(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        good = {
+            name: {"path": f"p/{name}.json", "sha256": f"{i:064x}", "byte_count": 3, "origin": "ORIGINAL"}
+            for i, name in enumerate(sorted(pubset.PUBLICATION_ROLES_7))
+        }
+        # 4-key rows digest fine (stable value: digest strips to name/path/sha).
+        digest_4 = pubset.before_active_digest(good, None)
+        legacy_2 = {n: {"path": r["path"], "sha256": r["sha256"]} for n, r in good.items()}
+        self.assertEqual(pubset.before_active_digest(legacy_2, None), digest_4)
+        bad = dict(good)
+        first = sorted(bad)[0]
+        bad[first] = dict(bad[first])
+        bad[first]["origin"] = "BOGUS"
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(bad, None)
+
+
+class R3AgentAnchorTests(unittest.TestCase):
+    def test_editorial_consumes_anchored_not_original(self) -> None:
+        """Agent premise: after R1x2, live Gate == anchor effective, != original.
+
+        Before the fix the agent compared live Gate against the original
+        checkpoint SHA (POSTREPLACE_FAIL). After the fix the agent compares
+        against the anchored canonical7 below, which equals live. The active
+        seal seven are validated independently by low (separate test).
+        """
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = base.EditorialFixture(Path(tmp))
+            base.build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{base.SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {
+                "issue_id": base.ISSUE,
+                "research_profile": "WEEKLY",
+                "publication_profile": "WEEKLY_MAGAZINE",
+                "profile": fix.ref(f"{base.SOURCE_ROOT}/production-profile.json"),
+                "checkpoint_provenance": {
+                    "validation": fix.ref(f"{base.SOURCE_ROOT}/checkpoints-validation.json")
+                },
+                "publication_revalidation_provenance": None,
+            }
+            val_doc = json.loads((fix.root / f"{base.SOURCE_ROOT}/checkpoints-validation.json").read_text())
+            original_gate = next(r["sha256"] for r in val_doc["artifacts"] if r["name"] == "reader-surface-gate")
+            gate_v2 = b'{"gate":"r1-updated"}'
+            _, r1ref = base.build_legacy(
+                fix, 1,
+                {("reader-surface-gate", f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json"): gate_v2},
+                None,
+            )
+            ms_v3 = b'{"v":3 manuscript r3}'
+            _, r2ref = base.build_legacy(
+                fix, 2,
+                {("reader-surface-gate", f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json"): gate_v2,
+                 ("reader-manuscript", f"{base.SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json"): ms_v3},
+                r1ref,
+            )
+            state["publication_revalidation_provenance"] = dict(r2ref)
+            selection = pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+            live_gate = (fix.root / f"{base.SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json").read_bytes()
+            # Old (buggy) expectation: live == original -> False (this is what
+            # failed post-replace).
+            self.assertNotEqual(_sha(live_gate), original_gate)
+            # New (fixed) expectation used by the agent: live == anchored.
+            anchored_gate = selection["canonical7"]["reader-surface-gate"]["sha256"]
+            self.assertEqual(_sha(live_gate), anchored_gate)
+            self.assertEqual(anchored_gate, _sha(gate_v2))
+
+
+if __name__ == "__main__":
+    unittest.main()

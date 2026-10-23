@@ -1,0 +1,35 @@
+{
+ "launcher": {
+  "path": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/bin/python",
+  "kind": "symlink",
+  "symlink_target": "/usr/bin/python3",
+  "target_sha256": "52e0a13e60a981d8c4b6478be2ba5176f69da07948a056bf49cf6f077e30cb41",
+  "launcher_version": "Python 3.14.4",
+  "sys_executable": "/usr/bin/python3",
+  "workflow_pin": "3.12",
+  "workflow_ref": ".github/workflows/survey-production-v2-release.yml:42",
+  "scope": "PATH prepend ONLY in DM004 test subprocess env (offline_env); no system/global install/config; extracted workflow line UNEDITED"
+ },
+ "workflow_line_unedited": "PYTHONPATH=. python scripts/survey_agent_control_v2.py --repo-root . validate-state --state \"$STATE\"",
+ "source": {
+  "r7_head": "00397c31b0f849b46cf556b137064679d026e400",
+  "r7_tree": "23c9ba98530f3c94e3ed4ec64ecb13ae53e548ea",
+  "r7_count": 721,
+  "r7b_head": "721a04d85532d7855f3e54cc411f5847c787726e",
+  "r7b_tree": "ac7cb0bd2e977b46e957450816eddd779799e144",
+  "r7b_count": 721,
+  "dst_test_sha_before": "8b4090dee10a19782a3f45bc2eb492462f7ab9a67630a079120f97a4646f84cb41",
+  "dst_test_sha_after": "6ed1c1f23273995b130221f7f65b7fe9f9818417c1ed72bb4dcbfc0ea3ec7fbc",
+  "runtime_shas_unchanged": {
+   "scripts/survey_agent_control_v2.py": "cd8af38920d97038b0e6c1dee693e224e5f07a121ed5ea25d85badd10b5e852f",
+   "scripts/survey_editorial_publication_v2.py": "98f8ff8bb74f5fc0899f4adb5795953ca4513617e1075afaedada6bf89ec5dc4",
+   "scripts/survey_publication_set_v2.py": "ecd7facac09a5c977396803e130d600b75a441767d87ea585024f38c490bfb8a"
+  }
+ },
+ "runs": {
+  "cloneA": {"root": ".rephase-1-editorial-runtime/final-r7-dm004/dm004-clone-a", "exit": 0, "ran": 7, "skipped": 0, "failed": 0, "seconds": 62.119, "pre_status": "25M/35??", "post_status": "25M/35??"},
+  "cloneB": {"root": ".rephase-1-editorial-runtime/final-r7-dm004/dm004-clone-b", "exit": 0, "ran": 7, "skipped": 0, "failed": 0, "seconds": 59.69, "pre_status": "25M/35??", "post_status": "25M/35??"}
+ },
+ "dm004_coverage": "valid FROZEN/RELEASED (exit0 JSON) + other-cwd + outside-root + malformed/source-error (exit2, no data write); new R7 boundary test (3 tests) separately covers source-constant depth/loader; no 0-tests/4-skips counted as PASS",
+ "dst_delta_actual": {"modified_tracked": 25, "untracked": 35, "total": 60, "note": "vs HEAD 409b292; runtime fix files included; final snapshot delta vs R7 parent is exactly 1 modified test-only file"}
+}

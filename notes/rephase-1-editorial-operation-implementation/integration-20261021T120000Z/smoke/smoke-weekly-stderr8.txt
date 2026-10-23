@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 281, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 162, in main
+    prepared_paths = edpub.prepare_publication(
+        root,
+    ...<4 lines>...
+        toolchain_spec_path.relative_to(root) if isinstance(toolchain_spec_path, Path) and toolchain_spec_path.is_absolute() else toolchain_spec_path,
+        datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T140000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1655, in prepare_publication
+    raise _fail("ACCEPTED_DRAFT", "PREPARE", "REFUSED_PRE_WRITE", "initial receipt drafting archive invalid")
+scripts.survey_editorial_publication_v2.EditorialError: ACCEPTED_DRAFT: [PREPARE/REFUSED_PRE_WRITE] initial receipt drafting archive invalid

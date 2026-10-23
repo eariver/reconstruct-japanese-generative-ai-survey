@@ -1,5 +1,7 @@
 # Re:Phase next-session implementation plan
 
+**CURRENT 2026-10-23:** [selected editorial operation assessment](rephase-1-editorial-operation-implementation-assessment.md)でd880 Vをbounded implementation complete（57paths25M32A、fullpatch659063dc）。mandatory root/独立packaging supplementのR6＋R7＋R7b composite条件を読む。次は同assessment§5の**versioned same-reader mechanical-renewal契約選択**、旧editorial実装の再着手ではない。R1afterversionedは引続きpre-write拒否。Human Commit Point停止、wholeNOT_READY維持。
+
 **CURRENT 2026-10-20 R3 design:** [契約d880f53e](rephase-1-editorial-operation-contract-decision.md)＋[mandatory review resolution/nexttask§3](../notes/rephase-1-editorial-operation-contract/astra-review-resolution.md)が現在の具体実装指示。immutable set→external reviews→Candidate→seal→State activation、両scope独立DESIGN_BOUNDED_PASS。Source22不変。次Generalは具体dependency/interface return後、whole2route operation実装・検証。R1afterversioned refusal/renewalgap、DM022等は保持。Human Commit Point停止。以下のR3設計未着手記述は歴史。
 
 **CURRENT 2026-10-20:** [R2初回実build/admission assessment](rephase-1-initial-build-integration-assessment.md)でbounded complete、nextは§5のR3統合訂正操作契約/実装選択。actual409＋22（style1行追加）、full22patch7c82ec47。必須root/独立resolutionの複数run/typed-vs-real/失敗証拠限定を読む。Human Commit Pointで停止。以下の初回build未着手記述は歴史。

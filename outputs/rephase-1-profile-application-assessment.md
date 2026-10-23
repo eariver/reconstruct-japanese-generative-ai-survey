@@ -1,5 +1,7 @@
 # Step 4 — Astra Profile/application disposition
 
+**Current 2026-10-23:** [選択editorial操作実装assessment](rephase-1-editorial-operation-implementation-assessment.md)で両route同epoch/prePreview訂正と通常direct工程を限定完了。57path source/fullpatch659063dc、qualified composite。次はversioned same-reader renewal契約、existingR1afterversioned拒否は維持。DM022/必要Profile/代表的品質/全体audit・採用・純削減は未完、step4/B3/application OPEN/NOT_READY。
+
 **Current 2026-10-20 R3 design:** [versionedpublication契約](rephase-1-editorial-operation-contract-decision.md)を独立design review付きで選択、source22/runtime未変更。次はwhole訂正操作実装・検証。既存R1 afterversionedはpre-write拒否、versioned機械renewal未選択をreadiness gapとして保持。DM022/必要Profile/代表的資料品質/全体auditは未完、step4/B3/application OPEN/NOT_READY。
 
 **Current 2026-10-20:** [initial real-build/admission integration](rephase-1-initial-build-integration-assessment.md) bounded complete on409＋22。初回Weekly/Thematic実PDFとsynthetic lifecycle接続・stylecontrast1行修復、独立点検まで。Production contentNO-GO/必要Profile/DM022・代表的資料での品質対応は残り、step4/B3/application OPEN/NOT_READY。次は同assessment§5の統合訂正操作設計/実装選択。

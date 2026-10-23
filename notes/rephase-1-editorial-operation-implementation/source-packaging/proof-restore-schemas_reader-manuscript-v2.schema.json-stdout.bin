@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/reader-manuscript-v2.schema.json",
+  "title": "Survey Production Core v2 Reader-facing Manuscript Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "issue_id",
+    "research_profile",
+    "publication_profile",
+    "status",
+    "production_profile",
+    "architecture",
+    "architecture_approval",
+    "primary_source",
+    "supporting_files",
+    "architecture_coverage",
+    "reader_requirements",
+    "authored_by",
+    "recorded_at",
+    "manifest_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "research_profile": {"enum": ["WEEKLY", "RETROSPECTIVE_PERIOD", "THEMATIC"]},
+    "publication_profile": {"enum": ["WEEKLY_MAGAZINE", "LONGFORM_SPECIAL"]},
+    "status": {"const": "READER_FACING_AUTHORED"},
+    "production_profile": {"$ref": "#/$defs/artifact"},
+    "architecture": {"$ref": "#/$defs/artifact"},
+    "architecture_approval": {"$ref": "#/$defs/artifact"},
+    "primary_source": {"$ref": "#/$defs/sizedArtifact"},
+    "supporting_files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["role", "path", "sha256", "byte_count"],
+        "properties": {
+          "role": {"enum": ["BIBLIOGRAPHY", "STYLE", "SUPPORTING_SOURCE"]},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "byte_count": {"type": "integer", "minimum": 1}
+        }
+      }
+    },
+    "architecture_coverage": {
+      "description": "ChatGPT-authored accountability/traceability map from every approved Architecture must-cover requirement to reader-facing locations. Deterministic validation proves mapping completeness and exact manifest identity; for LONGFORM_SPECIAL it additionally proves that claimed locations resolve to exact extant non-empty numbered TeX content blocks. Substantive fulfillment is judged separately by the required ARCHITECTURE_CONTENT_FIDELITY semantic/editorial review.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["package_id", "requirement", "status", "reader_locations", "detail"],
+        "properties": {
+          "package_id": {"type": "string", "minLength": 1},
+          "requirement": {"type": "string", "minLength": 1},
+          "status": {
+            "const": "FULFILLED",
+            "description": "Author assertion used for fail-closed coverage accounting; this value is not machine proof that the prose substantively satisfies the requirement."
+          },
+          "reader_locations": {
+            "description": "Reader-facing locations claimed by the author to implement this Architecture requirement. For LONGFORM_SPECIAL, deterministic traceability validation requires each claim to identify an exact numbered TeX block as `Section N — title` or `Subsection N.M — title`; this exact-location check is traceability evidence, not machine proof of substantive adequacy.",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "detail": {
+            "description": "Author explanation of how the cited reader-facing locations address the Architecture requirement; substantive adequacy is reviewed by ChatGPT semantic/editorial QA.",
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "reader_requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["requirement_id", "status", "reader_locations", "detail"],
+        "properties": {
+          "requirement_id": {"type": "string", "minLength": 1},
+          "status": {"const": "FULFILLED"},
+          "reader_locations": {
+            "description": "Reader-facing locations claimed to fulfill the publication requirement. For LONGFORM_SPECIAL FINAL_SYNTHESIS, deterministic traceability validation resolves these claims to the same exact numbered TeX block identity used by Architecture coverage.",
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          },
+          "detail": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "authored_by": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "manifest_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "sizedArtifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_count"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+=== R5b freeze start ===
+DST=/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60
+FROZEN_BASE=/tmp/opencode/jgas-editorial-r4d-20261021T170000Z/candidate-partial-b40de60 (4191503, 719 files, read-only)
+NEWROOT(workpace-local, ignored)=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60
+--- verify DST own .git/toplevel/absolute GitDir NOT parent reconstruct ---
+/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60
+/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/.git
+/home/eariver/git/reconstruct-japanese-generative-ai-survey
+--- verify DST inert origin/no alternates ---
+origin	https://example.invalid/rephase-candidate-recovery.git (fetch)
+origin	https://example.invalid/rephase-candidate-recovery.git (push)
+ls: cannot access '/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/.git/objects/info/alternates': No such file or directory
+no objects/info/alternates (good)
+ls: cannot access '/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/.git/info/alternates': No such file or directory
+no info/alternates (good)
+--- check workspace-local quota (df + touch probe, return concrete error if blocked, no other root) ---
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda2       469G   90G  355G  21% /
+touch probe OK
+rm probe OK
+--- create NEWROOT (unique, ignored scratch) ---
+--- copy frozen base (719, read-only, approved /tmp) to NEWROOT (workspace-local, 355G avail, no EDQUOT) ---
+copy base done
+--- verify NEWROOT own .git/toplevel/absolute GitDir (must be NEWROOT, NOT parent reconstruct, NOT DST) ---
+/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60
+/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60/.git
+--- overlay intended 720 paths from DST (R5+R5b fixes, latest, no new paths) ---
+intended paths from r5 manifest: 720 (actual, not assumed)
+overlay done, missing (should be 0): 0
+--- verify NEWROOT file count actual (not assumed 720) ---
+720
+--- git add + meaningful fixture commit (process identity only) ---
+M  .github/workflows/survey-production-v2-export-publication-preview.yml
+M  scripts/survey_agent_control_v2.py
+M  scripts/survey_editorial_publication_v2.py
+M  scripts/survey_handoff_v2.py
+M  scripts/survey_human_gate_v2.py
+M  scripts/survey_orchestrator_v2.py
+M  scripts/survey_production_v2.py
+M  scripts/survey_schema_v2.py
+M  tests/test_survey_editorial_activation_faults_r4c.py
+A  tests/test_survey_editorial_r5_gaps_v2.py
+[master 10e8662] SOURCE snapshot: R5b strict/close/canonical/Profile-bound export/pin + foreign-inode replacement fix, 720 files (final R5b, supersedes outdated 0e092f9)
+ 10 files changed, 1394 insertions(+), 151 deletions(-)
+ create mode 100644 tests/test_survey_editorial_r5_gaps_v2.py
+--- verify commit HEAD/tree 40char actual git ---
+10e8662e21fd0aa3c2d71c0bb8d6bf6ae3271ae9
+e434978d0d2034f1a6ec51813be92434234bd3b7
+10e8662 SOURCE snapshot: R5b strict/close/canonical/Profile-bound export/pin + foreign-inode replacement fix, 720 files (final R5b, supersedes outdated 0e092f9)
+4191503 SOURCE snapshot: R4d low full-union anchor projection + P1/P2R/P2V recipe closure, 719 files
+--- verify clean/no alts/remotes/sharing, own GitDir ---
+origin	https://example.invalid/workerR4d-r4d-snapshot.git (fetch)
+origin	https://example.invalid/workerR4d-r4d-snapshot.git (push)
+ls: cannot access '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60/.git/objects/info/alternates': No such file or directory
+no objects/info/alternates (good)
+ls: cannot access '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60/.git/info/alternates': No such file or directory
+no info/alternates (good)
+/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60
+/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r5b-20261022T140000Z/candidate-partial-b40de60/.git
+count: 770
+size: 4632
+in-pack: 0
+packs: 0
+size-pack: 0
+prune-packable: 0
+garbage: 0
+size-garbage: 0
+--- check no __pycache__/tmp residue, no hardlinks (4-sample nlink=1) ---
+.git/index dev=2050 ino=20466087 nlink=1
+scripts/survey_agent_control_v2.py dev=2050 ino=20464751 nlink=1
+templates/survey/jgaisurvey.sty dev=2050 ino=20464843 nlink=1
+schemas/publication-surface-revalidation.schema.json dev=2050 ino=20464552 nlink=1
+=== R5b freeze done (no tests in SOURCE) ===

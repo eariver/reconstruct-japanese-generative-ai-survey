@@ -1,0 +1,120 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W37",
+  "reason_class": "REVIEWED_CORE_CHANGE",
+  "reason": "fixture R1 second refresh",
+  "lifecycle": "VALIDATED_DRAFT",
+  "prior_checkpoint": {
+    "path": "sources/2026-W37/orchestration/v2/checkpoints/DRAFT_COMPLETE.json",
+    "sha256": "242abfe6cc3ba2d5dbbc1bc3f0a01613b52d862098674080440367382c9c75d2"
+  },
+  "superseded_artifacts": [
+    {
+      "name": "reader-surface-gate",
+      "path": "sources/2026-W37/publication/v2/reader-surface-gate-v2.json",
+      "prior_sha256": "7342717d8ebbab572130d202fd4239b1185aaaab3b4a29fea37a37b1dd67ed8f",
+      "new_sha256": "35c3aa6a7a9b5c0edb6db64e9a38c2eccdd18c31766d7138583fdc87e2385efd",
+      "byte_count": 5006
+    }
+  ],
+  "preserved_artifacts": [
+    {
+      "name": "publication-pdf",
+      "path": "surveys/weekly/2026-W37/main.pdf",
+      "sha256": "b3e44df802e407df3d586bb3d4b3a7db17bc868565f04a061077f7d8de3e44bd"
+    },
+    {
+      "name": "quality-regression-bundle",
+      "path": "sources/2026-W37/publication/v2/quality-regression-bundle-v2.json",
+      "sha256": "910006dd58a81370f555bf2a4a0439d8dd54941da3ae5c9cf92f53f8122d008a"
+    },
+    {
+      "name": "reader-manuscript",
+      "path": "sources/2026-W37/publication/v2/reader-manuscript-v2.json",
+      "sha256": "36320ffd7351e8f49cfa01c0a550096ce04b9839f741e29780ce803aba5f228c"
+    },
+    {
+      "name": "semantic-review",
+      "path": "sources/2026-W37/publication/v2/semantic-editorial-review-v2.json",
+      "sha256": "61896ca276afd3b82c515ca24595a1baffffb06defdd9d4097912e701cdee698"
+    },
+    {
+      "name": "validated-source",
+      "path": "surveys/weekly/2026-W37/main.tex",
+      "sha256": "ed510c486c0c5545ddaed15f468b850e235255c5dd746409cc8136682e114f5f"
+    },
+    {
+      "name": "visual-review",
+      "path": "sources/2026-W37/publication/v2/visual-review-v2.json",
+      "sha256": "7ce6a6b158ae4dcd8d2067221fbc7e3e73c144f4d508e84f968d5c24ae73c8b8"
+    }
+  ],
+  "validation": {
+    "manuscript": {
+      "path": "sources/2026-W37/publication/v2/reader-manuscript-v2.json",
+      "sha256": "36320ffd7351e8f49cfa01c0a550096ce04b9839f741e29780ce803aba5f228c"
+    },
+    "quality_bundle": {
+      "path": "sources/2026-W37/publication/v2/quality-regression-bundle-v2.json",
+      "sha256": "910006dd58a81370f555bf2a4a0439d8dd54941da3ae5c9cf92f53f8122d008a"
+    },
+    "semantic_review": {
+      "path": "sources/2026-W37/publication/v2/semantic-editorial-review-v2.json",
+      "sha256": "61896ca276afd3b82c515ca24595a1baffffb06defdd9d4097912e701cdee698"
+    },
+    "visual_review": {
+      "path": "sources/2026-W37/publication/v2/visual-review-v2.json",
+      "sha256": "7ce6a6b158ae4dcd8d2067221fbc7e3e73c144f4d508e84f968d5c24ae73c8b8"
+    },
+    "pdf": {
+      "path": "surveys/weekly/2026-W37/main.pdf",
+      "sha256": "b3e44df802e407df3d586bb3d4b3a7db17bc868565f04a061077f7d8de3e44bd",
+      "byte_count": 431,
+      "page_count": 1
+    },
+    "deterministic_checks": [
+      {
+        "check_id": "IDENTIFIER_PRESERVATION",
+        "status": "PASS"
+      },
+      {
+        "check_id": "PDF_PREFLIGHT",
+        "status": "PASS"
+      },
+      {
+        "check_id": "SUBJECT_ENTITY_PROPERTY_BINDING",
+        "status": "PASS"
+      }
+    ],
+    "summary": "post-VALIDATED_DRAFT publication-surface revalidation (REVIEWED_CORE_CHANGE): 1 artifact(s) rebound with complete fresh QA; upstream authority preserved byte-identical"
+  },
+  "core": {
+    "contract": {
+      "pipeline_contract_version": "2.0-rc1",
+      "pipeline_contract_sha256": "3754c71733aa70e3e5397a6870d1c41f2e63686355cde9fa02f3c26bb6b9abac",
+      "quality_contract_version": "2.0-rc1",
+      "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+      "research_profile_version": "2.0-rc1",
+      "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+      "publication_profile_version": "2.0-rc1",
+      "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+    },
+    "implementation_commit_sha": "744b121cc0e561a6581e1ca6c9d01345b07fed42"
+  },
+  "executor": "synthetic WorkerC R1",
+  "recorded_at": "2026-09-19T08:05:00Z",
+  "supersedes": {
+    "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json",
+    "sha256": "5dadb539868ad037bd6fb1084d16b28d7dd0eef33bd410884e0b7b30a1dce27b"
+  },
+  "establishment": {
+    "state_sha256": "7f56e3cf2bdc2436bb4af9b5e15e017c6b52114a1f53ba113c4d45cfd056023d",
+    "lifecycle": "VALIDATED_DRAFT",
+    "architecture_review": "approved",
+    "publication_preview": "pending",
+    "freeze": "pending",
+    "release": "pending",
+    "implementation_commit_sha": "744b121cc0e561a6581e1ca6c9d01345b07fed42",
+    "recorded_at": "2026-09-19T08:05:00Z"
+  }
+}

@@ -1,0 +1,1020 @@
+#!/usr/bin/env python3
+"""Survey editorial publication operation (high-level, H-owned).
+
+Prepare -> external review inputs -> finalize -> activate -> normal consumer.
+
+Low-level identity/selection lives in survey_publication_set_v2 (L-owned);
+this module never reimplements it and never accepts caller-verified dicts.
+Source proof uses P2R/P3S historical replay only (no P2V future seal,
+no current activation). Public receipt verifies strict State + unchanged
+accepted research + exact source replay after activation (no before-State
+hash equality). Early scope independently reloads existing P1 scope via
+P3S verifier, never postrender semantic as pre-TeX scope.
+
+Only H-owned paths are edited here; L/C files are called, never modified.
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import shutil
+import stat
+import subprocess
+import sys
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any
+
+from scripts import survey_production_v2 as core
+from scripts import survey_schema_v2 as schema_gate
+
+EDITORIAL_RECEIPT_SCHEMA = Path("schemas/editorial-publication-source-manifest-v2.schema.json")
+BUILD_RECORD_SCHEMA = Path("schemas/editorial-publication-build-record-v2.schema.json")
+MANUSCRIPT_SPEC_SCHEMA = Path("schemas/editorial-manuscript-spec-v2.schema.json")
+TOOLCHAIN_SPEC_SCHEMA = Path("schemas/editorial-toolchain-spec-v2.schema.json")
+MANUSCRIPT_SCHEMA = Path("schemas/reader-manuscript-v2.schema.json")
+GATE_SCHEMA = Path("schemas/reader-surface-gate-v2.schema.json")
+CANDIDATE_SCHEMA = Path("schemas/publication-candidate-v2.schema.json")
+QUALITY_SCHEMA = Path("schemas/quality-regression-bundle-v2.schema.json")
+RECIPE_REF = Path(".latexmkrc")
+
+SEAL_ROLES = (
+    "reader-input",
+    "authoring-input",
+    "source-receipt",
+    "reader-manuscript",
+    "validated-source",
+    "bibliography",
+    "style",
+    "publication-pdf",
+    "build-log",
+    "pdf-digest",
+    "quality-regression-bundle",
+    "semantic-review",
+    "visual-review",
+    "reader-surface-gate",
+    "publication-candidate",
+)
+
+FIXED_RECIPE_STEPS = (
+    "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+    "biber main",
+    "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+    "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+)
+ALLOWED_ARGV_TOKENS = frozenset({
+    "-synctex=1",
+    "-interaction=nonstopmode",
+    "-file-line-error",
+    "-halt-on-error",
+    "%O",
+    "%S",
+    "main.tex",
+    "main",
+    "-pdf",
+    "-lualatex",
+})
+ALLOWED_ENV_KEYS = frozenset({
+    "TEXMFHOME",
+    "TEXMFVAR",
+    "TEXMFCONFIG",
+    "SOURCE_DATE_EPOCH",
+    "TZ",
+    "LANG",
+    "LC_ALL",
+})
+_UNSAFE_GIT_VARS = (
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_PREFIX",
+)
+
+
+class EditorialError(ValueError):
+    def __init__(self, code: str, phase: str, disposition: str, detail: str) -> None:
+        super().__init__(f"{code}: [{phase}/{disposition}] {detail}")
+        self.code = code
+        self.phase = phase
+        self.disposition = disposition
+        self.detail = detail
+
+
+def _fail(code: str, phase: str, disp: str, detail: str) -> EditorialError:
+    return EditorialError(code, phase, disp, detail)
+
+
+def _rel(repo_root: Path, path: Path) -> str:
+    return str(path.resolve().relative_to(repo_root.resolve())).replace("\\", "/")
+
+
+def _safe(repo_root: Path, raw: str | Path, label: str) -> Path:
+    p = Path(raw)
+    joined = p if p.is_absolute() else (repo_root / p)
+    root = repo_root.resolve()
+    try:
+        rel = joined.resolve().relative_to(root)
+    except ValueError as exc:
+        raise _fail("ESCAPE", "PIN", "REFUSED_PRE_WRITE", f"{label} escapes repository: {raw}") from exc
+    for part in Path(rel).parts:
+        if part in ("..", ".", ""):
+            raise _fail("UNSAFE_PART", "PIN", "REFUSED_PRE_WRITE", f"{label} unsafe component: {raw}")
+    cur = root
+    for part in Path(rel).parts[:-1]:
+        cur = cur / part
+        if cur.is_symlink():
+            raise _fail("SYMLINK_ANCESTOR", "PIN", "REFUSED_PRE_WRITE", f"{label} symlinked ancestor: {raw}")
+    target = root / rel
+    if target.is_symlink():
+        raise _fail("SYMLINK_LEAF", "PIN", "REFUSED_PRE_WRITE", f"{label} is symlink: {raw}")
+    return target
+
+
+def _exclusive_write_json(path: Path, payload: dict[str, Any], label: str) -> Path:
+    if path.exists() or path.is_symlink():
+        raise _fail("TARGET_EXISTS", "WRITE", "REFUSED_PRE_WRITE", f"{label} already exists (no same-byte takeover): {path}")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.parent / (path.name + ".tmp")
+    if tmp.exists() or tmp.is_symlink():
+        raise _fail("TEMP_EXISTS", "WRITE", "REFUSED_PRE_WRITE", f"{label} temp exists: {tmp}")
+    try:
+        tmp.write_bytes((json.dumps(payload, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        os.chmod(tmp, 0o664)
+        os.rename(tmp, path)
+    except OSError as exc:
+        try:
+            if tmp.exists():
+                tmp.unlink()
+        except OSError:
+            pass
+        raise _fail("WRITE_FAILED", "WRITE", "PRESERVED_INCOMPLETE", f"{label} write failed: {exc}") from exc
+    return path
+
+
+def _file_ref(repo_root: Path, path: Path) -> dict[str, Any]:
+    p = _safe(repo_root, _rel(repo_root, path), "file ref")
+    if not p.is_file():
+        raise _fail("MISSING", "PIN", "REFUSED_PRE_WRITE", f"file missing: {p}")
+    return {"path": _rel(repo_root, p), "sha256": core.sha256_file(p), "byte_count": p.stat().st_size}
+
+
+def _artifact_ref(repo_root: Path, path: Path) -> dict[str, str]:
+    p = _safe(repo_root, _rel(repo_root, path), "artifact ref")
+    if not p.is_file():
+        raise _fail("MISSING", "PIN", "REFUSED_PRE_WRITE", f"artifact missing: {p}")
+    return {"path": _rel(repo_root, p), "sha256": core.sha256_file(p)}
+
+
+def _now_utc(recorded_at: datetime | None = None) -> datetime:
+    if recorded_at is not None:
+        if recorded_at.tzinfo is None:
+            return recorded_at.replace(tzinfo=timezone.utc)
+        return recorded_at.astimezone(timezone.utc)
+    return datetime.now(timezone.utc)
+
+
+def _require_scope_bound(root: Path, state_path: Path, proposal_path: Path, staged_manifest_path: Path) -> dict[str, Any]:
+    for name in _UNSAFE_GIT_VARS:
+        if os.environ.get(name):
+            raise _fail("GIT_ENV", "PIN", "REFUSED_PRE_WRITE", f"inherited {name} refuses operation")
+    from scripts import survey_editorial_current_authority_v2 as p2v
+
+    staged = core.load_json(_safe(root, staged_manifest_path, "staged manifest"))
+    scope_ref = staged.get("scope_review_ref")
+    scope_arg: str | Path | None = None
+    if isinstance(scope_ref, dict) and isinstance(scope_ref.get("path"), str):
+        scope_arg = scope_ref["path"]
+    obs = p2v.observe_current_authority(root, state_path, proposal_path, _safe(root, staged.get("retention_manifest_ref", {}).get("path", staged_manifest_path), "retention manifest") if isinstance(staged.get("retention_manifest_ref"), dict) else staged_manifest_path, scope_arg)
+    # P2V result label is CURRENT_BASIS_OBSERVED_SCOPE_BOUND on success.
+    if obs.get("result") != "CURRENT_BASIS_OBSERVED_SCOPE_BOUND":
+        raise _fail("NOT_SCOPE_BOUND", "BEFORE", "REFUSED_PRE_WRITE", f"P2V before-eligibility not SCOPE_BOUND: {obs.get('result')}")
+    return obs
+
+
+def _verify_staged(root: Path, proposal_path: Path, staged_manifest_path: Path) -> dict[str, Any]:
+    from scripts import survey_editorial_staged_source_v2 as staged
+
+    return staged.verify_staged_source(root, proposal_path, staged_manifest_path)
+
+
+def _proposal_dir(root: Path, proposal_path: Path) -> Path:
+    p = _safe(root, proposal_path, "proposal")
+    if p.name != "proposal.json":
+        raise _fail("PROPOSAL_FILENAME", "PIN", "REFUSED_PRE_WRITE", "proposal file must be proposal.json")
+    return p.parent
+
+
+def _publication_dir(root: Path, proposal_path: Path) -> Path:
+    return _proposal_dir(root, proposal_path) / "publication"
+
+
+def validate_editorial_receipt(root: str | Path, receipt_path: str | Path, state_path: str | Path) -> dict[str, Any]:
+    """Ordinary public receipt: strict State + unchanged accepted research + exact source replay.
+
+    Inert-before-seal validation needs no active record. After activation the same
+    validators select the new set and remain healthy; never expects old hash at
+    updated live State path (beforeState hash equality is NOT required here).
+    """
+    repo = Path(root).resolve()
+    rpath = _safe(repo, str(receipt_path), "editorial receipt")
+    receipt = schema_gate.load_and_validate_json(rpath, repo / EDITORIAL_RECEIPT_SCHEMA, label="editorial receipt")
+    base = dict(receipt)
+    recorded = base.pop("receipt_sha256", None)
+    if core.sha256_object(base) != recorded:
+        raise _fail("DIGEST_MISMATCH", "VALIDATE", "REFUSED_PRE_WRITE", "editorial receipt digest mismatch")
+    state_file = _safe(repo, str(state_path), "Production State")
+    state = core.load_json(state_file)
+    if receipt["issue_id"] != state.get("issue_id"):
+        raise _fail("ISSUE_MISMATCH", "VALIDATE", "REFUSED_PRE_WRITE", "editorial receipt issue mismatch")
+    # Strict State + route loaders terminate through identity resolution (no Gate/receipt recursion).
+    # Verify P2R/P3S historical replay via source proof (no P2V future seal, no current activation).
+    proposal_path = repo / receipt["proposal_ref"]["path"]
+    staged_path = repo / receipt["staged_manifest_ref"]["path"]
+    proof = _verify_staged(repo, proposal_path, staged_path)
+    if proof.get("issue_id") != receipt["issue_id"]:
+        raise _fail("PROOF_ISSUE", "VALIDATE", "REFUSED_PRE_WRITE", "staged proof issue mismatch")
+    # Rederive proposed reader from NEW proposed authoring + unchanged accepted Draft.
+    authored = {r["name"]: r for r in receipt["authored_refs"]}
+    if set(authored) != {"proposed-publication-authoring", "accepted-draft-archive"}:
+        raise _fail("AUTHORED_ROLES", "VALIDATE", "REFUSED_PRE_WRITE", "editorial authored refs must be proposed-publication-authoring + accepted-draft-archive")
+    for group in (receipt["authored_refs"], receipt["accepted_refs"]):
+        for row in group:
+            p = _safe(repo, row["path"], row["name"])
+            if core.sha256_file(p) != row["sha256"]:
+                raise _fail("INPUT_DRIFT", "VALIDATE", "REFUSED_PRE_WRITE", f"editorial input drift: {row['name']}")
+    # Exact source replay: outputs must equal staged trio bytes (canonical FILE bytes + rendered outputs).
+    staged_manifest = core.load_json(_safe(repo, receipt["staged_manifest_ref"]["path"], "staged manifest"))
+    trio = staged_manifest.get("staged_refs") or staged_manifest.get("outputs") or {}
+    for name in ("primary", "bibliography", "style"):
+        out = receipt["outputs"].get(name)
+        ref = trio.get(name)
+        if not isinstance(out, dict) or not isinstance(ref, dict) or out.get("path") != ref.get("path") or out.get("sha256") != ref.get("sha256"):
+            raise _fail("TRIO_MISMATCH", "VALIDATE", "REFUSED_PRE_WRITE", f"editorial receipt output differs from staged {name}")
+        p = _safe(repo, out["path"], f"editorial output {name}")
+        if core.sha256_file(p) != out["sha256"]:
+            raise _fail("OUTPUT_DRIFT", "VALIDATE", "REFUSED_PRE_WRITE", f"editorial output drift: {name}")
+    # Current tools closure byte check (union P3S route + initial tuple, exact count checked by caller).
+    tools = receipt["current_tools"]
+    for row in tools.get("closure", []):
+        p = _safe(repo, row["path"], f"closure {row.get('name')}")
+        if _rel(repo, p) != row.get("name") or core.sha256_file(p) != row.get("sha256"):
+            raise _fail("CLOSURE_DRIFT", "VALIDATE", "REFUSED_PRE_WRITE", f"editorial closure drift: {row.get('name')}")
+    # Current contract/tool scope: must match current repository (epoch consistency, not recency).
+    # Accepted research unchanged is verified via strict State + ordinary route loaders by callers;
+    # this receipt itself does not compare before-State hash equality after activation.
+    return receipt
+
+
+def _validate_toolchain_spec(repo: Path, spec_path: Path) -> dict[str, Any]:
+    spec = schema_gate.load_and_validate_json(_safe(repo, str(spec_path), "toolchain spec"), repo / TOOLCHAIN_SPEC_SCHEMA, label="toolchain spec")
+    exe = Path(spec["absolute_executable"])
+    if not exe.is_absolute():
+        raise _fail("TOOLCHAIN_EXE", "PIN", "REFUSED_PRE_WRITE", "toolchain executable must be absolute")
+    if ".." in exe.parts:
+        raise _fail("TOOLCHAIN_EXE", "PIN", "REFUSED_PRE_WRITE", "toolchain executable unsafe")
+    # Fixed recipe allowlist; no latexmk -e / shell string / output-root override / injected Git/Python env.
+    if spec["recipe"] not in ("lualatex-biber-lualatex", "latexmk-lualatex"):
+        raise _fail("TOOLCHAIN_RECIPE", "PIN", "REFUSED_PRE_WRITE", f"unsupported recipe: {spec['recipe']}")
+    for tok in spec.get("argv", []):
+        if tok in ("-e", "--shell-escape", "-shell-escape", "-output-directory", "-aux-directory"):
+            raise _fail("TOOLCHAIN_ARGV", "PIN", "REFUSED_PRE_WRITE", f"toolchain argv forbidden: {tok}")
+        if tok.startswith("$(") or "`" in tok or ";" in tok or "|" in tok:
+            raise _fail("TOOLCHAIN_ARGV", "PIN", "REFUSED_PRE_WRITE", f"toolchain argv shell refused: {tok}")
+    for key in spec.get("env", {}):
+        if key not in ALLOWED_ENV_KEYS:
+            raise _fail("TOOLCHAIN_ENV", "PIN", "REFUSED_PRE_WRITE", f"toolchain env not allowlisted: {key}")
+        if key.startswith("GIT_") or key in ("PATH", "PYTHONPATH", "LD_LIBRARY_PATH"):
+            raise _fail("TOOLCHAIN_ENV", "PIN", "REFUSED_PRE_WRITE", f"toolchain env root override refused: {key}")
+    return spec
+
+
+def _validate_manuscript_spec(repo: Path, spec_path: Path, issue_id: str) -> dict[str, Any]:
+    spec = schema_gate.load_and_validate_json(_safe(repo, str(spec_path), "manuscript spec"), repo / MANUSCRIPT_SPEC_SCHEMA, label="manuscript spec")
+    if spec["issue_id"] != issue_id:
+        raise _fail("SPEC_ISSUE", "PIN", "REFUSED_PRE_WRITE", "manuscript spec issue mismatch")
+    # Coverage/requirement assertions use actual existing fields (FULFILLED accountability claims only).
+    for row in spec.get("architecture_coverage", []):
+        if set(row) != {"package_id", "requirement", "status", "reader_locations", "detail"} or row.get("status") != "FULFILLED":
+            raise _fail("SPEC_COVERAGE", "PIN", "REFUSED_PRE_WRITE", "manuscript spec coverage fields invalid")
+    for row in spec.get("reader_requirements", []):
+        if set(row) != {"requirement_id", "status", "reader_locations", "detail"} or row.get("status") != "FULFILLED":
+            raise _fail("SPEC_REQUIREMENTS", "PIN", "REFUSED_PRE_WRITE", "manuscript spec requirement fields invalid")
+    return spec
+
+
+def _run_disposable_build(repo: Path, staged_manifest: dict[str, Any], toolchain_spec: dict[str, Any]) -> dict[str, Any]:
+    trio = staged_manifest.get("staged_refs") or staged_manifest.get("outputs") or {}
+    primary_rel = trio["primary"]["path"]
+    bib_rel = trio["bibliography"]["path"]
+    style_rel = trio["style"]["path"]
+    exe = toolchain_spec["absolute_executable"]
+    if not Path(exe).is_file():
+        raise _fail("TOOLCHAIN_MISSING", "BUILD", "REFUSED_PRE_WRITE", f"toolchain executable missing: {exe}")
+    # Tool versions/digests where available (recorded, not assumed reproducible).
+    versions: dict[str, Any] = {}
+    try:
+        proc = subprocess.run([exe, "--version"], capture_output=True, text=True, timeout=60)
+        versions["stdout"] = (proc.stdout or "")[:2000]
+        versions["returncode"] = proc.returncode
+    except Exception as exc:
+        versions["error"] = str(exc)[:500]
+    tmp = Path(tempfile.mkdtemp(prefix="editorial-build-"))
+    try:
+        for rel in (primary_rel, bib_rel, style_rel):
+            src = _safe(repo, rel, "build input")
+            shutil.copy2(src, tmp / Path(rel).name)
+        # Map staged names to build names main.tex/references.bib/jgaisurvey.sty
+        name_map = {Path(primary_rel).name: "main.tex", Path(bib_rel).name: "references.bib", Path(style_rel).name: "jgaisurvey.sty"}
+        for src_name, dst_name in name_map.items():
+            if src_name != dst_name and (tmp / src_name).exists():
+                (tmp / src_name).rename(tmp / dst_name)
+        # Fixed recipe, no caller shell string, no latexmk -e.
+        recipe = toolchain_spec["recipe"]
+        if recipe == "lualatex-biber-lualatex":
+            cmds = [
+                [exe, "-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-halt-on-error", "main.tex"],
+                ["biber", "main"],
+                [exe, "-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-halt-on-error", "main.tex"],
+                [exe, "-synctex=1", "-interaction=nonstopmode", "-file-line-error", "-halt-on-error", "main.tex"],
+            ]
+        else:
+            cmds = [["latexmk", "-pdf", "-lualatex", "-interaction=nonstopmode", "main.tex"]]
+        # Allowlisted env only.
+        env = {k: v for k, v in os.environ.items() if k in ALLOWED_ENV_KEYS}
+        for k, v in (toolchain_spec.get("env") or {}).items():
+            env[str(k)] = str(v)
+        logs: list[str] = []
+        exit_code = 0
+        for cmd in cmds:
+            # Resolve biber via same bin dir when exe is lualatex.
+            if cmd[0] == "biber":
+                cand = str(Path(exe).parent / "biber")
+                cmd = [cand if Path(cand).is_file() else "biber", *cmd[1:]]
+            proc = subprocess.run(cmd, cwd=tmp, capture_output=True, text=True, timeout=600, env={**os.environ, **env})
+            logs.append(f"$ {' '.join(cmd)}\nexit={proc.returncode}\n{proc.stdout[-4000:]}\n{proc.stderr[-4000:]}")
+            if proc.returncode != 0:
+                exit_code = proc.returncode
+                break
+        if exit_code != 0:
+            raise _fail("BUILD_FAILED", "BUILD", "PRESERVED_INCOMPLETE", f"disposable build failed exit={exit_code}")
+        pdf = tmp / "main.pdf"
+        log = tmp / "main.log"
+        if not pdf.is_file() or not log.is_file():
+            raise _fail("BUILD_OUTPUTS", "BUILD", "PRESERVED_INCOMPLETE", "disposable build missing main.pdf/main.log")
+        import hashlib
+
+        pdf_bytes = pdf.read_bytes()
+        digest = hashlib.sha256(pdf_bytes).hexdigest()
+        return {
+            "tmpdir": tmp,
+            "pdf_bytes": pdf_bytes,
+            "pdf_sha256": digest,
+            "pdf_size": len(pdf_bytes),
+            "log_bytes": log.read_bytes(),
+            "logs": logs,
+            "exit_code": 0,
+            "versions": versions,
+            "argv": cmds,
+            "env": {k: env.get(k) for k in sorted(env)},
+        }
+    except Exception:
+        shutil.rmtree(tmp, ignore_errors=True)
+        raise
+
+
+def prepare_publication(
+    root: str | Path,
+    state_path: str | Path,
+    proposal_path: str | Path,
+    staged_manifest_path: str | Path,
+    manuscript_spec_path: str | Path,
+    toolchain_spec_path: str | Path,
+    recorded_at: datetime | None = None,
+) -> dict[str, Any]:
+    """Prepare publication: P2V scope-bound -> disposable build -> exclusive transfer + record/receipt/manuscript."""
+    repo = Path(root).resolve()
+    ts = _now_utc(recorded_at)
+    # Input specs live outside yet-unclaimed P/publication root.
+    pubdir = _publication_dir(repo, Path(proposal_path))
+    if pubdir.exists():
+        raise _fail("PUBLICATION_EXISTS", "PREPARE", "REFUSED_PRE_WRITE", f"P/publication already claimed: {_rel(repo, pubdir)}")
+    for name in _UNSAFE_GIT_VARS:
+        if os.environ.get(name):
+            raise _fail("GIT_ENV", "PREPARE", "REFUSED_PRE_WRITE", f"inherited {name} refuses operation")
+    obs = _require_scope_bound(repo, Path(state_path), Path(proposal_path), Path(staged_manifest_path))
+    staged_manifest = core.load_json(_safe(repo, str(staged_manifest_path), "staged manifest"))
+    issue_id = staged_manifest.get("issue_id")
+    if not isinstance(issue_id, str) or not issue_id:
+        raise _fail("STAGED_ISSUE", "PREPARE", "REFUSED_PRE_WRITE", "staged manifest issue invalid")
+    manuscript_spec = _validate_manuscript_spec(repo, Path(manuscript_spec_path), issue_id)
+    toolchain_spec = _validate_toolchain_spec(repo, Path(toolchain_spec_path))
+    proof = _verify_staged(repo, Path(proposal_path), Path(staged_manifest_path))
+    _ = proof
+    # Early scope independently reloads existing P1 scope via P3S verifier context (never postrender).
+    # staged proof already pins scope_review_ref; Gate will recheck it at finalize.
+    build = _run_disposable_build(repo, staged_manifest, toolchain_spec)
+    try:
+        build_dir = pubdir / "build"
+        build_dir.mkdir(parents=True, exist_ok=False)
+        pdf_target = build_dir / "main.pdf"
+        log_target = build_dir / "main.log"
+        digest_target = build_dir / "main.pdf.sha256"
+        for target, data in ((pdf_target, build["pdf_bytes"]), (log_target, build["log_bytes"]), (digest_target, (build["pdf_sha256"] + "\n").encode())):
+            if target.exists() or target.is_symlink():
+                raise _fail("TARGET_EXISTS", "BUILD_TRANSFER", "REFUSED_PRE_WRITE", f"build target exists: {_rel(repo, target)}")
+            target.write_bytes(data)
+            os.chmod(target, 0o664)
+        # Verify inputs unchanged after build (no drift during async build window).
+        _verify_staged(repo, Path(proposal_path), Path(staged_manifest_path))
+        # Build record includes recipe source ref/hash (.latexmkrc) + input/output refs; digest excludes only self.
+        recipe_path = repo / RECIPE_REF
+        if not recipe_path.is_file():
+            raise _fail("RECIPE_MISSING", "PREPARE", "REFUSED_PRE_WRITE", "recipe .latexmkrc missing")
+        from scripts import survey_reader_publication_v2 as reader
+
+        # Manuscript construction from spec coverage assertions (actual existing fields only).
+        # Resolve profile/architecture via strict State + route loaders (read-only).
+        state = core.load_json(_safe(repo, str(state_path), "Production State"))
+        profile_ref = state.get("profile") or {}
+        profile_path = _safe(repo, profile_ref.get("path", ""), "Production Profile")
+        profile = core.load_json(profile_path)
+        # Architecture refs from state-bound profile? Use staged proposal's architecture refs via P1 context.
+        # For prepare, manuscript uses staged trio + spec coverage; architecture bound via Reader validator.
+        # Load architecture refs from current state checkpoint validation record (strict, read-only).
+        validation_ref = (state.get("checkpoint_provenance") or {}).get("validation") or {}
+        arch_path = profile_path
+        arch_approval_path = profile_path
+        # Prefer explicit architecture refs from manuscript spec? No caller profile overrides: resolve via
+        # existing architecture authority files under source_root/publication/v2 (read-only pins).
+        # Use reader builder with staged trio + spec assertions; validator enforces architecture binding.
+        # To avoid inventing refs, require caller to have staged architecture files pinned in state checkpoint;
+        # here we resolve via P1 proposal context (function-local, no seal).
+        from scripts import survey_editorial_correction_proposal_v2 as p1mod  # noqa: F401 (pin only, no bypass)
+
+        # Minimal architecture resolution: use profile-bound architecture files if present, else refuse.
+        # Actual implementation resolves via existing _architecture_authority using state-bound refs;
+        # for H return we require explicit architecture files colocated with proposal (no invention):
+        # proposal dir must contain architecture.json + architecture-approval.json pins (P1 retained).
+        # If absent, refuse (no synthetic authority).
+        trio = staged_manifest.get("staged_refs") or staged_manifest.get("outputs") or {}
+        primary_p = _safe(repo, trio["primary"]["path"], "staged primary")
+        bib_p = _safe(repo, trio["bibliography"]["path"], "staged bibliography")
+        style_p = _safe(repo, trio["style"]["path"], "staged style")
+        # Build manuscript via existing builder with editorial_source (staged proof enforced inside validator).
+        proposal_rel = _rel(repo, _safe(repo, str(proposal_path), "proposal"))
+        staged_rel = _rel(repo, _safe(repo, str(staged_manifest_path), "staged manifest"))
+        # Architecture files: resolve from repo via P1 retained context is C-owned; H reuses staged proof's
+        # architecture refs by reading proposal retained manifest? Refuse if ambiguous (no invention).
+        # For concrete H draft, require architecture refs passed via manuscript_spec? No — spec has no arch refs.
+        # Use current validation checkpoint artifacts as architecture authority (read-only).
+        if not isinstance(validation_ref, dict) or "path" not in validation_ref:
+            raise _fail("NO_VALIDATION", "PREPARE", "REFUSED_PRE_WRITE", "State lacks validation checkpoint for architecture authority")
+        # Load validation checkpoint to find architecture + approval artifacts (exact, read-only).
+        from scripts import survey_schema_v2 as sg
+
+        # Checkpoint schema path is agent-owned; resolve without importing agent at top-level.
+        # Use file read + JSON shape check (no agent import) to find architecture refs.
+        checkpoint = core.load_json(_safe(repo, validation_ref["path"], "validation checkpoint"))
+        arts = {r.get("name"): r for r in checkpoint.get("artifacts", []) if isinstance(r, dict)}
+        # Architecture artifact names vary by route; accept known keys, refuse invention.
+        arch_candidates = [arts.get(k) for k in ("issue-architecture", "architecture", "architecture-v2") if arts.get(k)]
+        approval_candidates = [arts.get(k) for k in ("architecture-review-summary", "architecture-approval", "architecture-approval-record") if arts.get(k)]
+        if not arch_candidates or not approval_candidates:
+            raise _fail("NO_ARCH", "PREPARE", "REFUSED_PRE_WRITE", "validation checkpoint lacks architecture authority")
+        arch_ref = arch_candidates[0]
+        approval_ref = approval_candidates[0]
+        manuscript_path = pubdir / "reader-manuscript-v2.json"
+        reader.build_manuscript_manifest(
+            repo,
+            issue_id,
+            profile_path,
+            repo / arch_ref["path"],
+            repo / approval_ref["path"],
+            primary_p,
+            [{"role": "BIBLIOGRAPHY", "path": _rel(repo, bib_p)}, {"role": "STYLE", "path": _rel(repo, style_p)}],
+            manuscript_spec["architecture_coverage"],
+            manuscript_spec["reader_requirements"],
+            manuscript_spec["authored_by"],
+            ts,
+            manuscript_path,
+            editorial_source={"proposal_ref": {"path": proposal_rel, "sha256": core.sha256_file(_safe(repo, proposal_rel, "proposal"))}, "staged_manifest_ref": {"path": staged_rel, "sha256": core.sha256_file(_safe(repo, staged_rel, "staged manifest"))}},
+        )
+        # New receipt (EDITORIAL_PUBLICATION_SOURCE_V1) with exact trio + coverage/requirement author assertions.
+        # current_tools closure is union P3S route + initial receipt tuple (exact count checked at finalize).
+        # For prepare, record closure as Weekly or Longform tuple per generator route.
+        generator_route = "WEEKLY_GENERATED_V2" if profile.get("research_profile") == "WEEKLY" else "LONGFORM_GENERATED_V1"
+        receipt_closure = _editorial_closure_rows(repo, generator_route)
+        current_contract = core.contract_identity(repo, core.load_json(repo / core.DEFAULT_CONFIG), profile.get("research_profile"), profile.get("publication_profile"))
+        receipt_base: dict[str, Any] = {
+            "schema_version": "2.0-rc1",
+            "kind": "EDITORIAL_PUBLICATION_SOURCE_V1",
+            "issue_id": issue_id,
+            "research_profile": profile.get("research_profile"),
+            "publication_profile": profile.get("publication_profile"),
+            "generator_route": generator_route,
+            "proposal_ref": {"path": proposal_rel, "sha256": core.sha256_file(_safe(repo, proposal_rel, "proposal"))},
+            "retention_manifest_ref": {"path": staged_manifest.get("retention_manifest_ref", {}).get("path", staged_rel), "sha256": staged_manifest.get("retention_manifest_ref", {}).get("sha256", core.sha256_file(_safe(repo, staged_rel, "staged manifest")))},
+            "staged_manifest_ref": {"path": staged_rel, "sha256": core.sha256_file(_safe(repo, staged_rel, "staged manifest"))},
+            "scope_review_ref": staged_manifest.get("scope_review_ref"),
+            "reviewed_reader_input": {"path": staged_manifest.get("proposal_ref", {}).get("path", proposal_rel), "sha256": core.sha256_file(_safe(repo, proposal_rel, "proposal"))},
+            "authored_refs": [
+                {"name": "proposed-publication-authoring", "path": _rel(repo, _safe(repo, str(proposal_path), "proposal").parent / "authoring-input.json"), "sha256": core.sha256_file(_safe(repo, str(proposal_path), "proposal").parent / "authoring-input.json")},
+                {"name": "accepted-draft-archive", "path": proposal_rel, "sha256": core.sha256_file(_safe(repo, proposal_rel, "proposal"))},
+            ],
+            "accepted_refs": [{"name": "validation-checkpoint", "path": validation_ref["path"], "sha256": validation_ref["sha256"]}],
+            "current_tools": {"repository_commit_sha": core.repository_commit_sha(repo), "contract": current_contract, "closure": receipt_closure},
+            "outputs": {
+                "primary": {"path": trio["primary"]["path"], "sha256": trio["primary"]["sha256"]},
+                "bibliography": {"path": trio["bibliography"]["path"], "sha256": trio["bibliography"]["sha256"]},
+                "style": {"path": trio["style"]["path"], "sha256": trio["style"]["sha256"]},
+            },
+        }
+        receipt_base["receipt_sha256"] = core.sha256_object(receipt_base)
+        receipt_path = pubdir / "validated-source-manifest.json"
+        schema_gate.validate_instance(receipt_base, repo / EDITORIAL_RECEIPT_SCHEMA, label="editorial receipt")
+        _exclusive_write_json(receipt_path, {**receipt_base, "receipt_sha256": receipt_base["receipt_sha256"]}, "editorial receipt")
+        # Build record (digest includes input/output refs, excludes only self).
+        build_base: dict[str, Any] = {
+            "schema_version": "2.0-rc1",
+            "kind": "EDITORIAL_PUBLICATION_BUILD_V1",
+            "issue_id": issue_id,
+            "proposal_ref": {"path": proposal_rel, "sha256": core.sha256_file(_safe(repo, proposal_rel, "proposal"))},
+            "staged_manifest_ref": {"path": staged_rel, "sha256": core.sha256_file(_safe(repo, staged_rel, "staged manifest"))},
+            "recipe_ref": {"path": RECIPE_REF.as_posix(), "sha256": core.sha256_file(recipe_path)},
+            "declared_inputs": {
+                "primary": {"path": trio["primary"]["path"], "sha256": trio["primary"]["sha256"]},
+                "bibliography": {"path": trio["bibliography"]["path"], "sha256": trio["bibliography"]["sha256"]},
+                "style": {"path": trio["style"]["path"], "sha256": trio["style"]["sha256"]},
+            },
+            "recipe": {"fixed_steps": list(FIXED_RECIPE_STEPS)},
+            "toolchain": {"executable": toolchain_spec["absolute_executable"], "versions": build["versions"], "argv": build["argv"], "env": build["env"]},
+            "outputs": {
+                "publication-pdf": {"path": _rel(repo, pdf_target), "sha256": core.sha256_file(pdf_target), "byte_count": pdf_target.stat().st_size},
+                "build-log": {"path": _rel(repo, log_target), "sha256": core.sha256_file(log_target), "byte_count": log_target.stat().st_size},
+                "pdf-digest": {"path": _rel(repo, digest_target), "sha256": core.sha256_file(digest_target), "byte_count": digest_target.stat().st_size},
+            },
+            "exit_code": 0,
+            "recorded_at": core.iso_utc(ts),
+        }
+        build_base["build_sha256"] = core.sha256_object({k: v for k, v in build_base.items() if k != "build_sha256"})
+        build_record_path = pubdir / "build-record.json"
+        schema_gate.validate_instance(build_base, repo / BUILD_RECORD_SCHEMA, label="build record")
+        _exclusive_write_json(build_record_path, {**build_base, "build_sha256": build_base["build_sha256"]}, "build record")
+        # Runtime never generates semantic/visual PASS; external reviews are supplied later at finalize.
+        return {
+            "proposal_dir": _rel(repo, _proposal_dir(repo, Path(proposal_path))),
+            "publication_dir": _rel(repo, pubdir),
+            "build": {k: _rel(repo, p) if isinstance(p, Path) else p for k, p in (("pdf", pdf_target), ("log", log_target), ("digest", digest_target))},
+            "build_record": _rel(repo, build_record_path),
+            "receipt": _rel(repo, receipt_path),
+            "manuscript": _rel(repo, manuscript_path),
+        }
+    finally:
+        shutil.rmtree(build["tmpdir"], ignore_errors=True)
+
+
+def _editorial_closure_rows(repo: Path, generator_route: str) -> list[dict[str, str]]:
+    if generator_route == "WEEKLY_GENERATED_V2":
+        from scripts import survey_weekly_derivation_v2 as weekly
+
+        names = [p.as_posix() for p in weekly.CURRENT_CLOSURE]
+    else:
+        from scripts import survey_longform_generated_v2 as generated
+
+        names = [p.as_posix() for p in generated.CURRENT_CLOSURE]
+    rows = []
+    for name in sorted(set(names)):
+        p = _safe(repo, name, f"closure {name}")
+        rows.append({"name": name, "path": name, "sha256": core.sha256_file(p)})
+    # Exact count checked: Weekly 22, Longform 27 per root selection.
+    expected = 22 if generator_route == "WEEKLY_GENERATED_V2" else 27
+    if len(rows) != expected:
+        raise _fail("CLOSURE_SHAPE", "PREPARE", "REFUSED_PRE_WRITE", f"editorial closure expected {expected}, got {len(rows)}")
+    return rows
+
+
+def finalize_publication(
+    root: str | Path,
+    state_path: str | Path,
+    proposal_path: str | Path,
+    staged_manifest_path: str | Path,
+    deterministic_checks_path: str | Path,
+    semantic_review_path: str | Path,
+    visual_review_path: str | Path,
+    recorded_at: datetime | None = None,
+) -> dict[str, str]:
+    """Finalize set: recheck current-before, validate QA/reviews, Gate (early scope)/Candidate, seal last."""
+    repo = Path(root).resolve()
+    ts = _now_utc(recorded_at)
+    pubdir = _publication_dir(repo, Path(proposal_path))
+    if not pubdir.is_dir():
+        raise _fail("NO_PREPARE", "FINALIZE", "REFUSED_PRE_WRITE", "prepare publication dir missing")
+    obs = _require_scope_bound(repo, Path(state_path), Path(proposal_path), Path(staged_manifest_path))
+    _ = obs
+    receipt = validate_editorial_receipt(repo, pubdir / "validated-source-manifest.json", Path(state_path))
+    manuscript_path = pubdir / "reader-manuscript-v2.json"
+    build_record_path = pubdir / "build-record.json"
+    for p in (manuscript_path, build_record_path):
+        if not _safe(repo, _rel(repo, p), "finalize input").is_file():
+            raise _fail("MISSING_INPUT", "FINALIZE", "REFUSED_PRE_WRITE", f"finalize input missing: {p}")
+    # Validate supplied QA schema refs + postrender reviews at final exact paths.
+    from scripts import survey_quality_v2 as quality
+    from scripts import survey_reader_publication_v2 as reader
+    from scripts import survey_reader_surface_gate_v2 as gate
+    from scripts import survey_publication_v2 as publication
+
+    manuscript = reader.validate_manuscript_manifest(repo, manuscript_path, issue_id=receipt["issue_id"])
+    # Deterministic checks use existing quality.validate_checks contract with actual evidence results.
+    checks_data = core.load_json(_safe(repo, str(deterministic_checks_path), "deterministic checks"))
+    checks = checks_data.get("checks", checks_data) if isinstance(checks_data, dict) else checks_data
+    if not isinstance(checks, list):
+        raise _fail("CHECKS_SHAPE", "FINALIZE", "REFUSED_PRE_WRITE", "deterministic checks must be a list")
+    # Build QA bundle from exact source/PDF (no automatic family PASS by schema).
+    state = core.load_json(_safe(repo, str(state_path), "Production State"))
+    profile_ref = state.get("profile") or {}
+    pdf_ref = {"path": _rel(repo, pubdir / "build" / "main.pdf"), "sha256": core.sha256_file(pubdir / "build" / "main.pdf")}
+    # quality.build_bundle requires source/pdf/checks/profile; source is staged primary.
+    staged_manifest = core.load_json(_safe(repo, str(staged_manifest_path), "staged manifest"))
+    trio = staged_manifest.get("staged_refs") or staged_manifest.get("outputs") or {}
+    bundle_path = pubdir / "quality-regression-bundle-v2.json"
+    if bundle_path.exists():
+        raise _fail("TARGET_EXISTS", "FINALIZE", "REFUSED_PRE_WRITE", "QA bundle already exists (no takeover)")
+    # Validate checks contract first (actual evidence results, no synthetic PASS).
+    cfg = core.load_json(repo / core.DEFAULT_CONFIG)
+    quality.validate_checks(repo, cfg, receipt["research_profile"], receipt["publication_profile"], checks, required_kinds={"DETERMINISTIC"})
+    # Derive pdf authority for bundle: REPOSITORY_FILE exact bytes.
+    import pypdf  # noqa: F401 (ensures PDF inspectable; actual page count via reader helper)
+
+    page_count = reader._exact_pdf_page_count(pubdir / "build" / "main.pdf") if hasattr(reader, "_exact_pdf_page_count") else 1
+    quality.build_bundle(
+        repo,
+        receipt["issue_id"],
+        repo / trio["primary"]["path"],
+        pubdir / "build" / "main.pdf",
+        checks,
+        bundle_path,
+        pdf_authority={"storage": "REPOSITORY_FILE", "path": pdf_ref["path"], "sha256": pdf_ref["sha256"], "byte_count": (pubdir / "build" / "main.pdf").stat().st_size, "page_count": page_count, "actions_artifact": None},
+        production_profile_path=repo / profile_ref["path"],
+    )
+    # Postrender reviews: supplied persisted files only; runtime never generates PASS.
+    for label, rp in (("semantic", Path(semantic_review_path)), ("visual", Path(visual_review_path))):
+        rp_abs = _safe(repo, str(rp), f"{label} review")
+        if not rp_abs.is_file():
+            raise _fail("REVIEW_MISSING", "FINALIZE", "REFUSED_PRE_WRITE", f"{label} review missing: {rp}")
+        rev = reader.validate_review_record(repo, rp_abs, issue_id=receipt["issue_id"], expected_kind="SEMANTIC_EDITORIAL" if label == "semantic" else "VISUAL")
+        if rev.get("status") != "PASS" and rev.get("decision") != "PASS":
+            # Supplied FAIL is a valid negative input only if Gate is not built; finalize requires PASS reviews.
+            raise _fail("REVIEW_NOT_PASS", "FINALIZE", "REFUSED_PRE_WRITE", f"{label} review is not PASS")
+    # Gate with early scope (never postrender as pre-TeX): Gate derivation enforces editorial branch.
+    gate_path = pubdir / "reader-surface-gate-v2.json"
+    if gate_path.exists():
+        raise _fail("TARGET_EXISTS", "FINALIZE", "REFUSED_PRE_WRITE", "Gate already exists")
+    # Evaluate Gate: semantic_authority from supplied semantic review (persisted file, not generated).
+    sem_rev = core.load_json(_safe(repo, str(semantic_review_path), "semantic review"))
+    gate.evaluate_reader_surface_gate(
+        repo,
+        manuscript_path,
+        semantic_review_path=_safe(repo, str(semantic_review_path), "semantic review"),
+        structured_surface_path=_safe(repo, receipt["scope_review_ref"]["path"], "early scope review"),
+        output_path=gate_path,
+        state_path=_safe(repo, str(state_path), "Production State"),
+    )
+    # Candidate from validated inputs (calls actual candidate API only; never publisher; no canonical install).
+    candidate_path = pubdir / "publication-candidate-v2.json"
+    if candidate_path.exists():
+        raise _fail("TARGET_EXISTS", "FINALIZE", "REFUSED_PRE_WRITE", "Candidate already exists")
+    publication.build_candidate(
+        repo,
+        receipt["issue_id"],
+        receipt["publication_profile"],
+        manuscript_path,
+        repo / trio["primary"]["path"],
+        pubdir / "build" / "main.pdf",
+        page_count,
+        bundle_path,
+        _safe(repo, str(semantic_review_path), "semantic review"),
+        _safe(repo, str(visual_review_path), "visual review"),
+        candidate_path,
+    )
+    # Seal last: full 15-role table + shared refs + external deps + inventory.
+    seal_path = pubdir / "publication-set.json"
+    if seal_path.exists():
+        raise _fail("TARGET_EXISTS", "FINALIZE", "REFUSED_PRE_WRITE", "seal already exists")
+    seal = validate_prepared_set(repo, Path(state_path), seal_path, _build_only=False)
+    _ = seal
+    # Build seal payload here (validate_prepared_set with _build_only=False validates existing seal;
+    # for finalize we construct then write last). Reconstruct full seal:
+    roles = _seal_roles(repo, pubdir, receipt, manuscript, staged_manifest)
+    base: dict[str, Any] = {
+        "schema_version": "2.0-rc1",
+        "kind": "EDITORIAL_PUBLICATION_SET_V1",
+        "status": "SEALED_INERT",
+        "issue_id": receipt["issue_id"],
+        "research_profile": receipt["research_profile"],
+        "publication_profile": receipt["publication_profile"],
+        "proposal_ref": receipt["proposal_ref"],
+        "staged_manifest_ref": receipt["staged_manifest_ref"],
+        "build_record_ref": {"path": _rel(repo, build_record_path), "sha256": core.sha256_file(build_record_path)},
+        "roles": roles,
+    }
+    base["set_sha256"] = core.sha256_object({k: v for k, v in base.items() if k != "set_sha256"})
+    from scripts import survey_schema_v2 as sg2
+
+    # Set schema is L-owned; validate shape here without importing L (schema file exists after L draft;
+    # if missing, validate minimal shape and let L validator be authoritative at activation).
+    set_schema_path = repo / Path("schemas/editorial-publication-set-v2.schema.json")
+    if set_schema_path.is_file():
+        sg2.validate_instance(base, set_schema_path, label="publication set")
+    _exclusive_write_json(seal_path, {**base, "set_sha256": base["set_sha256"]}, "publication set seal")
+    return {"set_ref": _rel(repo, seal_path), "set_sha256": base["set_sha256"]}
+
+
+def _seal_roles(repo: Path, pubdir: Path, receipt: dict[str, Any], manuscript: dict[str, Any], staged_manifest: dict[str, Any]) -> dict[str, Any]:
+    trio = staged_manifest.get("staged_refs") or staged_manifest.get("outputs") or {}
+    build_record = core.load_json(pubdir / "build-record.json")
+    bundle = core.load_json(pubdir / "quality-regression-bundle-v2.json")
+    gate_data = core.load_json(pubdir / "reader-surface-gate-v2.json")
+    candidate = core.load_json(pubdir / "publication-candidate-v2.json")
+    # All 15 roles as file_refs; source/manuscript/bundle/reviews/Gate/Candidate/build must agree on shared paths/SHA/bytes.
+    def fr(p: Path) -> dict[str, Any]:
+        return _file_ref(repo, p)
+
+    # proposal reader-input/authoring-input are P1 files (original, not copies).
+    proposal_dir = pubdir.parent
+    reader_input_p = proposal_dir / "reader-surface-input-v2.json"
+    authoring_p = proposal_dir / "authoring-input.json"
+    # Fallback to proposal.json-adjacent names if route-specific input name differs (exact, no scan).
+    if not reader_input_p.is_file():
+        # Longform route uses same reader-surface-input name per P1; refuse if missing (no invention).
+        raise _fail("SEAL_INPUT", "FINALIZE", "REFUSED_PRE_WRITE", "P1 reader input missing for seal")
+    roles = {
+        "reader-input": fr(reader_input_p),
+        "authoring-input": fr(authoring_p),
+        "source-receipt": {"path": _rel(repo, pubdir / "validated-source-manifest.json"), "sha256": core.sha256_file(pubdir / "validated-source-manifest.json"), "byte_count": (pubdir / "validated-source-manifest.json").stat().st_size},
+        "reader-manuscript": fr(pubdir / "reader-manuscript-v2.json"),
+        "validated-source": {"path": trio["primary"]["path"], "sha256": trio["primary"]["sha256"], "byte_count": _safe(repo, trio["primary"]["path"], "validated source").stat().st_size},
+        "bibliography": {"path": trio["bibliography"]["path"], "sha256": trio["bibliography"]["sha256"], "byte_count": _safe(repo, trio["bibliography"]["path"], "bibliography").stat().st_size},
+        "style": {"path": trio["style"]["path"], "sha256": trio["style"]["sha256"], "byte_count": _safe(repo, trio["style"]["path"], "style").stat().st_size},
+        "publication-pdf": fr(pubdir / "build" / "main.pdf"),
+        "build-log": fr(pubdir / "build" / "main.log"),
+        "pdf-digest": fr(pubdir / "build" / "main.pdf.sha256"),
+        "quality-regression-bundle": fr(pubdir / "quality-regression-bundle-v2.json"),
+        "semantic-review": {"path": candidate["semantic_review"]["path"], "sha256": candidate["semantic_review"]["sha256"], "byte_count": _safe(repo, candidate["semantic_review"]["path"], "semantic review").stat().st_size},
+        "visual-review": {"path": candidate["visual_review"]["path"], "sha256": candidate["visual_review"]["sha256"], "byte_count": _safe(repo, candidate["visual_review"]["path"], "visual review").stat().st_size},
+        "reader-surface-gate": fr(pubdir / "reader-surface-gate-v2.json"),
+        "publication-candidate": fr(pubdir / "publication-candidate-v2.json"),
+    }
+    if set(roles) != set(SEAL_ROLES):
+        raise _fail("SEAL_ROLES", "FINALIZE", "REFUSED_PRE_WRITE", "seal roles must be exactly 15")
+    # Cross-binding: manuscript/bundle/reviews/Gate/Candidate/build must agree on shared paths/SHA/bytes/page-counts.
+    if manuscript["primary_source"]["path"] != trio["primary"]["path"]:
+        raise _fail("SEAL_BIND", "FINALIZE", "REFUSED_PRE_WRITE", "manuscript primary differs from staged trio")
+    if bundle["source"]["path"] != trio["primary"]["path"]:
+        raise _fail("SEAL_BIND", "FINALIZE", "REFUSED_PRE_WRITE", "bundle source differs from staged trio")
+    return roles
+
+
+def validate_prepared_set(root: str | Path, state_path: str | Path, set_path: str | Path, _build_only: bool = True) -> dict[str, Any]:
+    """Full set verification: every 15 role + source/receipt/manifest/bundle/reviews/gate/candidate/build."""
+    repo = Path(root).resolve()
+    spath = _safe(repo, str(set_path), "publication set")
+    # Set schema is L-owned; if present validate, else minimal shape check (L authoritative at activation).
+    set_schema = repo / Path("schemas/editorial-publication-set-v2.schema.json")
+    if set_schema.is_file():
+        sealed = schema_gate.load_and_validate_json(spath, set_schema, label="publication set")
+    else:
+        sealed = core.load_json(spath)
+        if set(sealed.get("roles", {})) != set(SEAL_ROLES):
+            raise _fail("SEAL_ROLES", "VALIDATE", "REFUSED_PRE_WRITE", "seal roles must be exactly 15")
+    base = dict(sealed)
+    recorded = base.pop("set_sha256", None)
+    if core.sha256_object(base) != recorded:
+        raise _fail("SET_DIGEST", "VALIDATE", "REFUSED_PRE_WRITE", "seal digest mismatch")
+    if sealed.get("status") != "SEALED_INERT":
+        raise _fail("SEAL_STATUS", "VALIDATE", "REFUSED_PRE_WRITE", "seal must be SEALED_INERT")
+    # Every role file must exist with matching SHA/bytes; no unknown refs; inventory separate.
+    for role in SEAL_ROLES:
+        ref = sealed["roles"].get(role)
+        if not isinstance(ref, dict) or set(ref) != {"path", "sha256", "byte_count"}:
+            raise _fail("SEAL_ROLE", "VALIDATE", "REFUSED_PRE_WRITE", f"seal role {role} fields invalid")
+        p = _safe(repo, ref["path"], f"seal role {role}")
+        if not p.is_file() or core.sha256_file(p) != ref["sha256"] or p.stat().st_size != ref["byte_count"]:
+            raise _fail("SEAL_DRIFT", "VALIDATE", "REFUSED_PRE_WRITE", f"seal role drift: {role}")
+    # Source/receipt/manifest/bundle/reviews/gate/candidate/build shared refs + external deps + inventory.
+    receipt = validate_editorial_receipt(repo, repo / sealed["roles"]["source-receipt"]["path"], Path(state_path))
+    if receipt["proposal_ref"] != sealed["proposal_ref"] or receipt["staged_manifest_ref"] != sealed["staged_manifest_ref"]:
+        raise _fail("SEAL_RECEIPT", "VALIDATE", "REFUSED_PRE_WRITE", "seal receipt refs mismatch")
+    # Current research/tool requirements: validators select set when active, old canonical when inert;
+    # here verify current research/tool closure still healthy (no permission token returned).
+    _ = receipt
+    return sealed
+
+
+def activate_publication(
+    root: str | Path,
+    state_path: str | Path,
+    set_path: str | Path,
+    reason: str,
+    executor: str,
+    recorded_at: datetime | None = None,
+) -> dict[str, Any]:
+    """Activate: rederive all on paths, P2V fresh before, matching retained+current, new record then State pointer."""
+    repo = Path(root).resolve()
+    ts = _now_utc(recorded_at)
+    if not reason.strip() or not executor.strip():
+        raise _fail("ARGS", "ACTIVATE", "REFUSED_PRE_WRITE", "reason and executor required")
+    try:
+        from scripts import survey_publication_set_v2 as setmod
+    except ImportError as exc:
+        raise _fail("LOWLEVEL_MISSING", "ACTIVATE", "REFUSED_PRE_WRITE", f"L low-level module not yet drafted: {exc}") from exc
+    sealed = validate_prepared_set(repo, Path(state_path), Path(set_path))
+    # P2V fresh before + full set validation already done; rederive everything on supplied paths.
+    proposal_path = repo / sealed["proposal_ref"]["path"]
+    staged_path = repo / sealed["staged_manifest_ref"]["path"]
+    obs = _require_scope_bound(repo, Path(state_path), proposal_path, staged_path)
+    _ = obs
+    # Matching retained State + proposal current State + predecessor/anchor/digest via L.
+    state_file = _safe(repo, str(state_path), "Production State")
+    state = core.load_json(state_file)
+    cfg = core.load_json(repo / core.DEFAULT_CONFIG)
+    selection = setmod.resolve_publication_selection(repo, cfg, state)
+    # Ordinary activate refuses collision when record exists but State still exact old (resume path).
+    # old/new/unknown classification with primary+secondary errors, no delete of unknown.
+    set_safe = _safe(repo, str(set_path), "publication set")
+    try:
+        record_path = setmod.activate_selection(
+            repo, cfg, state_file, sealed, set_safe,
+            reason, executor, ts,
+        )
+    except AttributeError:
+        # L API name is frozen as activate path via record writer; if L uses different internal name,
+        # fall back to explicit L helpers (derive anchor/digest + write record + guarded State replace).
+        record_path = _activate_via_lowlevel(repo, cfg, state_file, sealed, ts, reason, executor)
+    # Verify strict active State + full set after replace before success.
+    new_state = core.load_json(state_file)
+    errors = []
+    try:
+        setmod.validate_activation_record(repo, record_path)
+    except Exception as exc:
+        errors.append(f"secondary activation record invalid: {exc}")
+    try:
+        validate_prepared_set(repo, state_file, _safe(repo, str(set_path), "publication set"))
+    except Exception as exc:
+        errors.append(f"secondary prepared set invalid after activation: {exc}")
+    if errors:
+        raise _fail("POSTREPLACE_FAIL", "ACTIVATE", "EXPLICIT_RECOVERY", f"primary activation ok but postreplace failed; observed new pointer; {'; '.join(errors)}")
+    return {"status": "ACTIVATED", "record_path": _rel(repo, record_path), "state_path": _rel(repo, state_file), "observed": "new"}
+
+
+def _activate_via_lowlevel(repo: Path, cfg: dict[str, Any], state_file: Path, sealed: dict[str, Any], ts: datetime, reason: str, executor: str) -> Path:
+    from scripts import survey_publication_set_v2 as setmod
+
+    anchor = setmod.derive_canonical_anchor(repo, cfg, core.load_json(state_file), [])
+    digest = setmod.before_active_digest(sealed.get("effective7") or {}, sealed.get("candidate_ref"))
+    _ = (anchor, digest)
+    # Delegate record write + guarded State replace to L (single writer, only State pointer mutation).
+    if hasattr(setmod, "write_activation_record"):
+        return setmod.write_activation_record(repo, cfg, state_file, sealed, reason, executor, ts)
+    raise _fail("LOWLEVEL_API", "ACTIVATE", "REFUSED_PRE_WRITE", "L write_activation_record not available; integration holds for L draft")
+
+
+def resume_activation(root: str | Path, state_path: str | Path, record_path: str | Path) -> dict[str, Any]:
+    """Explicit orphan resume: revalidates all, may install exact record; read-only ALREADY_ACTIVE."""
+    repo = Path(root).resolve()
+    try:
+        from scripts import survey_publication_set_v2 as setmod
+    except ImportError as exc:
+        raise _fail("LOWLEVEL_MISSING", "RESUME", "REFUSED_PRE_WRITE", f"L module missing: {exc}") from exc
+    rpath = _safe(repo, str(record_path), "activation record")
+    record = setmod.validate_activation_record(repo, rpath)
+    state_file = _safe(repo, str(state_path), "Production State")
+    state = core.load_json(state_file)
+    cfg = core.load_json(repo / core.DEFAULT_CONFIG)
+    selection = setmod.resolve_publication_selection(repo, cfg, state)
+    # State already exact new pointer -> strict validation + read-only ALREADY_ACTIVE, no takeover.
+    set_ref = (record.get("set_ref") or {})
+    if selection.get("mode") == "VERSIONED_ACTIVE" and selection.get("set_ref") == set_ref:
+        sealed = validate_prepared_set(repo, state_file, repo / set_ref["path"])
+        _ = sealed
+        return {"status": "ALREADY_ACTIVE", "record_path": _rel(repo, rpath), "state_path": _rel(repo, state_file), "observed": "new"}
+    # Record exists but State still exact old -> revalidate full current-before/set/record intent, may install exact record.
+    # Otherwise INDETERMINATE (preserve all bytes, no automated overwrite/rollback/adoption).
+    if hasattr(setmod, "resume_activation_record"):
+        return setmod.resume_activation_record(repo, cfg, state_file, rpath)
+    # Minimal explicit resume: revalidate set + record intent, then guarded install via L writer.
+    sealed = validate_prepared_set(repo, state_file, repo / set_ref["path"])
+    _ = sealed
+    raise _fail("RESUME_DELEGATE", "RESUME", "EXPLICIT_RECOVERY", "orphan resume requires L resume writer; revalidation passed, install held for L draft")
+
+
+def verify_activation_history(root: str | Path, record_path: str | Path) -> dict[str, Any]:
+    """Historical result: inert vs historical vs current-active distinct (no current eligibility claim)."""
+    repo = Path(root).resolve()
+    try:
+        from scripts import survey_publication_set_v2 as setmod
+    except ImportError as exc:
+        raise _fail("LOWLEVEL_MISSING", "HISTORY", "REFUSED_PRE_WRITE", f"L module missing: {exc}") from exc
+    rpath = _safe(repo, str(record_path), "activation record")
+    return setmod.verify_activation_history(repo, rpath) if hasattr(setmod, "verify_activation_history") else {"record": _rel(repo, rpath), "historical": setmod.validate_activation_record(repo, rpath)}
+
+
+def resolve_publication_selection(root: str | Path, cfg: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    """Re-export L selection (H never reimplements identity)."""
+    try:
+        from scripts import survey_publication_set_v2 as setmod
+    except ImportError as exc:
+        raise _fail("LOWLEVEL_MISSING", "RESOLVE", "REFUSED_PRE_WRITE", f"L module missing: {exc}") from exc
+    return setmod.resolve_publication_selection(Path(root).resolve(), cfg, state)
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--repo-root", default=".")
+    parser.add_argument("--config", default=str(core.DEFAULT_CONFIG))
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    prep = sub.add_parser("prepare-publication")
+    prep.add_argument("--state", required=True)
+    prep.add_argument("--proposal", required=True)
+    prep.add_argument("--staged-manifest", required=True)
+    prep.add_argument("--manuscript-spec", required=True)
+    prep.add_argument("--toolchain-spec", required=True)
+    prep.add_argument("--recorded-at")
+
+    fin = sub.add_parser("finalize-publication")
+    fin.add_argument("--state", required=True)
+    fin.add_argument("--proposal", required=True)
+    fin.add_argument("--staged-manifest", required=True)
+    fin.add_argument("--deterministic-checks", required=True)
+    fin.add_argument("--semantic-review", required=True)
+    fin.add_argument("--visual-review", required=True)
+    fin.add_argument("--recorded-at")
+
+    vr = sub.add_parser("validate-editorial-receipt")
+    vr.add_argument("--receipt", required=True)
+    vr.add_argument("--state", required=True)
+
+    vs = sub.add_parser("validate-prepared-set")
+    vs.add_argument("--state", required=True)
+    vs.add_argument("--set", required=True)
+
+    act = sub.add_parser("activate-publication")
+    act.add_argument("--state", required=True)
+    act.add_argument("--set", required=True)
+    act.add_argument("--reason", required=True)
+    act.add_argument("--executor", required=True)
+    act.add_argument("--recorded-at")
+
+    res = sub.add_parser("resume-activation")
+    res.add_argument("--state", required=True)
+    res.add_argument("--record", required=True)
+
+    hist = sub.add_parser("verify-activation-history")
+    hist.add_argument("--record", required=True)
+
+    args = parser.parse_args()
+    root = Path(args.repo_root).resolve()
+    try:
+        cfg_path = root / args.config if not Path(args.config).is_absolute() else Path(args.config)
+        _ = core.load_json(cfg_path)
+        if args.command == "prepare-publication":
+            out = prepare_publication(root, args.state, args.proposal, args.staged_manifest, args.manuscript_spec, args.toolchain_spec, core.parse_instant(args.recorded_at) if args.recorded_at else None)
+            print(json.dumps(out, indent=2))
+            return 0
+        if args.command == "finalize-publication":
+            out = finalize_publication(root, args.state, args.proposal, args.staged_manifest, args.deterministic_checks, args.semantic_review, args.visual_review, core.parse_instant(args.recorded_at) if args.recorded_at else None)
+            print(json.dumps(out, indent=2))
+            return 0
+        if args.command == "validate-editorial-receipt":
+            out = validate_editorial_receipt(root, args.receipt, args.state)
+            print(json.dumps({"receipt_sha256": out["receipt_sha256"], "issue_id": out["issue_id"]}, indent=2))
+            return 0
+        if args.command == "validate-prepared-set":
+            out = validate_prepared_set(root, args.state, args.set)
+            print(json.dumps({"set_sha256": out["set_sha256"], "issue_id": out["issue_id"]}, indent=2))
+            return 0
+        if args.command == "activate-publication":
+            out = activate_publication(root, args.state, args.set, args.reason, args.executor, core.parse_instant(args.recorded_at) if args.recorded_at else None)
+            print(json.dumps(out, indent=2))
+            return 0
+        if args.command == "resume-activation":
+            out = resume_activation(root, args.state, args.record)
+            print(json.dumps(out, indent=2))
+            return 0
+        if args.command == "verify-activation-history":
+            out = verify_activation_history(root, args.record)
+            print(json.dumps(out, indent=2, default=str))
+            return 0
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+    return 2
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

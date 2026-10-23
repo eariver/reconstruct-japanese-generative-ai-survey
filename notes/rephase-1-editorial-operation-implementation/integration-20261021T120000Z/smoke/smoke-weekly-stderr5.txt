@@ -1,0 +1,35 @@
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T130000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1580, in prepare_publication
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo,
+        ^^^^^
+    ...<11 lines>...
+        editorial_source={"proposal_ref": {"path": proposal_rel_init, "sha256": proposal_sha_now}, "staged_manifest_ref": {"path": staged_rel_init, "sha256": staged_sha_now}},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T130000Z/candidate-partial-b40de60/scripts/survey_reader_publication_v2.py", line 406, in build_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T130000Z/candidate-partial-b40de60/scripts/survey_reader_publication_v2.py", line 305, in _validate_manifest_semantics
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Reader requirement set differs from Profile contract: expected=['FINAL_SYNTHESIS', 'WEEKLY_COMMUNITY_MOVEMENT'] actual=['FINAL_SYNTHESIS']
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 279, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/integration-20261021T120000Z/smoke-weekly-activation.py", line 160, in main
+    prepared_paths = edpub.prepare_publication(
+        root,
+    ...<4 lines>...
+        toolchain_spec_path.relative_to(root) if isinstance(toolchain_spec_path, Path) and toolchain_spec_path.is_absolute() else toolchain_spec_path,
+        datetime.now(timezone.utc))
+  File "/tmp/opencode/jgas-editorial-smoke-20261021T130000Z/candidate-partial-b40de60/scripts/survey_editorial_publication_v2.py", line 1597, in prepare_publication
+    raise _fail("MANUSCRIPT_BUILD", "PREPARE", "PRESERVED_INCOMPLETE", f"manuscript builder failed; temp preserved at {tmp_manuscript}: {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: MANUSCRIPT_BUILD: [PREPARE/PRESERVED_INCOMPLETE] manuscript builder failed; temp preserved at /tmp/opencode/editorial-manuscript-c6xvttfn/reader-manuscript-v2.json: Reader requirement set differs from Profile contract: expected=['FINAL_SYNTHESIS', 'WEEKLY_COMMUNITY_MOVEMENT'] actual=['FINAL_SYNTHESIS']

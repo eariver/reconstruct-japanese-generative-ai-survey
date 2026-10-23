@@ -1,0 +1,42 @@
+test_cli_contract_refusals_have_no_effects (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_cli_contract_refusals_have_no_effects) ... ok
+test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline) ... FAIL
+test_failfast_uses_extracted_line_on_semantic_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_uses_extracted_line_on_semantic_invalid) ... FAIL
+test_generic_cli_accepts_valid_frozen_and_released (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_generic_cli_accepts_valid_frozen_and_released) ... ok
+test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors) ... 
+  test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors) (case='removed-release-record') ... FAIL
+test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) ... ok
+test_validate_state_rejects_outside_paths (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_rejects_outside_paths) ... ok
+
+======================================================================
+FAIL: test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_dm004_release_validate_state_v2.py", line 452, in test_extracted_workflow_closure_block_offline
+    self.assertEqual(proc.returncode, 0, proc.stderr.decode())
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 127 != 0 : /tmp/opencode/dm004-closure-CLO-986404.sh: line 2: python: command not found
+
+
+======================================================================
+FAIL: test_failfast_uses_extracted_line_on_semantic_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_uses_extracted_line_on_semantic_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_dm004_release_validate_state_v2.py", line 506, in test_failfast_uses_extracted_line_on_semantic_invalid
+    self.assertEqual(proc.returncode, 2, err)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 127 != 2 : bash: line 2: python: command not found
+
+
+======================================================================
+FAIL: test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors) (case='removed-release-record')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/tests/test_survey_dm004_release_validate_state_v2.py", line 376, in test_invalid_states_rejected_with_discriminative_errors
+    self.assertIn(expected_error, err, case)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Stage Checkpoint artifact drift: release-record' not found in 'Production State invalid: checkpoint artifact release-record escapes repository, aliases, or is not a regular file: sources/SP-DM004-NEG/publication/v2/release-record-v2.json: checkpoint artifact release-record missing: /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/sources/SP-DM004-NEG/publication/v2/release-record-v2.json; review result RELEASE_EXACT_BYTE_RECONCILIATION escapes repository, aliases, or is not a regular file: sources/SP-DM004-NEG/publication/v2/release-record-v2.json: review result RELEASE_EXACT_BYTE_RECONCILIATION missing: /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/sources/SP-DM004-NEG/publication/v2/release-record-v2.json; RELEASE_EXACT_BYTE_RECONCILIATION result escapes repository, aliases, or is not a regular file: sources/SP-DM004-NEG/publication/v2/release-record-v2.json: RELEASE_EXACT_BYTE_RECONCILIATION result missing: /tmp/opencode/jgas-editorial-op-impl-20261020T131527Z/candidate-partial-b40de60/sources/SP-DM004-NEG/publication/v2/release-record-v2.json\n' : removed-release-record
+
+----------------------------------------------------------------------
+Ran 7 tests in 32.375s
+
+FAILED (failures=3)

@@ -1,0 +1,2170 @@
+#!/usr/bin/env python3
+"""Low-level strict branch/chain/anchor/seal/current-selection identity layer.
+
+Group L owned. May use ONLY core safe path/hash/schema primitives and stdlib
+(hashlib/json/os/stat/pathlib) plus jsonschema via schema_gate for structural
+validation. Must NOT call (import or runtime): agent control, Stage validation,
+Reader, Gate, receipt validators, P1/P2R/P3S, QA/Gate/Candidate builders. Agent
+calls low, never reverse. Core State calls it via local import; no top-level
+cycle.
+
+All file reads go through the private raw-first layer in this module: lexical
+traversal refusal, ancestor lstat no-follow walk (no resolve()-then-check
+laundering), FIFO/socket/device/dir refusal, O_NOFOLLOW regular-file reads, and
+strict duplicate-key JSON refusal before schema_gate validation (actual
+jsonschema, no bypass). No global schema module is modified.
+
+Provides frozen APIs (see astra-implementation-selection and map-resolution):
+  resolve_publication_selection, resolve_publication_artifact_path,
+  resolve_stage_artifact_path (single central resolver: candidate is
+  State-aware, every other name retains exact template behavior),
+  resolve_publication_mode (pointer-branch probe without live enforcement),
+  validate_seal, validate_activation_record, derive_canonical_anchor,
+  before_active_digest, assert_canonical_publication_mode,
+  active_candidate_ref, require_active_or_canonical.
+
+Identity only: validates actual reference path/hash/bytes/schema/declared
+layout plus current source refs, staged/proposal/retention identity and
+retained before-State bytes using schema/low-level primitives only. No
+semantic replay, no bogus skip-proof. Legacy rows are cumulative against the
+original checkpoint. Canonical anchor is the latest legacy immediately before
+the first activation. Chain bounded 32 total records, sequence chronology,
+expected original checkpoint; later legacy after editorial is refused
+fail-closed. Historical validation never requires the old State hash at the
+live path; it validates via the retained exact COPY. Before digest is
+recomputed from before-effective7 plus candidate (not caller acceptance).
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import stat
+from pathlib import Path
+from typing import Any
+
+from scripts import survey_production_v2 as core
+from scripts import survey_schema_v2 as schema_gate
+
+
+class PublicationSetError(ValueError):
+    pass
+
+
+SEAL_SCHEMA = Path("schemas/editorial-publication-set-v2.schema.json")
+REVALIDATION_SCHEMA = Path("schemas/publication-surface-revalidation.schema.json")
+CHECKPOINT_SCHEMA = Path("schemas/stage-checkpoint-v2.schema.json")
+BUNDLE_SCHEMA = Path("schemas/quality-regression-bundle-v2.schema.json")
+CANDIDATE_SCHEMA = Path("schemas/publication-candidate-v2.schema.json")
+RETENTION_SCHEMA = Path("schemas/editorial-retention-manifest-v2.schema.json")
+PROPOSAL_SCHEMA = Path("schemas/editorial-correction-proposal-v2.schema.json")
+STAGED_SCHEMA = Path("schemas/editorial-staged-source-manifest-v2.schema.json")
+
+LEGACY_REASON = "REVIEWED_CORE_CHANGE"
+EDITORIAL_REASON = "REVIEWED_EDITORIAL_CORRECTION"
+EDITORIAL_KIND = "EDITORIAL_PUBLICATION_ACTIVATION_V1"
+SEAL_KIND = "EDITORIAL_PUBLICATION_SET_V1"
+SEAL_STATUS = "SEALED_INERT"
+
+PUBLICATION_ROLES_15 = (
+    "reader-input",
+    "authoring-input",
+    "source-receipt",
+    "reader-manuscript",
+    "validated-source",
+    "bibliography",
+    "style",
+    "publication-pdf",
+    "build-log",
+    "pdf-digest",
+    "quality-regression-bundle",
+    "semantic-review",
+    "visual-review",
+    "reader-surface-gate",
+    "publication-candidate",
+)
+
+# Exactly the seven publication roles of the validation checkpoint that may
+# project to active seal roles. No research/Architecture/Draft rebinding.
+PUBLICATION_ROLES_7 = (
+    "reader-manuscript",
+    "validated-source",
+    "publication-pdf",
+    "quality-regression-bundle",
+    "semantic-review",
+    "visual-review",
+    "reader-surface-gate",
+)
+
+# Seal roles that are raw bytes, not JSON documents.
+_BYTES_ONLY_ROLES = frozenset({
+    "validated-source",
+    "bibliography",
+    "style",
+    "publication-pdf",
+    "build-log",
+    "pdf-digest",
+})
+
+CHAIN_LIMIT = 32
+
+
+# ---------------------------------------------------------------------------
+# Raw-first path / file / JSON layer (private owned L loader).
+# ---------------------------------------------------------------------------
+
+def _lexical_parts(rel: str, label: str) -> tuple[str, ...]:
+    if not isinstance(rel, str) or not rel or "\\" in rel:
+        raise PublicationSetError(f"{label} must be a repository-relative path without traversal: {rel!r}")
+    if rel.startswith("/") or rel == "." or rel.startswith("./"):
+        raise PublicationSetError(f"{label} must be repository-relative: {rel!r}")
+    parts = tuple(rel.split("/"))
+    for part in parts:
+        if part in ("", ".", ".."):
+            raise PublicationSetError(f"{label} has unsafe path component: {rel!r}")
+    return parts
+
+
+def _walk_existing_ancestors(root_abs: Path, parts: tuple[str, ...], label: str) -> None:
+    """Refuse symlink aliases and non-directories on existing ancestors.
+
+    Only existing components are examined (lstat, never follow). Missing
+    components are left for the caller (producer paths may not exist yet).
+    """
+    current = root_abs
+    for part in parts[:-1]:
+        current = current / part
+        try:
+            st = os.lstat(current)
+        except FileNotFoundError:
+            return
+        except OSError as exc:
+            raise PublicationSetError(f"{label} ancestor check failed: {current}: {exc}") from exc
+        if stat.S_ISLNK(st.st_mode):
+            raise PublicationSetError(f"{label} has symlinked ancestor component: {current}")
+        if not stat.S_ISDIR(st.st_mode):
+            raise PublicationSetError(f"{label} has non-directory ancestor component: {current}")
+
+
+def _lstat_regular(target: Path, label: str) -> None:
+    try:
+        st = os.lstat(target)
+    except FileNotFoundError as exc:
+        raise PublicationSetError(f"{label} missing: {target}") from exc
+    except OSError as exc:
+        raise PublicationSetError(f"{label} unreadable: {target}: {exc}") from exc
+    if stat.S_ISLNK(st.st_mode):
+        raise PublicationSetError(f"{label} is a symlink/refusal: {target}")
+    if not stat.S_ISREG(st.st_mode):
+        raise PublicationSetError(f"{label} is not a regular file (FIFO/socket/device/dir refused): {target}")
+
+
+def resolve_raw_path(repo_root: Path, rel: str, label: str) -> Path:
+    """Resolve a repository-relative path with raw-first safety.
+
+    Rejects absolute paths, traversal, symlink aliases and non-regular files
+    before any open. Returns the absolute lexical path. Agent/C call this
+    instead of resolve()-then-check helpers.
+    """
+    root = repo_root.resolve()
+    parts = _lexical_parts(rel, label)
+    _walk_existing_ancestors(root, parts, label)
+    target = root.joinpath(*parts)
+    _lstat_regular(target, label)
+    return target
+
+
+def resolve_raw_dir(repo_root: Path, rel: str, label: str, require_exists: bool = True) -> Path:
+    """Resolve a repository-relative directory with raw-first safety."""
+    root = repo_root.resolve()
+    parts = _lexical_parts(rel, label)
+    current = root
+    for part in parts:
+        current = current / part
+        try:
+            st = os.lstat(current)
+        except FileNotFoundError as exc:
+            if require_exists:
+                raise PublicationSetError(f"{label} missing: {current}") from exc
+            return root.joinpath(*parts)
+        except OSError as exc:
+            raise PublicationSetError(f"{label} unreadable: {current}: {exc}") from exc
+        if stat.S_ISLNK(st.st_mode):
+            raise PublicationSetError(f"{label} is a symlink/refusal: {current}")
+        if not stat.S_ISDIR(st.st_mode):
+            raise PublicationSetError(f"{label} is not a directory: {current}")
+    return current
+
+
+def _read_bytes_nofollow(target: Path, label: str) -> bytes:
+    try:
+        fd = os.open(target, os.O_RDONLY | os.O_NOFOLLOW)
+    except OSError as exc:
+        raise PublicationSetError(f"{label} open refused (symlink/unsafe): {target}: {exc}") from exc
+    try:
+        st = os.fstat(fd)
+        if not stat.S_ISREG(st.st_mode):
+            raise PublicationSetError(f"{label} is not a regular file: {target}")
+        chunks: list[bytes] = []
+        while True:
+            chunk = os.read(fd, 65536)
+            if not chunk:
+                break
+            chunks.append(chunk)
+        return b"".join(chunks)
+    finally:
+        try:
+            os.close(fd)
+        except OSError:
+            pass
+
+
+def read_repo_bytes(repo_root: Path, rel: str, label: str) -> bytes:
+    """Read exact file bytes through the raw-first layer (no alias/FIFO)."""
+    return _read_bytes_nofollow(resolve_raw_path(repo_root, rel, label), label)
+
+
+def sha256_repo_file(repo_root: Path, rel: str, label: str) -> str:
+    """Hash exact file bytes through the raw-first layer."""
+    return hashlib.sha256(read_repo_bytes(repo_root, rel, label)).hexdigest()
+
+
+def _no_duplicate_object(pairs: list[tuple[str, Any]]) -> dict[str, Any]:
+    obj: dict[str, Any] = {}
+    for key, value in pairs:
+        if key in obj:
+            raise PublicationSetError(f"duplicate JSON key refused: {key!r}")
+        obj[key] = value
+    return obj
+
+
+def _parse_json_strict_bytes(data: bytes, label: str) -> Any:
+    try:
+        text = data.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise PublicationSetError(f"{label} is not UTF-8 JSON: {exc}") from exc
+    try:
+        return json.loads(text, object_pairs_hook=_no_duplicate_object)
+    except json.JSONDecodeError as exc:
+        raise PublicationSetError(f"{label} is not valid JSON: {exc}") from exc
+
+
+def _rel_from_abs(repo_root: Path, abs_path: Path | str, label: str) -> str:
+    root = repo_root.resolve()
+    candidate = Path(os.path.normpath(str(abs_path)))
+    if not candidate.is_absolute():
+        candidate = root.joinpath(*_lexical_parts(str(abs_path), label))
+        return str(abs_path)
+    try:
+        rel = candidate.relative_to(root)
+    except ValueError as exc:
+        raise PublicationSetError(f"{label} escapes repository root: {abs_path}") from exc
+    return rel.as_posix()
+
+
+def load_json_strict(repo_root: Path, rel: str, label: str) -> Any:
+    """Strict JSON load: raw-first read plus duplicate-key refusal.
+
+    Mirrors core.load_json's mapping expectation (must be a JSON object).
+    """
+    value = _parse_json_strict_bytes(read_repo_bytes(repo_root, rel, label), label)
+    if not isinstance(value, dict):
+        raise PublicationSetError(f"{label} must be a JSON object: {rel}")
+    return value
+
+
+def load_json_strict_abs(repo_root: Path, abs_path: Path | str, label: str) -> Any:
+    """Strict JSON load for an absolute path known to be under the repo root."""
+    rel = _rel_from_abs(repo_root, abs_path, label)
+    return load_json_strict(repo_root, rel, label)
+
+
+def load_and_validate_json_strict(repo_root: Path, rel: str, schema_path: Path, label: str) -> dict[str, Any]:
+    """Strict load plus actual jsonschema validation (no bypass)."""
+    value = load_json_strict(repo_root, rel, label)
+    try:
+        schema_gate.validate_instance(value, schema_path, label=label)
+    except ValueError as exc:
+        raise PublicationSetError(f"{label} invalid: {exc}") from exc
+    return value
+
+
+def _check_file_ref(repo_root: Path, ref: Any, label: str) -> bytes:
+    if not isinstance(ref, dict) or set(ref) != {"path", "sha256", "byte_count"}:
+        raise PublicationSetError(f"{label} file_ref fields invalid")
+    path_value = ref.get("path")
+    sha_value = ref.get("sha256")
+    size_value = ref.get("byte_count")
+    if not isinstance(path_value, str) or not path_value:
+        raise PublicationSetError(f"{label} file_ref path invalid")
+    if not isinstance(sha_value, str) or len(sha_value) != 64 or any(c not in "0123456789abcdef" for c in sha_value):
+        raise PublicationSetError(f"{label} file_ref sha256 invalid")
+    if not isinstance(size_value, int) or isinstance(size_value, bool) or size_value < 1:
+        raise PublicationSetError(f"{label} file_ref byte_count invalid")
+    data = read_repo_bytes(repo_root, path_value, label)
+    if hashlib.sha256(data).hexdigest() != sha_value:
+        raise PublicationSetError(f"{label} SHA drift: {path_value}")
+    if len(data) != size_value:
+        raise PublicationSetError(f"{label} byte count drift: {path_value}")
+    return data
+
+
+def _check_authority_ref(repo_root: Path, ref: Any, label: str) -> bytes:
+    if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+        raise PublicationSetError(f"{label} authority fields invalid")
+    path_value = ref.get("path")
+    sha_value = ref.get("sha256")
+    if not isinstance(path_value, str) or not path_value:
+        raise PublicationSetError(f"{label} authority path invalid")
+    if not isinstance(sha_value, str) or len(sha_value) != 64 or any(c not in "0123456789abcdef" for c in sha_value):
+        raise PublicationSetError(f"{label} authority sha256 invalid")
+    data = read_repo_bytes(repo_root, path_value, label)
+    if hashlib.sha256(data).hexdigest() != sha_value:
+        raise PublicationSetError(f"{label} SHA drift: {path_value}")
+    return data
+
+
+def _parse_sequence(path_value: str) -> int | None:
+    name = Path(path_value).name
+    prefix = "publication-surface-revalidation-r"
+    suffix = ".json"
+    if not name.startswith(prefix) or not name.endswith(suffix):
+        return None
+    middle = name[len(prefix):-len(suffix)]
+    if not middle.isdigit() or (len(middle) > 1 and middle.startswith("0")):
+        return None
+    try:
+        return int(middle)
+    except ValueError:
+        return None
+
+
+def _is_editorial_record(record: dict[str, Any]) -> bool:
+    return (
+        record.get("reason_class") == EDITORIAL_REASON
+        and record.get("kind") == EDITORIAL_KIND
+    )
+
+
+def _is_legacy_record(record: dict[str, Any]) -> bool:
+    return record.get("reason_class") == LEGACY_REASON and "kind" not in record
+
+
+def before_active_digest(effective7: dict[str, Any], candidate_ref: dict[str, Any] | None) -> str:
+    """Canonical SHA of sorted effective seven rows plus exact observed Candidate ref/null.
+
+    Enforces exactly the seven publication roles with unique identities and
+    valid refs; rejects extras/missing. Deterministic via core.sha256_object
+    with sorted keys. Recomputed by callers from retained/observed identity,
+    never accepted as a bare caller value. Accepts verified 4-key rows
+    {path,sha256,byte_count,origin} as well as internal 2-key {path,sha256}
+    recompute maps; digest covers {name,path,sha256} only (stable across
+    representations). byte_count/origin when present are validated, never
+    silently ignored for shape.
+    """
+    if not isinstance(effective7, dict):
+        raise PublicationSetError("before_active_digest requires effective7 mapping")
+    if set(effective7) != set(PUBLICATION_ROLES_7):
+        missing = sorted(set(PUBLICATION_ROLES_7) - set(effective7))
+        extra = sorted(set(effective7) - set(PUBLICATION_ROLES_7))
+        raise PublicationSetError(
+            f"before_active_digest requires exactly seven publication roles: missing={missing} extra={extra}"
+        )
+    rows: list[dict[str, str]] = []
+    seen_identities: set[tuple[str, str]] = set()
+    seen_paths: set[str] = set()
+    for name in sorted(effective7):
+        row = effective7[name]
+        if not isinstance(row, dict):
+            raise PublicationSetError(f"before_active_digest effective row invalid: {name}")
+        allowed = {"path", "sha256", "byte_count", "origin"}
+        if set(row) - allowed or "path" not in row or "sha256" not in row:
+            raise PublicationSetError(f"before_active_digest effective row fields invalid: {name}")
+        path_value = row["path"]
+        sha_value = row["sha256"]
+        if not isinstance(path_value, str) or not path_value:
+            raise PublicationSetError(f"before_active_digest effective path invalid: {name}")
+        if not isinstance(sha_value, str) or len(sha_value) != 64 or any(c not in "0123456789abcdef" for c in sha_value):
+            raise PublicationSetError(f"before_active_digest effective sha invalid: {name}")
+        if "byte_count" in row:
+            size_value = row["byte_count"]
+            if not isinstance(size_value, int) or isinstance(size_value, bool) or size_value < 1:
+                raise PublicationSetError(f"before_active_digest effective byte_count invalid: {name}")
+        if "origin" in row and row["origin"] not in ("ORIGINAL", "ACTIVE"):
+            raise PublicationSetError(f"before_active_digest effective origin invalid: {name}")
+        identity = (path_value, sha_value)
+        if identity in seen_identities:
+            raise PublicationSetError(f"before_active_digest duplicate effective identity: {name}")
+        seen_identities.add(identity)
+        if path_value in seen_paths:
+            raise PublicationSetError(f"before_active_digest duplicate effective path: {name}")
+        seen_paths.add(path_value)
+        rows.append({"name": name, "path": path_value, "sha256": sha_value})
+    if candidate_ref is not None:
+        if not isinstance(candidate_ref, dict) or set(candidate_ref) != {"path", "sha256"}:
+            raise PublicationSetError("before_active_digest candidate_ref fields invalid")
+        cpath = candidate_ref.get("path")
+        csha = candidate_ref.get("sha256")
+        if not isinstance(cpath, str) or not cpath:
+            raise PublicationSetError("before_active_digest candidate path invalid")
+        if not isinstance(csha, str) or len(csha) != 64 or any(c not in "0123456789abcdef" for c in csha):
+            raise PublicationSetError("before_active_digest candidate sha invalid")
+        candidate_payload: dict[str, Any] | None = {"path": cpath, "sha256": csha}
+    else:
+        candidate_payload = None
+    return core.sha256_object({"effective": rows, "candidate": candidate_payload})
+
+
+def _iter_authority_dicts(node: Any) -> Any:
+    """Yield every exact {path,sha256} or {path,sha256,byte_count} ref in a doc."""
+    if isinstance(node, dict):
+        keys = set(node)
+        if keys in ({"path", "sha256"}, {"path", "sha256", "byte_count"}) and isinstance(node.get("path"), str):
+            sha = node.get("sha256")
+            if isinstance(sha, str) and len(sha) == 64 and all(c in "0123456789abcdef" for c in sha):
+                yield node
+        for value in node.values():
+            yield from _iter_authority_dicts(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _iter_authority_dicts(value)
+
+
+def _check_doc_refs_against_seal(doc: Any, seal_path_map: dict[str, dict[str, Any]], label: str) -> None:
+    """Require every seal-bound ref embedded in a doc to agree (no fallback)."""
+    for ref in _iter_authority_dicts(doc):
+        path_value = ref["path"]
+        if path_value in seal_path_map:
+            expected = seal_path_map[path_value]
+            if ref["sha256"] != expected["sha256"]:
+                raise PublicationSetError(f"{label} ref SHA mismatch vs seal: {path_value}")
+            if "byte_count" in ref and ref["byte_count"] != expected["byte_count"]:
+                raise PublicationSetError(f"{label} ref byte count mismatch vs seal: {path_value}")
+
+
+def validate_seal(repo_root: Path, set_path: Path | str) -> dict[str, Any]:
+    """Validate immutable publication set seal: schema, 15 files, cross-bindings.
+
+    Enforces the exact proposal namespace, the P3S staged-trio mapping
+    (staged outputs.main/bibliography/style map to seal
+    validated-source/bibliography/style; unsupported names such as primary or
+    staged_refs are refused, never guessed), receipt/manuscript/bundle/
+    reviews/Gate/Candidate/build-record cross-refs and result identity. No
+    high-module semantic calls. Returns the loaded seal dict.
+    """
+    root = repo_root.resolve()
+    if isinstance(set_path, Path) and set_path.is_absolute():
+        rel = _rel_from_abs(root, set_path, "publication set seal")
+    else:
+        rel = str(set_path)
+    seal = load_and_validate_json_strict(root, rel, root / SEAL_SCHEMA, "Editorial Publication Set")
+    if seal.get("kind") != SEAL_KIND or seal.get("status") != SEAL_STATUS:
+        raise PublicationSetError("publication set seal kind/status invalid")
+    claimed = seal.get("set_sha256")
+    if not isinstance(claimed, str) or len(claimed) != 64 or any(c not in "0123456789abcdef" for c in claimed):
+        raise PublicationSetError("publication set set_sha256 invalid")
+    payload = {k: v for k, v in seal.items() if k != "set_sha256"}
+    if core.sha256_object(payload) != claimed:
+        raise PublicationSetError("publication set set_sha256 mismatch (not canonical excluding itself)")
+    # Exact proposal-namespace layout (no duplicate reviewed targets).
+    proposal_ref = seal.get("proposal_ref")
+    staged_ref = seal.get("staged_manifest_ref")
+    build_ref = seal.get("build_record_ref")
+    for ref, name in ((proposal_ref, "proposal_ref"), (staged_ref, "staged_manifest_ref"), (build_ref, "build_record_ref")):
+        if not isinstance(ref, dict) or set(ref) != {"path", "sha256"}:
+            raise PublicationSetError(f"publication set {name} fields invalid")
+    proposal_posix = proposal_ref["path"]
+    if "/" not in proposal_posix:
+        raise PublicationSetError("publication set proposal_ref must be nested under a proposal directory")
+    proposal_dir = proposal_posix.rsplit("/", 1)[0]
+    if proposal_ref["path"] != proposal_dir + "/proposal.json":
+        raise PublicationSetError("publication set proposal_ref must be <P>/proposal.json")
+    if staged_ref["path"] != proposal_dir + "/staged-source/staged-source-manifest.json":
+        raise PublicationSetError("publication set staged_manifest_ref must be <P>/staged-source/staged-source-manifest.json")
+    if build_ref["path"] != proposal_dir + "/publication/build-record.json":
+        raise PublicationSetError("publication set build_record_ref must be <P>/publication/build-record.json")
+    if rel != proposal_dir + "/publication/publication-set.json":
+        raise PublicationSetError("publication set seal path must be <P>/publication/publication-set.json")
+    _check_authority_ref(root, proposal_ref, "publication set proposal_ref")
+    _check_authority_ref(root, staged_ref, "publication set staged_manifest_ref")
+    _check_authority_ref(root, build_ref, "publication set build_record_ref")
+    roles = seal.get("roles")
+    if not isinstance(roles, dict) or set(roles) != set(PUBLICATION_ROLES_15):
+        missing = sorted(set(PUBLICATION_ROLES_15) - set(roles) if isinstance(roles, dict) else set(PUBLICATION_ROLES_15))
+        extra = sorted(set(roles) - set(PUBLICATION_ROLES_15) if isinstance(roles, dict) else set())
+        raise PublicationSetError(f"publication set roles must be exactly 15: missing={missing} extra={extra}")
+    expected_role_paths = {
+        "reader-input": proposal_dir + "/reader-surface-input-v2.json",
+        "authoring-input": proposal_dir + "/authoring-input.json",
+        "source-receipt": proposal_dir + "/publication/validated-source-manifest.json",
+        "reader-manuscript": proposal_dir + "/publication/reader-manuscript-v2.json",
+        "publication-pdf": proposal_dir + "/publication/build/main.pdf",
+        "build-log": proposal_dir + "/publication/build/main.log",
+        "pdf-digest": proposal_dir + "/publication/build/main.pdf.sha256",
+        "quality-regression-bundle": proposal_dir + "/publication/quality-regression-bundle-v2.json",
+        "reader-surface-gate": proposal_dir + "/publication/reader-surface-gate-v2.json",
+        "publication-candidate": proposal_dir + "/publication/publication-candidate-v2.json",
+    }
+    for name, expected in expected_role_paths.items():
+        actual = roles[name].get("path") if isinstance(roles[name], dict) else None
+        if actual != expected:
+            raise PublicationSetError(f"publication set role {name} must be {expected}")
+    for name in ("semantic-review", "visual-review"):
+        actual = roles[name].get("path") if isinstance(roles[name], dict) else None
+        if not isinstance(actual, str) or not actual:
+            raise PublicationSetError(f"publication set role {name} path invalid")
+        # Contract permits caller-supplied final repo-contained immutable review
+        # files outside <P>/publication (recommended <P>/publication/reviews/).
+        # Preserve refs without relocation: require lexical repo-relative safety
+        # here; exact Candidate<->seal path+SHA binding is enforced in
+        # _validate_candidate_bindings and review bindings below. Inside-only
+        # is not required; fixed source/manuscript/build/Candidate paths stay
+        # exact via expected_role_paths above.
+        try:
+            _lexical_parts(actual, f"publication set role {name}")
+        except PublicationSetError as exc:
+            raise PublicationSetError(f"publication set role {name} must be repo-contained: {exc}") from exc
+    seen_paths: set[str] = set()
+    for name in PUBLICATION_ROLES_15:
+        ref = roles[name]
+        _check_file_ref(root, ref, f"publication set role {name}")
+        if ref["path"] in seen_paths:
+            raise PublicationSetError(f"publication set duplicated role path: {ref['path']}")
+        seen_paths.add(ref["path"])
+    seal_path_map = {roles[name]["path"]: {"sha256": roles[name]["sha256"], "byte_count": roles[name]["byte_count"]} for name in PUBLICATION_ROLES_15}
+    # Staged trio mapping: staged outputs.main/bibliography/style (exact names;
+    # primary/staged_refs fallbacks are refused, never guessed).
+    staged = load_and_validate_json_strict(root, staged_ref["path"], root / STAGED_SCHEMA, "publication set staged manifest")
+    if not isinstance(staged, dict):
+        raise PublicationSetError("publication set staged manifest must be a JSON object")
+    if "staged_refs" in staged:
+        raise PublicationSetError("publication set staged manifest uses unsupported staged_refs (refused, not guessed)")
+    outputs = staged.get("outputs")
+    if not isinstance(outputs, dict) or set(outputs) != {"main", "bibliography", "style"}:
+        raise PublicationSetError("publication set staged outputs must be exactly {main,bibliography,style}")
+    if "primary" in outputs:
+        raise PublicationSetError("publication set staged outputs uses unsupported primary (expected main)")
+    for seal_role, staged_key in (("validated-source", "main"), ("bibliography", "bibliography"), ("style", "style")):
+        staged_ref_entry = outputs[staged_key]
+        if not isinstance(staged_ref_entry, dict) or set(staged_ref_entry) != {"path", "sha256", "byte_count"}:
+            raise PublicationSetError(f"publication set staged outputs.{staged_key} fields invalid")
+        seal_entry = roles[seal_role]
+        if (staged_ref_entry["path"], staged_ref_entry["sha256"], staged_ref_entry["byte_count"]) != (
+            seal_entry["path"], seal_entry["sha256"], seal_entry["byte_count"]
+        ):
+            raise PublicationSetError(f"publication set role {seal_role} must equal staged outputs.{staged_key}")
+    # pdf-digest bytes must open with the publication-pdf SHA (R2 evidence
+    # format is "<sha>  main.pdf").
+    digest_data = read_repo_bytes(root, roles["pdf-digest"]["path"], "publication set role pdf-digest")
+    try:
+        digest_token = digest_data.decode("utf-8").strip().split()[0]
+    except (UnicodeDecodeError, IndexError) as exc:
+        raise PublicationSetError(f"publication set pdf-digest unreadable: {exc}") from exc
+    if digest_token != roles["publication-pdf"]["sha256"]:
+        raise PublicationSetError("publication set pdf-digest does not open with the publication-pdf SHA")
+    seal_issue = seal.get("issue_id")
+    # JSON roles must parse strictly; bytes-only roles are excluded explicitly.
+    json_docs: dict[str, Any] = {}
+    for name in PUBLICATION_ROLES_15:
+        if name in _BYTES_ONLY_ROLES:
+            continue
+        ref = roles[name]
+        doc = load_json_strict(root, ref["path"], f"publication set role {name}")
+        json_docs[name] = doc
+        if isinstance(doc, dict) and "issue_id" in doc and doc.get("issue_id") != seal_issue:
+            raise PublicationSetError(f"publication set role {name} issue_id mismatch")
+        _check_doc_refs_against_seal(doc, seal_path_map, f"publication set role {name}")
+    _validate_receipt_bindings(root, seal, roles, json_docs, seal_path_map, staged)
+    _validate_manuscript_bindings(seal, roles, json_docs)
+    _validate_bundle_bindings(root, seal, roles, json_docs)
+    _validate_candidate_bindings(root, seal, roles, json_docs)
+    _validate_gate_review_bindings(root, seal, roles, json_docs, staged)
+    _validate_build_record_bindings(root, seal, roles, json_docs, staged)
+    return seal
+
+
+def _under(prefix: str, rel: str) -> bool:
+    return rel == prefix or rel.startswith(prefix + "/")
+
+
+def _validate_receipt_bindings(
+    repo_root: Path, seal: dict[str, Any], roles: dict[str, Any],
+    json_docs: dict[str, Any], seal_path_map: dict[str, dict[str, Any]], staged: dict[str, Any],
+) -> None:
+    """Source-receipt cross-refs and self-hash (structural, per contract 4.1)."""
+    receipt = json_docs["source-receipt"]
+    if not isinstance(receipt, dict):
+        raise PublicationSetError("publication set source-receipt must be a JSON object")
+    expected_keys = {
+        "schema_version", "kind", "issue_id", "research_profile", "publication_profile",
+        "generator_route", "proposal_ref", "retention_manifest_ref", "staged_manifest_ref", "scope_review_ref",
+        "reviewed_reader_input", "authored_refs", "accepted_refs", "current_tools",
+        "outputs", "receipt_sha256",
+    }
+    if set(receipt) != expected_keys:
+        raise PublicationSetError(
+            f"publication set source-receipt keys must be exactly contract 4.1: missing={sorted(expected_keys - set(receipt))} extra={sorted(set(receipt) - expected_keys)}"
+        )
+    if receipt.get("kind") != "EDITORIAL_PUBLICATION_SOURCE_V1":
+        raise PublicationSetError("publication set source-receipt kind invalid")
+    if receipt.get("proposal_ref") != {"path": seal["proposal_ref"]["path"], "sha256": seal["proposal_ref"]["sha256"]}:
+        raise PublicationSetError("publication set source-receipt proposal_ref must equal seal proposal_ref")
+    if receipt.get("staged_manifest_ref") != {"path": seal["staged_manifest_ref"]["path"], "sha256": seal["staged_manifest_ref"]["sha256"]}:
+        raise PublicationSetError("publication set source-receipt staged_manifest_ref must equal seal staged_manifest_ref")
+    staged_retention = staged.get("retention_manifest_ref")
+    staged_scope = staged.get("scope_review_ref")
+    if receipt.get("retention_manifest_ref") != {"path": staged_retention["path"], "sha256": staged_retention["sha256"]}:
+        raise PublicationSetError("publication set source-receipt retention_manifest_ref must equal staged retention_manifest_ref")
+    if receipt.get("scope_review_ref") != {"path": staged_scope["path"], "sha256": staged_scope["sha256"]}:
+        raise PublicationSetError("publication set source-receipt scope_review_ref must equal staged scope_review_ref")
+    outputs = receipt.get("outputs")
+    staged_outputs = staged.get("outputs")
+    if not isinstance(outputs, dict) or set(outputs) != {"primary", "bibliography", "style"}:
+        raise PublicationSetError("publication set source-receipt outputs must be exactly {primary,bibliography,style} (main maps to primary)")
+    if "main" in outputs:
+        raise PublicationSetError("publication set source-receipt outputs uses unsupported main (expected primary)")
+    for receipt_key, staged_key in (("primary", "main"), ("bibliography", "bibliography"), ("style", "style")):
+        entry = outputs[receipt_key]
+        expected = staged_outputs[staged_key]
+        # Receipt outputs are {path,sha256} (no byte_count); staged outputs are {path,sha256,byte_count}.
+        # Compare path+sha only; byte_count is a staged-manifest property, not a receipt property.
+        if not isinstance(entry, dict) or set(entry) != {"path", "sha256"}:
+            raise PublicationSetError(f"publication set source-receipt outputs.{receipt_key} fields invalid (must be exact {{path,sha256}})")
+        if not isinstance(expected, dict) or set(expected) != {"path", "sha256", "byte_count"}:
+            raise PublicationSetError(f"publication set staged outputs.{staged_key} fields invalid")
+        if (entry["path"], entry["sha256"]) != (expected["path"], expected["sha256"]):
+            raise PublicationSetError(f"publication set source-receipt outputs.{receipt_key} must equal staged outputs.{staged_key} (path+sha)")
+    if receipt.get("reviewed_reader_input") != {
+        "path": roles["reader-input"]["path"], "sha256": roles["reader-input"]["sha256"], "byte_count": roles["reader-input"]["byte_count"]
+    } and receipt.get("reviewed_reader_input") != {
+        "path": roles["reader-input"]["path"], "sha256": roles["reader-input"]["sha256"]
+    }:
+        raise PublicationSetError("publication set source-receipt reviewed_reader_input must equal seal reader-input")
+    _check_receipt_authored_refs(repo_root, seal, roles, receipt)
+    claimed = receipt.get("receipt_sha256")
+    if not isinstance(claimed, str) or len(claimed) != 64 or any(c not in "0123456789abcdef" for c in claimed):
+        raise PublicationSetError("publication set source-receipt receipt_sha256 invalid")
+    if core.sha256_object({k: v for k, v in receipt.items() if k != "receipt_sha256"}) != claimed:
+        raise PublicationSetError("publication set source-receipt receipt_sha256 mismatch (not canonical excluding itself)")
+
+
+def _collect_file_refs(node: Any) -> list[dict[str, Any]]:
+    found: list[dict[str, Any]] = []
+    if isinstance(node, dict):
+        keys = set(node)
+        if keys in ({"path", "sha256"}, {"path", "sha256", "byte_count"}, {"name", "path", "sha256"}) and isinstance(node.get("path"), str):
+            sha = node.get("sha256")
+            if isinstance(sha, str) and len(sha) == 64 and all(c in "0123456789abcdef" for c in sha):
+                found.append(node)
+        else:
+            for value in node.values():
+                found.extend(_collect_file_refs(value))
+    elif isinstance(node, list):
+        for value in node:
+            found.extend(_collect_file_refs(value))
+    return found
+
+
+def _check_receipt_authored_refs(repo_root: Path, seal: dict[str, Any], roles: dict[str, Any], receipt: dict[str, Any]) -> None:
+    for key in ("authored_refs", "accepted_refs"):
+        subtree = receipt.get(key)
+        refs = _collect_file_refs(subtree)
+        if not refs:
+            raise PublicationSetError(f"publication set source-receipt {key} must carry at least one file ref")
+        for ref in refs:
+            data = read_repo_bytes(repo_root, ref["path"], f"publication set source-receipt {key}")
+            if hashlib.sha256(data).hexdigest() != ref["sha256"]:
+                raise PublicationSetError(f"publication set source-receipt {key} SHA drift: {ref['path']}")
+            if "byte_count" in ref and len(data) != ref["byte_count"]:
+                raise PublicationSetError(f"publication set source-receipt {key} byte count drift: {ref['path']}")
+    authored = _collect_file_refs(receipt.get("authored_refs"))
+    authoring = roles["authoring-input"]
+    if not any(r["path"] == authoring["path"] and r["sha256"] == authoring["sha256"] for r in authored):
+        raise PublicationSetError("publication set source-receipt authored_refs must retain the seal authoring-input")
+
+
+def _validate_manuscript_bindings(seal: dict[str, Any], roles: dict[str, Any], json_docs: dict[str, Any]) -> None:
+    manuscript = json_docs["reader-manuscript"]
+    if not isinstance(manuscript, dict):
+        raise PublicationSetError("publication set reader-manuscript must be a JSON object")
+    editorial_source = manuscript.get("editorial_source")
+    if not isinstance(editorial_source, dict):
+        raise PublicationSetError("publication set reader-manuscript must carry editorial_source for an editorial seal")
+    for key, seal_key in (("proposal_ref", "proposal_ref"), ("staged_manifest_ref", "staged_manifest_ref")):
+        entry = editorial_source.get(key)
+        expected = seal[seal_key]
+        if not isinstance(entry, dict) or entry.get("path") != expected["path"] or entry.get("sha256") != expected["sha256"]:
+            raise PublicationSetError(f"publication set reader-manuscript editorial_source.{key} must equal seal {seal_key}")
+    # Reader exact trio: primary + BIBLIOGRAPHY + STYLE must equal seal
+    # validated-source/bibliography/style by path+SHA and declared byte_count.
+    # Child unsigned refs: path+SHA exact, byte_count if present must agree;
+    # no fresh disk hash synthesis as binding authority (drift is checked
+    # separately via role file_refs).
+    # Tolerance for low-level identity fixtures (minimal manuscript without
+    # trio, e.g. low18 _write_publication_set): if trio absent, skip trio
+    # binding here; H reader validator enforces schema trio for real seals.
+    primary = manuscript.get("primary_source")
+    seal_validated = roles.get("validated-source", {})
+    if isinstance(primary, dict):
+        if primary.get("path") != seal_validated.get("path") or primary.get("sha256") != seal_validated.get("sha256"):
+            raise PublicationSetError("publication set reader-manuscript primary_source must equal seal validated-source (path+SHA)")
+        if "byte_count" in primary and primary.get("byte_count") != seal_validated.get("byte_count"):
+            raise PublicationSetError("publication set reader-manuscript primary_source byte_count must equal seal validated-source")
+    supporting = manuscript.get("supporting_files")
+    if isinstance(supporting, list):
+        by_role = {r.get("role"): r for r in supporting if isinstance(r, dict)}
+        for mrole, srole in (("BIBLIOGRAPHY", "bibliography"), ("STYLE", "style")):
+            row = by_role.get(mrole)
+            exp = roles.get(srole, {})
+            if row is None:
+                continue
+            if not isinstance(row, dict) or row.get("path") != exp.get("path") or row.get("sha256") != exp.get("sha256"):
+                raise PublicationSetError(f"publication set reader-manuscript {mrole} must equal seal {srole} (path+SHA)")
+            if "byte_count" in row and row.get("byte_count") != exp.get("byte_count"):
+                raise PublicationSetError(f"publication set reader-manuscript {mrole} byte_count must equal seal {srole}")
+
+
+def _validate_bundle_bindings(repo_root: Path, seal: dict[str, Any], roles: dict[str, Any], json_docs: dict[str, Any]) -> None:
+    bundle = load_and_validate_json_strict(repo_root, roles["quality-regression-bundle"]["path"], repo_root / BUNDLE_SCHEMA, "publication set QA bundle")
+    json_docs["quality-regression-bundle"] = bundle
+    if bundle.get("issue_id") != seal.get("issue_id"):
+        raise PublicationSetError("publication set QA bundle issue_id mismatch")
+    for key in ("research_profile", "publication_profile"):
+        if bundle.get(key) != seal.get(key):
+            raise PublicationSetError(f"publication set QA bundle {key} must equal seal {key}")
+    # Bundle source/PDF/Profile: source and PDF must equal seal roles by
+    # path+SHA (and byte_count where present); production Profile is a pinned
+    # authority ref (drift checked, identity vs seal via issue/Profile above).
+    bundle_source = bundle.get("source", {}) if isinstance(bundle.get("source"), dict) else {}
+    seal_validated = roles.get("validated-source", {})
+    if bundle_source.get("path") != seal_validated.get("path") or bundle_source.get("sha256") != seal_validated.get("sha256"):
+        raise PublicationSetError("publication set QA bundle source must equal seal validated-source (path+SHA)")
+    if "byte_count" in bundle_source and bundle_source.get("byte_count") != seal_validated.get("byte_count"):
+        raise PublicationSetError("publication set QA bundle source byte_count must equal seal validated-source")
+    bundle_pdf = bundle.get("pdf", {}) if isinstance(bundle.get("pdf"), dict) else {}
+    seal_pdf = roles["publication-pdf"]
+    if bundle_pdf.get("path") != seal_pdf.get("path") or bundle_pdf.get("sha256") != seal_pdf.get("sha256"):
+        raise PublicationSetError("publication set QA bundle PDF does not bind seal publication-pdf (path+SHA)")
+    if bundle_pdf.get("byte_count") != seal_pdf.get("byte_count"):
+        raise PublicationSetError("publication set QA bundle PDF byte_count must equal seal publication-pdf")
+    prod_profile = bundle.get("production_profile")
+    if isinstance(prod_profile, dict):
+        # Pinned dependency: path+SHA exact, drift checked (no fresh hash as authority).
+        _check_authority_ref(repo_root, prod_profile, "publication set QA bundle production_profile")
+    for check in bundle.get("checks", []):
+        if not isinstance(check, dict):
+            raise PublicationSetError("publication set QA bundle check malformed")
+        if check.get("status") != "PASS":
+            raise PublicationSetError(f"publication set QA bundle check not PASS: {check.get('check_id')}")
+        result = check.get("result")
+        if isinstance(result, dict):
+            _check_authority_ref(repo_root, result, f"publication set QA check {check.get('check_id')}")
+
+
+def _validate_candidate_bindings(repo_root: Path, seal: dict[str, Any], roles: dict[str, Any], json_docs: dict[str, Any]) -> None:
+    candidate = load_and_validate_json_strict(repo_root, roles["publication-candidate"]["path"], repo_root / CANDIDATE_SCHEMA, "publication set candidate")
+    json_docs["publication-candidate"] = candidate
+    if candidate.get("issue_id") != seal.get("issue_id"):
+        raise PublicationSetError("publication set candidate issue_id mismatch")
+    # Candidate 6 refs must equal corresponding seal roles by explicit
+    # path+SHA (and declared byte_count/page_count where present). Same-SHA
+    # different location is not interchangeable: path must match exactly.
+    # This is the R6 cross-binding fix (seal-only path change with fresh
+    # seal digest must refuse when Candidate still names the old path).
+    for cand_key, seal_role in (
+        ("reader_manuscript", "reader-manuscript"),
+        ("source", "validated-source"),
+        ("quality_bundle", "quality-regression-bundle"),
+        ("semantic_review", "semantic-review"),
+        ("visual_review", "visual-review"),
+    ):
+        cand_ref = candidate.get(cand_key, {}) if isinstance(candidate.get(cand_key), dict) else {}
+        seal_ref = roles.get(seal_role, {})
+        if cand_ref.get("path") != seal_ref.get("path") or cand_ref.get("sha256") != seal_ref.get("sha256"):
+            raise PublicationSetError(f"publication set candidate {cand_key} must equal seal {seal_role} (path+SHA)")
+        if cand_ref.get("byte_count") != seal_ref.get("byte_count"):
+            raise PublicationSetError(f"publication set candidate {cand_key} byte_count must equal seal {seal_role}")
+    cand_pdf = candidate.get("pdf", {}) if isinstance(candidate.get("pdf"), dict) else {}
+    seal_pdf = roles["publication-pdf"]
+    if cand_pdf.get("path") != seal_pdf.get("path") or cand_pdf.get("sha256") != seal_pdf.get("sha256"):
+        raise PublicationSetError("publication set candidate PDF does not bind seal publication-pdf (path+SHA)")
+    if cand_pdf.get("byte_count") != seal_pdf.get("byte_count"):
+        raise PublicationSetError("publication set candidate PDF byte_count must equal seal publication-pdf")
+    # Candidate PDF page_count is declared here; agreement with reviews is
+    # enforced in _validate_gate_review_bindings (no hash-only binding).
+
+
+def _validate_gate_review_bindings(
+    repo_root: Path, seal: dict[str, Any], roles: dict[str, Any],
+    json_docs: dict[str, Any], staged: dict[str, Any],
+) -> None:
+    candidate = json_docs.get("publication-candidate", {})
+    cand_pdf = candidate.get("pdf", {}) if isinstance(candidate, dict) else {}
+    expected_page_count = cand_pdf.get("page_count")
+    if not isinstance(expected_page_count, int) or expected_page_count < 1:
+        raise PublicationSetError("publication set candidate PDF page_count invalid for review binding")
+    for name in ("reader-surface-gate", "semantic-review", "visual-review"):
+        doc = json_docs[name]
+        if not isinstance(doc, dict):
+            raise PublicationSetError(f"publication set role {name} must be a JSON object")
+    # Each review: reader_manuscript/source/pdf + kind/checkfamily/pages must
+    # bind seal roles by explicit path+SHA (and sizes/pages), not hash-only.
+    # Tolerance for low-level identity fixtures (minimal reviews without full
+    # publication-review shape, e.g. low18): if full shape absent, fall back
+    # to minimal page_count check; H validators enforce full shape for real seals.
+    for role_name, expected_kind in (("semantic-review", "SEMANTIC_EDITORIAL"), ("visual-review", "VISUAL")):
+        rev = json_docs[role_name]
+        if not isinstance(rev, dict):
+            raise PublicationSetError(f"publication set role {role_name} must be a JSON object")
+        has_full_shape = isinstance(rev.get("reader_manuscript"), dict) and isinstance(rev.get("source"), dict) and isinstance(rev.get("pdf"), dict) and isinstance(rev.get("review_kind"), str)
+        if not has_full_shape:
+            # Minimal/legacy fixture: preserve old minimal checks (pdf path/SHA + page_count).
+            if role_name == "visual-review":
+                _v_pdf_min = rev.get("pdf") if isinstance(rev.get("pdf"), dict) else None
+                if isinstance(_v_pdf_min, dict):
+                    if _v_pdf_min.get("sha256") != roles["publication-pdf"]["sha256"] or _v_pdf_min.get("path") != roles["publication-pdf"]["path"]:
+                        raise PublicationSetError("publication set visual-review must bind the seal publication-pdf path/SHA (pdf object)")
+                elif "pdf_path" in rev or "pdf_sha256" in rev:
+                    if rev.get("pdf_sha256") != roles["publication-pdf"]["sha256"] or rev.get("pdf_path") != roles["publication-pdf"]["path"]:
+                        raise PublicationSetError("publication set visual-review must bind the seal publication-pdf path/SHA")
+                if "page_count" in rev and rev.get("page_count") != expected_page_count:
+                    raise PublicationSetError("publication set visual-review page_count must agree with the candidate PDF")
+                continue
+            else:
+                # Minimal semantic (low18): only page_count check if present.
+                if "page_count" in rev and rev.get("page_count") != expected_page_count:
+                    raise PublicationSetError("publication set semantic-review page_count must agree with the candidate PDF")
+                continue
+        # Legacy visual shape has no manuscript/source (pdf_path/pdf_sha256 only).
+        if "reader_manuscript" not in rev and "pdf" not in rev:
+            # Legacy visual-review-record shape.
+            if role_name != "visual-review":
+                raise PublicationSetError(f"publication set {role_name} missing reader_manuscript/source/pdf")
+            if rev.get("status") != "PASSED":
+                raise PublicationSetError("publication set visual-review status must be PASSED")
+            if rev.get("pdf_sha256") != roles["publication-pdf"]["sha256"] or rev.get("pdf_path") != roles["publication-pdf"]["path"]:
+                raise PublicationSetError("publication set visual-review must bind the seal publication-pdf path/SHA")
+            if rev.get("page_count") != expected_page_count:
+                raise PublicationSetError("publication set visual-review page_count must agree with the candidate PDF")
+            for check in rev.get("checks", []):
+                if not isinstance(check, dict) or check.get("status") != "PASS":
+                    raise PublicationSetError("publication set visual-review check must be PASS")
+            continue
+        # Publication-review-record shape.
+        if rev.get("review_kind") != expected_kind:
+            raise PublicationSetError(f"publication set {role_name} review_kind must be {expected_kind}")
+        if rev.get("status") != "PASSED":
+            raise PublicationSetError(f"publication set {role_name} status must be PASSED")
+        for key in ("research_profile", "publication_profile"):
+            if rev.get(key) != seal.get(key):
+                raise PublicationSetError(f"publication set {role_name} {key} must equal seal {key}")
+        checks = rev.get("checks")
+        if not isinstance(checks, list) or not checks:
+            raise PublicationSetError(f"publication set {role_name} checks must be non-empty")
+        for check in checks:
+            if not isinstance(check, dict) or check.get("status") != "PASS":
+                raise PublicationSetError(f"publication set {role_name} check must be PASS")
+        # reader_manuscript {path,sha} must equal seal reader-manuscript.
+        rm = rev.get("reader_manuscript", {}) if isinstance(rev.get("reader_manuscript"), dict) else {}
+        seal_rm = roles.get("reader-manuscript", {})
+        if rm.get("path") != seal_rm.get("path") or rm.get("sha256") != seal_rm.get("sha256"):
+            raise PublicationSetError(f"publication set {role_name} reader_manuscript must equal seal reader-manuscript (path+SHA)")
+        # source {path,sha,byte_count} must equal seal validated-source.
+        src = rev.get("source", {}) if isinstance(rev.get("source"), dict) else {}
+        seal_src = roles.get("validated-source", {})
+        if src.get("path") != seal_src.get("path") or src.get("sha256") != seal_src.get("sha256"):
+            raise PublicationSetError(f"publication set {role_name} source must equal seal validated-source (path+SHA)")
+        if src.get("byte_count") != seal_src.get("byte_count"):
+            raise PublicationSetError(f"publication set {role_name} source byte_count must equal seal validated-source")
+        # pdf {path,sha,byte_count} must equal seal publication-pdf.
+        pdf = rev.get("pdf", {}) if isinstance(rev.get("pdf"), dict) else {}
+        seal_pdf = roles.get("publication-pdf", {})
+        if pdf.get("path") != seal_pdf.get("path") or pdf.get("sha256") != seal_pdf.get("sha256"):
+            raise PublicationSetError(f"publication set {role_name} pdf must equal seal publication-pdf (path+SHA)")
+        if pdf.get("byte_count") != seal_pdf.get("byte_count"):
+            raise PublicationSetError(f"publication set {role_name} pdf byte_count must equal seal publication-pdf")
+        if rev.get("page_count") != expected_page_count:
+            raise PublicationSetError(f"publication set {role_name} page_count must agree with the candidate PDF")
+    # Gate: exact manuscript/receipt/early scope (never postrender semantic).
+    # Tolerance for low-level identity fixtures (minimal Gate without editorial
+    # derivation, e.g. low18): if full Gate shape absent, skip detailed Gate
+    # binding; H Gate validator enforces full shape for real seals.
+    gate = json_docs["reader-surface-gate"]
+    if not isinstance(gate, dict):
+        raise PublicationSetError("publication set role reader-surface-gate must be a JSON object")
+    _has_gate_full = isinstance(gate.get("derivation"), dict) and isinstance(gate.get("semantic_authority"), dict) and isinstance(gate.get("scanned_surfaces"), list)
+    if not _has_gate_full:
+        return
+    deriv = gate.get("derivation", {}) if isinstance(gate.get("derivation"), dict) else {}
+    if deriv.get("route") != "EDITORIAL_PUBLICATION_V1" or deriv.get("scope") != "EDITORIAL_MAIN_BIB_STYLE":
+        raise PublicationSetError("publication set Gate must be editorial derivation EDITORIAL_PUBLICATION_V1/EDITORIAL_MAIN_BIB_STYLE")
+    deriv_receipt = deriv.get("receipt", {}) if isinstance(deriv.get("receipt"), dict) else {}
+    seal_receipt = roles.get("source-receipt", {})
+    if deriv_receipt.get("path") != seal_receipt.get("path") or deriv_receipt.get("sha256") != seal_receipt.get("sha256"):
+        raise PublicationSetError("publication set Gate derivation receipt must equal seal source-receipt (path+SHA)")
+    # Early scope: semantic_authority must bind staged scope_review_ref, not postrender.
+    scope_ref = staged.get("scope_review_ref") if isinstance(staged, dict) else None
+    if not isinstance(scope_ref, dict) or "path" not in scope_ref or "sha256" not in scope_ref:
+        raise PublicationSetError("publication set staged scope_review_ref invalid for Gate binding")
+    sem_auth = gate.get("semantic_authority", {}) if isinstance(gate.get("semantic_authority"), dict) else {}
+    if sem_auth.get("review_path") != scope_ref.get("path"):
+        raise PublicationSetError("publication set Gate must bind the exact early scope review ref, not postrender semantic record")
+    # review_path must not be either postrender review path (prevents same-SHA swap).
+    for post_role in ("semantic-review", "visual-review"):
+        if sem_auth.get("review_path") == roles.get(post_role, {}).get("path"):
+            raise PublicationSetError("publication set Gate must bind early scope, not postrender review")
+    # Inner review_sha256 must equal scope file's review_sha256 (file SHA is scope_ref sha).
+    try:
+        scope_doc = load_json_strict(repo_root, scope_ref["path"], "publication set early scope for Gate")
+    except PublicationSetError as exc:
+        raise PublicationSetError(f"publication set early scope unreadable for Gate binding: {exc}") from exc
+    if not isinstance(scope_doc, dict):
+        raise PublicationSetError("publication set early scope must be a JSON object")
+    if sem_auth.get("review_sha256") != scope_doc.get("review_sha256"):
+        raise PublicationSetError("publication set Gate semantic_authority review_sha256 must equal early scope review_sha256")
+    # Surface must equal seal reader-input (proposed reader).
+    seal_reader_input = roles.get("reader-input", {})
+    if sem_auth.get("surface_path") != seal_reader_input.get("path") or sem_auth.get("surface_sha256") != seal_reader_input.get("sha256"):
+        raise PublicationSetError("publication set Gate semantic_authority surface must equal seal reader-input (path+SHA)")
+    # Scanned surfaces must bind seal trio/manuscript/reader-input by path+SHA+bytes.
+    scanned = gate.get("scanned_surfaces")
+    if not isinstance(scanned, list):
+        raise PublicationSetError("publication set Gate scanned_surfaces must be a list")
+    def _find_kind(kind: str) -> dict[str, Any] | None:
+        matches = [s for s in scanned if isinstance(s, dict) and s.get("kind") == kind]
+        if len(matches) != 1:
+            return None
+        return matches[0]
+    for kind, seal_role in (
+        ("PRIMARY_SOURCE", "validated-source"),
+        ("BIBLIOGRAPHY", "bibliography"),
+        ("MANUSCRIPT_MANIFEST", "reader-manuscript"),
+        ("STRUCTURED_READER_SURFACE", "reader-input"),
+    ):
+        entry = _find_kind(kind)
+        exp = roles.get(seal_role, {})
+        if not isinstance(entry, dict) or entry.get("path") != exp.get("path") or entry.get("sha256") != exp.get("sha256"):
+            raise PublicationSetError(f"publication set Gate scanned {kind} must equal seal {seal_role} (path+SHA)")
+        if entry.get("byte_count") != exp.get("byte_count"):
+            raise PublicationSetError(f"publication set Gate scanned {kind} byte_count must equal seal {seal_role}")
+    # Style appears as SUPPORTING_SOURCE in Gate builder (role STYLE maps to SUPPORTING_SOURCE).
+    style_entry = _find_kind("SUPPORTING_SOURCE")
+    exp_style = roles.get("style", {})
+    if not isinstance(style_entry, dict) or style_entry.get("path") != exp_style.get("path") or style_entry.get("sha256") != exp_style.get("sha256"):
+        raise PublicationSetError("publication set Gate scanned SUPPORTING_SOURCE must equal seal style (path+SHA)")
+    if style_entry.get("byte_count") != exp_style.get("byte_count"):
+        raise PublicationSetError("publication set Gate scanned SUPPORTING_SOURCE byte_count must equal seal style")
+
+
+def _validate_build_record_bindings(
+    repo_root: Path, seal: dict[str, Any], roles: dict[str, Any],
+    json_docs: dict[str, Any], staged: dict[str, Any],
+) -> None:
+    record = json_docs["build-record"] if "build-record" in json_docs else None
+    build_ref = seal.get("build_record_ref")
+    record = load_json_strict(repo_root, build_ref["path"], "publication set build-record")
+    if not isinstance(record, dict):
+        raise PublicationSetError("publication set build-record must be a JSON object")
+    json_docs["build-record"] = record
+    expected_keys = {
+        "schema_version", "kind", "issue_id", "proposal_ref", "staged_manifest_ref",
+        "recipe_ref", "declared_inputs", "recipe", "toolchain",
+        "outputs", "exit_code", "recorded_at", "build_sha256",
+    }
+    if set(record) != expected_keys:
+        raise PublicationSetError(
+            f"publication set build-record keys must be exactly contract 6: missing={sorted(expected_keys - set(record))} extra={sorted(set(record) - expected_keys)}"
+        )
+    if record.get("kind") != "EDITORIAL_PUBLICATION_BUILD_V1":
+        raise PublicationSetError("publication set build-record kind invalid")
+    if record.get("issue_id") != seal.get("issue_id"):
+        raise PublicationSetError("publication set build-record issue_id mismatch")
+    if record.get("proposal_ref") != {"path": seal["proposal_ref"]["path"], "sha256": seal["proposal_ref"]["sha256"]}:
+        raise PublicationSetError("publication set build-record proposal_ref must equal seal proposal_ref")
+    if record.get("staged_manifest_ref") != {"path": seal["staged_manifest_ref"]["path"], "sha256": seal["staged_manifest_ref"]["sha256"]}:
+        raise PublicationSetError("publication set build-record staged_manifest_ref must equal seal staged_manifest_ref")
+    recipe_ref = record.get("recipe_ref")
+    if not isinstance(recipe_ref, dict) or set(recipe_ref) != {"path", "sha256"}:
+        raise PublicationSetError("publication set build-record recipe_ref fields invalid")
+    _check_authority_ref(repo_root, recipe_ref, "publication set build-record recipe_ref")
+    declared = record.get("declared_inputs")
+    staged_outputs = staged.get("outputs")
+    if not isinstance(declared, dict) or set(declared) != {"primary", "bibliography", "style"}:
+        raise PublicationSetError("publication set build-record declared_inputs must be exactly {primary,bibliography,style}")
+    for record_key, staged_key in (("primary", "main"), ("bibliography", "bibliography"), ("style", "style")):
+        entry = declared[record_key]
+        expected = staged_outputs[staged_key]
+        # Declared inputs are {path,sha256} per build-record schema (artifact, no byte_count);
+        # staged outputs are {path,sha256,byte_count}. Compare path+sha (sha binds bytes);
+        # if both carry byte_count, require equality as well. Accept either shape, never silent omit.
+        if not isinstance(entry, dict) or set(entry) not in ({"path", "sha256"}, {"path", "sha256", "byte_count"}):
+            raise PublicationSetError(f"publication set build-record declared_inputs.{record_key} fields invalid (must be {{path,sha256}} or {{path,sha256,byte_count}})")
+        if not isinstance(expected, dict) or set(expected) != {"path", "sha256", "byte_count"}:
+            raise PublicationSetError(f"publication set staged outputs.{staged_key} fields invalid")
+        if (entry["path"], entry["sha256"]) != (expected["path"], expected["sha256"]):
+            raise PublicationSetError(f"publication set build-record declared_inputs.{record_key} must equal staged outputs.{staged_key} (path+sha)")
+        if "byte_count" in entry and entry["byte_count"] != expected["byte_count"]:
+            raise PublicationSetError(f"publication set build-record declared_inputs.{record_key} byte_count must equal staged")
+    build_outputs = record.get("outputs")
+    if not isinstance(build_outputs, dict) or set(build_outputs) != {"publication-pdf", "build-log", "pdf-digest"}:
+        raise PublicationSetError("publication set build-record outputs must be exactly {publication-pdf,build-log,pdf-digest}")
+    for role_name in ("publication-pdf", "build-log", "pdf-digest"):
+        entry = build_outputs[role_name]
+        seal_entry = roles[role_name]
+        if not isinstance(entry, dict) or set(entry) != {"path", "sha256", "byte_count"}:
+            raise PublicationSetError(f"publication set build-record outputs.{role_name} fields invalid")
+        if (entry["path"], entry["sha256"], entry["byte_count"]) != (seal_entry["path"], seal_entry["sha256"], seal_entry["byte_count"]):
+            raise PublicationSetError(f"publication set build-record outputs.{role_name} must equal seal role {role_name}")
+    if record.get("exit_code") != 0:
+        raise PublicationSetError("publication set build-record exit_code must be 0 for an admissible set")
+    toolchain = record.get("toolchain")
+    if not isinstance(toolchain, dict):
+        raise PublicationSetError("publication set build-record toolchain must be an object")
+    for key in ("executable", "versions", "argv", "env"):
+        if key not in toolchain:
+            raise PublicationSetError(f"publication set build-record toolchain lacks {key}")
+    executable = toolchain.get("executable")
+    if not isinstance(executable, str) or not executable.startswith("/") or "\\" in executable:
+        raise PublicationSetError("publication set build-record toolchain executable must be absolute")
+    if ".." in executable.split("/"):
+        raise PublicationSetError("publication set build-record toolchain executable has unsafe component")
+    # Toolchain executable lives outside the repo (executor configuration, not
+    # a pinned artifact): require an absolute path whose final target is a
+    # regular file. Directory-alias walks apply to repo-contained reads only.
+    try:
+        is_file = os.path.isfile(executable)
+    except (OSError, ValueError):
+        is_file = False
+    if not is_file:
+        raise PublicationSetError("publication set build-record toolchain executable must be an existing file")
+    try:
+        core.parse_instant(str(record.get("recorded_at", "")))
+    except ValueError as exc:
+        raise PublicationSetError(f"publication set build-record recorded_at invalid: {exc}") from exc
+
+
+def _load_record_file(repo_root: Path, ref: dict[str, Any], label: str) -> dict[str, Any]:
+    _check_authority_ref(repo_root, ref, label)
+    return load_and_validate_json_strict(repo_root, ref["path"], repo_root / REVALIDATION_SCHEMA, label)
+
+
+def _walk_chain_backwards(
+    repo_root: Path, start_ref: dict[str, Any] | None
+) -> list[tuple[dict[str, Any], dict[str, Any]]]:
+    """Walk supersedes links newest->oldest. Returns [(record, ref)] newest first.
+
+    Fail-closed on missing/unknown branch, cycles on (path,sha256) identity,
+    and depth beyond the total-record bound. Does not validate semantics
+    beyond structural load plus schema.
+    """
+    root = repo_root.resolve()
+    chain: list[tuple[dict[str, Any], dict[str, Any]]] = []
+    seen: set[tuple[str, str]] = set()
+    current_ref = start_ref
+    for _ in range(CHAIN_LIMIT):
+        if current_ref is None:
+            return chain
+        if not isinstance(current_ref, dict) or set(current_ref) != {"path", "sha256"}:
+            raise PublicationSetError("supersession link authority fields invalid")
+        key = (current_ref.get("path"), current_ref.get("sha256"))
+        if key in seen:
+            raise PublicationSetError("publication revalidation supersession chain cycle")
+        seen.add(key)
+        record = _load_record_file(root, current_ref, "superseded revalidation record")
+        chain.append((record, {"path": current_ref["path"], "sha256": current_ref["sha256"]}))
+        nxt = record.get("supersedes")
+        if nxt is None:
+            return chain
+        current_ref = nxt
+    raise PublicationSetError("publication revalidation supersession chain too deep")
+
+
+def _normalize_chain_input(
+    chain: list[dict[str, Any]] | None,
+) -> list[tuple[dict[str, Any], dict[str, Any] | None]]:
+    """Normalize explicit chain param to [(record, ref|None)] in given order.
+
+    Expected order: oldest->newest (chronological). Each item is either a bare
+    record dict (with optional _path/_sha256 metadata) or a wrapper
+    {"record":..., "path":..., "sha256":...}. Strict: non-empty chain items
+    must carry a parseable sequence path; missing/unknown refuses.
+    """
+    if not chain:
+        return []
+    normalized: list[tuple[dict[str, Any], dict[str, Any] | None]] = []
+    for index, item in enumerate(chain):
+        if not isinstance(item, dict):
+            raise PublicationSetError(f"canonical anchor chain[{index}] must be an object")
+        if "record" in item and isinstance(item["record"], dict) and "path" in item:
+            record = item["record"]
+            path_value = item.get("path")
+            sha_value = item.get("sha256")
+            if not isinstance(path_value, str) or not path_value:
+                raise PublicationSetError(f"canonical anchor chain[{index}] path invalid (unknown branch refuses)")
+            if _parse_sequence(path_value) is None:
+                raise PublicationSetError(f"canonical anchor chain[{index}] sequence unknown (unknown branch refuses)")
+            ref: dict[str, Any] | None = {"path": path_value, "sha256": sha_value} if isinstance(sha_value, str) else {"path": path_value, "sha256": ""}
+            if not isinstance(sha_value, str) or len(sha_value) != 64:
+                raise PublicationSetError(f"canonical anchor chain[{index}] sha256 invalid")
+            normalized.append((record, ref))
+        elif "prior_checkpoint" in item or "reason_class" in item:
+            record = item
+            path_value = item.get("_path", item.get("__source_path"))
+            sha_value = item.get("_sha256", item.get("__source_sha256"))
+            if not isinstance(path_value, str) or not path_value:
+                raise PublicationSetError(f"canonical anchor chain[{index}] missing source path (unknown branch refuses)")
+            if _parse_sequence(path_value) is None:
+                raise PublicationSetError(f"canonical anchor chain[{index}] sequence unknown (unknown branch refuses)")
+            if not isinstance(sha_value, str) or len(sha_value) != 64:
+                raise PublicationSetError(f"canonical anchor chain[{index}] missing source sha256")
+            normalized.append((record, {"path": path_value, "sha256": sha_value}))
+        else:
+            raise PublicationSetError(f"canonical anchor chain[{index}] unrecognized shape (unknown branch refuses)")
+    return normalized
+
+
+def derive_canonical_anchor(
+    repo_root: Path, cfg: dict[str, Any], state: dict[str, Any], chain: list[dict[str, Any]]
+) -> dict[str, Any]:
+    """Derive canonical anchor from validation checkpoint plus legacy prefix.
+
+    Rules: no legacy before first activation gives the original validation
+    checkpoint. Otherwise the latest legacy immediately preceding the first
+    activation. Repeated activations retain the same anchor. Legacy after
+    editorial refuses. Each legacy link is validated cumulative against the
+    original checkpoint under legacy semantics (prior_sha must equal the
+    original, not an incremental rollforward).
+    """
+    root = repo_root.resolve()
+    if not isinstance(state, dict):
+        raise PublicationSetError("derive_canonical_anchor requires State mapping")
+    validation_ref = (state.get("checkpoint_provenance") or {}).get("validation")
+    if not isinstance(validation_ref, dict) or set(validation_ref) != {"path", "sha256"}:
+        raise PublicationSetError("derive_canonical_anchor requires exact validation checkpoint reference")
+    _check_authority_ref(root, validation_ref, "derive canonical anchor validation checkpoint")
+    try:
+        prior_record = load_and_validate_json_strict(
+            root, validation_ref["path"], root / CHECKPOINT_SCHEMA, "derive anchor prior Stage Checkpoint"
+        )
+    except PublicationSetError as exc:
+        raise PublicationSetError(f"derive canonical anchor prior checkpoint unreadable: {exc}") from exc
+    original_map: dict[tuple[str, str], str] = {}
+    for row in prior_record.get("artifacts", []):
+        if not isinstance(row, dict):
+            raise PublicationSetError("derive canonical anchor prior artifacts malformed")
+        key = (row.get("name"), row.get("path"))
+        if key in original_map:
+            raise PublicationSetError("derive canonical anchor prior checkpoint duplicate artifact")
+        original_map[key] = row.get("sha256")
+
+    normalized = _normalize_chain_input(chain)
+    if not normalized:
+        return {"kind": "VALIDATION_CHECKPOINT", "ref": {"path": validation_ref["path"], "sha256": validation_ref["sha256"]}}
+
+    issue_id = state.get("issue_id")
+    previous_instant = None
+    sequences: list[int] = []
+    kinds: list[str] = []
+    for index, (record, ref) in enumerate(normalized):
+        if not isinstance(record, dict):
+            raise PublicationSetError(f"canonical anchor chain[{index}] record must be an object")
+        if record.get("issue_id") != issue_id:
+            raise PublicationSetError("canonical anchor chain issue identity mismatch")
+        if record.get("prior_checkpoint") != validation_ref:
+            raise PublicationSetError("canonical anchor chain prior checkpoint mismatch (must bind original validation)")
+        try:
+            instant = core.parse_instant(str(record.get("recorded_at", "")))
+        except ValueError as exc:
+            raise PublicationSetError(f"canonical anchor chain[{index}] recorded_at invalid: {exc}") from exc
+        if previous_instant is not None and instant < previous_instant:
+            raise PublicationSetError("canonical anchor chain chronology invalid (must be nondecreasing)")
+        previous_instant = instant
+        assert ref is not None
+        seq = _parse_sequence(ref["path"])
+        assert seq is not None
+        sequences.append(seq)
+        data = read_repo_bytes(root, ref["path"], f"canonical anchor chain[{index}]")
+        if hashlib.sha256(data).hexdigest() != ref.get("sha256"):
+            raise PublicationSetError(f"canonical anchor chain[{index}] SHA drift")
+        on_disk = load_and_validate_json_strict(root, ref["path"], root / REVALIDATION_SCHEMA, f"canonical anchor chain[{index}]")
+        if on_disk != record:
+            raise PublicationSetError(f"canonical anchor chain[{index}] passed bytes differ from disk (must be byte-identical)")
+        reason = record.get("reason_class")
+        if reason == LEGACY_REASON:
+            kinds.append("legacy")
+        elif reason == EDITORIAL_REASON:
+            if record.get("kind") != EDITORIAL_KIND:
+                raise PublicationSetError(f"canonical anchor chain[{index}] editorial kind invalid (unknown branch refuses)")
+            kinds.append("editorial")
+        else:
+            raise PublicationSetError(f"canonical anchor chain[{index}] reason class unrecognized (unknown branch refuses)")
+
+    for i in range(1, len(sequences)):
+        if sequences[i] <= sequences[i - 1]:
+            raise PublicationSetError("canonical anchor chain sequence must be strictly increasing")
+    if len(normalized) > CHAIN_LIMIT:
+        raise PublicationSetError("canonical anchor chain too deep")
+    seen_refs = set()
+    for _, ref in normalized:
+        assert ref is not None
+        key = (ref["path"], ref["sha256"])
+        if key in seen_refs:
+            raise PublicationSetError("canonical anchor chain duplicate link")
+        seen_refs.add(key)
+
+    first_editorial = next((i for i, k in enumerate(kinds) if k == "editorial"), None)
+    if first_editorial is not None and any(k == "legacy" for k in kinds[first_editorial + 1:]):
+        raise PublicationSetError("mixed chain with later legacy successor unsupported (fail-closed, not canonical fallback)")
+
+    legacy_prefix = normalized[:first_editorial] if first_editorial is not None else normalized
+    for index, (record, _ref) in enumerate(legacy_prefix):
+        superseded = record.get("superseded_artifacts", [])
+        preserved = record.get("preserved_artifacts", [])
+        if not isinstance(superseded, list) or not isinstance(preserved, list):
+            raise PublicationSetError(f"canonical anchor legacy[{index}] rows malformed")
+        effective: dict[tuple[str, str], str] = {}
+        seen: set[tuple[str, str]] = set()
+        for row in superseded:
+            if not isinstance(row, dict):
+                raise PublicationSetError(f"canonical anchor legacy[{index}] superseded row malformed")
+            key = (row.get("name"), row.get("path"))
+            if key in seen:
+                raise PublicationSetError(f"canonical anchor legacy[{index}] duplicates artifact")
+            seen.add(key)
+            original_sha = original_map.get(key)
+            if original_sha is None:
+                raise PublicationSetError(f"canonical anchor legacy[{index}] supersedes unknown prior artifact")
+            if key[0] not in PUBLICATION_ROLES_7:
+                raise PublicationSetError(
+                    f"canonical anchor legacy[{index}] supersedes non-publication role (research roles never rebind)"
+                )
+            if row.get("prior_sha256") != original_sha:
+                raise PublicationSetError(
+                    f"canonical anchor legacy[{index}] prior SHA mismatch (must be cumulative against original, not incremental)"
+                )
+            effective[key] = row.get("new_sha256")
+        for row in preserved:
+            if not isinstance(row, dict):
+                raise PublicationSetError(f"canonical anchor legacy[{index}] preserved row malformed")
+            key = (row.get("name"), row.get("path"))
+            if key in seen:
+                raise PublicationSetError(f"canonical anchor legacy[{index}] duplicates artifact")
+            seen.add(key)
+            original_sha = original_map.get(key)
+            if original_sha is None or row.get("sha256") != original_sha:
+                raise PublicationSetError(f"canonical anchor legacy[{index}] preserved artifact mismatch (must equal original)")
+            effective[key] = row.get("sha256")
+        if set(effective) != set(original_map):
+            raise PublicationSetError(f"canonical anchor legacy[{index}] row union differs from original checkpoint")
+
+    if not legacy_prefix:
+        return {"kind": "VALIDATION_CHECKPOINT", "ref": {"path": validation_ref["path"], "sha256": validation_ref["sha256"]}}
+    _last_record, last_ref = legacy_prefix[-1]
+    assert last_ref is not None
+    return {"kind": "LEGACY_REVALIDATION", "ref": {"path": last_ref["path"], "sha256": last_ref["sha256"]}}
+
+
+def validate_activation_record(repo_root: Path, record_path: Path | str) -> dict[str, Any]:
+    """Validate editorial activation record: schema, seal, proposal/retention, digest.
+
+    Verifies staged/proposal/retention schemas, the exact COPY before-State to
+    KEEP Profile layout, before-Candidate plus before_active_digest against
+    retained history and predecessor (a canonical unadopted Candidate is
+    nullable only when absent from actual disk). Never compares the current
+    live State hash against before_state_ref after activation. Returns the
+    loaded record.
+    """
+    root = repo_root.resolve()
+    if isinstance(record_path, Path) and record_path.is_absolute():
+        rel = _rel_from_abs(root, record_path, "activation record")
+    else:
+        rel = str(record_path)
+    record = load_and_validate_json_strict(root, rel, root / REVALIDATION_SCHEMA, "Editorial Publication Activation")
+    if not _is_editorial_record(record):
+        raise PublicationSetError("activation record is not editorial branch (legacy handled separately; no fake legacy rows)")
+    _check_authority_ref(root, record.get("prior_checkpoint"), "activation prior checkpoint")
+    set_ref = record.get("set_ref")
+    _check_authority_ref(root, set_ref, "activation set_ref")
+    try:
+        seal = validate_seal(root, set_ref["path"])
+    except PublicationSetError as exc:
+        raise PublicationSetError(f"activation set seal invalid: {exc}") from exc
+    if seal.get("issue_id") != record.get("issue_id"):
+        raise PublicationSetError("activation/set issue_id mismatch")
+    anchor = record.get("canonical_anchor")
+    if not isinstance(anchor, dict) or set(anchor) != {"kind", "ref"}:
+        raise PublicationSetError("activation canonical_anchor fields invalid")
+    if anchor.get("kind") not in ("VALIDATION_CHECKPOINT", "LEGACY_REVALIDATION"):
+        raise PublicationSetError("activation canonical_anchor kind invalid")
+    _check_authority_ref(root, anchor.get("ref"), "activation canonical_anchor ref")
+    before_state = record.get("before_state_ref")
+    if not isinstance(before_state, dict) or set(before_state) != {"path", "sha256"}:
+        raise PublicationSetError("activation before_state_ref fields invalid")
+    for key in ("path", "sha256"):
+        if not isinstance(before_state.get(key), str) or not before_state.get(key):
+            raise PublicationSetError("activation before_state_ref invalid")
+    if len(before_state["sha256"]) != 64 or any(c not in "0123456789abcdef" for c in before_state["sha256"]):
+        raise PublicationSetError("activation before_state_ref sha256 invalid")
+    before_cand = record.get("before_candidate_ref")
+    if before_cand is not None:
+        if not isinstance(before_cand, dict) or set(before_cand) != {"path", "sha256"}:
+            raise PublicationSetError("activation before_candidate_ref fields invalid")
+        _check_authority_ref(root, before_cand, "activation before_candidate_ref")
+    digest_value = record.get("before_active_digest")
+    if not isinstance(digest_value, str) or len(digest_value) != 64 or any(c not in "0123456789abcdef" for c in digest_value):
+        raise PublicationSetError("activation before_active_digest invalid")
+    supersedes = record.get("supersedes")
+    if supersedes is not None:
+        if not isinstance(supersedes, dict) or set(supersedes) != {"path", "sha256"}:
+            raise PublicationSetError("activation supersedes fields invalid")
+        _check_authority_ref(root, supersedes, "activation supersedes")
+    establishment = record.get("establishment", {})
+    for key, expected in (
+        ("lifecycle", "VALIDATED_DRAFT"),
+        ("architecture_review", "approved"),
+        ("publication_preview", "pending"),
+        ("freeze", "pending"),
+        ("release", "pending"),
+    ):
+        if establishment.get(key) != expected:
+            raise PublicationSetError(f"activation establishment not pre-decision sanctioned: {key}")
+    try:
+        core.parse_instant(str(record.get("recorded_at", "")))
+        core.parse_instant(str(establishment.get("recorded_at", "")))
+    except ValueError as exc:
+        raise PublicationSetError(f"activation recorded_at invalid: {exc}") from exc
+
+    keep_profile = _validate_proposal_retention_identity(root, record, seal)
+
+    recomputed = _recompute_before_digest(root, record, keep_profile)
+    if recomputed != digest_value:
+        raise PublicationSetError("activation before_active_digest mismatch (recomputed from before-effective7 plus candidate)")
+    return record
+
+
+def _validate_proposal_retention_identity(root: Path, record: dict[str, Any], seal: dict[str, Any]) -> dict[str, Any]:
+    """Verify staged/proposal/retention schemas and the COPY/KEEP layout.
+
+    Returns the retained KEEP Profile document for digest/context checks.
+    """
+    before_state = record["before_state_ref"]
+    proposal_ref = seal.get("proposal_ref")
+    staged_ref = seal.get("staged_manifest_ref")
+    proposal = load_and_validate_json_strict(root, proposal_ref["path"], root / PROPOSAL_SCHEMA, "activation proposal")
+    staged = load_and_validate_json_strict(root, staged_ref["path"], root / STAGED_SCHEMA, "activation staged manifest")
+    if proposal.get("issue_id") != record.get("issue_id") or staged.get("issue_id") != record.get("issue_id"):
+        raise PublicationSetError("activation proposal/staged issue identity mismatch")
+    proposal_basis = proposal.get("basis", {}) if isinstance(proposal.get("basis"), dict) else {}
+    if proposal_basis.get("state_ref") != {"path": before_state["path"], "sha256": before_state["sha256"]}:
+        raise PublicationSetError("activation before_state_ref must equal bound proposal basis State ref")
+    if proposal.get("proposal_id") != staged.get("proposal_ref", {}).get("proposal_id"):
+        raise PublicationSetError("activation proposal_id must agree between proposal and staged manifest")
+    for key in ("issue_id", "research_profile", "publication_profile"):
+        if staged.get("proposal_ref", {}).get(key) != proposal.get(key):
+            raise PublicationSetError(f"activation staged proposal_ref.{key} must equal proposal {key}")
+    staged_proposal = staged.get("proposal_ref")
+    if not isinstance(staged_proposal, dict):
+        raise PublicationSetError("activation staged proposal_ref must be an object")
+    if staged_proposal.get("path") != proposal_ref["path"] or staged_proposal.get("sha256") != proposal_ref["sha256"]:
+        raise PublicationSetError("activation staged proposal_ref must equal seal proposal_ref")
+    scope_ref = staged.get("scope_review_ref")
+    if not isinstance(scope_ref, dict) or set(scope_ref) != {"path", "sha256"}:
+        raise PublicationSetError("activation staged scope_review_ref fields invalid")
+    _check_authority_ref(root, scope_ref, "activation staged scope_review_ref")
+    retention_ref = staged.get("retention_manifest_ref")
+    if not isinstance(retention_ref, dict) or set(retention_ref) != {"path", "sha256"}:
+        raise PublicationSetError("activation staged retention_manifest_ref fields invalid")
+    proposal_dir = proposal_ref["path"].rsplit("/", 1)[0]
+    if not _under(proposal_dir, retention_ref["path"]):
+        raise PublicationSetError("activation retention manifest must stay inside the proposal namespace")
+    _check_authority_ref(root, retention_ref, "activation retention manifest")
+    retention = load_and_validate_json_strict(root, retention_ref["path"], root / RETENTION_SCHEMA, "activation retention manifest")
+    retention_proposal = retention.get("proposal_ref", {})
+    for key in ("path", "sha256", "proposal_id", "issue_id", "research_profile", "publication_profile"):
+        if retention_proposal.get(key) != (proposal_ref.get(key) if key in ("path", "sha256") else proposal.get(key)):
+            raise PublicationSetError(f"activation retention proposal_ref.{key} must equal proposal/seal binding")
+    retention_basis = retention.get("basis", {}) if isinstance(retention.get("basis"), dict) else {}
+    if retention_basis.get("state_ref") != {"path": before_state["path"], "sha256": before_state["sha256"]}:
+        raise PublicationSetError("activation before_state_ref must equal retained basis State ref")
+    rows = retention.get("rows", [])
+    if not isinstance(rows, list):
+        raise PublicationSetError("activation retention rows must be an array")
+    state_rows = [r for r in rows if isinstance(r, dict) and "state:authority" in (r.get("roles") or [])]
+    if len(state_rows) != 1:
+        raise PublicationSetError("activation retention requires a unique state:authority row")
+    state_row = state_rows[0]
+    if state_row.get("policy") != "COPY_BEFORE_REPLACEMENT":
+        raise PublicationSetError("activation retention state:authority row must be COPY_BEFORE_REPLACEMENT")
+    if state_row.get("path") != before_state["path"] or state_row.get("sha256") != before_state["sha256"]:
+        raise PublicationSetError("activation retention state:authority row must equal before_state_ref")
+    expected_dest = (proposal_dir + "/retained/before/" + before_state["path"]).replace("//", "/")
+    if state_row.get("retained_dest") != expected_dest:
+        raise PublicationSetError("activation retention COPY dest must equal <P>/retained/before/<original path>")
+    retained_dest = state_row["retained_dest"]
+    retained_data = read_repo_bytes(root, retained_dest, "activation retained State COPY")
+    if hashlib.sha256(retained_data).hexdigest() != before_state["sha256"]:
+        raise PublicationSetError("activation retained State COPY SHA drift")
+    if len(retained_data) != state_row.get("byte_count"):
+        raise PublicationSetError("activation retained State COPY byte count drift")
+    if hashlib.sha256(retained_data).hexdigest() != state_row.get("retained_sha256"):
+        raise PublicationSetError("activation retained State COPY must equal the row retained bytes")
+    if len(retained_data) != state_row.get("retained_byte_count"):
+        raise PublicationSetError("activation retained State COPY retained size mismatch")
+    retained_state = _parse_json_strict_bytes(retained_data, "activation retained State")
+    if not isinstance(retained_state, dict):
+        raise PublicationSetError("activation retained State must be a JSON object")
+    retained_profile_ref = retained_state.get("profile")
+    if not isinstance(retained_profile_ref, dict) or set(retained_profile_ref) != {"path", "sha256"}:
+        raise PublicationSetError("activation retained State lacks exact profile ref")
+    keep_matches = [
+        r for r in rows
+        if isinstance(r, dict) and r.get("policy") == "KEEP_IMMUTABLE"
+        and isinstance(r.get("retained_ref"), dict)
+        and r["retained_ref"].get("path") == retained_profile_ref["path"]
+        and r["retained_ref"].get("sha256") == retained_profile_ref["sha256"]
+    ]
+    if len(keep_matches) != 1:
+        raise PublicationSetError("activation retention requires a unique matching KEEP Profile row")
+    keep_row = keep_matches[0]
+    keep_data = read_repo_bytes(root, keep_row["retained_ref"]["path"], "activation KEEP Profile")
+    if hashlib.sha256(keep_data).hexdigest() != retained_profile_ref["sha256"]:
+        raise PublicationSetError("activation KEEP Profile bytes drift")
+    if len(keep_data) != keep_row.get("byte_count"):
+        raise PublicationSetError("activation KEEP Profile byte count drift")
+    keep_profile = _parse_json_strict_bytes(keep_data, "activation KEEP Profile")
+    if not isinstance(keep_profile, dict):
+        raise PublicationSetError("activation KEEP Profile must be a JSON object")
+    if keep_profile.get("issue_id") != proposal.get("issue_id"):
+        raise PublicationSetError("activation KEEP Profile issue differs from proposal")
+    for key in ("research_profile", "publication_profile"):
+        if keep_profile.get(key) != proposal.get(key):
+            raise PublicationSetError(f"activation KEEP Profile {key} differs from proposal")
+        if retained_state.get(key) != proposal.get(key):
+            raise PublicationSetError(f"activation retained State {key} differs from proposal")
+    if retained_state.get("issue_id") != proposal.get("issue_id"):
+        raise PublicationSetError("activation retained State issue differs from proposal")
+    try:
+        keep_source_root = keep_profile["paths"]["source_root"]
+    except (KeyError, TypeError) as exc:
+        raise PublicationSetError(f"activation KEEP Profile source_root invalid: {exc}") from exc
+    if not isinstance(keep_source_root, str) or not keep_source_root or "\\" in keep_source_root or keep_source_root.startswith("/") or ".." in keep_source_root.split("/"):
+        raise PublicationSetError("activation KEEP Profile source_root invalid")
+    expected_proposal_dir = (keep_source_root + "/publication/v2/editorial-corrections/" + str(proposal.get("proposal_id"))).replace("//", "/")
+    if proposal_dir != expected_proposal_dir:
+        raise PublicationSetError("activation proposal directory must equal <profile source_root>/publication/v2/editorial-corrections/<proposal_id>")
+    _check_before_candidate_nullability(root, record, keep_source_root)
+    return keep_profile
+
+
+def _check_before_candidate_nullability(root: Path, record: dict[str, Any], keep_source_root: str) -> None:
+    """A canonical unadopted Candidate is nullable only when absent on disk.
+
+    Applies to first activations (supersedes null/legacy). Repeated
+    activations resolve before-Candidate from the predecessor seal instead.
+    """
+    supersedes = record.get("supersedes")
+    if supersedes is not None:
+        try:
+            prev_record = _load_record_file(root, supersedes, "activation predecessor")
+        except PublicationSetError:
+            return
+        if _is_editorial_record(prev_record):
+            return
+    canonical_rel = (keep_source_root + "/publication/v2/publication-candidate-v2.json").replace("//", "/")
+    try:
+        parts = _lexical_parts(canonical_rel, "canonical before-Candidate probe")
+        _walk_existing_ancestors(root.resolve(), parts, "canonical before-Candidate probe")
+        target = root.resolve().joinpath(*parts)
+        present = target.is_file() and not target.is_symlink()
+    except PublicationSetError:
+        present = False
+    before_cand = record.get("before_candidate_ref")
+    if present:
+        live_sha = hashlib.sha256(_read_bytes_nofollow(target, "canonical before-Candidate")).hexdigest()
+        if before_cand is None:
+            raise PublicationSetError("activation before_candidate_ref must be non-null when a canonical Candidate exists")
+        if before_cand.get("path") != canonical_rel or before_cand.get("sha256") != live_sha:
+            raise PublicationSetError("activation before_candidate_ref must equal the actual canonical Candidate")
+    else:
+        if before_cand is not None:
+            raise PublicationSetError("activation before_candidate_ref must be null when no canonical Candidate exists")
+
+
+def _recompute_before_digest(root: Path, record: dict[str, Any], keep_profile: dict[str, Any] | None = None) -> str:
+    """Recompute before_active_digest from retained-before derivation.
+
+    First activation (supersedes null/legacy): before-effective7 is the
+    cumulative legacy effective (or the original validation seven when no
+    legacy), derived from the prior checkpoint plus the backwards legacy walk.
+    Repeated activation (supersedes editorial): before-effective7 is the prior
+    seal seven, and before-Candidate must equal the prior seal Candidate. The
+    before-Candidate document must bind the before-effective publication PDF.
+    No caller digest acceptance.
+    """
+    prior_ref = record["prior_checkpoint"]
+    prior_record = load_and_validate_json_strict(
+        root, prior_ref["path"], root / CHECKPOINT_SCHEMA, "before-digest prior Stage Checkpoint"
+    )
+    original_7: dict[str, Any] = {}
+    for row in prior_record.get("artifacts", []):
+        if not isinstance(row, dict):
+            continue
+        name = row.get("name")
+        if name in PUBLICATION_ROLES_7 and name not in original_7:
+            original_7[name] = {"path": row.get("path"), "sha256": row.get("sha256")}
+    if set(original_7) != set(PUBLICATION_ROLES_7):
+        raise PublicationSetError("before-digest prior checkpoint missing seven publication roles")
+
+    supersedes = record.get("supersedes")
+    before_cand = record.get("before_candidate_ref")
+    if supersedes is None:
+        effective = dict(original_7)
+    else:
+        prev_record = _load_record_file(root, supersedes, "before-digest predecessor")
+        if _is_legacy_record(prev_record):
+            full_backwards = _walk_chain_backwards(root, record.get("supersedes"))
+            chronological = list(reversed(full_backwards))
+            legacy_records = [(rec, ref) for rec, ref in chronological if _is_legacy_record(rec)]
+            if not legacy_records:
+                effective = dict(original_7)
+            else:
+                latest_legacy, _ = legacy_records[-1]
+                effective = {}
+                for row in list(latest_legacy.get("superseded_artifacts", [])):
+                    key = row.get("name")
+                    if key in PUBLICATION_ROLES_7:
+                        effective[key] = {"path": row.get("path"), "sha256": row.get("new_sha256")}
+                for row in list(latest_legacy.get("preserved_artifacts", [])):
+                    key = row.get("name")
+                    if key in PUBLICATION_ROLES_7 and key not in effective:
+                        effective[key] = {"path": row.get("path"), "sha256": row.get("sha256")}
+                if set(effective) != set(PUBLICATION_ROLES_7):
+                    raise PublicationSetError("before-digest legacy prefix must cover exactly seven publication roles (non-cumulative refused)")
+        elif _is_editorial_record(prev_record):
+            prev_set_ref = prev_record.get("set_ref")
+            _check_authority_ref(root, prev_set_ref, "before-digest prior set_ref")
+            prev_seal = validate_seal(root, prev_set_ref["path"])
+            prev_roles = prev_seal.get("roles", {})
+            effective = {}
+            for name in PUBLICATION_ROLES_7:
+                ref = prev_roles.get(name)
+                if not isinstance(ref, dict):
+                    raise PublicationSetError(f"before-digest prior seal missing {name}")
+                effective[name] = {"path": ref.get("path"), "sha256": ref.get("sha256")}
+            prev_cand = {"path": prev_roles["publication-candidate"]["path"], "sha256": prev_roles["publication-candidate"]["sha256"]}
+            if before_cand != prev_cand:
+                raise PublicationSetError("repeated activation before_candidate_ref must equal the predecessor seal Candidate")
+        else:
+            raise PublicationSetError("before-digest predecessor branch unknown (missing/unknown refuses)")
+    if before_cand is not None:
+        cand_doc = load_json_strict(root, before_cand["path"], "before-digest before-Candidate")
+        if not isinstance(cand_doc, dict):
+            raise PublicationSetError("before-digest before-Candidate must be a JSON object")
+        cand_pdf = cand_doc.get("pdf", {}) if isinstance(cand_doc.get("pdf"), dict) else {}
+        if cand_pdf.get("sha256") != effective["publication-pdf"]["sha256"]:
+            raise PublicationSetError("before-digest before-Candidate PDF must bind the before-effective publication PDF")
+    return before_active_digest(effective, before_cand)
+
+
+def _load_profile_strict(root: Path, state: dict[str, Any]) -> tuple[str, dict[str, Any], str]:
+    profile_ref = state.get("profile")
+    if not isinstance(profile_ref, dict) or set(profile_ref) != {"path", "sha256"}:
+        raise PublicationSetError("selection requires exact State profile reference")
+    profile = load_and_validate_json_strict(root, profile_ref["path"], root / Path("schemas/survey-production-profile.schema.json"), "selection Production Profile")
+    data = read_repo_bytes(root, profile_ref["path"], "selection Production Profile")
+    if hashlib.sha256(data).hexdigest() != profile_ref["sha256"]:
+        raise PublicationSetError("selection Production Profile SHA drift")
+    try:
+        source_root_rel = profile["paths"]["source_root"]
+    except (KeyError, TypeError) as exc:
+        raise PublicationSetError(f"selection Production Profile source_root invalid: {exc}") from exc
+    if not isinstance(source_root_rel, str):
+        raise PublicationSetError("selection Production Profile source_root invalid")
+    _lexical_parts(source_root_rel, "selection profile source_root")
+    return profile_ref["path"], profile, source_root_rel
+
+
+def _default_candidate_rel(source_root_rel: str) -> str:
+    return (source_root_rel + "/publication/v2/publication-candidate-v2.json").replace("//", "/")
+
+
+def _contract_publication_paths(cfg: dict[str, Any], profile: dict[str, Any]) -> dict[str, str]:
+    """Configured canonical publication paths: DRAFT_COMPLETE plus Reader Gate."""
+    try:
+        stage = cfg["orchestration"]["stage_plan"]["DRAFT_COMPLETE"]
+        paths = profile["paths"]
+        source_root_rel = paths["source_root"]
+    except (KeyError, TypeError) as exc:
+        raise PublicationSetError(f"selection contract paths unresolvable: {exc}") from exc
+    allowed: dict[str, str] = {}
+    for row in stage.get("artifacts", []):
+        if not isinstance(row, dict):
+            raise PublicationSetError("selection contract stage artifacts malformed")
+        name = row.get("name")
+        template = row.get("path")
+        value = str(template)
+        for key, replacement in paths.items():
+            value = value.replace("{" + str(key) + "}", str(replacement))
+        if "{" in value or "}" in value:
+            raise PublicationSetError(f"selection contract stage path template invalid: {template}")
+        _lexical_parts(value, f"selection contract path {name}")
+        allowed[str(name)] = value
+    gate_rel = (str(source_root_rel) + "/publication/v2/reader-surface-gate-v2.json").replace("//", "/")
+    _lexical_parts(gate_rel, "selection contract Reader Gate path")
+    allowed["reader-surface-gate"] = gate_rel
+    return allowed
+
+
+def _canonical7_from_validation(validation_record: dict[str, Any]) -> dict[str, Any]:
+    """Original seven refs from the validation checkpoint (no live expectation).
+
+    Internal raw rows only (3-key {path,sha256,origin}, no byte_count, no live
+    read). Never exported directly: callers receive the verified anchored
+    4-key projection via _anchored_canonical7. Live bytes are checked by the
+    legacy/editorial effective layers and by checkpoint validation, never
+    prematurely here: after a valid legacy R1 the live bytes equal the latest
+    legacy effective, not the original SHA.
+    """
+    canonical7: dict[str, Any] = {}
+    for row in validation_record.get("artifacts", []):
+        if not isinstance(row, dict):
+            continue
+        name = row.get("name")
+        if name in PUBLICATION_ROLES_7 and name not in canonical7:
+            path_value = row.get("path")
+            sha_value = row.get("sha256")
+            if not isinstance(path_value, str) or not path_value:
+                raise PublicationSetError(f"selection canonical row path invalid: {name}")
+            if not isinstance(sha_value, str) or len(sha_value) != 64 or any(c not in "0123456789abcdef" for c in sha_value):
+                raise PublicationSetError(f"selection canonical row sha invalid: {name}")
+            canonical7[name] = {"path": path_value, "sha256": sha_value, "origin": "ORIGINAL"}
+    if set(canonical7) != set(PUBLICATION_ROLES_7):
+        missing = sorted(set(PUBLICATION_ROLES_7) - set(canonical7))
+        raise PublicationSetError(f"selection validation checkpoint missing seven publication roles: {missing}")
+    return canonical7
+
+
+def _verified_row_4key(
+    root: Path, path_value: str, sha_value: str, origin: str, label: str,
+    expected_byte_count: int | None = None,
+) -> dict[str, Any]:
+    """Verify live SHA first, then derive byte_count from verified bytes.
+
+    Never blesses a stored byte_count without a live SHA check: reads live
+    bytes raw-first, requires SHA equality, cross-checks an expected stored
+    size when supplied, and returns exactly
+    {path,sha256,byte_count,origin} with byte_count from live bytes.
+    """
+    if not isinstance(path_value, str) or not path_value:
+        raise PublicationSetError(f"{label} path invalid")
+    if not isinstance(sha_value, str) or len(sha_value) != 64 or any(c not in "0123456789abcdef" for c in sha_value):
+        raise PublicationSetError(f"{label} sha invalid")
+    if origin not in ("ORIGINAL", "ACTIVE"):
+        raise PublicationSetError(f"{label} origin invalid")
+    data = read_repo_bytes(root, path_value, label)
+    if hashlib.sha256(data).hexdigest() != sha_value:
+        raise PublicationSetError(f"{label} SHA drift: {path_value}")
+    if expected_byte_count is not None:
+        if not isinstance(expected_byte_count, int) or isinstance(expected_byte_count, bool):
+            raise PublicationSetError(f"{label} stored byte_count invalid: {path_value}")
+        if len(data) != expected_byte_count:
+            raise PublicationSetError(f"{label} byte count drift: {path_value}")
+    return {"path": path_value, "sha256": sha_value, "byte_count": len(data), "origin": origin}
+
+
+def _full_original_union(prior_record: dict[str, Any], label: str) -> dict[tuple[str, str], str]:
+    """Full original (name,path)->sha256 union over ALL checkpoint artifact rows.
+
+    No seven-role filtering: legacy cumulative rules apply to the complete
+    original union. Upstream/research rows are preserved unchanged by the
+    legacy writer (allowed, never rebound); only publication-canonical roles
+    may appear as superseded (enforced by the legacy loops below).
+    """
+    union: dict[tuple[str, str], str] = {}
+    for row in prior_record.get("artifacts", []):
+        if not isinstance(row, dict):
+            raise PublicationSetError(f"{label} prior artifacts malformed")
+        name_value, path_value, sha_value = row.get("name"), row.get("path"), row.get("sha256")
+        if not isinstance(name_value, str) or not name_value or not isinstance(path_value, str) or not path_value:
+            raise PublicationSetError(f"{label} prior artifact identity invalid")
+        if not isinstance(sha_value, str) or len(sha_value) != 64 or any(c not in "0123456789abcdef" for c in sha_value):
+            raise PublicationSetError(f"{label} prior artifact sha invalid")
+        key = (name_value, path_value)
+        if key in union:
+            raise PublicationSetError(f"{label} prior checkpoint duplicate artifact")
+        union[key] = sha_value
+    return union
+
+
+def _anchored_canonical7(
+    root: Path, validation_record: dict[str, Any], anchor: dict[str, Any]
+) -> dict[str, Any]:
+    """Verified anchored canonical seven as 4-key rows.
+
+    With no legacy (anchor VALIDATION_CHECKPOINT) the preserved canonical
+    bytes are the original validation seven, verified live. With legacy
+    (anchor LEGACY_REVALIDATION) they are the latest legacy's cumulative
+    effective bytes: each legacy link is cumulative against the original
+    checkpoint (prior_sha256 must equal the original, never an incremental
+    rollforward). Legacy rows each bind the original checkpoint; the anchor
+    record is the latest legacy immediately preceding the first activation.
+    SHA is verified before byte_count is derived; stored sizes are
+    cross-checked, never trusted blindly. Origin stays ORIGINAL (preserved
+    canonical bytes, not active versioned bytes).
+    """
+    raw_original = _canonical7_from_validation(validation_record)
+    kind = anchor.get("kind") if isinstance(anchor, dict) else None
+    if kind == "VALIDATION_CHECKPOINT":
+        anchored: dict[str, Any] = {}
+        for name in PUBLICATION_ROLES_7:
+            row = raw_original[name]
+            anchored[name] = _verified_row_4key(
+                root, row["path"], row["sha256"], "ORIGINAL",
+                f"selection anchored canonical {name}",
+            )
+        return anchored
+    if kind != "LEGACY_REVALIDATION":
+        raise PublicationSetError("selection anchor kind invalid for anchored canonical")
+    ref = anchor.get("ref")
+    _check_authority_ref(root, ref, "selection anchor legacy record")
+    latest_record = load_and_validate_json_strict(
+        root, ref["path"], root / REVALIDATION_SCHEMA, "selection anchor legacy record"
+    )
+    if not _is_legacy_record(latest_record):
+        raise PublicationSetError("selection anchor legacy record is not legacy branch")
+    # Full original union over ALL checkpoint artifact rows (not a filtered
+    # seven-only map): the legacy writer preserves unchanged upstream/research
+    # rows, so comparing preserved rows against a 7-only map falsely refuses.
+    # Cumulative rules apply to the whole union; then exactly the seven
+    # publication roles project to the anchored canonical seven. Research roles
+    # never rebind: only publication-canonical roles may be superseded.
+    full_original = _full_original_union(validation_record, "selection anchor")
+    effective_sha: dict[tuple[str, str], str] = {}
+    effective_size: dict[tuple[str, str], int | None] = {}
+    seen: set[tuple[str, str]] = set()
+    for row in list(latest_record.get("superseded_artifacts", [])):
+        if not isinstance(row, dict):
+            raise PublicationSetError("selection anchor legacy superseded row malformed")
+        key = (row.get("name"), row.get("path"))
+        if key in seen:
+            raise PublicationSetError("selection anchor legacy duplicates artifact")
+        seen.add(key)
+        if full_original.get(key) is None:
+            raise PublicationSetError("selection anchor legacy supersedes unknown prior artifact")
+        if key[0] not in PUBLICATION_ROLES_7:
+            raise PublicationSetError(
+                "selection anchor legacy supersedes non-publication role (research roles never rebind)"
+            )
+        if row.get("prior_sha256") != full_original.get(key):
+            raise PublicationSetError(
+                "selection anchor legacy prior SHA mismatch (must be cumulative against original, not incremental)"
+            )
+        new_sha = row.get("new_sha256")
+        if not isinstance(new_sha, str) or len(new_sha) != 64:
+            raise PublicationSetError("selection anchor legacy new sha invalid")
+        effective_sha[key] = new_sha
+        size_value = row.get("byte_count")
+        effective_size[key] = size_value if isinstance(size_value, int) and not isinstance(size_value, bool) else None
+    for row in list(latest_record.get("preserved_artifacts", [])):
+        if not isinstance(row, dict):
+            raise PublicationSetError("selection anchor legacy preserved row malformed")
+        key = (row.get("name"), row.get("path"))
+        if key in seen:
+            raise PublicationSetError("selection anchor legacy duplicates artifact")
+        seen.add(key)
+        original_sha = full_original.get(key)
+        if original_sha is None or row.get("sha256") != original_sha:
+            raise PublicationSetError("selection anchor legacy preserved artifact mismatch (must equal original)")
+        effective_sha[key] = row.get("sha256")
+        size_value = row.get("byte_count")
+        effective_size[key] = size_value if isinstance(size_value, int) and not isinstance(size_value, bool) else None
+    if set(effective_sha) != set(full_original):
+        raise PublicationSetError("selection anchor legacy row union differs from original checkpoint")
+    # Live-verify every effective row (SHA before byte_count), then project 7.
+    verified_all: dict[tuple[str, str], dict[str, Any]] = {}
+    for (name, path_value), sha_value in effective_sha.items():
+        scope = "canonical" if name in PUBLICATION_ROLES_7 else "upstream"
+        verified_all[(name, path_value)] = _verified_row_4key(
+            root, path_value, sha_value, "ORIGINAL",
+            f"selection anchored {scope} {name}",
+            expected_byte_count=effective_size.get((name, path_value)),
+        )
+    anchored = {}
+    for name in PUBLICATION_ROLES_7:
+        matches = [(p, s) for (n, p), s in effective_sha.items() if n == name]
+        if len(matches) != 1:
+            raise PublicationSetError(f"selection anchor must cover seven publication roles exactly: {name}")
+        path_value, sha_value = matches[0]
+        anchored[name] = verified_all[(name, path_value)]
+    return anchored
+
+
+def _verified_active7_from_seal(root: Path, seal: dict[str, Any]) -> dict[str, Any]:
+    """Verified active seven from the immutable seal as 4-key rows.
+
+    Reads each seal role path raw-first, verifies SHA against the seal, then
+    derives byte_count from verified live bytes (cross-checked against the
+    seal byte_count). Origin is ACTIVE (versioned bytes, not preserved
+    canonical bytes).
+    """
+    roles = seal.get("roles")
+    if not isinstance(roles, dict):
+        raise PublicationSetError("selection seal roles invalid for active7")
+    active7: dict[str, Any] = {}
+    for name in PUBLICATION_ROLES_7:
+        ref = roles.get(name)
+        if not isinstance(ref, dict):
+            raise PublicationSetError(f"selection seal missing active role: {name}")
+        path_value = ref.get("path")
+        sha_value = ref.get("sha256")
+        size_value = ref.get("byte_count")
+        if not isinstance(path_value, str) or not path_value:
+            raise PublicationSetError(f"selection seal active role path invalid: {name}")
+        if not isinstance(sha_value, str) or len(sha_value) != 64:
+            raise PublicationSetError(f"selection seal active role sha invalid: {name}")
+        if not isinstance(size_value, int) or isinstance(size_value, bool):
+            raise PublicationSetError(f"selection seal active role byte_count invalid: {name}")
+        active7[name] = _verified_row_4key(
+            root, path_value, sha_value, "ACTIVE",
+            f"selection active {name}",
+            expected_byte_count=size_value,
+        )
+    return active7
+
+
+def resolve_publication_selection(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> dict[str, Any]:
+    """Return identity_selection (derived value, never a bearer/permission).
+
+    Modes CANONICAL | VERSIONED_ACTIVE. Returns all frozen keys:
+    mode, record_ref, set_ref, active_set_ref, activation_record_ref,
+    canonical_anchor, canonical7, effective7, candidate_ref, candidate_path,
+    roles. candidate_path is Path: versioned active path when VERSIONED_ACTIVE,
+    else default canonical path (default confers no authority). Empty maps
+    before a validation checkpoint exists. All actual reads validate
+    shape/hash/path/branch/anchor; invalid pointer never falls back.
+    canonical7/effective7 rows are exactly {path,sha256,byte_count,origin}
+    (verified file-ref plus origin; internal original rows remain distinct
+    3-key without live expectation and are never exported directly).
+    """
+    root = repo_root.resolve()
+    if not isinstance(state, dict) or not isinstance(cfg, dict):
+        raise PublicationSetError("selection requires cfg/state mappings")
+    validation_ref = (state.get("checkpoint_provenance") or {}).get("validation")
+    if not isinstance(validation_ref, dict) or set(validation_ref) != {"path", "sha256"}:
+        raise PublicationSetError("selection requires exact validation checkpoint reference (no fallback)")
+    _profile_path_rel, profile, source_root_rel = _load_profile_strict(root, state)
+    default_rel = _default_candidate_rel(source_root_rel)
+    default_path = root.joinpath(*_lexical_parts(default_rel, "selection default candidate"))
+    _check_authority_ref(root, validation_ref, "selection validation checkpoint")
+    validation_record = load_and_validate_json_strict(
+        root, validation_ref["path"], root / CHECKPOINT_SCHEMA, "selection prior Stage Checkpoint"
+    )
+    raw_original7 = _canonical7_from_validation(validation_record)
+    contract_paths = _contract_publication_paths(cfg, profile)
+    # Central agent-style initial7 validation checks actual existing stage contract:
+    # canonical7 paths must match configured contract where contract defines the role.
+    for _rname, _crow in raw_original7.items():
+        _expected_contract = contract_paths.get(_rname)
+        if _expected_contract is not None and _expected_contract != _crow["path"]:
+            raise PublicationSetError(f"selection canonical role/path is not contract canonical: {_rname}")
+
+    pointer = state.get("publication_revalidation_provenance")
+    if pointer is None:
+        anchor = {"kind": "VALIDATION_CHECKPOINT", "ref": {"path": validation_ref["path"], "sha256": validation_ref["sha256"]}}
+        anchored7 = _anchored_canonical7(root, validation_record, anchor)
+        return {
+            "mode": "CANONICAL",
+            "record_ref": None,
+            "set_ref": None,
+            "active_set_ref": None,
+            "activation_record_ref": None,
+            "canonical_anchor": anchor,
+            "canonical7": {k: dict(v) for k, v in anchored7.items()},
+            "effective7": {k: dict(v) for k, v in anchored7.items()},
+            "candidate_ref": None,
+            "candidate_path": default_path,
+            "roles": None,
+        }
+    if not isinstance(pointer, dict) or set(pointer) != {"path", "sha256"}:
+        raise PublicationSetError("selection State pointer authority fields invalid (no fallback)")
+    record = load_and_validate_json_strict(root, pointer["path"], root / REVALIDATION_SCHEMA, "selection active revalidation")
+    if hashlib.sha256(read_repo_bytes(root, pointer["path"], "selection active revalidation")).hexdigest() != pointer["sha256"]:
+        raise PublicationSetError("selection active record SHA drift")
+    if record.get("issue_id") != state.get("issue_id"):
+        raise PublicationSetError("selection active record issue identity mismatch")
+    if record.get("prior_checkpoint") != validation_ref:
+        raise PublicationSetError("selection active record does not bind active validation checkpoint")
+
+    backwards = _walk_chain_backwards(root, pointer)
+    chronological_wrapped: list[dict[str, Any]] = []
+    for rec, ref in reversed(backwards):
+        chronological_wrapped.append({"record": rec, "path": ref["path"], "sha256": ref["sha256"]})
+    anchor = derive_canonical_anchor(root, cfg, state, chronological_wrapped)
+
+    if _is_legacy_record(record):
+        latest = backwards[0][0] if backwards else None
+        assert latest is not None
+        # Legacy rows are cumulative against the ORIGINAL checkpoint, not
+        # incremental: each superseded prior_sha256 must equal the original.
+        # Verified centrally in derive_canonical_anchor plus the anchored
+        # projection below (SHA verified before byte_count is derived).
+        effective_rows: dict[tuple[str, str], str] = {}
+        effective_sizes: dict[tuple[str, str], int | None] = {}
+        seen: set[tuple[str, str]] = set()
+        for row in list(latest.get("superseded_artifacts", [])):
+            key = (row.get("name"), row.get("path"))
+            if key in seen:
+                raise PublicationSetError("selection legacy duplicates artifact")
+            seen.add(key)
+            new_sha = row.get("new_sha256")
+            if not isinstance(new_sha, str) or len(new_sha) != 64:
+                raise PublicationSetError(f"selection legacy superseded sha invalid: {key[0]}")
+            effective_rows[key] = new_sha
+            size_value = row.get("byte_count")
+            effective_sizes[key] = size_value if isinstance(size_value, int) and not isinstance(size_value, bool) else None
+            if size_value is not None and (not isinstance(size_value, int) or isinstance(size_value, bool)):
+                raise PublicationSetError(f"selection legacy superseded byte_count invalid: {key[0]}")
+        for row in list(latest.get("preserved_artifacts", [])):
+            key = (row.get("name"), row.get("path"))
+            if key in seen:
+                raise PublicationSetError("selection legacy duplicates artifact")
+            seen.add(key)
+            sha_value = row.get("sha256")
+            if not isinstance(sha_value, str) or len(sha_value) != 64:
+                raise PublicationSetError(f"selection legacy preserved sha invalid: {key[0]}")
+            effective_rows[key] = sha_value
+            size_value = row.get("byte_count")
+            effective_sizes[key] = size_value if isinstance(size_value, int) and not isinstance(size_value, bool) else None
+            if size_value is not None and (not isinstance(size_value, int) or isinstance(size_value, bool)):
+                raise PublicationSetError(f"selection legacy preserved byte_count invalid: {key[0]}")
+        if set(effective_rows) != {(r.get("name"), r.get("path")) for r in validation_record.get("artifacts", []) if isinstance(r, dict)}:
+            raise PublicationSetError("selection legacy row union must equal the original validation checkpoint")
+        for (name, path_value), sha_value in effective_rows.items():
+            expected_contract = contract_paths.get(name)
+            if expected_contract is not None and expected_contract != path_value:
+                raise PublicationSetError(f"selection legacy role/path is not canonical: {name}")
+            # Verify SHA before deriving byte_count; cross-check stored size.
+            _verified_row_4key(
+                root, path_value, sha_value, "ORIGINAL",
+                f"selection legacy live effective {name}",
+                expected_byte_count=effective_sizes.get((name, path_value)),
+            )
+        # In legacy-only mode the preserved canonical bytes ARE the latest
+        # legacy cumulative effective: canonical7 must mean anchored
+        # materialized bytes, not raw original rows.
+        anchored_legacy7 = _anchored_canonical7(root, validation_record, anchor)
+        # Cross-check the anchored projection agrees with this head record's
+        # own cumulative rows (same latest legacy, same original union).
+        for name in PUBLICATION_ROLES_7:
+            head_paths = {p for (n, p) in effective_rows if n == name}
+            if anchored_legacy7[name]["path"] not in head_paths:
+                raise PublicationSetError(f"selection legacy anchor/head path mismatch: {name}")
+            head_sha = next(s for (n, p), s in effective_rows.items() if n == name)
+            if anchored_legacy7[name]["sha256"] != head_sha:
+                raise PublicationSetError(f"selection legacy anchor/head sha mismatch: {name}")
+        return {
+            "mode": "CANONICAL",
+            "record_ref": {"path": pointer["path"], "sha256": pointer["sha256"]},
+            "set_ref": None,
+            "active_set_ref": None,
+            "activation_record_ref": None,
+            "canonical_anchor": anchor,
+            "canonical7": {k: dict(v) for k, v in anchored_legacy7.items()},
+            "effective7": {k: dict(v) for k, v in anchored_legacy7.items()},
+            "candidate_ref": None,
+            "candidate_path": default_path,
+            "roles": None,
+        }
+
+    if _is_editorial_record(record):
+        validated = validate_activation_record(root, pointer["path"])
+        if validated.get("canonical_anchor") != anchor:
+            raise PublicationSetError("selection recorded anchor must equal chain-derived identity")
+        set_ref = validated.get("set_ref")
+        seal = validate_seal(root, set_ref["path"])
+        if set_ref != {"path": set_ref["path"], "sha256": sha256_repo_file(root, set_ref["path"], "selection set_ref")}:
+            raise PublicationSetError("selection set_ref drift")
+        # canonical7 is the anchored preserved bytes (latest legacy cumulative
+        # or original when no legacy), verified live: never raw original rows.
+        anchored7 = _anchored_canonical7(root, validation_record, anchor)
+        # effective7 is the active versioned seven, verified live with seal
+        # byte_count cross-check (SHA before derived byte_count).
+        active7 = _verified_active7_from_seal(root, seal)
+        candidate_ref = {"path": seal["roles"]["publication-candidate"]["path"], "sha256": seal["roles"]["publication-candidate"]["sha256"]}
+        candidate_path = resolve_raw_path(root, candidate_ref["path"], "selection active candidate")
+        if sha256_repo_file(root, candidate_ref["path"], "selection active candidate") != candidate_ref["sha256"]:
+            raise PublicationSetError("selection active candidate drift")
+        return {
+            "mode": "VERSIONED_ACTIVE",
+            "record_ref": {"path": pointer["path"], "sha256": pointer["sha256"]},
+            "set_ref": {"path": set_ref["path"], "sha256": set_ref["sha256"]},
+            "active_set_ref": {"path": set_ref["path"], "sha256": set_ref["sha256"]},
+            "activation_record_ref": {"path": pointer["path"], "sha256": pointer["sha256"]},
+            "canonical_anchor": anchor,
+            "canonical7": {k: dict(v) for k, v in anchored7.items()},
+            "effective7": active7,
+            "candidate_ref": candidate_ref,
+            "candidate_path": candidate_path,
+            "roles": dict(seal["roles"]),
+        }
+
+    raise PublicationSetError("selection active record branch unknown (missing/unknown refuses)")
+
+
+def resolve_publication_artifact_path(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any], role: str) -> Path:
+    """State-aware publication role path. Role in seven plus publication-candidate.
+
+    Recomputes from resolve_publication_selection; compares resolved bytes to
+    selection pins; refuses unknown/ambiguous/mismatched input and alias
+    escapes. Loaders recompute plus compare, not only producers. Genuine
+    no-pointer candidate derives the expected canonical path WITHOUT requiring
+    agent-style validation record artifacts; full core caller still validates
+    its own legacy authority. Invalid/malformed pointer (even {}) is NOT
+    no-pointer: fail-closed via selection, never safe fallback.
+    """
+    allowed = set(PUBLICATION_ROLES_7) | {"publication-candidate"}
+    if role not in allowed:
+        raise PublicationSetError(f"unknown publication role: {role}")
+    # Genuine no-pointer fast path for candidate: exact None only, no validation
+    # record required. Invalid dict (even {}) must not take this path.
+    if role == "publication-candidate" and isinstance(state, dict) and state.get("publication_revalidation_provenance") is None:
+        root_fast = repo_root.resolve()
+        _profile_path_rel, _profile, _source_root_rel = _load_profile_strict(root_fast, state)
+        return root_fast.joinpath(*_lexical_parts(_default_candidate_rel(_source_root_rel), "canonical publication candidate"))
+    selection = resolve_publication_selection(repo_root, cfg, state)
+    root = repo_root.resolve()
+    if selection["mode"] == "VERSIONED_ACTIVE":
+        if role == "publication-candidate":
+            ref = selection["candidate_ref"]
+        else:
+            row = selection["effective7"][role]
+            ref = {"path": row["path"], "sha256": row["sha256"]}
+        if not isinstance(ref, dict) or "path" not in ref or "sha256" not in ref:
+            raise PublicationSetError(f"selection missing active role: {role}")
+        resolved = resolve_raw_path(root, ref["path"], f"publication artifact {role}")
+        if sha256_repo_file(root, ref["path"], f"publication artifact {role}") != ref["sha256"]:
+            raise PublicationSetError(f"active publication artifact drift: {role}")
+        return resolved
+    if role == "publication-candidate":
+        _profile_path_rel, profile, source_root_rel = _load_profile_strict(root, state)
+        return root.joinpath(*_lexical_parts(_default_candidate_rel(source_root_rel), "canonical publication candidate"))
+    row = selection["effective7"].get(role) if selection.get("effective7") else None
+    if row is None:
+        raise PublicationSetError(f"canonical publication role not yet established: {role}")
+    resolved_c = resolve_raw_path(root, row["path"], f"canonical publication artifact {role}")
+    if sha256_repo_file(root, row["path"], f"canonical publication artifact {role}") != row["sha256"]:
+        raise PublicationSetError(f"canonical publication artifact drift: {role}")
+    return resolved_c
+
+
+def resolve_stage_artifact_path(
+    repo_root: Path, cfg: dict[str, Any], state: dict[str, Any], profile: dict[str, Any], name: str, template: str
+) -> Path:
+    """Single central role-aware path resolver with State argument.
+
+    publication-candidate derives through the State-aware selection (active
+    versioned path when VERSIONED_ACTIVE, else the canonical default from the
+    config token semantics); the configured template must equal the canonical
+    candidate token. Every other name retains exact existing template behavior
+    (profile placeholder expansion, leftover-brace refusal), plus raw-first
+    alias/traversal refusal. Fixed DRAFT templates are unchanged.
+    """
+    root = repo_root.resolve()
+    if not isinstance(name, str) or not name:
+        raise PublicationSetError("stage artifact name must be non-empty")
+    if not isinstance(template, str) or not template:
+        raise PublicationSetError(f"stage artifact template invalid: {name}")
+    if not isinstance(profile, dict) or not isinstance(profile.get("paths"), dict):
+        raise PublicationSetError("stage artifact resolution requires a profile mapping")
+    if name == "publication-candidate":
+        source_root = profile["paths"].get("source_root")
+        if not isinstance(source_root, str) or not source_root:
+            raise PublicationSetError("publication-candidate resolution requires profile.paths.source_root")
+        expected_token = (source_root + "/publication/v2/publication-candidate-v2.json").replace("//", "/")
+        expanded = str(template)
+        for key, replacement in profile["paths"].items():
+            expanded = expanded.replace("{" + str(key) + "}", str(replacement))
+        if expanded != expected_token:
+            raise PublicationSetError(
+                f"publication-candidate template must be the canonical token: {expected_token}"
+            )
+        # Genuine no-pointer: derive expected canonical path WITHOUT requiring
+        # validation record artifacts; invalid pointer (even {}) fail-closed via
+        # central selection, never safe fallback.
+        if isinstance(state, dict) and state.get("publication_revalidation_provenance") is None:
+            parts_fast = _lexical_parts(expected_token, "canonical publication candidate")
+            _walk_existing_ancestors(root, parts_fast, "canonical publication candidate")
+            return root.joinpath(*parts_fast)
+        return resolve_publication_artifact_path(root, cfg, state, name)
+    value = str(template)
+    for key, replacement in profile["paths"].items():
+        value = value.replace("{" + str(key) + "}", str(replacement))
+    if "{" in value or "}" in value:
+        raise PublicationSetError(f"unsupported stage path template: {template}")
+    parts = _lexical_parts(value, f"stage artifact {name}")
+    _walk_existing_ancestors(root, parts, f"stage artifact {name}")
+    return root.joinpath(*parts)
+
+
+def active_candidate_ref(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> dict[str, Any] | None:
+    """Return versioned Candidate ref when VERSIONED_ACTIVE, else None."""
+    selection = resolve_publication_selection(repo_root, cfg, state)
+    if selection["mode"] != "VERSIONED_ACTIVE":
+        return None
+    ref = selection.get("candidate_ref")
+    if not isinstance(ref, dict):
+        return None
+    return {"path": ref["path"], "sha256": ref["sha256"]}
+
+
+def resolve_publication_mode(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> str:
+    """Mode probe without live-byte enforcement: CANONICAL | VERSIONED_ACTIVE.
+
+    Genuine no-pointer (exact None) is CANONICAL. Legacy pointer is CANONICAL,
+    editorial pointer is VERSIONED_ACTIVE. Invalid/malformed pointer (even {})
+    is NOT no-pointer: fail-closed (raise), never safe-fallback to canonical.
+    Live drift never changes the mode; writers and readers enforce live bytes
+    on their own paths.
+    """
+    root = repo_root.resolve()
+    if not isinstance(state, dict):
+        raise PublicationSetError("selection mode probe requires State mapping (no fallback)")
+    pointer = state.get("publication_revalidation_provenance")
+    if pointer is None:
+        return "CANONICAL"
+    if not isinstance(pointer, dict) or set(pointer) != {"path", "sha256"}:
+        raise PublicationSetError("selection mode probe pointer authority fields invalid (no fallback)")
+    data = read_repo_bytes(root, pointer["path"], "selection mode probe")
+    if hashlib.sha256(data).hexdigest() != pointer["sha256"]:
+        raise PublicationSetError("selection mode probe active record SHA drift (no fallback)")
+    record = _parse_json_strict_bytes(data, "selection mode probe")
+    if _is_editorial_record(record):
+        return "VERSIONED_ACTIVE"
+    return "CANONICAL"
+
+
+def require_active_or_canonical(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any], want_versioned: bool) -> dict[str, Any]:
+    """Fail-closed branch guard with full live enforcement (read paths).
+
+    Branch decision comes from the pointer probe; the returned selection is
+    fully live-checked. Writers facing legitimately changed live bytes must
+    use assert_canonical_publication_mode (probe-only) and handle drift
+    through their own pending basis, not through this strict reader.
+    """
+    mode = resolve_publication_mode(repo_root, cfg, state)
+    if want_versioned and mode != "VERSIONED_ACTIVE":
+        raise PublicationSetError("operation requires versioned active publication selection (canonical present)")
+    if not want_versioned and mode == "VERSIONED_ACTIVE":
+        raise PublicationSetError("canonical operation refused in revised mode (use versioned editorial operation)")
+    return resolve_publication_selection(repo_root, cfg, state)
+
+
+def assert_canonical_publication_mode(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]) -> None:
+    """Raise on revised mode before writes (probe-only, no live enforcement).
+
+    Canonical writers call first. Live drift is handled by the writer's own
+    pending basis, never blessed or masked here. Only a versioned-active
+    pointer refuses.
+    """
+    if resolve_publication_mode(repo_root, cfg, state) == "VERSIONED_ACTIVE":
+        raise PublicationSetError("canonical operation refused in revised mode (use versioned editorial operation)")

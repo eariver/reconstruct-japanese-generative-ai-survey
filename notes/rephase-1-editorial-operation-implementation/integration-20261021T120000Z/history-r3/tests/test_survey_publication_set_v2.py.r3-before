@@ -1,0 +1,920 @@
+#!/usr/bin/env python3
+"""Pure low-level schema/identity tests for Group L (no authority fixtures).
+
+Behavioral identity coverage (temp dirs only, never the implementation copy):
+seal namespace/trio/cross-refs, activation retained history (COPY State to
+KEEP Profile, before-Candidate nullability/predecessor, recomputed digest),
+legacy R1 cumulative anchor plus live-effective selection, repeated-activation
+before-State mapping, stage resolver, and raw-first refusal discipline
+(absolute/traversal/symlink-alias/FIFO/duplicate-key). No long
+authority/build fixtures; bytecode stays outside the source tree.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+import os
+import shutil
+import stat
+import tempfile
+import unittest
+from pathlib import Path
+
+ISSUE = "2026-W01"
+PROPOSAL_ID = "c1"
+SOURCE_ROOT = f"sources/{ISSUE}"
+SURVEY_ROOT = f"surveys/weekly/{ISSUE}"
+P = f"{SOURCE_ROOT}/publication/v2/editorial-corrections/{PROPOSAL_ID}"
+
+
+def _repo_root() -> Path:
+    return Path(__file__).resolve().parents[1]
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def sha256_object(value) -> str:
+    return sha256_bytes(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8"))
+
+
+class SealSchemaTests(unittest.TestCase):
+    def test_seal_schema_requires_exact_15(self) -> None:
+        schema = json.loads((_repo_root() / "schemas" / "editorial-publication-set-v2.schema.json").read_text())
+        self.assertEqual(schema["properties"]["kind"]["const"], "EDITORIAL_PUBLICATION_SET_V1")
+        self.assertEqual(schema["properties"]["status"]["const"], "SEALED_INERT")
+        required_roles = schema["properties"]["roles"]["required"]
+        self.assertEqual(set(required_roles), {
+            "reader-input", "authoring-input", "source-receipt", "reader-manuscript",
+            "validated-source", "bibliography", "style", "publication-pdf",
+            "build-log", "pdf-digest", "quality-regression-bundle", "semantic-review",
+            "visual-review", "reader-surface-gate", "publication-candidate",
+        })
+        self.assertFalse(schema["additionalProperties"])
+        self.assertFalse(schema["properties"]["roles"]["additionalProperties"])
+
+    def test_seal_schema_top_keys_exact(self) -> None:
+        schema = json.loads((_repo_root() / "schemas" / "editorial-publication-set-v2.schema.json").read_text())
+        self.assertEqual(set(schema["required"]), {
+            "schema_version", "kind", "status", "issue_id", "research_profile",
+            "publication_profile", "proposal_ref", "staged_manifest_ref",
+            "build_record_ref", "roles", "set_sha256",
+        })
+
+
+class RevalidationSchemaTests(unittest.TestCase):
+    def test_revalidation_has_two_strict_branches(self) -> None:
+        schema = json.loads((_repo_root() / "schemas" / "publication-surface-revalidation.schema.json").read_text())
+        self.assertIn("oneOf", schema)
+        defs = schema["$defs"]
+        self.assertIn("legacy_revalidation", defs)
+        self.assertIn("editorial_activation", defs)
+        legacy = defs["legacy_revalidation"]
+        self.assertEqual(legacy["properties"]["reason_class"]["const"], "REVIEWED_CORE_CHANGE")
+        editorial = defs["editorial_activation"]
+        self.assertEqual(editorial["properties"]["kind"]["const"], "EDITORIAL_PUBLICATION_ACTIVATION_V1")
+        self.assertEqual(editorial["properties"]["reason_class"]["const"], "REVIEWED_EDITORIAL_CORRECTION")
+        anchor = editorial["properties"]["canonical_anchor"]
+        self.assertEqual(set(anchor["properties"]["kind"]["enum"]), {"VALIDATION_CHECKPOINT", "LEGACY_REVALIDATION"})
+
+    def test_legacy_schema_validates_old_record_shape(self) -> None:
+        from scripts import survey_schema_v2 as schema_gate
+        schema_path = _repo_root() / "schemas" / "publication-surface-revalidation.schema.json"
+        record = {
+            "schema_version": "2.0-rc1",
+            "issue_id": "2026-W01",
+            "reason_class": "REVIEWED_CORE_CHANGE",
+            "reason": "test",
+            "lifecycle": "VALIDATED_DRAFT",
+            "prior_checkpoint": {"path": "a.json", "sha256": "0" * 64},
+            "superseded_artifacts": [{"name": "n", "path": "p", "prior_sha256": "0" * 64, "new_sha256": "1" * 64, "byte_count": 1}],
+            "preserved_artifacts": [],
+            "validation": {
+                "manuscript": {"path": "m", "sha256": "0" * 64},
+                "quality_bundle": {"path": "q", "sha256": "0" * 64},
+                "semantic_review": {"path": "s", "sha256": "0" * 64},
+                "visual_review": {"path": "v", "sha256": "0" * 64},
+                "pdf": {"path": "p.pdf", "sha256": "0" * 64, "byte_count": 10, "page_count": 1},
+                "deterministic_checks": [{"check_id": "c", "status": "PASS"}],
+                "summary": "s",
+            },
+            "core": {"contract": {}, "implementation_commit_sha": "0" * 40},
+            "executor": "tester",
+            "recorded_at": "2026-01-01T00:00:00Z",
+            "supersedes": None,
+            "establishment": {
+                "state_sha256": "0" * 64, "lifecycle": "VALIDATED_DRAFT",
+                "architecture_review": "approved", "publication_preview": "pending",
+                "freeze": "pending", "release": "pending",
+                "implementation_commit_sha": "0" * 40, "recorded_at": "2026-01-01T00:00:00Z",
+            },
+        }
+        schema_gate.validate_instance(record, schema_path, label="legacy revalidation")
+        bad = dict(record)
+        bad["reason_class"] = "REVIEWED_EDITORIAL_CORRECTION"
+        with self.assertRaises(ValueError):
+            schema_gate.validate_instance(bad, schema_path, label="legacy must reject editorial")
+
+
+class DigestTests(unittest.TestCase):
+    def test_before_digest_deterministic_and_candidate_sensitive(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        eff = {name: {"path": f"p/{name}.json", "sha256": f"{i:064x}", "origin": "ORIGINAL"} for i, name in enumerate(sorted(pubset.PUBLICATION_ROLES_7))}
+        d_none = pubset.before_active_digest(eff, None)
+        d_cand = pubset.before_active_digest(eff, {"path": "c.json", "sha256": "a" * 64})
+        self.assertEqual(len(d_none), 64)
+        self.assertNotEqual(d_none, d_cand)
+        eff2 = dict(reversed(list(eff.items())))
+        self.assertEqual(pubset.before_active_digest(eff2, None), d_none)
+
+    def test_before_digest_rejects_wrong_shape(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        full = {name: {"path": f"p/{name}.json", "sha256": "0" * 64} for name in pubset.PUBLICATION_ROLES_7}
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest({}, None)
+        six = {k: full[k] for k in list(full)[:6]}
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(six, None)
+        extra = dict(full)
+        extra["extra-role"] = {"path": "x", "sha256": "0" * 64}
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(extra, None)
+        dup = dict(full)
+        names = sorted(dup)
+        dup[names[1]] = dict(dup[names[0]])
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(dup, None)
+        bad_origin = dict(full)
+        bad_origin[names[0]] = {"path": "p", "sha256": "0" * 64, "origin": "BOGUS"}
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(bad_origin, None)
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(full, {"path": "c"})
+        with self.assertRaises(ValueError):
+            pubset.before_active_digest(full, {"path": "c", "sha256": "zzz", "extra": 1})
+
+
+class RawLoaderTests(unittest.TestCase):
+    def test_raw_refusals(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "ok.txt").write_bytes(b"ok")
+            with self.assertRaises(ValueError):
+                pubset.resolve_raw_path(root, "/absolute/path", "abs")
+            with self.assertRaises(ValueError):
+                pubset.resolve_raw_path(root, "../escape", "traversal")
+            with self.assertRaises(ValueError):
+                pubset.resolve_raw_path(root, "a/../../b", "traversal")
+            with self.assertRaises(ValueError):
+                pubset.resolve_raw_path(root, "missing.txt", "missing")
+            (root / "real.txt").write_bytes(b"real")
+            (root / "link.txt").symlink_to(root / "real.txt")
+            with self.assertRaises(ValueError):
+                pubset.resolve_raw_path(root, "link.txt", "symlink alias")
+            (root / "subdir").mkdir()
+            (root / "subdir" / "f.txt").write_bytes(b"f")
+            (root / "aliasdir").symlink_to(root / "subdir")
+            with self.assertRaises(ValueError):
+                pubset.resolve_raw_path(root, "aliasdir/f.txt", "symlink ancestor")
+            try:
+                os.mkfifo(root / "pipe")
+            except (AttributeError, OSError):
+                pass
+            else:
+                with self.assertRaises(ValueError):
+                    pubset.resolve_raw_path(root, "pipe", "fifo")
+            (root / "dup.json").write_bytes(b'{"a": 1, "a": 2}')
+            with self.assertRaises(ValueError):
+                pubset.load_json_strict(root, "dup.json", "duplicate key")
+            (root / "good.json").write_bytes(b'{"a": 1}')
+            self.assertEqual(pubset.load_json_strict(root, "good.json", "good"), {"a": 1})
+
+
+class EditorialFixture:
+    """Minimal real-hash editorial fixture in a temp repo root."""
+
+    def __init__(self, root: Path) -> None:
+        self.root = root
+        for name in (
+            "editorial-publication-set-v2.schema.json",
+            "publication-surface-revalidation.schema.json",
+            "stage-checkpoint-v2.schema.json",
+            "survey-production-profile.schema.json",
+            "quality-regression-bundle-v2.schema.json",
+            "publication-candidate-v2.schema.json",
+            "editorial-retention-manifest-v2.schema.json",
+            "editorial-correction-proposal-v2.schema.json",
+            "editorial-staged-source-manifest-v2.schema.json",
+        ):
+            dst = root / "schemas" / name
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy(_repo_root() / "schemas" / name, dst)
+        self.cfg = {
+            "schema_version": "2.0-rc1",
+            "orchestration": {
+                "stage_plan": {
+                    "DRAFT_COMPLETE": {
+                        "artifacts": [
+                            {"name": "reader-manuscript", "path": "{source_root}/publication/v2/reader-manuscript-v2.json"},
+                            {"name": "validated-source", "path": "{survey_root}/main.tex"},
+                            {"name": "publication-pdf", "path": "{survey_root}/main.pdf"},
+                            {"name": "quality-regression-bundle", "path": "{source_root}/publication/v2/quality-regression-bundle-v2.json"},
+                            {"name": "semantic-review", "path": "{source_root}/publication/v2/semantic-editorial-review-v2.json"},
+                            {"name": "visual-review", "path": "{source_root}/publication/v2/visual-review-v2.json"},
+                        ],
+                    },
+                },
+            },
+        }
+        self.files: dict[str, bytes] = {}
+
+    def write(self, rel: str, data: bytes) -> dict:
+        path = self.root / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+        self.files[rel] = data
+        return {"path": rel, "sha256": sha256_bytes(data), "byte_count": len(data)}
+
+    def ref(self, rel: str) -> dict:
+        data = (self.root / rel).read_bytes()
+        return {"path": rel, "sha256": sha256_bytes(data)}
+
+    def file_ref(self, rel: str) -> dict:
+        data = (self.root / rel).read_bytes()
+        return {"path": rel, "sha256": sha256_bytes(data), "byte_count": len(data)}
+
+    def profile(self) -> dict:
+        return {
+            "schema_version": "2.0-rc1",
+            "issue_id": ISSUE,
+            "research_profile": "WEEKLY",
+            "publication_profile": "WEEKLY_MAGAZINE",
+            "research_scope": {
+                "question": "q",
+                "inclusion": ["a"],
+                "exclusion": ["b"],
+                "scope_dimensions": ["d"],
+                "initial_obligations": [{"obligation_id": "ob-1", "dimension": "d", "description": "x"}],
+                "temporal_policy": {
+                    "mode": "ROLLING_WINDOW",
+                    "window_start": "2026-08-21T18:00:00-04:00",
+                    "window_end": "2026-08-28T18:00:00-04:00",
+                    "cutoff": "2026-08-28T18:00:00-04:00",
+                    "timezone": "America/New_York",
+                },
+            },
+            "paths": {"source_root": SOURCE_ROOT, "survey_root": SURVEY_ROOT, "work_branch": "test/w1"},
+            "contract": {
+                "pipeline_contract_version": "2.0-rc1", "pipeline_contract_sha256": "0" * 64,
+                "quality_contract_version": "2.0-rc1", "quality_contract_sha256": "0" * 64,
+                "research_profile_version": "2.0-rc1", "research_profile_sha256": "0" * 64,
+                "publication_profile_version": "2.0-rc1", "publication_profile_sha256": "0" * 64,
+            },
+        }
+
+
+def build_validation(fix: EditorialFixture) -> tuple[dict, dict]:
+    """Write v1 canonical files plus a schema-valid validation checkpoint."""
+    canon = {
+        "reader-manuscript": (f"{SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json", b'{"v":1}'),
+        "validated-source": (f"{SURVEY_ROOT}/main.tex", b"\\documentclass{article}\\begin{document}v1\\end{document}"),
+        "publication-pdf": (f"{SURVEY_ROOT}/main.pdf", b"%PDF-1.4 v1\n"),
+        "quality-regression-bundle": (f"{SOURCE_ROOT}/publication/v2/quality-regression-bundle-v2.json", b'{"v":1}'),
+        "semantic-review": (f"{SOURCE_ROOT}/publication/v2/semantic-editorial-review-v2.json", b'{"v":1}'),
+        "visual-review": (f"{SOURCE_ROOT}/publication/v2/visual-review-v2.json", b'{"v":1}'),
+        "reader-surface-gate": (f"{SOURCE_ROOT}/publication/v2/reader-surface-gate-v2.json", b'{"v":1}'),
+    }
+    refs = {}
+    for name, (rel, data) in canon.items():
+        refs[name] = fix.write(rel, data)
+    report = fix.write(f"{SOURCE_ROOT}/validation-report.json", b'{"ok":true}')
+    record = {
+        "schema_version": "2.0-rc1", "issue_id": ISSUE,
+        "from_state": "DRAFT_COMPLETE", "to_state": "VALIDATED_DRAFT",
+        "checkpoints": ["validation"], "recorded_at": "2026-01-01T00:00:00Z",
+        "implementation": {"repository_commit_sha": "0" * 40, "orchestrator_version": "v"},
+        "contract": {
+            "pipeline_contract_version": "2.0-rc1", "pipeline_contract_sha256": "0" * 64,
+            "quality_contract_version": "2.0-rc1", "quality_contract_sha256": "0" * 64,
+            "research_profile_version": "2.0-rc1", "research_profile_sha256": "0" * 64,
+            "publication_profile_version": "2.0-rc1", "publication_profile_sha256": "0" * 64,
+        },
+        "artifacts": [{"name": n, "path": r, "sha256": fix.ref(r)["sha256"]} for n, r in
+                      ((n, canon[n][0]) for n in canon)],
+        "reviews": [{"check_id": "CORE_STAGE_CONTRACT", "kind": "DETERMINISTIC", "status": "PASS",
+                     "executor": "t", "evidence": "e", "result": fix.ref(f"{SOURCE_ROOT}/validation-report.json")}],
+        "summary": "validation",
+    }
+    val_rel = f"{SOURCE_ROOT}/checkpoints-validation.json"
+    fix.write(val_rel, json.dumps(record).encode())
+    return record, refs
+
+
+def build_legacy(fix: EditorialFixture, seq: int, supersede: dict[str, bytes], prior_ref: dict | None) -> tuple[dict, dict]:
+    """Write one cumulative legacy record; update live files to new bytes."""
+    from scripts import survey_production_v2 as core
+    val_doc = json.loads((fix.root / f"{SOURCE_ROOT}/checkpoints-validation.json").read_text())
+    original = {(r["name"], r["path"]): r["sha256"] for r in val_doc["artifacts"]}
+    superseded = []
+    for (name, path), new_data in supersede.items():
+        fix.write(path, new_data)
+        superseded.append({"name": name, "path": path, "prior_sha256": original[(name, path)],
+                           "new_sha256": sha256_bytes(new_data), "byte_count": len(new_data)})
+    preserved = [{"name": n, "path": p, "sha256": s} for (n, p), s in original.items()
+                 if (n, p) not in {(r["name"], r["path"]) for r in superseded}]
+    effective = {(r["name"], r["path"]): r["new_sha256"] for r in superseded}
+    effective.update({(r["name"], r["path"]): r["sha256"] for r in preserved})
+    validation = {
+        "manuscript": {"path": f"{SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json",
+                       "sha256": effective[("reader-manuscript", f"{SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json")]},
+        "quality_bundle": {"path": f"{SOURCE_ROOT}/publication/v2/quality-regression-bundle-v2.json",
+                           "sha256": effective[("quality-regression-bundle", f"{SOURCE_ROOT}/publication/v2/quality-regression-bundle-v2.json")]},
+        "semantic_review": {"path": f"{SOURCE_ROOT}/publication/v2/semantic-editorial-review-v2.json",
+                            "sha256": effective[("semantic-review", f"{SOURCE_ROOT}/publication/v2/semantic-editorial-review-v2.json")]},
+        "visual_review": {"path": f"{SOURCE_ROOT}/publication/v2/visual-review-v2.json",
+                          "sha256": effective[("visual-review", f"{SOURCE_ROOT}/publication/v2/visual-review-v2.json")]},
+        "pdf": {"path": f"{SURVEY_ROOT}/main.pdf", "sha256": effective[("publication-pdf", f"{SURVEY_ROOT}/main.pdf")],
+                "byte_count": len((fix.root / f"{SURVEY_ROOT}/main.pdf").read_bytes()), "page_count": 2},
+        "deterministic_checks": [{"check_id": "c", "status": "PASS"}],
+        "summary": f"legacy r{seq}",
+    }
+    record = {
+        "schema_version": "2.0-rc1", "issue_id": ISSUE, "reason_class": "REVIEWED_CORE_CHANGE",
+        "reason": f"refresh {seq}", "lifecycle": "VALIDATED_DRAFT",
+        "prior_checkpoint": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"),
+        "superseded_artifacts": superseded, "preserved_artifacts": preserved,
+        "validation": validation,
+        "core": {"contract": {}, "implementation_commit_sha": "0" * 40},
+        "executor": "tester", "recorded_at": f"2026-01-0{seq}T00:00:00Z",
+        "supersedes": prior_ref,
+        "establishment": {
+            "state_sha256": "0" * 64, "lifecycle": "VALIDATED_DRAFT",
+            "architecture_review": "approved", "publication_preview": "pending",
+            "freeze": "pending", "release": "pending",
+            "implementation_commit_sha": "0" * 40, "recorded_at": f"2026-01-0{seq}T00:00:00Z",
+        },
+    }
+    rel = f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r{seq}.json"
+    fix.write(rel, json.dumps(record).encode())
+    return record, fix.ref(rel)
+
+
+class LegacyAnchorTests(unittest.TestCase):
+    def test_r1_anchor_and_live_effective(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = EditorialFixture(Path(tmp))
+            build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            v2pdf = b"%PDF-1.4 v2\n"
+            _, r1ref = build_legacy(fix, 1, {("publication-pdf", f"{SURVEY_ROOT}/main.pdf"): v2pdf}, None)
+            v3ms = b'{"v":3 manuscript}'
+            _, r2ref = build_legacy(
+                fix, 2,
+                {("publication-pdf", f"{SURVEY_ROOT}/main.pdf"): v2pdf,
+                 ("reader-manuscript", f"{SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json"): v3ms},
+                r1ref)
+            anchor = pubset.derive_canonical_anchor(
+                fix.root, fix.cfg, state,
+                [{"record": json.loads((fix.root / r1ref["path"]).read_bytes()), "path": r1ref["path"], "sha256": r1ref["sha256"]},
+                 {"record": json.loads((fix.root / r2ref["path"]).read_bytes()), "path": r2ref["path"], "sha256": r2ref["sha256"]}])
+            self.assertEqual(anchor["kind"], "LEGACY_REVALIDATION")
+            self.assertEqual(anchor["ref"], r2ref)
+            state["publication_revalidation_provenance"] = dict(r2ref)
+            selection = pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+            self.assertEqual(selection["mode"], "CANONICAL")
+            self.assertEqual(selection["canonical_anchor"], anchor)
+            self.assertEqual(selection["effective7"]["publication-pdf"]["sha256"], sha256_bytes(v2pdf))
+            self.assertEqual(selection["effective7"]["reader-manuscript"]["sha256"], sha256_bytes(v3ms))
+            # canonical7 keeps original refs (no live expectation).
+            self.assertEqual(selection["canonical7"]["publication-pdf"]["sha256"],
+                             json.loads((fix.root / f"{SOURCE_ROOT}/checkpoints-validation.json").read_text())["artifacts"][2]["sha256"])
+            # Unknown on-disk chain entries refuse (dedicated mixed-branch
+            # coverage with real files lives in test_later_legacy_after_editorial_refused).
+            with self.assertRaises(ValueError):
+                pubset.derive_canonical_anchor(
+                    fix.root, fix.cfg, state,
+                    [{"record": {"reason_class": "REVIEWED_EDITORIAL_CORRECTION", "kind": "EDITORIAL_PUBLICATION_ACTIVATION_V1",
+                                 "issue_id": ISSUE, "prior_checkpoint": state["checkpoint_provenance"]["validation"],
+                                 "recorded_at": "2026-01-03T00:00:00Z", "supersedes": None},
+                      "path": "x/publication-surface-revalidation-r3.json", "sha256": "0" * 64},
+                     {"record": json.loads((fix.root / r1ref["path"]).read_bytes()), "path": "x/publication-surface-revalidation-r4.json", "sha256": "1" * 64}])
+
+    def test_non_cumulative_legacy_refused(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = EditorialFixture(Path(tmp))
+            build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            # Incremental (wrong) prior_sha must refuse: claims prior == live v2 instead of original v1.
+            v2pdf = b"%PDF-1.4 v2\n"
+            _, r1ref = build_legacy(fix, 1, {("publication-pdf", f"{SURVEY_ROOT}/main.pdf"): v2pdf}, None)
+            bad, _ = build_legacy(fix, 2, {("publication-pdf", f"{SURVEY_ROOT}/main.pdf"): b"%PDF-1.4 v3\n"}, r1ref)
+            bad_doc = json.loads((fix.root / f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r2.json").read_text())
+            bad_doc["superseded_artifacts"][0]["prior_sha256"] = sha256_bytes(v2pdf)
+            fix.write(f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r2.json", json.dumps(bad_doc).encode())
+            badref = fix.ref(f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r2.json")
+            with self.assertRaises(ValueError):
+                pubset.derive_canonical_anchor(
+                    fix.root, fix.cfg, state,
+                    [{"record": json.loads((fix.root / r1ref["path"]).read_bytes()), "path": r1ref["path"], "sha256": r1ref["sha256"]},
+                     {"record": bad_doc, "path": badref["path"], "sha256": badref["sha256"]}])
+
+
+def _write_proposal_staged_retention(fix: EditorialFixture, state_rel: str, validation_ref: dict) -> dict:
+    """Write P proposal/staged/retention/scope/receipt inputs; return key refs."""
+    fix.write(f"{P}/authoring-input.json", b'{"authoring":1}')
+    fix.write(f"{P}/reader-surface-input-v2.json", b'{"reader":"proposed"}')
+    fix.write(f"{P}/accepted-draft.json", b'{"draft":1}')
+    fix.write(f"{P}/generated-receipt.json", b'{"gen":1}')
+    fix.write(f"{P}/deps.txt", b"dep")
+    fix.write(f"{P}/scope-review.json", b'{"scope":"ok"}')
+    fix.write(f"{P}/staged-source/main.tex", b"\\documentclass{article}\\begin{document}new\\end{document}")
+    fix.write(f"{P}/staged-source/references.bib", b"@book{k,}")
+    fix.write(f"{P}/staged-source/jgaisurvey.sty", b"% style")
+    staged_outputs = {
+        "main": fix.file_ref(f"{P}/staged-source/main.tex"),
+        "bibliography": fix.file_ref(f"{P}/staged-source/references.bib"),
+        "style": fix.file_ref(f"{P}/staged-source/jgaisurvey.sty"),
+    }
+    basis = {
+        "state_ref": fix.ref(state_rel),
+        "validation_checkpoint_ref": dict(validation_ref),
+        "active_revalidation_ref": None,
+        "active_reader_input_ref": fix.ref(f"{P}/reader-surface-input-v2.json"),
+        "before_graph_digest": "0" * 64,
+        "preserved_upstream_digest": "1" * 64,
+        "generated_receipt_ref": fix.ref(f"{P}/generated-receipt.json"),
+        "renderer_commit": "0" * 40,
+        "contract_identity": {
+            "pipeline_contract_version": "2.0-rc1", "pipeline_contract_sha256": "0" * 64,
+            "quality_contract_version": "2.0-rc1", "quality_contract_sha256": "0" * 64,
+            "research_profile_version": "2.0-rc1", "research_profile_sha256": "0" * 64,
+            "publication_profile_version": "2.0-rc1", "publication_profile_sha256": "0" * 64,
+        },
+    }
+    proposed = {
+        "authoring_input_ref": fix.ref(f"{P}/authoring-input.json"),
+        "proposed_reader_ref": fix.ref(f"{P}/reader-surface-input-v2.json"),
+        "proposed_reader_canonical_sha256": fix.ref(f"{P}/reader-surface-input-v2.json")["sha256"],
+        "change_description": "correction",
+    }
+    state_data = (fix.root / state_rel).read_bytes()
+    state_sha = sha256_bytes(state_data)
+    state_size = len(state_data)
+    retained_dest = f"{P}/retained/before/{state_rel}"
+    proposal = {
+        "schema_version": "2.0-rc1", "proposal_id": PROPOSAL_ID, "issue_id": ISSUE,
+        "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE",
+        "route": "EDITORIAL_CORRECTION_PROPOSAL_V1", "status": "PROPOSED",
+        "basis": basis, "proposed": proposed,
+        "retention_plan": [{
+            "roles": ["state:authority"], "path": state_rel, "sha256": state_sha,
+            "byte_count": state_size, "policy": "COPY_BEFORE_REPLACEMENT",
+            "retained_dest": retained_dest,
+        }],
+    }
+    fix.write(f"{P}/proposal.json", json.dumps(proposal).encode())
+    fix.write(retained_dest, state_data)
+    profile_rel = f"{SOURCE_ROOT}/production-profile.json"
+    retention = {
+        "schema_version": "2.0-rc1", "kind": "EDITORIAL_RETENTION_V1", "status": "CAPTURED",
+        "proposal_ref": {"path": f"{P}/proposal.json", "sha256": fix.ref(f"{P}/proposal.json")["sha256"],
+                         "proposal_id": PROPOSAL_ID, "issue_id": ISSUE,
+                         "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE"},
+        "basis": basis, "proposed": proposed,
+        "rows": [
+            {"roles": ["state:authority"], "path": state_rel, "sha256": state_sha,
+             "byte_count": state_size, "policy": "COPY_BEFORE_REPLACEMENT",
+             "retained_dest": retained_dest, "retained_sha256": state_sha,
+             "retained_byte_count": state_size},
+            {"roles": ["profile"], "path": profile_rel, "sha256": fix.ref(profile_rel)["sha256"],
+             "byte_count": len((fix.root / profile_rel).read_bytes()),
+             "policy": "KEEP_IMMUTABLE", "retained_ref": fix.ref(profile_rel)},
+        ],
+        "capture_inputs": [fix.ref(f"{P}/generated-receipt.json")],
+    }
+    fix.write(f"{P}/retention-manifest.json", json.dumps(retention).encode())
+    staged = {
+        "schema_version": "2.0-rc1", "kind": "EDITORIAL_STAGED_SOURCE_V1", "status": "STAGED_ONLY",
+        "proposal_ref": dict(retention["proposal_ref"]),
+        "retention_manifest_ref": fix.ref(f"{P}/retention-manifest.json"),
+        "scope_review_ref": fix.ref(f"{P}/scope-review.json"),
+        "issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE",
+        "route": "WEEKLY_GENERATED_V2", "basis": basis, "proposed": proposed,
+        "outputs": staged_outputs,
+        "style_input_ref": dict(staged_outputs["style"]),
+        "code_deps": [fix.file_ref(f"{P}/deps.txt")],
+        "producer_head": "0" * 40, "manifest_digest": "2" * 64,
+    }
+    fix.write(f"{P}/staged-source/staged-source-manifest.json", json.dumps(staged).encode())
+    return {"staged_outputs": staged_outputs, "basis": basis, "proposed": proposed}
+
+
+def _write_publication_set(fix: EditorialFixture, tag: bytes) -> dict:
+    """Write all 15 seal roles plus build outputs; return seal refs."""
+    fix.write(f"{P}/publication/build/main.pdf", b"%PDF-1.4 sealed-" + tag + b"\n")
+    fix.write(f"{P}/publication/build/main.log", b"log-" + tag)
+    pdf_sha = sha256_bytes((fix.root / f"{P}/publication/build/main.pdf").read_bytes())
+    fix.write(f"{P}/publication/build/main.pdf.sha256", f"{pdf_sha}  main.pdf\n".encode())
+    fix.write(f"{P}/publication/reader-manuscript-v2.json", json.dumps({
+        "schema_version": "2.0-rc1", "issue_id": ISSUE,
+        "editorial_source": {
+            "proposal_ref": fix.ref(f"{P}/proposal.json"),
+            "staged_manifest_ref": fix.ref(f"{P}/staged-source/staged-source-manifest.json"),
+        },
+        "body": tag.decode(),
+    }).encode())
+    fix.write(f"{P}/publication/quality-regression-bundle-v2.json", b"")
+    qr = fix.write(f"{P}/publication/qa-result.json", b"result")
+    bundle_pdf = {"storage": "REPOSITORY_FILE", "path": f"{P}/publication/build/main.pdf",
+                  "sha256": pdf_sha,
+                  "byte_count": len((fix.root / f"{P}/publication/build/main.pdf").read_bytes()),
+                  "actions_artifact": None}
+    bundle = {
+        "schema_version": "2.0-rc1", "issue_id": ISSUE,
+        "production_profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+        "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE",
+        "source": fix.ref(f"{P}/staged-source/main.tex"),
+        "pdf": bundle_pdf,
+        "checks": [{"check_id": "c1", "kind": "DETERMINISTIC", "status": "PASS",
+                    "executor": "t", "evidence": "e", "recorded_at": "2026-01-01T00:00:00Z",
+                    "result": fix.ref(f"{P}/publication/qa-result.json")}],
+        "status": "PASS",
+    }
+    bundle["bundle_sha256"] = sha256_object({k: v for k, v in bundle.items()})
+    fix.write(f"{P}/publication/quality-regression-bundle-v2.json", json.dumps(bundle).encode())
+    fix.write(f"{P}/publication/semantic-review.json", json.dumps({
+        "schema_version": "2.0-rc1", "issue_id": ISSUE, "page_count": 3, "decision": "PASS"}).encode())
+    fix.write(f"{P}/publication/visual-review.json", json.dumps({
+        "schema_version": "2.0-rc1", "issue_id": ISSUE, "status": "x",
+        "publication_preview_approval_path": "g", "publication_preview_approval_sha256": "0" * 64,
+        "pdf_path": f"{P}/publication/build/main.pdf", "pdf_sha256": pdf_sha, "page_count": 3,
+        "checks": [], "review_tool": "t", "recorded_at": "2026-01-01T00:00:00Z"}).encode())
+    fix.write(f"{P}/publication/reader-surface-gate-v2.json", json.dumps({
+        "schema_version": "2.0-rc1", "issue_id": ISSUE, "publication_profile": "WEEKLY_MAGAZINE",
+        "status": "PASS", "manuscript": fix.ref(f"{P}/publication/reader-manuscript-v2.json"),
+        "pdf": {"path": f"{P}/publication/build/main.pdf", "sha256": pdf_sha}}).encode())
+    cand_pdf = dict(bundle_pdf)
+    cand_pdf["page_count"] = 3
+    candidate = {
+        "schema_version": "2.0-rc1", "issue_id": ISSUE, "publication_profile": "WEEKLY_MAGAZINE",
+        "status": "READY_FOR_PUBLICATION_PREVIEW",
+        "reader_manuscript": fix.file_ref(f"{P}/publication/reader-manuscript-v2.json"),
+        "source": fix.file_ref(f"{P}/staged-source/main.tex"),
+        "pdf": cand_pdf,
+        "quality_bundle": fix.file_ref(f"{P}/publication/quality-regression-bundle-v2.json"),
+        "semantic_review": fix.file_ref(f"{P}/publication/semantic-review.json"),
+        "visual_review": fix.file_ref(f"{P}/publication/visual-review.json"),
+    }
+    candidate["candidate_sha256"] = sha256_object({k: v for k, v in candidate.items()})
+    fix.write(f"{P}/publication/publication-candidate-v2.json", json.dumps(candidate).encode())
+    fix.write(f"{P}/recipe.latexmkrc", b"$pdf_mode=4;\n")
+    receipt_body = {
+        "schema_version": "2.0-rc1", "kind": "EDITORIAL_PUBLICATION_SOURCE_V1", "issue_id": ISSUE,
+        "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE",
+        "generator_route": "WEEKLY_GENERATED_V2",
+        "proposal_ref": fix.ref(f"{P}/proposal.json"),
+        "retention_manifest_ref": fix.ref(f"{P}/retention-manifest.json"),
+        "staged_manifest_ref": fix.ref(f"{P}/staged-source/staged-source-manifest.json"),
+        "scope_review_ref": fix.ref(f"{P}/scope-review.json"),
+        "reviewed_reader_input": fix.ref(f"{P}/reader-surface-input-v2.json"),
+        "authored_refs": [fix.file_ref(f"{P}/authoring-input.json")],
+        "accepted_refs": [fix.file_ref(f"{P}/accepted-draft.json")],
+        "current_tools": {"lualatex": "test"},
+        "outputs": {"primary": fix.ref(f"{P}/staged-source/main.tex"),
+                    "bibliography": fix.ref(f"{P}/staged-source/references.bib"),
+                    "style": fix.ref(f"{P}/staged-source/jgaisurvey.sty")},
+    }
+    receipt_body["receipt_sha256"] = sha256_object({k: v for k, v in receipt_body.items()})
+    fix.write(f"{P}/publication/validated-source-manifest.json", json.dumps(receipt_body).encode())
+    build_record = {
+        "schema_version": "2.0-rc1", "kind": "EDITORIAL_PUBLICATION_BUILD_V1", "issue_id": ISSUE,
+        "proposal_ref": fix.ref(f"{P}/proposal.json"),
+        "staged_manifest_ref": fix.ref(f"{P}/staged-source/staged-source-manifest.json"),
+        "recipe_ref": fix.ref(f"{P}/recipe.latexmkrc"),
+        "declared_inputs": {"primary": fix.file_ref(f"{P}/staged-source/main.tex"),
+                            "bibliography": fix.file_ref(f"{P}/staged-source/references.bib"),
+                            "style": fix.file_ref(f"{P}/staged-source/jgaisurvey.sty")},
+        "recipe": {"fixed_steps": ["lualatex"]},
+        "toolchain": {"executable": "/bin/true", "versions": {"t": "1"},
+                      "argv": ["-pdf"], "env": {"SOURCE_DATE_EPOCH": "0"}},
+        "outputs": {"publication-pdf": fix.file_ref(f"{P}/publication/build/main.pdf"),
+                    "build-log": fix.file_ref(f"{P}/publication/build/main.log"),
+                    "pdf-digest": fix.file_ref(f"{P}/publication/build/main.pdf.sha256")},
+        "exit_code": 0, "recorded_at": "2026-01-01T00:00:00Z",
+    }
+    build_record["build_sha256"] = sha256_object({k: v for k, v in build_record.items()})
+    fix.write(f"{P}/publication/build-record.json", json.dumps(build_record).encode())
+    roles = {
+        "reader-input": fix.file_ref(f"{P}/reader-surface-input-v2.json"),
+        "authoring-input": fix.file_ref(f"{P}/authoring-input.json"),
+        "source-receipt": fix.file_ref(f"{P}/publication/validated-source-manifest.json"),
+        "reader-manuscript": fix.file_ref(f"{P}/publication/reader-manuscript-v2.json"),
+        "validated-source": fix.file_ref(f"{P}/staged-source/main.tex"),
+        "bibliography": fix.file_ref(f"{P}/staged-source/references.bib"),
+        "style": fix.file_ref(f"{P}/staged-source/jgaisurvey.sty"),
+        "publication-pdf": fix.file_ref(f"{P}/publication/build/main.pdf"),
+        "build-log": fix.file_ref(f"{P}/publication/build/main.log"),
+        "pdf-digest": fix.file_ref(f"{P}/publication/build/main.pdf.sha256"),
+        "quality-regression-bundle": fix.file_ref(f"{P}/publication/quality-regression-bundle-v2.json"),
+        "semantic-review": fix.file_ref(f"{P}/publication/semantic-review.json"),
+        "visual-review": fix.file_ref(f"{P}/publication/visual-review.json"),
+        "reader-surface-gate": fix.file_ref(f"{P}/publication/reader-surface-gate-v2.json"),
+        "publication-candidate": fix.file_ref(f"{P}/publication/publication-candidate-v2.json"),
+    }
+    seal = {
+        "schema_version": "2.0-rc1", "kind": "EDITORIAL_PUBLICATION_SET_V1", "status": "SEALED_INERT",
+        "issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE",
+        "proposal_ref": fix.ref(f"{P}/proposal.json"),
+        "staged_manifest_ref": fix.ref(f"{P}/staged-source/staged-source-manifest.json"),
+        "build_record_ref": fix.ref(f"{P}/publication/build-record.json"),
+        "roles": roles,
+    }
+    seal["set_sha256"] = sha256_object({k: v for k, v in seal.items()})
+    fix.write(f"{P}/publication/publication-set.json", json.dumps(seal).encode())
+    return {"seal": seal, "seal_ref": fix.ref(f"{P}/publication/publication-set.json")}
+
+
+def _write_canonical_candidate(fix: EditorialFixture, pdf_rel: str) -> dict:
+    data = (fix.root / pdf_rel).read_bytes()
+    cand = {
+        "schema_version": "2.0-rc1", "issue_id": ISSUE, "publication_profile": "WEEKLY_MAGAZINE",
+        "status": "READY_FOR_PUBLICATION_PREVIEW",
+        "reader_manuscript": fix.file_ref(f"{SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json"),
+        "source": fix.file_ref(f"{SURVEY_ROOT}/main.tex"),
+        "pdf": {"storage": "REPOSITORY_FILE", "path": pdf_rel, "sha256": sha256_bytes(data),
+                "byte_count": len(data), "page_count": 2, "actions_artifact": None},
+        "quality_bundle": fix.file_ref(f"{SOURCE_ROOT}/publication/v2/quality-regression-bundle-v2.json"),
+        "semantic_review": fix.file_ref(f"{SOURCE_ROOT}/publication/v2/semantic-editorial-review-v2.json"),
+        "visual_review": fix.file_ref(f"{SOURCE_ROOT}/publication/v2/visual-review-v2.json"),
+    }
+    cand["candidate_sha256"] = sha256_object({k: v for k, v in cand.items()})
+    fix.write(f"{SOURCE_ROOT}/publication/v2/publication-candidate-v2.json", json.dumps(cand).encode())
+    return fix.ref(f"{SOURCE_ROOT}/publication/v2/publication-candidate-v2.json")
+
+
+def _activation_record(fix: EditorialFixture, seq: int, set_ref: dict, before_cand: dict | None,
+                       supersedes: dict | None, anchor: dict, effective: dict) -> tuple[dict, dict]:
+    from scripts import survey_publication_set_v2 as pubset
+    digest = pubset.before_active_digest(
+        {n: {"path": r["path"], "sha256": r["sha256"]} for n, r in effective.items()}, before_cand)
+    record = {
+        "schema_version": "2.0-rc1", "kind": "EDITORIAL_PUBLICATION_ACTIVATION_V1",
+        "issue_id": ISSUE, "reason_class": "REVIEWED_EDITORIAL_CORRECTION",
+        "reason": f"correction {seq}", "lifecycle": "VALIDATED_DRAFT",
+        "prior_checkpoint": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"),
+        "supersedes": supersedes,
+        "canonical_anchor": anchor,
+        "before_state_ref": fix.ref(f"{SOURCE_ROOT}/production-state.json"),
+        "before_active_digest": digest,
+        "before_candidate_ref": before_cand,
+        "set_ref": set_ref,
+        "core": {"contract": {}, "implementation_commit_sha": "0" * 40},
+        "executor": "tester", "recorded_at": f"2026-02-0{seq}T00:00:00Z",
+        "establishment": {
+            "state_sha256": fix.ref(f"{SOURCE_ROOT}/production-state.json")["sha256"],
+            "lifecycle": "VALIDATED_DRAFT", "architecture_review": "approved",
+            "publication_preview": "pending", "freeze": "pending", "release": "pending",
+            "implementation_commit_sha": "0" * 40, "recorded_at": f"2026-02-0{seq}T00:00:00Z",
+        },
+    }
+    rel = f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r{seq}.json"
+    fix.write(rel, json.dumps(record).encode())
+    return record, fix.ref(rel)
+
+
+class ActivationTests(unittest.TestCase):
+    def _base(self, tmp: str) -> tuple[EditorialFixture, dict, dict]:
+        fix = EditorialFixture(Path(tmp))
+        build_validation(fix)
+        profile = fix.profile()
+        fix.write(f"{SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+        state = {"issue_id": ISSUE, "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                 "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                 "publication_revalidation_provenance": None}
+        fix.write(f"{SOURCE_ROOT}/production-state.json", json.dumps(state).encode())
+        return fix, state, profile
+
+    def test_full_activation_validates_and_selects_active(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix, state, _ = self._base(tmp)
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            _write_canonical_candidate(fix, f"{SURVEY_ROOT}/main.pdf")
+            # Re-pin state bytes after fixture writes that precede activation entry.
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            fix.write(f"{SOURCE_ROOT}/production-state.json", json.dumps(state).encode())
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            _write_canonical_candidate(fix, f"{SURVEY_ROOT}/main.pdf")
+            out = _write_publication_set(fix, b"one")
+            val_doc = json.loads((fix.root / f"{SOURCE_ROOT}/checkpoints-validation.json").read_text())
+            effective = {r["name"]: {"path": r["path"], "sha256": r["sha256"]}
+                         for r in val_doc["artifacts"] if r["name"] in pubset.PUBLICATION_ROLES_7}
+            anchor = {"kind": "VALIDATION_CHECKPOINT",
+                      "ref": dict(fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))}
+            before_cand = fix.ref(f"{SOURCE_ROOT}/publication/v2/publication-candidate-v2.json")
+            _, rec_ref = _activation_record(fix, 1, out["seal_ref"], before_cand, None, anchor, effective)
+            validated = pubset.validate_activation_record(fix.root, rec_ref["path"])
+            self.assertEqual(validated["before_candidate_ref"], before_cand)
+            state["publication_revalidation_provenance"] = dict(rec_ref)
+            fix.write(f"{SOURCE_ROOT}/production-state.json", json.dumps(state).encode())
+            selection = pubset.resolve_publication_selection(fix.root, fix.cfg, state)
+            self.assertEqual(selection["mode"], "VERSIONED_ACTIVE")
+            self.assertEqual(selection["candidate_ref"], {
+                "path": out["seal"]["roles"]["publication-candidate"]["path"],
+                "sha256": out["seal"]["roles"]["publication-candidate"]["sha256"]})
+            for name in pubset.PUBLICATION_ROLES_7:
+                self.assertEqual(selection["effective7"][name]["origin"], "ACTIVE")
+                self.assertEqual(selection["effective7"][name]["path"], out["seal"]["roles"][name]["path"])
+
+    def test_foreign_before_candidate_refused(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix, state, _ = self._base(tmp)
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            _write_canonical_candidate(fix, f"{SURVEY_ROOT}/main.pdf")
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            fix.write(f"{SOURCE_ROOT}/production-state.json", json.dumps(state).encode())
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            foreign = fix.write(f"{P}/foreign-candidate.json", b'{"foreign":true,"pdf":{"sha256":"%s"}}' % (b"0" * 64))
+            out = _write_publication_set(fix, b"two")
+            val_doc = json.loads((fix.root / f"{SOURCE_ROOT}/checkpoints-validation.json").read_text())
+            effective = {r["name"]: {"path": r["path"], "sha256": r["sha256"]}
+                         for r in val_doc["artifacts"] if r["name"] in pubset.PUBLICATION_ROLES_7}
+            anchor = {"kind": "VALIDATION_CHECKPOINT",
+                      "ref": dict(fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))}
+            foreign_ref = {"path": foreign["path"], "sha256": foreign["sha256"]}
+            _, rec_ref = _activation_record(fix, 1, out["seal_ref"], foreign_ref, None, anchor, effective)
+            with self.assertRaises(ValueError):
+                pubset.validate_activation_record(fix.root, rec_ref["path"])
+
+    def test_seal_trio_mismatch_refused(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix, state, _ = self._base(tmp)
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            out = _write_publication_set(fix, b"three")
+            seal_doc = json.loads((fix.root / f"{P}/publication/publication-set.json").read_text())
+            seal_doc["roles"]["bibliography"] = fix.file_ref(f"{P}/staged-source/main.tex")
+            seal_doc["set_sha256"] = sha256_object({k: v for k, v in seal_doc.items() if k != "set_sha256"})
+            fix.write(f"{P}/publication/publication-set.json", json.dumps(seal_doc).encode())
+            with self.assertRaises(ValueError):
+                pubset.validate_seal(fix.root, f"{P}/publication/publication-set.json")
+
+    def test_repeated_activation_before_state(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix, state, _ = self._base(tmp)
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            _write_canonical_candidate(fix, f"{SURVEY_ROOT}/main.pdf")
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            fix.write(f"{SOURCE_ROOT}/production-state.json", json.dumps(state).encode())
+            _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                            fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+            _write_canonical_candidate(fix, f"{SURVEY_ROOT}/main.pdf")
+            out1 = _write_publication_set(fix, b"rpt-one")
+            val_doc = json.loads((fix.root / f"{SOURCE_ROOT}/checkpoints-validation.json").read_text())
+            effective = {r["name"]: {"path": r["path"], "sha256": r["sha256"]}
+                         for r in val_doc["artifacts"] if r["name"] in pubset.PUBLICATION_ROLES_7}
+            anchor = {"kind": "VALIDATION_CHECKPOINT",
+                      "ref": dict(fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))}
+            before_cand = fix.ref(f"{SOURCE_ROOT}/publication/v2/publication-candidate-v2.json")
+            _, rec1ref = _activation_record(fix, 1, out1["seal_ref"], before_cand, None, anchor, effective)
+            pubset.validate_activation_record(fix.root, rec1ref["path"])
+            # Repeated pre-Preview correction uses a NEW proposal ID: prior
+            # immutable versioned bytes stay pinned, never overwritten in place.
+            p2 = f"{SOURCE_ROOT}/publication/v2/editorial-corrections/c2"
+            old_p, old_pid = P, PROPOSAL_ID
+            try:
+                globals()["P"] = p2
+                globals()["PROPOSAL_ID"] = "c2"
+                _write_proposal_staged_retention(fix, f"{SOURCE_ROOT}/production-state.json",
+                                                fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+                out2 = _write_publication_set(fix, b"rpt-two")
+            finally:
+                globals()["P"] = old_p
+                globals()["PROPOSAL_ID"] = old_pid
+            prior_cand = {"path": out1["seal"]["roles"]["publication-candidate"]["path"],
+                          "sha256": out1["seal"]["roles"]["publication-candidate"]["sha256"]}
+            prior_effective = {n: {"path": out1["seal"]["roles"][n]["path"],
+                                   "sha256": out1["seal"]["roles"][n]["sha256"]}
+                               for n in pubset.PUBLICATION_ROLES_7}
+            _, rec2ref = _activation_record(fix, 2, out2["seal_ref"], prior_cand, dict(rec1ref), anchor, prior_effective)
+            pubset.validate_activation_record(fix.root, rec2ref["path"])
+            # Wrong predecessor candidate (canonical instead of prior seal) refuses.
+            _, rec3ref = _activation_record(fix, 3, out2["seal_ref"], before_cand, dict(rec1ref), anchor, prior_effective)
+            with self.assertRaises(ValueError):
+                pubset.validate_activation_record(fix.root, rec3ref["path"])
+
+    def test_stage_resolver(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix, state, profile = self._base(tmp)
+            candidate_rel = f"{SOURCE_ROOT}/publication/v2/publication-candidate-v2.json"
+            resolved = pubset.resolve_stage_artifact_path(
+                fix.root, fix.cfg, state, profile, "publication-candidate", candidate_rel)
+            self.assertEqual(resolved, fix.root / candidate_rel)
+            other = pubset.resolve_stage_artifact_path(
+                fix.root, fix.cfg, state, profile, "reader-manuscript",
+                "{source_root}/publication/v2/reader-manuscript-v2.json")
+            self.assertEqual(other, fix.root / f"{SOURCE_ROOT}/publication/v2/reader-manuscript-v2.json")
+            with self.assertRaises(ValueError):
+                pubset.resolve_stage_artifact_path(
+                    fix.root, fix.cfg, state, profile, "publication-candidate", "{source_root}/other.json")
+            with self.assertRaises(ValueError):
+                pubset.resolve_stage_artifact_path(
+                    fix.root, fix.cfg, state, profile, "x", "../escape.json")
+
+
+class AnchorTests(unittest.TestCase):
+    def test_parse_sequence_rules(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        self.assertEqual(pubset._parse_sequence("sources/x/publication/v2/publication-surface-revalidation-r1.json"), 1)
+        self.assertEqual(pubset._parse_sequence("publication-surface-revalidation-r32.json"), 32)
+        self.assertIsNone(pubset._parse_sequence("publication-surface-revalidation-r01.json"))
+        self.assertIsNone(pubset._parse_sequence("other.json"))
+
+    def test_normalize_rejects_unknown_branch(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with self.assertRaises(ValueError):
+            pubset._normalize_chain_input([{"reason_class": "UNKNOWN", "prior_checkpoint": {}}])
+
+    def test_derive_anchor_empty_chain_returns_validation(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = EditorialFixture(Path(tmp))
+            build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            anchor = pubset.derive_canonical_anchor(fix.root, fix.cfg, state, [])
+            self.assertEqual(anchor["kind"], "VALIDATION_CHECKPOINT")
+            self.assertEqual(anchor["ref"], fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json"))
+
+    def test_later_legacy_after_editorial_refused(self) -> None:
+        from scripts import survey_publication_set_v2 as pubset
+        with tempfile.TemporaryDirectory() as tmp:
+            fix = EditorialFixture(Path(tmp))
+            build_validation(fix)
+            profile = fix.profile()
+            fix.write(f"{SOURCE_ROOT}/production-profile.json", json.dumps(profile).encode())
+            state = {"issue_id": ISSUE, "research_profile": "WEEKLY", "publication_profile": "WEEKLY_MAGAZINE", "profile": fix.ref(f"{SOURCE_ROOT}/production-profile.json"),
+                     "checkpoint_provenance": {"validation": fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")},
+                     "publication_revalidation_provenance": None}
+            vref = fix.ref(f"{SOURCE_ROOT}/checkpoints-validation.json")
+            editorial = {
+                "schema_version": "2.0-rc1", "kind": "EDITORIAL_PUBLICATION_ACTIVATION_V1",
+                "issue_id": ISSUE, "reason_class": "REVIEWED_EDITORIAL_CORRECTION",
+                "reason": "x", "lifecycle": "VALIDATED_DRAFT",
+                "prior_checkpoint": dict(vref), "supersedes": None,
+                "canonical_anchor": {"kind": "VALIDATION_CHECKPOINT", "ref": dict(vref)},
+                "before_state_ref": {"path": "s.json", "sha256": "0" * 64},
+                "before_active_digest": "1" * 64, "before_candidate_ref": None,
+                "set_ref": {"path": "p.json", "sha256": "2" * 64},
+                "core": {"contract": {}, "implementation_commit_sha": "0" * 40},
+                "executor": "t", "recorded_at": "2026-01-03T00:00:00Z",
+                "establishment": {"state_sha256": "0" * 64, "lifecycle": "VALIDATED_DRAFT",
+                                  "architecture_review": "approved", "publication_preview": "pending",
+                                  "freeze": "pending", "release": "pending",
+                                  "implementation_commit_sha": "0" * 40, "recorded_at": "2026-01-03T00:00:00Z"},
+            }
+            fix.write(f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r3.json",
+                      json.dumps(editorial).encode())
+            ed3ref = fix.ref(f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r3.json")
+            _, r4ref = build_legacy(
+                fix, 4, {("publication-pdf", f"{SURVEY_ROOT}/main.pdf"): b"%PDF-1.4 v4\n"}, ed3ref)
+            with self.assertRaises(ValueError):
+                pubset.derive_canonical_anchor(
+                    fix.root, fix.cfg, state,
+                    [{"record": editorial, "path": ed3ref["path"], "sha256": ed3ref["sha256"]},
+                     {"record": json.loads((fix.root / r4ref["path"]).read_bytes()),
+                      "path": r4ref["path"], "sha256": r4ref["sha256"]}])
+
+
+if __name__ == "__main__":
+    unittest.main()

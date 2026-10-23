@@ -1,0 +1,32 @@
+PACKET=/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/verify-lifecycle-r3c-20261021T160000Z
+SRC_FROZEN HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+SRC_POSITIVE HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06
+===0 COPY weekly positive post-second===
+cp -a exit=0 stderr=''
+COPY elapsed placeholder (bash timed externally)
+SRC_HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 DST_HEAD=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 SAME=True
+LSFILES src=718 dst=718 (expect 718)
+INODE scripts/survey_schema_v2.py SRC=45:927534 1 DST=45:948345 1
+INODE scripts/survey_editorial_publication_v2.py SRC=45:927553 1 DST=45:948364 1
+INODE .git/HEAD SRC=45:927833 1 DST=45:948644 1
+ALTERNATES exists=False (expect False)
+REMOTE='origin\thttps://example.invalid/workerR3c-weekly-fixture2.git (fetch)\norigin\thttps://example.invalid/workerR3c-weekly-fixture2.git (push)' (expect empty or example.invalid inert)
+FROZEN manifest head=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 tree=44cbfc1864d269e338bdbd6060305e5fd558060 count=718
+HASH mismatches=0
+SRC_POSITIVE HEAD_AFTER_COPY=0d9857e6132fb314a2e2ba141da79c54f4ec5e06 UNCHANGED=True
+STATE lifecycle=VALIDATED_DRAFT pointer={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json', 'sha256': '8822078734c2ff4971d7bd0abcf54360076ef6507b8959d7c1e9b82ce18a2eed'}
+LEAVES ['wk-r3c-1', 'wk-r3c-2'] (expect ['wk-r3c-1','wk-r3c-2'])
+SELECTION mode=VERSIONED_ACTIVE cand=sources/2026-W37/publication/v2/editorial-corrections/wk-r3c-2/publication/publication-candidate-v2.json
+OLD pins captured 6
+ACTIVE set sources/2026-W37/publication/v2/editorial-corrections/wk-r3c-2/publication/publication-set.json
+ACTIVE pdf sources/2026-W37/publication/v2/editorial-corrections/wk-r3c-2/publication/build/main.pdf pages=5 sha=0f045d504e6aae12dd3fc4fb2082e13efe1d9f87d9ee35cc982ce7722352856f
+RECEIPT 2026-W37
+GATE PASSED
+CAND READY_FOR_PUBLICATION_PREVIEW
+===3 VALIDATED_DRAFT->RELEASE_CANDIDATE===
+REQUIRED_CURRENT VALIDATED_DRAFT={'publication-candidate'}
+STAGE VALIDATED_DRAFT OK elapsed=3.551s
+CHECKPOINT /tmp/opencode/jgas-weekly-lifecycle-20261021T160000Z/candidate-partial-b40de60/sources/2026-W37/orchestration/v2/checkpoints/VALIDATED_DRAFT.json elapsed=0.709s
+ADVANCE to RELEASE_CANDIDATE terminal=HUMAN_GATE_REACHED elapsed=1.237s
+===Preview synthetic (actual records, explicit type-only)===
+BLOCKER Preview failed: OSError: [Errno 122] Disk quota exceeded

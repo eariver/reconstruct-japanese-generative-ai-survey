@@ -1,0 +1,63 @@
+ENV_OK FINAL_R6_ROOT=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/final-r6
+OWN_GIT_OK top=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/final-r6/longform
+HEAD=ce90246b907c86e9bdeb930dec0e83a5637f2805
+LSFILES=720 (expect 720)
+TREE=53349a4efbdd5e3b4153a8e5975101fdd59f132b (expect 53349a4efbdd5e3b4153a8e5975101fdd59f132b)
+=== BASE ===
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+BASE_OK state=sources/SP001/production-state.json issue=SP001
+OLD_CANDIDATE_HEALTHY sources/SP001/publication/v2/publication-candidate-v2.json sha=6e214bdcf7c09cf2d84349af7b7a293f4186ff6c3f3a981921a48bce6ed7bc93 status=READY_FOR_PUBLICATION_PREVIEW
+=== CYCLE lf-r6-1 ===
+P1_PREPARE lf-r6-1 reader_sha=e5105b317d65fb7d805520a3dbfe9b973141f241c02cb70c3a9e3dbd9a1a5c12
+P1_VALIDATE REVIEW_REQUIRED
+P2R_OK sources/SP001/publication/v2/editorial-corrections/lf-r6-1/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=29.6s
+REAL_PDF pages=5 bytes=79530
+FINALIZE {"set_ref": "sources/SP001/publication/v2/editorial-corrections/lf-r6-1/publication/publication-set.json", "set_sha256": "4cc342664d5cb60693fcee076c122fbb276abed596c9d62c8edf6c22366f9028"}
+INERT_HEALTHY
+CROSSBIND_OK candidate==seal reviews (inside publication)
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/SP001/publication/v2/publication-surface-revalidation-r1.json", "state_path": "sources/SP001/production-state.json", "observed": "new"}
+FIRST_SELECTION candidate=sources/SP001/publication/v2/editorial-corrections/lf-r6-1/publication/publication-candidate-v2.json
+=== CYCLE lf-r6-2 ===
+P1_PREPARE lf-r6-2 reader_sha=50733c97c436172b5d634242ce20997602667d7d56273d202bd0a133dfe0c0c6
+P1_VALIDATE REVIEW_REQUIRED
+P2R_OK sources/SP001/publication/v2/editorial-corrections/lf-r6-2/retained/retention-manifest.json
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+P2V_SCOPE_BOUND
+P3S_VERIFIED50
+PREPARE dt=98.3s
+REAL_PDF pages=5 bytes=79757
+FINALIZE {"set_ref": "sources/SP001/publication/v2/editorial-corrections/lf-r6-2/publication/publication-set.json", "set_sha256": "09874c406fb966be5eba1ff352bcddcf3ba0b679c3f3222a9800bbaf9254eff9"}
+INERT_HEALTHY
+CROSSBIND_OK candidate==seal reviews (inside publication)
+INERT_CHECKPOINT /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/final-r6/longform-inert head=ce90246b907c86e9bdeb930dec0e83a5637f2805
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/SP001/publication/v2/publication-surface-revalidation-r2.json", "state_path": "sources/SP001/production-state.json", "observed": "new"}
+SECOND_ANCHOR_RETAINED={"kind": "VALIDATION_CHECKPOINT", "ref": {"path": "sources/SP001/orchestration/v2/checkpoints/DRAFT_COMPLETE.json", "sha256": "8df95bbe7ccc66959f99c453708d9ec3a40bd49e9528b84ac6e782bf674ef3d5"}}
+SECOND_STATE_HEALTHY
+SECOND_SELECTION candidate=sources/SP001/publication/v2/editorial-corrections/lf-r6-2/publication/publication-candidate-v2.json
+SECOND_OLD_IMMUTABLE_KEEP_OK
+OLD_CANDIDATE_PRESERVED sources/SP001/publication/v2/publication-candidate-v2.json status=READY_FOR_PUBLICATION_PREVIEW
+OLD_CANDIDATE_NOT_ADOPTED_OK
+SECOND_RECEIPT issue=SP001
+SECOND_GATE_PASSED
+SECOND_CANDIDATE status=READY_FOR_PUBLICATION_PREVIEW
+ALREADY_ACTIVE_OK record=sources/SP001/publication/v2/publication-surface-revalidation-r2.json
+=== SECOND LONGFORM CORRECTION ACTIVATED (terminal) ===
+EXIT:0

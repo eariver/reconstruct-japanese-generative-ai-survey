@@ -1,0 +1,15 @@
+FIX_HEAD=744b121cc0e561a6581e1ca6c9d01345b07fed42
+STATE_POINTER={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json', 'sha256': 'c1edaa53bf93543ffb03c1733ea7d4d5fb7b19e5a81dc873de6951c5511394b5'}
+SELECTION_MODE=VERSIONED_ACTIVE
+R1_AFTER rc=3 out=REFUSED:MechanicalRefreshError:R1 mechanical refresh refused in VERSIONED_ACTIVE/invalid mode before any write: canonical operation refused in revised mode (use versioned editorial operation) (versioned renewal unselected §10; no editorial-reason bypass)
+
+R1_AFTER_REFUSE_NOWRITE_OK
+CANON_AFTER rc=3 out=REFUSED:AgentControlError:canonical revalidation refused in revised mode: canonical operation refused in revised mode (use versioned editorial operation)
+
+CANON_AFTER_REFUSE_NOWRITE_OK
+FAKE rc=3 out=REFUSED:AgentControlError:publication revalidation writer refuses REVIEWED_EDITORIAL_CORRECTION (must use new versioned activation via survey_editorial_publication_v2)
+
+FAKE_REFUSE_NOWRITE_OK
+POST_STATE_VALIDATE_ERRORS=['Stage Checkpoint artifact drift: reader-surface-gate']
+RECEIPT_INCOMPLETE STATE_INVALID: [VALIDATE/REFUSED_PRE_WRITE] strict Production State invalid: Stage Checkpoint artifact drift: reader-surface-gate
+REFUSALS_AFTER_DONE no whole PASS
