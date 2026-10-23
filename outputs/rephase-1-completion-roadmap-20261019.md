@@ -4,6 +4,8 @@
 
 本書を**現在の全体計画の入口**とする。旧plan・各unitの判断/証拠は履歴として保持し、旧「next」を再実行指示にしない。進捗率・終了日の数値は、未評価の統合/実運用費を隠すため付けない。
 
+**2026-10-24 renewal pre-code closeout:** [readiness assessment](rephase-1-versioned-renewal-precode-assessment.md)で契約478fのmandatory pre-code gateを**PRE_CODE_READY（design/interface map限定）**へ。初期/訂正mapは複数NOT_READY、最終rootのLIVE State検証保持・current proof/履歴分離・epoch/lineage/C→U→U等の訂正を独立reviewが確認。次はwhole bootstrap＋2route U/C実装。実装/実行受入れは未着手、source57不変、全体finish lineは維持。
+
 **2026-10-23 renewal design closeout:** [versioned same-reader Core renewal契約§§9/11](rephase-1-versioned-renewal-contract-decision.md)を限定選択。旧history／新current source-proofを分離、U exact-target reuseとC実build・新review、fresh basis/COPYとsole State pointer、通常consumer/Freeze・repeat／renewal→editorialを同単位に含める。作者別technical/operator final reviewは**契約選択のみ**。全accepted-authority predicate切出しとexact schema/digest/closure等のpre-code readinessはOPEN、Astra確認まで実装不可。actual57は不変。全体完成線・DM022/Profile/代表的品質/audit/Human運用/実測削減を縮めない。
 
 **2026-10-23 selected R3 operation closeout:** [実装assessment](rephase-1-editorial-operation-implementation-assessment.md)でversioned editorial操作を限定完了。両route各2訂正・実PDF・normal synthetic lifecycle・R1×2 anchor/resume/faults、strict57-path source deliveryをqualified compositeで受入れ。次は同assessment§5のversioned same-reader mechanical-renewal契約。全R3/DM021/whole完了ではなく、機械renewal・DM022/必要Profile/代表的品質等を維持する。

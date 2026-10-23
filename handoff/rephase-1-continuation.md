@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-24 renewal pre-code readiness closeout
+
+**PRE_CODE_READY（bounded design/interface mapのみ）、Human Commit Pointで停止。** [assessment/次実装task§5](../outputs/rephase-1-versioned-renewal-precode-assessment.md)、[mandatory root resolution INCLUDING §6](../notes/rephase-1-versioned-renewal-precode/astra-precode-gate-resolution.md)（full SHA256 **7d7d5a4552eb7a1abcbafa79d8f358ff10ec96e885b55f09f271766b136cab57**）、[独立readiness reviewのFinal-binding ROOT＋pointer-erratum confirmation](../notes/rephase-1-versioned-renewal-precode/independent-readiness-review.md)、[packet index](../notes/rephase-1-versioned-renewal-precode/README.md)を読む。契約478f0051は不変。Map=integratedR3＋R4/R5/R6 **ただしroot訂正優先**。
+
+最重要訂正: LIVE entryはpublic `agent.validate_agent_state`を保持する。Profile検査だけへの縮小と、別API `production.verify_state_basis`との混同を拒否。canonical pathとprePreview/Exception windowも必須。Detached proofはStateを呼ばず、毎回CURRENT工具closureを検証。Uは直前の選択targetを保持し、埋込みproofは古い到達可能ancestorでもよい（C→U→U）。Historical工具はowner別epoch blob、証拠はlive/COPY。Schema root pointerは`""`、`"/"`ではない。Screening Path修復は撤回。
+
+**次の最初の行動（Human continuation後）:** Generalへassessment§5のwhole bootstrap＋2route U/C実装を委任。available actual409＋57から独立workspace-local scratchを準備し、実source/隔離/環境を先に束縛。Repeat／renewal→editorial／通常Candidate→direct Preview/Freeze/Release／明示resume/faults／影響回帰と独立最終reviewまでを単位とする。計画closure63/66、pipeline67→71は実装後の実測ではない。Map矛盾はAstraへ戻す。通常Commit/PushはHuman-owned。
+
+今回はdocs/source-readのみ、runtime/tests/build/fixture/restore/network/Commitなし。開始HumanHEADce0de1a clean、packet/output/入口未commit。Source57/patch659063dc/available proof-copyとpartialDB/runtime/TeX制約は下記不変。WholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN、品質/Profile/adoption/実測削減もOPEN。
+
+## Preserved renewal contract selection (historical pre-code-OPEN entry)
+
 ## Current — 2026-10-23 JST versioned same-reader renewal contract selection
 
 **Human Commit Pointで停止。契約選択は限定完了、実装前readiness gateはOPEN。** [選択契約§§9/11](../outputs/rephase-1-versioned-renewal-contract-decision.md) SHA256 **478f00510791b76af24aa7d61f398f0608f7ad8ae7808008c660f2bea6fbfdcf**、[mandatory root resolution](../notes/rephase-1-versioned-renewal-contract/astra-review-resolution.md)、[独立technical](../notes/rephase-1-versioned-renewal-contract/independent-technical-design-review.md)／[独立operator](../notes/rephase-1-versioned-renewal-contract/independent-operator-design-review.md)の**各final-binding addendum**を読む。
