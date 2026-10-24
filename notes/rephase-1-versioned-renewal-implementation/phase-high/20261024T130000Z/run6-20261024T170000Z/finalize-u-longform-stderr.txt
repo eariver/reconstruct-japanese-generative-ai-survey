@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high6-20261024T170000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 2086, in _write_qa_gate_candidate
+    gatemod.evaluate_reader_surface_gate(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, repo / man_path,
+        ^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        renewal_source_proof_ref=dict(proof_ref),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        renewal_receipt_ref=dict(receipt_ref))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high6-20261024T170000Z/renewal-longform/scripts/survey_reader_surface_gate_v2.py", line 1675, in evaluate_reader_surface_gate
+    derivation = _derivation_for_manuscript(
+        repo_root, manuscript, rev_surface_rel,
+    ...<2 lines>...
+        renewal_receipt_ref=renewal_receipt_ref,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high6-20261024T170000Z/renewal-longform/scripts/survey_reader_surface_gate_v2.py", line 1175, in _derivation_for_manuscript
+    raise ValueError("renewal proof bytes changed")
+ValueError: renewal proof bytes changed
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u1-longform/renewal-basis.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewal-qa-checks-high-u1-longform.json', None, None, 'high-phase-fixture', '2026-10-24T05:41:48.485424+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high6-20261024T170000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1194, in finalize_renewal
+    bundle_rel, gate_rel, candidate_rel = _write_qa_gate_candidate(
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, basis, basis_rel, entry, proof, proof_rel, receipt_rel, paths,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        checks_path, semantic_review_path, visual_review_path, executor.strip(), ts)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high6-20261024T170000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 2099, in _write_qa_gate_candidate
+    raise _fail("REVIEW_TARGET_MISMATCH", "FINALIZE", "REFUSED_PRE_WRITE",
+                f"gate derivation refused: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: REVIEW_TARGET_MISMATCH: gate derivation refused: renewal proof bytes changed

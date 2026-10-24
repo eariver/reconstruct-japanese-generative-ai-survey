@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-c1-longform/renewal-basis.json', 'high-phase-fixture', '2026-10-24T06:24:02.841733+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high19-20261025T000000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1064, in prepare_renewal_targets
+    build_record_rel = _render_and_build_new_targets(repo, basis, basis_rel, entry, proof,
+                                                     proof_rel, built, executor.strip(), ts)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high19-20261025T000000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1669, in _render_and_build_new_targets
+    _validate_build_record_container(repo, rel, "Renewal Build Record")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high19-20261025T000000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1508, in _validate_build_record_container
+    raise _fail("RENEWAL_PROOF_DIGEST", "BUILD", "REFUSED_PRE_WRITE",
+                f"{label} fails #/$defs/buildRecord: {first.message}") from None
+scripts.survey_versioned_renewal_v2.RenewalHighError: RENEWAL_PROOF_DIGEST: Renewal Build Record fails #/$defs/buildRecord: Additional properties are not allowed ('biber_link_path', 'biber_real_path', 'biber_real_sha256', 'biber_returncode', 'biber_stdout', 'latexmk_link_path', 'latexmk_real_path', 'latexmk_real_sha256', 'latexmk_returncode', 'latexmk_stdout' were unexpected)

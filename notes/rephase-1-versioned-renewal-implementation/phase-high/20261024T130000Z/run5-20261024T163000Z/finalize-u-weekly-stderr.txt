@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2041, in _write_qa_gate_candidate
+    gatemod.evaluate_reader_surface_gate(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, repo / man_path, semantic_review_path=repo / sem_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        renewal_source_proof_ref=dict(proof_ref),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        renewal_receipt_ref=dict(receipt_ref))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/scripts/survey_reader_surface_gate_v2.py", line 1425, in evaluate_reader_surface_gate
+    validated_sem = load_and_validate_semantic_review(
+        repo_root,
+    ...<3 lines>...
+        require_pass=False,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/scripts/survey_reader_surface_gate_v2.py", line 992, in load_and_validate_reader_surface_semantic_review
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: Invalid semantic review record at /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/semantic-review-v2.json: must be reader-surface-semantic-review-v2 with review_kind='SEMANTIC_EDITORIAL'. Legacy publication-review-record-v2 fallback is prohibited.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u1-weekly.json', None, None, 'high-phase-fixture', '2026-10-24T05:39:00.497884+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1194, in finalize_renewal
+    bundle_rel, gate_rel, candidate_rel = _write_qa_gate_candidate(
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, basis, basis_rel, entry, proof, proof_rel, receipt_rel, paths,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        checks_path, semantic_review_path, visual_review_path, executor.strip(), ts)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2053, in _write_qa_gate_candidate
+    raise _fail("REVIEW_TARGET_MISMATCH", "FINALIZE", "REFUSED_PRE_WRITE",
+                f"gate derivation refused: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: REVIEW_TARGET_MISMATCH: gate derivation refused: Invalid semantic review record at /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high5-20261024T163000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/semantic-review-v2.json: must be reader-surface-semantic-review-v2 with review_kind='SEMANTIC_EDITORIAL'. Legacy publication-review-record-v2 fallback is prohibited.

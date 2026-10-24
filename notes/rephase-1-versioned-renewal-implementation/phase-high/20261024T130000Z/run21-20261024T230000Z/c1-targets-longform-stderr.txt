@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high17-20261024T230000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1700, in _build_renewal_manuscript
+    reader_pub.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, str(basis["issue_id"]),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+        renewal_source=dict(proof_ref),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high17-20261024T230000Z/renewal-longform/scripts/survey_reader_publication_v2.py", line 593, in build_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high17-20261024T230000Z/renewal-longform/scripts/survey_reader_publication_v2.py", line 388, in _validate_manifest_semantics
+    raise ValueError("renewed manuscript requires explicit renewal proof context")
+ValueError: renewed manuscript requires explicit renewal proof context
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-c1-longform/renewal-basis.json', 'high-phase-fixture', '2026-10-24T06:15:40.825347+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high17-20261024T230000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1064, in prepare_renewal_targets
+    build_record_rel = _render_and_build_new_targets(repo, basis, basis_rel, entry, proof,
+                                                     proof_rel, built, executor.strip(), ts)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high17-20261024T230000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1641, in _render_and_build_new_targets
+    _build_renewal_manuscript(repo, basis, entry, built, proof_ref, manuscript_rel)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high17-20261024T230000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1721, in _build_renewal_manuscript
+    raise _fail("RENEWAL_PROOF_DIGEST", "BUILD", "REFUSED_PRE_WRITE",
+                f"C manuscript build refused: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: RENEWAL_PROOF_DIGEST: C manuscript build refused: renewed manuscript requires explicit renewal proof context

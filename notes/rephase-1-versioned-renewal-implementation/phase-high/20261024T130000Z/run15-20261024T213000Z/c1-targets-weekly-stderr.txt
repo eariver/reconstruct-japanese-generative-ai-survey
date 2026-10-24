@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/renewal-basis.json', 'high-phase-fixture', '2026-10-24T06:03:40.515521+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high14-20261024T210000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1032, in prepare_renewal_targets
+    built = _build_proof_object(repo, basis, basis_rel, entry, executor.strip(), ts)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high14-20261024T210000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 913, in _build_proof_object
+    style_data = _read_bytes_bounded(repo, trio["style"]["path"], "trio style")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high14-20261024T210000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 179, in _read_bytes_bounded
+    p = _safe_path(repo, rel, label)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high14-20261024T210000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 170, in _safe_path
+    raise _fail("HIGH_MISSING", "LOAD", "REFUSED_PRE_WRITE",
+                f"{label} not a regular file: {rel}")
+scripts.survey_versioned_renewal_v2.RenewalHighError: HIGH_MISSING: trio style not a regular file: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/staged-source/jgaisurvey.sty

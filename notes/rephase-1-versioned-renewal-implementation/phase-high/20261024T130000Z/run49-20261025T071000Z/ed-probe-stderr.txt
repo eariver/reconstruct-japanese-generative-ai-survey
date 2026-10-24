@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 28, in <module>
+    res = p1mod.prepare_proposal(root_p, root_p / f"sources/{issue}/production-state.json",
+                                 dest, prop_new,
+                                 "Renewal-to-editorial probe: changed reader on U3-active prior")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 2183, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 1902, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 1709, in _pipeline_data
+    raise _fail("RECEIPT_REF_SHAPE", "renewal receipt lacks routing refs")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: RECEIPT_REF_SHAPE: renewal receipt lacks routing refs

@@ -1,0 +1,39 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u1-weekly.json', None, None, 'high-phase-fixture', '2026-10-24T05:47:35.923984+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1194, in finalize_renewal
+    bundle_rel, gate_rel, candidate_rel = _write_qa_gate_candidate(
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, basis, basis_rel, entry, proof, proof_rel, receipt_rel, paths,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        checks_path, semantic_review_path, visual_review_path, executor.strip(), ts)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2114, in _write_qa_gate_candidate
+    sem_rec = reader_pub.validate_review_record(repo, repo / sem_path,
+                                                issue_id=str(basis["issue_id"]),
+                                                expected_kind="SEMANTIC_EDITORIAL",
+                                                renewal_source_proof_ref=dict(proof_ref))
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_reader_publication_v2.py", line 849, in validate_review_record
+    manuscript = validate_manuscript_manifest(
+        repo_root,
+    ...<2 lines>...
+        renewal_source_proof_ref=renewal_source_proof_ref,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_reader_publication_v2.py", line 646, in validate_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 renewal_source_proof_ref=renewal_source_proof_ref)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_reader_publication_v2.py", line 401, in _validate_manifest_semantics
+    _validate_editorial_source_historical(repo_root, payload, editorial_source)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_reader_publication_v2.py", line 305, in _validate_editorial_source_historical
+    proposal_file = _safe_file(repo_root, editorial_source["proposal_ref"]["path"],
+                               "historical proposal")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_reader_publication_v2.py", line 47, in _safe_file
+    rel = _rel(repo_root, path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high9-20261024T183000Z/renewal-weekly/scripts/survey_reader_publication_v2.py", line 34, in _rel
+    resolved = path.resolve()
+               ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'resolve'

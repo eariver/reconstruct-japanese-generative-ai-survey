@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; high.prepare_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'high-u1-weekly', 'REUSE_TARGETS', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json', None, 'x', '2026-10-24T06:39:51.647311+00:00')
+                                                                                                          ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 698, in prepare_renewal
+    raise _fail("RECORD_COLLISION", "PREPARE", "PRESERVED_INCOMPLETE",
+                f"renewal directory already claimed (fresh id required): {renewal_rel}")
+scripts.survey_versioned_renewal_v2.RenewalHighError: RECORD_COLLISION: renewal directory already claimed (fresh id required): sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly

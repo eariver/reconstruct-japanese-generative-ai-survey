@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; high.resume_renewal_activation(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json')
+                                                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2705, in resume_renewal_activation
+    raise _fail("RECORD_COLLISION", "RESUME", "REFUSED_PRE_WRITE",
+                "record is not a versioned renewal activation")
+scripts.survey_versioned_renewal_v2.RenewalHighError: RECORD_COLLISION: record is not a versioned renewal activation

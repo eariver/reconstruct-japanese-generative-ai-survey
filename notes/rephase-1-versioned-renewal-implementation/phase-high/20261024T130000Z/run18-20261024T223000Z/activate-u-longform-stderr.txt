@@ -1,0 +1,32 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_publication_set_v2.py", line 1375, in _validate_versioned_activation
+    hist.verify_versioned_history(root, rel)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_versioned_renewal_history_v2.py", line 2752, in verify_versioned_history
+    info = _verify_versioned_ancestor(root, rec, ref, expected_predecessor, chronological)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_versioned_renewal_history_v2.py", line 1595, in _verify_versioned_ancestor
+    raise RenewalHistoryError("HISTORY_DIGEST_MISMATCH", "versioned ancestor proof/basis ref mismatch (exact path+SHA)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_DIGEST_MISMATCH: versioned ancestor proof/basis ref mismatch (exact path+SHA)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 2573, in activate_renewal
+    setmod.validate_activation_record(repo, Path(record_rel_out))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_publication_set_v2.py", line 1402, in validate_activation_record
+    return _validate_versioned_activation(root, rel, validated)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_publication_set_v2.py", line 1377, in _validate_versioned_activation
+    raise PublicationSetError(f"versioned activation history invalid: {exc}") from exc
+scripts.survey_publication_set_v2.PublicationSetError: versioned activation history invalid: HISTORY_DIGEST_MISMATCH: versioned ancestor proof/basis ref mismatch (exact path+SHA)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.activate_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u1-longform/publication-set.json', 'Core change: versioned renewal HIGH+consumer implementation with fixed source proof leaf', 'high-phase-fixture', '2026-10-24T06:08:57.477763+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 2576, in activate_renewal
+    raise _fail(str(code), "ACTIVATE", "PRESERVED_INCOMPLETE",
+                f"low activation-record validation failed: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: SEAL_BIND: low activation-record validation failed: versioned activation history invalid: HISTORY_DIGEST_MISMATCH: versioned ancestor proof/basis ref mismatch (exact path+SHA)

@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/deterministic-checks.json', None, None, 'high-phase-fixture', '2026-10-24T13:00:00+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high3-20261024T153000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1067, in finalize_renewal
+    bundle_rel, gate_rel, candidate_rel = _write_qa_gate_candidate(
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, basis, basis_rel, entry, proof, proof_rel, receipt_rel, paths,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        checks_path, semantic_review_path, visual_review_path, executor.strip(), ts)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high3-20261024T153000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1858, in _write_qa_gate_candidate
+    raise _fail("QA_MISSING", "FINALIZE", "REFUSED_PRE_WRITE", "QA checks must be a non-empty array")
+scripts.survey_versioned_renewal_v2.RenewalHighError: QA_MISSING: QA checks must be a non-empty array

@@ -1,0 +1,26 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1376, in _write_reused_build_record
+    schema_gate.load_and_validate_json(repo / rel, repo / RENEWAL_RECEIPT_SCHEMA,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                       label="Renewal Build Record")
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/scripts/survey_schema_v2.py", line 262, in load_and_validate_json
+    validate_instance(value, schema_path, label=label)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/scripts/survey_schema_v2.py", line 254, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: Renewal Build Record fails /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/schemas/versioned-renewal-source-manifest-v2.schema.json: $: 'accepted_refs' is a required property
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u1-longform/renewal-basis.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/deterministic-checks.json', None, None, 'high-phase-fixture', '2026-10-24T13:00:00+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1054, in finalize_renewal
+    build_record_rel = _write_reused_build_record(repo, basis, basis_rel, entry, proof,
+                                                  proof_rel, executor.strip(), ts)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1379, in _write_reused_build_record
+    raise _fail("RENEWAL_PROOF_DIGEST", "BUILD", "REFUSED_PRE_WRITE",
+                f"build record container invalid: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: RENEWAL_PROOF_DIGEST: build record container invalid: Renewal Build Record fails /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high2-20261024T150000Z/renewal-longform/schemas/versioned-renewal-source-manifest-v2.schema.json: $: 'accepted_refs' is a required property

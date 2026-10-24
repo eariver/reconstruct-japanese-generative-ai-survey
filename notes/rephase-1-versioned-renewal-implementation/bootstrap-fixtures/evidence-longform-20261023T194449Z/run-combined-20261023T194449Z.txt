@@ -1,0 +1,75 @@
+===0 SOURCE===
+HEAD=721a04d85532d7855f3e54cc411f5847c787726e
+LSFILES=721 (expect 721)
+TREE=ac7cb0bd2e977b46e957450816eddd779799e144 (expect ac7cb0bd2e977b46e957450816eddd779799e144)
+NO_ALTERNATES_OK
+REMOTE=origin	https://example.invalid/versioned-renewal-bootstrap-longform.git (fetch)
+origin	https://example.invalid/versioned-renewal-bootstrap-longform.git (push)
+STATUS_CLEAN=yes
+TOOLCHAIN lualatex=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux/lualatex biber=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux/biber
+LUALATEX_VERSION rc=0 out=This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)
+PYTHON=3.14.4 expected 3.14.4
+SNAP0 files=721
+===1 BOOTSTRAP LONGFORM CANONICAL===
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}
+BOOTSTRAP_OK state=sources/SP001/production-state.json
+OLD_CANDIDATE_HEALTHY sources/SP001/publication/v2/publication-candidate-v2.json sha=9a6c4c63fb247194d5015d897851b7581bd05ff48f3ec8f3e27df69a7a107724 status=READY_FOR_PUBLICATION_PREVIEW
+===P1 lf-boot-1===
+STAGED_AUTH sources/SP001/publication/v2/editorial-corrections/lf-boot-1/authoring-input.json
+P1_PREPARE lf-boot-1 reader_sha=e5105b317d65fb7d805520a3dbfe9b973141f241c02cb70c3a9e3dbd9a1a5c12
+P1_VALIDATE REVIEW_REQUIRED
+===P2R===
+P2R_OK manifest=sources/SP001/publication/v2/editorial-corrections/lf-boot-1/retained/retention-manifest.json sha=8bcff592a3f3ba32512c244c5bb2012148ee84fa3fe131216b2cbd21c55d9acc
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+===SCOPE===
+SCOPE=sources/SP001/publication/v2/editorial-corrections/lf-boot-1/scope-review-v2.json sha=847a9b0ea85d2730c9bff7fb866b3a86c23de2133f377e646438137dc4b8db08
+===P2V===
+P2V_SCOPE_BOUND
+===P3S===
+P3S_VERIFIED50 manifest=sources/SP001/publication/v2/editorial-corrections/lf-boot-1/staged-source/staged-source-manifest.json sha=d1bdbb927b6b3c2cba1ab36602ee93fa1428d31996671cebec4a3884aef9ab83
+===SPECS===
+SPECS sources/SP001/publication/v2/editorial-corrections/lf-boot-1/manuscript-spec.json sources/SP001/publication/v2/editorial-corrections/lf-boot-1/toolchain-spec.json
+SPEC_RECIPE lualatex-biber-lualatex argv_len=4
+===PREPARE_REAL_TL2026===
+PREPARE dt=29.8s out_keys=['build', 'build_record', 'manuscript', 'proposal_dir', 'publication_dir', 'receipt']
+REAL_PDF pages=5 bytes=79530 log_bytes=94029
+PDF_SHA 12e2bdfb0aabe4d3d7ca9df3600e565a26de067e8b8e7104a1fd9ff26d8e7a48
+MANUSCRIPT_SHA 0f666fbd20f47ac6fe1b8bbc67a7d2eaa165baf8d1497e4a0398400af7307f78
+===QA_REVIEWS===
+DET_CHECKS sources/SP001/publication/v2/editorial-corrections/lf-boot-1/deterministic-checks.json n=4
+REVIEWS sem=d23495634601142fd3733ca86be3512fb86f10572d11ba93b78e7d7240d0bfa1 vis=231a0ed0117d9df11ad7101843b1560dccba5ee17e196a17d73c5468a69c9053
+===FINALIZE===
+FINALIZE {"set_ref": "sources/SP001/publication/v2/editorial-corrections/lf-boot-1/publication/publication-set.json", "set_sha256": "59c703bcdd3e22232d64217336371c3c24452ad308f10410a2da5233d20ddaed"}
+INERT_HEALTHY
+SEAL sources/SP001/publication/v2/editorial-corrections/lf-boot-1/publication/publication-set.json sha=b890d1b8c0b998cf6983f2a45974ea0ee1cc3789a43b87f51b78995ae8a59940
+===VALIDATE_PREPARED_SET===
+VALIDATE_SET ok keys=['build_record_ref', 'issue_id', 'kind', 'proposal_ref', 'publication_profile', 'research_profile', 'roles', 'schema_version', 'set_sha256', 'staged_manifest_ref', 'status']
+===ACTIVATE===
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/SP001/publication/v2/publication-surface-revalidation-r1.json", "state_path": "sources/SP001/production-state.json", "observed": "new"}
+RECORD sources/SP001/publication/v2/publication-surface-revalidation-r1.json sha=2bd14fc72491efb30bd0b137960c9b72058f86eb3e1c1bd0b17e068736f38c7e supersedes=None anchor={'kind': 'VALIDATION_CHECKPOINT', 'ref': {'path': 'sources/SP001/orchestration/v2/checkpoints/DRAFT_COMPLETE.json', 'sha256': '411a820585ecdb60d0778beaa95ca486240573eb8d0b1878d875199f8fad1925'}}
+===STRICT_STATE_PREVIEW_PENDING===
+STRICT_STATE_OK
+SELECTION mode=VERSIONED_ACTIVE candidate=sources/SP001/publication/v2/editorial-corrections/lf-boot-1/publication/publication-candidate-v2.json
+HISTORY status=HISTORICAL_VALID
+RECEIPT issue=SP001
+GATE_PASSED
+CANDIDATE status=READY_FOR_PUBLICATION_PREVIEW
+OLD_CANDIDATE_PRESERVED sources/SP001/publication/v2/publication-candidate-v2.json
+OLD_CANDIDATE_NOT_ADOPTED_OK
+EVIDENCE /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/bootstrap-fixtures/evidence-longform-20261023T194449Z/bootstrap-longform-evidence.json
+=== BOOTSTRAP LONGFORM ACTIVATED prePreview (terminal) ===
+EXIT:0

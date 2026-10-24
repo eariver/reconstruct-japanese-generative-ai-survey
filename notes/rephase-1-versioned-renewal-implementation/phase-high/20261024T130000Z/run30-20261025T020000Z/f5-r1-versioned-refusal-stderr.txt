@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_production_v2 as core; from scripts import survey_weekly_mechanical_refresh_v2 as r1; from pathlib import Path; root = Path(sys.argv[1]); cfg = core.load_json(root / core.DEFAULT_CONFIG); state = core.load_json(root / 'sources/2026-W37/production-state.json'); from datetime import datetime, timezone; r1.refresh_mechanical_evidence(root, cfg, 'sources/2026-W37/production-state.json', 'test', 'x', datetime.now(timezone.utc))
+                                                                                                                                                                                                                                                                                                                                                                                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_weekly_mechanical_refresh_v2.py", line 882, in refresh_mechanical_evidence
+    _raw_state_abs = state_path if state_path.is_absolute() else (root.resolve() / state_path)
+                                   ^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'is_absolute'

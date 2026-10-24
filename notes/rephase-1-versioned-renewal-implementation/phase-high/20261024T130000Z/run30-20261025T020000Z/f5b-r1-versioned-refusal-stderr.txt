@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_weekly_mechanical_refresh_v2.py", line 833, in _require_canonical_mode_for_r1
+    _setmod.require_active_or_canonical(root, cfg, state, want_versioned=False)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_publication_set_v2.py", line 2279, in require_active_or_canonical
+    raise PublicationSetError("canonical operation refused in revised mode (use versioned editorial operation)")
+scripts.survey_publication_set_v2.PublicationSetError: canonical operation refused in revised mode (use versioned editorial operation)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 9, in <module>
+    r1.refresh_mechanical_evidence(root, cfg, root / 'sources/2026-W37/production-state.json', 'test', 'x', datetime.now(timezone.utc))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_weekly_mechanical_refresh_v2.py", line 891, in refresh_mechanical_evidence
+    _require_canonical_mode_for_r1(root, cfg, state)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high21-20261025T020000Z/renewal-weekly/scripts/survey_weekly_mechanical_refresh_v2.py", line 836, in _require_canonical_mode_for_r1
+    raise MechanicalRefreshError(
+    ...<2 lines>...
+    ) from exc
+scripts.survey_weekly_mechanical_refresh_v2.MechanicalRefreshError: R1 mechanical refresh refused in VERSIONED_ACTIVE/invalid mode before any write: canonical operation refused in revised mode (use versioned editorial operation) (versioned renewal unselected §10; no editorial-reason bypass)

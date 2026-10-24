@@ -1,0 +1,23 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high13-20261024T203000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2537, in activate_renewal
+    setmod.validate_activation_record(repo, Path(record_rel_out))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high13-20261024T203000Z/renewal-weekly/scripts/survey_publication_set_v2.py", line 1402, in validate_activation_record
+    return _validate_versioned_activation(root, rel, validated)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high13-20261024T203000Z/renewal-weekly/scripts/survey_publication_set_v2.py", line 1357, in _validate_versioned_activation
+    _check_authority_ref(root, ref, f"versioned activation {key}")
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high13-20261024T203000Z/renewal-weekly/scripts/survey_publication_set_v2.py", line 331, in _check_authority_ref
+    raise PublicationSetError(f"{label} SHA drift: {path_value}")
+scripts.survey_publication_set_v2.PublicationSetError: versioned activation set_ref SHA drift: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/publication-set.json
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.activate_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/publication-set.json', 'Core change: versioned renewal HIGH+consumer implementation with fixed source proof leaf', 'high-phase-fixture', '2026-10-24T05:56:36.548505+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high13-20261024T203000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2540, in activate_renewal
+    raise _fail(str(code), "ACTIVATE", "PRESERVED_INCOMPLETE",
+                f"low activation-record validation failed: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: SEAL_BIND: low activation-record validation failed: versioned activation set_ref SHA drift: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/publication-set.json

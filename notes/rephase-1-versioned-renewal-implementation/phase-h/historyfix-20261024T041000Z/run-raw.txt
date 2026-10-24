@@ -1,0 +1,83 @@
+=== REAL weekly 2026-W37 ===
+origin OK HIST: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-historyfix-20261024T041000Z/bootstrap-weekly-new/scripts/survey_versioned_renewal_history_v2.py
+origin OK agent: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-historyfix-20261024T041000Z/bootstrap-weekly-new/scripts/survey_agent_control_v2.py
+origin OK edpub: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-historyfix-20261024T041000Z/bootstrap-weekly-new/scripts/survey_editorial_publication_v2.py
+HIST PASS chain=1 anchor=VALIDATION_CHECKPOINT refs=1
+observed_source_bindings NONEMPTY complete: 11 rows
+O17 scope OK: 1 row(s), pointer '' (whole-doc, never '/')
+RECEIPT + STAGED + SCHEMA rows present
+materialization_lineage OK: 1 entries (EDITORIAL original proposal/staged/scope producer present)
+lineage original proposal/staged/scope/receipt/seal/build refs present (descriptive, S rereads via loader)
+E-absent-old-epoch positive (exit 128): sources/2026-W37/production-state.json
+live State sha=ca7c0d2e62b6 before_ref sha=ad2d207c7aa8 mutated=True
+agent.validate_agent_state PASS (0 errors, STATE structure, not publication eligibility)
+old receipt REFUSE as expected (Core change): EditorialError: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: TOOL_DRIFT: [PIN/INVALID] staged code_dep pin != current bytes: schemas/publication-surface-revalidation.schema.json
+mutation seal-name -> HIST preempts HISTORY_DIGEST_MISMATCH (repairing)
+repair seal-name PASS
+mutation staged-subset -> HIST preempts HISTORY_DIGEST_MISMATCH (repairing)
+repair staged-subset PASS
+mutation receipt-tamper -> HIST preempts HISTORY_DIGEST_MISMATCH SHA drift (repairing)
+repair receipt-tamper PASS
+mutation scope-tamper -> HIST preempts HISTORY_DIGEST_MISMATCH SHA drift (repairing)
+repair scope-tamper PASS
+mutation retained-COPY-tamper -> HIST preempts HISTORY_DIGEST_MISMATCH (repairing)
+repair retained-COPY PASS
+mutation digest-mismatch -> HIST preempts HISTORY_DIGEST_MISMATCH recompute (repairing)
+repair digest-mismatch PASS
+row mutation epoch -> HISTORY_TOOL_EPOCH_DRIFT
+row mutation owner -> UNSUPPORTED_MIGRATION
+row mutation extra -> HISTORY_DIGEST_MISMATCH
+row mutation omit -> HISTORY_DIGEST_MISMATCH
+row mutation O17 '/' -> HISTORY_DIGEST_MISMATCH (must be '')
+row mutation tool epoch -> fail-closed HISTORY_BLOB_MISSING
+raw duplicate-JSON -> HIST raw preempts duplicate refusal
+raw traversal -> HIST raw preempts HISTORY_MODE
+raw symlink -> HIST raw preempts HISTORY_MODE symlink refusal
+=== REAL weekly 2026-W37 DONE ===
+=== REAL longform SP001 ===
+origin OK HIST: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-historyfix-20261024T041000Z/bootstrap-longform-new/scripts/survey_versioned_renewal_history_v2.py
+origin OK agent: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-historyfix-20261024T041000Z/bootstrap-longform-new/scripts/survey_agent_control_v2.py
+origin OK edpub: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-historyfix-20261024T041000Z/bootstrap-longform-new/scripts/survey_editorial_publication_v2.py
+HIST PASS chain=1 anchor=VALIDATION_CHECKPOINT refs=1
+observed_source_bindings NONEMPTY complete: 11 rows
+O17 scope OK: 1 row(s), pointer '' (whole-doc, never '/')
+RECEIPT + STAGED + SCHEMA rows present
+materialization_lineage OK: 1 entries (EDITORIAL original proposal/staged/scope producer present)
+lineage original proposal/staged/scope/receipt/seal/build refs present (descriptive, S rereads via loader)
+E-absent-old-epoch positive (exit 128): sources/SP001/production-state.json
+live State sha=17c20a1e4a83 before_ref sha=40107355468f mutated=True
+agent.validate_agent_state PASS (0 errors, STATE structure, not publication eligibility)
+old receipt REFUSE as expected (Core change): EditorialError: STAGED_REFUSED: [PIN/REFUSED_PRE_WRITE] P3S staged proof refused: TOOL_DRIFT: [PIN/INVALID] staged code_dep pin != current bytes: schemas/publication-surface-revalidation.schema.json
+mutation seal-name -> HIST preempts HISTORY_DIGEST_MISMATCH (repairing)
+repair seal-name PASS
+mutation staged-subset -> HIST preempts HISTORY_DIGEST_MISMATCH (repairing)
+repair staged-subset PASS
+mutation receipt-tamper -> HIST preempts HISTORY_DIGEST_MISMATCH SHA drift (repairing)
+repair receipt-tamper PASS
+mutation scope-tamper -> HIST preempts HISTORY_DIGEST_MISMATCH SHA drift (repairing)
+repair scope-tamper PASS
+mutation retained-COPY-tamper -> HIST preempts HISTORY_DIGEST_MISMATCH (repairing)
+repair retained-COPY PASS
+mutation digest-mismatch -> HIST preempts HISTORY_DIGEST_MISMATCH recompute (repairing)
+repair digest-mismatch PASS
+row mutation epoch -> HISTORY_TOOL_EPOCH_DRIFT
+row mutation owner -> UNSUPPORTED_MIGRATION
+row mutation extra -> HISTORY_DIGEST_MISMATCH
+row mutation omit -> HISTORY_DIGEST_MISMATCH
+row mutation O17 '/' -> HISTORY_DIGEST_MISMATCH (must be '')
+row mutation tool epoch -> fail-closed HISTORY_BLOB_MISSING
+raw duplicate-JSON -> HIST raw preempts duplicate refusal
+raw traversal -> HIST raw preempts HISTORY_MODE
+raw symlink -> HIST raw preempts HISTORY_MODE symlink refusal
+=== REAL longform SP001 DONE ===
+=== NARROW RENEWAL GRAPH UNIT — NOT ENDTOEND (high not ready) ===
+narrow base PASS (scope O17 '' + RECEIPT, git blob verified)
+narrow epoch -> fail-closed (DRIFT/BLOB_MISSING)
+narrow owner -> UNSUPPORTED_MIGRATION
+narrow extra -> HISTORY_DIGEST_MISMATCH
+narrow omit -> HISTORY_DIGEST_MISMATCH
+narrow O17 '/' -> HISTORY_DIGEST_MISMATCH (must be '')
+narrow dup JSON -> duplicate refusal
+narrow reorder -> file_order != sorted would hit HISTORY_TOOL_EPOCH_DRIFT in _verify_versioned_ancestor (documented, not executed endtoend here)
+=== NARROW RENEWAL GRAPH UNIT DONE — NOT ENDTOEND ===
+ALL REAL R3 HIST+AGENT+RECEIPT+MUTATIONS PASS + NARROW UNIT (NOT ENDTOEND) DONE

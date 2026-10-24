@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high11-20261024T193000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 2368, in validate_prepared_renewal_set
+    gate = gatemod.validate_reader_surface_gate(repo, repo / str(gate_role.get("path", "")))
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high11-20261024T193000Z/renewal-longform/scripts/survey_reader_surface_gate_v2.py", line 2005, in validate_reader_surface_gate
+    expected_derivation = _derivation_for_manuscript(
+        repo_root, manuscript, validated_sem["surface_path"],
+    ...<2 lines>...
+        renewal_receipt_ref=expected_receipt_ref,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high11-20261024T193000Z/renewal-longform/scripts/survey_reader_surface_gate_v2.py", line 1241, in _derivation_for_manuscript
+    staged_proof = staged_mod.verify_staged_source(repo_root, repo_root / proposal_ref["path"], staged_manifest_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high11-20261024T193000Z/renewal-longform/scripts/survey_editorial_staged_source_v2.py", line 1877, in verify_staged_source
+    raise _fail("CODE_DEPS_MISMATCH", phase, disp,
+                "staged code_deps != fixed sorted S2 set for route")
+scripts.survey_editorial_staged_source_v2.StagedSourceError: CODE_DEPS_MISMATCH: [PIN/INVALID] staged code_deps != fixed sorted S2 set for route
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u1-longform/renewal-basis.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewal-qa-checks-high-u1-longform.json', None, None, 'high-phase-fixture', '2026-10-24T05:50:31.138332+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high11-20261024T193000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 1200, in finalize_renewal
+    validated = validate_prepared_renewal_set(repo, state_path, set_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high11-20261024T193000Z/renewal-longform/scripts/survey_versioned_renewal_v2.py", line 2375, in validate_prepared_renewal_set
+    raise _fail("REVIEW_TARGET_MISMATCH", "SET", "REFUSED_PRE_WRITE",
+                f"set member validation refused: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: REVIEW_TARGET_MISMATCH: set member validation refused: CODE_DEPS_MISMATCH: [PIN/INVALID] staged code_deps != fixed sorted S2 set for route

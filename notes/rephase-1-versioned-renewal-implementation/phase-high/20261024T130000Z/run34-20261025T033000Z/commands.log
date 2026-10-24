@@ -1,0 +1,116 @@
+$ git status --porcelain=v1 --untracked-files=normal...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly -> exit=0
+$ git add -- scripts/survey_versioned_renewal_v2.py...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly -> exit=0
+$ git rev-parse HEAD...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly -> exit=0
+$ git commit -m HIGH phase TEST-ONLY: T2 maintenance (dead-assignment tidy, behavior-neutral, trio untouched) --no-verify...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly -> exit=0
+$ git rev-parse HEAD...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'high-u2-weekly', 'REUSE_TARGETS', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json', None, 'high-phase-fixture', '2026-10-24T07:39:47.331482+00:00'); print(json.dumps(r, indent=1)) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+basis = json.loads((root_p / basis_rel).read_bytes())
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+prior_seal = json.loads((root_p / basis["prior_selected_ref"]["path"]).read_bytes())
+roles = prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes = (root_p / trio_primary["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages = len(PdfReader(str(root_p / pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh U re-assertion (repeat chain)"
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio_primary["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue_id] + (["Target Model"] if basis["research_profile"] == "THEMATIC" else []),
+        "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio_primary["path"]], "scope": scope}
+assert set(payloads) == set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "Repeat-chain fresh re-assertion: exact current bytes inspected.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u2-weekly/renewal-basis.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u2-weekly...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u2-weekly/renewal-basis.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u2-weekly.json', None, None, 'high-phase-fixture', '2026-10-24T07:39:47.331482+00:00'); print(json.dumps(r, indent=1)) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.activate_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u2-weekly/publication-set.json', 'Core change: T2 maintenance commit advancing the renewal tool epoch', 'high-phase-fixture', '2026-10-24T07:39:47.331482+00:00'); print(json.dumps(r, indent=1)) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_history_v2 as hist; import json; v = hist.verify_versioned_history(sys.argv[1], 'sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json'); print(json.dumps({'chain_length': v['chain_length'], 'n_bindings': len(v['observed_source_bindings'])})) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ git status --porcelain=v1 --untracked-files=normal...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform -> exit=0
+$ git add -- scripts/survey_versioned_renewal_v2.py...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform -> exit=0
+$ git rev-parse HEAD...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform -> exit=0
+$ git commit -m HIGH phase TEST-ONLY: T2 maintenance (dead-assignment tidy, behavior-neutral, trio untouched) --no-verify...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform -> exit=0
+$ git rev-parse HEAD...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'high-u2-longform', 'REUSE_TARGETS', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/manuscript-spec.json', None, 'high-phase-fixture', '2026-10-24T07:39:47.331482+00:00'); print(json.dumps(r, indent=1)) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+basis = json.loads((root_p / basis_rel).read_bytes())
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+prior_seal = json.loads((root_p / basis["prior_selected_ref"]["path"]).read_bytes())
+roles = prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes = (root_p / trio_primary["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages = len(PdfReader(str(root_p / pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh U re-assertion (repeat chain)"
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio_primary["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue_id] + (["Target Model"] if basis["research_profile"] == "THEMATIC" else []),
+        "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio_primary["path"]], "scope": scope}
+assert set(payloads) == set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "Repeat-chain fresh re-assertion: exact current bytes inspected.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/renewal-basis.json sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/renewal-basis.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewal-qa-checks-high-u2-longform.json', None, None, 'high-phase-fixture', '2026-10-24T07:39:47.331482+00:00'); print(json.dumps(r, indent=1)) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.activate_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/publication-set.json', 'Core change: T2 maintenance commit advancing the renewal tool epoch', 'high-phase-fixture', '2026-10-24T07:39:47.331482+00:00'); print(json.dumps(r, indent=1)) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_history_v2 as hist; import json; v = hist.verify_versioned_history(sys.argv[1], 'sources/SP001/publication/v2/publication-surface-revalidation-r3.json'); print(json.dumps({'chain_length': v['chain_length'], 'n_bindings': len(v['observed_source_bindings'])})) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform...  # cwd=/home/eariver/git/reconstruct-japanese-generative-ai-survey -> exit=0

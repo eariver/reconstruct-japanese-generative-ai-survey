@@ -1,0 +1,48 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_quality_v2.py", line 29, in _rel
+    return str(resolved.relative_to(root)).replace("\\", "/")
+               ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 489, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/staged-source/main.tex' is not in the subpath of '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2027, in _write_qa_gate_candidate
+    quality.build_bundle(repo, str(basis["issue_id"]),
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         Path(str(trio["primary"]["path"])),
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         Path(pdf_path), checks, repo / paths["bundle"],
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         production_profile_path=Path(profile_rel),
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                         renewal_source_proof_ref=dict(proof_ref))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_quality_v2.py", line 206, in build_bundle
+    source = _safe_file(repo_root, source_path, "validated publication source")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_quality_v2.py", line 35, in _safe_file
+    _rel(repo_root, path)
+    ~~~~^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_quality_v2.py", line 31, in _rel
+    raise ValueError(f"quality artifact must be repository-local: {path}") from exc
+ValueError: quality artifact must be repository-local: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/staged-source/main.tex
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u1-weekly.json', None, None, 'high-phase-fixture', '2026-10-24T05:37:34.033402+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1194, in finalize_renewal
+    bundle_rel, gate_rel, candidate_rel = _write_qa_gate_candidate(
+                                          ~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo, basis, basis_rel, entry, proof, proof_rel, receipt_rel, paths,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        checks_path, semantic_review_path, visual_review_path, executor.strip(), ts)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high4-20261024T160000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 2038, in _write_qa_gate_candidate
+    raise _fail("QA_MISSING", "FINALIZE", "REFUSED_PRE_WRITE",
+                f"QA bundle build refused: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: QA_MISSING: QA bundle build refused: quality artifact must be repository-local: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/staged-source/main.tex

@@ -1,0 +1,110 @@
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, issue, prop, rid, now_iso = sys.argv[1:6]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_stage_validation_v2 as stage
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_publication_set_v2 as setmod
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / f"sources/{issue}/production-state.json"
+state = json.loads(state_path.read_bytes())
+sel = setmod.resolve_publication_selection(root_p, cfg, state)
+assert sel.get("mode") == "VERSIONED_ACTIVE", sel.get("mode")
+pdir = f"sources/{issue}/publication/v2/editorial-corrections/{prop}"
+r_dir = f"{pdir}/renewals/{rid}"
+seal = json.loads((root_p / f"{r_dir}/publication-set.json").read_bytes())
+roles = seal["roles"]
+supplied = {
+    "publication-candidate": root_p / roles["publication-candidate"]["path"],
+    "reader-manuscript": root_p / roles["reader-manuscript"]["path"],
+    "validated-source": root_p / roles["validated-source"]["path"],
+    "publication-pdf": root_p / roles["publication-pdf"]["path"],
+    "quality-regression-bundle": root_p / roles["quality-regression-bundle"]["path"],
+    "semantic-review": root_p / roles["semantic-review"]["path"],
+    "visual-review": root_p / roles["visual-review"]["path"],
+    "reader-surface-gate": root_p / roles["reader-surface-gate"]["path"],
+}
+now = datetime.fromisoformat(now_iso)
+stage_out = root_p / pdir / f"lifecycle-stage-{rid}.json"
+stage.validate_stage(root_p, cfg, state_path, supplied, stage_out, now)
+lc_dir = root_p / pdir / f"lifecycle-{rid}"
+lc_dir.mkdir(parents=True, exist_ok=True)
+appr = lc_dir / "preview-approval.json"
+pubmod.build_preview_approval(root_p, supplied["publication-candidate"], appr,
+    "lifecycle-fixture synthetic preview reviewer; NO genuine Human approval",
+    now, f"lifecycle-fixture:{rid}:synthetic-preview")
+pubmod.validate_preview_approval(root_p, appr, issue_id=issue)
+frz = lc_dir / "freeze-record.json"
+man = lc_dir / "release-manifest.json"
+pubmod.build_freeze(root_p, supplied["publication-candidate"], appr, now, frz, man)
+pubmod.validate_release_manifest(root_p, man)
+import subprocess as _sp
+head = _sp.run(["git", "rev-parse", "HEAD"], cwd=str(root_p), capture_output=True, text=True).stdout.strip()
+mv = lc_dir / "merge-verification.json"
+pubmod.build_merge_verification(root_p, man, head, now, mv)
+rel = lc_dir / "release-record.json"
+pubmod.build_release_record(root_p, man, mv, now, f"lifecycle-fixture:{rid}:synthetic-release", rel)
+print(json.dumps({"stage": str(stage_out.relative_to(root_p)), "approval": str(appr.relative_to(root_p)),
+    "freeze": str(frz.relative_to(root_p)), "manifest": str(man.relative_to(root_p)),
+    "merge": str(mv.relative_to(root_p)), "release": str(rel.relative_to(root_p))}, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly 2026-W37 wk-boot-1...  # -> exit=1
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, issue, prop, rid, now_iso = sys.argv[1:6]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_stage_validation_v2 as stage
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_publication_set_v2 as setmod
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / f"sources/{issue}/production-state.json"
+state = json.loads(state_path.read_bytes())
+sel = setmod.resolve_publication_selection(root_p, cfg, state)
+assert sel.get("mode") == "VERSIONED_ACTIVE", sel.get("mode")
+pdir = f"sources/{issue}/publication/v2/editorial-corrections/{prop}"
+r_dir = f"{pdir}/renewals/{rid}"
+seal = json.loads((root_p / f"{r_dir}/publication-set.json").read_bytes())
+roles = seal["roles"]
+supplied = {
+    "publication-candidate": root_p / roles["publication-candidate"]["path"],
+    "reader-manuscript": root_p / roles["reader-manuscript"]["path"],
+    "validated-source": root_p / roles["validated-source"]["path"],
+    "publication-pdf": root_p / roles["publication-pdf"]["path"],
+    "quality-regression-bundle": root_p / roles["quality-regression-bundle"]["path"],
+    "semantic-review": root_p / roles["semantic-review"]["path"],
+    "visual-review": root_p / roles["visual-review"]["path"],
+    "reader-surface-gate": root_p / roles["reader-surface-gate"]["path"],
+}
+now = datetime.fromisoformat(now_iso)
+stage_out = root_p / pdir / f"lifecycle-stage-{rid}.json"
+stage.validate_stage(root_p, cfg, state_path, supplied, stage_out, now)
+lc_dir = root_p / pdir / f"lifecycle-{rid}"
+lc_dir.mkdir(parents=True, exist_ok=True)
+appr = lc_dir / "preview-approval.json"
+pubmod.build_preview_approval(root_p, supplied["publication-candidate"], appr,
+    "lifecycle-fixture synthetic preview reviewer; NO genuine Human approval",
+    now, f"lifecycle-fixture:{rid}:synthetic-preview")
+pubmod.validate_preview_approval(root_p, appr, issue_id=issue)
+frz = lc_dir / "freeze-record.json"
+man = lc_dir / "release-manifest.json"
+pubmod.build_freeze(root_p, supplied["publication-candidate"], appr, now, frz, man)
+pubmod.validate_release_manifest(root_p, man)
+import subprocess as _sp
+head = _sp.run(["git", "rev-parse", "HEAD"], cwd=str(root_p), capture_output=True, text=True).stdout.strip()
+mv = lc_dir / "merge-verification.json"
+pubmod.build_merge_verification(root_p, man, head, now, mv)
+rel = lc_dir / "release-record.json"
+pubmod.build_release_record(root_p, man, mv, now, f"lifecycle-fixture:{rid}:synthetic-release", rel)
+print(json.dumps({"stage": str(stage_out.relative_to(root_p)), "approval": str(appr.relative_to(root_p)),
+    "freeze": str(frz.relative_to(root_p)), "manifest": str(man.relative_to(root_p)),
+    "merge": str(mv.relative_to(root_p)), "release": str(rel.relative_to(root_p))}, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-longform SP001 lf-boot-1...  # -> exit=1

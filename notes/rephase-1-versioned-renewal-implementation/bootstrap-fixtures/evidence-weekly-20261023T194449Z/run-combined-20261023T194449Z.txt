@@ -1,0 +1,64 @@
+COMMAND:
+PYTHONDONTWRITEBYTECODE=1 TMPDIR=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-bootstrap-20261023T194449Z/scratch-tmp/weekly /usr/bin/python3 notes/rephase-1-versioned-renewal-implementation/bootstrap-fixtures/run_bootstrap_fixture.py .rephase-1-editorial-runtime/versioned-renewal-bootstrap-20261023T194449Z/bootstrap-weekly notes/rephase-1-versioned-renewal-implementation/bootstrap-fixtures/evidence-weekly-20261023T194449Z 721a04d85532d7855f3e54cc411f5847c787726e ac7cb0bd2e977b46e957450816eddd779799e144 721 weekly wk-boot-1
+CHILD_EXIT: 0 (tool-observed, no truncation)
+PYTHON: 3.14.4 (/usr/bin/python3)
+TMPDIR: workspace scratch .rephase-1-editorial-runtime/versioned-renewal-bootstrap-20261023T194449Z/scratch-tmp/weekly (PYTHONDONTWRITEBYTECODE=1, no GIT_* env)
+
+===0 SOURCE===
+HEAD=721a04d85532d7855f3e54cc411f5847c787726e
+LSFILES=721 (expect 721)
+TREE=ac7cb0bd2e977b46e957450816eddd779799e144 (expect ac7cb0bd2e977b46e957450816eddd779799e144)
+NO_ALTERNATES_OK
+REMOTE=origin https://example.invalid/versioned-renewal-bootstrap-weekly.git (fetch/push, inert)
+STATUS_CLEAN=yes
+TOOLCHAIN lualatex=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux/lualatex biber=/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux/biber
+LUALATEX_VERSION rc=0 out=This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)
+SNAP0 files=721
+===1 BOOTSTRAP WEEKLY CANONICAL===
+BOOTSTRAP_OK state=sources/2026-W37/production-state.json lifecycle=VALIDATED_DRAFT
+===P1 wk-boot-1===
+P1_PREPARE proposal=wk-boot-1 reader_sha=b5c52c4083e07d275298a332b9de6db6f7d5e65925d560f54a580f980a40f6f5
+P1_VALIDATE REVIEW_REQUIRED (asserted inside helper)
+===P2R===
+P2R_OK manifest=sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/retained/retention-manifest.json sha=b36ec8859f9503c9fdf6d39be3dab0d1bbfdb66bff65d5b191b05342780e223d
+P1_AFTER_CAPTURE_REFUSAL_OK ProposalError
+===SCOPE===
+SCOPE=sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/scope-review-v2.json sha=4ad453f4f6a83119b10ab20ae05f9ff576d6604ccf03fb635aeda5af3526641b
+===P2V===
+P2V_SCOPE_BOUND
+===P3S===
+P3S_VERIFIED50 manifest=sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/staged-source/staged-source-manifest.json sha=0b17f44d00ecdfee054e4ff5810d530d6dafd5b118185bf782466be1ce5ed79c
+===SPECS===
+SPECS sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/toolchain-spec.json
+SPEC_RECIPE lualatex-biber-lualatex argv_len=4
+===PREPARE_REAL_TL2026===
+PREPARE dt=27.5s out_keys=['build', 'build_record', 'manuscript', 'proposal_dir', 'publication_dir', 'receipt']
+REAL_PDF pages=5 bytes=61239 log_bytes=92972
+PDF_SHA 0684697f7043f5dc7c4464e90ceec162ac1553b284ce09ba88c01f9dd450b9d3
+MANUSCRIPT_SHA cff7253d0dedd3d22e69ec98ef7b7f27a30763d88065b32f7d44f8fe94f19a17
+===QA_REVIEWS===
+DET_CHECKS sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/deterministic-checks.json n=3
+REVIEWS sem=77d758e1fa64a8ff16548cf80638bf829b2dff0401c8a4f4db71113153fe0797 vis=f81a3cbda0ceda8ed4c1c0347e152bc17bc06ad69ab649938b0e894305cb55cd
+===FINALIZE===
+FINALIZE {"set_ref": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/publication-set.json", "set_sha256": "e6600d89f132c4a8e5aa29d021f0acbe13475d255e56bb07296550cf50bfb80f"}
+INERT_HEALTHY
+SEAL sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/publication-set.json sha=782c02bb13481384f13511ea1d08fab6dc9f25342d9cc6e5a02b60f0e7da06ff
+===VALIDATE_PREPARED_SET===
+VALIDATE_SET ok
+===ACTIVATE===
+ACTIVATE {"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json", "state_path": "sources/2026-W37/production-state.json", "observed": "new"}
+RECORD sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json sha=652462887f6a7ce5835f7db83e8d702110209c9ca7ed408d7133baf007145ea6 supersedes=None anchor=VALIDATION_CHECKPOINT
+===STRICT_STATE_PREVIEW_PENDING===
+STRICT_STATE_OK
+SELECTION mode=VERSIONED_ACTIVE candidate=sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/publication-candidate-v2.json
+HISTORY status=HISTORICAL_VALID
+RECEIPT issue=2026-W37
+GATE_PASSED
+CANDIDATE status=READY_FOR_PUBLICATION_PREVIEW
+EVIDENCE notes/rephase-1-versioned-renewal-implementation/bootstrap-fixtures/evidence-weekly-20261023T194449Z/bootstrap-weekly-evidence.json
+=== BOOTSTRAP WEEKLY ACTIVATED prePreview (terminal) ===
+EXIT:0
+
+NOTE: This file is a preserved transcription of the tool-observed run output (child exit 0).
+Full per-phase SHAs/dimensions are in bootstrap-weekly-evidence.json in the same directory.
+No Preview advance, no freeze/adoption/Human approval. Synthetic reviews are type/identity fixtures, never genuine approval.

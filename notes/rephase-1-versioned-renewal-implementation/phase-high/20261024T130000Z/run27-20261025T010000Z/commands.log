@@ -1,0 +1,152 @@
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'high-c1-weekly', 'RENDER_TARGETS', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/toolchain-spec.json', 'high-phase-fixture', '2026-10-24T06:29:10.459686+00:00'); print(json.dumps(r, indent=1)) .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-weekly...  # -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/renewal-basis.json', 'high-phase-fixture', '2026-10-24T06:29:10.459686+00:00'); print(json.dumps(r, indent=1)) .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-weekly...  # -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, issue, prop, rid, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+sys.path.insert(0, str(root_p))
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+from scripts import survey_reader_publication_v2 as reader_pub
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture import origin"
+pdir = f"sources/{issue}/publication/v2/editorial-corrections/{prop}"
+r_dir = f"{pdir}/renewals/{rid}"
+basis = json.loads((root_p / f"{r_dir}/renewal-basis.json").read_bytes())
+proof = json.loads((root_p / f"{r_dir}/renewal-source-proof.json").read_bytes())
+proof_ref = {"path": f"{r_dir}/renewal-source-proof.json",
+             "sha256": __import__("hashlib").sha256((root_p / f"{r_dir}/renewal-source-proof.json").read_bytes()).hexdigest()}
+man_rel = f"{r_dir}/reader-manuscript-v2.json"
+trio = proof["output_trio_refs"]
+from pypdf import PdfReader
+import subprocess as _sp
+brec = json.loads((root_p / f"{r_dir}/build-record.json").read_bytes())
+pdf_rel = brec["outputs"]["publication-pdf"]["path"]
+pages = len(PdfReader(str(root_p / pdf_rel)).pages)
+rev_dir = root_p / r_dir / "reviews"
+rev_dir.mkdir(parents=True, exist_ok=True)
+out = {}
+for kind_name, fname in (("SEMANTIC_EDITORIAL", "semantic-review-v2.json"),
+                         ("VISUAL", "visual-review-v2.json")):
+    checks = [{"check_id": cid, "status": "PASS",
+               "detail": f"Renewal C1 fixture synthetic {kind_name} reviewer on new R targets; no genuine approval.",
+               "evidence_locations": [f"renewal-c1:{rid}:{trio['primary']['path']}"]}
+              for cid in sorted(reader_pub._expected_review_checks(root_p, core.load_json(root_p / basis["profile_ref"]["path"]), kind_name))]
+    reader_pub.build_review_record(
+        root_p, root_p / man_rel, root_p / pdf_rel, pages, kind_name, checks,
+        f"renewal-c1-fixture synthetic {kind_name} reviewer; no genuine approval",
+        __import__("datetime").datetime.fromisoformat(now_iso), rev_dir / fname,
+        renewal_source_proof_ref=dict(proof_ref))
+    out[kind_name] = str((rev_dir / fname).relative_to(root_p))
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh C deterministic re-assertion on new R targets"
+main_bytes = (root_p / trio["primary"]["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_rel).read_bytes()
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio["primary"]["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue] + (["Target Model"] if basis["research_profile"] == "THEMATIC" else []),
+        "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio["primary"]["path"]], "scope": scope}
+assert set(payloads) == set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "Renewal C1 fresh deterministic re-assertion: exact new R bytes inspected.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+out["checks"] = str(checks_path.relative_to(root_p))
+print(json.dumps(out, indent=1))
+ .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-weekly 2026-W37 wk-boot-1...  # -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.finalize_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/renewal-basis.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-c1-weekly.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/reviews/semantic-review-v2.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/reviews/visual-review-v2.json', 'high-phase-fixture', '2026-10-24T06:29:10.459686+00:00'); print(json.dumps(r, indent=1)) .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-weekly...  # -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.activate_renewal(sys.argv[1], 'sources/2026-W37/production-state.json', 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/publication-set.json', 'Core change: same-reader renewal with new rendered targets (real TL build)', 'high-phase-fixture', '2026-10-24T06:29:10.459686+00:00'); print(json.dumps(r, indent=1)) .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-weekly...  # -> exit=1
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal(sys.argv[1], 'sources/SP001/production-state.json', 'high-c1-longform', 'RENDER_TARGETS', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/manuscript-spec.json', 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/toolchain-spec.json', 'high-phase-fixture', '2026-10-24T06:29:10.459686+00:00'); print(json.dumps(r, indent=1)) .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-longform...  # -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-c1-longform/renewal-basis.json', 'high-phase-fixture', '2026-10-24T06:29:10.459686+00:00'); print(json.dumps(r, indent=1)) .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-longform...  # -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, issue, prop, rid, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+sys.path.insert(0, str(root_p))
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+from scripts import survey_reader_publication_v2 as reader_pub
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture import origin"
+pdir = f"sources/{issue}/publication/v2/editorial-corrections/{prop}"
+r_dir = f"{pdir}/renewals/{rid}"
+basis = json.loads((root_p / f"{r_dir}/renewal-basis.json").read_bytes())
+proof = json.loads((root_p / f"{r_dir}/renewal-source-proof.json").read_bytes())
+proof_ref = {"path": f"{r_dir}/renewal-source-proof.json",
+             "sha256": __import__("hashlib").sha256((root_p / f"{r_dir}/renewal-source-proof.json").read_bytes()).hexdigest()}
+man_rel = f"{r_dir}/reader-manuscript-v2.json"
+trio = proof["output_trio_refs"]
+from pypdf import PdfReader
+import subprocess as _sp
+brec = json.loads((root_p / f"{r_dir}/build-record.json").read_bytes())
+pdf_rel = brec["outputs"]["publication-pdf"]["path"]
+pages = len(PdfReader(str(root_p / pdf_rel)).pages)
+rev_dir = root_p / r_dir / "reviews"
+rev_dir.mkdir(parents=True, exist_ok=True)
+out = {}
+for kind_name, fname in (("SEMANTIC_EDITORIAL", "semantic-review-v2.json"),
+                         ("VISUAL", "visual-review-v2.json")):
+    checks = [{"check_id": cid, "status": "PASS",
+               "detail": f"Renewal C1 fixture synthetic {kind_name} reviewer on new R targets; no genuine approval.",
+               "evidence_locations": [f"renewal-c1:{rid}:{trio['primary']['path']}"]}
+              for cid in sorted(reader_pub._expected_review_checks(root_p, core.load_json(root_p / basis["profile_ref"]["path"]), kind_name))]
+    reader_pub.build_review_record(
+        root_p, root_p / man_rel, root_p / pdf_rel, pages, kind_name, checks,
+        f"renewal-c1-fixture synthetic {kind_name} reviewer; no genuine approval",
+        __import__("datetime").datetime.fromisoformat(now_iso), rev_dir / fname,
+        renewal_source_proof_ref=dict(proof_ref))
+    out[kind_name] = str((rev_dir / fname).relative_to(root_p))
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh C deterministic re-assertion on new R targets"
+main_bytes = (root_p / trio["primary"]["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_rel).read_bytes()
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio["primary"]["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue] + (["Target Model"] if basis["research_profile"] == "THEMATIC" else []),
+        "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio["primary"]["path"]], "scope": scope}
+assert set(payloads) == set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "Renewal C1 fresh deterministic re-assertion: exact new R bytes inspected.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+out["checks"] = str(checks_path.relative_to(root_p))
+print(json.dumps(out, indent=1))
+ .rephase-1-editorial-runtime/versioned-renewal-high20-20261025T010000Z/renewal-longform SP001 lf-boot-1...  # -> exit=1

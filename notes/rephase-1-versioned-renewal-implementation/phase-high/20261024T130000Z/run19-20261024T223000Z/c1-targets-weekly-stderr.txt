@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/renewal-basis.json', 'high-phase-fixture', '2026-10-24T06:11:47.411373+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1064, in prepare_renewal_targets
+    build_record_rel = _render_and_build_new_targets(repo, basis, basis_rel, entry, proof,
+                                                     proof_rel, built, executor.strip(), ts)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1641, in _render_and_build_new_targets
+    _build_renewal_manuscript(repo, basis, entry, built, proof_ref, manuscript_rel)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high16-20261024T223000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1694, in _build_renewal_manuscript
+    new_trio = proof["output_trio_refs"]
+               ^^^^^
+NameError: name 'proof' is not defined

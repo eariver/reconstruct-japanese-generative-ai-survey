@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; import json; r = high.prepare_renewal_targets(sys.argv[1], 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/renewal-basis.json', 'high-phase-fixture', '2026-10-24T07:55:42.720583+00:00'); print(json.dumps(r, indent=1))
+                                                                                                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1119, in prepare_renewal_targets
+    build_record_rel = _render_and_build_new_targets(repo, basis, basis_rel, entry, proof,
+                                                     proof_rel, built, executor.strip(), ts)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1697, in _render_and_build_new_targets
+    build_outputs = _execute_disposable_build(repo, basis, trio)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high22-20261025T030000Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1983, in _execute_disposable_build
+    "companion_sidecar": sidecar_rel}
+                         ^^^^^^^^^^^
+NameError: name 'sidecar_rel' is not defined
