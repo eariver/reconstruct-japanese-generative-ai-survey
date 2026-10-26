@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<string>", line 17, in <module>
+    res=p1mod.prepare_proposal(root_p, root_p/f"sources/{issue}/production-state.json", dest, prop_new, "scope re-derive")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_correction_proposal_v2.py", line 2450, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_correction_proposal_v2.py", line 2154, in _pipeline
+    _require_retention_dests_absent(col, data["proposal"]["retention_plan"])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_correction_proposal_v2.py", line 1745, in _require_retention_dests_absent
+    raise _fail("RETENTION_DEST_CONFLICT",
+                f"retention destination already present (no overwrite): {dest}")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: RETENTION_DEST_CONFLICT: retention destination already present (no overwrite): sources/SP001/publication/v2/editorial-corrections/lf-ed-3/retained/before/sources/SP001/production-state.json

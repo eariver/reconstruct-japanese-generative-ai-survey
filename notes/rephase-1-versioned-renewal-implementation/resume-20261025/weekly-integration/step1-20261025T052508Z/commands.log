@@ -1,0 +1,96 @@
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly prepare --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-prepare-u1 -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+basis = json.loads((root_p / basis_rel).read_bytes())
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+prior_seal = json.loads((root_p / basis["prior_selected_ref"]["path"]).read_bytes())
+roles = prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes = (root_p / trio_primary["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages = len(PdfReader(str(root_p / pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh U bootstrap re-assertion (weekly integration step1, synthetic fixture, no genuine approval)"
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio_primary["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue_id], "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio_primary["path"]], "scope": scope}
+assert set(payloads) == set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "Weekly step1 fresh re-assertion: exact current bytes inspected, synthetic fixture.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1... # s1-qa-u1 -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly finalize --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-finalize-u1 -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly validate-set --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-validate-set -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly validate-receipt --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-validate-receipt -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly activate --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-activate-u1 -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly history --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-history-u1 -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1]); state_rel=sys.argv[2]
+from scripts import survey_production_v2 as core
+from scripts import survey_agent_control_v2 as agent
+assert str(Path(agent.__file__).resolve()).startswith(str(root.resolve())), "fixture origin"
+cfg=core.load_json(root / "config/survey-production-v2.json")
+state=core.load_json(root / state_rel)
+errs=agent.validate_agent_state(root, cfg, state)
+print(json.dumps({"live_errors": errs, "live_ok": len(errs)==0}))
+sys.exit(0 if len(errs)==0 else 2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly sources/2026-W37/production-state.json... # s1-live-state -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, hashlib
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1])
+old_manifest=json.loads((root / "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/validated-source-manifest.json").read_bytes())
+print(json.dumps({"old_manifest_keys": sorted(old_manifest.keys())[:10], "old_path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/validated-source-manifest.json"}, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-old-receipt-note -> exit=0
+$ git --no-optional-locks rev-parse HEAD... # s1-art-pre-head -> exit=0
+$ git --no-optional-locks add -- docs/weekly-integration-artifact-note-STEP1.md... # s1-art-add -> exit=0
+$ git --no-optional-locks commit -m TEST-ONLY artifact-only note (no Core change, readback only) --no-verify... # s1-art-commit -> exit=0
+$ git --no-optional-locks rev-parse HEAD... # s1-art-head -> exit=0
+$ git --no-optional-locks merge-base --is-ancestor 85eac6f4e2c042c45603552a729770683982c7be HEAD... # s1-art-ancestor -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly history --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-history-after-artifact -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly activate --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-activate-already -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly activate --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-activate-alias-refuse -> exit=2
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly history --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-history-canonical -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly prepare --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-prepare-state-alias-refuse -> exit=2
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly activate --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly... # s1-activate-empty-reason-refuse -> exit=2
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; high.finalize_renewal(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], None, None, 'x', sys.argv[5]) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/deterministic-checks.json... # s1-finalize-wrong-qa-refuse -> exit=1
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1]); basis_rel=sys.argv[2]
+basis=json.loads((root/basis_rel).read_bytes())
+print(json.dumps({"basis_issue": basis.get("issue_id"), "renewal_id": basis.get("renewal_id"), "requested": basis.get("requested")}, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json... # s1-style-note -> exit=0

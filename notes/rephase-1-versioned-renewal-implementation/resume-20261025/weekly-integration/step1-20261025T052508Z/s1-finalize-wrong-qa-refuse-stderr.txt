@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import sys; sys.path.insert(0, sys.argv[1]); from scripts import survey_versioned_renewal_v2 as high; high.finalize_renewal(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], None, None, 'x', sys.argv[5])
+                                                                                                          ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 1538, in finalize_renewal
+    authority = observe_renewal_authority(repo, state_path, basis_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_versioned_renewal_v2.py", line 836, in observe_renewal_authority
+    raise _fail("BASIS_DIGEST_MISMATCH", "OBSERVE", "REFUSED_PRE_WRITE",
+                "LIVE State must equal the fresh before_state_ref (live-live)")
+scripts.survey_versioned_renewal_v2.RenewalHighError: BASIS_DIGEST_MISMATCH: LIVE State must equal the fresh before_state_ref (live-live)

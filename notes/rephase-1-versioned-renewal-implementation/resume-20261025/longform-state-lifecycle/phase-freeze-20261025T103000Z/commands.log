@@ -1,0 +1,71 @@
+phase-freeze-20261025T103000Z start 2026-10-25T10:00:34.591008+00:00 PID=2653514
+PHASE3 start 2026-10-25T10:03:01.311181+00:00 PID=2669413
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-before -> exit=0 dur=0.00s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'human':d['human_gates'],'machine':d['machine_checkpoints']},indent=1))... tag=before-state -> exit=0 dur=0.04s
+PHASE3 resume start 2026-10-25T10:05:53.901164+00:00 PID=2699536
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-resume -> exit=0 dur=0.01s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, state_rel, now_iso = sys.argv[1:4]
+from pathlib import Path
+from datetime import datetime
+import os
+print(f"PHASE3 resume child PID={os.getpid()}", flush=True)
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_stage_validation_v2 as stage
+from scripts import survey_agent_control_v2 as agent
+from scripts import survey_profiled_freeze_v2 as pfreeze
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_publication_set_v2 as setmod
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / state_rel
+state = json.loads(state_path.read_bytes())
+print(f"before lifecycle={state['lifecycle_state']}", flush=True)
+assert state["lifecycle_state"]=="RELEASE_CANDIDATE"
+now = datetime.fromisoformat(now_iso)
+# reuse existing freeze/manifest with idempotence check (no overwrite, known same bytes)
+freeze_path = root_p / "sources/SP001/publication/v2/freeze-record-v2.json"
+manifest_path = root_p / "sources/SP001/publication/v2/release-manifest-v2.json"
+assert freeze_path.exists() and manifest_path.exists(), "freeze/manifest must exist from prior attempt"
+print(f"reuse freeze={freeze_path.relative_to(root_p)} manifest={manifest_path.relative_to(root_p)}", flush=True)
+# verify they bind exact U4 candidate and approval (State-bound)
+cand_path = Path(setmod.resolve_publication_artifact_path(root_p, cfg, json.loads(state_path.read_bytes()), "publication-candidate"))
+cand = pubmod.validate_candidate(root_p, cand_path, issue_id=state["issue_id"])
+print(f"candidate={cand_path.relative_to(root_p)} pdf={cand['pdf']['sha256'][:12]}", flush=True)
+freeze = pubmod.validate_release_manifest(root_p, manifest_path)  # also validates freeze linkage
+# check freeze binds candidate/approval/visual
+import json as _j
+fr = _j.loads(freeze_path.read_bytes())
+assert fr["publication_candidate_path"]==str(cand_path.relative_to(root_p)), fr
+assert fr["publication_candidate_sha256"]==core.sha256_file(cand_path)
+print(f"freeze binds candidate OK frozen_at={fr['frozen_at']}", flush=True)
+# ensure recorded_at >= freeze frozen_at and >= r7
+assert now_iso >= fr["frozen_at"], f"{now_iso} < {fr['frozen_at']}"
+print(f"chrono now {now_iso} >= frozen {fr['frozen_at']} OK", flush=True)
+visual_path = root_p / cand["visual_review"]["path"]
+supplied = {"freeze-record": freeze_path, "release-manifest": manifest_path, "visual-review-record": visual_path}
+report = root_p / "sources/SP001/orchestration/v2/reviews/RELEASE_CANDIDATE-core-contract.json"
+reviews_p = root_p / "sources/SP001/orchestration/v2/reviews/RELEASE_CANDIDATE-reviews.json"
+# these must not exist yet (no collision); if they exist from killed attempt, check idempotence or fail
+if report.exists() or reviews_p.exists():
+    print(f"report exists={report.exists()} reviews exists={reviews_p.exists()} -> checking idempotence, not overwriting", flush=True)
+    # if both exist, verify they are valid for current State/supplied, else blocker
+    if report.exists():
+        print(f"existing report sha={core.sha256_file(report)[:12]}", flush=True)
+    raise SystemExit("BLOCKER: canonical report collides, need manual idempotence check, not overwriting")
+stage.validate_stage(root_p, cfg, state_path, supplied, report, now)
+print(f"stage report={report.relative_to(root_p)}", flush=True)
+core.write_json(reviews_p, {"reviews":[{"check_id":"CORE_STAGE_CONTRACT","kind":"DETERMINISTIC","executor":"synthetic-longform-lifecycle-fixture","evidence":"actual stage guard PASS for profiled Freeze exact U4 Candidate/PDF/gates","result_path":str(report.relative_to(root_p))}]})
+print(f"reviews={reviews_p.relative_to(root_p)}", flush=True)
+cp = agent.build_stage_checkpoint(root_p, cfg, state_path, supplied, reviews_p, "Synthetic longform lifecycle profiled Freeze exact U4 Candidate; NO genuine Human approval", now)
+print(f"checkpoint={cp.relative_to(root_p)}", flush=True)
+updated = agent.advance_with_checkpoint(root_p, cfg, state_path, cp)
+print(_j.dumps({"lifecycle":updated["lifecycle_state"],"machine_freeze":updated["machine_checkpoints"]["freeze"],"next":updated["next_action"],"terminal":updated["terminal_reason"]},indent=1), flush=True)
+assert updated["lifecycle_state"]=="FROZEN"
+print("PHASE3_RESUME_OK", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle sources/SP001/production-state.json 2026-10-25T10:05:54.908058+00:00... tag=phase3-freeze-resume -> exit=0 dur=152.58s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'machine':d['machine_checkpoints']},indent=1))... tag=after-state-resume -> exit=0 dur=0.04s
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-after-resume -> exit=0 dur=0.00s

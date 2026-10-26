@@ -1,0 +1,35 @@
+HIGH_PIN=b12439d5057003e703992b91f9590c5eb498f48c21977fa7ab51167e48909413
+STATE_BEFORE=ca7c0d2e62b6
+SET_BEFORE=sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or1-weekly/publication-set.json a0f8436613d6
+PRIOR=sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json PARENT=sources/2026-W37/publication/v2
+BASE_RECS=['publication-surface-revalidation-r1.json']
+ORPHAN_SETUP_BEFORE_RECS=['publication-surface-revalidation-r1.json'] STATE=ca7c0d2e62b6
+ORPHAN_SETUP_RC=2 OUT= ERR={"error_code": "INDETERMINATE", "detail": "INDETERMINATE: activation State replace failed (preserved): injected replace fail (orphan test, exact State target only)"}
+
+ORPHAN_SETUP_AFTER_RECS=['publication-surface-revalidation-r1.json', 'publication-surface-revalidation-r2.json']
+ORPHAN=sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json
+ORPHAN_SETUP_OK (complete r2, State before, preserved)
+ORDINARY_SAME_RC=2 ERR={"error_code": "INTENT_COLLISION", "detail": "INTENT_COLLISION: matching inert renewal intent already exists (preserved, no new record/State change): sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json same set sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or1-weekly/publication-set.json sha a0f8436613d6 basis sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or1-weekly/renewal-basis.json before sources/2026-W37/production-st
+ORDINARY_CHANGED_RC=2 ERR={"error_code": "INTENT_COLLISION", "detail": "INTENT_COLLISION: matching inert renewal intent already exists (preserved, no new record/State change): sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json same set sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or1-weekly/publication-set.json sha a0f8436613d6 basis sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or1-weekly/renewal-basis.json before sources/2026-W37/production-st
+ORDINARY_COLLISION_OK (same + changed both refuse, no r3, State unchanged)
+RESUME_RC=0 OUT={"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json", "observed": "resumed"}
+ ERR=
+VERIFY_RC=0 OUT={"hist": "{'HISTORICAL_IDENTITY_VERIFIED': True, 'observed_refs': [{'kind': 'EDITORIAL', 'record_sha': '652462887f6a7ce5835f7db83e8d702110209c9ca7ed408d7133baf007145ea6', 'seal_path': 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/publication-set.json'}, {'kind': 'VERSIONED', 'record_sha': '30bb992379a2c97bad4fa4395c13fd31bdcdde5a90697f0e26c35ab5d5b76d19', 'seal_path': 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or1-weekly/publication-s ERR=
+REPEAT_RESUME_RC=0 OUT={"status": "ALREADY_ACTIVE", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json", "observed": "new"}
+ ERR=
+RESUME_ALREADY_ACTIVE_OK
+NEWSET_PREPARE_RC=0 OUT={"basis_path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or2-weekly/renewal-basis.json"}
+ ERR=
+NEWSET_FINALIZE_RC=0 OUT={"set_path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or2-weekly/publication-set.json", "disposition": "REUSED_TARGETS"}
+ ERR=
+NEWSET_SEALED sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/or2-weekly/publication-set.json
+NEWSET_BEFORE_RECS=['publication-surface-revalidation-r1.json', 'publication-surface-revalidation-r2.json']
+NEWSET_ACTIVATE_RC=0 OUT={"status": "ACTIVATED", "record_path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json", "observed": "new"}
+ ERR=
+UNRELATED_NEWSET_OK (no global ban, orphan preserved)
+SYMLINK_RC=2 ERR={"error_code": "RECORD_COLLISION", "detail": "RECORD_COLLISION: reserved record is symlink/foreign (preserved, no unowned delete, no takeover): sources/2026-W37/publication/v2/publication-surface-revalidation-r99.json; explicit resume requires exact prior intent, malformed/foreign never grants permission"}
+
+MALFORMED_RC=2 ERR={"error_code": "RECORD_COLLISION", "detail": "RECORD_COLLISION: reserved record malformed/partial (preserved, no delete/overwrite/force-resume): sources/2026-W37/publication/v2/publication-surface-revalidation-r100.json: reserved activation record strict JSON invalid: Expecting property name enclosed in double quotes: line 1 column 2 (char 1); requires root decision, no broad framework"}
+
+MALFORMED_FOREIGN_SYMLINK_OK (refuses preserves, no unowned delete)
+ALL_ORPHAN_FIX_CASES_OK

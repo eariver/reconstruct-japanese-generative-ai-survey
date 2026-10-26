@@ -1,0 +1,7 @@
+BEFORE (H 8f12..., pre-batch, high24 weekly, fresh):
+ r1 chain1 n11: 3.379s
+ r8 chain8 n82: 57.015s
+AFTER (H 70bc..., batched, same fixture/pins):
+ r1 first run: 0.547s (6.2x), second run (warm FS, perf test): 0.162s (20.8x)
+ r8 first run: 29.320s (1.9x), second run (warm FS, perf test): 9.661s (5.9x)
+Gain range: r1 6-21x time, r8 1.9-5.9x time. Remaining ~27s is jsonschema SAME-predicate validation (1360 rows, cannot cache results).

@@ -1,0 +1,212 @@
+LONGFORM ED start 2026-10-25T08:45:44.646876+00:00 PID=2515026
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform rev-parse HEAD... tag=ed-pre-head -> exit=0
+$ /usr/bin/python3 -c 
+import sys, hashlib, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1])
+for p in ["scripts/survey_versioned_renewal_history_v2.py","scripts/survey_editorial_correction_proposal_v2.py","scripts/survey_publication_v2.py"]:
+    print(p, hashlib.sha256((root/p).read_bytes()).hexdigest())
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform... tag=ed-pins -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1]); prop_new=sys.argv[2]
+pdir_old=f"sources/SP001/publication/v2/editorial-corrections/lf-boot-1"
+pdir_new=f"sources/SP001/publication/v2/editorial-corrections/{prop_new}"
+old_auth=json.loads((root/pdir_old/"authoring-input.json").read_bytes())
+new_auth=json.loads(json.dumps(old_auth))
+new_auth["cover"]["headline"]="LONGFORM renewal-editorial headline: fixture-local changed reader after U4 repair; no genuine approval."
+new_auth["cover"]["deck"]="Changed deck for U4-active prior: same accepted research/Draft/Architecture, changed reader bytes."
+new_auth["final_summary"]["paragraphs"]=[
+    "The edition surveys accepted lineage sources with a fixture-local editorial amendment after versioned renewal.",
+    "The claims remain attributed to their origins under the same accepted research and Draft.",
+    "The synthesis stays inside authorized evidence."
+]
+# ensure changed
+assert json.dumps(new_auth,sort_keys=True)!=json.dumps(old_auth,sort_keys=True)
+# ensure 3 paragraphs and required sentence
+assert len(new_auth["final_summary"]["paragraphs"])==3
+assert "The synthesis stays inside authorized evidence." in new_auth["final_summary"]["paragraphs"][2]
+# longform_revision: change one narrative paragraph text slightly to ensure reader change, keep structure
+try:
+    pkgs=new_auth["longform_revision"]["packages"]
+    if pkgs and pkgs[0].get("narrative_sections"):
+        secs=pkgs[0]["narrative_sections"]
+        if secs and secs[0].get("paragraphs"):
+            paras=secs[0]["paragraphs"]
+            if paras and isinstance(paras[0], dict) and "text" in paras[0]:
+                paras[0]["text"]="Fixture narrative-one paragraph one for pkg-001. Revised fixture sentence within approved evidence with LONGFORM editorial amendment."
+except Exception as e:
+    print(f"longform_revision tweak skipped: {e}")
+dest=root/pdir_new/"authoring-input.json"
+dest.parent.mkdir(parents=True, exist_ok=True)
+if dest.exists():
+    print(f"EXISTS {dest}")
+    import sys as _s; _s.exit(2)
+from scripts import survey_production_v2 as core
+dest.write_bytes(core.json_bytes(new_auth))
+print(f"staged {dest.relative_to(root)}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-stage-auth -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, faulthandler, os
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+faulthandler.dump_traceback_later(1100, exit=False)
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+import os as _os
+print(f"P1 child PID={_os.getpid()}", flush=True)
+issue="SP001"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+dest=root_p/pdir_new/"authoring-input.json"
+print(f"P1 prepare {prop_new} start", flush=True)
+res=p1mod.prepare_proposal(root_p, root_p/f"sources/{issue}/production-state.json", dest, prop_new, "LONGFORM renewal-to-editorial: changed reader on U4-active prior (synthetic, no genuine approval)")
+print(f"P1 PREPARED keys={sorted(res.keys()) if isinstance(res,dict) else type(res).__name__}", flush=True)
+# save proposal path for next steps
+print(f"proposal {res.get('proposal',{}).get('path') if isinstance(res,dict) else 'unknown'}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-p1-prepare -> exit=0
+$ /usr/bin/python3 -c 
+import sys
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_editorial_retention_v2 as p2r
+import os
+print(f"P2R child PID={os.getpid()}", flush=True)
+issue="SP001"
+proposal=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}/proposal.json"
+res=p2r.capture_retention(str(root_p), f"sources/{issue}/production-state.json", proposal)
+print(f"P2R CAPTURED {res.get('manifest_path') if isinstance(res,dict) else res}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-p2r-capture -> exit=1
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+import os
+print(f"P1-stage child PID={os.getpid()}", flush=True)
+issue="SP001"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+dest=root_p/pdir_new/"authoring-input.json"
+assert dest.exists(), "authoring missing"
+res=p1mod.prepare_proposal(root_p, root_p/f"sources/{issue}/production-state.json", dest, prop_new, "LONGFORM renewal-to-editorial: changed reader on U4-active prior (synthetic)")
+# stage reader + proposal (operator writes, P1 writes nothing)
+proposal_dir=root_p/pdir_new
+(reader_file, proposal_file)=(proposal_dir/"reader-surface-input-v2.json", proposal_dir/"proposal.json")
+if not reader_file.exists():
+    reader_file.write_bytes(res["proposed_canonical"])
+    print(f"staged reader {reader_file.relative_to(root_p)}", flush=True)
+else:
+    print(f"reader exists, verify bytes match", flush=True)
+    assert reader_file.read_bytes()==res["proposed_canonical"], "reader bytes drift"
+if not proposal_file.exists():
+    core.write_json(proposal_file, res["proposal"])
+    print(f"staged proposal {proposal_file.relative_to(root_p)}", flush=True)
+else:
+    print(f"proposal exists, verify", flush=True)
+print(f"STAGED proposal_dir={pdir_new}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-p1-stage -> exit=0
+$ /usr/bin/python3 -c 
+import sys
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_editorial_retention_v2 as p2r
+import os
+print(f"P2R child PID={os.getpid()}", flush=True)
+issue="SP001"
+proposal=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}/proposal.json"
+res=p2r.capture_retention(str(root_p), f"sources/{issue}/production-state.json", proposal)
+print(f"P2R manifest={res.get('manifest_path')}", flush=True)
+# verify
+from scripts import survey_editorial_retention_v2 as p2r2
+v=p2r2.verify_retention(str(root_p), proposal, res.get('manifest_path'))
+print(f"P2R verify OK {v.get('manifest_path') if isinstance(v,dict) else 'ok'}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-p2r-full -> exit=0
+$ /usr/bin/python3 -c 
+import sys, pathlib
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_editorial_current_authority_v2 as p2v
+import os, glob
+print(f"P2V child PID={os.getpid()}", flush=True)
+issue="SP001"
+proposal=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}/proposal.json"
+# find retention manifest
+cands=list((root_p/f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}").rglob("*retention*.json"))
+print(f"cands={[str(p.relative_to(root_p)) for p in cands]}", flush=True)
+manifest=None
+for p in cands:
+    if "manifest" in p.name:
+        manifest=str(p.relative_to(root_p))
+        break
+print(f"manifest={manifest}", flush=True)
+res=p2v.observe_current_authority(str(root_p), f"sources/{issue}/production-state.json", proposal, manifest)
+print(f"P2V keys={sorted(res.keys()) if isinstance(res,dict) else type(res)}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-p2v-full -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+import os
+print(f"scope child PID={os.getpid()}", flush=True)
+issue="SP001"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+proposal_path=root_p/pdir_new/"proposal.json"
+proposal=json.loads(proposal_path.read_bytes())
+# need prepared dict? Re-derive proposed_canonical via P1 prepare (read-only, same authoring)
+dest=root_p/pdir_new/"authoring-input.json"
+res=p1mod.prepare_proposal(root_p, root_p/f"sources/{issue}/production-state.json", dest, prop_new, "scope re-derive")
+staged_reader_rel=res["proposal"]["proposed"]["proposed_reader_ref"]["path"]
+after_sha=core.sha256_bytes(res["proposed_canonical"])
+# write staged reader file if not exists (needed for scope target)
+staged_path=root_p/staged_reader_rel
+staged_path.parent.mkdir(parents=True, exist_ok=True)
+if not staged_path.exists():
+    staged_path.write_bytes(res["proposed_canonical"])
+    print(f"staged reader {staged_reader_rel}", flush=True)
+block={
+    "version":"EDITORIAL_CORRECTION_SCOPE_V1",
+    "decision":"WITHIN_APPROVED_AUTHORITY",
+    "before_reader_input":res["proposal"]["basis"]["active_reader_input_ref"],
+    "preserved_upstream_sha256":res["proposal"]["basis"]["preserved_upstream_digest"],
+    "change_summary":"Synthetic LONGFORM scope judgment inside approved authority (repair, no genuine approval).",
+    "evidence_locations":["synthetic-fixture:proposal"],
+}
+review={
+    "schema_version":"2.0-rc1","issue_id":res["proposal"]["issue_id"],
+    "publication_profile":res["proposal"]["publication_profile"],
+    "review_kind":"SEMANTIC_EDITORIAL",
+    "reviewed_surface":{"path":staged_reader_rel,"sha256":after_sha},
+    "checks":[
+        {"check_id":"READER_PIPELINE_INDEPENDENCE","status":"PASS","detail":"Synthetic scope reviewer judged proposed reader independently understandable.","evidence_locations":["synthetic-fixture:proposed-reader"]},
+        {"check_id":"EDITORIAL_CORRECTION_SCOPE","status":"PASS","detail":"Synthetic scope reviewer judged delta inside approved Architecture authority.","evidence_locations":["synthetic-fixture:proposal"]},
+    ],
+    "decision":"PASS","reviewed_by":"synthetic LONGFORM scope reviewer (repair)","reviewed_at":"2026-10-25T09:00:00+00:00","recorded_at":"2026-10-25T09:00:00+00:00","status":"PASSED","findings":[],
+    "summary":"Synthetic scope PASS for LONGFORM repair.",
+    "editorial_correction_scope":block,
+}
+review["review_sha256"]=core.sha256_object(review)
+scope_path=(root_p/staged_reader_rel).parent/"scope-review-v2.json"
+core.write_json(scope_path, review)
+print(f"scope {scope_path.relative_to(root_p)}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform lf-ed-3... tag=ed-scope -> exit=1
+$ ... tag=ed-scope2 -> exit=0
+$ ... tag=ed-p3s2 -> exit=1
+$ ... tag=ed-p3s-preload -> exit=1
+$ ... tag=ed-p3s-fix2 -> exit=1
+$ ... tag=ed-specs -> exit=0
+$ ... tag=ed-prepare-pub -> exit=1

@@ -1,0 +1,588 @@
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/evidence/v2/runs/e29adeddd46abec907bd71303479d05dd152abaef54498e5481704c92ffd4940/results/task-12a1f44ab9a5d18cd288.json card... # late-swap-card -> exit=0 dur=18.24s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-card 2026-10-25T08:17:37.297417+00:00... # healthy-card -> exit=0 dur=18.22s
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/evidence/v2/runs/e29adeddd46abec907bd71303479d05dd152abaef54498e5481704c92ffd4940/tasks/task-12a1f44ab9a5d18cd288.json task... # late-swap-task -> exit=0 dur=17.51s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-task 2026-10-25T08:17:37.297417+00:00... # healthy-task -> exit=0 dur=18.08s
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json raw/source.json raw... # late-swap-raw -> exit=0 dur=17.96s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-raw 2026-10-25T08:17:37.297417+00:00... # healthy-raw -> exit=0 dur=17.90s
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json views-accepted/098e838e49b37f2328e3ed91d7a1713e6a67b2c7e59241c10757c0ddcebeed58/views/view-12a1f44ab9a5d18cd288.json view... # late-swap-view -> exit=0 dur=18.41s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-view 2026-10-25T08:17:37.297417+00:00... # healthy-view -> exit=0 dur=17.62s
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/retained/before/sources/2026-W37/production-state.json retentionCOPY... # late-swap-retentionCOPY -> exit=0 dur=17.42s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-retentionCOPY 2026-10-25T08:17:37.297417+00:00... # healthy-retentionCOPY -> exit=0 dur=17.62s
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json config/survey-production-v2.json config... # late-swap-config -> exit=0 dur=16.70s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-config 2026-10-25T08:17:37.297417+00:00... # healthy-config -> exit=0 dur=17.75s
+$ /usr/bin/python3 -c 
+import sys, json, os
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, target_rel, swap_tag, out_dir = sys.argv[1:7]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+# Prep (pins all M1-M6 + retention/COPY/config/scope)
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"PREP_OK snapshot={len(prep['snapshot'])} authority={len(prep['renewal_authority'])}", flush=True)
+# Save original bytes for exact repair
+tpath = root_p / target_rel
+orig = tpath.read_bytes()
+print(f"ORIG_SHA {__import__('hashlib').sha256(orig).hexdigest()} bytes {len(orig)}", flush=True)
+# Swap AFTER prep BEFORE install (flip last byte, preserve JSON? use different bytes)
+swapped = orig[:-1] + (b"}" if orig[-1:] != b"}" else b"]") if len(orig) > 1 else b"X"
+tpath.write_bytes(swapped)
+print(f"SWAPPED {target_rel} -> swapped bytes {len(swapped)}", flush=True)
+# Attempt preflight + install with new targets (must refuse, zero new files)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Ensure targets do not exist before (zero-new check baseline)
+for p in (frz, man):
+    if p.exists():
+        print(f"PREEXIST {p} (unexpected, removing for clean test)", flush=True)
+        p.unlink()
+from scripts import survey_production_v2 as core
+cand = prep["candidate"]
+# Build freeze payload like build_freeze (pure, no writes)
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[7]))
+# Preflight must refuse due to swapped snapshot file (recheck before install)
+try:
+    plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+    # If preflight passed (unexpected), try install (should also refuse via recheck)
+    try:
+        pubmod._install_freeze_pair(root_p, plan)
+        print(f"UNEXPECTED_SUCCESS {swap_tag} (should have refused)", flush=True)
+        sys.exit(10)
+    except ValueError as e:
+        print(f"REFUSED_INSTALL {swap_tag}: {e}", flush=True)
+        # Verify zero new files
+        import os as _os
+        frz_exists = frz.exists()
+        man_exists = man.exists()
+        print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+        if frz_exists or man_exists:
+            print(f"FAIL_ZERO_NEW {swap_tag} new files created despite refuse", flush=True)
+            sys.exit(11)
+        print(f"PASS_REFUSE {swap_tag}", flush=True)
+        sys.exit(0)
+except ValueError as e:
+    print(f"REFUSED_PREFLIGHT {swap_tag}: {e}", flush=True)
+    frz_exists = frz.exists()
+    man_exists = man.exists()
+    print(f"ZERO_NEW frz_exists={frz_exists} man_exists={man_exists}", flush=True)
+    if frz_exists or man_exists:
+        print(f"FAIL_ZERO_NEW {swap_tag}", flush=True)
+        sys.exit(11)
+    print(f"PASS_REFUSE {swap_tag}", flush=True)
+    sys.exit(0)
+finally:
+    # Exact byte repair (always restore, even on failure, for healthy control)
+    tpath.write_bytes(orig)
+    print(f"RESTORED {target_rel} orig SHA {__import__('hashlib').sha256(orig).hexdigest()}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json scope... # late-swap-scope -> exit=0 dur=18.25s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, cand_rel, appr_rel, out_dir = sys.argv[1:5]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_publication_v2 as pubmod
+prep = pubmod._prepare_freeze_inputs(root_p, root_p / cand_rel, root_p / appr_rel)
+print(f"HEALTHY_PREP_OK snapshot={len(prep['snapshot'])}", flush=True)
+frz = root_p / out_dir / "freeze-record.json"
+man = root_p / out_dir / "release-manifest.json"
+# Healthy preflight with restored bytes must pass (no writes here, just preflight)
+cand = prep["candidate"]
+freeze_payload = pubmod._build_freeze_payload(repo_root=root_p, candidate_path=root_p / cand_rel, candidate=cand, approval_path=root_p / appr_rel, approval=prep["approval"], visual_path=prep["visual_path"], frozen_at=datetime.fromisoformat(sys.argv[5]))
+plan = pubmod._preflight_freeze_pair(root_p, frz, man, prep, freeze_payload, lambda fs, ft: pubmod._build_manifest_payload(repo_root=root_p, freeze_path=ft, freeze_record_sha256=fs, release_identity=pubmod.profile_release_identity(prep["profile"]), source_path=cand["source"]["path"], source_sha256=cand["source"]["sha256"], pdf_path=cand["pdf"]["path"], pdf_sha256=cand["pdf"]["sha256"], page_count=cand["pdf"]["page_count"], issue_id=cand["issue_id"]))
+print(f"HEALTHY_PREFLIGHT_OK frz={frz} man={man}", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1c-weekly/publication-candidate-v2.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/preview-approval.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/lifecycle-high-u1c-weekly/late-swap-scope 2026-10-25T08:17:37.297417+00:00... # healthy-scope -> exit=0 dur=18.07s

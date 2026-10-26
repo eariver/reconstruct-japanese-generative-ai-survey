@@ -1,0 +1,10 @@
+{
+ "code": "HISTORY_ANCESTOR",
+ "detail": "HISTORY_ANCESTOR: history chain chronology must be nondecreasing",
+ "healthy_control": "R7 32-valid (existing typed legacy32) + H-U1 CURRENT cu1-weekly SEALED (short chain, NEW closure) \u2192 verify passes; synthetic cycle (chicken-egg, digest preemption) vs sequence (proper rehash, chronology HIT) prove seam isolation (cycle OPEN for true simultaneously-correct SHAs, sequence HIT if proper rehash)",
+ "is_qualified_preemption": false,
+ "is_sequence_intended": true,
+ "no_new_R": true,
+ "note": "Sequence nonincreasing time with proper rehash (all SHAs correct, supersedes refs correct) \u2192 should hit intended HISTORY_ANCESTOR chronology/sequence (NOT digest). If digest, then rehash missed (qualified preemption, fix rehash, do NOT claim sequence).",
+ "state_unchanged": true
+}

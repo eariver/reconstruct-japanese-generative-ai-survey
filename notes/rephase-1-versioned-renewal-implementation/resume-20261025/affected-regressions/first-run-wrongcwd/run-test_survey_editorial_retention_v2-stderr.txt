@@ -1,0 +1,39 @@
+test_capture_postverify_inplace_edit_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_capture_postverify_inplace_edit_refuses) ... ok
+test_capture_readback_control_edition_injection_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_capture_readback_control_edition_injection_refuses) ... ok
+test_control_edition_head_drift_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_control_edition_head_drift_refuses) ... ok
+test_drift_prefinal_and_finalization (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_drift_prefinal_and_finalization) ... ok
+test_fault_combined_write_close_primary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_combined_write_close_primary_preserved) ... ok
+test_fault_create_identity_and_close_preservation (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_create_identity_and_close_preservation) ... ok
+test_fault_manifest_write_fsync_close_indeterminate (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_manifest_write_fsync_close_indeterminate) ... ok
+test_fault_primary_read_close_secondary_preserved (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_primary_read_close_secondary_preserved) ... ok
+test_fault_write_zero_progress_fsync (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_fault_write_zero_progress_fsync) ... ok
+test_keep_profile_distinction_and_all_drift (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_keep_profile_distinction_and_all_drift) ... ok
+test_longform_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_longform_capture_verify_positive) ... ok
+test_p1_refuses_after_capture_no_p1_git_in_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_p1_refuses_after_capture_no_p1_git_in_verify) ... ok
+test_persistence_live_state_replacement (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_persistence_live_state_replacement) ... ok
+test_r1_double_refresh_capture_verify (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_r1_double_refresh_capture_verify) ... ok
+test_refuse_existing_retained_root (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_existing_retained_root) ... ok
+test_refuse_unsafe_paths_aliases_nonregular (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_refuse_unsafe_paths_aliases_nonregular) ... ok
+test_replacement_ancestor_and_file (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_ancestor_and_file) ... ok
+test_replacement_owned_file_midcapture_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_owned_file_midcapture_refuses) ... FAIL
+test_replacement_root_ancestor_file_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_root_ancestor_file_refuses) ... ok
+test_verifier_capture_inputs_deps_dest_dirs_sizes (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_capture_inputs_deps_dest_dirs_sizes) ... ok
+test_verifier_late_retained_additions_refuse (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_late_retained_additions_refuse) ... ok
+test_verifier_staged_canonical_order (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_staged_canonical_order) ... ok
+test_verifier_state_labels_required (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_state_labels_required) ... ok
+test_verifier_typed_hop_negatives (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_verifier_typed_hop_negatives) ... ok
+test_weekly_capture_verify_positive (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_weekly_capture_verify_positive) ... ok
+
+======================================================================
+FAIL: test_replacement_owned_file_midcapture_refuses (tests.test_survey_editorial_retention_v2.EditorialRetentionV2Tests.test_replacement_owned_file_midcapture_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_retention_v2.py", line 1544, in test_replacement_owned_file_midcapture_refuses
+    with self.assertRaisesRegex(RetentionError, "FILE_REPLACED") as ctx:
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: RetentionError not raised
+
+----------------------------------------------------------------------
+Ran 25 tests in 712.758s
+
+FAILED (failures=1)

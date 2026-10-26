@@ -1,0 +1,24 @@
+=== G2 commit ===
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly rev-parse HEAD # head-g2-pre
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-g2-pre
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly diff --name-only # diff-g2-pre
+-> exit=0
+a4bd135aa2876079923ba925f16cc2963c73647e49a3f1460806483d9c092827 6654
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly add -- templates/survey/jgaisurvey.sty scripts/survey_weekly_derivation_v2.py # add-g2
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-staged-g2
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly commit -m HIGH phase TEST-ONLY: G2 eligible Core+style comment (semantic unchanged, trio change for C) --no-verify # commit-g2
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly rev-parse HEAD # head-g2-post
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly log --oneline -6 # log-g2
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly rev-parse HEAD^{tree} # tree-g2
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly merge-base --is-ancestor 721a04d85532d7855f3e54cc411f5847c787726e HEAD # ancestor-g2
+-> exit=0
+9a0469ef5a6bc2b2e37fc9efb1376cfccbd0333ffaa08a59d23634345d382152
+G2 DONE

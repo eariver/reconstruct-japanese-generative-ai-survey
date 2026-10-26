@@ -1,0 +1,68 @@
+{
+ "after_delta": {
+  "sources/2026-W37/production-state.json": {
+   "dev": 2050,
+   "exists": true,
+   "ino": 20877523,
+   "is_symlink": false,
+   "nlink": 1,
+   "sha": "ca7c0d2e62b6",
+   "size": 5965
+  },
+  "sources/2026-W37/production-state.json.renewal-tmp": {
+   "exists": false
+  },
+  "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/fr-u1-weekly/publication-set.json": {
+   "dev": 2050,
+   "exists": true,
+   "ino": 20877518,
+   "is_symlink": false,
+   "nlink": 1,
+   "sha": "4446af7bbf95",
+   "size": 5304
+  },
+  "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json": {
+   "dev": 2050,
+   "exists": true,
+   "ino": 20877592,
+   "is_symlink": false,
+   "nlink": 1,
+   "sha": "67a3704ad9bf",
+   "size": 3491
+  }
+ },
+ "before_delta": {
+  "sources/2026-W37/production-state.json": {
+   "dev": 2050,
+   "exists": true,
+   "ino": 20877523,
+   "is_symlink": false,
+   "nlink": 1,
+   "sha": "ca7c0d2e62b6",
+   "size": 5965
+  },
+  "sources/2026-W37/production-state.json.renewal-tmp": {
+   "exists": false
+  },
+  "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/fr-u1-weekly/publication-set.json": {
+   "dev": 2050,
+   "exists": true,
+   "ino": 20877518,
+   "is_symlink": false,
+   "nlink": 1,
+   "sha": "4446af7bbf95",
+   "size": 5304
+  },
+  "sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json": {
+   "exists": false
+  }
+ },
+ "code": "HIGH_UNREADABLE",
+ "detail": "HIGH_UNREADABLE: activation record write failed: injected record close failure (exact target)",
+ "disp": "PRESERVED_INCOMPLETE",
+ "phase": "WRITE",
+ "record_exists_after": true,
+ "record_sha_after": "67a3704ad9bf",
+ "state_unchanged": true,
+ "tb": "ork-rec-close/scripts/survey_versioned_renewal_v2.py\", line 464, in _atomic_write_new\n    os.close(fd)\n    ~~~~~~~~^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/failure-resume-verification/harness_fault.py\", line 229, in _patched_close2\n    raise OSError(\"injected record close failure (exact target)\")\nOSError: injected record close failure (exact target)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/failure-resume-verification/harness_fault.py\", line 236, in main\n    high.activate_renewal(str(fork),state_rel,set_rel,f\"Core change: fault {fail_mode}\",\"fault-resume-fixture\",NOW_ISO)\n    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/failure-resume-verification/raw/case-rec-close-20261025T150300Z/fork-rec-close/scripts/survey_versioned_renewal_v2.py\", line 3144, in activate_renewal\n    _atomic_write_new(repo, record_rel_out, record_bytes, \"activation record\")\n    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/failure-resume-verification/raw/case-rec-close-20261025T150300Z/fork-rec-close/scripts/survey_versioned_renewal_v2.py\", line 472, in _atomic_write_new\n    raise _fail(\"HIGH_UNREADABLE\", \"WRITE\", \"PRESERVED_INCOMPLETE\",\n                f\"{label} write failed: {primary}\") from primary\nscripts.survey_versioned_renewal_v2.RenewalHighError: HIGH_UNREADABLE: activation record write failed: injected record close failure (exact target)\n"
+}

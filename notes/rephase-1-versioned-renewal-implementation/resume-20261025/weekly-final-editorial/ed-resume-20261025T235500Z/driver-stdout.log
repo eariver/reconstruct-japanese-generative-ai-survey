@@ -1,0 +1,91 @@
+resume prereq authoring exists=True
+proposal exists before stage=False (expected False, will stage)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1]); prop_new=sys.argv[2]
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+issue="2026-W37"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+dest=root/pdir_new/"authoring-input.json"
+res=p1mod.prepare_proposal(root, root/f"sources/{issue}/production-state.json", dest, prop_new, "Weekly-final renewal-to-editorial on r2-active")
+proposal_dir=root/pdir_new
+reader_file=proposal_dir/"reader-surface-input-v2.json"
+proposal_file=proposal_dir/"proposal.json"
+if not reader_file.exists():
+    reader_file.write_bytes(res["proposed_canonical"])
+    print(f"staged reader {reader_file.relative_to(root)}")
+else:
+    assert reader_file.read_bytes()==res["proposed_canonical"], "reader bytes differ, need new ID"
+    print(f"reader exists same")
+if not proposal_file.exists():
+    proposal_file.write_bytes(core.json_bytes(res["proposal"]))
+    print(f"staged proposal {proposal_file.relative_to(root)}")
+else:
+    print(f"proposal exists")
+print(f"STAGE2 OK")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final wk-ed-final-1... # p1-stage2-proposal timeout=1200s
+DONE p1-stage2-proposal exit=0
+after stage2 proposal exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_retention_v2 as p2r
+root=Path(sys.argv[1])
+res=p2r.capture_retention(str(root), sys.argv[2], sys.argv[3])
+print(json.dumps(res,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json... # p2r-capture timeout=1200s
+DONE p2r-capture exit=0
+manifest sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/retained/retention-manifest.json
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_retention_v2 as p2r
+root=Path(sys.argv[1])
+res=p2r.verify_retention(str(root), sys.argv[2], sys.argv[3])
+print(json.dumps({"VERIFIED":True},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/retained/retention-manifest.json... # p2r-verify timeout=1200s
+DONE p2r-verify exit=0
+P2R VERIFIED
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, proposal_rel, scope_rel = sys.argv[1:4]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_production_v2 as core
+proposal=json.loads((root/proposal_rel).read_bytes())
+staged_reader_rel=proposal["proposed"]["proposed_reader_ref"]["path"]
+after_sha=proposal["proposed"]["proposed_reader_canonical_sha256"]
+block={"version":"EDITORIAL_CORRECTION_SCOPE_V1","decision":"WITHIN_APPROVED_AUTHORITY","before_reader_input":proposal["basis"]["active_reader_input_ref"],"preserved_upstream_sha256":proposal["basis"]["preserved_upstream_digest"],"change_summary":"Synthetic Weekly scope judgment inside approved Architecture authority (weekly-final, no genuine approval).","evidence_locations":["synthetic-fixture:proposal"]}
+review={"schema_version":"2.0-rc1","issue_id":proposal["issue_id"],"publication_profile":proposal["publication_profile"],"review_kind":"SEMANTIC_EDITORIAL","reviewed_surface":{"path":staged_reader_rel,"sha256":after_sha},"checks":[{"check_id":"READER_PIPELINE_INDEPENDENCE","status":"PASS","detail":"Synthetic scope reviewer judged proposed reader independently understandable.","evidence_locations":["synthetic-fixture:proposed-reader"]},{"check_id":"EDITORIAL_CORRECTION_SCOPE","status":"PASS","detail":"Synthetic scope reviewer judged delta inside approved Architecture authority.","evidence_locations":["synthetic-fixture:proposal"]}],"decision":"PASS","reviewed_by":"synthetic Weekly scope reviewer (weekly-final)","reviewed_at":"2026-10-26T00:00:00+00:00","recorded_at":"2026-10-26T00:00:00+00:00","status":"PASSED","findings":[],"summary":"Synthetic scope PASS for weekly-final.","editorial_correction_scope":block}
+review["review_sha256"]=core.sha256_object(review)
+p=root/scope_rel
+p.parent.mkdir(parents=True,exist_ok=True)
+if p.exists():
+    print(f"EXISTS {scope_rel}")
+else:
+    p.write_bytes(core.json_bytes(review))
+    print(f"WROTE {scope_rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/scope-review-v2.json... # scope-build timeout=300s
+DONE scope-build exit=0
+SCOPE persisted
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_current_authority_v2 as p2v
+root=Path(sys.argv[1])
+res=p2v.observe_current_authority(str(root), sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+print(json.dumps({"outcome":res.get("outcome")},indent=1))
+outcome=res.get("outcome")
+if outcome!="CURRENT_BASIS_OBSERVED_SCOPE_BOUND":
+    print(f"WRONG_OUTCOME {outcome}")
+    import sys as _s; _s.exit(2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json... # p2v-with-scope timeout=1200s
+DONE p2v-with-scope exit=2
+FATAL p2v

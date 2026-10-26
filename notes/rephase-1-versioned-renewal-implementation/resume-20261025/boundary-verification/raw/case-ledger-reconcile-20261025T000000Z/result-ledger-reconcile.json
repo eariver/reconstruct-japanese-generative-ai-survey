@@ -1,0 +1,511 @@
+{
+ "rows": [
+  {
+   "case": "case-alias-hardlink-20261025T152400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-alias-hardlink.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-alias-refuse-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-alias-refuse.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-already-active-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-already-active.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-cycle-proper-rehash-20261026T000200Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HISTORY_DIGEST_MISMATCH",
+     "detail": "HISTORY_DIGEST_MISMATCH: superseded revalidation record SHA drift: sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+     "file": "result-cycle-proper-rehash.json",
+     "phase": null
+    }
+   ],
+   "source": "CURRENT 1dad1ad/H74275d/S2290ddd (4851523, cu1-weekly)"
+  },
+  {
+   "case": "case-drift-copy-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HISTORY_DIGEST_MISMATCH",
+     "detail": "HISTORY_DIGEST_MISMATCH: bound proof readback failed: HISTORY_DIGEST_MISMATCH: retained COPY invalid: HISTORY_DIGEST_MISMATCH: retention retained COPY SHA drift: sources/2026-W37/publication/v2/editor",
+     "file": "result-drift-copy.json",
+     "phase": "RECEIPT"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-drift-tool-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "BASIS_CURRENT_TOOL_DRIFT",
+     "detail": "BASIS_CURRENT_TOOL_DRIFT: bound proof readback failed: BASIS_CURRENT_TOOL_DRIFT: proof closure drift: scripts/survey_quality_v2.py",
+     "file": "result-drift-tool.json",
+     "phase": "RECEIPT"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-excl-conflict-20261025T150100Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-excl-conflict.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-excl-race-conflict-20261025T151000Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "TypeError",
+     "detail": "'list_iterator' object does not support the context manager protocol (missed __exit__ method)",
+     "file": "result-excl-race-conflict.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-excl-race-conflict-20261025T151500Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "RECORD_COLLISION",
+     "detail": "RECORD_COLLISION: activation record already claimed (explicit resume required)",
+     "file": "result-excl-race-conflict.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-excl-race-samebytes-20261025T151600Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-excl-race-samebytes.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e, fr-u1-weekly) [inferred from testmatrix S6/S8; result blob lacked explicit pin]"
+  },
+  {
+   "case": "case-excl-race-samebytes-20261025T152000Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "RECORD_COLLISION",
+     "detail": "RECORD_COLLISION: activation record already claimed (explicit resume required)",
+     "file": "result-excl-race-samebytes.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-foreign-race-symlink-20261025T152100Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "RECORD_COLLISION",
+     "detail": "RECORD_COLLISION: activation record already claimed (explicit resume required)",
+     "file": "result-foreign-race-symlink.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-foreign-symlink-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-foreign-symlink.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-healthy-activate-20261025T150500Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-healthy-activate.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-healthy-activate-current-20261026T000500Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-healthy-activate-current.json",
+     "phase": null
+    }
+   ],
+   "source": "CURRENT 1dad1ad/H74275d/S2290ddd (4851523, cu1-weekly)"
+  },
+  {
+   "case": "case-high-prepare-33-20261025T150600Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "BASIS_ENTRY_INELIGIBLE",
+     "detail": "BASIS_ENTRY_INELIGIBLE: public State validation refuses LIVE bytes: publication revalidation supersession chain too deep; Stage Checkpoint artifact drift: reader-surface-gate",
+     "file": "result-high-prepare-33.json",
+     "phase": "ENTRY"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e, fr-u1-weekly) [inferred from testmatrix S6/S8; result blob lacked explicit pin]"
+  },
+  {
+   "case": "case-high-prepare-33-current-20261026T000300Z",
+   "exit": "1",
+   "results": [],
+   "source": "CURRENT attempt but harness defect (exit 1, no result; _copy requires renewal modules absent in R6 typed33)"
+  },
+  {
+   "case": "case-high-prepare-33-current-20261026T000400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "BASIS_ENTRY_INELIGIBLE",
+     "detail": "BASIS_ENTRY_INELIGIBLE: public State validation refuses LIVE bytes: publication revalidation supersession chain too deep; Stage Checkpoint artifact drift: reader-surface-gate",
+     "file": "result-high-prepare-33-current.json",
+     "phase": "ENTRY"
+    }
+   ],
+   "source": "CURRENT 1dad1ad/H74275d/S2290ddd (4851523, cu1-weekly)"
+  },
+  {
+   "case": "case-indeterminite-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "SELECTION_BEFORE",
+     "detail": "SELECTION_BEFORE: before selection failed: selection active revalidation missing: /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20",
+     "file": "result-indeterminite.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-indeterminite-resume-20261025T152300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-indeterminite-resume.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-orphan-manual-resume-20261025T152500Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-orphan-manual-resume.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e, fr-u1-weekly) [inferred from testmatrix S6/S8; result blob lacked explicit pin]"
+  },
+  {
+   "case": "case-orphan-manual-resume-20261025T152600Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-orphan-manual-resume.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-orphan-manual-resume-20261025T152700Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-orphan-manual-resume.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-orphan-resume-20261025T150400Z",
+   "exit": "MISSING (timeout-incomplete, preserved, NOT adopted)",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-orphan-resume.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-orphan-resume-20261025T150500Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-orphan-resume.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-parent-alias-same-leaf-20261026T000200Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-parent-alias-same-leaf.json",
+     "phase": null
+    }
+   ],
+   "source": "CURRENT 1dad1ad/H74275d/S2290ddd (4851523, cu1-weekly)"
+  },
+  {
+   "case": "case-postread-dirfd-20261025T152200Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HIGH_MODE",
+     "detail": "HIGH_MODE: activation State post-replace open refused (symlink/unsafe): sources/2026-W37/production-state.json: injected post-replace State leaf open failure (exact dir_fd leaf, post-replace)",
+     "file": "result-postread-dirfd.json",
+     "phase": "LOAD"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-postread-new-20261025T150400Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": null,
+     "detail": "",
+     "file": "result-postread-new.json",
+     "phase": null
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-postreplace-true-mismatch-20261026T000200Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "INDETERMINATE",
+     "detail": "INDETERMINATE: activation State post-replace mismatch (preserved)",
+     "file": "result-postreplace-true-mismatch.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "CURRENT 1dad1ad/H74275d/S2290ddd (4851523, cu1-weekly)"
+  },
+  {
+   "case": "case-rec-close-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HIGH_UNREADABLE",
+     "detail": "HIGH_UNREADABLE: activation record write failed: injected record close failure (exact target)",
+     "file": "result-rec-close.json",
+     "phase": "WRITE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-rec-combined-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HIGH_UNREADABLE",
+     "detail": "HIGH_UNREADABLE: activation record write failed: injected record close failure (combined secondary); close also failed: injected record write failure (combined primary)",
+     "file": "result-rec-combined.json",
+     "phase": "WRITE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-rec-fsync-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HIGH_UNREADABLE",
+     "detail": "HIGH_UNREADABLE: activation record write failed: injected record fsync failure (exact target)",
+     "file": "result-rec-fsync.json",
+     "phase": "WRITE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-rec-short-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HIGH_UNREADABLE",
+     "detail": "HIGH_UNREADABLE: activation record post-write bytes differ: sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+     "file": "result-rec-short.json",
+     "phase": "WRITE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-rec-write-20261025T150200Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HIGH_UNREADABLE",
+     "detail": "HIGH_UNREADABLE: activation record write failed: injected record write failure (exact target)",
+     "file": "result-rec-write.json",
+     "phase": "WRITE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-sequence-nonincreasing-time-20261026T000200Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "HISTORY_ANCESTOR",
+     "detail": "HISTORY_ANCESTOR: history chain chronology must be nondecreasing",
+     "file": "result-sequence-nonincreasing-time.json",
+     "phase": null
+    }
+   ],
+   "source": "CURRENT 1dad1ad/H74275d/S2290ddd (4851523, cu1-weekly)"
+  },
+  {
+   "case": "case-state-replace-fail-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "INDETERMINATE",
+     "detail": "INDETERMINATE: activation State replace failed (preserved): injected STATE replace failure (exact target)",
+     "file": "result-state-replace-fail.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-state-temp-close-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "INDETERMINATE",
+     "detail": "INDETERMINATE: activation State temp write failed (preserved): injected STATE temp close failure (exact target)",
+     "file": "result-state-temp-close.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-state-temp-fsync-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "INDETERMINATE",
+     "detail": "INDETERMINATE: activation State temp write failed (preserved): injected STATE temp fsync failure (exact target)",
+     "file": "result-state-temp-fsync.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  },
+  {
+   "case": "case-state-temp-write-20261025T150300Z",
+   "exit": "0",
+   "results": [
+    {
+     "code": "INDETERMINATE",
+     "detail": "INDETERMINATE: activation State temp write failed (preserved): injected STATE temp write failure (exact target)",
+     "file": "result-state-temp-write.json",
+     "phase": "ACTIVATE"
+    }
+   ],
+   "source": "STALE 9a0469ef/H6fe/S20f (e211e6e epoch, fr-u1-weekly)"
+  }
+ ],
+ "summary": {
+  "exit_0": 37,
+  "exit_1": 1,
+  "exit_missing": 1,
+  "note": "Counts are raw dirs only (distinct UTC dirs, NOT methods/subcases). Methods/subcases/harness errors/earlier-guard controls split in reconciled table (see boundary-verification README/table). NO new counts from guessing; NO whole-unit/independent PASS.",
+  "raw_case_dirs": 39
+ }
+}

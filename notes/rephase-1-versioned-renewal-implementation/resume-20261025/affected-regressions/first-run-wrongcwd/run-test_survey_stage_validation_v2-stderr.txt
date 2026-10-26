@@ -1,0 +1,53 @@
+test_current_tool_basis_does_not_reuse_initialization_commit_as_execution_identity (tests.test_survey_stage_validation_v2.SurveyStageValidationV2Tests.test_current_tool_basis_does_not_reuse_initialization_commit_as_execution_identity) ... ERROR
+test_draft_stage_validator_requires_paired_package_and_result_authorities (tests.test_survey_stage_validation_v2.SurveyStageValidationV2Tests.test_draft_stage_validator_requires_paired_package_and_result_authorities) ... ERROR
+test_same_named_but_invalid_discovery_authority_is_rejected (tests.test_survey_stage_validation_v2.SurveyStageValidationV2Tests.test_same_named_but_invalid_discovery_authority_is_rejected) ... ERROR
+
+======================================================================
+ERROR: test_current_tool_basis_does_not_reuse_initialization_commit_as_execution_identity (tests.test_survey_stage_validation_v2.SurveyStageValidationV2Tests.test_current_tool_basis_does_not_reuse_initialization_commit_as_execution_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_stage_validation_v2.py", line 15, in setUp
+    self.cfg = core.load_json(self.root / core.DEFAULT_CONFIG)
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_production_v2.py", line 139, in load_json
+    with path.open("r", encoding="utf-8") as fh:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 772, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/config/survey-production-v2.json'
+
+======================================================================
+ERROR: test_draft_stage_validator_requires_paired_package_and_result_authorities (tests.test_survey_stage_validation_v2.SurveyStageValidationV2Tests.test_draft_stage_validator_requires_paired_package_and_result_authorities)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_stage_validation_v2.py", line 15, in setUp
+    self.cfg = core.load_json(self.root / core.DEFAULT_CONFIG)
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_production_v2.py", line 139, in load_json
+    with path.open("r", encoding="utf-8") as fh:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 772, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/config/survey-production-v2.json'
+
+======================================================================
+ERROR: test_same_named_but_invalid_discovery_authority_is_rejected (tests.test_survey_stage_validation_v2.SurveyStageValidationV2Tests.test_same_named_but_invalid_discovery_authority_is_rejected)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_stage_validation_v2.py", line 15, in setUp
+    self.cfg = core.load_json(self.root / core.DEFAULT_CONFIG)
+               ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_production_v2.py", line 139, in load_json
+    with path.open("r", encoding="utf-8") as fh:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 772, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/config/survey-production-v2.json'
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.006s
+
+FAILED (errors=3)

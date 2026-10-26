@@ -1,0 +1,56 @@
+{
+ "unit": "AUTHOR HIGH orphan intent-collision repair (narrow fail-closed, no whole-unit PASS, no CommitPoint)",
+ "root": "f84fcf5321be3798c862c0156278afbba01f89f6, contract 478f00510791b76af24aa7d61f398f0608f7ad8ae7808008c660f2bea6fbfdcf, gate 7d7d5a4552eb7a1abcbafa79d8f358ff10ec96e885b55f09f271766b136cab57 incl §6, astra-integration-corrections.md appended failure/resume disposition",
+ "candidate_base": "actual409/tree8ce + writable versioned-renewal-env-20261023T185000Z/candidate-work HEAD 409b292, 39M+52U intended (741 files incl new orphan test)",
+ "old_HIGH_defect": "9a0469ef5a6bc2b2e37fc9efb1376cfccbd0333ffaa08a59d23634345d382152 (3565 lines, ordinary same-set orphan allocated r3 ACTIVATED, called P2 max-advance green — ROOT REJECTS defect)",
+ "fixed_HIGH": "b12439d5057003e703992b91f9590c5eb498f48c21977fa7ab51167e48909413 (3750 lines, +185 lines, +167 helper +18 call-site, narrow _refuse_matching_intent_orphan BEFORE record creation, INTENT_COLLISION same-set, RECORD_COLLISION alias/malformed, O_EXCL race still refused, no global CAS)",
+ "new_test": "tests/test_versioned_renewal_orphan_intent_20261025.py 4b5a9d7e162ec81316f57ccf0a5bb21d444d3fe667fb90ed7d164da09faa5b4f (271 lines, static 8/8 OK, live requires RENEWAL_FIXTURE_ROOT + RENEWAL_ORPHAN_FORK/RESUME_FORK/NEWSET_META, honest skip without fixture)",
+ "other_pins_preserved": {
+  "H": "6fe86e78a12e2159d6ff50dfd7f70fda7b2e0d34d48db26402743edda2eca5ad",
+  "S": "20f63eafc96923dc7be25f3f495b94dd9add0e398d6cdc2fe47c2c9bff46c306",
+  "PUB": "3f4039fd7699baa212020dddfb02b3918bd63e02c475d638d99cbb2a1150d8d6",
+  "P1": "825dba1dedaed0850134b3a54a249a427b2e77709861818e8eb7cb63e1a33a2b",
+  "Reader": "098a2c8222f15f693c524139f2678be008a7ec9fafca275fc831ede9aa13bf1c",
+  "P3S_fix_existing": "9e2a0ad6b42cb2444f03f2f9db138c6c1e1db7f41434f5fb1878d87f99ca7ab1 (not re-edited, preserved)"
+ },
+ "own_snapshot": {
+  "path": ".rephase-1-editorial-runtime/versioned-renewal-orphanfix-20261025T170000Z/snapshot-work",
+  "head": "409b292756dd1277b9dfae87679934c0d2ce251c",
+  "intended_files": 741,
+  "dst_hash_list_sha256": "1b030608e3c507698b67c424586bf9686e10ff61d4fee1f51d2994b849a08f32",
+  "method": "byte-independent cp -a .git (no -l) + manifest-exact worktree via shutil.copy2 (no blind rsync, no cache), SRC==DST 741/741 bytes identical, nlink==1 spot, dev:ino disjoint, inert origin https://example.invalid/rephase-candidate-recovery.git, no alternates, no inherited GIT_*, index clean (HEAD still 409, no fake-root candidate)",
+  "isolation": "own test runs from OWN snapshot (ROOT=own snapshot), fixture DB separate for State/set only, no shared imports"
+ },
+ "fixture": {
+  "bootstrap": ".rephase-1-editorial-runtime/versioned-renewal-bootstrap-20261023T194449Z/bootstrap-weekly HEAD 721a04d85532d7855f3e54cc411f5847c787726e (actual R3 wk-boot-1, old E uncommitted)",
+  "dst": ".rephase-1-editorial-runtime/versioned-renewal-orphanfix-20261025T171000Z/renewal-weekly HEAD 37d9d5caf7aa555828d61419fe6be0fcb21c2a45 (parent 721a04d, 741 source-only commit before authority, old E ??127 preserved, no hardlinks/alternates, inert example.invalid, no inherited GIT_*)",
+  "healthy_SEALED_U": "or1-weekly REUSED_TARGETS via public prepare/finalize (real PDF 0684697f 5pp/reviews reuse from wk-boot-1, deterministic QA, no activation), State before ca7c0d2e62b69125a5365593eecb797b1b0f4449e2d888edb4b71dacf68fda03, set a0f8436613d6, no record yet"
+ },
+ "live_evidence_full": "notes/rephase-1-versioned-renewal-implementation/resume-20261025/orphan-intent-correction/raw/orphan-20261025T174000Z (exit 0, fresh Python 3.14.4 + PYTHONDONTWRITEBYTECODE=1 per fork op, fork-first sys.path, no wrong-root reuse, OS seam only os.replace once at exact State target, product pins re-verified, guards before/after, no unowned delete, workspace TMPDIR, per-fork byte-independent cp -a no -l nlink==1 dev:ino disjoint)",
+ "counts_live_full_174000Z": {
+  "healthy": "or1-weekly SEALED (prepare+finalize+validate 3 subcases, 1 method, 1 renewal)",
+  "fault_HIT_intended_seam": [
+   "orphan setup replace-fail INDETERMINATE (complete r2 30bb99..., State before ca7c..., tmp preserved, no r3)",
+   "ordinary SAME INTENT_COLLISION (no r3, State unchanged, orphan preserved)",
+   "ordinary CHANGED reason/time INTENT_COLLISION (no bypass, no r3)",
+   "explicit resume ACTIVATED/resumed + strict State/set/history",
+   "repeat resume ALREADY_ACTIVE readonly (full validation, no new)",
+   "unrelated or2-weekly SEALED + ACTIVATED r3 (no global ban, orphan preserved, no auto-adopt)",
+   "symlink r99 RECORD_COLLISION (preserve, no delete, outside preserved, State unchanged)",
+   "malformed r100 RECORD_COLLISION (preserve, no delete, State unchanged)"
+  ],
+  "total": "1 healthy + 8 fault HIT = 9 distinct (no false aggregation; ordinary same+changed are separate HIT for same-set identity vs free-text bypass)"
+ },
+ "counts_static": "new test static 8/8 OK (0.017s, no fixture, no skips)",
+ "counts_harness_defects_preserved_not_PASS": [
+  "raw/orphan-20261025T172000Z exit 2 wrong-root (old harness reused HIGH from FIX for fork, correctly refused BASIS_CURRENT_TOOL_DRIFT wrong-root, NOT a fault result; fixed by fresh-subprocess fork-first in 174000Z)",
+  "raw/orphan-20261025T173000Z exit 0 PARTIAL core only (orphan+ordinary+resume, no unrelated/malformed; superseded by full 174000Z, preserved, not deleted)"
+ ],
+ "open_exact": [
+  "longform U/C, C→U→U, renewal→editorial, normal direct Candidate/Preview/Freeze/Release, R1×2 chain, 32/33/cycle/anchor, affected regressions, independent final review (separate workers, not duplicated; existing R7 32-valid/33-refuses + HIST-33 preserved, not re-run here)",
+  "R1 after versioned pre-write (existing covered, separate regression worker owns anchor)"
+ ],
+ "readiness": "whole NOT_READY/step4B3 OPEN/audit unstarted/DM021+022 OPEN, Production semantic NO-GO, representative-quality/Profile/adoption/savings OPEN, no CommitPoint, no independent PASS",
+ "fix_vs_failure": "FIX = INTENT_COLLISION (no r3) + RESUMED + ALREADY_ACTIVE + unrelated r3 + malformed/symlink refuse-preserve; FAILURE (old 9a0469) = ACTIVATED r3 duplicate intent for same set (defect, qualified here, not green, not ignored)",
+ "preservation": "fault-worker raw/ original defect (ACTIVATED r3 max-advance) preserved, never overwritten; this packet uses NEW unique orphan-intent-correction/ only; no ordinary candidate/reconstruct commit, network, old runners, cleanup, cache purge"
+}

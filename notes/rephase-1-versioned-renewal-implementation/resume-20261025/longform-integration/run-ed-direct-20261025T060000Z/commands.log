@@ -1,0 +1,118 @@
+LONGFORM ED+DIRECT start 2026-10-25T05:43:00.844697+00:00 PID=2243825
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform rev-parse HEAD... tag=ed-pre-head -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, faulthandler
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+faulthandler.dump_traceback_later(300, exit=True)
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+import os
+print(f"ED probe child PID={os.getpid()}", flush=True)
+issue="SP001"
+pdir_old=f"sources/{issue}/publication/v2/editorial-corrections/lf-boot-1"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+old_auth=json.loads((root_p/pdir_old/"authoring-input.json").read_bytes())
+new_auth=json.loads(json.dumps(old_auth))
+# real changed-reader: headline/deck/summary changed, same accepted research/Draft/Architecture (do not touch accepted refs)
+new_auth["cover"]["headline"]="LONGFORM renewal-editorial headline: fixture-local changed reader after versioned renewal U3b; no genuine approval."
+new_auth["cover"]["deck"]="Changed deck asserting changed-reader bytes for P1 on U3b-active prior (LONGFORM)."
+new_auth["final_summary"]["paragraphs"]=["Changed paragraph: this changed authoring must NOT trip NO_EDITORIAL_CHANGE; prior immutable versions stay KEEP with fresh State COPY. LONGFORM."]
+assert json.dumps(new_auth,sort_keys=True)!=json.dumps(old_auth,sort_keys=True)
+dest=root_p/pdir_new/"authoring-input.json"
+dest.parent.mkdir(parents=True, exist_ok=True)
+if dest.exists():
+    print(json.dumps({"probe":"REFUSED_TARGET_EXISTS","path":str(dest.relative_to(root_p))}))
+    sys.exit(0)
+dest.write_bytes(core.json_bytes(new_auth))
+print(f"staged {dest.relative_to(root_p)}", flush=True)
+res=p1mod.prepare_proposal(root_p, root_p/f"sources/{issue}/production-state.json", dest, prop_new, "LONGFORM renewal-to-editorial: changed reader on U3b-active prior (synthetic, no genuine approval)")
+print(json.dumps({"probe":"PREPARED","proposal_id":prop_new,"keys":sorted(res.keys()) if isinstance(res,dict) else type(res).__name__}))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform lf-ed-1... tag=ed-probe -> exit=1
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]
+from pathlib import Path
+root_p=Path(root_arg)
+import os
+print(f"DIRECT child PID={os.getpid()}", flush=True)
+from scripts import survey_production_v2 as core
+# Normal direct lifecycle: stage -> approval (synthetic Human Preview) -> freeze -> release/readback
+# Use existing test helper? For LONGFORM U3b, we emulate run39 lifecycle: stage/approval/freeze/manifest/merge/release
+# Here we do minimal: validate set, stage validation, synthetic approval, freeze preflight, release
+# For brevity, we call the publication/stage validators directly with CURRENT tools
+from scripts import survey_versioned_renewal_v2 as high
+# validate set
+res=high.validate_prepared_renewal_set(str(root_p), "sources/SP001/production-state.json", "sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u3b-longform/publication-set.json")
+print(f"validate_set OK {res.get('status') if isinstance(res,dict) else 'ok'}")
+# stage validation via survey_stage_validation_v2? Use CLI? For now, check that old immutable prior versions preserved
+import pathlib
+for r in ["r1","r2","r3","r4","r6"]:
+    p=root_p/f"sources/SP001/publication/v2/publication-surface-revalidation-{r}.json"
+    print(f"{r} exists={p.exists()} sha={__import__('hashlib').sha256(p.read_bytes()).hexdigest()[:12] if p.exists() else 'MISSING'}")
+print("DIRECT_STAGE_CHECK_DONE")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform... tag=direct-stage -> exit=0
+$ /usr/bin/python3 -c 
+import sys
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root_p=Path(sys.argv[1])
+import os
+print(f"R1 child PID={os.getpid()}", flush=True)
+# Try R1/canonical writer on versioned State: should refuse before writes, no writes
+# The R1 writer is survey_weekly_mechanical_refresh_v2? Or canonical writer? We test versioned refusal via high? 
+# Simplest: try to call R1 refresh on versioned State and expect refusal (no writes)
+# If module not applicable, record as OPEN with reason
+try:
+    from scripts import survey_weekly_mechanical_refresh_v2 as r1mod
+    print(f"R1 module {r1mod.__file__}")
+    # Do not actually invoke write; just check that versioned State is VALIDATED_DRAFT with VERSIONED_ACTIVE selection, so R1 should refuse
+    from scripts import survey_production_v2 as core
+    import json
+    state=json.loads((root_p/"sources/SP001/production-state.json").read_bytes())
+    print(f"State lifecycle={state.get('lifecycle_state')} provenance={state.get('publication_revalidation_provenance',{}).get('path')}")
+    # R1 refusal is pre-write: we emulate by checking that State is versioned-active, so R1 must not run
+    from scripts import survey_publication_set_v2 as setmod
+    from scripts import survey_agent_control_v2 as agent
+    cfg=json.loads((root_p/"config/survey-production-v2.json").read_bytes())
+    sel=setmod.resolve_publication_selection(root_p, cfg, state)
+    print(f"selection mode={sel.get('mode')}")
+    assert sel.get("mode")=="VERSIONED_ACTIVE", "expected VERSIONED_ACTIVE for refusal test"
+    print("R1_REFUSAL_PRECONDITION_OK: VERSIONED_ACTIVE, R1/canonical must refuse before writes (no writes attempted here)")
+except Exception as e:
+    print(f"R1 check error: {e}")
+    raise
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform... tag=r1-refusal -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, faulthandler
+sys.path.insert(0, sys.argv[1])
+root_arg=sys.argv[1]; prop_new=sys.argv[2]
+faulthandler.dump_traceback_later(300, exit=True)
+from pathlib import Path
+root_p=Path(root_arg)
+from scripts import survey_production_v2 as core
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+import os
+print(f"ED retry child PID={os.getpid()}", flush=True)
+issue="SP001"
+pdir_old=f"sources/{issue}/publication/v2/editorial-corrections/lf-boot-1"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+old_auth=json.loads((root_p/pdir_old/"authoring-input.json").read_bytes())
+new_auth=json.loads(json.dumps(old_auth))
+new_auth["cover"]["headline"]="LONGFORM renewal-editorial retry headline: fixture-local changed reader after versioned renewal U3b; no genuine approval."
+new_auth["cover"]["deck"]="Changed deck retry for P1 on U3b-active prior (LONGFORM lf-ed-2)."
+new_auth["final_summary"]["paragraphs"]=["Changed retry paragraph: must NOT trip NO_EDITORIAL_CHANGE; prior KEEP with fresh COPY. LONGFORM lf-ed-2."]
+assert json.dumps(new_auth,sort_keys=True)!=json.dumps(old_auth,sort_keys=True)
+dest=root_p/pdir_new/"authoring-input.json"
+dest.parent.mkdir(parents=True, exist_ok=True)
+if dest.exists():
+    print(json.dumps({"probe":"REFUSED_TARGET_EXISTS","path":str(dest.relative_to(root_p))}))
+    sys.exit(0)
+dest.write_bytes(core.json_bytes(new_auth))
+print(f"staged {dest.relative_to(root_p)}", flush=True)
+res=p1mod.prepare_proposal(root_p, root_p/f"sources/{issue}/production-state.json", dest, prop_new, "LONGFORM renewal-to-editorial retry: changed reader on U3b-active prior (synthetic)")
+print(json.dumps({"probe":"PREPARED","proposal_id":prop_new,"keys":sorted(res.keys()) if isinstance(res,dict) else type(res).__name__}))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform lf-ed-2... tag=ed-probe-retry -> exit=1

@@ -1,0 +1,15 @@
+{
+  "schema_version": "2.0-rc1",
+  "kind": "EDITORIAL_TOOLCHAIN_SPEC_V1",
+  "executor": "bootstrap-longform-integration",
+  "absolute_executable": "/tmp/opencode/jgas-texlive-20261019T133205Z/texlive/bin/x86_64-linux/lualatex",
+  "recipe": "lualatex-biber-lualatex",
+  "argv": [
+    "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+    "biber main",
+    "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+    "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex"
+  ],
+  "env": {},
+  "recorded_at": "2026-10-23T19:50:48.324878+00:00"
+}

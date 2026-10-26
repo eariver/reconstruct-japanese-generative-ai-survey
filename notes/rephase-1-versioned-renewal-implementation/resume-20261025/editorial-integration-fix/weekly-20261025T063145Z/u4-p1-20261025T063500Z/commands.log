@@ -1,0 +1,110 @@
+prior r5 2026-10-25T05:36:08.844297Z sha 278bded5
+synthetic 2026-10-25T06:32:09.710405+00:00
+$ /usr/bin/python3 -c 
+import sys
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1])
+from scripts import survey_versioned_renewal_v2 as high
+try:
+    v=high.validate_renewal_receipt(root, sys.argv[2])
+    print("STALE_UNEXPECTED_PASS")
+    sys.exit(0)
+except Exception as e:
+    print(f"STALE_REFUSED {type(e).__name__}: {e}")
+    sys.exit(2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u3-weekly/validated-source-manifest.json... # stale-old-u3 timeout=300s pid=2290244
+DONE stale-old-u3 exit=2
+stale check exit=2 (expected 2 REFUSED)
+mspec exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, state_rel, rid, now_iso = sys.argv[1:5]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_versioned_renewal_v2 as high
+out=high.prepare_renewal(root, root/state_rel, rid, "REUSE_TARGETS", "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json", None, "weekly-fix-u4", now_iso)
+print(json.dumps(out, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # u4-prepare timeout=600s pid=2290244
+DONE u4-prepare exit=0
+basis_rel sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-fix-weekly/renewal-basis.json exists=True
+u3_qa keys=['checks']
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+p.parent.mkdir(parents=True, exist_ok=True)
+# Exclusive: refuse if exists
+if p.exists():
+    print(f"EXISTS {rel}"); sys.exit(1)
+p.write_bytes(core.json_bytes({"checks": data} if isinstance(data, list) else data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u4-fix-weekly.json... # u4-qa-write timeout=120s pid=2290244
+DONE u4-qa-write exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, state_rel, basis_rel, qa_rel, now_iso = sys.argv[1:6]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_versioned_renewal_v2 as high
+out=high.finalize_renewal(root, root/state_rel, root/basis_rel, root/qa_rel, None, None, "weekly-fix-u4", now_iso)
+print(json.dumps(out, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # u4-finalize timeout=600s pid=2290244
+DONE u4-finalize exit=0
+set_rel sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-fix-weekly/publication-set.json exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, state_rel, set_rel, now_iso = sys.argv[1:5]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_versioned_renewal_v2 as high
+out=high.activate_renewal(root, root/state_rel, root/set_rel, "Renewal Core change: P1 dispatch fix verification (truthful Core-change, synthetic, no genuine approval)", "weekly-fix-u4", now_iso)
+print(json.dumps(out, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # u4-activate timeout=600s pid=2290244
+DONE u4-activate exit=0
+records=['publication-surface-revalidation-r1.json', 'publication-surface-revalidation-r2.json', 'publication-surface-revalidation-r3.json', 'publication-surface-revalidation-r4.json', 'publication-surface-revalidation-r5.json', 'publication-surface-revalidation-r6.json']
+active record sources/2026-W37/publication/v2/publication-surface-revalidation-r6.json
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, record_rel = sys.argv[1:3]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_versioned_renewal_v2 as high
+v=high.verify_renewal_history(root, root/record_rel)
+print(json.dumps({"HISTORICAL_IDENTITY_VERIFIED": v.get("HISTORICAL_IDENTITY_VERIFIED"), "chain_length": v.get("chain_length")}, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/publication-surface-revalidation-r6.json... # u4-history timeout=600s pid=2290244
+DONE u4-history exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+if p.exists():
+    print(f"EXISTS {rel}"); sys.exit(1)
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes(data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/editorial-corrections/wk-ed-fix-1/authoring-input.json... # p1-stage-authoring timeout=120s pid=2290244
+DONE p1-stage-authoring exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, state_rel, auth_rel, prop_new, change_desc = sys.argv[1:6]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+res=p1mod.prepare_proposal(root, root/state_rel, root/auth_rel, prop_new, change_desc)
+print(json.dumps({"proposal_id":prop_new,"graph_nodes":len(res["graph"]["nodes"]),"graph_edges":len(res["graph"]["edges"]),"before_sha":res["proposal"]["basis"]["active_reader_input_ref"]["sha256"][:8],"planned_sha":res["proposal"]["proposed"]["proposed_reader_canonical_sha256"][:8]}, indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # p1-prepare timeout=1200s pid=2290244
+DONE p1-prepare exit=1
+P1 prepare exit=1 (expected 0)
+P1 FAILED - see stderr

@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<string>", line 22, in <module>
+    res=p3s.materialize_staged_source(str(root_p), f"sources/{issue}/production-state.json", proposal, manifest, scope)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_staged_source_v2.py", line 760, in materialize_staged_source
+    _check_runtime_binding(root_path, dep_pins, phase, disp)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_staged_source_v2.py", line 610, in _check_runtime_binding
+    raise _fail("RUNTIME_BINDING_MISSING", phase, disp,
+                f"S2 module not loaded for binding: {rel}")
+scripts.survey_editorial_staged_source_v2.StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py

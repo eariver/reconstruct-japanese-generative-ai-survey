@@ -1,0 +1,62 @@
+DST=/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-readerf4-20261025T060000Z/snapshot-work
+409b292756dd1277b9dfae87679934c0d2ce251c
+82
+82
+[detached HEAD a21b263] Reader F4 fix TEST-ONLY: refuse neither-with-proof (C requires serialized renewal_source)
+ 82 files changed, 45724 insertions(+), 606 deletions(-)
+ create mode 100644 schemas/editorial-correction-proposal-v2.schema.json
+ create mode 100644 schemas/editorial-manuscript-spec-v2.schema.json
+ create mode 100644 schemas/editorial-publication-build-record-v2.schema.json
+ create mode 100644 schemas/editorial-publication-set-v2.schema.json
+ create mode 100644 schemas/editorial-publication-source-manifest-v2.schema.json
+ create mode 100644 schemas/editorial-retention-manifest-v2.schema.json
+ create mode 100644 schemas/editorial-staged-source-manifest-v2.schema.json
+ create mode 100644 schemas/editorial-toolchain-spec-v2.schema.json
+ create mode 100644 schemas/longform-publication-source-manifest-v2.schema.json
+ create mode 100644 schemas/longform-reader-input-v2.schema.json
+ create mode 100644 schemas/versioned-renewal-basis-v2.schema.json
+ create mode 100644 schemas/versioned-renewal-publication-set-v2.schema.json
+ create mode 100644 schemas/versioned-renewal-source-manifest-v2.schema.json
+ create mode 100644 schemas/versioned-renewal-source-proof-v2.schema.json
+ create mode 100644 scripts/survey_editorial_correction_proposal_v2.py
+ create mode 100644 scripts/survey_editorial_current_authority_v2.py
+ create mode 100644 scripts/survey_editorial_publication_v2.py
+ create mode 100644 scripts/survey_editorial_retention_v2.py
+ create mode 100644 scripts/survey_editorial_staged_source_v2.py
+ create mode 100644 scripts/survey_longform_derivation_v2.py
+ create mode 100644 scripts/survey_longform_generated_v2.py
+ create mode 100644 scripts/survey_longform_semantic_publication_v2.py
+ create mode 100644 scripts/survey_publication_set_v2.py
+ create mode 100644 scripts/survey_versioned_renewal_history_v2.py
+ create mode 100644 scripts/survey_versioned_renewal_source_v2.py
+ create mode 100644 scripts/survey_versioned_renewal_v2.py
+ create mode 100644 tests/test_group_c_editorial_consumers_v2.py
+ create mode 100644 tests/test_survey_editorial_activation_faults_r4c.py
+ create mode 100644 tests/test_survey_editorial_correction_proposal_v2.py
+ create mode 100644 tests/test_survey_editorial_current_authority_v2.py
+ create mode 100644 tests/test_survey_editorial_r5_gaps_v2.py
+ create mode 100644 tests/test_survey_editorial_r7_boundary_v2.py
+ create mode 100644 tests/test_survey_editorial_retention_v2.py
+ create mode 100644 tests/test_survey_editorial_staged_source_v2.py
+ create mode 100644 tests/test_survey_longform_derivation_v2.py
+ create mode 100644 tests/test_survey_longform_publication_integration_v2.py
+ create mode 100644 tests/test_survey_publication_r3_anchor_shape_v2.py
+ create mode 100644 tests/test_survey_publication_set_v2.py
+ create mode 100644 tests/test_survey_schema_cache_v2.py
+ create mode 100644 tests/test_versioned_renewal_high_phase.py
+ create mode 100644 tests/test_versioned_renewal_history_phase_h.py
+ create mode 100644 tests/test_versioned_renewal_reader_f4_20261025.py
+ create mode 100644 tests/test_versioned_renewal_source_phase_s.py
+a21b2637dbd564c8ffc50239ba65105767ec4fa1
+a21b263 Reader F4 fix TEST-ONLY: refuse neither-with-proof (C requires serialized renewal_source)
+409b292 DM-004 final cleanup: drop rationale-grep test; unmodified extracted failfast line via STATE env
+34f934e DM-004 correction tests: fix released-tuple use and cwd-different script path
+COMMIT_DONE
+035fdc1c1d407c2379b53d00cf17b730b515096e9f5c732ee58cfee2560497a9  /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/reader-manuscript-v2.json
+043b0fc15c31366b66562023fc299f4a8caea0421a5346f537b1a573b26c3423  /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-c1-weekly/renewal-source-proof.json
+551985955b0ca97e361fcb5f50b3569993c4f09ad94120f419380eb8a0143cfb  /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-source-proof.json
+7678cb55088cb796cb47fb7f744efc1dcd8a800cf0ce95cd2994993de96a9d87  /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u2-weekly/renewal-source-proof.json
+cff7253d0dedd3d22e69ec98ef7b7f27a30763d88065b32f7d44f8fe94f19a17  /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/reader-manuscript-v2.json
+345c589b5c03838a35567e88eb5b3056a2c6f5cc4747a95eab7f0ee166f3e1df  /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-high24-20261025T040000Z/renewal-weekly/sources/2026-W37/publication/v2/reader-manuscript-v2.json
+50b03a64627a8bbcc725c7fcbebc3d30dce84c9b
+PINS_DONE

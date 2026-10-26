@@ -1,5 +1,7 @@
 # Reconstruction 完了ロードマップ — 2026-10-19 再計画
 
+**CURRENT 2026-10-26 renewal implementation closeout:** [assessment](rephase-1-versioned-renewal-implementation-assessment.md)でbootstrap＋両route U/C・repeat・renewal→editorial・normal public State lifecycle・failure/resumeをBOUNDED IMPLEMENTATION COMPLETE（qualified composite）。Final actual409＋93paths、完全DIRECTpatchf898d33b、742 source一致を独立確認。次はassessment§5のDM022 pre-Architecture accepted-upstream訂正の適用性/統合契約判断（必要Profile依存を含む）。全体finish lineと品質/採用/費用条件は不変。以下の旧進捗/旧nextは当時の履歴であり本entryが優先する。
+
 判断主体: Astra（architecture/author-side）。Humanの本依頼に基づき、再計画後の最初のtaskまで続行する。開始workspace HEADはHuman commit `eb6b79be1dc6fcd704194c46de1c2f53c7c26e58`、開始時clean。Production比較baseline `774dd39a951c9ac3818e83dfffd4c7666efb0a20`は維持。
 
 本書を**現在の全体計画の入口**とする。旧plan・各unitの判断/証拠は履歴として保持し、旧「next」を再実行指示にしない。進捗率・終了日の数値は、未評価の統合/実運用費を隠すため付けない。
@@ -62,7 +64,7 @@ DM022を「別Productionだから無関係」とも「新しいので最優先�
 | **R0 再計画（本書）** | 目的、残作業、順序、次taskを固定 | Astraが本書を選択しR1開始。ここではCommit Pointを挟まない | 小、広範探索はCo-Worker |
 | **R1 訂正から通常工程復帰までの統合可否判断（今回完了）** | actual409＋final21でreason/State/receipt/review-context/install-window/Candidate衝突を照合。DM022との境界も明示 | 提出2案はNO-GO。canonical/context拡張とversioned/active-role方式は比較対象として保持し、初回build/admissionの実証を次投資に選択。**今回の最初のtask/次Commit Point** | source復元＋2作者案review。implementation-readyとはしない |
 | **R2 初回実build/admission統合witness（bounded complete）** | Weekly＋Thematic/Longform実PDF/strict admission、共有style1行修復、実内容/visual点検、final22保存patch | 複数runの限定証拠で完了。元synthetic lifecycleはRELEASED、新exclusive transfer補足はVALIDATED_DRAFT。Production semantic NO-GOは保持。[結果/次task](rephase-1-initial-build-integration-assessment.md) | 実build共通境界を実証。初期toolchain約1GB、全費用/純削減未測定 |
-| **R3 必要訂正・Profileを含む通常運用の完成（editorial操作限定完了）** | immutable set→実build/外部review→Candidate-before-seal→State activation→通常direct工程を実装・検証。次はversioned機械renewal契約、その後必要DM016/017/022・Profile対応 | 初回＋同一reader機械更新＋reader変更＋accepted-upstream訂正＋失敗再開のcapability表を閉じる。現在sameepoch/prePreview、既存R1 afterversioned拒否・renewal未選択は明示readiness gap。代表的品質・全必要Profileは未了 | 実装・修正・fixture・review費を含む総削減は未測定。consumer/closure/不変版保存費と今後renewal費は未知。限定PASSを全体readyにしない |
+| **R3 必要訂正・Profileを含む通常運用の完成（editorial＋versioned renewal限定完了）** | immutable editorialとsame-reader U/C renewal→通常direct工程を実装・限定検証。次はDM022 accepted-upstream訂正の適用性/契約判断、必要DM016/017・Profile対応 | 初回＋機械更新＋reader変更＋accepted-upstream訂正＋失敗再開のcapability表を閉じる。現在prePreviewの生成Weekly/Longformまで。既存R1 afterversionedは別のrenewal操作へ分離して拒否維持。DM022/代表的品質/全必要Profileは未了 | 実装・修正・fixture・review費を含む総削減は未測定。consumer/closure/不変版保存費も含む。限定PASSを全体readyにしない |
 | **R4 一つの採用候補を固定・監査** | 必要差分を統合しsource/parent/tree/依存runtime/必要asset/復元手順を引渡し可能にする。影響診断・必須CI/環境check・同期。current Productionとの移行base比較はHuman許可取得後 | exact candidateへのfresh作者別七観点auditと指摘解消、履歴/旧版の扱い、除去対象、切戻し、採用手順、残費用が揃う。candidate commit/Productionアクセス拡大は既存権限に従う | 中〜大。missing historical blobsを無条件全取得せず、必要閉包と未対象を明示 |
 | **R5 Human採用判断・限定実運用** | 明示許可の下で新規Weekly/必要Specialから導入。真正semantic/visual/Human Gate、実CI/Releaseを確認 | 実運用での品質/根拠/権限の非劣化、移行失敗/rollback手順の有効性。既存RELEASEDを再承認扱いにしない | 実edition依存。現時点でProduction mutationは未許可 |
 | **R6 効果判定と旧経路の廃止** | 下記費用比較、実際に重複作業/旧driver/手書きstatusを廃止。残る例外・保守責任を引渡し | Humanの完了判断。未測定をゼロにせず、改善が出なければ調整/撤回/責任単位の置換を決定 | 実運用依存。初期投資を除外しない |

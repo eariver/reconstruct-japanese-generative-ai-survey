@@ -1,0 +1,208 @@
+prereq staged True proposal True
+owner EDPUB survey_editorial_publication_v2.prepare_publication (fixed858 real TL lualatex/biber)
+owner QA survey_quality_v2.expected_checks_by_kind/validate_checks (Weekly families, no EMPTY_WRAPPER_SUPPRESSION)
+owner Reader survey_reader_publication_v2.build_review_record/validate_review_record + _exact_pdf_page_count
+owner EDPUB finalize_publication/activate_publication/verify_activation_history/validate_editorial_receipt
+owner agent survey_agent_control_v2.validate_agent_state (strict LIVE)
+$ /usr/bin/python3 -c 
+import sys, json, hashlib, datetime as _dt
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1]); prop_new=sys.argv[2]
+from scripts import survey_production_v2 as core
+issue="2026-W37"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+old_spec=json.loads((root/f"sources/{issue}/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json").read_bytes())
+new_sha=hashlib.sha256((root/pdir_new/"proposal.json").read_bytes()).hexdigest()
+new_spec=dict(old_spec)
+new_spec["proposal_ref"]={"path":f"{pdir_new}/proposal.json","sha256":new_sha}
+new_spec["authored_by"]=f"weekly-final {prop_new} (changed reader, synthetic)"
+new_spec["recorded_at"]=_dt.datetime.now(_dt.timezone.utc).isoformat()
+mspec_path=root/pdir_new/"manuscript-spec.json"
+if not mspec_path.exists():
+    mspec_path.write_bytes(core.json_bytes(new_spec))
+    print(f"WROTE {mspec_path.relative_to(root)}")
+else:
+    print(f"EXISTS manuscript-spec")
+old_tool=json.loads((root/f"sources/{issue}/publication/v2/editorial-corrections/wk-boot-1/toolchain-spec.json").read_bytes())
+new_tool=dict(old_tool)
+new_tool["executor"]=f"weekly-final-{prop_new}"
+new_tool["recorded_at"]=_dt.datetime.now(_dt.timezone.utc).isoformat()
+tool_path=root/pdir_new/"toolchain-spec.json"
+if not tool_path.exists():
+    tool_path.write_bytes(core.json_bytes(new_tool))
+    print(f"WROTE {tool_path.relative_to(root)}")
+else:
+    print(f"EXISTS toolchain")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final wk-ed-final-1... # specs-build timeout=300s
+DONE specs-build exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_publication_v2 as edpub
+root=Path(sys.argv[1])
+res=edpub.prepare_publication(str(root), sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6])
+print(json.dumps({"keys":sorted(res.keys()) if isinstance(res,dict) else str(type(res)),"res":str(res)[:2000]},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json... # ed-prepare timeout=1200s
+DONE ed-prepare exit=0
+PREPARE OK real TL2026
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+root=Path(sys.argv[1])
+cfg=json.loads((root/"config/survey-production-v2.json").read_bytes())
+kinds=quality.expected_checks_by_kind(cfg, "WEEKLY", "WEEKLY_MAGAZINE", {"DETERMINISTIC"})
+print(json.dumps({"weekly_det":sorted(kinds)},indent=1))
+assert "EMPTY_WRAPPER_SUPPRESSION" not in kinds, "EMPTY must not be Weekly-applicable (harness bug)"
+assert set(kinds)=={"IDENTIFIER_PRESERVATION","PDF_PREFLIGHT","SUBJECT_ENTITY_PROPERTY_BINDING"}, f"unexpected Weekly det {kinds}"
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final... # qa-derive-weekly timeout=300s
+DONE qa-derive-weekly exit=0
+QA derive Weekly 3 DET OK (no EMPTY)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s=sys.argv[1]
+from pathlib import Path
+root=Path(root_s)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+from scripts import survey_reader_publication_v2 as reader
+import datetime as _dt
+issue="2026-W37"; prop_new="wk-ed-final-1"
+pdir_new=f"sources/{issue}/publication/v2/editorial-corrections/{prop_new}"
+staged_manifest=json.loads((root/pdir_new/"staged-source/staged-source-manifest.json").read_bytes())
+staged_main_rel=staged_manifest["outputs"]["main"]["path"]
+pdf_rel=f"{pdir_new}/publication/build/main.pdf"
+manuscript_rel=f"{pdir_new}/publication/reader-manuscript-v2.json"
+staged_main_bytes=(root/staged_main_rel).read_bytes()
+pdf_bytes=(root/pdf_rel).read_bytes()
+from pypdf import PdfReader
+import io as _io
+pages=len(PdfReader(_io.BytesIO(pdf_bytes)).pages)
+print(f"staged {staged_main_rel} pdf {pdf_rel} pages {pages}",flush=True)
+cfg=json.loads((root/"config/survey-production-v2.json").read_bytes())
+kinds=quality.expected_checks_by_kind(cfg, "WEEKLY", "WEEKLY_MAGAZINE", {"DETERMINISTIC"})
+assert set(kinds)=={"IDENTIFIER_PRESERVATION","PDF_PREFLIGHT","SUBJECT_ENTITY_PROPERTY_BINDING"}
+now_iso=_dt.datetime.now(_dt.timezone.utc).isoformat()
+qdir=root/pdir_new/"publication/quality"
+qdir.mkdir(parents=True,exist_ok=True)
+scope="weekly-final fresh editorial (exact bytes, synthetic, no genuine approval, Production semantic NO-GO)"
+subject={"check_id":"SUBJECT_ENTITY_PROPERTY_BINDING","status":"PASS","issue_id":issue,"cited_discovery_count":1,"bindings":[{"discovery_id":"d01","canonical_name":"Weekly Test","canonical_url":"https://example.invalid/weekly","materiality":"MATERIAL","status":"VERIFIED","source_accessed_at":"2026-08-22T02:10:00+09:00"}]}
+identifier={"check_id":"IDENTIFIER_PRESERVATION","status":"PASS","source_sha256":core.sha256_bytes(staged_main_bytes),"inspected_identifiers":[issue],"scope":scope}
+preflight={"check_id":"PDF_PREFLIGHT","status":"PASS","page_count":pages,"pdf_sha256":core.sha256_bytes(pdf_bytes),"byte_count":len(pdf_bytes),"scope":scope+" real TL2026 PDF"}
+for name, payload in [("subject_entity_property_binding.json",subject),("identifier_preservation.json",identifier),("pdf_preflight.json",preflight)]:
+    (qdir/name).write_bytes(core.json_bytes(payload))
+checks=[]
+for cid, fname in [("SUBJECT_ENTITY_PROPERTY_BINDING","subject_entity_property_binding.json"),("IDENTIFIER_PRESERVATION","identifier_preservation.json"),("PDF_PREFLIGHT","pdf_preflight.json")]:
+    p=qdir/fname
+    checks.append({"check_id":cid,"kind":"DETERMINISTIC","status":"PASS","executor":"weekly-final fresh QA (exact bytes, synthetic, no genuine)","evidence":"Exact fixture bytes and result file inspected.","recorded_at":now_iso,"result":{"path":str(p.relative_to(root)),"sha256":core.sha256_file(p)}})
+assert set([c["check_id"] for c in checks])==set(kinds)
+det_path=root/pdir_new/"deterministic-checks.json"
+det_path.write_bytes(core.json_bytes({"checks":checks}))
+print(f"WROTE det",flush=True)
+quality.validate_checks(root, cfg, "WEEKLY", "WEEKLY_MAGAZINE", checks, required_kinds={"DETERMINISTIC"})
+print(f"DETERMINISTIC OK 3",flush=True)
+old_sem=json.loads((root/f"sources/{issue}/publication/v2/editorial-corrections/wk-boot-1/publication/semantic-review-v2.json").read_bytes())
+old_vis=json.loads((root/f"sources/{issue}/publication/v2/editorial-corrections/wk-boot-1/publication/visual-review-v2.json").read_bytes())
+manuscript_file=root/manuscript_rel
+pdf_file=root/pdf_rel
+actual_pages=reader._exact_pdf_page_count(pdf_file)
+sem_out=root/pdir_new/"publication/semantic-review-v2.json"
+if not sem_out.exists():
+    reader.build_review_record(root, manuscript_file, pdf_file, actual_pages, "SEMANTIC_EDITORIAL", old_sem["checks"], "synthetic Weekly semantic reviewer weekly-final (no genuine, Production NO-GO)", _dt.datetime.fromisoformat(now_iso), sem_out)
+    print(f"BUILT sem",flush=True)
+else:
+    print(f"EXISTS sem",flush=True)
+vis_out=root/pdir_new/"publication/visual-review-v2.json"
+if not vis_out.exists():
+    reader.build_review_record(root, manuscript_file, pdf_file, actual_pages, "VISUAL", old_vis["checks"], "synthetic Weekly visual reviewer weekly-final (no genuine, Production NO-GO)", _dt.datetime.fromisoformat(now_iso), vis_out)
+    print(f"BUILT vis",flush=True)
+else:
+    print(f"EXISTS vis",flush=True)
+print(f"QA_DONE pages={pages} now={now_iso}",flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final... # qa-build-weekly timeout=1200s
+DONE qa-build-weekly exit=0
+QA Weekly 3 DET + semantic/visual built (synthetic NO-GO)
+finalize now_iso 2026-10-25T18:19:53.957350+00:00
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_publication_v2 as edpub
+root=Path(sys.argv[1])
+res=edpub.finalize_publication(str(root), sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], sys.argv[7], recorded_at=__import__("datetime").datetime.fromisoformat(sys.argv[8]))
+print(json.dumps({"set_ref":res.get("set_ref") if isinstance(res,dict) else str(res)},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json... # ed-finalize timeout=1200s
+DONE ed-finalize exit=0
+seal sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/publication/publication-set.json
+seal_rel sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/publication/publication-set.json exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_publication_v2 as edpub
+root=Path(sys.argv[1])
+res=edpub.activate_publication(str(root), sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], recorded_at=__import__("datetime").datetime.fromisoformat(sys.argv[6]))
+print(json.dumps(res,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/publication/publication-set.json... # ed-activate timeout=1200s
+DONE ed-activate exit=0
+ACTIVATED EDITORIAL r3
+active record sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_publication_v2 as edpub
+root=Path(sys.argv[1])
+res=edpub.verify_activation_history(str(root), sys.argv[2])
+print(json.dumps({"HIST":res},indent=1)[:4000])
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json... # ed-history timeout=600s
+DONE ed-history exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_agent_control_v2 as agent
+root=Path(sys.argv[1])
+cfg=json.loads((root/"config/survey-production-v2.json").read_bytes())
+state=json.loads((root/sys.argv[2]).read_bytes())
+errs=agent.validate_agent_state(root, cfg, state)
+print(json.dumps({"errs":errs},indent=1))
+import sys as _s; _s.exit(0 if errs==[] else 2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json... # ed-current-state timeout=600s
+DONE ed-current-state exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_publication_v2 as edpub
+root=Path(sys.argv[1])
+res=edpub.validate_editorial_receipt(str(root), sys.argv[2], sys.argv[3])
+print(json.dumps({"kind":res.get("kind"),"route":res.get("generator_route"),"issue":res.get("issue_id")},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/publication/validated-source-manifest.json sources/2026-W37/production-state.json... # ed-receipt timeout=600s
+DONE ed-receipt exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1])
+state=json.loads((root/sys.argv[2]).read_bytes())
+# State-selected Candidate? Derive via publication set selection? Use State provenance + seal
+prov=state.get("publication_revalidation_provenance",{})
+print(json.dumps({"provenance":prov},indent=1))
+# Load seal to get Candidate ref
+from scripts import survey_publication_set_v2 as setmod
+import pathlib as _pl
+# Find seal path from record
+rec=json.loads((root/sys.argv[3]).read_bytes())
+set_ref=rec.get("set_ref") or {}
+print(json.dumps({"set_ref":set_ref},indent=1))
+seal=json.loads((root/set_ref.get("path")).read_bytes()) if isinstance(set_ref,dict) and "path" in set_ref else {}
+print(json.dumps({"seal_kind":seal.get("kind"),"seal_status":seal.get("status"),"candidate_ref":seal.get("candidate_ref") or seal.get("candidate")},indent=1)[:2000])
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json... # ed-candidate timeout=600s
+DONE ed-candidate exit=0
+ED FINAL SUCCESS r3 HIST CURRENT receipt Candidate all 0

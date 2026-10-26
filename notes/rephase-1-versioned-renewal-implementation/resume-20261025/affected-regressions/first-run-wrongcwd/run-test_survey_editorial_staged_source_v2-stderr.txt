@@ -1,0 +1,389 @@
+test_o10_same_inode_vs_new_inode (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct). ... FAIL
+test_o11_root_preexisting_and_postreadback_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11_root_preexisting_and_postreadback_drift)
+O11 pre-existing root refuses; staged output swap after readback refuses. ... FAIL
+test_o11b_midcall_reader_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta. ... FAIL
+test_o11c_late_control_retained (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at FINAL boundary. ... FAIL
+test_o11d_drift_before_claim_manifest (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11d_drift_before_claim_manifest)
+O11d drift after render/before claim and after source/before manifest. ... FAIL
+test_o11e_post_readback_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay. ... FAIL
+test_o11f_root_ancestor_replace (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses. ... FAIL
+test_o12a_preexisting_tamper_verify (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12a_preexisting_tamper_verify)
+O12a verify-level tamper: truncated manifest / extra dir / zeroed output. ... FAIL
+test_o12b_during_write_faults_incomplete (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class. ... FAIL
+test_o12c_fsync_close_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12c_fsync_close_indeterminate)
+O12c fsync/close faults with complete bytes → INDETERMINATE + owned partials. ... FAIL
+test_o12d_manifest_failure_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12d_manifest_failure_indeterminate)
+O12d manifest write/close faults → INDETERMINATE; valid bytes stay verifiable. ... FAIL
+test_o12e_fstat_identity_mismatch (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12e_fstat_identity_mismatch)
+O12e fstat-vs-entry identity mismatch refuses with exact owned partials. ... FAIL
+test_o12f_short_partial_combined_close (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary. ... FAIL
+test_o13_immediate_no_write_before_repair (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o13_immediate_no_write_before_repair)
+O13 every refusal proves no-write with the fault still present. ... FAIL
+test_o14_byte_equal_existing_root_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o14_byte_equal_existing_root_refuses)
+O14 byte-equal pre-existing staged set still refuses writer takeover. ... FAIL
+test_o1_longform_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta). ... FAIL
+test_o2_weekly_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o2_weekly_materialize_and_replay)
+O2 healthy Weekly staged set + independent replay (real envelope delta). ... FAIL
+test_o3_coexistence_p1_refuse_p2r_p2v (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o3_coexistence_p1_refuse_p2r_p2v)
+O3 P1 still refuses retained destination; P2R/P2V coexist (no TeX use). ... FAIL
+test_o4_live_state_mutation_replay_ok_materializer_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses. ... FAIL
+test_o5_artifact_only_head_independence (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o5_artifact_only_head_independence)
+O5 artifact-only commit keeps replay VERIFIED without HEAD comparison. ... FAIL
+test_o6a_tool_drift_reaches_check (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6a_tool_drift_reaches_check)
+O6a TOOL_DRIFT via standalone artifact dependency tamper (verifier). ... FAIL
+test_o6b_keep_drift_preempts_honestly (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6b_keep_drift_preempts_honestly)
+O6b KEEP-byte drift reports the earlier KEEP refusal, not TOOL_DRIFT. ... FAIL
+test_o7_scope_refusals (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write. ... FAIL
+test_o8_path_ref_schema_inventory_tamper (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write. ... FAIL
+test_o9_alias_fifo_no_read (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang. ... FAIL
+test_r1_genuine_owner_binds_materialization (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh. ... FAIL
+
+======================================================================
+FAIL: test_o10_same_inode_vs_new_inode (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1774, in test_o10_same_inode_vs_new_inode
+    self._materialize(root, prep["state_path"], prep["proposal_path"],
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      manifest_path, scope_path)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-o4tgifm5', 'meta': '/tmp/opencode/p3s-p3s-o4tgifm5/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-o4tgifm5/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-o4tgifm5/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-o4tgifm5/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-o4tgifm5/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o11_root_preexisting_and_postreadback_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11_root_preexisting_and_postreadback_drift)
+O11 pre-existing root refuses; staged output swap after readback refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1836, in test_o11_root_preexisting_and_postreadback_drift
+    self.assertEqual(outcome.get("code"), "STAGED_ROOT_EXISTS")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RUNTIME_BINDING_MISSING' != 'STAGED_ROOT_EXISTS'
+- RUNTIME_BINDING_MISSING
++ STAGED_ROOT_EXISTS
+
+
+======================================================================
+FAIL: test_o11b_midcall_reader_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2177, in test_o11b_midcall_reader_drift
+    self.assertEqual(outcome.get("fired"), 1, f"drift-reader must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : drift-reader must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-qgvxjyzk', 'meta': '/tmp/opencode/p3s-p3s-qgvxjyzk/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-qgvxjyzk/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-qgvxjyzk/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-qgvxjyzk/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-qgvxjyzk/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o11c_late_control_retained (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at FINAL boundary.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2296, in test_o11c_late_control_retained
+    self.assertEqual(outcome.get("fired"), 1, f"{fault} must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : late-control-add must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-b_9hojo6', 'meta': '/tmp/opencode/p3s-p3s-b_9hojo6/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-b_9hojo6/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-b_9hojo6/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-b_9hojo6/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-b_9hojo6/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o11d_drift_before_claim_manifest (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11d_drift_before_claim_manifest)
+O11d drift after render/before claim and after source/before manifest.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2343, in test_o11d_drift_before_claim_manifest
+    self.assertEqual(outcome.get("fired"), 1, f"drift-before-claim must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : drift-before-claim must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-xheq4scf', 'meta': '/tmp/opencode/p3s-p3s-xheq4scf/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-xheq4scf/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-xheq4scf/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-xheq4scf/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-xheq4scf/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o11e_post_readback_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2412, in test_o11e_post_readback_replay
+    self.assertEqual(outcome.get("fired"), 1, f"post-readback must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : post-readback must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-8h9ar2__', 'meta': '/tmp/opencode/p3s-p3s-8h9ar2__/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-8h9ar2__/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-8h9ar2__/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-8h9ar2__/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-8h9ar2__/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o11f_root_ancestor_replace (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2476, in test_o11f_root_ancestor_replace
+    self.assertEqual(outcome.get("fired"), 1, f"{fault} must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : root-replace must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-drkx43x4', 'meta': '/tmp/opencode/p3s-p3s-drkx43x4/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-drkx43x4/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-drkx43x4/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-drkx43x4/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-drkx43x4/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o12a_preexisting_tamper_verify (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12a_preexisting_tamper_verify)
+O12a verify-level tamper: truncated manifest / extra dir / zeroed output.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1886, in test_o12a_preexisting_tamper_verify
+    self._materialize(root, prep["state_path"], prep["proposal_path"],
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      manifest_path, scope_path)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-irety24x', 'meta': '/tmp/opencode/p3s-p3s-irety24x/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-irety24x/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-irety24x/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-irety24x/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-irety24x/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o12b_during_write_faults_incomplete (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1957, in test_o12b_during_write_faults_incomplete
+    self.assertEqual(outcome.get("fired"), 1, f"{fault} must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : zero-write must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-qu7qh6hn', 'meta': '/tmp/opencode/p3s-p3s-qu7qh6hn/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-qu7qh6hn/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-qu7qh6hn/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-qu7qh6hn/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-qu7qh6hn/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o12c_fsync_close_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12c_fsync_close_indeterminate)
+O12c fsync/close faults with complete bytes → INDETERMINATE + owned partials.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2004, in test_o12c_fsync_close_indeterminate
+    self.assertEqual(outcome.get("fired"), 1, f"fsync-fail must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : fsync-fail must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-7w74di2c', 'meta': '/tmp/opencode/p3s-p3s-7w74di2c/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-7w74di2c/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-7w74di2c/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-7w74di2c/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-7w74di2c/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o12d_manifest_failure_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12d_manifest_failure_indeterminate)
+O12d manifest write/close faults → INDETERMINATE; valid bytes stay verifiable.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2076, in test_o12d_manifest_failure_indeterminate
+    self.assertEqual(outcome.get("fired"), 1, f"manifest-write must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : manifest-write must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-fc57dp5b', 'meta': '/tmp/opencode/p3s-p3s-fc57dp5b/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-fc57dp5b/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-fc57dp5b/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-fc57dp5b/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-fc57dp5b/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o12e_fstat_identity_mismatch (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12e_fstat_identity_mismatch)
+O12e fstat-vs-entry identity mismatch refuses with exact owned partials.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2142, in test_o12e_fstat_identity_mismatch
+    self.assertEqual(outcome.get("fired"), 1, f"fstat-fake must fire once: {outcome}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1 : fstat-fake must fire once: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-3r9wrs2z', 'meta': '/tmp/opencode/p3s-p3s-3r9wrs2z/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-3r9wrs2z/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-3r9wrs2z/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-3r9wrs2z/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-3r9wrs2z/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o12f_short_partial_combined_close (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2205, in test_o12f_short_partial_combined_close
+    self.assertTrue(outcome.get("ok"), f"short-once must still materialize: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : short-once must still materialize: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'fired': 0, 'observer_calls': 0, 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-s4xq0tlr', 'meta': '/tmp/opencode/p3s-p3s-s4xq0tlr/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-s4xq0tlr/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-s4xq0tlr/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-s4xq0tlr/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-s4xq0tlr/child.script.py', 'script_sha256': '2b7d0586f65ade120f5d0248060d0db8f8f8d6d04c994abf2582876427936f62', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "fired": 0, "observer_calls": 0, "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o13_immediate_no_write_before_repair (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o13_immediate_no_write_before_repair)
+O13 every refusal proves no-write with the fault still present.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2515, in test_o13_immediate_no_write_before_repair
+    _outcome, staged_manifest = self._materialize(
+                                ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-zbktuu6e', 'meta': '/tmp/opencode/p3s-p3s-zbktuu6e/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-zbktuu6e/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-zbktuu6e/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-zbktuu6e/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-zbktuu6e/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o14_byte_equal_existing_root_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o14_byte_equal_existing_root_refuses)
+O14 byte-equal pre-existing staged set still refuses writer takeover.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2559, in test_o14_byte_equal_existing_root_refuses
+    self._materialize(root, prep["state_path"], prep["proposal_path"],
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      manifest_path, scope_path)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-w9r7jmf8', 'meta': '/tmp/opencode/p3s-p3s-w9r7jmf8/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-w9r7jmf8/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-w9r7jmf8/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-w9r7jmf8/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-w9r7jmf8/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o1_longform_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1204, in test_o1_longform_materialize_and_replay
+    outcome, staged_manifest = self._materialize(
+                               ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-duvok1rt', 'meta': '/tmp/opencode/p3s-p3s-duvok1rt/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-duvok1rt/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-duvok1rt/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-duvok1rt/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-duvok1rt/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o2_weekly_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o2_weekly_materialize_and_replay)
+O2 healthy Weekly staged set + independent replay (real envelope delta).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1230, in test_o2_weekly_materialize_and_replay
+    _outcome, staged_manifest = self._materialize(
+                                ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-il72r93z', 'meta': '/tmp/opencode/p3s-p3s-il72r93z/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-il72r93z/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-il72r93z/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-il72r93z/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-il72r93z/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o3_coexistence_p1_refuse_p2r_p2v (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o3_coexistence_p1_refuse_p2r_p2v)
+O3 P1 still refuses retained destination; P2R/P2V coexist (no TeX use).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1247, in test_o3_coexistence_p1_refuse_p2r_p2v
+    self._materialize(root, prep["state_path"], prep["proposal_path"],
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      manifest_path, scope_path)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-a7ysuabn', 'meta': '/tmp/opencode/p3s-p3s-a7ysuabn/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-a7ysuabn/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-a7ysuabn/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-a7ysuabn/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-a7ysuabn/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o4_live_state_mutation_replay_ok_materializer_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1266, in test_o4_live_state_mutation_replay_ok_materializer_refuses
+    self._materialize(root, prep["state_path"], prep["proposal_path"],
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                      manifest_path, scope_path)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-vd4bua91', 'meta': '/tmp/opencode/p3s-p3s-vd4bua91/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-vd4bua91/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-vd4bua91/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-vd4bua91/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-vd4bua91/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o5_artifact_only_head_independence (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o5_artifact_only_head_independence)
+O5 artifact-only commit keeps replay VERIFIED without HEAD comparison.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1313, in test_o5_artifact_only_head_independence
+    outcome, staged_manifest = self._materialize(
+                               ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-8pls1cgw', 'meta': '/tmp/opencode/p3s-p3s-8pls1cgw/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-8pls1cgw/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-8pls1cgw/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-8pls1cgw/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-8pls1cgw/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o6a_tool_drift_reaches_check (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6a_tool_drift_reaches_check)
+O6a TOOL_DRIFT via standalone artifact dependency tamper (verifier).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1342, in test_o6a_tool_drift_reaches_check
+    _outcome, staged_manifest = self._materialize(
+                                ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-2wqk8d7p', 'meta': '/tmp/opencode/p3s-p3s-2wqk8d7p/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-2wqk8d7p/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-2wqk8d7p/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-2wqk8d7p/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-2wqk8d7p/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o6b_keep_drift_preempts_honestly (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6b_keep_drift_preempts_honestly)
+O6b KEEP-byte drift reports the earlier KEEP refusal, not TOOL_DRIFT.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1417, in test_o6b_keep_drift_preempts_honestly
+    self.assertEqual(outcome.get("code"), "PIN_FAILED")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RUNTIME_BINDING_MISSING' != 'PIN_FAILED'
+- RUNTIME_BINDING_MISSING
++ PIN_FAILED
+
+
+======================================================================
+FAIL: test_o7_scope_refusals (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1466, in test_o7_scope_refusals
+    self.assertEqual(outcome.get("code"), "OBSERVER_REFUSED")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RUNTIME_BINDING_MISSING' != 'OBSERVER_REFUSED'
+- RUNTIME_BINDING_MISSING
++ OBSERVER_REFUSED
+
+
+======================================================================
+FAIL: test_o8_path_ref_schema_inventory_tamper (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1560, in test_o8_path_ref_schema_inventory_tamper
+    _outcome, staged_manifest = self._materialize(
+                                ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-z8oihofj', 'meta': '/tmp/opencode/p3s-p3s-z8oihofj/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-z8oihofj/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-z8oihofj/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-z8oihofj/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-z8oihofj/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+======================================================================
+FAIL: test_o9_alias_fifo_no_read (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1689, in test_o9_alias_fifo_no_read
+    self.assertEqual(outcome.get("code"), "LAYOUT_REFUSED")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RUNTIME_BINDING_MISSING' != 'LAYOUT_REFUSED'
+- RUNTIME_BINDING_MISSING
++ LAYOUT_REFUSED
+
+
+======================================================================
+FAIL: test_r1_genuine_owner_binds_materialization (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 2615, in test_r1_genuine_owner_binds_materialization
+    outcome, staged_manifest = self._materialize(
+                               ~~~~~~~~~~~~~~~~~^
+        root, state_path2, proposal_path, manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_survey_editorial_staged_source_v2.py", line 1158, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-vubw3p3g', 'meta': '/tmp/opencode/p3s-p3s-vubw3p3g/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-vubw3p3g/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-vubw3p3g/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-vubw3p3g/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-vubw3p3g/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_discovery_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+----------------------------------------------------------------------
+Ran 26 tests in 792.325s
+
+FAILED (failures=26)

@@ -1,0 +1,70 @@
+STAMP 20261025T120000Z
+REPO HEAD f84fcf5321be3798c862c0156278afbba01f89f6
+BOOT HEAD 721a04d85532d7855f3e54cc411f5847c787726e
+SNAP HEAD 409b292756dd1277b9dfae87679934c0d2ce251c
+CANDPUB SHA be5c29f256ef463168e9229bff96fdf319260007eb2008b1a7b9116f988db2dd
+$ git clone --no-hardlinks /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-bootstrap-20261023T194449Z/bootstrap-weekly /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly # clone-0
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly remote set-url origin https://example.invalid/versioned-renewal-freeze-transitive.git # remote-0
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly config user.name rephase-fixture # cfg-user-name
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly config user.email fixture@example.invalid # cfg-user-email
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly config commit.gpgsign false # cfg-gpgsign
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly rev-parse HEAD # head-pre
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly log --oneline -3 # log-pre
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-pre
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly rev-parse --absolute-git-dir # gitdir
+-> exit=0
+$ test ! -e /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly/.git/objects/info/alternates # noalternates
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly config --list --show-origin # config-show
+-> exit=0
+no GIT leak in config
+GIT_DIR=unset GIT_WORK_TREE=unset GIT_INDEX_FILE=unset
+untracked=127 ignored=2
+E manifest captured
+architecture-approval-v2.json
+architecture-review-attention-v2.json
+architecture-review-summary-v2.json
+architecture-v2.json
+raw/source.json
+sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/build/main.log
+surveys/weekly/2026-W37/main.pdf
+  127 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/freeze-transitive-correction/setup-20261025T120000Z/e-manifest-untracked.txt
+    2 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/freeze-transitive-correction/setup-20261025T120000Z/e-manifest-ignored.txt
+  129 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-versioned-renewal-implementation/resume-20261025/freeze-transitive-correction/setup-20261025T120000Z/e-hash-boot.txt
+  258 total
+E copy done
+E_HASH_UNCHANGED
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-postE
+-> exit=0
+nlink_bad=0
+git_inode_overlap=0
+alternates_exists=False
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly rev-parse HEAD # head-postE
+-> exit=0
+INPUT_list=736
+overlay copy done
+OVERLAY_BYTES_OK
+bridge_mode=0o775
+PUB patched SHA be5c29f256ef463168e9229bff96fdf319260007eb2008b1a7b9116f988db2dd bytes 125817
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly diff --name-only # diff-names
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-overlay
+-> exit=0
+
+
+add rc 0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly diff --cached --name-only # diff-cached-names
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-staged
+-> exit=0
+staged=47 overlap_with_E=0
+[]
+READY_FOR_G1_COMMIT

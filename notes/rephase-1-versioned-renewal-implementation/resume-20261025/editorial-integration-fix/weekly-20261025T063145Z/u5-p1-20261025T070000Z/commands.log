@@ -1,0 +1,82 @@
+active sources/2026-W37/publication/v2/publication-surface-revalidation-r6.json
+prior r6 2026-10-25T06:32:14.710405Z
+syn 2026-10-25T06:55:32.073553+00:00
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+out=high.prepare_renewal(root, root/sys.argv[2], sys.argv[3], "REUSE_TARGETS", "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json", None, "weekly-fix-u5", sys.argv[4])
+print(json.dumps(out,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # u5-prepare
+DONE u5-prepare exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+if p.exists(): print(f"EXISTS {rel}"); sys.exit(1)
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes({"checks": data} if isinstance(data,list) else data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u5-fix-weekly.json... # u5-qa-write
+DONE u5-qa-write exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+out=high.finalize_renewal(root, root/sys.argv[2], root/sys.argv[3], root/sys.argv[4], None, None, "weekly-fix-u5", sys.argv[5])
+print(json.dumps(out,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # u5-finalize
+DONE u5-finalize exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+out=high.activate_renewal(root, root/sys.argv[2], root/sys.argv[3], "Renewal Core change: P1 second fix verification (truthful, synthetic)", "weekly-fix-u5", sys.argv[4])
+print(json.dumps(out,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # u5-activate
+DONE u5-activate exit=0
+new active sources/2026-W37/publication/v2/publication-surface-revalidation-r7.json
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+v=high.verify_renewal_history(root, root/sys.argv[2])
+print(json.dumps({"HIST":v.get("HISTORICAL_IDENTITY_VERIFIED"),"len":v.get("chain_length")},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/publication-surface-revalidation-r7.json... # u5-history
+DONE u5-history exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+if p.exists(): print(f"EXISTS {rel}"); sys.exit(1)
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes(data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/publication/v2/editorial-corrections/wk-ed-fix-2/authoring-input.json... # p1-stage
+DONE p1-stage exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+root=Path(sys.argv[1])
+res=p1mod.prepare_proposal(root, root/sys.argv[2], root/sys.argv[3], sys.argv[4], sys.argv[5])
+print(json.dumps({"id":sys.argv[4],"nodes":len(res["graph"]["nodes"]),"edges":len(res["graph"]["edges"])},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix sources/2026-W37/production-state.json... # p1-prepare
+DONE p1-prepare TIMEOUT
+P1 exit=TIMEOUT
+P1 FAILED

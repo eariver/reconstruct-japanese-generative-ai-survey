@@ -1,0 +1,9 @@
+trav-opt 4/4 (20261025, H 6fe86..., high24 weekly, NEW isolated DBs):
+ test_01_identity_gain_and_event_trace: PASS (exit 0, r1 0.272s git3 chain1/11 _validate11, r8 3.690s git20 chain8/82 _validate75 vs before 1360, bindings/refs/lineage byte-identical to before-measure, event trace each SCHEMA >=once, repeat validates ~75 no persistent cache, zero-write)
+ test_02_repeat_after_mutation_refuses: PASS (exit 0, first PASS chain8, basis mutation refuses, old repeated scope swap refuses fresh SHA, repaired passes, preserved)
+ test_03_malformed_schema_first_occurrence_rejects: PASS (exit 0, live tamper refuses SHA drift fail-closed, direct structural with correct SHA but schema-invalid refuses instance fails schema, repaired passes, preserved)
+ test_04_claimed_omission_dup_order_foreign_pointer_epoch: PASS (exit 0, omission/extra/order/foreign-pointer/slash/foreign-epoch each refuse HISTORY/UNSUPPORTED late after rehash, repaired passes, preserved)
+Overall: 4/4 new PASS in 20.7s.
+Existing perf-batched 3/3: PASS (exit 0, 9.7s, r1 0.155s git3 chain1/11, r8 1.44s git20 chain8/82 warm vs 8.9s before, negatives refuse, repeat refuses, preserved)
+Existing author-H 5/5: PASS (exit 0, 7.06s vs 17.9s before, T1/T2/T3 deep negatives preserved with traversal-opt)
+Total relevant: 12 tests PASS, 0 failures, not full integration, no independent PASS, no CommitPoint.

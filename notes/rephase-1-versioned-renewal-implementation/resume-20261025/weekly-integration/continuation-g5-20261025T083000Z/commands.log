@@ -1,0 +1,38 @@
+=== G5 commit ===
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly rev-parse HEAD # head-g5-pre
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly status --porcelain=v1 --untracked-files=all # status-g5-pre
+-> exit=0
+{
+ "templates/survey/jgaisurvey.sty": {
+  "shipping": "035645caa06eb77e5416ae7a54bc1fb7b987e0b575a02bd4b512bccb5d683aec",
+  "live": "a4bd135aa2876079923ba925f16cc2963c73647e49a3f1460806483d9c092827",
+  "note": "G2 style variant a4bd preserved (U reuse, not C)"
+ },
+ "_staged_G5": [
+  "scripts/survey_editorial_correction_proposal_v2.py",
+  "scripts/survey_publication_v2.py",
+  "scripts/survey_versioned_renewal_history_v2.py",
+  "scripts/survey_versioned_renewal_source_v2.py",
+  "scripts/survey_weekly_derivation_v2.py",
+  "tests/test_editorial_renewal_p1_dispatch_20261025.py",
+  "tests/test_versioned_renewal_freeze_transitive_correction_20261025.py",
+  "tests/test_versioned_renewal_history_traversal_opt_20261025.py"
+ ],
+ "_note": "739 BASE + style a4bd variant; H6fe86/P1825dba/PUB3f4039 new repair tools; S/weekly_derivation revert previous G2/G4 synthetic markers to shipping (history preserves markers, live is shipping + style variant)"
+}
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly commit -m HIGH phase TEST-ONLY: G5 repair 739 (H perf+P1 dispatcher+PUB union, preserve G2 style a4bd for U reuse) --no-verify # commit-g5
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly rev-parse HEAD # head-g5-post
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly log --oneline -13 # log-g5
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly rev-parse HEAD^{tree} # tree-g5
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-continuation-20261025T083000Z/renewal-weekly merge-base --is-ancestor 721a04d85532d7855f3e54cc411f5847c787726e HEAD # ancestor-g5
+-> exit=0
+H 6fe86e78a12e2159d6ff50dfd7f70fda7b2e0d34d48db26402743edda2eca5ad
+P1 825dba1dedaed0850134b3a54a249a427b2e77709861818e8eb7cb63e1a33a2b
+PUB 3f4039fd7699baa212020dddfb02b3918bd63e02c475d638d99cbb2a1150d8d6
+style a4bd135aa2876079923ba925f16cc2963c73647e49a3f1460806483d9c092827
+G5 DONE

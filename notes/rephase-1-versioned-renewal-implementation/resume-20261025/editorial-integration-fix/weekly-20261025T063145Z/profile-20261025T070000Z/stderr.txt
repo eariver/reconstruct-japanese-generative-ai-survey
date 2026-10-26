@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<string>", line 12, in <module>
+    res=p1mod.prepare_proposal(root, root/'sources/2026-W37/production-state.json', root/'sources/2026-W37/publication/v2/editorial-corrections/wk-ed-fix-2/authoring-input.json', 'wk-ed-fix-2-profile', 'profile test')
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix/scripts/survey_editorial_correction_proposal_v2.py", line 2450, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix/scripts/survey_editorial_correction_proposal_v2.py", line 2152, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-20261025T063145Z/renewal-weekly-fix/scripts/survey_editorial_correction_proposal_v2.py", line 1807, in _pipeline_data
+    raise _fail("AUTHORING_NOT_STAGED",
+                f"authoring input must already be at {expected_proposal_dir}/authoring-input.json")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: AUTHORING_NOT_STAGED: authoring input must already be at sources/2026-W37/publication/v2/editorial-corrections/wk-ed-fix-2-profile/authoring-input.json

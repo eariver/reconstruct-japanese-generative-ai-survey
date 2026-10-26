@@ -1,0 +1,7 @@
+stamp 20261025T160000Z-26 original-26 on NEW SOURCE WITH fix, TMPDIR workspace
+run pin-before rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-p3s-runtime-20261025T160000Z/test-source --no-optional-locks rev-parse HEAD pid_guard=3577809
+run status-before rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-p3s-runtime-20261025T160000Z/test-source --no-optional-locks status --porcelain=v1 --untracked-files=all pid_guard=3577809
+run p3s-26 rc=15 cmd=timeout --preserve-status --signal=TERM --kill-after=10 1200 python3 -m unittest tests.test_survey_editorial_staged_source_v2 -v pid_guard=3577809
+run pin-after rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-p3s-runtime-20261025T160000Z/test-source --no-optional-locks rev-parse HEAD pid_guard=3577809
+run status-after rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-p3s-runtime-20261025T160000Z/test-source --no-optional-locks status --porcelain=v1 --untracked-files=all pid_guard=3577809
+DONE 26 rc=15 (see p3s-26-exit.txt; test failures preserved as parent controls)

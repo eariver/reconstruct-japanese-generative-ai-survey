@@ -1,0 +1,47 @@
+[longform T1-longform] HEAD before style: dbdaf611206050dbc98e7973787ab77076cc4c73
+[longform T1-longform] style before SHA: 035645caa06e bytes 6569
+[longform T1-longform] H fix SHA: 6fe86e78a12e (e31d7b... expected)
+[longform T1-longform] HEAD after style: 5d5bd7e92f989e57a8d795d61e76cf349878860f
+[longform T1-longform] style after SHA: 25652e8cb64e bytes 6637
+[longform T1] r1 H HISTORICAL_IDENTITY_VERIFIED chain=1 n_bindings=11 time=0.296s
+[longform T1] r4 H HISTORICAL_IDENTITY_VERIFIED chain=4 n_bindings=42 time=0.738s
+[longform T1] trio old style != CURRENT template => U refuses, C next worker
+[weekly T1-weekly] HEAD before style: 50b03a64627a8bbcc725c7fcbebc3d30dce84c9b
+[weekly T1-weekly] style before SHA: 035645caa06e bytes 6569
+[weekly T1-weekly] H fix SHA: 6fe86e78a12e (e31d7b... expected)
+[weekly T1-weekly] HEAD after style: c78a7c209c2ba7f58f44804bf8f8b63a6a422c38
+[weekly T1-weekly] style after SHA: 25652e8cb64e bytes 6637
+[weekly T1] r1 H HISTORICAL_IDENTITY_VERIFIED chain=1 n_bindings=11 time=0.170s
+[weekly T1] r1 observed scope: {'path': 'sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/scope-review-v2.json', 'sha256': '4ad453f4f6a83119b10ab20ae05f9ff576d6604ccf03fb635aeda5af3526641b'}
+[weekly T1] r8 H HISTORICAL_IDENTITY_VERIFIED chain=8 n_bindings=82 time=1.548s
+[weekly T1] trio old style SHA 035645caa06e != CURRENT template SHA 25652e8cb64e => U refuses (genuine, no forged old E)
+[weekly T1] old receipt stale: r1 receipt epoch != HEAD c78a7c209c2b (detached CURRENT check, per root map); S/HIGH U REUSE_TARGET_MISMATCH, C next worker
+[T2-narrow-NEW63] NEW complete-source HEAD: 92c266ecd6d964b2758d9a6b1cf9724ca85b5cf6
+[T2-narrow-NEW63] H SHA 6fe86e78a12e, S SHA 20f63eafc969 (H e31d7b../1667c1.., S 20f63e..)
+[T2] NEW epoch 92c266ecd6d9 derives NEW (finite set, no caller flag)
+[T2] NEW63 sets verified (63 each, finite, exact membership)
+[T2] real NEW71 Contract8 at 92c266ecd6d9: pipeline 8a114398001e… (not dummy, for stored vs OWN)
+[T2 narrow NEW63] H HISTORICAL_IDENTITY_VERIFIED chain=1 n_bindings=9 time=0.143s (UNPROVED whole integration: synthetic docs, not full P1/P2R/P2V/P3S)
+[T2] partial epoch HEAD 502f00f40796 (deleted schemas/versioned-renewal-basis-v2.schema.json, expect UNKNOWN)
+[T2] UNKNOWN correctly refuses (no broad migration, no global 50-or-63 tolerance)
+[T3 editorial bad] base HEAD 50b03a64627a (genuine high24 weekly r1, OLD50, old style, H fix, no style change)
+[T3] good r1 passes chain=1 n=11 time=0.178s (positive control, genuine)
+[T3] genuine r1 paths: scope sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/scope-review-v2.json, staged sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/staged-source/staged-source-manifest.json, receipt sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/validated-source-manifest.json, seal sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/publication/publication-set.json, record sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json
+[T3a bad scope] correctly refuses late (after rehash, scope decision, no digest mismatch): HISTORY_DIGEST_MISMATCH: editorial ancestor scope decision must be WITHIN_APPROVED_AUTHORITY (no false editorial reason)
+[T3a] repair passes (good base restored)
+[T3b bad selfdigest missing] correctly refuses late (after rehash, missing required, no digest mismatch): HISTORY_DIGEST_MISMATCH: editorial ancestor staged missing required manifest_digest (schema requires, no 'if present')
+[T3b] repair passes
+[T3c bad extra keys] correctly refuses late (after rehash, additionalProperties, no digest mismatch): HISTORY_DIGEST_MISMATCH: editorial ancestor scope instance instance fails own recorded schema (pointer '' path ''): Additional properties are not allowed ('evil_extra_key' was unexpected)
+[T3c] repair passes
+[weekly T3-versioned-bad] HEAD before style: 50b03a64627a8bbcc725c7fcbebc3d30dce84c9b
+[weekly T3-versioned-bad] style before SHA: 035645caa06e bytes 6569
+[weekly T3-versioned-bad] H fix SHA: 6fe86e78a12e (e31d7b... expected)
+[weekly T3-versioned-bad] HEAD after style: c2b088287a373e88544e5277017863b7a682a95e
+[weekly T3-versioned-bad] style after SHA: 25652e8cb64e bytes 6637
+[T3d/e] good r2 passes chain=2 n=21 time=0.411s (positive control, genuine)
+[T3d/e] saved exact original bytes for repair (fixture-only, 7 files, no partial rehash): [('sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json', 3542), ('sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-basis.json', 35737), ('sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/renewal-source-proof.json', 25757), ('sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/publication-set.json', 5320), ('sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/publication-candidate-v2.json', 2038), ('sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/quality-regression-bundle-v2.json', 2915), ('sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly/reader-surface-gate-v2.json', 5864)]
+[T3d bad pointer '/'] correctly refuses late (after rehash, exact pointer, no digest mismatch): UNSUPPORTED_MIGRATION: unregistered schema binding: schemas/reader-surface-semantic-review-v2.schema.json '/'
+[T3d] repair passes via exact original-bytes restore (fixture-only, proves bad was deep pointer, not digest)
+[T3e bad foreign epoch] correctly refuses late (after rehash, fingerprint, no digest mismatch): UNSUPPORTED_MIGRATION: versioned ancestor observed structural SCHEMA fingerprint unknown foreign schema SHA for registered path schemas/reader-surface-semantic-review-v2.schema.json (not old/new known, no broad migration)
+[T3e] repair passes via exact original-bytes restore (fixture-only)
+[T3 versioned] kept isolated scratch (no cleanup, fixture-only): /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/jgas-authorH-T3-versioned-bad-nqw4emrp (root, H fix, style change, r2 chain 2)

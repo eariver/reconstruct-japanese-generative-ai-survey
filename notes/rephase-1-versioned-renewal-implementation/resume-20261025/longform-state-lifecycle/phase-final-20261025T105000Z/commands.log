@@ -1,0 +1,87 @@
+phase-final-20261025T105000Z start 2026-10-25T10:00:34.591496+00:00 PID=2653514
+PHASE5 start 2026-10-25T10:11:18.202708+00:00 PID=2746693
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-before -> exit=0 dur=0.00s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'terminal':d['terminal_reason'],'next':d['next_action'],'machine':d['machine_checkpoints'],'human':d['human_gates'],'active':d['publication_revalidation_provenance'],'history_tail':d['history'][-3:]},indent=1))... tag=state-final -> exit=0 dur=0.04s
+$ /usr/bin/python3 -c 
+import sys, json, hashlib, subprocess
+sys.path.insert(0, sys.argv[1])
+root, state_rel, now_iso = sys.argv[1:4]
+from pathlib import Path
+from datetime import datetime
+import os
+print(f"FINAL child PID={os.getpid()}", flush=True)
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_agent_control_v2 as agent
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_publication_set_v2 as setmod
+from scripts import survey_versioned_renewal_history_v2 as hist
+from scripts import survey_versioned_renewal_source_v2 as srcmod
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / state_rel
+state = json.loads(state_path.read_bytes())
+print(f"lifecycle={state['lifecycle_state']} terminal={state['terminal_reason']} next={state['next_action']}", flush=True)
+assert state["lifecycle_state"]=="RELEASED"
+assert state["terminal_reason"]=="COMPLETE"
+# public validate-state API exit0
+errs = agent.validate_agent_state(root_p, cfg, state)
+print(f"validate_agent_state={errs}", flush=True)
+assert errs==[]
+# current proof/Candidate/history/release-readback
+# 1. active pointer role-aware Candidate resolves original C targets reused U4
+cand_path = Path(setmod.resolve_publication_artifact_path(root_p, cfg, state, "publication-candidate"))
+print(f"active candidate={cand_path.relative_to(root_p)}", flush=True)
+cand = pubmod.validate_candidate(root_p, cand_path, issue_id=state["issue_id"])
+print(f"candidate pdf={cand['pdf']['path']} sha={cand['pdf']['sha256'][:12]} manuscript={cand['reader_manuscript']['path']}", flush=True)
+# old producer proof history correctly: r7 still active, chain 6
+rec = state["publication_revalidation_provenance"]["path"]
+v = hist.verify_versioned_history(str(root_p), rec)
+print(f"history chain={v['chain_length']} active={rec}", flush=True)
+assert v["chain_length"]==6
+assert rec.endswith("r7.json")
+# current proof: U4 basis/proof CURRENT at HEAD 047f8ad (SOURCE epochs retained)
+basis_rel = "sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u4-longform/renewal-basis.json"
+proof_rel = "sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u4-longform/renewal-source-proof.json"
+srcmod.verify_renewal_source_proof(str(root_p), basis_rel, proof_rel)
+print("CURRENT proof SOURCE_READBACK_OK", flush=True)
+# Candidate/history/release-readback: release manifest/record, preview approval, freeze, visual
+manifest = pubmod.validate_release_manifest(root_p, root_p / "sources/SP001/publication/v2/release-manifest-v2.json")
+print(f"manifest pdf={manifest['pdf_sha256'][:12]} identity={manifest['release_identity']}", flush=True)
+release = pubmod.validate_release_record(root_p, root_p / "sources/SP001/publication/v2/release-record-v2.json")
+print(f"release status={release['status']} ref={release['release_reference']}", flush=True)
+assert release["status"]=="RELEASED"
+appr = pubmod.validate_preview_approval(root_p, root_p / state["human_gate_provenance"]["publication_preview"]["path"], issue_id=state["issue_id"])
+print(f"preview approval pdf={appr['pdf_sha256'][:12]} candidate={appr['publication_candidate_path']}", flush=True)
+assert appr["pdf_sha256"]==cand["pdf"]["sha256"]
+# exact write window: history recorded_at monotonic and >= r7, impl 047f8ad, orphan r5 unchanged
+hist_list = state["history"]
+# last three must be our lifecycle
+assert hist_list[-3]["from"]=="VALIDATED_DRAFT" and hist_list[-3]["to"]=="RELEASE_CANDIDATE"
+assert hist_list[-2]["from"]=="RELEASE_CANDIDATE" and hist_list[-2]["to"]=="FROZEN"
+assert hist_list[-1]["from"]=="FROZEN" and hist_list[-1]["to"]=="RELEASED"
+for row in hist_list[-3:]:
+    assert row["repository_commit_sha"]=="047f8adc0b7a7c005e03a8e2d374c1e5b6712b60", row
+    assert row["recorded_at"] >= "2026-10-25T08:41:57", row
+    print(f"window {row['from']}->{row['to']} at {row['recorded_at']} impl {row['repository_commit_sha'][:8]}", flush=True)
+# orphan r5 chronology keep unchanged ignore selection: r5 still 05:33:56, not altered
+r5 = json.loads((root_p / "sources/SP001/publication/v2/publication-surface-revalidation-r5.json").read_bytes())
+print(f"orphan r5 recorded_at={r5['recorded_at']}", flush=True)
+assert r5["recorded_at"]=="2026-10-25T05:33:56.641796Z"
+# PDF pages: U4 reused C PDF 5 pages, SHA matches freeze/manifest/approval
+from pypdf import PdfReader
+pdf_path = root_p / cand["pdf"]["path"]
+pages = len(PdfReader(str(pdf_path)).pages)
+print(f"pdf pages={pages} sha={hashlib.sha256(pdf_path.read_bytes()).hexdigest()[:12]}", flush=True)
+assert pages==5
+assert hashlib.sha256(pdf_path.read_bytes()).hexdigest()==cand["pdf"]["sha256"]==manifest["pdf_sha256"]==release["pdf_sha256"]==appr["pdf_sha256"]
+# synthetic timestamps vs actual wallclock distinct: our now_iso synthetic vs wallclock
+import datetime as _dt
+wall = _dt.datetime.now(_dt.timezone.utc).isoformat()
+print(f"synthetic now_iso={now_iso} wallclock={wall} distinct={now_iso!=wall}", flush=True)
+assert now_iso!=wall
+print("FINAL_READBACK_OK", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle sources/SP001/production-state.json 2026-10-25T10:11:19.247317+00:00... tag=final-readback -> exit=0 dur=74.22s
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_agent_control_v2 import main; import sys as _s; _s.argv=['survey_agent_control_v2.py','--repo-root',sys.argv[1],'--state',sys.argv[2],'validate-state','--state',sys.argv[2]]; raise SystemExit(main()) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle sources/SP001/production-state.json... tag=cli-validate-state -> exit=2 dur=0.46s
+$ /usr/bin/python3 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle/scripts/survey_agent_control_v2.py --repo-root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle --state sources/SP001/production-state.json... tag=cli-validate-state2 -> exit=1 dur=0.17s
+$ python scripts/survey_agent_control_v2.py --repo-root . validate-state --state sources/SP001/production-state.json -> exit=0 dur=26.67s

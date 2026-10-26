@@ -1,0 +1,46 @@
+phase-preview-20261025T102000Z start 2026-10-25T10:00:34.590733+00:00 PID=2653514
+PHASE2 start 2026-10-25T10:01:40.592705+00:00 PID=2658315
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-before -> exit=0 dur=0.01s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'human':d['human_gates'],'machine':d['machine_checkpoints']},indent=1))... tag=before-state -> exit=0 dur=0.04s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, state_rel, now_iso = sys.argv[1:4]
+from pathlib import Path
+from datetime import datetime
+import os
+print(f"PHASE2 child PID={os.getpid()}", flush=True)
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_agent_control_v2 as agent
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_publication_set_v2 as setmod
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / state_rel
+state = json.loads(state_path.read_bytes())
+print(f"before lifecycle={state['lifecycle_state']} preview={state['human_gates']['publication_preview']}", flush=True)
+assert state["lifecycle_state"]=="RELEASE_CANDIDATE" and state["human_gates"]["publication_preview"]=="pending"
+# exact selected U4 Candidate/PDF/gates agreement via shared resolver
+cand_path = Path(setmod.resolve_publication_artifact_path(root_p, cfg, state, "publication-candidate"))
+print(f"active candidate={cand_path.relative_to(root_p)}", flush=True)
+cand = pubmod.validate_candidate(root_p, cand_path, issue_id=state["issue_id"])
+print(f"candidate pdf={cand['pdf']['path']} sha={cand['pdf']['sha256'][:12]} visual={cand['visual_review']['path']}", flush=True)
+# synthetic public agent Preview approval exact selected U4 Candidate/PDF/gates agreement, explicit non-genuine
+now = datetime.fromisoformat(now_iso)
+updated = agent.approve_publication_preview(root_p, cfg, state_path, "synthetic-longform-lifecycle-fixture; NO genuine Human approval; content quality NO-GO, not creating Production release", now, "synthetic:longform-lifecycle:preview:high-u4")
+print(json.dumps({"lifecycle":updated["lifecycle_state"],"human":updated["human_gates"],"machine_preview":updated["machine_checkpoints"]["publication_preview"],"next":updated["next_action"],"terminal":updated["terminal_reason"]},indent=1), flush=True)
+assert updated["lifecycle_state"]=="RELEASE_CANDIDATE"
+assert updated["human_gates"]["publication_preview"]=="approved"
+assert updated["machine_checkpoints"]["publication_preview"]=="passed"
+# verify approval binds exact candidate PDF
+appr_ref = updated["human_gate_provenance"]["publication_preview"]
+print(f"approval={appr_ref}", flush=True)
+appr = pubmod.validate_preview_approval(root_p, root_p / appr_ref["path"], issue_id=state["issue_id"])
+print(f"approval pdf={appr['pdf_sha256'][:12]} candidate={appr['publication_candidate_path']}", flush=True)
+assert appr["publication_candidate_sha256"]==core.sha256_file(cand_path)
+assert appr["pdf_sha256"]==cand["pdf"]["sha256"]
+print("PHASE2_OK", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle sources/SP001/production-state.json 2026-10-25T10:01:41.636863+00:00... tag=phase2-preview -> exit=0 dur=66.35s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'human':d['human_gates'],'machine':d['machine_checkpoints'],'approval':d['human_gate_provenance']['publication_preview']},indent=1))... tag=after-state -> exit=0 dur=0.04s
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-after -> exit=0 dur=0.00s

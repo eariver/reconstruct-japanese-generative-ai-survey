@@ -1,0 +1,55 @@
+phase-release-20261025T104000Z start 2026-10-25T10:00:34.591267+00:00 PID=2653514
+PHASE4 start 2026-10-25T10:08:43.545910+00:00 PID=2724220
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-before -> exit=0 dur=0.01s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'machine':d['machine_checkpoints']},indent=1))... tag=before-state -> exit=0 dur=0.04s
+$ /usr/bin/python3 -c 
+import sys, json, subprocess
+sys.path.insert(0, sys.argv[1])
+root, state_rel, now_iso = sys.argv[1:4]
+from pathlib import Path
+from datetime import datetime
+import os
+print(f"PHASE4 child PID={os.getpid()}", flush=True)
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_agent_control_v2 as agent
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_release_checkpoint_v2 as relchk
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / state_rel
+state = json.loads(state_path.read_bytes())
+print(f"before lifecycle={state['lifecycle_state']} freeze={state['machine_checkpoints']['freeze']}", flush=True)
+assert state["lifecycle_state"]=="FROZEN" and state["machine_checkpoints"]["freeze"]=="passed"
+now = datetime.fromisoformat(now_iso)
+# offline synthetic merge/release evidence per existing test contract (synthetic, NO genuine approval)
+manifest_path = root_p / "sources/SP001/publication/v2/release-manifest-v2.json"
+merge_path = root_p / "sources/SP001/publication/v2/merge-verification-v2.json"
+release_path = root_p / "sources/SP001/publication/v2/release-record-v2.json"
+print(f"manifest exists={manifest_path.exists()} merge exists={merge_path.exists()} release exists={release_path.exists()}", flush=True)
+assert manifest_path.exists(), "manifest must exist from freeze"
+assert not merge_path.exists() and not release_path.exists(), "canonical collides, must use idempotence or report blocker"
+head = subprocess.run(["git","-C",str(root_p),"rev-parse","HEAD"], capture_output=True, text=True).stdout.strip()
+print(f"HEAD={head}", flush=True)
+assert head=="047f8adc0b7a7c005e03a8e2d374c1e5b6712b60"
+# build merge verification offline synthetic
+pubmod.build_merge_verification(root_p, manifest_path, head, now, merge_path)
+print(f"merge={merge_path.relative_to(root_p)}", flush=True)
+# build release record offline synthetic, explicit non-genuine
+pubmod.build_release_record(root_p, manifest_path, merge_path, now, "synthetic:longform-lifecycle:release:high-u4; NO genuine Human approval", release_path)
+print(f"release={release_path.relative_to(root_p)}", flush=True)
+pubmod.validate_release_manifest(root_p, manifest_path)
+pubmod.validate_release_record(root_p, release_path)
+print("manifest+release validated", flush=True)
+# normal stage/checkpoint/advance all the way RELEASED via release_checkpoint + agent advance
+chk = relchk.build_release_checkpoint(root_p, cfg, state_path, merge_path, release_path, now)
+print(f"checkpoint={chk.relative_to(root_p)}", flush=True)
+updated = agent.advance_with_checkpoint(root_p, cfg, state_path, chk)
+print(json.dumps({"lifecycle":updated["lifecycle_state"],"machine_release":updated["machine_checkpoints"]["release"],"next":updated["next_action"],"terminal":updated["terminal_reason"]},indent=1), flush=True)
+assert updated["lifecycle_state"]=="RELEASED"
+assert updated["machine_checkpoints"]["release"]=="passed"
+assert updated["terminal_reason"]=="COMPLETE"
+print("PHASE4_OK", flush=True)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle sources/SP001/production-state.json 2026-10-25T10:08:44.593201+00:00... tag=phase4-release -> exit=0 dur=122.79s
+$ /usr/bin/python3 -c import json,hashlib,pathlib; r=pathlib.Path('/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-lifecycle-20261025T100000Z/renewal-longform-lifecycle'); s=r/'sources/SP001/production-state.json'; d=json.load(open(s)); print(json.dumps({'sha':hashlib.sha256(s.read_bytes()).hexdigest(),'lifecycle':d['lifecycle_state'],'terminal':d['terminal_reason'],'machine':d['machine_checkpoints']},indent=1))... tag=after-state -> exit=0 dur=0.04s
+$ date -u +%Y-%m-%dT%H:%M:%SZ... tag=wall-after -> exit=0 dur=0.00s

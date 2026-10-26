@@ -1,0 +1,30 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 595, in _derive
+    context = weekly.load_derivation(root, state_path, authored)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_weekly_derivation_v2.py", line 672, in load_derivation
+    surface = build_reader_input(
+        issue_id, profile, architecture, core.load_json(authored_path), synthesis_result, ordered, records
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_weekly_derivation_v2.py", line 409, in build_reader_input
+    _validate_authored_input(authored, issue_id, heading)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_weekly_derivation_v2.py", line 202, in _validate_authored_input
+    raise ValueError("Weekly final issue summary must contain at least three substantive paragraphs")
+ValueError: Weekly final issue summary must contain at least three substantive paragraphs
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+    res=p1mod.prepare_proposal(root_p, root_p/state_rel, root_p/auth_rel, prop_new, change_desc)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 2187, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 1906, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 1745, in _pipeline_data
+    proposed_context = _derive(col, root, derive_route, state_file, new_authored_abs)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 597, in _derive
+    raise _fail("DERIVATION_REFUSED", str(exc)) from exc
+scripts.survey_editorial_correction_proposal_v2.ProposalError: DERIVATION_REFUSED: Weekly final issue summary must contain at least three substantive paragraphs

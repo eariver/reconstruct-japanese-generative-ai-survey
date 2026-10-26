@@ -1,0 +1,14 @@
+BEFORE HEAD=409b292756dd1277b9dfae87679934c0d2ce251c rc=0
+BEFORE STATUS lines=131
+CP rc=0 
+PIN DST scripts/survey_versioned_renewal_v2.py 1dad1ad12ba5 expect 1dad1ad12ba5 OK
+PIN DST scripts/survey_versioned_renewal_history_v2.py 74275d22a342 expect 74275d22a342 OK
+PIN DST scripts/survey_versioned_renewal_source_v2.py 2290ddd0dc83 expect 2290ddd0dc83 OK
+PIN DST scripts/survey_editorial_correction_proposal_v2.py 825dba1dedae expect 825dba1dedae OK
+PIN DST scripts/survey_publication_v2.py 3f4039fd7699 expect 3f4039fd7699 OK
+PIN DST scripts/survey_reader_publication_v2.py 098a2c8222f1 expect 098a2c8222f1 OK
+PIN DST scripts/survey_editorial_publication_v2.py 85814124278c expect 85814124278c OK
+PIN DST scripts/survey_editorial_staged_source_v2.py 9e2a0ad6b42c expect 9e2a0ad6b42c OK
+DST_INTENDED=741
+AFTER SRC HEAD=409b292756dd1277b9dfae87679934c0d2ce251c (must == BEFORE 409, else SRC committed during copy)
+OWN_CURRENT_OK (immutable own copy, SRC manifest guard, no stale 9a)

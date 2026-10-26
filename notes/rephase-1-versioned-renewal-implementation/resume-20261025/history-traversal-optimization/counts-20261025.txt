@@ -1,0 +1,13 @@
+BEFORE git child calls (batched H 70bc..., high24 weekly, fresh):
+ r1: total 3 (show 0, ls-tree 1, cat-file -e 1, other 1)
+ r8: total 20 (show 0, ls-tree 7, cat-file -e 7, other 6)
+AFTER traversal-opt (H 6fe86..., same fixture/pins):
+ r1: total 3 (show 0, ls-tree 1, cat-file -e 1, other 1)
+ r8 first: total 20 (show 0, ls-tree 7, cat-file -e 7, other 6) — same batch, no new git calls
+BEFORE jsonschema instance validation (cProfile, r8 28.739s):
+ _validate_instance_against_schema_blob 1360 calls 25.858s, _check_observed_binding_row_structural 1460 calls 25.215s, _norm_structural 21 calls 15.194s
+AFTER traversal-opt (cProfile, r8 3.803s first, 3.690s test, 1.440s warm):
+ _validate_instance_against_schema_blob 75 calls 1.575s, _check_observed_binding_row 82 calls 1.626s (OWN+editorial derive, graph-node once)
+ Unique SCHEMA 73 + scope/build 2 =75 (vs 1360 repeated, 18x fewer). No _norm_structural in top20 (identity-edge, no repeated FULL).
+Gain: r8 28.739s→3.803s (7.5x first, 20x warm 28.7s→1.44s in perf-test), r1 0.503s→0.500s (small, fixed overhead).
+All EVERY-ref mode/SHA/byte_count still verified; batch uses finite paths + OID, no new paths.

@@ -1,0 +1,98 @@
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly prepare --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly --state... # u1-prepare -> exit=0 dur=2.36s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+basis = json.loads((root_p / basis_rel).read_bytes())
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+prior_seal = json.loads((root_p / basis["prior_selected_ref"]["path"]).read_bytes())
+roles = prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes = (root_p / trio_primary["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages = len(PdfReader(str(root_p / pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh U bootstrap (freeze-transitive V3, synthetic fixture, no genuine approval)"
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio_primary["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue_id], "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio_primary["path"]], "scope": scope}
+assert set(payloads) == set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "freeze-transitive V3 fresh re-assertion: exact current bytes inspected, synthetic fixture.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1b-weekly/renewal-basis.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1b-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1 2026-10-25T08:11:00.952516+00:00... # u1-qa -> exit=0 dur=0.33s
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly finalize --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly --state... # u1-finalize -> exit=0 dur=22.48s
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly validate-set --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly --state... # u1-validate-set -> exit=0 dur=9.49s
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly validate-receipt --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly --receipt... # u1-validate-receipt -> exit=0 dur=2.59s
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly activate --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly --state... # u1-activate -> exit=0 dur=21.76s
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; import sys as _s; _s.exit(main(_s.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly history --root /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly --record... # u1-history -> exit=0 dur=0.92s
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, issue, prop, rid, now_iso = sys.argv[1:6]
+from pathlib import Path
+from datetime import datetime
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_stage_validation_v2 as stage
+from scripts import survey_publication_v2 as pubmod
+from scripts import survey_publication_set_v2 as setmod
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+state_path = root_p / f"sources/{issue}/production-state.json"
+state = json.loads(state_path.read_bytes())
+sel = setmod.resolve_publication_selection(root_p, cfg, state)
+assert sel.get("mode") == "VERSIONED_ACTIVE", sel.get("mode")
+pdir = f"sources/{issue}/publication/v2/editorial-corrections/{prop}"
+r_dir = f"{pdir}/renewals/{rid}"
+seal = json.loads((root_p / f"{r_dir}/publication-set.json").read_bytes())
+roles = seal["roles"]
+supplied = {"publication-candidate": root_p / roles["publication-candidate"]["path"],}
+now = datetime.fromisoformat(now_iso)
+stage_out = root_p / pdir / f"lifecycle-stage-{rid}.json"
+stage.validate_stage(root_p, cfg, state_path, supplied, stage_out, now)
+lc_dir = root_p / pdir / f"lifecycle-{rid}"
+lc_dir.mkdir(parents=True, exist_ok=True)
+appr = lc_dir / "preview-approval.json"
+pubmod.build_preview_approval(root_p, supplied["publication-candidate"], appr,
+    "freeze-transitive synthetic preview reviewer; NO genuine Human approval",
+    now, f"freeze-transitive:{rid}:synthetic-preview")
+pubmod.validate_preview_approval(root_p, appr, issue_id=issue)
+frz = lc_dir / "freeze-record.json"
+man = lc_dir / "release-manifest.json"
+pubmod.build_freeze(root_p, supplied["publication-candidate"], appr, now, frz, man)
+pubmod.validate_release_manifest(root_p, man)
+from pypdf import PdfReader
+pdf_path = root_p / roles["publication-pdf"]["path"]
+pages = len(PdfReader(str(pdf_path)).pages)
+print(json.dumps({"stage":str(stage_out.relative_to(root_p)),"approval":str(appr.relative_to(root_p)),
+ "freeze":str(frz.relative_to(root_p)),"manifest":str(man.relative_to(root_p)),
+ "candidate_sha":__import__("hashlib").sha256((root_p / roles["publication-candidate"]["path"]).read_bytes()).hexdigest()[:12],
+ "pdf_pages":pages,"pdf_sha":__import__("hashlib").sha256(pdf_path.read_bytes()).hexdigest()},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly 2026-W37 wk-boot-1 high-u1b-weekly 2026-10-25T08:11:00.952516+00:00... # u1-lifecycle-freeze -> exit=1 dur=38.01s

@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<string>", line 35, in <module>
+    pubmod.build_freeze(root_p, supplied["publication-candidate"], appr, now, frz, man)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly/scripts/survey_publication_v2.py", line 1923, in build_freeze
+    prep = _prepare_freeze_inputs(repo_root, candidate_path, approval_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly/scripts/survey_publication_v2.py", line 1117, in _prepare_freeze_inputs
+    _dpr, _dps = _req_file_ref(_arow, f"renewal {_arow.get('name')}")
+                 ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-freeze-transitive-20261025T120000Z/renewal-weekly/scripts/survey_publication_v2.py", line 376, in _req_file_ref
+    raise ValueError(f"{label} ref fields invalid (must be exact {{path,sha256}})")
+ValueError: renewal draft-package:pkg-001 ref fields invalid (must be exact {path,sha256})

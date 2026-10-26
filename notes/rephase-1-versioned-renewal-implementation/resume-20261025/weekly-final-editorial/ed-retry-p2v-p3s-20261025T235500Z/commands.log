@@ -1,0 +1,48 @@
+prereq proposal True manifest True scope True
+harness fix: prior ed-resume P2V checked res.get(outcome) wrong key, correct is res.get(result); this retry uses result
+owner P2V survey_editorial_current_authority_v2.observe_current_authority
+owner P3S survey_editorial_staged_source_v2.materialize/verify (no 35 preload)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_current_authority_v2 as p2v
+root=Path(sys.argv[1])
+res=p2v.observe_current_authority(str(root), sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+print(json.dumps({"result":res.get("result")},indent=1))
+result=res.get("result")
+if result!="CURRENT_BASIS_OBSERVED_SCOPE_BOUND":
+    print(f"WRONG_RESULT {result} expected CURRENT_BASIS_OBSERVED_SCOPE_BOUND")
+    import sys as _s; _s.exit(2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json... # p2v-with-scope-fixed
+DONE p2v-with-scope-fixed exit=0
+P2V WITH_SCOPE CURRENT_BASIS_OBSERVED_SCOPE_BOUND OK (fixed harness)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_staged_source_v2 as p3s
+root=Path(sys.argv[1])
+res=p3s.materialize_staged_source(str(root), sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
+print(json.dumps({"staged":res.get("staged_manifest_ref",{}).get("path") if isinstance(res,dict) else str(res)},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json... # p3s-materialize
+DONE p3s-materialize exit=0
+staged exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_staged_source_v2 as p3s
+root=Path(sys.argv[1])
+v=p3s.verify_staged_source(str(root), sys.argv[2], sys.argv[3])
+import json as _j
+sm=_j.loads((Path(sys.argv[1])/sys.argv[3]).read_bytes())
+code_deps=sm.get("code_deps") or []
+print(json.dumps({"verify_ok":True,"code_deps_count":len(code_deps) if isinstance(code_deps,list) else "unknown"},indent=1))
+if isinstance(code_deps,list) and len(code_deps)!=63:
+    print(f"WRONG_COUNT {len(code_deps)}")
+    import sys as _s; _s.exit(2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/proposal.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/staged-source/staged-source-manifest.json... # p3s-verify
+DONE p3s-verify exit=0
+P3S 63 VERIFIED
+RETRY P2V-P3S SUCCESS

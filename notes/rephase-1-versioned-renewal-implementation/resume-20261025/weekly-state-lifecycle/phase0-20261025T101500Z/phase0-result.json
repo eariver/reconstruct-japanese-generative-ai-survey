@@ -1,0 +1,145 @@
+{
+ "fix_head": "afab1762a90ca568b333abae7f1641ea64bdb5df",
+ "state_sha256": "520a9b7403d3df93d72f795f7181c20610c3cadce789226d91b0ee5afc273221",
+ "lifecycle_state": "VALIDATED_DRAFT",
+ "next_action": "stage:publication-candidate",
+ "terminal_reason": null,
+ "human_preview": "pending",
+ "machine_preview": "pending",
+ "pointer": {
+  "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r6.json",
+  "sha256": "dbeba4cb4fc82bcf8250d16c11cb146f2148cdea3a9146109e19893064ceb4ca"
+ },
+ "history_len": 8,
+ "history_last": {
+  "from": "DRAFT_COMPLETE",
+  "to": "VALIDATED_DRAFT",
+  "recorded_at": "2026-09-18T21:10:00Z",
+  "repository_commit_sha": "721a04d85532d7855f3e54cc411f5847c787726e"
+ },
+ "validate_agent_state_errors": [],
+ "validate_agent_state_pass": true,
+ "selection_mode": "VERSIONED_ACTIVE",
+ "selection_candidate_ref": {
+  "path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-weekly/publication-candidate-v2.json",
+  "sha256": "2a1374facfb8716267c5e8307fab183f5ac549b4be1c01d5db69a27f6db4c977"
+ },
+ "selection_set_ref": {
+  "path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-weekly/publication-set.json",
+  "sha256": "e3a691ebbdd405ceeff4cc250a64f290638d4d9bf2b395fab67ab71df3521a9b"
+ },
+ "selection_canonical_anchor": {
+  "kind": "VALIDATION_CHECKPOINT",
+  "ref": {
+   "path": "sources/2026-W37/orchestration/v2/checkpoints/DRAFT_COMPLETE.json",
+   "sha256": "ffbde649f25d5622dc3f49833b9a0a023e1af92cdf09732fae0b861177fa45da"
+  }
+ },
+ "seal_status": "SEALED_INERT",
+ "seal_roles_candidate_sha": "2a1374facfb8716267c5e8307fab183f5ac549b4be1c01d5db69a27f6db4c977",
+ "seal_proof_ref": {
+  "path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-weekly/renewal-source-proof.json",
+  "sha256": "395cc0b387e97bf77d8a0428c03dcce1ac77daa602e53ed62078545c4e1f312e"
+ },
+ "seal_receipt_ref": {
+  "path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-weekly/validated-source-manifest.json",
+  "sha256": "45684b0e27e27b581371b8333b4723c1906b8aeaea846bcb0745cbabf4b811a7"
+ },
+ "proof_sha_match": true,
+ "candidate_path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-weekly/publication-candidate-v2.json",
+ "candidate_sha_match": true,
+ "candidate_status": "READY_FOR_PUBLICATION_PREVIEW",
+ "candidate_pdf_sha": "8fb8aca78a28fb2dc12c54b0cb2609a0d3d4575d09fb5e3a2d064cfc3133dc43",
+ "candidate_proof_ref": {
+  "path": "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u4-weekly/renewal-source-proof.json",
+  "sha256": "395cc0b387e97bf77d8a0428c03dcce1ac77daa602e53ed62078545c4e1f312e"
+ },
+ "candidate_proof_matches_seal": true,
+ "seal_roles": {
+  "reader-input": "b5c52c4083e0",
+  "authoring-input": "6cde6624f7a2",
+  "source-receipt": "45684b0e27e2",
+  "reader-manuscript": "35693873bfc9",
+  "validated-source": "1e3b22a5d161",
+  "bibliography": "faeae610e3f2",
+  "style": "a4bd135aa287",
+  "publication-pdf": "8fb8aca78a28",
+  "build-log": "ad4930f85f2f",
+  "pdf-digest": "432d227005bf",
+  "quality-regression-bundle": "228965b1d83d",
+  "semantic-review": "b7ba839d4d5d",
+  "visual-review": "9b41dff08ad2",
+  "reader-surface-gate": "9ba91c81fa5c",
+  "publication-candidate": "2a1374facfb8"
+ },
+ "stage_plan_VALIDATED_DRAFT": {
+  "action_kind": "LOCAL_SCRIPT",
+  "handler": "stage:publication-candidate",
+  "validator": "validate:publication-candidate",
+  "validator_version": "2.0-rc1",
+  "handoff_required": false,
+  "next_state": "RELEASE_CANDIDATE",
+  "checkpoints": [],
+  "artifacts": [
+   {
+    "name": "publication-candidate",
+    "path": "{source_root}/publication/v2/publication-candidate-v2.json"
+   }
+  ]
+ },
+ "stage_plan_RELEASE_CANDIDATE": {
+  "action_kind": "LOCAL_SCRIPT",
+  "handler": "stage:freeze",
+  "validator": "validate:freeze",
+  "validator_version": "2.0-rc1",
+  "handoff_required": false,
+  "next_state": "FROZEN",
+  "checkpoints": [
+   "freeze"
+  ],
+  "artifacts": [
+   {
+    "name": "freeze-record",
+    "path": "{source_root}/publication/v2/freeze-record-v2.json"
+   },
+   {
+    "name": "release-manifest",
+    "path": "{source_root}/publication/v2/release-manifest-v2.json"
+   }
+  ]
+ },
+ "stage_plan_FROZEN": {
+  "action_kind": "WORKFLOW_DISPATCH",
+  "handler": "stage:release",
+  "validator": "validate:release",
+  "validator_version": "2.0-rc1",
+  "handoff_required": false,
+  "next_state": "RELEASED",
+  "checkpoints": [
+   "release"
+  ],
+  "retry_policy": {
+   "retryable": true,
+   "max_attempts": 2
+  },
+  "idempotency": {
+   "mode": "EXTERNAL_KEY",
+   "key": "release_identity"
+  },
+  "artifacts": [
+   {
+    "name": "merge-verification",
+    "path": "{source_root}/publication/v2/merge-verification-v2.json"
+   },
+   {
+    "name": "release-record",
+    "path": "{source_root}/publication/v2/release-record-v2.json"
+   }
+  ]
+ },
+ "actual_utc_raw": "2026-10-25T09:59:05.502146+00:00",
+ "code_templates/survey/jgaisurvey.sty": "a4bd135aa2876079",
+ "code_scripts/survey_versioned_renewal_history_v2.py": "6fe86e78a12e2159",
+ "code_scripts/survey_editorial_correction_proposal_v2.py": "825dba1dedaed085",
+ "code_scripts/survey_publication_v2.py": "3f4039fd7699baa2"
+}

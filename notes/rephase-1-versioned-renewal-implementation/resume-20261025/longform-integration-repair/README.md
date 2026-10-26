@@ -1,0 +1,46 @@
+# LONGFORM repair integration — owned evidence (parallel, no shared writes)
+
+Human continuation on NEW fixed repair INPUT. LONGFORM only. Old sources/fixtures preserved. No product edits/network/ordinary commits/old-runner/cleanup/reset/cache purge.
+
+## 1. Inputs (READONLY)
+
+- Repair INPUT `.rephase-1-editorial-runtime/versioned-renewal-repair-input-20261025T082826Z/snapshot-work` HEAD `409b292`, 739 files, `dst-hash-intended` `20f1967f9f3085bcd3c710ef9ade2c49c594584805b2a004403eb7f59e704283` (739 lines), manifest `integration-repair-input.json` SHA `8b14885ab6c331738e2066f24b24c48e3a10b2da19abe0b8a80ddb7c42f5a46f`.
+  Pins: H `6fe86e78a12e2159d6ff50dfd7f70fda7b2e0d34d48db26402743edda2eca5ad` (288349B, graph-once-per-PUBLIC, no authority cache), P1 `825dba1dedaed0850134b3a54a249a427b2e77709861818e8eb7cb63e1a33a2b` (158652B, strict new-kind dispatch), PUB `3f4039fd7699baa212020dddfb02b3918bd63e02c475d638d99cbb2a1150d8d6` (125977B, shared wrapper group + finite all typed deps), S `20f63eafc96923dc7be25f3f495b94dd9add0e398d6cdc2fe47c2c9bff46c306` stable, HIGH `9a0469ef5a6bc2b2e37fc9efb1376cfccbd0333ffaa08a59d23634345d382152` stable, Reader `098a2c8222f15f693c524139f2678be008a7ec9fafca275fc831ede9aa13bf1c` stable. New 3 tests. Rest 736 stable.
+- Diagnosis `longform-repeat-epoch-diagnosis.md`: G3+G4 both before U2 means U3 same HEAD no new tools correctly failed (`HISTORY_TOOL_EPOCH_DRIFT`), G5 U3b is actual C→U→U success. Keep orphan r5, no chronology bug, no retry bad record, no extra Core amendment. Future always G→U→G→U.
+- Valid OLD fixture `.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform` HEAD `18587b6`, State r6 `f76d5552...` VALIDATED_DRAFT pending Preview, style `b1cbbdd93711...` (G2 variant), synthetic Preview `lifecycle-high-u3b-longform-direct/preview-approval.json` exists but State pending (preserved, not deleted), old E + renewals U1/C1/U2/U3/U3b/ufail + lifecycle + ed-1/2. Alias `publication-set.json.alias.json` test preserved in old evidence (`u1-alias-make`, `u1-activate-alias` 2 RECORD_COLLISION), removed to unblock P1 tree (logs preserved, never tree-rm original? removal documented as harness artifact, not failed-renewal cleanup).
+
+## 2. NEW independent repair fixture (LONGFORM only)
+
+- Parent `.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/` (new, no collision). Fixture `.../renewal-longform`, prepreview fork `.../renewal-longform-prepreview` (U4 r7 pending, no lf-ed-3, for NORMAL branch).
+- Clone `--no-hardlinks` from OLD valid (retain 721+G1-G5 ancestry), inert origin `.../versioned-renewal-chain-longform-repair.git`, no alternates, no GIT env, inode disjoint, nlink 1, workspace TMPDIR.
+- Copy valid U3b r6 + old E/source ancestry explicit per-file `copy2` + SHA (233 files: 230 others +3 ignored), exclude alias `*.alias.json` (none present after removal, exclusion recorded explicit, fresh copy from before alias data, no hiding). Preview pending preserved (`r7`? actually r6 at clone time, `human_gates publication_preview pending`).
+- Overlay EXACT 739 (738 files, style preserved): `templates/survey/jgaisurvey.sty` kept `b1cbbdd93711...` (not baseline `035645...`), else SHA/bytes identical, `mismatches=[]`. Variant manifest `source-variant-manifest.txt`: style preserved so U reuse C targets remains possible (baseline would force C new targets).
+- SOURCE-only commit G6 `047f8ad0b7a7c005e03a8e2d374c1e5b6712b60` (H/P1/PUB new +3 tests, style excluded, no E, no fake HEAD/flag). Ancestry `721a04d→381c05f→5740d67→e25a467→efea07d→18587b6→047f8ad`. New tools: H `6fe86...`, P1 `825dba...`, PUB `3f4039...`.
+
+## 3. U4 refresh CURRENT authority (new code expires old proofs)
+
+- U4 `high-u4-longform` REUSE (style preserved, U reuse allowed): prepare 0 → QA 0 → finalize 0 `REUSED_TARGETS` → activate 0 `ACTIVATED r7 06af38fc...` → history 0 chain 6 (`r1 2bd14fc...` EDITORIAL + U1 `f653c9...` + C1 `c41159...` + U2 `3f76b3...` + U3b `f76d55...` + U4 `06af38...`, `HISTORICAL_IDENTITY_VERIFIED`, `schema_pointer ""` never `/`, FILE SHAs) → full HIST/source (`verify_renewal_source_proof` CURRENT) + CURRENT `agent.validate_agent_state==[]` 0. New P1/H/PUB correctly expires old proofs (old epoch `18587b6` vs new `047f8ad`, `old!=new` genuine). Chrono `now 08:41:57... ≥ r6`. PrePreview fork saved after U4 (State r7 pending) for NORMAL branch.
+
+## 4. Editorial NEW P lf-ed-3 (changed-reader, 1200s phases, fresh child per epoch)
+
+- Authoring NEW P from current authoring, proper 3 paragraphs containing `The synthesis stays inside authorized evidence.` (same accepted research/Draft/Architecture, no NO_CHANGE): headline/deck changed + final_summary 3 paras (para3 is required sentence) + narrative tweak. No invalid initial attempt.
+- P1 `prepare_proposal` 0 (1200s, new H reduces r8 29s→3.8s, no premature 300 timeout; `ed-p1-prepare` 0, `ed-p1-stage` 0 staged `reader-surface-input-v2.json` + `proposal.json`). No validator cache/pending/state fake/bypass.
+- P2R `capture_retention` 0 + `verify_retention` 0 (`ed-p2r-full` 0, manifest `.../lf-ed-3/retained/retention-manifest.json`). Scope `WITHIN_APPROVED_AUTHORITY`.
+- P2V `observe_current_authority` 0 (`ed-p2v-full` 0, `ed-p2r-capture`/`ed-p2v-observe`).
+- P3S63 `materialize_staged_source` 0 (with preload of all 35 py for `RUNTIME_BINDING_MISSING` fix: `ed-p3s-preload` materialize OK, `ed-p3s-fix2` STAGED_ROOT_EXISTS (already present, preserved), `ed-p3s-verify` 0). Staged `.../lf-ed-3/staged-source/` 4 files (main.tex/bib/sty/manifest). Code deps 63 (35py+22schemas+route3+staged1+style1+recipe1). New editorial63 own Contract8 while old50 r1 history preserved (r1 `2bd14fc...` still EDITORIAL 50? Actually r1 is old50, new editorial will be 63? Verified via P3S63).
+- Editorial `prepare_publication` (real TL build) 2 `ACCEPTED_DRAFT: before receipt drafting archive invalid` at `survey_editorial_publication_v2.py:1851-1863` (`gen_authored_prep` expects initial/prior-editorial drafting archive, but prior is VERSIONED_RENEWAL_SOURCE_V1 with renewal authoring_refs, no drafting archive). Codepath mismatch to root, no product patch. Full `P1→P2R(scope)→P2V→P3S63→build/postrender/finalize/activate` + history/new Candidate OPEN. Real C build green previous736 unchanged, no forced repeat.
+
+## 5. NORMAL direct (new PUB fix green artifacts, RELEASED requires full transitions)
+
+- Prepreview fork `renewal-longform-prepreview` (U4 r7 pending, no lf-ed-3) saved before editorial (or normal first). Lifecycle artifacts on repair U4 r7: `lifecycle-u4` 0 (`validate_stage`, synthetic Preview `preview-approval.json` NO genuine Human, `build_freeze`, `validate_release_manifest`, `merge-verification`, `release-record`). New PUB `3f4039fd` shared wrapper group fixes old `materiality-ledger not allowed` at `survey_publication_v2.py:684` (old 736 PUB `90d907...` failed, new passes). Old immutable priors preserved (`r1/r2/r3/r4/r6/r7`).
+- Full `stage report + agent checkpoint + advance RELEASE_CANDIDATE → synthetic public Human Preview approval → profiled Freeze → normal Release → readbacks` to actual `RELEASED` State (not only artifact `build_freeze` with State unchanged) REQUIRED but OPEN (needs Human Preview State mutation + profiled Freeze + Release on prepreview clone). Exact source/Candidate/approval/Freeze/Manifest + State pointer scope synthetic non-genuine. Prepreview clone saved for that. H/P1/PUB affected positives updated (U4, P1/P2R/P2V/P3S63, lifecycle-u4), existing C→U→U variant coverage qualified (U3 TOOL_EPOCH_DRIFT + U3b success preserved).
+
+## 6. Terminal State / tools / exits / blocks
+
+- Repair fixture HEAD `047f8ad`, State `sources/SP001/production-state.json` VALIDATED_DRAFT (U4 r7 `06af38fc...` active; editorial lf-ed-3 staged but not activated, State still U4 pending; normal artifacts on U4, State not RELEASED). Prepreview fork HEAD same `047f8ad`, State r7 pending.
+- Tool IDs: H `6fe86...`, P1 `825dba...`, PUB `3f4039...`, S `20f63...`, HIGH `9a046...`, Reader `098a...`, style `b1cbbdd93711...` (variant, not baseline `035645...`).
+- Raw exits: setup 0, U4 0/0/0/0/0, P1 0 (1200s), P2R 0, P2V 0, P3S materialize 0 + verify 0 (63), editorial prepare 2 (ACCEPTED_DRAFT), lifecycle-u4 0, old U3 2 (TOOL_EPOCH_DRIFT, preserved), old U3b 0, old C1 0, old U2 0.
+- Blocks (no full PASS): editorial `prepare_publication` drafting-archive mismatch (versioned prior vs editorial expectation) at `survey_editorial_publication_v2.py:1851-1863`; normal full RELEASED State transitions OPEN (artifacts green, State mutation + Preview/Freeze/Release readbacks required on prepreview clone); affected regressions + independent final review OPEN. Whole NOT_READY/step4B3 OPEN/audit unstarted/DM021+022 OPEN. Synthetic reviews/Human approvals content NO-GO, no genuine PASS.
+- Harness: NEW 1200s per PUBLIC phase (old 300 helper kept intact in old scripts, not modified). Fresh Python child per Code epoch, UTC rawlog/exit/PID/heartbeat, all attempts/partials kept, no restart of positives, no shared candidate/INPUT/code/network/old-runner/cleanup/reset/cache purge/ordinary commit. Fixture-only SOURCE commits with actual pids/paths.
+
+No whole-unit independent PASS/CommitPoint. Ordinary Commit/Push Human-owned.

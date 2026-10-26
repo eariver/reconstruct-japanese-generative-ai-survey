@@ -1,0 +1,12 @@
+{
+ "code": "HISTORY_DIGEST_MISMATCH",
+ "detail": "HISTORY_DIGEST_MISMATCH: superseded revalidation record SHA drift: sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json",
+ "disp": null,
+ "healthy_control": "R7 32-valid (existing typed legacy32) + H-U1 CURRENT cu1-weekly SEALED (short chain, NEW closure) \u2192 verify passes; synthetic cycle (chicken-egg, digest preemption) vs sequence (proper rehash, chronology HIT) prove seam isolation (cycle OPEN for true simultaneously-correct SHAs, sequence HIT if proper rehash)",
+ "is_cycle_intended": false,
+ "is_qualified_preemption_digest": true,
+ "no_new_R": true,
+ "note": "Cycle 2-cycle proper rehash impossible (chicken-egg cross SHAs); best-effort leaves one outdated \u2192 qualified preemption (digest, NOT cycle). Honest, NOT claimed as cycle HIT. True cycle HIT would require simultaneously correct cross SHAs (impossible) or different cycle construction (e.g., duplicate link r5->r2 where r2 already visited via different path? But walk is linear, not branching, so duplicate requires loop, same chicken-egg). Report as OPEN for true cycle (needs legitimate generator with simultaneously correct SHAs, not feasible with pure file edits; R1 worker proven chain has no cycle (healthy), no cycle fixture exists).",
+ "phase": null,
+ "state_unchanged": true
+}

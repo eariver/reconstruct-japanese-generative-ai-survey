@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "<string>", line 10, in <module>
+    res=p1mod.prepare_proposal(root_p, root_p/state_rel, root_p/auth_rel, prop_new, change_desc)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 2187, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 1906, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 1753, in _pipeline_data
+    dispatched = _dispatch_generated_receipt(root, receipt_file, state_file)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly/scripts/survey_editorial_correction_proposal_v2.py", line 150, in _dispatch_generated_receipt
+    raise _fail("RECEIPT_KIND_UNKNOWN", f"generated receipt kind unknown: {kind!r}")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: RECEIPT_KIND_UNKNOWN: generated receipt kind unknown: 'VERSIONED_RENEWAL_SOURCE_V1'

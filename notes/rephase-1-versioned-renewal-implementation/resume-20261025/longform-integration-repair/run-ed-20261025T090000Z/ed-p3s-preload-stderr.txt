@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_retention_v2.py", line 367, in _entry_identity
+    st = os.stat(name, dir_fd=parent_fd, follow_symlinks=False)
+FileNotFoundError: [Errno 2] No such file or directory: 'None'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_staged_source_v2.py", line 1813, in verify_staged_source
+    sm_rel, sm_data = session.safe_read(str(staged_manifest_path),
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                        "staged source manifest", phase, disp)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_retention_v2.py", line 388, in safe_read
+    ent = self._entry_identity(parent, leaf, label, phase, disp)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_retention_v2.py", line 369, in _entry_identity
+    raise _fail("PATH_MISSING", phase, disp, f"{label} entry missing: {name}: {exc}") from exc
+scripts.survey_editorial_retention_v2.RetentionError: PATH_MISSING: [PIN/INVALID] staged source manifest entry missing: None: [Errno 2] No such file or directory: 'None'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 62, in <module>
+    v=p3s.verify_staged_source(str(root_p), proposal, res.get('staged_manifest_path'))
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/scripts/survey_editorial_staged_source_v2.py", line 2184, in verify_staged_source
+    raise wrapped from exc
+scripts.survey_editorial_staged_source_v2.StagedSourceError: VERIFIER_FAILED: [PIN/INVALID] retention layer refused: PATH_MISSING: [PIN/INVALID] staged source manifest entry missing: None: [Errno 2] No such file or directory: 'None'

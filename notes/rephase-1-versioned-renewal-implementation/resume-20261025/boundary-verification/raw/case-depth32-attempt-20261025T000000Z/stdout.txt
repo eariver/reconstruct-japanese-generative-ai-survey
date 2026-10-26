@@ -1,0 +1,27 @@
+{
+ "base_records": [
+  {
+   "path": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json",
+   "sha": "652462887f6a"
+  }
+ ],
+ "chain_30_valid": false,
+ "clones": 30,
+ "constructible": false,
+ "exact_predicate": "HISTORY_DIGEST_MISMATCH: repeated activation before_candidate must equal predecessor seal Candidate",
+ "last_ref": {
+  "path": "sources/2026-W37/publication/v2/synth-depth32-attempt/publication-surface-revalidation-r30.json",
+  "sha256": "31c1413d2ac7da7aec6c441c358946d78e9905eb2e2ebd9ede4a9f6384ea2c22"
+ },
+ "note": "Even 30 cloned legacy (same rows/issue/prior_checkpoint, REAL SHAs, increasing sequence/time) fail hist.verify at first predicate above. This is the exact blocker for mixed legacy+editorial 31-predecessor construction without regenerating rows against the same prior_checkpoint/artifacts. NOT just 'needs 32 real renewals'.",
+ "source_pins": {
+  "H": "74275d22a342014009d5d090fbe9c552981941e90259c298065d2ba6929d1f3d",
+  "HIGH": "1dad1ad12ba509c477ea97fb3a22e5156ae1627182f3286f373f32eae7ba2fbb"
+ },
+ "synth_dir": "sources/2026-W37/publication/v2/synth-depth32-attempt",
+ "template_kind": "EDITORIAL_PUBLICATION_ACTIVATION_V1",
+ "template_rel": "sources/2026-W37/publication/v2/publication-surface-revalidation-r1.json",
+ "unit": "depth32-attempt-mixed-legacy-editorial (bounded, read-only, NOT 32 real ops)",
+ "verify_30_code": "HISTORY_DIGEST_MISMATCH",
+ "verify_30_detail": "repeated activation before_candidate must equal predecessor seal Candidate"
+}

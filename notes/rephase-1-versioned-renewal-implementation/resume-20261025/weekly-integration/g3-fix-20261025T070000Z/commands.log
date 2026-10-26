@@ -1,0 +1,13 @@
+=== G3 fix ===
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly rev-parse HEAD # head-pre
+-> exit=0
+parse ok
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly add -- scripts/survey_versioned_renewal_history_v2.py # add-fix
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly commit -m HIGH phase TEST-ONLY: G3 fix docstring (previous G3 syntax fail preserved, this corrects) --no-verify # commit-fix
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly rev-parse HEAD # head-post
+-> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly log --oneline -8 # log-fix
+-> exit=0
+G3 FIX DONE

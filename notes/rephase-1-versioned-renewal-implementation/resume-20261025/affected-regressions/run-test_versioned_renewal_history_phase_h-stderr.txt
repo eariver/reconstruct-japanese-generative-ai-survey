@@ -1,0 +1,39 @@
+test_complete_editorial_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_editorial_passes_and_mutations) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ERROR
+test_complete_versioned_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_versioned_passes_and_mutations) ... ERROR
+
+======================================================================
+ERROR: test_complete_editorial_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_editorial_passes_and_mutations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_versioned_renewal_history_phase_h.py", line 443, in test_complete_editorial_passes_and_mutations
+    out = hist.verify_versioned_history(root, f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r1.json")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_versioned_renewal_history_v2.py", line 3993, in verify_versioned_history
+    info = _verify_editorial_ancestor(root, rec, ref, graph, _inv_cache)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_versioned_renewal_history_v2.py", line 2052, in _verify_editorial_ancestor
+    _verify_self_digest(scope_doc, scope_bytes, "review_sha256", "editorial ancestor scope")
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_versioned_renewal_history_v2.py", line 1959, in _verify_self_digest
+    raise RenewalHistoryError("HISTORY_DIGEST_MISMATCH", f"{label} {digest_key} mismatch (not canonical excluding itself)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_DIGEST_MISMATCH: editorial ancestor scope review_sha256 mismatch (not canonical excluding itself)
+
+======================================================================
+ERROR: test_complete_versioned_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_versioned_passes_and_mutations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_versioned_renewal_history_phase_h.py", line 624, in test_complete_versioned_passes_and_mutations
+    out = hist.verify_versioned_history(root, f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r2.json")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_versioned_renewal_history_v2.py", line 3993, in verify_versioned_history
+    info = _verify_editorial_ancestor(root, rec, ref, graph, _inv_cache)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_versioned_renewal_history_v2.py", line 2052, in _verify_editorial_ancestor
+    _verify_self_digest(scope_doc, scope_bytes, "review_sha256", "editorial ancestor scope")
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/scripts/survey_versioned_renewal_history_v2.py", line 1959, in _verify_self_digest
+    raise RenewalHistoryError("HISTORY_DIGEST_MISMATCH", f"{label} {digest_key} mismatch (not canonical excluding itself)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_DIGEST_MISMATCH: editorial ancestor scope review_sha256 mismatch (not canonical excluding itself)
+
+----------------------------------------------------------------------
+Ran 2 tests in 2.708s
+
+FAILED (errors=2)

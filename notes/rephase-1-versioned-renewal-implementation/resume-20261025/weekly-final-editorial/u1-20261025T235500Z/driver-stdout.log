@@ -1,0 +1,138 @@
+FIX exists=True HEAD=True
+prior r1 2026-10-23T19:48:57Z
+synthetic 2026-10-25T17:54:55.283006+00:00
+owner HIGH survey_versioned_renewal_v2.prepare_renewal/finalize_renewal/activate_renewal
+owner H survey_versioned_renewal_history_v2.verify_versioned_history
+owner S survey_versioned_renewal_source_v2.verify_renewal_source_proof
+owner agent survey_agent_control_v2.validate_agent_state
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+out=high.prepare_renewal(root, root/sys.argv[2], sys.argv[3], "REUSE_TARGETS", "sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/manuscript-spec.json", None, "weekly-final-u1", sys.argv[4])
+print(json.dumps(out,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json high-u1-weekly-final... # u1-prepare timeout=600s pid=4078591
+DONE u1-prepare exit=0
+basis sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/renewal-basis.json exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root_s, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p=Path(root_s)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+basis=json.loads((root_p/basis_rel).read_bytes())
+cfg=json.loads((root_p/"config/survey-production-v2.json").read_bytes())
+kinds=quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+print(f"EXPECTED_DET {sorted(kinds)}")
+prior_seal=json.loads((root_p/basis["prior_selected_ref"]["path"]).read_bytes())
+roles=prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes=(root_p/trio_primary["path"]).read_bytes()
+pdf_bytes=(root_p/pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages=len(PdfReader(str(root_p/pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot=root_p/r_dir/"quality"
+qroot.mkdir(parents=True,exist_ok=True)
+scope=f"renewal {rid} fresh U final SHORT (synthetic, no genuine approval)"
+payloads={
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id":"SUBJECT_ENTITY_PROPERTY_BINDING","status":"PASS","trio_sha256":core.sha256_bytes(main_bytes),"trio_path":trio_primary["path"],"scope":scope},
+    "IDENTIFIER_PRESERVATION": {"check_id":"IDENTIFIER_PRESERVATION","status":"PASS","source_sha256":core.sha256_bytes(main_bytes),"inspected_identifiers":[issue_id],"scope":scope},
+    "PDF_PREFLIGHT": {"check_id":"PDF_PREFLIGHT","status":"PASS","page_count":pages,"pdf_sha256":core.sha256_bytes(pdf_bytes),"byte_count":len(pdf_bytes),"scope":scope},
+}
+# Derive actual Weekly-applicable ONLY: if EMPTY_WRAPPER_SUPPRESSION in kinds then include, else must NOT include (Weekly has no EMPTY)
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"]={"check_id":"EMPTY_WRAPPER_SUPPRESSION","status":"PASS","inspected_paths":[trio_primary["path"]],"scope":scope}
+# Strict: payloads must equal kinds (no skipping, no extra)
+assert set(payloads)==set(kinds), f"{sorted(payloads)} != {sorted(kinds)}"
+rows=[]
+for cid in sorted(payloads):
+    p=qroot/f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id":cid,"kind":"DETERMINISTIC","status":"PASS","executor":executor,"evidence":"Short-chain fresh re-assertion: exact current bytes, synthetic.","recorded_at":now_iso,"result":{"path":str(p.relative_to(root_p)),"sha256":core.sha256_file(p)}})
+checks_path=root_p/pdir/f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks":rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/renewal-basis.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final... # u1-qa-build timeout=300s pid=4078591
+DONE u1-qa-build exit=0
+new_qa_rel sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewal-qa-checks-high-u1-weekly-final.json
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+out=high.finalize_renewal(root, root/sys.argv[2], root/sys.argv[3], root/sys.argv[4], None, None, "weekly-final-u1", sys.argv[5])
+print(json.dumps(out,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/renewal-basis.json... # u1-finalize timeout=600s pid=4078591
+DONE u1-finalize exit=0
+set sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/publication-set.json exists=True
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+out=high.activate_renewal(root, root/sys.argv[2], root/sys.argv[3], "Renewal Core change: weekly-final SHORT U1 (truthful, synthetic, no genuine approval)", "weekly-final-u1", sys.argv[4])
+print(json.dumps(out,indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/publication-set.json... # u1-activate timeout=600s pid=4078591
+DONE u1-activate exit=0
+ACTIVATED r2
+new active sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json sha=b'{\n  "schema_version": "2.0-rc1",\n  "kind": "VERSIO'
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_v2 as high
+root=Path(sys.argv[1])
+v=high.verify_renewal_history(root, root/sys.argv[2])
+print(json.dumps({"HISTORICAL_IDENTITY_VERIFIED":v.get("HISTORICAL_IDENTITY_VERIFIED"),"chain_length":v.get("chain_length")},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json... # u1-history timeout=600s pid=4078591
+DONE u1-history exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_agent_control_v2 as agent
+root=Path(sys.argv[1])
+cfg=json.loads((root/"config/survey-production-v2.json").read_bytes())
+state=json.loads((root/sys.argv[2]).read_bytes())
+errs=agent.validate_agent_state(root, cfg, state)
+print(json.dumps({"errs":errs},indent=1))
+import sys as _s
+_s.exit(0 if errs==[] else 2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json... # u1-live-state timeout=600s pid=4078591
+DONE u1-live-state exit=0
+set receipt 
+fallback receipt sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/validated-source-manifest.json
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_versioned_renewal_source_v2 as srcmod
+root=Path(sys.argv[1])
+# Detached CURRENT proof readback on new U1 basis? Use basis proof path from renewal dir
+import pathlib as _pl
+basis_rel=sys.argv[2]
+# proof is renewal proof? Use verify_renewal_source_proof via HIGH? Actually source proof leaf:
+# For U, proof is at renewals/<id>/renewal-proof? Derive from basis?
+basis=json.loads((root/basis_rel).read_bytes())
+proof_ref=basis.get("proof_ref") or basis.get("renewal_proof_ref") or {}
+# Try common keys
+print(json.dumps({"basis_keys":sorted(basis.keys())},indent=1))
+# Use HIGH current proof check? Instead call source proof verify if path known
+# Fallback: validate renewal receipt CURRENT
+from scripts import survey_versioned_renewal_v2 as high
+try:
+    v=high.validate_renewal_receipt(root, root/sys.argv[3])
+    print(json.dumps({"receipt_ok":True},indent=1))
+except Exception as e:
+    print(f"RECEIPT_REFUSED {e}")
+    import sys as _s; _s.exit(2)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/renewal-basis.json sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u1-weekly-final/validated-source-manifest.json... # u1-proof-current timeout=600s pid=4078591
+DONE u1-proof-current exit=0
+WEEKLY-FINAL U1 SUCCESS r2 HIST CURRENT proof all 0

@@ -1,0 +1,12 @@
+fork start 20261025T084432Z PID=2512699
+$ git -C .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform rev-parse HEAD -> exit=0
+$ python3 -c import json; print(json.load(open('.rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform/sources/SP001/production-state.json'))['publication_revalidation_provenance']) -> exit=0
+$ git clone --no-hardlinks .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview -> exit=0
+$ git -C .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview remote set-url origin https://example.invalid/versioned-renewal-chain-longform-prepreview.git -> exit=0
+$ git -C .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview config user.name rephase-fixture-longform-prepreview -> exit=0
+$ git -C .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview config user.email fixture-prepreview@example.invalid -> exit=0
+$ git -C .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview config commit.gpgsign false -> exit=0
+$ git -C .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview rev-parse HEAD -> exit=0
+$ python3 - .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview -> exit=0
+$ python3 - .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform .rephase-1-editorial-runtime/versioned-renewal-longform-repair-20261025T090000Z/renewal-longform-prepreview -> exit=0
+DONE OK fork prePreview

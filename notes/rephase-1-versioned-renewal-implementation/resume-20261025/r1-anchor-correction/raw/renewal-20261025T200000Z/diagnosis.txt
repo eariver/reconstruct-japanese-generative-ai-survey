@@ -1,0 +1,21 @@
+FIX scripts/survey_versioned_renewal_v2.py sha=1dad1ad1
+FIX scripts/survey_versioned_renewal_history_v2.py sha=74275d22
+FIX scripts/survey_versioned_renewal_source_v2.py sha=2290ddd0
+PRE State pointer={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json', 'sha256': '7dce79acca8e876758fe0760633feb178e749467e17db19d3d62095bc95436c9'}
+PRE State -> r3 GOOD, bad r4 inert preserved (not selected)
+PREPARE OK {'renewal_dir': 'sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix', 'basis_path': 'sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/renewal-basis.json', 'retained_copy': {'path': 'sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/retained/before/sources/2026-W37/production-state.json', 'sha256': '2797be870e10309c174b3337d040517702be007216b5f65b519e6abfa83811d0'}, 'proposal_namespace': 'sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3', 'requested': 'REUSE_TARGETS', 'basis_sha256': 'c5ba35160c091e6e825a79f4b38a688c22cec2ec75441280073ec50a42b2d55b'}
+BASIS anchor={'kind': 'LEGACY_REVALIDATION', 'ref': {'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json', 'sha256': '27db45ce3641866fcfadba6297cdf31b991660abd5cfe4445e7fb0b62ca4c582'}}
+BASIS anchor REAL r2 VERIFIED (not DRAFT_COMPLETE)
+S validate_renewal_basis PASS (prior HIST full anchor verified)
+FRESH checks written sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/fresh-checks.json 3/3 PASS (recorded after basis, live bytes reinspected)
+finalize sig (root: 'str | Path', state_path: 'str | Path', basis_path: 'str | Path', checks_path: 'str | Path', semantic_review_path: 'str | Path | None', visual_review_path: 'str | Path | None', executor: 'str', recorded_at: 'datetime | str | None' = None) -> 'dict[str, Any]'
+FINALIZE OK keys=['build_record_path', 'bundle_path', 'candidate_path', 'disposition', 'gate_path', 'proof_path', 'receipt_path', 'set_path']
+SET sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/publication-set.json
+ACTIVATE OK {'status': 'ACTIVATED', 'record_path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r5.json', 'state_path': 'sources/2026-W37/production-state.json', 'set_path': 'sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/publication-set.json', 'observed': 'new'}
+NEW record sources/2026-W37/publication/v2/publication-surface-revalidation-r5.json
+NEW record supersedes={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r3.json', 'sha256': '7dce79acca8e876758fe0760633feb178e749467e17db19d3d62095bc95436c9'} anchor={'kind': 'LEGACY_REVALIDATION', 'ref': {'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json', 'sha256': '27db45ce3641866fcfadba6297cdf31b991660abd5cfe4445e7fb0b62ca4c582'}}
+NEW record r5 supersedes r3 anchor r2 VERIFIED (no rolling, gaps okay)
+POST State pointer={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r5.json', 'sha256': '691fcb6b2a951ac8a94e7a70199835951ec8f0699183ea724c219b4546943ea1'}
+POST State strict VALID (no anchor mismatch, no Gate drift)
+POST selection VERSIONED_ACTIVE anchor r2 VERIFIED canonical gate=71742cf7 effective gate=692b9077
+HISTORY chain4 VERIFIED anchor r2 (R1 r2 anchor unchanged through new renewal)

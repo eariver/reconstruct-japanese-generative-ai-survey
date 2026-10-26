@@ -1,0 +1,90 @@
+prereq active sources/2026-W37/publication/v2/publication-surface-revalidation-r2.json
+owner P1 survey_editorial_correction_proposal_v2.prepare_proposal
+owner P2R survey_editorial_retention_v2.capture_retention/verify_retention
+owner P2V survey_editorial_current_authority_v2.observe_current_authority
+owner P3S survey_editorial_staged_source_v2.materialize_staged_source/verify_staged_source (shipping 9e2a0ad imports deps itself, no manual 35 preload)
+owner EDPUB survey_editorial_publication_v2.prepare_publication/finalize_publication/activate_publication
+owner Reader survey_reader_publication_v2.build_review_record/validate_review_record
+owner QA survey_quality_v2.expected_checks_by_kind/validate_checks (derive Weekly families, no EMPTY_WRAPPER_SUPPRESSION)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+if p.exists():
+    print(f"EXISTS {rel}"); import sys as _s; _s.exit(1)
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes(data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-invalid1/authoring-input.json {"schema_version": "2.0-rc1", "issue_id": "2026-W37", "runner": "WEEKLY_MAGAZINE", "cover": {"headline": "Invalid headline 1", "deck": "Invalid deck 1", "anchors": ["Target Model"]}, "frontmatter": {"heading": "This week", "lede": "A bounded technical survey.", "scope_notes": ["One accepted primary source."]}, "final_summary": {"heading": "\u4eca\u9031\u306e\u7dcf\u62ec", "paragraphs": ["Only one paragraph here.", "Second paragraph here."]}}... # p1-stage-invalid1 timeout=120s
+DONE p1-stage-invalid1 exit=0
+invalid1 stage exit=0 (expected 0 stage, then P1 REFUSE)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+root=Path(sys.argv[1])
+try:
+    res=p1mod.prepare_proposal(root, root/sys.argv[2], root/sys.argv[3], sys.argv[4], sys.argv[5])
+    print(json.dumps({"UNEXPECTED_PASS":sys.argv[4]})); import sys as _s; _s.exit(0)
+except Exception as e:
+    print(f"REFUSED {type(e).__name__}: {e}"); import sys as _s; _s.exit(1)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-invalid1/authoring-input.json... # p1-invalid1 timeout=1200s
+DONE p1-invalid1 exit=1
+invalid1 P1 exit=1 (expected 1 REFUSED, preserved)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+if p.exists():
+    print(f"EXISTS {rel}"); import sys as _s; _s.exit(1)
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes(data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-invalid2/authoring-input.json {"schema_version": "2.0-rc1", "issue_id": "2026-W37", "runner": "WEEKLY_MAGAZINE", "cover": {"headline": "Invalid headline 2", "deck": "Invalid deck 2", "anchors": ["Target Model"]}, "frontmatter": {"heading": "This week", "lede": "A bounded technical survey.", "scope_notes": ["One accepted primary source."]}, "final_summary": {"heading": "\u4eca\u9031\u306e\u7dcf\u62ec", "paragraphs": ["Para one with enough words for test.", "Para two with enough words for test.", "Wrong synthesis without exact phrase."]}}... # p1-stage-invalid2 timeout=120s
+DONE p1-stage-invalid2 exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+root=Path(sys.argv[1])
+try:
+    res=p1mod.prepare_proposal(root, root/sys.argv[2], root/sys.argv[3], sys.argv[4], sys.argv[5])
+    print(json.dumps({"UNEXPECTED_PASS":sys.argv[4]})); import sys as _s; _s.exit(0)
+except Exception as e:
+    print(f"REFUSED {type(e).__name__}: {e}"); import sys as _s; _s.exit(1)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-invalid2/authoring-input.json... # p1-invalid2 timeout=1200s
+DONE p1-invalid2 exit=1
+invalid2 P1 exit=1 (expected 1, preserved)
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+root=Path(sys.argv[1]); rel=sys.argv[2]; data=json.loads(sys.argv[3])
+p=root/rel
+if p.exists():
+    print(f"EXISTS {rel}"); import sys as _s; _s.exit(1)
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes(data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/authoring-input.json {"schema_version": "2.0-rc1", "issue_id": "2026-W37", "runner": "WEEKLY_MAGAZINE", "cover": {"headline": "Weekly tested method, revised final edition", "deck": "Source-based survey with weekly-final renewal-editorial amendment; synthetic, no genuine approval.", "anchors": ["Target Model"]}, "frontmatter": {"heading": "This week", "lede": "A bounded technical survey.", "scope_notes": ["One accepted primary source."]}, "final_summary": {"heading": "\u4eca\u9031\u306e\u7dcf\u62ec", "paragraphs": ["The edition surveys one source with weekly-final changed reader.", "The claims remain attributed; renewal proof fresh, tool epoch final.", "The accepted source authors describe the tested method."]}}... # p1-stage-valid timeout=120s
+DONE p1-stage-valid exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+root=Path(sys.argv[1])
+res=p1mod.prepare_proposal(root, root/sys.argv[2], root/sys.argv[3], sys.argv[4], sys.argv[5])
+print(json.dumps({"id":sys.argv[4],"nodes":len(res["graph"]["nodes"]),"edges":len(res["graph"]["edges"])},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-final-20261025T235500Z/renewal-weekly-final sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-final-1/authoring-input.json... # p1-valid timeout=1200s
+DONE p1-valid exit=0
+P1 VALID SUCCESS

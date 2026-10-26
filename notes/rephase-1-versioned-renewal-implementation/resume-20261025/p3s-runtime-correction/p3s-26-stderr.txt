@@ -1,0 +1,38 @@
+test_o10_same_inode_vs_new_inode (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct). ... ok
+test_o11_root_preexisting_and_postreadback_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11_root_preexisting_and_postreadback_drift)
+O11 pre-existing root refuses; staged output swap after readback refuses. ... ok
+test_o11b_midcall_reader_drift (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta. ... ok
+test_o11c_late_control_retained (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at FINAL boundary. ... ok
+test_o11d_drift_before_claim_manifest (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11d_drift_before_claim_manifest)
+O11d drift after render/before claim and after source/before manifest. ... ok
+test_o11e_post_readback_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay. ... ok
+test_o11f_root_ancestor_replace (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses. ... ok
+test_o12a_preexisting_tamper_verify (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12a_preexisting_tamper_verify)
+O12a verify-level tamper: truncated manifest / extra dir / zeroed output. ... ok
+test_o12b_during_write_faults_incomplete (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class. ... ok
+test_o12c_fsync_close_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12c_fsync_close_indeterminate)
+O12c fsync/close faults with complete bytes → INDETERMINATE + owned partials. ... ok
+test_o12d_manifest_failure_indeterminate (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12d_manifest_failure_indeterminate)
+O12d manifest write/close faults → INDETERMINATE; valid bytes stay verifiable. ... ok
+test_o12e_fstat_identity_mismatch (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12e_fstat_identity_mismatch)
+O12e fstat-vs-entry identity mismatch refuses with exact owned partials. ... ok
+test_o12f_short_partial_combined_close (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary. ... ok
+test_o13_immediate_no_write_before_repair (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o13_immediate_no_write_before_repair)
+O13 every refusal proves no-write with the fault still present. ... ok
+test_o14_byte_equal_existing_root_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o14_byte_equal_existing_root_refuses)
+O14 byte-equal pre-existing staged set still refuses writer takeover. ... ok
+test_o1_longform_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta). ... FAIL
+test_o2_weekly_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o2_weekly_materialize_and_replay)
+O2 healthy Weekly staged set + independent replay (real envelope delta). ... ok
+test_o3_coexistence_p1_refuse_p2r_p2v (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o3_coexistence_p1_refuse_p2r_p2v)
+O3 P1 still refuses retained destination; P2R/P2V coexist (no TeX use). ... ok
+test_o4_live_state_mutation_replay_ok_materializer_refuses (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses. ... 

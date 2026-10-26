@@ -1,0 +1,25 @@
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+from scripts import survey_production_v2 as core
+import sys as _s
+root=Path(sys.argv[1]); rel=sys.argv[2]
+data=json.loads(sys.argv[3])
+p=root/rel
+p.parent.mkdir(parents=True,exist_ok=True)
+p.write_bytes(core.json_bytes(data))
+print(f"WROTE {rel}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly sources/2026-W37/publication/v2/editorial-corrections/wk-ed-renew-1/authoring-input.json {"schema_version": "2.0-rc1", "issue_id": "2026-W37", "runner": "WEEKLY_MAGAZINE", "cover": {"headline": "Weekly tested method, revised edition + renewal editorial (changed-reader)", "deck": "Source-based survey with renewal-editorial amendment; synthetic fixture, no genuine approval.", "anchors": ["Target Model"]}, "frontmatter": {"heading": "This week", "lede": "A bounded technical survey.", "scope_notes": ["One accepted primary source."]}, "final_summary": {"heading": "\u4eca\u9031\u306e\u7dcf\u62ec", "paragraphs": ["The edition surveys one source with renewal-editorial changed reader.", "The claims remain attributed; renewal proof fresh, tool epoch G4."]}}... # s4-stage-authoring -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, state_rel, auth_rel, prop_new, change_desc, now_iso = sys.argv[1:7]
+from pathlib import Path
+root_p=Path(root)
+from scripts import survey_editorial_correction_proposal_v2 as p1mod
+from scripts import survey_production_v2 as core
+assert str(Path(p1mod.__file__).resolve()).startswith(str(root_p.resolve())), "fixture origin"
+res=p1mod.prepare_proposal(root_p, root_p/state_rel, root_p/auth_rel, prop_new, change_desc)
+print(json.dumps({"proposal_id":prop_new,"keys":sorted(res.keys()),"proposal_path":res.get("proposal_path",""),"basis_kind":res.get("proposal",{}).get("kind","")},indent=1))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-weekly-20261025T052132Z/renewal-weekly sources/2026-W37/production-state.json sources/2026-W37/publication/v2/editorial-corrections/wk-ed-renew-1/authoring-input.json wk-ed-renew-1... # s4-p1-prepare -> exit=1

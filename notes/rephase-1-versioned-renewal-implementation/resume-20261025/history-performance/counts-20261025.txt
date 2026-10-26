@@ -1,0 +1,8 @@
+BEFORE git child calls (counted via subprocess.run wrapper, high24 weekly):
+ r1: total 895 (show 408, ls-tree 374, cat-file -e 113, other 0)
+ r8: total 9247 (show 4052, ls-tree 2669, cat-file -e 2526, other 0)
+AFTER batched (same wrapper, ls-tree batch + cat-file --batch by OID, per-invocation only):
+ r1: total 3 (show 0, ls-tree 1, cat-file -e 1, other 1) — 298x fewer
+ r8 first: total 20 (show 0, ls-tree 7, cat-file -e 7, other 6) — 462x fewer
+ r8 second (perf test, warm): total 20 (same bound, <=30 required, PASS)
+All EVERY-ref mode/SHA/byte_count still verified; batch uses finite paths + OID, no new paths.

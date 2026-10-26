@@ -1,0 +1,41 @@
+[TRAV] before H 70bcdbb8602d r1 0.503s r8 28.739s
+[TRAV] current H 6fe86e78a12e lines 4172
+[TRAV r1] elapsed 0.266s (before 0.503s) git 3 (before 3) chain1 n11 _validate 11
+[TRAV r8] elapsed 4.094s (before 28.739s) git 20 (before 20) chain8 n82 _validate 75 (before 1360)
+[TRAV r8 profile top20]
+         6297397 function calls (5985137 primitive calls) in 4.093 seconds
+
+   Ordered by: cumulative time
+   List reduced from 454 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.009    0.009    4.094    4.094 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-env-20261023T185000Z/candidate-work/scripts/survey_versioned_renewal_history_v2.py:3864(verify_versioned_history)
+ 6230/107    0.009    0.000    3.132    0.029 /home/eariver/.local/lib/python3.14/site-packages/jsonschema/validators.py:350(iter_errors)
+67383/1706    0.257    0.000    3.125    0.002 /home/eariver/.local/lib/python3.14/site-packages/jsonschema/validators.py:397(descend)
+15007/375    0.051    0.000    3.113    0.008 /home/eariver/.local/lib/python3.14/site-packages/jsonschema/_keywords.py:290(properties)
+4035/3797    0.004    0.000    2.866    0.001 {built-in method builtins.sorted}
+18260/4964    0.030    0.000    2.233    0.000 /home/eariver/.local/lib/python3.14/site-packages/jsonschema/_keywords.py:274(ref)
+        7    0.005    0.001    2.128    0.304 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-env-20261023T185000Z/candidate-work/scripts/survey_versioned_renewal_history_v2.py:2808(_verify_versioned_ancestor)
+       82    0.004    0.000    1.759    0.021 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-env-20261023T185000Z/candidate-work/scripts/survey_versioned_renewal_history_v2.py:1676(_check_observed_binding_row)
+       75    0.002    0.000    1.705    0.023 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-affected-regress-20261025T143000Z/test-source/tests/test_versioned_renewal_history_traversal_opt_20261025.py:136(counting)
+       75    0.002    0.000    1.697    0.023 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-env-20261023T185000Z/candidate-work/scripts/survey_versioned_renewal_history_v2.py:471(_validate_instance_against_schema_blob)
+  673/248    0.008    0.000    1.657    0.007 /home/eariver/.local/lib/python3.14/site-packages/jsonschema/_keywords.py:59(items)
+        7    0.001    0.000    1.629    0.233 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-env-20261023T185000Z/candidate-work/scripts/survey_versioned_renewal_history_v2.py:3301(_derive_versioned_own_bindings)
+       29    0.000    0.000    1.495    0.052 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-env-20261023T185000Z/candidate-work/scripts/survey_schema_v2.py:230(validate_instance)
+       21    0.000    0.000    1.449    0.069 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versio
+[TRAV] r8 unique SCHEMA 73 total bindings 82 _validate 75
+[TRAV] event trace r8 repeat _validate 75 unique SCHEMA 73 (before 1360, graph-node once)
+[TRAV] isolated work preserved: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-r1r8-20261025-2 HEAD 50b03a64627a (never cleaned)
+[TRAV repeat-basis-mutation] refuses: HISTORY_DIGEST_MISMATCH: versioned ancestor renewal_basis_ref SHA drift: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/renewals/high-u3d-weekly/renewal-basis.json (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-repeat-mutation-20261025-2)
+[TRAV late-swap-repeated-edge] refuses fresh SHA: HISTORY_DIGEST_MISMATCH: editorial ancestor staged scope_review_ref SHA drift: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/scope-review-v2.json (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-repeat-mutation-20261025-2)
+[TRAV repaired] control passes chain8 (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-repeat-mutation-20261025-2)
+[TRAV malformed-first] rejects: HISTORY_DIGEST_MISMATCH: editorial ancestor staged scope_review_ref SHA drift: sources/2026-W37/publication/v2/editorial-corrections/wk-boot-1/scope-review-v2.json (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-malformed-first-20261025-2)
+[TRAV malformed-repair] passes chain1 (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-malformed-first-20261025-2)
+[TRAV malformed-direct] structural refuses instance: HISTORY_DIGEST_MISMATCH: trav malformed direct SCHEMA instance instance fails own recorded schema (pointer '' path ''): Additional properties are not allowed ('tampered' was unexpected) (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-malformed-direct-20261025-1)
+[TRAV omission] refuses (late, not digest drift): HISTORY_DIGEST_MISMATCH: versioned ancestor seal/basis ref mismatch (exact path+SHA) (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-omission-20261025-2)
+[TRAV extra] refuses (late, not digest drift): HISTORY_DIGEST_MISMATCH: versioned ancestor basis schema invalid: versioned ancestor basis fails /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-extra-20261025-2/schemas/versioned-renewal-basis-v2.schema.jso (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-extra-20261025-2)
+[TRAV dup-order] refuses (late, not digest drift): HISTORY_DIGEST_MISMATCH: versioned ancestor seal/basis ref mismatch (exact path+SHA) (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-order-20261025-2)
+[TRAV foreign-pointer] refuses (late, not digest drift): HISTORY_DIGEST_MISMATCH: versioned ancestor seal/basis ref mismatch (exact path+SHA) (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-foreign-pointer-20261025-2)
+[TRAV slash-pointer] refuses (late, not digest drift): HISTORY_DIGEST_MISMATCH: versioned ancestor seal/basis ref mismatch (exact path+SHA) (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-slash-20261025-2)
+[TRAV foreign-epoch] refuses (late, not digest drift): HISTORY_DIGEST_MISMATCH: versioned ancestor seal/basis ref mismatch (exact path+SHA) (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-neg-foreign-epoch-20261025-2)
+[TRAV repaired-control] passes chain8 (preserved /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch-authorH/trav-opt-repaired-control-20261025-2)

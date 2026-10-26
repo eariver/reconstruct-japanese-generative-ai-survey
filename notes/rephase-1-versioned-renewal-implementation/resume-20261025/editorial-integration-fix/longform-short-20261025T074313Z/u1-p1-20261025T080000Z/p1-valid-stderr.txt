@@ -1,0 +1,29 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_editorial_correction_proposal_v2.py", line 667, in _derive
+    context = longform_derivation.load_derivation_for_readback(root, state_path, authored)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_longform_derivation_v2.py", line 1238, in load_derivation_for_readback
+    return _derive_authority_context(root, state, state_path, profile, profile_path, cfg, authored_path, issue_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_longform_derivation_v2.py", line 1134, in _derive_authority_context
+    surface = build_longform_reader_input(
+        issue_id, profile, architecture, authored, synthesis_result, ordered, records
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_longform_derivation_v2.py", line 723, in build_longform_reader_input
+    raise ValueError("final issue summary must contain at least three substantive paragraphs")
+ValueError: final issue summary must contain at least three substantive paragraphs
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 11, in <module>
+    res=p1mod.prepare_proposal(root, root/sys.argv[2], root/sys.argv[3], sys.argv[4], sys.argv[5])
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_editorial_correction_proposal_v2.py", line 2450, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_editorial_correction_proposal_v2.py", line 2152, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_editorial_correction_proposal_v2.py", line 1904, in _pipeline_data
+    proposed_context = _derive(col, root, derive_route, state_file, new_authored_abs)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-editorial-fix-short-longform-20261025T074313Z/renewal-longform-short/scripts/survey_editorial_correction_proposal_v2.py", line 671, in _derive
+    raise _fail("DERIVATION_REFUSED", str(exc)) from exc
+scripts.survey_editorial_correction_proposal_v2.ProposalError: DERIVATION_REFUSED: final issue summary must contain at least three substantive paragraphs

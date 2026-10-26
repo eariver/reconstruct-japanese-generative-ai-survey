@@ -1,0 +1,17 @@
+PRE-GUARD State pointer={'path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r5.json', 'sha256': '691fcb6b2a951ac8a94e7a70199835951ec8f0699183ea724c219b4546943ea1'}
+P1 PASS: canonical/R1 refused in VERSIONED_ACTIVE BEFORE writes: canonical operation refused in revised mode (use versioned editorial operation)
+P1 records=['publication-surface-revalidation-r1.json', 'publication-surface-revalidation-r2.json', 'publication-surface-revalidation-r3.json', 'publication-surface-revalidation-r4.json', 'publication-surface-revalidation-r5.json'] (must be r1+r2+r3+r4(inert)+r5, no r6)
+P1 PASS: no writes after R1/canonical refusal (State unchanged, no r6)
+P2 active set sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/publication-set.json (SAME active set ordinary must NOT create new record: ALREADY_ACTIVE readonly or INTENT_COLLISION, per HIGH b124)
+P2 ordinary SAME set returned {'status': 'ALREADY_ACTIVE', 'record_path': 'sources/2026-W37/publication/v2/publication-surface-revalidation-r5.json', 'state_path': 'sources/2026-W37/production-state.json', 'observed': 'new'}
+P2 PASS: ordinary SAME active set ALREADY_ACTIVE readonly (no new record, orphan fix preserved, no regress)
+N1 GOOD basis=sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/renewal-basis.json proof=sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/renewal-source-proof.json receipt=sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/validated-source-manifest.json set=sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/publication-set.json record=sources/2026-W37/publication/v2/publication-surface-revalidation-r5.json
+N1 forged basis written sources/2026-W37/publication/v2/editorial-corrections/wk-anchor-ed3/renewals/high-u3-anchor-fix/forged-basis-neg1.json anchor DRAFT (rehashed, no digest seam)
+N1 forged basis refuse code=HISTORY_ANCESTOR detail=HISTORY_ANCESTOR: basis canonical_anchor must equal prior HIST chain-derived identity (no rolling anchor)
+N1 PASS: forged anchor same-kind DRAFT refused BEFORE State write (no digest-only seam, chain-derived identity enforced)
+N1 PASS: State unchanged after forged refuse (BEFORE write, no INDETERMINATE mutation)
+N2-wrong-latest-legacy-r1 PASS refuse HISTORY_ANCESTOR HISTORY_ANCESTOR: history chain[3] canonical_anchor must equal chain-derived identity (no rolling anchor)
+N3-stale-original-DRAFT PASS refuse HISTORY_ANCESTOR HISTORY_ANCESTOR: history chain[3] canonical_anchor must equal chain-derived identity (no rolling anchor)
+N4-current-VALIDATION-when-legacy PASS refuse HISTORY_ANCESTOR HISTORY_ANCESTOR: history chain[3] canonical_anchor must equal chain-derived identity (no rolling anchor)
+N2/N3/N4 PASS: wrong latest legacy / stale original / current mutations preserved (HIST refuses), GOOD r5 anchor r2 still PASS
+No NoneCandidate/predecessor-enum/metadata-fake patterns in fixed modules (verified)

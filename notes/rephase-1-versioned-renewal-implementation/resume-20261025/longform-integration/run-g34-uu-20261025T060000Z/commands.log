@@ -1,0 +1,199 @@
+LONGFORM G3/G4 start 2026-10-25T05:31:16.106004+00:00 PID=2203047
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform rev-parse HEAD... tag=g34-pre-head -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform add -- scripts/survey_versioned_renewal_history_v2.py... tag=g3-add -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform commit -m LONGFORM TEST-ONLY: G3 eligible H comment (hashed impl only, style unchanged)... tag=g3-commit -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform rev-parse HEAD... tag=g3-head -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform add -- scripts/survey_versioned_renewal_source_v2.py... tag=g4-add -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform commit -m LONGFORM TEST-ONLY: G4 eligible S comment (hashed impl only, style unchanged)... tag=g4-commit -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform rev-parse HEAD... tag=g4-head -> exit=0
+$ git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform log --oneline -5... tag=g4-log -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1])
+state=json.loads((root/"sources/SP001/production-state.json").read_bytes())
+ptr=state.get("publication_revalidation_provenance",{})
+print(f"current State pointer={ptr}")
+rec=json.load(open(root/ptr["path"]))
+print(f"predecessor record {ptr['path']} recorded_at={rec['recorded_at']} kind={rec.get('kind')}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform... tag=u2-pred-inspect -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1]); now=sys.argv[2]
+state=json.loads((root/"sources/SP001/production-state.json").read_bytes())
+ptr=state.get("publication_revalidation_provenance",{})
+rec=json.load(open(root/ptr["path"]))
+print(f"pred {rec['recorded_at']} now {now}")
+assert now >= rec['recorded_at'], f"now {now} < pred {rec['recorded_at']}"
+print("CHRONO_OK")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform 2026-10-25T05:31:17.224144+00:00... tag=u2-chrono -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform prepare --root... tag=u2-prepare -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture import origin"
+import os
+print(f"U_QA child PID={os.getpid()}", flush=True)
+basis = json.loads((root_p / basis_rel).read_bytes())
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+prior_seal = json.loads((root_p / basis["prior_selected_ref"]["path"]).read_bytes())
+roles = prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes = (root_p / trio_primary["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages = len(PdfReader(str(root_p / pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh U LONGFORM G3/G4 (exact current bytes)"
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio_primary["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue_id] + (["Target Model"] if basis["research_profile"] == "THEMATIC" else []),
+        "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio_primary["path"]], "scope": scope}
+assert set(payloads) == set(kinds)
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "LONGFORM G3/G4 fresh U.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/renewal-basis.json sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform... tag=u2-qa -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform finalize --root... tag=u2-finalize -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1]); basis_rel=sys.argv[2]
+basis=json.loads((root/basis_rel).read_bytes())
+print(f"basis prior_selected={basis['prior_selected_ref']}")
+print(f"basis prior_record={basis['prior_record_ref']}")
+# prior_selected should be immediate predecessor (C1 for U2, U2 for U3)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/renewal-basis.json... tag=u2-lineage-inspect -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform activate --root... tag=u2-activate -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform history --root... tag=u2-history -> exit=0
+$ /usr/bin/python3 -c 
+import sys
+sys.path.insert(0, sys.argv[1])
+from pathlib import Path
+root=Path(sys.argv[1]); basis_rel=sys.argv[2]; proof_rel=sys.argv[3]
+from scripts import survey_versioned_renewal_source_v2 as srcmod
+srcmod.verify_renewal_source_proof(str(root), basis_rel, proof_rel)
+print("CURRENT_PROOF_READBACK_OK")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/renewal-basis.json sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u2-longform/renewal-source-proof.json... tag=u2-proof-readback -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1])
+state=json.loads((root/"sources/SP001/production-state.json").read_bytes())
+ptr=state["publication_revalidation_provenance"]
+print(f"post-U2 State pointer={ptr}")
+assert "r4" in ptr["path"], f"expected r4 after U2, got {ptr['path']}"
+# old r3 still exists immutable?
+assert (root/"sources/SP001/publication/v2/publication-surface-revalidation-r3.json").exists()
+print("NO_OLD_STATE_EQUALITY_OK (r4 active, r3 preserved immutable)")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform... tag=u2-state-switch -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1])
+state=json.loads((root/"sources/SP001/production-state.json").read_bytes())
+ptr=state.get("publication_revalidation_provenance",{})
+print(f"current State pointer={ptr}")
+rec=json.load(open(root/ptr["path"]))
+print(f"predecessor record {ptr['path']} recorded_at={rec['recorded_at']} kind={rec.get('kind')}")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform... tag=u3-pred-inspect -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1]); now=sys.argv[2]
+state=json.loads((root/"sources/SP001/production-state.json").read_bytes())
+ptr=state.get("publication_revalidation_provenance",{})
+rec=json.load(open(root/ptr["path"]))
+print(f"pred {rec['recorded_at']} now {now}")
+assert now >= rec['recorded_at'], f"now {now} < pred {rec['recorded_at']}"
+print("CHRONO_OK")
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform 2026-10-25T05:33:56.641796+00:00... tag=u3-chrono -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform prepare --root... tag=u3-prepare -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json
+sys.path.insert(0, sys.argv[1])
+root, basis_rel, r_dir, pdir, now_iso, executor = sys.argv[1:7]
+from pathlib import Path
+root_p = Path(root)
+from scripts import survey_production_v2 as core
+from scripts import survey_quality_v2 as quality
+assert str(Path(core.__file__).resolve()).startswith(str(root_p.resolve())), "fixture import origin"
+import os
+print(f"U_QA child PID={os.getpid()}", flush=True)
+basis = json.loads((root_p / basis_rel).read_bytes())
+cfg = json.loads((root_p / "config/survey-production-v2.json").read_bytes())
+kinds = quality.expected_checks_by_kind(cfg, basis["research_profile"], basis["publication_profile"], {"DETERMINISTIC"})
+prior_seal = json.loads((root_p / basis["prior_selected_ref"]["path"]).read_bytes())
+roles = prior_seal["roles"]
+trio_primary, pdf_role = roles["validated-source"], roles["publication-pdf"]
+main_bytes = (root_p / trio_primary["path"]).read_bytes()
+pdf_bytes = (root_p / pdf_role["path"]).read_bytes()
+from pypdf import PdfReader
+pages = len(PdfReader(str(root_p / pdf_role["path"])).pages)
+issue_id, rid = basis["issue_id"], basis["renewal_id"]
+qroot = root_p / r_dir / "quality"
+qroot.mkdir(parents=True, exist_ok=True)
+scope = f"renewal {rid} fresh U LONGFORM G3/G4 (exact current bytes)"
+payloads = {
+    "SUBJECT_ENTITY_PROPERTY_BINDING": {"check_id": "SUBJECT_ENTITY_PROPERTY_BINDING", "status": "PASS",
+        "trio_sha256": core.sha256_bytes(main_bytes), "trio_path": trio_primary["path"], "scope": scope},
+    "IDENTIFIER_PRESERVATION": {"check_id": "IDENTIFIER_PRESERVATION", "status": "PASS",
+        "source_sha256": core.sha256_bytes(main_bytes),
+        "inspected_identifiers": [issue_id] + (["Target Model"] if basis["research_profile"] == "THEMATIC" else []),
+        "scope": scope},
+    "PDF_PREFLIGHT": {"check_id": "PDF_PREFLIGHT", "status": "PASS", "page_count": pages,
+        "pdf_sha256": core.sha256_bytes(pdf_bytes), "byte_count": len(pdf_bytes), "scope": scope},
+}
+if "EMPTY_WRAPPER_SUPPRESSION" in kinds:
+    payloads["EMPTY_WRAPPER_SUPPRESSION"] = {"check_id": "EMPTY_WRAPPER_SUPPRESSION", "status": "PASS",
+        "inspected_paths": [trio_primary["path"]], "scope": scope}
+assert set(payloads) == set(kinds)
+rows = []
+for cid in sorted(payloads):
+    p = qroot / f"{cid.lower()}.json"
+    p.write_bytes(core.json_bytes(payloads[cid]))
+    rows.append({"check_id": cid, "kind": "DETERMINISTIC", "status": "PASS", "executor": executor,
+                 "evidence": "LONGFORM G3/G4 fresh U.",
+                 "recorded_at": now_iso,
+                 "result": {"path": str(p.relative_to(root_p)), "sha256": core.sha256_file(p)}})
+checks_path = root_p / pdir / f"renewal-qa-checks-{rid}.json"
+checks_path.write_bytes(core.json_bytes({"checks": rows}))
+print(str(checks_path.relative_to(root_p)))
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u3-longform/renewal-basis.json sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u3-longform... tag=u3-qa -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform finalize --root... tag=u3-finalize -> exit=0
+$ /usr/bin/python3 -c 
+import sys, json, pathlib
+sys.path.insert(0, sys.argv[1])
+root=pathlib.Path(sys.argv[1]); basis_rel=sys.argv[2]
+basis=json.loads((root/basis_rel).read_bytes())
+print(f"basis prior_selected={basis['prior_selected_ref']}")
+print(f"basis prior_record={basis['prior_record_ref']}")
+# prior_selected should be immediate predecessor (C1 for U2, U2 for U3)
+ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform sources/SP001/publication/v2/editorial-corrections/lf-boot-1/renewals/high-u3-longform/renewal-basis.json... tag=u3-lineage-inspect -> exit=0
+$ /usr/bin/python3 -c import sys; sys.path.insert(0, sys.argv[1]); from scripts.survey_versioned_renewal_v2 import main; sys.exit(main(sys.argv[2:])) /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-longform-20261025T060000Z/renewal-longform activate --root... tag=u3-activate -> exit=2

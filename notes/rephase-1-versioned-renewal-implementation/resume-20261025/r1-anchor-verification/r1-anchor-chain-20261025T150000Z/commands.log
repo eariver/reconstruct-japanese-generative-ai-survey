@@ -1,0 +1,57 @@
+stamp 20261025T150000Z R1-anchor 721 clone
+run recon-head rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey --no-optional-locks rev-parse HEAD
+run src-head rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r7b-20261023T034500Z/candidate-partial-b40de60 --no-optional-locks rev-parse HEAD
+run src-tree rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r7b-20261023T034500Z/candidate-partial-b40de60 --no-optional-locks rev-parse HEAD^{tree}
+run cp-git rc=0 cmd=cp -a /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r7b-20261023T034500Z/candidate-partial-b40de60/.git /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly/.git
+run dst-git-count rc=0 cmd=bash -c find "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly/.git" -type f | wc -l
+run dst-head rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks rev-parse HEAD
+run dst-gitdir rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks rev-parse --absolute-git-dir
+run dst-remote rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks remote -v
+run populate-721 rc=0 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r7b-20261023T034500Z/candidate-partial-b40de60 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-editorial-operation-implementation/correction-r7/source-manifest-r7b.json
+run dst-count rc=0 cmd=bash -c find "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly" -path "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly/.git" -prune -o -type f -print | wc -l
+run dst-status rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks status --porcelain=v1 --untracked-files=all
+run dst-isolation rc=0 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/jgas-editorial-r7b-20261023T034500Z/candidate-partial-b40de60 /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly
+run dst-noalternates rc=0 cmd=bash -c test ! -e "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly/.git/objects/info/alternates" && echo NOALT
+run dst-config rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks config --list --show-origin
+run dst-env-check rc=0 cmd=bash -c env | grep -E '^GIT_(DIR|WORK_TREE|INDEX_FILE)=' && exit 1 || echo NO_INHERIT
+DONE OK 20261025T150000Z 721 clone
+run validated-build fresh child cwd FIX
+run validated-build rc=0
+run r1x2 fresh child
+run r1x2 rc=1
+run r1x2 fresh child
+run r1x2 rc=0
+run editorial fresh child old721
+run editorial rc=1
+run editorial fresh child old721
+run editorial rc=1
+run editorial fresh child old721
+run editorial rc=1
+run editorial fresh child old721
+run editorial rc=1
+run editorial fresh child old721
+run editorial rc=0
+run overlay 740 OWN source commit preserve E
+run overlay-pin-before rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks rev-parse HEAD
+run overlay-status-before rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks status --porcelain=v1 --untracked-files=all
+run overlay-src-head rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work --no-optional-locks rev-parse HEAD
+run overlay-copy rc=1 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly
+FAIL overlay-copy
+run overlay 740 OWN source commit preserve E
+run overlay-pin-before rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks rev-parse HEAD
+run overlay-status-before rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks status --porcelain=v1 --untracked-files=all
+run overlay-src-head rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work --no-optional-locks rev-parse HEAD
+run overlay-copy rc=0 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly
+run overlay-verify-740 rc=0 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly
+run overlay-add rc=0 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly
+run overlay-status-staged rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks status --porcelain=v1 --untracked-files=all
+run overlay-diff-cached rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks diff --cached --name-only
+run overlay-commit rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks -c user.name=rephase-r1-anchor -c user.email=r1-anchor@example.invalid -c commit.gpgsign=false commit -m TEST-ONLY: overlay 740 SOURCE (archive 740 + P3S fix if needed) before renewal U, E preserved
+run overlay-head-post rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks rev-parse HEAD
+run overlay-status-post rc=0 cmd=git -C /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly --no-optional-locks status --porcelain=v1 --untracked-files=all
+run overlay-lsfiles-subset rc=0 cmd=python3 - /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-archive-input-20261025T133248Z/snapshot-work /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-r1-anchor-20261025T150000Z/anchor-weekly
+DONE overlay 740 OWN commit E preserved
+run renewal U fresh child new740
+run renewal U rc=1
+run r1-refusal fresh child
+run r1-refusal rc=0
