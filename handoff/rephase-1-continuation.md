@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-27 DM022 pre-Architecture contract selection
+
+**契約選択を限定完了、pre-code readinessはOPEN。Human Commit Pointで停止。** [decision§§10–11](../outputs/rephase-1-dm022-prearchitecture-contract-decision.md) SHA256 **a345bb9524b4dfc5b5f32600d0d708687e2b6131d91a43965c97b6418388f223**、[mandatory root resolution/次task§5](../notes/rephase-1-dm022-prearchitecture-contract/astra-review-resolution.md)、[packet/両独立review FINAL-BINDING](../notes/rephase-1-dm022-prearchitecture-contract/README.md)を読む。
+
+選択: EVIDENCE_REVIEWED・Selection/Human Gate未受理の窓で、不変の新Evidence/Views＋versioned Ledger/Completenessとtyped superseding checkpointを完成し、既存Stateのevidence/materiality/completeness参照を同じrecordへ一括切替。forward historyは不変。guard下で旧未受理のcanonical **7slot（audit含む）**を保持・確認後にclearし、通常Selection/Architectureを再生成する。Missing filesだけでは旧入力の再生成を防げないためguard/normal consumersの接続が必須。新Human Gate/偽REQUEST_CHANGES/accepted overwrite/renewal流用は不可。
+
+**次:** Generalの具体schema/report/digest/API/import/closure/guard/HEAD-tree/write/resume map。特にcanonical Ledger/Completeness direct-readerの切替と後続Draft/publicationまでのcheckpoint readback、7slot audit、full affected/unaffected graph＋独立判断、Profile/義務行を閉じる。独立readiness＋Astra確認までcode禁止。DM016/017/必要Profile/代表的品質/audit/Human採用/実測削減は残る。
+
+Source final93/patchf898d33b/availableproofは下記不変。開始HumanHEADd9fffb2、前packetの55 Gitlink/child dirtは保持（[観測とportability限定](../notes/rephase-1-dm022-prearchitecture-contract/source-and-carryover-observation.md)）。今回docs-only、runtime/tests/build/fixture/restore/network/Commitなし。WholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN。通常Commit/PushはHuman-owned。
+
+## Preserved renewal implementation closeout (historical DM022-next entry)
+
 ## Current — 2026-10-26 versioned renewal implementation closeout
 
 **BOUNDED IMPLEMENTATION COMPLETE（qualified composite）、Human Commit Pointで停止。** [assessment/次task§5](../outputs/rephase-1-versioned-renewal-implementation-assessment.md)、[mandatory root closeout](../notes/rephase-1-versioned-renewal-implementation/astra-closeout-resolution.md)、[packet/独立finalレビュー](../notes/rephase-1-versioned-renewal-implementation/README.md)を先に読む。Authority§§14–15、operation FINAL-BINDING条件解消、ledger FINAL-BINDING、FINAL depth packaging、実20-page reader/visualが必須。
