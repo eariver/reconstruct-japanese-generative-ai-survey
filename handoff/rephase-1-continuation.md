@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-28 DM022 pre-code readiness
+
+**PRE_CODE_READY（具体設計map限定）、Human Commit Pointで停止。** [assessment/次実装§5](../outputs/rephase-1-dm022-prearchitecture-precode-assessment.md)、[packet](../notes/rephase-1-dm022-prearchitecture-precode/README.md)、**[mandatory ROOT INCLUDING§5](../notes/rephase-1-dm022-prearchitecture-precode/astra-precode-gate-resolution.md)**（全文SHA256 **0425c5300c9c7211e4468d3b842c4e3af1acb9f5bf1eba00e90f7ba72ef44a5a** /13788B）、[独立readiness §§8–9 FINAL-BINDING](../notes/rephase-1-dm022-prearchitecture-precode/independent-readiness-review.md)を読む。契約a345§11不変、R3詳細をR4＋5schema/R5family/R6role/ROOTで訂正。旧56b668は37行snapshotのみ。
+
+研究PREARCHはpublication activation/supersedesと別型。17siteの役割制限、40consumerのfour-ref/guard接続、7slot audit no-overwrite、LOW passive readiness＋HIGH sole mutation、own-epoch history対CURRENT proofを確定。forward schemaへ新fieldを足さず、later readbackへcreation窓を再適用しない。G71→G76 mechanical compatibilityは同じaccepted authority＋通常renewal全proofを要し、upstream採用許可ではない。
+
+**次（Human continuation後）:** Generalがwhole prepare→external decision→adopt/resume→通常再生成→後続lifecycleを実装・検証し、独立implementation reviewへ。Weekly+Thematic/repeat/unknown State・completion recovery/後続publication・editorial・renewal/affected回帰を含む。必要な追加reader/closure・契約矛盾はAstraへ戻す。B2/B4のpre-code mapのみ閉鎖、実行未証明。
+
+開始HumanHEADab84b4f。Sourcefinal93/patchf898d33b/available proof不変、今回docs-only。55Gitlink/child dirtは前観測を引継ぎ保持、full93/742/inode再認証なし。WholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN、DM016/017・必要Profile/代表的品質/Human採用/実測削減は残る。通常Commit/PushはHuman-owned。
+
+## Preserved DM022 contract selection (pre-code-next is historical)
+
 ## Current — 2026-10-27 DM022 pre-Architecture contract selection
 
 **契約選択を限定完了、pre-code readinessはOPEN。Human Commit Pointで停止。** [decision§§10–11](../outputs/rephase-1-dm022-prearchitecture-contract-decision.md) SHA256 **a345bb9524b4dfc5b5f32600d0d708687e2b6131d91a43965c97b6418388f223**、[mandatory root resolution/次task§5](../notes/rephase-1-dm022-prearchitecture-contract/astra-review-resolution.md)、[packet/両独立review FINAL-BINDING](../notes/rephase-1-dm022-prearchitecture-contract/README.md)を読む。

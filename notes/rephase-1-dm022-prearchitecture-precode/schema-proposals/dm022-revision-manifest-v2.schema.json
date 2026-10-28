@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/dm022-revision-manifest-v2.schema.json",
+  "title": "DM022 revision manifest (immutable prepare inventory, no self digest)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "issue_id", "revision_id", "revision_root", "request", "before_state", "before_checkpoint", "profile_ref", "discovery_ref", "screening_ref", "retention_snapshots", "candidate_outputs", "tool_pins", "work", "recorded_at", "executor"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "revision_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "revision_root": {"$ref": "#/$defs/safePath"},
+    "request": {"$ref": "#/$defs/SizedRef"},
+    "before_state": {"$ref": "#/$defs/SizedRef"},
+    "before_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "materiality", "completeness"],
+      "properties": {
+        "evidence": {"$ref": "#/$defs/ArtifactRef"},
+        "materiality": {"$ref": "#/$defs/ArtifactRef"},
+        "completeness": {"$ref": "#/$defs/ArtifactRef"}
+      }
+    },
+    "profile_ref": {"$ref": "#/$defs/SizedRef"},
+    "discovery_ref": {"$ref": "#/$defs/SizedRef"},
+    "screening_ref": {"$ref": "#/$defs/SizedRef"},
+    "retention_snapshots": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "items": {"$ref": "#/$defs/retentionRow"}
+    },
+    "candidate_outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["package", "tasks", "cards", "views", "evidence_acceptance", "views_acceptance", "ledger", "completeness", "supplement_manifest"],
+      "properties": {
+        "package": {"$ref": "#/$defs/SizedRef"},
+        "tasks": {"type": "array", "items": {"$ref": "#/$defs/SizedRef"}},
+        "cards": {"type": "array", "items": {"$ref": "#/$defs/SizedRef"}},
+        "views": {"type": "array", "items": {"$ref": "#/$defs/SizedRef"}},
+        "evidence_acceptance": {"$ref": "#/$defs/SizedRef"},
+        "views_acceptance": {"$ref": "#/$defs/SizedRef"},
+        "ledger": {"$ref": "#/$defs/SizedRef"},
+        "completeness": {"$ref": "#/$defs/SizedRef"},
+        "supplement_manifest": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/SizedRef"}]}
+      }
+    },
+    "tool_pins": {"$ref": "#/$defs/toolPins"},
+    "work": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["expected_head", "expected_tree"],
+      "properties": {
+        "expected_head": {"$ref": "#/$defs/gitsha"},
+        "expected_tree": {"$ref": "#/$defs/gitsha"}
+      }
+    },
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "executor": {"type": "string", "minLength": 1}
+  },
+  "allOf": [
+    {
+      "properties": {
+        "retention_snapshots": {
+          "allOf": [
+            {"contains": {"type": "object", "properties": {"slot": {"const": "candidate-matrix-v2.json"}}, "required": ["slot"]}},
+            {"contains": {"type": "object", "properties": {"slot": {"const": "candidate-selection-v2.json"}}, "required": ["slot"]}},
+            {"contains": {"type": "object", "properties": {"slot": {"const": "architecture-v2.json"}}, "required": ["slot"]}},
+            {"contains": {"type": "object", "properties": {"slot": {"const": "architecture-review-summary-v2.json"}}, "required": ["slot"]}},
+            {"contains": {"type": "object", "properties": {"slot": {"const": "architecture-review-attention-v2.json"}}, "required": ["slot"]}},
+            {"contains": {"type": "object", "properties": {"slot": {"const": "orchestration/v2/interactive/selection-architecture-input.json"}}, "required": ["slot"]}},
+            {"contains": {"type": "object", "properties": {"slot": {"const": "orchestration/v2/interactive/selection-architecture-audit.json"}}, "required": ["slot"]}}
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitsha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "safePath": {"type": "string", "pattern": "^(?![/\\\\])(?!.*\\.\\.)[^\\\\]+$"},
+    "ArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/safePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "SizedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_count"],
+      "properties": {
+        "path": {"$ref": "#/$defs/safePath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "NamedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "path": {"$ref": "#/$defs/safePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "retentionRow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot", "source_rel", "copy_rel", "present", "source_sha256", "copy_sha256", "byte_count", "source_dev", "source_ino", "copy_dev", "copy_ino", "accepted_bound", "gate_bound"],
+      "properties": {
+        "slot": {"enum": ["candidate-matrix-v2.json", "candidate-selection-v2.json", "architecture-v2.json", "architecture-review-summary-v2.json", "architecture-review-attention-v2.json", "orchestration/v2/interactive/selection-architecture-input.json", "orchestration/v2/interactive/selection-architecture-audit.json"]},
+        "source_rel": {"$ref": "#/$defs/safePath"},
+        "copy_rel": {"$ref": "#/$defs/safePath"},
+        "present": {"type": "boolean"},
+        "source_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "copy_sha256": {"oneOf": [{"$ref": "#/$defs/sha256"}, {"type": "null"}]},
+        "byte_count": {"oneOf": [{"type": "integer", "minimum": 1}, {"type": "null"}]},
+        "source_dev": {"oneOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
+        "source_ino": {"oneOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
+        "copy_dev": {"oneOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
+        "copy_ino": {"oneOf": [{"type": "integer", "minimum": 0}, {"type": "null"}]},
+        "accepted_bound": {"type": "boolean"},
+        "gate_bound": {"type": "boolean"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"present": {"const": true}}, "required": ["present"]},
+          "then": {"required": ["slot", "source_rel", "copy_rel", "present", "source_sha256", "copy_sha256", "byte_count", "accepted_bound", "gate_bound"]}
+        },
+        {
+          "if": {"properties": {"present": {"const": false}}, "required": ["present"]},
+          "then": {"properties": {"source_sha256": {"type": "null"}, "copy_sha256": {"type": "null"}, "byte_count": {"type": "null"}}}
+        }
+      ]
+    },
+    "contract8": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pipeline_contract_version", "pipeline_contract_sha256", "quality_contract_version", "quality_contract_sha256", "research_profile_version", "research_profile_sha256", "publication_profile_version", "publication_profile_sha256"],
+      "properties": {
+        "pipeline_contract_version": {"type": "string", "minLength": 1},
+        "pipeline_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "quality_contract_version": {"type": "string", "minLength": 1},
+        "quality_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "research_profile_version": {"type": "string", "minLength": 1},
+        "research_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "publication_profile_version": {"type": "string", "minLength": 1},
+        "publication_profile_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "toolPins": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_commit_sha", "orchestrator_version", "contract", "tool_shas"],
+      "properties": {
+        "repository_commit_sha": {"$ref": "#/$defs/gitsha"},
+        "orchestrator_version": {"type": "string", "minLength": 1},
+        "contract": {"$ref": "#/$defs/contract8"},
+        "tool_shas": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["path", "sha256"],
+            "properties": {
+              "path": {"$ref": "#/$defs/safePath"},
+              "sha256": {"$ref": "#/$defs/sha256"}
+            }
+          }
+        }
+      }
+    }
+  }
+}

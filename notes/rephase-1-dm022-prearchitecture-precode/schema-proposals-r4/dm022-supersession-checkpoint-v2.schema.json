@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/schemas/dm022-supersession-checkpoint-v2.schema.json",
+  "title": "DM022 supersession checkpoint (standalone new, old stage-checkpoint unchanged)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "kind", "reason", "issue_id", "operation", "producer_boundary", "checkpoints", "artifacts", "before_state", "before_checkpoint", "parent_checkpoint", "original_anchor", "supersedes", "revision_id", "revision_root", "request", "retention_plan", "proof", "decision", "report", "contract", "implementation", "profile", "executor", "recorded_at", "reviews", "summary", "supersession_checkpoint_sha256"],
+  "properties": {
+    "schema_version": {"const": "2.0-rc1"},
+    "kind": {"const": "PREARCHITECTURE_ACCEPTANCE_SUPERSESSION_V1"},
+    "reason": {"const": "REVIEWED_ACCEPTED_UPSTREAM_CORRECTION"},
+    "issue_id": {"type": "string", "minLength": 1},
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from_state", "to_state"],
+      "properties": {
+        "from_state": {"const": "EVIDENCE_REVIEWED"},
+        "to_state": {"const": "EVIDENCE_REVIEWED"}
+      }
+    },
+    "producer_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["from_state", "to_state"],
+      "properties": {
+        "from_state": {"const": "CANDIDATES_NORMALIZED"},
+        "to_state": {"const": "EVIDENCE_REVIEWED"}
+      }
+    },
+    "checkpoints": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "uniqueItems": true,
+      "items": {"enum": ["evidence", "materiality", "completeness"]}
+    },
+    "artifacts": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {"$ref": "#/$defs/NamedRef"}
+    },
+    "before_state": {"$ref": "#/$defs/SizedRef"},
+    "before_checkpoint": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evidence", "materiality", "completeness"],
+      "properties": {
+        "evidence": {"$ref": "#/$defs/ArtifactRef"},
+        "materiality": {"$ref": "#/$defs/ArtifactRef"},
+        "completeness": {"$ref": "#/$defs/ArtifactRef"}
+      }
+    },
+    "parent_checkpoint": {"$ref": "#/$defs/ArtifactRef"},
+    "original_anchor": {"$ref": "#/$defs/ArtifactRef"},
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "revision_id"],
+        "properties": {
+          "path": {"$ref": "#/$defs/safePath"},
+          "sha256": {"$ref": "#/$defs/sha256"},
+          "revision_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"}
+        }
+      }
+    },
+    "revision_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,63}$"},
+    "revision_root": {"$ref": "#/$defs/safePath"},
+    "request": {"$ref": "#/$defs/SizedRef"},
+    "retention_plan": {"$ref": "#/$defs/SizedRef"},
+    "proof": {"$ref": "#/$defs/SizedRef"},
+    "decision": {"$ref": "#/$defs/SizedRef"},
+    "report": {"$ref": "#/$defs/SizedRef"},
+    "contract": {"$ref": "#/$defs/contract8"},
+    "implementation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository_commit_sha", "orchestrator_version"],
+      "properties": {
+        "repository_commit_sha": {"$ref": "#/$defs/gitsha"},
+        "orchestrator_version": {"type": "string", "minLength": 1}
+      }
+    },
+    "profile": {"$ref": "#/$defs/ArtifactRef"},
+    "executor": {"type": "string", "minLength": 1},
+    "recorded_at": {"type": "string", "format": "date-time"},
+    "reviews": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["check_id", "kind", "status", "executor", "evidence", "result"],
+        "properties": {
+          "check_id": {"const": "DM022_SUPERSESSION_PROOF"},
+          "kind": {"const": "DETERMINISTIC"},
+          "status": {"const": "PASS"},
+          "executor": {"type": "string", "minLength": 1},
+          "evidence": {"type": "string", "minLength": 1},
+          "result": {"$ref": "#/$defs/SizedRef"}
+        }
+      }
+    },
+    "summary": {"type": "string", "minLength": 1},
+    "supersession_checkpoint_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "allOf": [
+    {
+      "properties": {
+        "artifacts": {
+          "allOf": [
+            {"contains": {"type": "object", "properties": {"name": {"const": "evidence-acceptance"}}, "required": ["name"]}},
+            {"contains": {"type": "object", "properties": {"name": {"const": "edition-views-acceptance"}}, "required": ["name"]}},
+            {"contains": {"type": "object", "properties": {"name": {"const": "materiality-ledger"}}, "required": ["name"]}},
+            {"contains": {"type": "object", "properties": {"name": {"const": "profile-completeness"}}, "required": ["name"]}}
+          ]
+        }
+      }
+    },
+    {
+      "if": {"properties": {"supersedes": {"minItems": 1}}},
+      "then": {"properties": {"parent_checkpoint": {"type": "object"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "gitsha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "safePath": {"type": "string", "pattern": "^(?![/\\\\])(?!.*\\.\\.)[^\\\\]+$"},
+    "ArtifactRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"$ref": "#/$defs/safePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "SizedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "byte_count"],
+      "properties": {
+        "path": {"$ref": "#/$defs/safePath"},
+        "sha256": {"$ref": "#/$defs/sha256"},
+        "byte_count": {"type": "integer", "minimum": 1}
+      }
+    },
+    "NamedRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path", "sha256"],
+      "properties": {
+        "name": {"enum": ["evidence-acceptance", "edition-views-acceptance", "materiality-ledger", "profile-completeness"]},
+        "path": {"$ref": "#/$defs/safePath"},
+        "sha256": {"$ref": "#/$defs/sha256"}
+      }
+    },
+    "contract8": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pipeline_contract_version", "pipeline_contract_sha256", "quality_contract_version", "quality_contract_sha256", "research_profile_version", "research_profile_sha256", "publication_profile_version", "publication_profile_sha256"],
+      "properties": {
+        "pipeline_contract_version": {"type": "string", "minLength": 1},
+        "pipeline_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "quality_contract_version": {"type": "string", "minLength": 1},
+        "quality_contract_sha256": {"$ref": "#/$defs/sha256"},
+        "research_profile_version": {"type": "string", "minLength": 1},
+        "research_profile_sha256": {"$ref": "#/$defs/sha256"},
+        "publication_profile_version": {"type": "string", "minLength": 1},
+        "publication_profile_sha256": {"$ref": "#/$defs/sha256"}
+      }
+    }
+  }
+}

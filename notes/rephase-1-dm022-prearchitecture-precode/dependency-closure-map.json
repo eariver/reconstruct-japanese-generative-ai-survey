@@ -1,0 +1,206 @@
+{
+  "basis": {
+    "contract_decision": "outputs/rephase-1-dm022-prearchitecture-contract-decision.md",
+    "contract_sha256": "a345bb9524b4dfc5b5f32600d0d708687e2b6131d91a43965c97b6418388f223",
+    "contract_bytes": 31351,
+    "root_resolution": "notes/rephase-1-dm022-prearchitecture-contract/astra-review-resolution.md §5",
+    "siblings_r2": [
+      "notes/rephase-1-dm022-prearchitecture-precode/authority-consumer-map-r2.md",
+      "notes/rephase-1-dm022-prearchitecture-precode/schemas-generation-dag-r2.md",
+      "notes/rephase-1-dm022-prearchitecture-precode/guard-resume-oracles-r2.md"
+    ],
+    "preserved_r1": ["authority-consumer-map.md", "inventory.json", "schemas-generation-dag.md/json", "guard-resume-oracles.md/json"],
+    "proof_copy": ".rephase-1-editorial-runtime/versioned-renewal-packaging-final-depth-20261025T205432Z/proof-copy/candidate-partial-b40de60",
+    "proof_identity": "actual409b292/tree8ce36998 +93paths40M53A/742",
+    "method": "Read/Grep + ast parse as DATA only; no project imports executed; no runtime/import/tests/build/fixture/restore/network/Git mutation",
+    "human_ab84b4": "assumed per task; 55 bare Gitlinks preserved untouched",
+    "availability_scope_honest": {
+      "checked_5_of_5": [
+        "scripts/survey_versioned_renewal_v2.py 3dbdedb8b44b366b129cc351b25a8bb898a62ad23e424d27e46c3df85a6a3a6d0b",
+        "scripts/survey_versioned_renewal_history_v2.py 74275d22a342014009d5d090fbe9c552981e9025c298065d2ba6929d1f3d",
+        "scripts/survey_versioned_renewal_source_v2.py 2290ddd0dc8397f86451aff70d50fd4da0c6184f2eb96259442af2d1eb",
+        "scripts/survey_agent_control_v2.py a32072e7b4f239417bfd855850bdc4b8d700f29805afa9e0d502969f06a2b9",
+        "scripts/survey_evidence_v2.py a57bce69f9a295273fff6059cfd66da170f80987815816b8523a24a3a34fce6f"
+      ],
+      "not_recercertified": "full93/742 rehash NOT performed this unit; missing26309/bulk31466/runtimeTeX/5 whitespace diagnostics retained per source-and-carryover §8",
+      "carryover": "55 bare Gitlinks mode160000 without .gitmodules preserved; no cleanup/stage/commit"
+    }
+  },
+  "literal_names_confirmation": {
+    "LOW": "scripts/survey_research_authority_v2.py",
+    "HIGH": "scripts/survey_prearchitecture_acceptance_v2.py",
+    "OWNER_A": "scripts/survey_agent_control_v2.py (existing; new-kind branch inside, no new file)",
+    "confirmed_in": "authority-consumer-map-r2.md §§1-2/15 + guard-resume-oracles-r2.md §0 + schemas-generation-dag-r2.md §§5/7/13",
+    "new_schemas_required_5": [
+      "schemas/dm022-revision-request-v2.schema.json",
+      "schemas/dm022-revision-manifest-v2.schema.json",
+      "schemas/dm022-revision-proof-v2.schema.json",
+      "schemas/dm022-preadoption-report-v2.schema.json",
+      "schemas/dm022-supersession-checkpoint-v2.schema.json"
+    ],
+    "new_schemas_optional_1": ["schemas/dm022-completion-receipt-v2.schema.json"],
+    "guard_path_fixed": "<source_root>/orchestration/v2/acceptance-revision.guard.json",
+    "guard_collision": "zero hits for acceptance-revision.guard / acceptance-revisions in final93",
+    "revision_id_syntax": "[a-z0-9][a-z0-9-]{0,63}",
+    "R_layout": "<source_root>/research/v2/acceptance-revisions/<rev>/ + 18 fixed children per guard-resume-oracles-r2.json"
+  },
+  "disagreements_flagged": [
+    {
+      "id": "D1-count-4-vs-5plus1",
+      "prompt_says": "4 new request/proof/checkpoint/report schemas",
+      "r2_binds": "5 required (request/manifest/proof/preadoption-report/checkpoint) + 1 optional POST receipt; manifest FILE SHA is M identity (no embedded self) per schemas-generation-dag-r2.md §§9.4-9.8",
+      "disposition": "prompt 4-count omits manifest and optional receipt; binding is 5+1; omitting manifest recreates Finding-4 future-ref cycle"
+    },
+    {
+      "id": "D2-embedded-guard-defs",
+      "prompt_says": "4 schemas with embedded guard/retention/completion defs planned",
+      "r2_binds": "guard/retention/completion owned by C; R2 carries only SizedRef + phase/path strings, no duplicated defs (schemas-generation-dag-r2.md §§9.8/15, guard-resume-oracles-r2.md §§1/7)",
+      "disposition": "embedding duplicates diverging schema; refused; coordination via SizedRef + C helper interface only"
+    },
+    {
+      "id": "D3-budget-2plus4-vs-2plus5plus1",
+      "prompt_says": "new2/4",
+      "r2_binds": "2 modules + 5 required + 1 optional; no arbitrary 7-file budget",
+      "disposition": "if real new component needs more, root decides; author does not impose budget"
+    },
+    {
+      "id": "D4-inventory-28-vs-29",
+      "r1": "inventory.json 28 rows",
+      "r2": "inventory-r2.json 29 rows (adds _validate_core_stage_report lifecycle branch row + splits screening/prior rows; see §§2-3)",
+      "disposition": "R2 count is binding for closure; R1 preserved as history"
+    }
+  ],
+  "stage_checkpoint_loader_decision": {
+    "choice": "STANDALONE_NEW_STRICT_CHECKPOINT_SCHEMA_WITH_SHARED_KIND_DISPATCH",
+    "old_schema": "schemas/stage-checkpoint-v2.schema.json UNCHANGED (byte-identical; required from_state/to_state + per-from_state artifact branches + CORE_STAGE_CONTRACT review row retained)",
+    "new_schema": "schemas/dm022-supersession-checkpoint-v2.schema.json (R2 §9.7 literal; kind/reason/operation/producer_boundary/checkpoints/artifacts/refs/contract/implementation/profile/SELF-excluded digest; reviews sole DM022_SUPERSESSION_PROOF deterministic)",
+    "rejected": "oneOf legacy+new inside old file with local refs",
+    "why_blind_ifkind_fails": "old requires top-level from_state/to_state; new record carries operation{EVIDENCE_REVIEWED->EVIDENCE_REVIEWED}+producer_boundary{CANDIDATES_NORMALIZED->EVIDENCE_REVIEWED} only. Forcing old from/to either forges CANDIDATES_NORMALIZED execution (decision §5 forbids) or asserts EVIDENCE->EVIDENCE which matches no stage_plan producer (_producer_for_checkpoint:348 returns NONE) and fails _validate_core_stage_report:403-408 lifecycle match. Adding if-kind without relaxing required from/to still fails additionalProperties:false + required; relaxing weakens all old authority.",
+    "root_preference_condition": "all readers can call shared loader (pure file loader, no State) — HOLDS (every direct site has repo_root+path; validators call after facade State validation)",
+    "shared_loader": "LOW.load_typed_checkpoint_record(repo_root, path) -> {family: LEGACY|PREARCH, record}: strict duplicate-key parse -> if kind absent validate old schema; elif kind==PREARCHITECTURE_ACCEPTANCE_SUPERSESSION_V1 validate new schema; else refuse unknown. No caller flags, no verified dicts, no .get(kind,legacy) fallback, no raw kind mutation.",
+    "old_unchanged_proof": "no edit to stage-checkpoint-v2.schema.json bytes; new file is additive"
+  },
+  "stage_schema_direct_sites_must_migrate_to_shared_loader": [
+    "scripts/survey_agent_control_v2.py:42 CHECKPOINT_SCHEMA const",
+    "scripts/survey_agent_control_v2.py:489 _validate_checkpoint_record schema load",
+    "scripts/survey_agent_control_v2.py:819 _resolve_checkpoint_artifact second load",
+    "scripts/survey_agent_control_v2.py:1011 pending validation checkpoint load",
+    "scripts/survey_agent_control_v2.py:1532 revalidation prior load",
+    "scripts/survey_agent_control_v2.py:1758 validate_instance Agent Stage Checkpoint",
+    "scripts/survey_agent_control_v2.py:1774 load_and_validate Agent Stage Checkpoint",
+    "scripts/survey_agent_control_v2.py:1971 revalidation basis checkpoint",
+    "scripts/survey_agent_control_v2.py:2397 revalidation prior Stage Checkpoint",
+    "scripts/survey_publication_set_v2.py:56 CHECKPOINT_SCHEMA const",
+    "scripts/survey_publication_set_v2.py:1213 derive anchor prior",
+    "scripts/survey_publication_set_v2.py:1627 before-digest prior",
+    "scripts/survey_publication_set_v2.py:1981 selection prior",
+    "scripts/survey_editorial_correction_proposal_v2.py:557 record load via agent.CHECKPOINT_SCHEMA",
+    "scripts/survey_release_checkpoint_v2.py:121 validate_instance Release Stage Checkpoint",
+    "scripts/survey_stage_validation_v2.py:288 prior Stage Checkpoint load",
+    "scripts/survey_weekly_mechanical_refresh_v2.py:931 refresh validation checkpoint"
+  ],
+  "validator_branches_required": [
+    "scripts/survey_agent_control_v2.py:348 _producer_for_checkpoint must NOT be called for PREARCH (returns NONE); branch before producer lookup",
+    "scripts/survey_agent_control_v2.py:365 _validate_core_stage_report bypass CORE_STAGE_CONTRACT lifecycle match only inside new-kind branch; replace with DM022_SUPERSESSION_PROOF + SELF + artifact re-hash verification",
+    "scripts/survey_agent_control_v2.py:481 _validate_checkpoint_record ADD PREARCH branch (kind/reason/operation/producer_boundary/checkpoints/artifacts/lineage/SELF + new proof review; validation-projection 868-891 untouched; unknown kind refuse)",
+    "scripts/survey_agent_control_v2.py:761 _resolve_checkpoint_artifact ADD PREARCH dispatch (EVIDENCE->EVIDENCE + producer_boundary + 4-name set + SELF/proof binding)",
+    "scripts/survey_agent_control_v2.py:902 resolve_active_evidence_views KEEP legacy + ADD R4 LOW.resolve_research_authority 4-ref same-record",
+    "scripts/survey_agent_control_v2.py:1608 canonical_checkpoint_path exempt only inside new-kind branch (existing strict path retained for legacy)",
+    "scripts/survey_agent_control_v2.py:1703 build_stage_checkpoint UNTOUCHED (new PREARCH builder separate)",
+    "scripts/survey_agent_control_v2.py:1768 advance_with_checkpoint REFUSE PREARCH same-State (producer NONE); adoption is HIGH single-file switch only"
+  ],
+  "import_sets_top_level_proofcopy": {
+    "survey_evidence_v2.py": ["core", "schema_gate", "screening"],
+    "survey_screening_v2.py": ["core"],
+    "survey_completeness_v2.py": ["evidence", "core", "screening"],
+    "survey_discovery_v2.py": ["core", "schema_gate", "x_intake"],
+    "survey_agent_control_v2.py": ["drafting", "core", "publication", "pubset", "quality", "reader_publication", "surface_gate", "review_attention", "schema_gate"],
+    "survey_agent_tool_v2.py": ["agent_control", "evidence", "core", "screening"],
+    "survey_production_v2.py": ["weekly_pipeline", "pubset"],
+    "survey_publication_set_v2.py": ["core", "schema_gate"],
+    "note": "stdlib/future/typing omitted; full lists verified via ast top-import parse"
+  },
+  "import_sets_function_local_proofcopy": {
+    "survey_screening_v2.py:465": "from scripts import survey_agent_control_v2 as agent (inside resolve_active_screening_acceptance)",
+    "survey_screening_v2.py:480": "from scripts import survey_agent_tool_v2 as runtime_tool (inside same func, current_stage_basis_override)",
+    "survey_evidence_v2.py:1366/1743": "from scripts import survey_screening_v2 as screening_mod (inside _validate_screening_acceptance_content / _validate_materiality_ledger_content)",
+    "survey_agent_control_v2.py:2911": "from scripts import survey_weekly_mechanical_refresh_v2 (inside main only)",
+    "correction": "Evidence(top)->Screening(top)->Core ONLY at top level; agent imports are function-local at runtime. Do NOT misstate whole import chain as top-level cycle. Per-function leaf holds: LOW leaf funcs avoid verify_state_basis/repository_commit_sha/resolve_* (R2 §10 DATA); module-level NOT leaf."
+  },
+  "import_dag_selected": {
+    "LOW_top": ["core (path/SHA/JSON/shape ONLY: repo_local_path, sha256_file/object/bytes, json_bytes, load_json, parse_instant, iso_utc; NEVER verify_state_basis/transition_state/repository_commit_sha)", "schema_gate"],
+    "HIGH_top": ["core", "schema_gate", "LOW"],
+    "function_local_only": ["evidence/screening/completeness/discovery/agent/agent_tool (pure _content cores in LOW; validate_agent_state / repository_commit_sha in HIGH eligibility only)"],
+    "forbidden": ["LOW->agent", "LOW->HIGH", "agent->HIGH (top)", "LOW->guard coordinator (LOW never reads guard; HIGH checks guard)"],
+    "direction": "LOW <- OwnerA(agent) <- HIGH direct + LOW <- HIGH direct; no reverse top imports"
+  },
+  "closures_old_exact": {
+    "p3s_per_route_63": "shared_py35 + schema22 + route3 + staged1 + style1 + recipe1 = 63; union 66 = 63 + other route3",
+    "p3s_shared_py35": ["scripts/render_article_draft_tex.py", "scripts/survey_agent_control_v2.py", "scripts/survey_agent_tool_v2.py", "scripts/survey_architecture_v2.py", "scripts/survey_architecture_v2_base.py", "scripts/survey_bibliography_access_provenance_v2.py", "scripts/survey_completeness_v2.py", "scripts/survey_discovery_v2.py", "scripts/survey_drafting_citation_refs_v2.py", "scripts/survey_drafting_v2.py", "scripts/survey_drafting_v2_base.py", "scripts/survey_editorial_correction_proposal_v2.py", "scripts/survey_editorial_current_authority_v2.py", "scripts/survey_editorial_publication_v2.py", "scripts/survey_editorial_retention_v2.py", "scripts/survey_evidence_v2.py", "scripts/survey_longform_derivation_v2.py", "scripts/survey_longform_generated_v2.py", "scripts/survey_production_v2.py", "scripts/survey_publication_set_v2.py", "scripts/survey_publication_v2.py", "scripts/survey_quality_v2.py", "scripts/survey_reader_fidelity_v2.py", "scripts/survey_reader_publication_v2.py", "scripts/survey_reader_surface_gate_v2.py", "scripts/survey_review_attention_v2.py", "scripts/survey_schema_v2.py", "scripts/survey_screening_v2.py", "scripts/survey_versioned_renewal_history_v2.py", "scripts/survey_versioned_renewal_source_v2.py", "scripts/survey_versioned_renewal_v2.py", "scripts/survey_weekly_derivation_v2.py", "scripts/survey_x_intake_v2.py", "scripts/validate_article_draft.py", "scripts/weekly_pipeline.py"],
+    "p3s_schema22": ["schemas/discovery-acceptance-v2.schema.json", "schemas/editorial-correction-proposal-v2.schema.json", "schemas/editorial-manuscript-spec-v2.schema.json", "schemas/editorial-publication-build-record-v2.schema.json", "schemas/editorial-publication-set-v2.schema.json", "schemas/editorial-publication-source-manifest-v2.schema.json", "schemas/editorial-retention-manifest-v2.schema.json", "schemas/editorial-staged-source-manifest-v2.schema.json", "schemas/editorial-toolchain-spec-v2.schema.json", "schemas/publication-candidate-v2.schema.json", "schemas/publication-surface-revalidation.schema.json", "schemas/quality-regression-bundle-v2.schema.json", "schemas/reader-manuscript-v2.schema.json", "schemas/reader-surface-gate-v2.schema.json", "schemas/reader-surface-semantic-review-v2.schema.json", "schemas/screening-v2-batch-result.schema.json", "schemas/screening-v2-run-package.schema.json", "schemas/survey-discovery-record.schema.json", "schemas/versioned-renewal-basis-v2.schema.json", "schemas/versioned-renewal-source-proof-v2.schema.json", "schemas/versioned-renewal-source-manifest-v2.schema.json", "schemas/versioned-renewal-publication-set-v2.schema.json"],
+    "p3s_route3_weekly": ["schemas/reader-surface-input-v2.schema.json", "schemas/weekly-publication-source-manifest-v2.schema.json", "scripts/survey_weekly_semantic_publication_v2.py"],
+    "p3s_route3_longform": ["schemas/longform-reader-input-v2.schema.json", "schemas/longform-publication-source-manifest-v2.schema.json", "scripts/survey_longform_semantic_publication_v2.py"],
+    "p3s_staged1": ["scripts/survey_editorial_staged_source_v2.py"],
+    "p3s_style1": ["templates/survey/jgaisurvey.sty"],
+    "p3s_recipe1": [".latexmkrc"],
+    "weekly29_CURRENT_CLOSURE": ["scripts/survey_weekly_derivation_v2.py", "scripts/survey_weekly_semantic_publication_v2.py", "scripts/survey_drafting_citation_refs_v2.py", "scripts/survey_bibliography_access_provenance_v2.py", "scripts/render_article_draft_tex.py", "schemas/reader-surface-input-v2.schema.json", "schemas/weekly-publication-source-manifest-v2.schema.json", "templates/survey/jgaisurvey.sty", "scripts/survey_publication_set_v2.py", "scripts/survey_editorial_publication_v2.py", "scripts/survey_editorial_current_authority_v2.py", "schemas/editorial-publication-source-manifest-v2.schema.json", "schemas/editorial-publication-set-v2.schema.json", "schemas/editorial-publication-build-record-v2.schema.json", "schemas/editorial-manuscript-spec-v2.schema.json", "schemas/editorial-toolchain-spec-v2.schema.json", "schemas/reader-manuscript-v2.schema.json", "schemas/reader-surface-gate-v2.schema.json", "schemas/publication-surface-revalidation.schema.json", "schemas/quality-regression-bundle-v2.schema.json", "schemas/publication-candidate-v2.schema.json", ".latexmkrc", "scripts/survey_versioned_renewal_history_v2.py", "scripts/survey_versioned_renewal_source_v2.py", "scripts/survey_versioned_renewal_v2.py", "schemas/versioned-renewal-basis-v2.schema.json", "schemas/versioned-renewal-source-proof-v2.schema.json", "schemas/versioned-renewal-source-manifest-v2.schema.json", "schemas/versioned-renewal-publication-set-v2.schema.json"],
+    "longform34_CURRENT_CLOSURE": ["scripts/survey_longform_generated_v2.py", "scripts/survey_longform_semantic_publication_v2.py", "scripts/survey_longform_derivation_v2.py", "scripts/survey_drafting_citation_refs_v2.py", "scripts/survey_bibliography_access_provenance_v2.py", "scripts/render_article_draft_tex.py", "schemas/longform-reader-input-v2.schema.json", "schemas/longform-publication-source-manifest-v2.schema.json", "schemas/reader-surface-semantic-review-v2.schema.json", "schemas/reader-surface-gate-v2.schema.json", "scripts/survey_reader_surface_gate_v2.py", "scripts/survey_production_v2.py", "scripts/survey_schema_v2.py", "templates/survey/jgaisurvey.sty", "scripts/survey_publication_set_v2.py", "scripts/survey_editorial_publication_v2.py", "scripts/survey_editorial_current_authority_v2.py", "schemas/editorial-publication-source-manifest-v2.schema.json", "schemas/editorial-publication-set-v2.schema.json", "schemas/editorial-publication-build-record-v2.schema.json", "schemas/editorial-manuscript-spec-v2.schema.json", "schemas/editorial-toolchain-spec-v2.schema.json", "schemas/reader-manuscript-v2.schema.json", "schemas/publication-surface-revalidation.schema.json", "schemas/quality-regression-bundle-v2.schema.json", "schemas/publication-candidate-v2.schema.json", ".latexmkrc", "scripts/survey_versioned_renewal_history_v2.py", "scripts/survey_versioned_renewal_source_v2.py", "scripts/survey_versioned_renewal_v2.py", "schemas/versioned-renewal-basis-v2.schema.json", "schemas/versioned-renewal-source-proof-v2.schema.json", "schemas/versioned-renewal-source-manifest-v2.schema.json", "schemas/versioned-renewal-publication-set-v2.schema.json"],
+    "pipeline71": "verified final93 config/survey-production-v2.json contract_files.pipeline len 71 (67 base + 4 versioned-renewal new); full ordered list in source; ends with stage-checkpoint/review-finding/repair-set + 4 versioned-renewal schemas",
+    "implicit3": ["config/survey-production-v2.json", "schemas/survey-production-profile.schema.json", "schemas/survey-production-state.schema.json"],
+    "quality3": ["docs/survey-production-core-v2-historical-invariants.md", "docs/survey-production-core-v2-historical-production-deep-audit.md", "docs/survey-production-core-v2-issue-prevention-checklist.md"],
+    "control_roots": ["config", "schemas", "scripts", ".github/workflows"]
+  },
+  "closures_successor_proposed": {
+    "rule": "list full membership; never report count+6 without transitive consumer analysis incl guard/complete readback",
+    "p3s_replay_inputs": "UNCHANGED 63/66 file membership for replay inputs (DM022 adds no staged-source replay inputs; walkers gain PREARCH lineage recognition as code branch, not new replay files)",
+    "p3s_code_recognition": "ADD 2 modules (LOW+HIGH) as recognized lineage validators + 5 required schemas as historical SOURCE refs for history/retention walkers (verify_versioned_history, load_renewal_accepted_authority, publication_set groups must accept PREARCH for evidence/materiality/completeness group; Freeze/Release via State-bound selection)",
+    "weekly29_successor": "file membership UNCHANGED 29 for rendering; derivation logic ADDS LOW R4 resolver branch + guard/completion predicate (code_deps, not closure file expansion)",
+    "longform34_successor": "file membership UNCHANGED 34 for rendering; same code-branch addition as Weekly",
+    "pipeline_successor": "71 + 5 required = 76 (77 iff root registers optional completion-receipt); control_roots UNCHANGED; registration is root decision, not author budget",
+    "implicit_quality_successor": "implicit3 UNCHANGED; quality3 UNCHANGED (no new quality docs selected)",
+    "shared_pure_helper": "NO new shared file selected; reuse via function-local extraction + wrapper delegation (R2 §4 narrow cores verbatim); LOW header enumerates exact imported SYMBOLS; if implementation finds duplication, return to root for single-helper decision"
+  },
+  "code_roles_distinguished": {
+    "normal_code_deps": "top-level + function-local imports above (§import_sets); HIGH top LOW; agent helpers function-local",
+    "current_controls": "pipeline71 + quality3 + control_roots + contract_identity + implementation_sha + STATE_SCHEMA + stage_plan producer map; tool/commit/contract drift belongs to HIGH/HIST, never LOW leaf",
+    "schemas_ref_data": "local #/$defs/* only (sha256/gitsha/ArtifactRef/SizedRef/NamedRef); no remote $ref fetch/execution; no cross-file $ref cycle; $defs repeated literally per new schema",
+    "historical_SOURCE_roles": "versioned-renewal basis/manifest/proof/publication-set + new dm022-* refs are retained/COPY lineage for P2R/history/publication walkers (HIST descriptive, reload-by-path every use, never permission); new PREARCH checkpoint imported by later H/P1/P2R/publication walkers as prior-chain lineage (supersedes/parent/anchor), never as current control; old canonical Ledger/Completeness bytes stay history-only after adoption, never fallback authority"
+  },
+  "fingerprints": {
+    "old_format": "stage-checkpoint required from_state/to_state + checkpoints[] + artifacts namedAuthority per-from_state branch (CANDIDATES_NORMALIZED: evidence-acceptance/edition-views-acceptance/materiality-ledger/profile-completeness; EVIDENCE_REVIEWED: candidate-matrix/candidate-selection; SELECTION_COMPLETE: 3 architecture; etc.) + reviews contains CORE_STAGE_CONTRACT deterministic PASS + result artifactAuthority + contract 8-field + implementation gitsha",
+    "new_semantic_branch": "kind=PREARCHITECTURE_ACCEPTANCE_SUPERSESSION_V1 + reason=REVIEWED_ACCEPTED_UPSTREAM_CORRECTION + operation{EVIDENCE_REVIEWED->EVIDENCE_REVIEWED} + producer_boundary{CANDIDATES_NORMALIZED->EVIDENCE_REVIEWED} + checkpoints[evidence,materiality,completeness] same 3 + artifacts 4 NamedRef same names versioned R paths + reviews sole {check_id:DM022_SUPERSESSION_PROOF,kind:DETERMINISTIC,status:PASS,result:SizedRef==proof} (no CORE_STAGE_CONTRACT row, no AGENT_RESEARCH decision row; decision is separate SizedRef) + before_state/before_checkpoint/parent/anchor/supersedes/revision_id/R/request/retention_plan/proof/decision/report/contract/implementation/profile/executor/recorded_at/SELF-excluded digest; mixed triplet (not same file/kinds differ) refuses; canonical-filename fallback after adoption refuses",
+    "digest_rule": "named content digests revision_proof_sha256/preadoption_report_sha256/supersession_checkpoint_sha256 = sha256_object(body-minus-self, sort_keys, separators); FILE SHA sha256_file distinct; every SizedRef re-hashed on load; mechanical_projections list exact schema field paths with old/new SHAs, no directory-prefix exclusion"
+  },
+  "head_tree_closure_normalized": {
+    "commands": ["git -C <repo_root> rev-parse HEAD (40-hex)", "git -C <repo_root> rev-parse HEAD^{tree}", "git -C <repo_root> status --porcelain=v1 --untracked-files=no (tracked dirt only)", "git -C <repo_root> diff --raw HEAD (mode+sha both sides)"],
+    "ignore_submodules_mode_must_be_stated": "none for eligibility; all is scoped carryover check only, never eligibility",
+    "no_gitlink_eligibility": "55 bare gitlinks mode160000 without .gitmodules NEVER enter contract_identity/implementation_sha/eligibility; no child HEAD/tree/dirt; no R/** glob or orchestration/v2/** wildcard as authority; exact R output/review/retention relpaths per attempt only",
+    "normalized_known_inputs": "request carries expected_head/expected_tree/expected_contract/expected_tool_shas/expected_profile_sha/expected_source_pins; guard work{head,tree}; pin sets B + Profile + current 4 artifacts + 7 slot observations at pin time",
+    "no_prospective_ToolCommitSelfRef": "checkpoint/report carry code/contract/work-ref observations of already-existing files; artifact-only descendant admissible ONLY if diff-tree name-only subset of finite declared R output+review+retention relpaths + linear descendant of expected_head + no merge + pins/controls identical; otherwise refuse + NEW bounded attempt; checkpoint NEVER embeds future commit SHA, NEVER references POST receipt; proof NEVER references checkpoint",
+    "guard_transient": "guard file is transient coordination, NOT active pointer/selector; lost-guard window requires completion receipt (R/completion/cleanup-completion.json) + active triplet + slot inventory re-read; strict read-only State/history diagnosis never checks guard as eligibility"
+  },
+  "plan_diff_register_matrix": {
+    "new_files": ["scripts/survey_research_authority_v2.py (LOW)", "scripts/survey_prearchitecture_acceptance_v2.py (HIGH)", "5 required schemas + 1 optional receipt (above)"],
+    "modified_files": ["scripts/survey_agent_control_v2.py (Owner-A new-kind branch: loader dispatch + _validate_checkpoint_record + _resolve_checkpoint_artifact + resolve_active_evidence_views R4 + refuse advance/approve paths)"],
+    "behaviour_modified_callers": "30 DIRECT-site rows per inventory-r2.json (R4-resolve or explicit refuse + guard G + kind K per row; 7-path preflight incl audit; no unattached helper)",
+    "registers": "pipeline 71->76 (77 with receipt) + control_roots unchanged + contract_identity recomputed on new disk (old State stored contract stays historical); staged/P3S/Weekly/LF file memberships unchanged (code branches only) per successor above",
+    "schema_owner_binding_still_open": "stage-checkpoint strict branch text for EVIDENCE->EVIDENCE + producer_boundary + same-triplet + new-report (no CORE_STAGE_CONTRACT forgery); check_id DM022_SUPERSESSION_PROOF; contract/tool pin placement"
+  },
+  "loader_adaptations_required_before_code": [
+    "LOW.load_typed_checkpoint_record(repo_root, path): strict parse + kind peek + dispatch to old vs new schema file; used by ALL 17 direct sites above (replace direct CHECKPOINT_SCHEMA loads)",
+    "LOW.resolve_research_authority(repo_root, state_path): path-reloading entry (strict duplicate-key refuse, kind dispatch, typed loads, live re-hash, View->Evidence binding, same-authority + review-result drift); no caller State/ledger/proof dicts",
+    "LOW._resolve_research_from_state_bytes(repo_root, state): structural only (path/sha shape, same-record equality, path safety, kind dispatch; no agent.validate, no verify_state_basis, no commit, no guard, no file-content beyond shape)",
+    "LOW._load_typed_four_refs(repo_root, structural): typed file loads + live re-hash + bindings + drift (pure file/SHA/schema/content, no State)",
+    "Owner-A _validate_checkpoint_record PREARCH branch + _validate_core_stage_report new-proof branch (no recursion into agent.validate)",
+    "pubset.resolve_stage_artifact_path single-resolver PREARCH recognition (research 4 refs via same record, no canonical fallback; all _l_stage_path adapters inherit; no per-adapter fork)",
+    "HIGH.prepare/adopt/resume/readback PATHS-only entries per schemas-generation-dag-r2.md §7 (no future-ref, no caller dicts) + HIGH exclusive writers (O_EXCL, short-write loop, fsync/checked close/dir fsync/replace/postread; never core.write_json/copy2/is_file for guard/State/slot authority)",
+    "Guard C helper require_no_active_guard(source_root) at every mutating entry + before-publish (no owner/skip param; unknown/mismatched refuses; normal Selection/advance/Gate/Draft/publication all covered per guard-resume-oracles-r2.md §4 12 rows)",
+    "Completion predicate require_completion_consistent for active new-kind writers after guard release (expectedAfter is operation baseline, not LIVE equality; supports ALREADY_ACTIVE after forward regen)"
+  ],
+  "blockers_open_no_code": [
+    "C guard root/path/schema/owner VALUE + completion receipt field VALUE (per-caller G checks CLOSED against C helper interface)",
+    "B/C schema FILE EDITS (stage-checkpoint PREARCH branch text + 5+1 new schema files)",
+    "Phase HEAD/tree COMPLETE path set values + per-witness allowlist/named-obligation/HTML/provenance values (Profile owners)",
+    "Astra + author-independent readiness review confirmation; implementation BLOCKED; this supplement claims no independent PASS/readiness authority"
+  ]
+}

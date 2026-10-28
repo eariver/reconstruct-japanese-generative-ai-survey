@@ -1,0 +1,162 @@
+{
+  "basis": {
+    "contract_decision": "outputs/rephase-1-dm022-prearchitecture-contract-decision.md",
+    "contract_sha256": "a345bb9524b4dfc5b5f32600d0d708687e2b6131d91a43965c97b6418388f223",
+    "contract_bytes": 31351,
+    "root_resolution": "notes/rephase-1-dm022-prearchitecture-contract/astra-review-resolution.md §5",
+    "human": "ab84b4f assumed",
+    "proof_copy": ".rephase-1-editorial-runtime/versioned-renewal-packaging-final-depth-20261025T205432Z/proof-copy/candidate-partial-b40de60",
+    "proof_identity": "actual409b292/tree8ce36998 +93paths40M53A/742",
+    "method": "Read/Grep + ast parse as DATA only; no scripts.* imports executed; no runtime/import/tests/build/fixture/restore/network/Git writes",
+    "preserved_r1_r2": ["authority-consumer-map.md", "inventory.json", "schemas-generation-dag.md/json", "guard-resume-oracles.md/json", "authority-consumer-map-r2.md", "inventory-r2.json", "schemas-generation-dag-r2.md/json", "guard-resume-oracles-r2.md/json", "dependency-closure-map.md/json", "independent-readiness-review.md (NOT_READY)"],
+    "mode": "AUTHOR PRE-CODE ONLY; no MAP COMPLETE/PASS; Astra + independent readiness must confirm before code"
+  },
+  "modules": {
+    "LOW": "scripts/survey_research_authority_v2.py (NEW, detached, PATHS-only, no State validation, no HIGH, no guard read)",
+    "HIGH": "scripts/survey_prearchitecture_acceptance_v2.py (NEW, sole mutator while bound guard exists)",
+    "OWNER_A": "scripts/survey_agent_control_v2.py (existing, new-kind branch inside, calls LOW pure validators function-locally)"
+  },
+  "signatures": {
+    "LOW_public": "resolve_research_authority(repo_root, state_path) path-reloading, no caller dicts",
+    "LOW_private": "_resolve_research_from_state_bytes(repo_root, state) structural only, no agent/verify/commit/guard",
+    "LOW_loader": "load_typed_checkpoint_record(repo_root, path) -> {family, record}, strict kind dispatch, old file unchanged",
+    "HIGH_live": "verify_live_eligibility(repo_root,cfg,state): agent.validate_agent_state + canonical/Profile/window/noGate/noException",
+    "HIGH_ops": "prepare_revision/adopt_revision/resume_revision/readback_revision PATHS-only; claim_guard/write_checkpoint_as_planned/replace_state_triplet/clear_remaining_exact_slots/write_cleanup_completion/release_guard/resume_bound_attempt (guard-held only)"
+  },
+  "kind_dispatch": {
+    "legacy": "no kind, CANDIDATES_NORMALIZED->EVIDENCE_REVIEWED, shared 1 file/3 checkpoints, 4 canonical paths",
+    "new": "kind=PREARCHITECTURE_ACCEPTANCE_SUPERSESSION_V1, reason=REVIEWED_ACCEPTED_UPSTREAM_CORRECTION, operation EVIDENCE->EVIDENCE, producer_boundary CANDIDATES->EVIDENCE, same 3 checkpoints, 4 versioned R paths",
+    "mixed": "refuse (not same file / kinds differ)",
+    "get_fallback": "unknown .get default FAILS, no raw kind mutation"
+  },
+  "schemas_required_5": [
+    "notes/rephase-1-dm022-prearchitecture-precode/schema-proposals/dm022-revision-request-v2.schema.json",
+    "notes/rephase-1-dm022-prearchitecture-precode/schema-proposals/dm022-revision-manifest-v2.schema.json",
+    "notes/rephase-1-dm022-prearchitecture-precode/schema-proposals/dm022-revision-proof-v2.schema.json",
+    "notes/rephase-1-dm022-prearchitecture-precode/schema-proposals/dm022-preadoption-report-v2.schema.json",
+    "notes/rephase-1-dm022-prearchitecture-precode/schema-proposals/dm022-supersession-checkpoint-v2.schema.json"
+  ],
+  "schemas_note": "FIVE standalone only (ROOT 3). Decision shape embedded request.$defs.suppliedDecision; retention/guard/completion embedded report.$defs (retentionManifest/guardIntentCoord/completionReceipt/roleSchemaRegistry). No sixth standalone file. Old stage-checkpoint-v2.schema.json UNCHANGED.",
+  "rows": [
+    {"n": 1, "file": "scripts/survey_agent_control_v2.py", "fn": "resolve_active_evidence_views", "line": 902, "state_source": "state_path canonical LIVE (public path-reloading R4)", "guard_check": "n/a (resolver, read-only)", "kind_branch": "KEEP legacy + ADD R4 LOW.resolve_research_authority 4-ref same-record", "oracle": "mixed triplet refuses; View-Evidence SHA binds; no canonical fallback", "status": "CLOSED"},
+    {"n": 2, "file": "scripts/survey_agent_control_v2.py", "fn": "_resolve_checkpoint_artifact", "line": 761, "state_source": "state dict (facade validated) -> private structural", "guard_check": "n/a (resolver)", "kind_branch": "ADD PREARCH dispatch EVIDENCE->EVIDENCE + producer_boundary + 4-name set + SELF/proof; validation-projection untouched", "oracle": "unknown kind refuses; exact-one + live re-hash", "status": "CLOSED"},
+    {"n": 3, "file": "scripts/survey_agent_control_v2.py", "fn": "_validate_checkpoint_record", "line": 481, "state_source": "already-validated State (no re-call, no recursion)", "guard_check": "n/a (validator)", "kind_branch": "ADD PREARCH branch kind/reason/operation/producer_boundary/checkpoints/artifacts/lineage/SELF + DM022_SUPERSESSION_PROOF; history unchanged", "oracle": "CORE_STAGE_CONTRACT forgery refuses; mixed triplet refuses", "status": "CLOSED"},
+    {"n": 4, "file": "scripts/survey_agent_control_v2.py", "fn": "_validate_core_stage_report", "line": 365, "state_source": "historical_state + live State (facade validated)", "guard_check": "n/a (validator)", "kind_branch": "NEW typed proof/report branch; old CORE_STAGE_CONTRACT retained history-only; bypass 403-408 only inside new-kind branch", "oracle": "old lifecycle match preserved for legacy; new proof requires SELF + artifact re-hash", "status": "CLOSED"},
+    {"n": 5, "file": "scripts/survey_screening_v2.py", "fn": "resolve_active_screening_acceptance", "line": 442, "state_source": "state_path canonical", "guard_check": "G entry (caller orchestrator)", "kind_branch": "UNCHANGED strict; MUST NOT accept PREARCH record; Discovery/Screening preserved", "oracle": "PREARCH via screening wrapper refuses", "status": "CLOSED"},
+    {"n": 6, "file": "scripts/survey_screening_v2.py", "fn": "resolve_effective_discovery_basis", "line": 353, "state_source": "package basis path (explicit); _content variant pure, no State", "guard_check": "n/a (pure _content) / G caller for wrapper", "kind_branch": "UNCHANGED; LOW reuses _content only; wrapper never loosened for PREARCH", "oracle": "non-four-ref helper documented; not DIRECT four-ref reader", "status": "CLOSED"},
+    {"n": 7, "file": "scripts/run_selection_architecture_v2_interactive.py", "fn": "run", "line": 158, "state_source": "state_path canonical LIVE", "guard_check": "G entry (after source_root:172, before ledger:176) + re-G before EACH of 7 writes (209/252/314/324/325/329/331) + 7-path preflight incl audit", "kind_branch": "HIGH rewrite: R4=LOW.resolve_research_authority; pass versioned R ledger/completeness; caller-input vs archive provenance kept", "oracle": "guard present -> DM022_TRANSITION_ACTIVE, zero of seven changed; audit divergent overwrite never occurs", "status": "CLOSED"},
+    {"n": 8, "file": "scripts/run_evidence_v2_interactive.py", "fn": "run", "line": 586, "state_source": "state_path (normal mode only)", "guard_check": "G before canonical Ledger 715-717 + Completeness 730-732 exists() checks; refuse if held", "kind_branch": "REFUSE in supersession mode (UNTOUCHED normal); new versioned outputs via HIGH R writers + LOW union builder + full validator", "oracle": "canonical Ledger/Completeness creation while guard held refuses", "status": "CLOSED"},
+    {"n": 9, "file": "scripts/run_drafting_synthesis_v2_interactive.py", "fn": "_upstream", "line": 43, "state_source": "state_path", "guard_check": "G entry (after source_root:55, before matrix:65) + G before package/result/synthesis/archive writes (main:150)", "kind_branch": "Rewire ledger/completeness/matrix/selection via R4 + State-bound selection; keep 70-73 binds vs R4 bytes; refuse if R4 unavailable post-adoption", "oracle": "Draft while guard held refuses; post-adoption Draft resolves new four refs", "status": "CLOSED"},
+    {"n": 10, "file": "scripts/survey_drafting_v2.py", "fn": "_historical_raw_authority_hashes", "line": 102, "state_source": "explicit paths (pure): repo_root + evidence_ref + matrix_ref (NEW signature)", "guard_check": "caller G (main:150)", "kind_branch": "Accept versioned R4 Evidence/Matrix refs (same SHA+parsed-equality discipline); frozen semantic validator strict", "oracle": "stale-matrix canonical read refuses; R4 bytes validate", "status": "CLOSED"},
+    {"n": 11, "file": "scripts/survey_drafting_v2_base.py", "fn": "_load_drafting_basis", "line": 355, "state_source": "explicit R4 paths (pure _content) / facade R4 (normal loader)", "guard_check": "caller G", "kind_branch": "UNTOUCHED pure; callers pass R4 paths; _content never verify_state_basis", "oracle": "pure function never reads guard; entry enforces G", "status": "CLOSED"},
+    {"n": 12, "file": "scripts/survey_handlers_v2.py", "fn": "_evidence_basis", "line": 204, "state_source": "state dict (facade: validate_agent_state then private structural)", "guard_check": "G entry (orchestrator); derivation repo_root->cfg->Profile->source_root->guard_path_for", "kind_branch": "Bind handoff rows to R4 refs when State carries PREARCH; refuse superseded mode if R4 absent", "oracle": "handoff with old SHAs refuses, zero handoff bytes written", "status": "CLOSED"},
+    {"n": 13, "file": "scripts/survey_stage_validation_v2.py", "fn": "_evidence_basis", "line": 402, "state_source": "state dict / explicit map (facade validated)", "guard_check": "G for mutating validation path; pure historical validation MUST NOT require G (detached proof rule)", "kind_branch": "REQUIRED_CURRENT names unchanged, VALUES become R4 refs post-adoption; CANDIDATES_NORMALIZED current = 4 R refs; pre-adoption proof uses LOW _content", "oracle": "validate-and-publish while guard held refuses; historical retained validation passes guard-independent", "status": "CLOSED"},
+    {"n": 14, "file": "scripts/survey_stage_validation_v2.py", "fn": "_prior_artifacts", "line": 263, "state_source": "state dict (facade validated)", "guard_check": "n/a (history; mutating callers G)", "kind_branch": "Prior gains same PREARCH wrapper (3 entries->1 file); current CANDIDATES values = R4 refs", "oracle": "prior lineage resolves PREARCH wrapper; unknown fails closed until updated", "status": "CLOSED"},
+    {"n": 15, "file": "scripts/survey_stage_validation_v2.py", "fn": "_current_artifacts", "line": 352, "state_source": "state dict / supplied map", "guard_check": "G caller for mutating path", "kind_branch": "_l_stage_path delegates to pubset.resolve_stage_artifact_path:2181 for stage templates ONLY (F4a); research four-ref per-caller R4 (F4b)", "oracle": "stage-template inherits; research cannot inherit", "status": "CLOSED"},
+    {"n": 16, "file": "scripts/survey_orchestrator_v2.py", "fn": "execute_action", "line": 635, "state_source": "state_path", "guard_check": "G entry + before core.write_json(state):703/commit:703", "kind_branch": "REFUSE PREARCH kind through advance/transition (producer NONE); new adoption is HIGH single-file switch only", "oracle": "DM022 via advance/transition always refuses", "status": "CLOSED"},
+    {"n": 17, "file": "scripts/survey_core_execution_bridge_v2.py", "fn": "_advance_stage", "line": 365, "state_source": "state_path", "guard_check": "G entry", "kind_branch": "Same refusal as orchestrator; _canonical_existing_state:343 validate:357 preserved", "oracle": "bridge advance with PREARCH refuses", "status": "CLOSED"},
+    {"n": 18, "file": "scripts/survey_human_gate_v2.py", "fn": "_current_pending_gate", "line": 440, "state_source": "State-derived (read-only diagnosis)", "guard_check": "MUST NOT call G (diagnosis allowed while guard held)", "kind_branch": "UNCHANGED conditional-future only; confirms bare EVIDENCE_REVIEWED has no pending Gate (457-465)", "oracle": "diagnosis returns bytes while guard held; no permission conferred", "status": "CLOSED"},
+    {"n": 19, "file": "scripts/survey_human_gate_v2.py", "fn": "invalidate_pending_gate", "line": 1179, "state_source": "state_path", "guard_check": "G before Gate presentation/dossier (reviewed_artifacts:283, resolve_gate_path:255); refuse while transition incomplete", "kind_branch": "MUST NOT manufacture Gate at bare EVIDENCE_REVIEWED; request_changes:1350/approve_architecture genuine-Human-only", "oracle": "presentation while guard held refuses; never manufacture at EVIDENCE_REVIEWED", "status": "CLOSED"},
+    {"n": 20, "file": "scripts/survey_agent_control_v2.py", "fn": "approve_architecture", "line": 1829, "state_source": "state_path", "guard_check": "G (after source_root:1845, before 1846-1848) + C", "kind_branch": "UNCHANGED strict; successor regen must use fresh R4 Matrix/Selection/Architecture; G released before approval", "oracle": "approval while guard held refuses", "status": "CLOSED"},
+    {"n": 21, "file": "scripts/survey_weekly_derivation_v2.py", "fn": "load_derivation", "line": 585, "state_source": "state_path (facade validate then private structural)", "guard_check": "n/a (read; mutating callers G)", "kind_branch": "ledger/matrix via R4 (accepted materiality/selection -> R4 ledger/matrix); evidence/discovery same record; pending-basis 591/597/610 NEVER for DM022 admission; DRAFT_COMPLETE+ readback validates PREARCH lineage (no window, no before-equality)", "oracle": "direct-canonical old Ledger read post-adoption refuses", "status": "CLOSED"},
+    {"n": 22, "file": "scripts/survey_longform_derivation_v2.py", "fn": "_derive_authority_context", "line": 1020, "state_source": "state_path", "guard_check": "n/a (read)", "kind_branch": "Same rewiring as Weekly; load_derivation:1157 + load_derivation_for_readback:1198 MUST accept PREARCH via READBACK_LIFECYCLES (no EVIDENCE_REVIEWED demand at readback)", "oracle": "Thematic readback through forward lifecycles validates retained COPY/lineage", "status": "CLOSED"},
+    {"n": 23, "file": "scripts/survey_publication_set_v2.py", "fn": "resolve_stage_artifact_path", "line": 2181, "state_source": "state dict", "guard_check": "n/a (resolver; mutating callers G)", "kind_branch": "ADD PREARCH-kind recognition (research 4 refs via same record; no canonical fallback); unknown fail-closed preserved. Stage-template adapters inherit (F4a); research per-caller R4 separate (F4b)", "oracle": "walker that falls back to old singleton refuses", "status": "CLOSED"},
+    {"n": 24, "file": "scripts/run_semantic_publication_v2_interactive_base.py", "fn": "main", "line": 118, "state_source": "state_path", "guard_check": "G entry + before main.tex/bib/sty/manifest:191-206 writes", "kind_branch": "Ledger/completeness transitively via package basis + R4; keep 153-158 Evidence-bind + 169 HOLD/NEEDS_MORE refuse; assert_canonical_publication_mode:128 strict", "oracle": "publication while guard held refuses; post-adoption resolves new four refs", "status": "CLOSED"},
+    {"n": 25, "file": "scripts/survey_editorial_correction_proposal_v2.py", "fn": "_ckpt_resolve", "line": 1454, "state_source": "state dict", "guard_check": "n/a (retention; mutating callers G)", "kind_branch": "Pin SAME PREARCH wrapper for evidence+materiality+completeness; resolve 4 via R4; retain old canonical bytes history-only", "oracle": "later walkers fail-closed unknown until updated", "status": "CLOSED"},
+    {"n": 26, "file": "scripts/survey_editorial_publication_v2.py", "fn": "validate_editorial_receipt", "line": 749, "state_source": "state_path", "guard_check": "G entry + before prepare:1631/activate:3260/resume:3748 writes", "kind_branch": "MUST NOT treat PREARCH as editorial/versioned activation; explicit PREARCH-kind recognition-or-refuse; VERSIONED_ACTIVE branches unchanged", "oracle": "editorial activation with PREARCH without recognition refuses", "status": "CLOSED"},
+    {"n": 27, "file": "scripts/survey_versioned_renewal_source_v2.py", "fn": "validate_renewal_basis", "line": 407, "state_source": "retained COPY + state_path (before_state_ref.path == canonical Source Path 974-976)", "guard_check": "n/a (history) / G for mutating renewal paths", "kind_branch": "MUST recognize PREARCH kind (research 4 refs from same PREARCH record, no canonical fallback); before_state_ref.path MUST equal canonical Source Path with state_sha actual before, retained COPY separate (504-513/540-561)", "oracle": "old singleton fallback refuses; current_stage_basis_override allowed only for accepted-package revalidation, LOW proof never uses wrapper", "status": "CLOSED"},
+    {"n": 28, "file": "scripts/survey_versioned_renewal_source_v2.py", "fn": "load_renewal_accepted_authority", "line": 933, "state_source": "retained COPY + state_path", "guard_check": "n/a (history)", "kind_branch": "Same PREARCH recognition (evidence 1136/ledger 1136/completeness 1148-1157/selection 1163/arch 1171/draft 1202/records 1213-1269/checkpoint 1317)", "oracle": "renewal walker with PREARCH lineage resolves; unknown refuses", "status": "CLOSED"},
+    {"n": 29, "file": "scripts/survey_versioned_renewal_history_v2.py", "fn": "verify_versioned_history", "line": 3864, "state_source": "explicit refs (retained COPY/lineage)", "guard_check": "n/a (history)", "kind_branch": "MUST recognize PREARCH lineage (supersedes/parent/anchor) as valid prior-checkpoint chain; unknown branch refuses (fail-closed correct until updated)", "oracle": "history with PREARCH lineage validates; unknown branch refuses", "status": "CLOSED"},
+    {"n": 30, "file": "scripts/survey_versioned_renewal_v2.py", "fn": "activate_renewal", "line": 3247, "state_source": "state_path", "guard_check": "G (refuse create; readback no window)", "kind_branch": "INELIGIBLE for DM022 creation (window 560 fails at EVIDENCE_REVIEWED); later renewal walkers MUST accept PREARCH-adopted lineage (no window, no before-equality). Family: _observe_renewal_entry:619/prepare:1068/finalize:1578/resume:3575/_replace:3500 same disposition", "oracle": "renewal creation at EVIDENCE_REVIEWED refuses; later readback accepts PREARCH lineage", "status": "CLOSED"},
+    {"n": 31, "file": "scripts/survey_publication_v2.py", "fn": "renewal checkpoint groups", "line": 644, "state_source": "explicit refs", "guard_check": "n/a (map; mutating callers G)", "kind_branch": "Groups fixed; walkers MUST accept PREARCH record for evidence/materiality/completeness group (same 4-name set, new kind/operation branch, artifact set mismatch 754-756 updated); Freeze/Release via State-bound selection (profiled_freeze:29/release:22)", "oracle": "stale canonical Freeze/Release refuses; State-bound selection resolves", "status": "CLOSED"},
+    {"n": 32, "file": "scripts/survey_architecture_v2_base.py", "fn": "derive_candidate_matrix", "line": 356, "state_source": "explicit paths (pure)", "guard_check": "caller G (profile-aware entry)", "kind_branch": "UNTOUCHED pure; callers pass R4 paths. Family: content:155/validate_selection:401/validate_architecture:561/review:846 + drafting_base 438/753/870/941 + _content:265/85 pure reuse pattern (never verify_state_basis)", "oracle": "pure function never reads guard/State; entry enforces G + R4", "status": "CLOSED"},
+    {"n": 33, "file": "scripts/survey_editorial_retention_v2.py", "fn": "capture_retention", "line": 857, "state_source": "state_path + explicit refs", "guard_check": "G (retention)", "kind_branch": "Retention/staged/current-authority validators take explicit R4 + PREARCH wrapper refs post-adoption (no canonical fallback); Human approval refs NEVER rebound. Family: verify_retention:1737/materialize_staged:656/current_authority/publication_approval:226", "oracle": "retention with old singleton post-adoption refuses", "status": "CLOSED"},
+    {"n": 34, "file": "scripts/survey_reader_surface_gate_v2.py", "fn": "optional state_path readers", "line": 1152, "state_source": "state_path when research needed (else refuse post-adoption)", "guard_check": "G where mutating", "kind_branch": "Optional-State readers MUST require State post-adoption when resolving research authority (no no-State canonical read); receipt replay uses retained lineage (no before-equality). Family: execution_record._load_state:82/validate:284/reader_publication:171/weekly.validate_receipt:836/longform.validate_receipt:685", "oracle": "no-State canonical research read post-adoption refuses", "status": "CLOSED"},
+    {"n": 35, "file": "scripts/survey_agent_control_v2.py", "fn": "build_stage_checkpoint", "line": 1703, "state_source": "state_path (forward builder only)", "guard_check": "G entry (forward path)", "kind_branch": "UNTOUCHED; new PREARCH builder separate (never synthetic from/to); F5 restored", "oracle": "PREARCH via forward builder always refuses (producer NONE)", "status": "CLOSED"},
+    {"n": 36, "file": "scripts/survey_agent_control_v2.py", "fn": "advance_with_checkpoint", "line": 1768, "state_source": "state_path", "guard_check": "G entry (source_root via _profile_and_source:307)", "kind_branch": "REFUSE PREARCH kind (same-State EVIDENCE->EVIDENCE matches no stage_plan producer); adoption is HIGH single-file switch only; F5 restored", "oracle": "DM022 record via advance always refuses; HIGH switch only", "status": "CLOSED"}
+  ],
+  "stage_schema_direct_sites_must_migrate_to_shared_loader": [
+    "scripts/survey_agent_control_v2.py:42 CHECKPOINT_SCHEMA const",
+    "scripts/survey_agent_control_v2.py:489 _validate_checkpoint_record schema load",
+    "scripts/survey_agent_control_v2.py:819 _resolve_checkpoint_artifact second load",
+    "scripts/survey_agent_control_v2.py:1011 pending validation checkpoint load",
+    "scripts/survey_agent_control_v2.py:1532 revalidation prior load",
+    "scripts/survey_agent_control_v2.py:1758 validate_instance Agent Stage Checkpoint",
+    "scripts/survey_agent_control_v2.py:1774 load_and_validate Agent Stage Checkpoint",
+    "scripts/survey_agent_control_v2.py:1971 revalidation basis checkpoint",
+    "scripts/survey_agent_control_v2.py:2397 revalidation prior Stage Checkpoint",
+    "scripts/survey_publication_set_v2.py:56 CHECKPOINT_SCHEMA const",
+    "scripts/survey_publication_set_v2.py:1213 derive anchor prior",
+    "scripts/survey_publication_set_v2.py:1627 before-digest prior",
+    "scripts/survey_publication_set_v2.py:1981 selection prior",
+    "scripts/survey_editorial_correction_proposal_v2.py:557 record load via agent.CHECKPOINT_SCHEMA",
+    "scripts/survey_release_checkpoint_v2.py:121 validate_instance Release Stage Checkpoint",
+    "scripts/survey_stage_validation_v2.py:288 prior Stage Checkpoint load",
+    "scripts/survey_weekly_mechanical_refresh_v2.py:931 refresh validation checkpoint"
+  ],
+  "validator_branches_required": [
+    "scripts/survey_agent_control_v2.py:348 _producer_for_checkpoint must NOT be called for PREARCH (returns NONE); branch before lookup",
+    "scripts/survey_agent_control_v2.py:365 _validate_core_stage_report bypass CORE_STAGE_CONTRACT match only inside new-kind branch; replace with DM022_SUPERSESSION_PROOF + SELF + artifact re-hash",
+    "scripts/survey_agent_control_v2.py:481 _validate_checkpoint_record ADD PREARCH branch (kind/reason/operation/producer_boundary/checkpoints/artifacts/lineage/SELF + new proof review; 868-891 untouched; unknown refuse)",
+    "scripts/survey_agent_control_v2.py:761 _resolve_checkpoint_artifact ADD PREARCH dispatch (EVIDENCE->EVIDENCE + producer_boundary + 4-name set + SELF/proof binding)",
+    "scripts/survey_agent_control_v2.py:902 resolve_active_evidence_views KEEP legacy + ADD R4 LOW.resolve_research_authority 4-ref same-record",
+    "scripts/survey_agent_control_v2.py:1608 canonical_checkpoint_path exempt only inside new-kind branch (legacy strict retained)",
+    "scripts/survey_agent_control_v2.py:1703 build_stage_checkpoint UNTOUCHED (new PREARCH builder separate)",
+    "scripts/survey_agent_control_v2.py:1768 advance_with_checkpoint REFUSE PREARCH same-State (HIGH single-file switch only)"
+  ],
+  "research_vs_stage_split_F4": {
+    "stage_template_inheritance_true": "pubset.resolve_stage_artifact_path:2181 covers all _l_stage_path adapters (production._l_stage:47, stage_validation._l_stage:99, human_gate.resolve_gate_path:255, orchestrator.resolve_configured:167) for stage-template paths ONLY",
+    "research_four_ref_separate": "research Ledger/Matrix/Selection four-ref per-caller R4-or-refuse rows (cannot inherit via _l_stage_path); each research caller in rows[] carries own R4 disposition",
+    "correction": "R2 authority-consumer-map-r2.md:140 row20 + dependency-closure-map.md:83-84,195,211 claim all adapters inherit is SPLIT into (a) true stage-template inheritance + (b) research per-caller R4 (cannot inherit)"
+  },
+  "guard": {
+    "guard_path_fixed": "<source_root>/orchestration/v2/acceptance-revision.guard.json",
+    "guard_collision": "zero hits for acceptance-revision.guard / acceptance-revisions in final93",
+    "revision_id_syntax": "[a-z0-9][a-z0-9-]{0,63}",
+    "R_layout": "<source_root>/research/v2/acceptance-revisions/<rev>/ + 18 fixed children per guard-resume-oracles-r2",
+    "normal_api": "require_no_active_guard(source_root: Path) -> None (absence required, no owner/skip; any present/malformed/unknown -> DM022_TRANSITION_ACTIVE; never grants permission)",
+    "completion_path": "R/completion/cleanup-completion.json (owned R, after 7 absent verified BEFORE guard release; checkpoint never backrefs)",
+    "operational_readiness": "valid completion bound checkpoint + COPY-derived expectedAfter AND guard absent; expectedAfter != later LIVE State once forward advanced"
+  },
+  "head_tree": {
+    "commands": ["git -C <repo_root> rev-parse HEAD", "git -C <repo_root> rev-parse HEAD^{tree}", "git -C <repo_root> status --porcelain=v1 --untracked-files=no", "git -C <repo_root> diff --raw HEAD"],
+    "ignore_submodules": "none for eligibility; all is scoped carryover only, never eligibility",
+    "no_gitlink_eligibility": "55 bare gitlinks mode160000 without .gitmodules NEVER enter contract_identity/implementation_sha; no child HEAD/tree/dirt; no R/** or orchestration/v2/** wildcard",
+    "predicate": "expected_head == LIVE HEAD AND expected_tree == LIVE tree AND contract_identity + tool_shas + Profile/source/proof pins equal; status clean for control_roots [config,schemas,scripts,.github/workflows]; docs drift = refuse; non-control drift recorded as untracked selective exact paths",
+    "artifact_only_descendant": "diff-tree --no-commit-id --name-only subset of finite declared R output+review+retention relpaths + linear descendant + no merge + pins/controls identical; else refuse + NEW attempt; no future self-SHA; checkpoint NEVER embeds future commit SHA",
+    "head_change_rule": "before-record new work HEAD changes plan hash update: recompute entire bound intent + require decision binding consistent; no field defaults"
+  },
+  "closures_old_exact_ref": "dependency-closure-map.json closures_old_exact (p3s_shared_py35 35, p3s_schema22 22, route3_weekly/longform 3 each, staged1/style1/recipe1, weekly29, longform34, pipeline71 len verified in config, implicit3, quality3, control_roots) — full memberships verbatim there, not recounted here",
+  "closures_successor_proposed": {
+    "rule": "full memberships derived actual callgraph; file-pin ONLY HIGH; extra module/schema -> return ROOT, not silent budget",
+    "new_files": ["scripts/survey_research_authority_v2.py", "scripts/survey_prearchitecture_acceptance_v2.py", "schemas/dm022-revision-request-v2.schema.json", "schemas/dm022-revision-manifest-v2.schema.json", "schemas/dm022-revision-proof-v2.schema.json", "schemas/dm022-preadoption-report-v2.schema.json", "schemas/dm022-supersession-checkpoint-v2.schema.json"],
+    "p3s_per_route_70": "old 63 (shared_py35 35 + schema22 22 + route3 3 + staged1 1 + style1 1 + recipe1 1) + 2 modules + 5 schemas = 70; union 66->73 (+ other route3 3). Full per-route list = old list + 7 new files above (route-specific 3 unchanged). See dependency-closure-map.json for old 63/66 membership verbatim.",
+    "weekly_36": "old 29 + 2 modules + 5 schemas = 36 (rendering membership unchanged; derivation ADDS LOW R4 branch + guard/completion predicate as code_deps)",
+    "longform_41": "old 34 + 2 modules + 5 schemas = 41 (same code-branch addition as Weekly)",
+    "pipeline_76": "old 71 (config/survey-production-v2.json contract_files.pipeline len 71 verified) + 5 required schemas = 76 (77 iff root registers optional receipt — NOT selected; receipt shape embedded report.$defs, not 77th file); control_roots UNCHANGED; guard transient, NOT pipeline membership",
+    "historian_recognition": "pub retention/historian MUST recognize PREARCH checkpoint schema/digest + full E graph (4 refs same record + supersedes/parent/anchor + SELF/digest); current-source Dependency Tool epoch maps no unsupported old-format ignorance"
+  },
+  "dm016_dm017": {
+    "dm016": "exact supported types per current tables (run_evidence:38-45 6-entry vs survey_evidence:44-109 ~40 values); witnesses use ONLY genuinely supported types; no alias relabelling; 10 absent canonical Thematic types OPEN with explicit non-closure; N6 refuses unsupported",
+    "dm017": "full provided 7-field obligation rows (OBLIGATION_KEYS 25-35) for union Profile-initial + Discovery-named; discovery_ids = declaring DIDs, evidence_task_ids via ledger, dimension/description verified vs OLD valid completeness; no invent defaults; unchanged full validator 265-290 is gate; incomplete _build_completeness:471 never called alone; N5 refuses missing obligations"
+  },
+  "oracles": "O-W1/O-T1 happy paths + O-W2/O-T2 forward closure + O-R1 repeated revision + O-G1/G2/G3 guard interruptions + N1-N12 negatives each as REFUSAL with entry/seam-none/writes-none; no readiness-bool tokens; LOW never calls current State; synthetic reviews nongenuine; Production NO-GO unchanged",
+  "failure_table": "F1-F13 per integrated-readiness-r3.md §11 (old/new/unknown per failure, P+Q retained, no auto-rollback, no CAS/crash claim, core.write_json equivalence revoked)",
+  "f_closure": {
+    "F1_bare_records": "CLOSED by request weeklyRecord/thematicRecord literal (mirror _validate_record:119-214)",
+    "F2_only_request_literal": "CLOSED by five literal files under schema-proposals/",
+    "F3_hardcoded_reader": "CLOSED by exact new signature _historical_raw_authority_hashes(repo_root, evidence_ref, matrix_ref) + entry main:150 supplies R4",
+    "F4_single_resolver": "CLOSED by split (a) stage-template inheritance true + (b) research per-caller R4 (cannot inherit)",
+    "F5_forward_builders": "CLOSED by restored rows 35-36 (build:1703 UNTOUCHED + advance:1768 REFUSE PREARCH)",
+    "F6_count_bundling": "CLOSED by 36-row unbundled inventory (R2 30-md vs 29-json bundling preserved as history with explicit mapping)",
+    "F7_noState_guard_derivation": "CLOSED by per-caller guard_derivation repo_root->cfg->Profile->source_root->guard_path_for (or explicit refuse with kind-check location)",
+    "F8_schema_branch_OPEN": "CLOSED by literal standalone checkpoint schema + shared loader + 17 sites + 8 branches + pipeline 71->76 registration decision",
+    "F9_headtree_scope": "CLOSED by exact predicate + finite diff-set + no gitlink eligibility + head-change recompute rule"
+  },
+  "blockers_open_no_code": [
+    "Astra + author-independent readiness review confirmation of this R3 (schemas + map + inventory) BEFORE code; implementation BLOCKED",
+    "Per-invocation values not pre-pinned (expected_head/tree, contract/tool_shas, Profile/source pins, before_state bytes, 7-slot observations, affected_ids, named-obligation rows, Raw/HTML provenance, mechanical_projections SHAs, executor/recorded_at); stale values refuse + NEW attempt",
+    "Any reviewer-found extra DIRECT reader not in rows[] is precise OPEN blocker (pre-code NO-GO until file:function:line row with R4-or-refuse)"
+  ],
+  "residual": "MAP gaps closed (literal schemas, per-caller signatures, loader, guard derivation, HEAD/tree predicate, closures, F1-F9). No MAP-COMPLETE/GO, no independent PASS, no implementation authorization. Whole NOT_READY/step4B3 OPEN/audit unstarted/DM021+022 OPEN preserved. Stop internal; ordinary Commit/Push Human-owned."
+}
