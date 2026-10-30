@@ -1,0 +1,24 @@
+test_complete_editorial_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_editorial_passes_and_mutations) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_complete_versioned_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_versioned_passes_and_mutations) ... ERROR
+
+======================================================================
+ERROR: test_complete_versioned_passes_and_mutations (tests.test_versioned_renewal_history_phase_h.PhaseHCompleteTests.test_complete_versioned_passes_and_mutations)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/tests/test_versioned_renewal_history_phase_h.py", line 1062, in test_complete_versioned_passes_and_mutations
+    out = hist.verify_versioned_history(root, f"{SOURCE_ROOT}/publication/v2/publication-surface-revalidation-r2.json")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/scripts/survey_versioned_renewal_history_v2.py", line 4466, in verify_versioned_history
+    info = _verify_versioned_ancestor(root, rec, ref, expected_predecessor, chronological, _inv_cache)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/scripts/survey_versioned_renewal_history_v2.py", line 3301, in _verify_versioned_ancestor
+    _verify_receipt_closure_exact(repo_root, closure, epoch_sha, gen_route, "NEW", "versioned basis closure", _cache)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/scripts/survey_versioned_renewal_history_v2.py", line 1788, in _verify_receipt_closure_exact
+    raise RenewalHistoryError("HISTORY_DIGEST_MISMATCH", f"{label} closure count must equal expected {len(expected)} ({route}/{generation}): got {len(closure)}")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_DIGEST_MISMATCH: versioned basis closure closure count must equal expected 63 (WEEKLY_GENERATED_V2/NEW): got 70
+
+----------------------------------------------------------------------
+Ran 2 tests in 3.951s
+
+FAILED (errors=1)

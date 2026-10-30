@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/tmp/dm022-renewal-probe.py", line 55, in <module>
+    out = renewal.prepare_renewal(
+        root, state_abs, "ren-probe-v2", "REUSE_TARGETS",
+        validated["manuscript_path"], None,
+        "SYNTHETIC_FIXTURE_EXECUTOR_GENERAL_FULL_V2",
+        datetime(2026, 10, 28, 16, 0, 0, tzinfo=timezone.utc))
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_versioned_renewal_v2.py", line 1108, in prepare_renewal
+    entry = _observe_renewal_entry(repo, state_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_versioned_renewal_v2.py", line 750, in _observe_renewal_entry
+    raise _fail("BASIS_ENTRY_INELIGIBLE", "ENTRY", "REFUSED_PRE_WRITE",
+                "State pointer must select a nonnull versioned active set "
+                "(canonical-only/foreign/ambiguous authority refuses)")
+scripts.survey_versioned_renewal_v2.RenewalHighError: BASIS_ENTRY_INELIGIBLE: State pointer must select a nonnull versioned active set (canonical-only/foreign/ambiguous authority refuses)
+fixture root: /tmp/dm022-renewal-probe-keep/fixture
+lifecycle: VALIDATED_DRAFT
+PROBE TARGET OUTCOME: RenewalHighError BASIS_ENTRY_INELIGIBLE: State pointer must select a nonnull versioned active set (canonical-only/foreign/ambiguous authority refuses)

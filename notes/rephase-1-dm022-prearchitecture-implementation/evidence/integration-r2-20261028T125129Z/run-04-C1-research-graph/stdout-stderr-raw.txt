@@ -1,0 +1,23 @@
+test_g71_g76_control_literal (test_dm022_c1_research_graph_v2.TestC1ResearchGraph.test_g71_g76_control_literal) ... ok
+test_legacy_file_still_accepted (test_dm022_c1_research_graph_v2.TestC1ResearchGraph.test_legacy_file_still_accepted) ... ERROR
+test_low_typed_loader_on_real_file (test_dm022_c1_research_graph_v2.TestC1ResearchGraph.test_low_typed_loader_on_real_file) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_own_epoch_fixture_public_verifier (test_dm022_c1_research_graph_v2.TestC1ResearchGraph.test_own_epoch_fixture_public_verifier) ... ok
+test_prearch_file_public_discriminators (test_dm022_c1_research_graph_v2.TestC1ResearchGraph.test_prearch_file_public_discriminators) ... ok
+
+======================================================================
+ERROR: test_legacy_file_still_accepted (test_dm022_c1_research_graph_v2.TestC1ResearchGraph.test_legacy_file_still_accepted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/tests/test_dm022_c1_research_graph_v2.py", line 88, in test_legacy_file_still_accepted
+    self.assertEqual(hist._record_kind(rec), "LEGACY")
+                     ~~~~~~~~~~~~~~~~~^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_versioned_renewal_history_v2.py", line 1293, in _record_kind
+    raise RenewalHistoryError("HISTORY_DIGEST_MISMATCH", "record kind/reason pair unrecognized (no caller kind inference)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_DIGEST_MISMATCH: record kind/reason pair unrecognized (no caller kind inference)
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.257s
+
+FAILED (errors=1)

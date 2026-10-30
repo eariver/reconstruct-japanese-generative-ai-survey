@@ -1,0 +1,27 @@
+F
+======================================================================
+FAIL: test_weekly_renewal_c_u_u_release (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_c_u_u_release)
+WEEKLY C→U→U same fixture + Preview/Freeze/Release to RELEASED (new Freeze fix, CURRENT every readback).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-final-20261029T053058Z/tests/test_dm022_full_lifecycle_v2.py", line 4159, in test_weekly_renewal_c_u_u_release
+    self.assertEqual(agent.validate_agent_state(root, cfg, core.load_json(state_abs)), [])
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['renewal proof Layer-B readback refused: [553 chars].py'] != []
+
+First list contains 2 additional elements.
+First extra element 0:
+'renewal proof Layer-B readback refused: BASIS_CURRENT_TOOL_DRIFT: loaded history module wrong root: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-final-20261029T053058Z/scripts/survey_versioned_renewal_history_v2.py'
+
++ []
+- ['renewal proof Layer-B readback refused: BASIS_CURRENT_TOOL_DRIFT: loaded '
+-  'history module wrong root: '
+-  '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-final-20261029T053058Z/scripts/survey_versioned_renewal_history_v2.py',
+-  'invalid Release Record authority: renewal proof Layer-B readback refused: '
+-  'BASIS_CURRENT_TOOL_DRIFT: loaded history module wrong root: '
+-  '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-final-20261029T053058Z/scripts/survey_versioned_renewal_history_v2.py']
+
+----------------------------------------------------------------------
+Ran 1 test in 998.030s
+
+FAILED (failures=1)

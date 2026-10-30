@@ -1,0 +1,42 @@
+test_absent_at_epoch_still_passes_via_live (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_absent_at_epoch_still_passes_via_live) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpsmaolkt5'>
+  _warnings.warn(warn_message, ResourceWarning)
+ok
+test_committed_inputs_still_pass_via_live_no_cp_cycle (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_committed_inputs_still_pass_via_live_no_cp_cycle) ... ERROR
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpa6mfi8ey'>
+  _warnings.warn(warn_message, ResourceWarning)
+test_thematic_absent_and_committed (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_thematic_absent_and_committed) ... /usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp9r8yd4cz'>
+  _warnings.warn(warn_message, ResourceWarning)
+ERROR
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpq2trrzpz'>
+  _warnings.warn(warn_message, ResourceWarning)
+
+======================================================================
+ERROR: test_committed_inputs_still_pass_via_live_no_cp_cycle (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_committed_inputs_still_pass_via_live_no_cp_cycle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/tests/test_dm022_c1_h_presence_controls_v2.py", line 67, in test_committed_inputs_still_pass_via_live_no_cp_cycle
+    out=self._run_one("WEEKLY","rev-c1-pres-com-w",commit_request=True)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/tests/test_dm022_c1_h_presence_controls_v2.py", line 43, in _run_one
+    adopted=high.adopt_revision(root, state_abs, root/out["revision_root"], dec_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/scripts/survey_prearchitecture_acceptance_v2.py", line 1109, in adopt_revision
+    raise AcceptanceError("LIVE HEAD/tree moved since prepare (stale pins; NEW bounded attempt required, no silent expected_head overwrite)")
+scripts.survey_prearchitecture_acceptance_v2.AcceptanceError: LIVE HEAD/tree moved since prepare (stale pins; NEW bounded attempt required, no silent expected_head overwrite)
+
+======================================================================
+ERROR: test_thematic_absent_and_committed (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_thematic_absent_and_committed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/tests/test_dm022_c1_h_presence_controls_v2.py", line 72, in test_thematic_absent_and_committed
+    out2=self._run_one("THEMATIC","rev-c1-pres-com-t",commit_request=True)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/tests/test_dm022_c1_h_presence_controls_v2.py", line 43, in _run_one
+    adopted=high.adopt_revision(root, state_abs, root/out["revision_root"], dec_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-presence-20261028T211500Z/scripts/survey_prearchitecture_acceptance_v2.py", line 1109, in adopt_revision
+    raise AcceptanceError("LIVE HEAD/tree moved since prepare (stale pins; NEW bounded attempt required, no silent expected_head overwrite)")
+scripts.survey_prearchitecture_acceptance_v2.AcceptanceError: LIVE HEAD/tree moved since prepare (stale pins; NEW bounded attempt required, no silent expected_head overwrite)
+
+----------------------------------------------------------------------
+Ran 3 tests in 5.044s
+
+FAILED (errors=2)

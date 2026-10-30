@@ -1,0 +1,89 @@
+{
+  "schema_version": "2.0-rc1",
+  "kind": "EDITORIAL_PUBLICATION_BUILD_V1",
+  "issue_id": "SP001",
+  "proposal_ref": {
+    "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/proposal.json",
+    "sha256": "bb97e08a7e238ea27093c17d3b9c4460099fe93e357bf560d9d1491e83310a7c"
+  },
+  "staged_manifest_ref": {
+    "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/staged-source/staged-source-manifest.json",
+    "sha256": "33765aea010c72d7ac6de0dea49b14908ea08bb1b1d582a6f523c3b2ee662d0e"
+  },
+  "recipe_ref": {
+    "path": ".latexmkrc",
+    "sha256": "18199fd85e3e3c46ede9322a709e4f64e39470f69c6c20935e598d4c08adbc26"
+  },
+  "declared_inputs": {
+    "primary": {
+      "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/staged-source/main.tex",
+      "sha256": "2efce4772bceae917e3621eb938e197ec081c9f729e72e1817b21fdbd99d95ab"
+    },
+    "bibliography": {
+      "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/staged-source/references.bib",
+      "sha256": "594e229e425c3f12a6794f1e82a4ae4f9190ab575f958f49617b00af111a394f"
+    },
+    "style": {
+      "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/staged-source/jgaisurvey.sty",
+      "sha256": "035645caa06eb77e5416ae7a54bc1fb7b987e0b575a02bd4b512bccb5d683aec"
+    }
+  },
+  "recipe": {
+    "fixed_steps": [
+      "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+      "biber main",
+      "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+      "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex"
+    ]
+  },
+  "toolchain": {
+    "executable": "/home/eariver/.TinyTeX/bin/x86_64-linux/lualatex",
+    "versions": {
+      "stdout": "This is LuaHBTeX, Version 1.24.0 (TeX Live 2026)\nDevelopment id: 7724\n\nExecute  'luahbtex --credits'  for credits and version details.\n\nThere is NO warranty. Redistribution of this software is covered by\nthe terms of the GNU General Public License, version 2 or (at your option)\nany later version. For more information about these matters, see the file\nnamed COPYING and the LuaTeX source.\n\nLuaTeX is Copyright 2025 Taco Hoekwater and the LuaTeX Team.\n\n",
+      "stderr": "",
+      "returncode": 0,
+      "link_path": "/home/eariver/.TinyTeX/bin/x86_64-linux/lualatex",
+      "real_path": "/home/eariver/.TinyTeX/bin/x86_64-linux/luahbtex",
+      "real_sha256": "9d7a1a55bb2503181d71ada62a6ef78303acdd9d99910ea8da33b059e89c8a8a",
+      "biber_stdout": "biber version: 2.22\n",
+      "biber_returncode": 0,
+      "biber_link_path": "/home/eariver/.TinyTeX/bin/x86_64-linux/biber",
+      "biber_real_path": "/home/eariver/.TinyTeX/bin/x86_64-linux/biber",
+      "biber_real_sha256": "adf9711f130e0b720a30e7de974c16e19c1e1b9ec2cf2ac4a0b213ca97047912",
+      "latexmk_stdout": "Latexmk, John Collins, 9 March 2026. Version 4.88\n",
+      "latexmk_returncode": 0,
+      "latexmk_link_path": "/home/eariver/.TinyTeX/bin/x86_64-linux/latexmk",
+      "latexmk_real_path": "/home/eariver/.TinyTeX/texmf-dist/scripts/latexmk/latexmk.pl",
+      "latexmk_real_sha256": "c1b26a396bdeb975855afac668b2490652292dcaec958880bc87ce51295be13b"
+    },
+    "argv": [
+      "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+      "biber main",
+      "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex",
+      "lualatex -synctex=1 -interaction=nonstopmode -file-line-error -halt-on-error main.tex"
+    ],
+    "env": {
+      "PATH": "/home/eariver/.TinyTeX/bin/x86_64-linux:/usr/bin:/bin"
+    }
+  },
+  "outputs": {
+    "publication-pdf": {
+      "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/publication/build/main.pdf",
+      "sha256": "f413f195f6422b5c4dc108d280eb363772c0c301457f0caef8a9baf7ac6366b7",
+      "byte_count": 86388
+    },
+    "build-log": {
+      "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/publication/build/main.log",
+      "sha256": "e2bdc06ab68d6275e0c64f4e08f352776a259675097d5a8c8b57450b43e115ab",
+      "byte_count": 86583
+    },
+    "pdf-digest": {
+      "path": "sources/SP001/publication/v2/editorial-corrections/ed-thematic-full-ed-pub-v2/publication/build/main.pdf.sha256",
+      "sha256": "b3a8bff882228c16921759596c9c39a12917a88785adc3717328ef3409386749",
+      "byte_count": 65
+    }
+  },
+  "exit_code": 0,
+  "recorded_at": "2026-10-28T16:30:00Z",
+  "build_sha256": "991a6a3d956cf8ed9bdfda5407061b221515e89ce03472914980f9dc0db7a4c1"
+}

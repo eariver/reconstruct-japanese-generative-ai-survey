@@ -1,0 +1,90 @@
+{
+ "a_owned_5": {
+  "note": "A3 return pins match observed hashes/sizes; all 5 priv==cand; priv!=r2 exactly on the 4 A3-modified files (fixtures helper byte-identical to R2/A2, unchanged in A3)",
+  "schemas_note": "No schema file changed in A3 (all 5 installed schemas byte-identical R2 == candidate == private)",
+  "scripts/survey_evidence_v2.py": {
+   "bytes": 125817,
+   "cand": "8b55dc6c328991fd9a9a5f0bbcc21503515c8814da20c4ad4f20986113d15af0",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  },
+  "scripts/survey_prearchitecture_acceptance_v2.py": {
+   "bytes": 87249,
+   "cand": "2fe12b9e492e93c6ac5f55962b5758f37b3e838a234e10cc200af9876873170e",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  },
+  "scripts/survey_research_authority_v2.py": {
+   "bytes": 132244,
+   "cand": "aee6013204a69fa2d01078924f461f5ac9e3690d05d4dab71534913a8ccb58d5",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  },
+  "tests/dm022_prearchitecture_fixtures_v2.py": {
+   "bytes": 3330,
+   "cand": "7fdc692ccba6ea21c0b39d0a1daa2e3942a3cdcf2e4d11436a30c76709945f56",
+   "priv_eq_cand": true,
+   "priv_eq_r2": true
+  },
+  "tests/test_dm022_prearchitecture_acceptance_v2.py": {
+   "bytes": 62293,
+   "cand": "9755279f6eb07a54f80dc964ed30e5d3ebe704935b299b2876d9e5d064c9f4fa",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  }
+ },
+ "fixed_source": {
+  "manifest": "notes/rephase-1-dm022-prearchitecture-implementation/evidence/source-r2-20261028T124706Z/snapshot-r2-manifest.json",
+  "manifest_sha256": "53fde56bea8b69adeb2cdfbbd716bbe9534bf0bc49739619f909ae6ca1f3935",
+  "overlay": "ONLY the 4 A3-modified A-owned files above (no B/C files, no schema changes)",
+  "snapshot": ".rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/snapshot-r2-20261028T124706Z/worktree (756 files, IMMUTABLE, untouched)"
+ },
+ "intended_counts_excl_caches": {
+  "cand_worktree_a_files": "4 modified + 1 unchanged helper (A scope only; B/C/other files untouched by A3)",
+  "priv": 756,
+  "r2": 756
+ },
+ "limitations": [
+  "Post-hoc hashes are observation, NOT retroactive per-run proof",
+  "No lost raw recreation; no fixture DB content copied into packet",
+  "Mode compared as permission bits; times not compared",
+  "Private copy has no .git; fixture Git DBs were temp-isolated per test and are NOT in this path"
+ ],
+ "other_files_differ": {
+  "priv_vs_r2_diff_count": 4,
+  "priv_vs_r2_diff_paths": [
+   "scripts/survey_evidence_v2.py",
+   "scripts/survey_prearchitecture_acceptance_v2.py",
+   "scripts/survey_research_authority_v2.py",
+   "tests/test_dm022_prearchitecture_acceptance_v2.py"
+  ],
+  "r2_plus_only_a3_claim": "VERIFIED SCOPED (private differs from R2 only in A-owned A3 files)"
+ },
+ "private_source": {
+  "excluded": [
+   ".git",
+   "__pycache__",
+   "*.pyc"
+  ],
+  "fixture_db_in_packet": false,
+  "manifest": "private-source-manifest.json",
+  "manifest_sha256": "b73c4d9352d22745671077d6368ae28384a298ad06461fc31b68d929f963d1bc",
+  "path": "/tmp/dm022-a3-fresh"
+ },
+ "provenance": "Preparation commands are transcribed tool-observed, NOT raw. Only author-saved raw txt is raw. No saved runners executed. Fresh private copy built AFTER all A3 edits, from R2 snapshot + A3 overlay only.",
+ "raw": {
+  "bytes": 3997,
+  "exit": 0,
+  "lines": 37,
+  "preserved_copy": "dm022-a3-test-raw-20261028.txt",
+  "result": "19/19 PASS (python3 -m unittest tests.test_dm022_prearchitecture_acceptance_v2 -v)",
+  "sha256": "abb66f3ded3c03113928db57dc1cbb7090dc80731ed49a1b1d5c28347da037d3",
+  "source": "/tmp/dm022-a3-raw-20261028.txt"
+ },
+ "runtime": {
+  "jsonschema": "4.23.0",
+  "pypdf": "6.16.2",
+  "python": "3.14.4",
+  "runner": "python3 -m unittest (NOT pytest)"
+ }
+}

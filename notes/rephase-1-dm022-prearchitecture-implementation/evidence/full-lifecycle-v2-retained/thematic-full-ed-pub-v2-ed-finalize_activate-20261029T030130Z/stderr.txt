@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/tmp/tmpnm6eq698/scripts/survey_editorial_publication_v2.py", line 2374, in finalize_publication
+    quality.validate_checks(repo, cfg, receipt["research_profile"], receipt["publication_profile"], checks, required_kinds={"DETERMINISTIC"})
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpnm6eq698/scripts/survey_quality_v2.py", line 174, in validate_checks
+    raise ValueError("applicable quality review family incomplete: " + ", ".join(missing))
+ValueError: applicable quality review family incomplete: EMPTY_WRAPPER_SUPPRESSION
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 43, in <module>
+    fin = edpub.finalize_publication(root, args['state'], args['proposal'], args['staged_manifest'], args['det'], args['sem'], args['vis'], datetime.fromisoformat(args['recorded_at']))
+  File "/tmp/tmpnm6eq698/scripts/survey_editorial_publication_v2.py", line 2376, in finalize_publication
+    raise _fail("CHECKS_INVALID", "FINALIZE", "REFUSED_PRE_WRITE", f"deterministic checks invalid (no family PASS by schema): {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: CHECKS_INVALID: [FINALIZE/REFUSED_PRE_WRITE] deterministic checks invalid (no family PASS by schema): applicable quality review family incomplete: EMPTY_WRAPPER_SUPPRESSION

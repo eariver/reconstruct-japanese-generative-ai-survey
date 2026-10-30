@@ -1,0 +1,69 @@
+test_repeat_correction_preserves_anchor_and_wrong_role_refuses (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_repeat_correction_preserves_anchor_and_wrong_role_refuses) ... ok
+test_thematic_dm022_to_selection_stage (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_dm022_to_selection_stage) ... ok
+test_thematic_full_to_architecture_approval (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_full_to_architecture_approval)
+THEMATIC: same Architecture stage + synthetic Gate (both-route approval). ... ok
+test_weekly_dm022_to_selection_stage (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_dm022_to_selection_stage) ... ok
+test_weekly_draft_synthesis_reader (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_draft_synthesis_reader)
+WEEKLY: ordinary Drafting synthesis runner on the revised graph + reader. ... FAIL
+test_weekly_full_to_architecture_approval (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_full_to_architecture_approval)
+Extend WEEKLY witness: SELECTION_COMPLETE→ARCHITECTURE_ESTABLISHED + synthetic Gate. ... ok
+test_weekly_present_old_seven_slots_retain_clear_regenerate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_present_old_seven_slots_retain_clear_regenerate)
+Present-old-7slots: ordinary regen BEFORE adopt, retained/cleared/verified, new regen. ... ERROR
+
+======================================================================
+ERROR: test_weekly_present_old_seven_slots_retain_clear_regenerate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_present_old_seven_slots_retain_clear_regenerate)
+Present-old-7slots: ordinary regen BEFORE adopt, retained/cleared/verified, new regen.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/tests/test_dm022_full_lifecycle_v2.py", line 822, in test_weekly_present_old_seven_slots_retain_clear_regenerate
+    old_result = sel_runner.run(root, state_abs, old_input)
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/run_selection_architecture_v2_interactive.py", line 252, in run
+    ledger_path, completeness_path = _dm022_resolve_ledger_completeness(repo_root, state_path, state, source_root)
+                                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/run_selection_architecture_v2_interactive.py", line 78, in _dm022_resolve_ledger_completeness
+    raise ValueError("PREARCH research resolution did not return PREARCH family")
+ValueError: PREARCH research resolution did not return PREARCH family
+
+======================================================================
+FAIL: test_weekly_draft_synthesis_reader (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_draft_synthesis_reader)
+WEEKLY: ordinary Drafting synthesis runner on the revised graph + reader.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/tests/test_dm022_full_lifecycle_v2.py", line 1018, in test_weekly_draft_synthesis_reader
+    self.assertEqual(proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+                     f"drafting runner must succeed: stdout={proc.stdout[-2000:]} stderr={proc.stderr[-2000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : drafting runner must succeed: stdout= stderr=20000Z/scripts/run_drafting_synthesis_v2_interactive.py", line 206, in main
+    package=drafting.derive_draft_package(root,up['profile'],up['discovery'],up['screening'],up['evidence'],up['views'],up['ledger'],up['completeness'],up['matrix'],up['selection'],up['architecture'],up['review'],up['approval'],pid,implementation_sha)
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/survey_drafting_v2.py", line 289, in derive_draft_package
+    return _ORIGINAL_DERIVE_DRAFT_PACKAGE(
+        repo_root, profile_path, discovery_path, screening_path, evidence_path,
+    ...<2 lines>...
+        implementation_sha,
+    )
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/survey_drafting_v2_base.py", line 461, in derive_draft_package
+    upstream = _load_drafting_basis(
+        repo_root, profile_path, discovery_path, screening_path, evidence_path,
+        views_path, ledger_path, completeness_path, matrix_path, selection_path,
+        architecture_path, review_summary_path, approval_path, implementation_sha,
+    )
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/survey_drafting_v2_base.py", line 389, in _load_drafting_basis
+    _resolve_effective_screening_discovery(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_path, discovery_path, implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ),
+    ^
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/survey_drafting_v2_base.py", line 244, in _resolve_effective_screening_discovery
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-full-lifecycle-private-20261028T120000Z/scripts/survey_screening_v2.py", line 707, in validate_package_basis
+    raise ValueError("Screening package basis drift: state_sha256")
+ValueError: Screening package basis drift: state_sha256
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 97.441s
+
+FAILED (failures=1, errors=1)

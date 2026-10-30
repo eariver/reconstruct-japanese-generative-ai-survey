@@ -1,0 +1,37 @@
+test_o1_longform_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta). ... FAIL
+
+======================================================================
+FAIL: test_o1_longform_materialize_and_replay (tests.test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-bcfix-20261028T183829Z/tests/test_survey_editorial_staged_source_v2.py", line 1223, in test_o1_longform_materialize_and_replay
+    outcome, staged_manifest = self._materialize(
+                               ~~~~~~~~~~~~~~~~~^
+        root, prep["state_path"], prep["proposal_path"], manifest_path, scope_path)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-bcfix-20261028T183829Z/tests/test_survey_editorial_staged_source_v2.py", line 1177, in _materialize
+    self.assertTrue(outcome.get("ok"), f"materialize refused: {outcome}")
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : materialize refused: {'ok': False, 'error': 'StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_prearchitecture_acceptance_v2.py', 'code': 'RUNTIME_BINDING_MISSING', 'phase': 'PIN', 'disposition': 'REFUSED_PRE_WRITE', 'owned_files': 0, 'owned': {}, 'durable_dir': '/tmp/opencode/p3s-p3s-6ypwd038', 'meta': '/tmp/opencode/p3s-p3s-6ypwd038/child.meta.json', 'meta_pre': '/tmp/opencode/p3s-p3s-6ypwd038/child.meta_pre.json', 'raw_stdout': '/tmp/opencode/p3s-p3s-6ypwd038/child.stdout.bin', 'raw_stderr': '/tmp/opencode/p3s-p3s-6ypwd038/child.stderr.bin', 'script': '/tmp/opencode/p3s-p3s-6ypwd038/child.script.py', 'script_sha256': '55884c2b7943ac922bbebdf5c8f2f59133cd2ff0cc994698bb39b5842d92aecb', 'stdout_full': '{"ok": false, "error": "StagedSourceError: RUNTIME_BINDING_MISSING: [PIN/REFUSED_PRE_WRITE] S2 module not loaded for binding: scripts/survey_prearchitecture_acceptance_v2.py", "code": "RUNTIME_BINDING_MISSING", "phase": "PIN", "disposition": "REFUSED_PRE_WRITE", "owned_files": 0, "owned": {}}\n', 'stderr_full': '', 'timeout': False, 'interrupted': False}
+
+----------------------------------------------------------------------
+Ran 1 test in 37.218s
+
+FAILED (failures=1)
+{
+  "issue_id": "SP001",
+  "structured_surface": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+  "surface_sha256": "f40db7f6f88f099e13162f51296d0b24874922d80a7ef31fd85329b85a957cd5",
+  "status": "SURFACE_MATERIALIZED"
+}
+{
+  "issue_id": "SP001",
+  "source_root": "sources/SP001",
+  "survey_root": "surveys/special/SP001",
+  "source_manifest": "sources/SP001/publication/v2/validated-source-manifest.json",
+  "main_tex": "surveys/special/SP001/main.tex",
+  "bibliography": "surveys/special/SP001/references.bib",
+  "style": "surveys/special/SP001/jgaisurvey.sty"
+}

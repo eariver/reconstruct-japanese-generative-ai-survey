@@ -1,0 +1,49 @@
+test_absent_slot_regeneration_ready_and_readback (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_absent_slot_regeneration_ready_and_readback)
+Legit post-completion regeneration (incl. old-absent slots) passes READY. ... ok
+test_adopt_refuses_late_human_review (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_adopt_refuses_late_human_review)
+A review recorded between prepare and adopt refuses adoption pre-guard. ... ok
+test_arch_gate_readback_after_adopt (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_arch_gate_readback_after_adopt)
+Adopted record stays readable after a normal Human Gate approval. ... ok
+test_completion_idempotent_reuse (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_completion_idempotent_reuse)
+Existing completion with identical intent is reused, never rewritten. ... ok
+test_completion_tamper_refuses_and_resume_indeterminate (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_completion_tamper_refuses_and_resume_indeterminate)
+Tampered completion is unverifiable; resume reports INDETERMINATE. ... ok
+test_explicit_empty_index_allows_prepare (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_explicit_empty_index_allows_prepare)
+A genuinely empty valid index is eligible (absence is not approval). ... ok
+test_high_cli_prepare_adopt (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_high_cli_prepare_adopt) ... ok
+test_interrupted_clear_resume_cleared (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_interrupted_clear_resume_cleared)
+E-state + guard-held interrupt at clearing resumes to RESUME_CLEARED. ... ok
+test_late_final_plant_blocks_and_resume_recovers (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_late_final_plant_blocks_and_resume_recovers)
+Late-planted checkpoint final refuses atomically; resume adopts. ... ok
+test_loader_accepts_str_path_same_as_path (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_loader_accepts_str_path_same_as_path)
+Public loader normalizes Path|str: same valid CP, identical result. ... ok
+test_loader_wrong_family_str_path (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_loader_wrong_family_str_path)
+A legacy checkpoint path (str or Path) classifies LEGACY, never PREARCH. ... ok
+test_low_guard_and_slots (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_low_guard_and_slots) ... ok
+test_low_typed_loader_dispatch (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_low_typed_loader_dispatch) ... ok
+test_malformed_review_result_refuses (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_malformed_review_result_refuses)
+Genuinely malformed SizedRef review result is refused (SELF binds it). ... ok
+test_named_obligation_complete_row_passes (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_named_obligation_complete_row_passes)
+Explicit full named-obligation row satisfies the Profile+named union. ... ok
+test_prepare_refuses_prior_request_changes_history (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_prepare_refuses_prior_request_changes_history)
+Valid prior REQUEST_CHANGES history refuses entry before any R/COPY write. ... ok
+test_raw_binding_refuses_unbound_claim (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_raw_binding_refuses_unbound_claim)
+Affected card whose claim text appears in NO routed Raw file refuses. ... ok
+test_repeat_correction_preserves_original_anchor_both_routes (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_repeat_correction_preserves_original_anchor_both_routes)
+Real repeat correction (both routes): anchor carried, supersedes appends. ... ok
+test_replace_tmp_exists_refuses (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_replace_tmp_exists_refuses)
+Pre-created State temp file refuses the switch (no silent replace). ... ok
+test_slot_ownership_faults (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_slot_ownership_faults)
+Unreadable slots fail closed; same-byte new-inode plants refuse. ... ok
+test_stale_and_unsupported_inputs_refuse (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_stale_and_unsupported_inputs_refuse) ... ok
+test_thematic_prepare_adopt_resume_readback (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_thematic_prepare_adopt_resume_readback) ... ok
+test_unknown_live_resume_indeterminate (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_unknown_live_resume_indeterminate)
+Unrecognized LIVE bytes yield INDETERMINATE with records preserved. ... ok
+test_unreadable_paths_fail_closed_not_coerced (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_unreadable_paths_fail_closed_not_coerced)
+EACCES paths refuse (never coerced to absent/pass). ... ok
+test_weekly_prepare_adopt_resume_readback (test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_weekly_prepare_adopt_resume_readback) ... ok
+
+----------------------------------------------------------------------
+Ran 25 tests in 26.270s
+
+OK

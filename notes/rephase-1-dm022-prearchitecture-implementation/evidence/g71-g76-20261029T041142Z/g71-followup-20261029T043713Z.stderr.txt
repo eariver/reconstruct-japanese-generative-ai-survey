@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm022-prearchitecture-implementation/evidence/g71-g76-20261029T041142Z/g71-g76-followup-activate-20261029T050000Z.py", line 172, in main
+    cand_cp=agent.build_stage_checkpoint(fixture_root,cfg,canon,{"publication-candidate":cand_path},cand_revs_path,"Renewed candidate staged (synthetic).",datetime(2026,10,29,22,0,0,tzinfo=timezone.utc))
+  File "/tmp/dm022-g71-keep-ny24cxee/scripts/survey_agent_control_v2.py", line 2257, in build_stage_checkpoint
+    _validate_stage_artifacts(repo_root, cfg, state, profile, artifact_rows)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-g71-keep-ny24cxee/scripts/survey_agent_control_v2.py", line 2158, in _validate_stage_artifacts
+    raise AgentControlError(f"Stage Checkpoint missing configured canonical artifact: {name}")
+scripts.survey_agent_control_v2.AgentControlError: Stage Checkpoint missing configured canonical artifact: freeze-record

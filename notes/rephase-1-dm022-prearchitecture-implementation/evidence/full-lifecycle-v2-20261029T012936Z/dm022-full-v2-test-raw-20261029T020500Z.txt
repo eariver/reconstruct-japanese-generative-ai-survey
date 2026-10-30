@@ -1,0 +1,28 @@
+F
+======================================================================
+FAIL: test_weekly_renewal_u_reuse_targets (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_u_reuse_targets)
+WEEKLY renewal U on VERSIONED_ACTIVE: prepare → finalize → CURRENT proof.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2966, in test_weekly_renewal_u_reuse_targets
+    act = self._run_fixture_renewal(
+        root, "u_activate",
+    ...<4 lines>...
+         "recorded_at": "2026-10-28T22:00:00+00:00"},
+        "weekly-full-ren-u-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2864, in _run_fixture_renewal
+    self.assertEqual(proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+                     f"renewal fixture op {op} must succeed (pid {pid}): {err_text[-3000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : renewal fixture op u_activate must succeed (pid 2654213): Traceback (most recent call last):
+  File "<string>", line 20, in <module>
+    sel2 = setmod.resolve_publication_selection(root, core.load_json(root / core.DEFAULT_CONFIG), st2)
+           ^^^^^^
+NameError: name 'setmod' is not defined. Did you mean: 'srcmod'?
+
+
+----------------------------------------------------------------------
+Ran 1 test in 459.789s
+
+FAILED (failures=1)

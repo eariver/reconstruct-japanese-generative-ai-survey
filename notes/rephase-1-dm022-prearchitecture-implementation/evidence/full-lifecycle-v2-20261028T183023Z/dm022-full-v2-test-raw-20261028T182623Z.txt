@@ -1,0 +1,33 @@
+test_repeat_correction_preserves_anchor_and_wrong_role_refuses (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_repeat_correction_preserves_anchor_and_wrong_role_refuses) ... ok
+test_thematic_dm022_to_selection_stage (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_dm022_to_selection_stage) ... ok
+test_thematic_full_to_architecture_approval (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_full_to_architecture_approval)
+THEMATIC: same Architecture stage + synthetic Gate (both-route approval). ... ok
+test_weekly_candidate_to_released (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_candidate_to_released)
+WEEKLY: VALIDATED_DRAFT → Candidate → Preview → Freeze → Release. ... FAIL
+test_weekly_dm022_to_selection_stage (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_dm022_to_selection_stage) ... ok
+test_weekly_draft_synthesis_reader (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_draft_synthesis_reader)
+WEEKLY: ordinary Drafting synthesis runner on the revised graph + reader. ... ok
+test_weekly_full_to_architecture_approval (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_full_to_architecture_approval)
+Extend WEEKLY witness: SELECTION_COMPLETE→ARCHITECTURE_ESTABLISHED + synthetic Gate. ... ok
+test_weekly_present_old_seven_slots_retain_clear_regenerate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_present_old_seven_slots_retain_clear_regenerate)
+Present-old-7slots: ordinary regen BEFORE adopt, retained/cleared/verified, new regen. ... ok
+test_weekly_publication_real_pdf_to_validated_draft (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_publication_real_pdf_to_validated_draft)
+WEEKLY: DRAFT_COMPLETE → derivation → REAL PDF → strict admission. ... ok
+
+======================================================================
+FAIL: test_weekly_candidate_to_released (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_candidate_to_released)
+WEEKLY: VALIDATED_DRAFT → Candidate → Preview → Freeze → Release.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed-20261028T175919Z/tests/test_dm022_full_lifecycle_v2.py", line 1556, in test_weekly_candidate_to_released
+    self.assertEqual(rel_proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+                     f"release-checkpoint CLI must succeed (pid {rel_pid}): {rel_err[-2000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : release-checkpoint CLI must succeed (pid 1410815): DM022_WRONG_FAMILY for release checkpoint: PREARCH research node refused at completeness (expected FROZEN->RELEASED release)
+
+
+----------------------------------------------------------------------
+Ran 9 tests in 226.610s
+
+FAILED (failures=1)

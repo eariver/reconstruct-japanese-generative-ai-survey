@@ -1,0 +1,26 @@
+E
+======================================================================
+ERROR: test_thematic_editorial_finalize_activate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_editorial_finalize_activate)
+THEMATIC editorial: prepare (real TinyTeX) → reviews → finalize → VERSIONED_ACTIVE (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 3386, in test_thematic_editorial_finalize_activate
+    activated = self._thematic_to_versioned_active("thematic-full-ed-pub-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2925, in _thematic_to_versioned_active
+    staged = self._thematic_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2892, in _thematic_to_editorial_staged
+    prepared = proposal_mod.prepare_proposal(root, state_abs, authored_path, proposal_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_editorial_correction_proposal_v2.py", line 2552, in prepare_proposal
+    result = _pipeline(col, root_path, Path(state_path), authoring_path, proposal_id, tree_entry,
+                       change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_editorial_correction_proposal_v2.py", line 2254, in _pipeline
+    data = _pipeline_data(col, root, state_path, new_authored_value,
+                          proposal_id, change_description)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_editorial_correction_proposal_v2.py", line 1941, in _pipeline_data
+    raise _fail("GATE_RECEIPT_SHAPE", "gate record carries no receipt binding")
+scripts.survey_editorial_correction_proposal_v2.ProposalError: GATE_RECEIPT_SHAPE: gate record carries no receipt binding
+
+----------------------------------------------------------------------
+Ran 1 test in 57.140s
+
+FAILED (errors=1)

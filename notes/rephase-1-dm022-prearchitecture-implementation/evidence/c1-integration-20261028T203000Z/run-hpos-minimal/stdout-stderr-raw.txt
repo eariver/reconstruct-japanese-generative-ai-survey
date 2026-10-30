@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "/tmp/c1-hpos-minimal-20261028T203000Z.py", line 18, in <module>
+    chain = a._chain_root("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/tests/test_dm022_prearchitecture_acceptance_v2.py", line 79, in _chain_root
+    temp, root, cfg = helper.sandbox()
+                      ~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/tests/test_survey_evidence_v2.py", line 34, in sandbox
+    source_cfg = core.load_json(self.repo_root / "config/survey-production-v2.json")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-integration-20261028T203000Z/scripts/survey_production_v2.py", line 139, in load_json
+    with path.open("r", encoding="utf-8") as fh:
+         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 772, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/config/survey-production-v2.json'

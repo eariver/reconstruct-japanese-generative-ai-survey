@@ -1,0 +1,37 @@
+test_actual_history_r31_chain31_r32_chain32_r33_invalid (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_actual_history_r31_chain31_r32_chain32_r33_invalid) ... ERROR
+test_already_active_helper_unaffected_by_cap (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_already_active_helper_unaffected_by_cap) ... ok
+test_chain_limit_is_32 (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_chain_limit_is_32) ... ok
+test_require_cap_allows_31_refuses_32 (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_require_cap_allows_31_refuses_32) ... ok
+test_require_cap_missing_chain_length_refuses (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_require_cap_missing_chain_length_refuses) ... ok
+test_require_cap_uses_chain_length_not_filename_maxseq (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_require_cap_uses_chain_length_not_filename_maxseq) ... ok
+
+======================================================================
+ERROR: test_actual_history_r31_chain31_r32_chain32_r33_invalid (test_survey_versioned_renewal_depth_prewrite_v2.DepthPrewriteCapTests.test_actual_history_r31_chain31_r32_chain32_r33_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_versioned_renewal_history_v2.py", line 685, in _fd_safe_read
+    fd = os.open(part, os.O_RDONLY | os.O_DIRECTORY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_NONBLOCK", 0), dir_fd=parent)
+FileNotFoundError: [Errno 2] No such file or directory: 'sources'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_versioned_renewal_depth_prewrite_v2.py", line 72, in test_actual_history_r31_chain31_r32_chain32_r33_invalid
+    r31 = hist.verify_versioned_history(
+        repo, "sources/2026-W37/publication/v2/publication-surface-revalidation-r31.json")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_versioned_renewal_history_v2.py", line 4152, in verify_versioned_history
+    record = _load_record_file(root, {"path": rel, "sha256": sha256_repo_file(root, rel, "history record")}, "history record")
+                                                             ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_versioned_renewal_history_v2.py", line 771, in sha256_repo_file
+    return hashlib.sha256(read_repo_bytes(repo_root, rel, label)).hexdigest()
+                          ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_versioned_renewal_history_v2.py", line 767, in read_repo_bytes
+    return _fd_safe_read(repo_root, rel, label)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_versioned_renewal_history_v2.py", line 687, in _fd_safe_read
+    raise RenewalHistoryError("HISTORY_BLOB_MISSING", f"{label} ancestor missing: {'/'.join(cur)}: {exc}") from exc
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_BLOB_MISSING: history record ancestor missing: sources: [Errno 2] No such file or directory: 'sources'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.161s
+
+FAILED (errors=1)

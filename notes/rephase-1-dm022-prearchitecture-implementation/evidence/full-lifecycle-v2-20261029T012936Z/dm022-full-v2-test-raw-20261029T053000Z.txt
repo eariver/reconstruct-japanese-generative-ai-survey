@@ -1,0 +1,38 @@
+F
+======================================================================
+FAIL: test_weekly_renewal_c_before_preview (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_c_before_preview)
+WEEKLY renewal C on VERSIONED_ACTIVE: new build + new reviews (exact new paths) → CURRENT proof → activate (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 3640, in test_weekly_renewal_c_before_preview
+    _reved = self._run_fixture_editorial(
+        root, "reviews_explicit",
+    ...<13 lines>...
+         "recorded_at": "2026-10-28T21:00:00+00:00"},
+        "weekly-full-ren-c-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2731, in _run_fixture_editorial
+    self.assertEqual(proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+                     f"editorial fixture op {op} must succeed (pid {pid}): {err_text[-3000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : editorial fixture op reviews_explicit must succeed (pid 2975280): Traceback (most recent call last):
+  File "<string>", line 39, in <module>
+    reader.build_review_record(root, _man_path2, _pdf_path2, _pages2, 'SEMANTIC_EDITORIAL', args['sem_checks'], args['reviewer'], datetime.fromisoformat(args['recorded_at']), root / args['sem_rel'])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpnny_uk5l/scripts/survey_reader_publication_v2.py", line 829, in build_review_record
+    manuscript = validate_manuscript_manifest(repo_root, manuscript_file,
+                                              renewal_source_proof_ref=renewal_source_proof_ref)
+  File "/tmp/tmpnny_uk5l/scripts/survey_reader_publication_v2.py", line 714, in validate_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 renewal_source_proof_ref=renewal_source_proof_ref)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpnny_uk5l/scripts/survey_reader_publication_v2.py", line 432, in _validate_manifest_semantics
+    raise ValueError("renewed manuscript requires explicit renewal proof context")
+ValueError: renewed manuscript requires explicit renewal proof context
+
+
+----------------------------------------------------------------------
+Ran 1 test in 413.749s
+
+FAILED (failures=1)

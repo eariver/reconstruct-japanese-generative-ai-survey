@@ -1,0 +1,30 @@
+test_01_discriminator_requires_strict_reason_not_reason_class (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_01_discriminator_requires_strict_reason_not_reason_class) ... ok
+test_02_operation_requires_exact_from_state_to_state (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_02_operation_requires_exact_from_state_to_state) ... ok
+test_03_producer_boundary_requires_exact_object_no_alias (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_03_producer_boundary_requires_exact_object_no_alias) ... ok
+test_04_full_schema_shaped_record_passes_content_branch (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_04_full_schema_shaped_record_passes_content_branch) ... ok
+test_05_wrong_family_for_validation_freeze_release_selection (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_05_wrong_family_for_validation_freeze_release_selection) ... ok
+test_06_forward_fields_forbidden_and_lineage_required (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_06_forward_fields_forbidden_and_lineage_required) ... ok
+test_07_triplet_same_vs_split_classification (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_07_triplet_same_vs_split_classification) ... ok
+test_08_seven_slots_exact_including_audit (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_08_seven_slots_exact_including_audit) ... ok
+test_09_seven_preflight_absent_passes_audit_present_refuses (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_09_seven_preflight_absent_passes_audit_present_refuses) ... ok
+test_10_core_proof_branch_accepts_prearch_rejects_mixed (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_10_core_proof_branch_accepts_prearch_rejects_mixed) ... FAIL
+test_11_legacy_discriminators_preserved (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_11_legacy_discriminators_preserved) ... ok
+test_12_drafting_pure_accepts_r4_refs_and_refuses_missing (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_12_drafting_pure_accepts_r4_refs_and_refuses_missing) ... ok
+
+======================================================================
+FAIL: test_10_core_proof_branch_accepts_prearch_rejects_mixed (test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_10_core_proof_branch_accepts_prearch_rejects_mixed)
+----------------------------------------------------------------------
+scripts.survey_agent_control_v2.AgentControlError: PREARCH record requires exactly one DM022_SUPERSESSION_PROOF review
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/tests/test_dm022_prearch_b_ordinary_consumers_v2.py", line 196, in test_10_core_proof_branch_accepts_prearch_rejects_mixed
+    with self.assertRaisesRegex(agent.AgentControlError, "must not carry CORE_STAGE_CONTRACT"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "must not carry CORE_STAGE_CONTRACT" does not match "PREARCH record requires exactly one DM022_SUPERSESSION_PROOF review"
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.005s
+
+FAILED (failures=1)

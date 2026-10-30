@@ -1,0 +1,79 @@
+test_cli_main_success_and_error (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_cli_main_success_and_error) ... release checkpoint requires FROZEN Production State
+ok
+test_drifted_core_authority_fails_before_state_mutation (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_drifted_core_authority_fails_before_state_mutation) ... ok
+test_idempotent_reexecution (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_idempotent_reexecution) ... ok
+test_missing_core_authority_fails_before_state_mutation (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_missing_core_authority_fails_before_state_mutation) ... ok
+test_release_authority_failure_fails_before_state_mutation (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_authority_failure_fails_before_state_mutation) ... ok
+test_release_boundary_uses_one_compact_checkpoint_with_current_tool_identity (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_boundary_uses_one_compact_checkpoint_with_current_tool_identity) ... ok
+test_release_checkpoint_rejects_release_record_bound_to_other_merge_verification (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_checkpoint_rejects_release_record_bound_to_other_merge_verification) ... ok
+test_release_checkpoint_requires_frozen_state (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_checkpoint_requires_frozen_state) ... ok
+test_success_path_advances_to_released_and_terminal_complete (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_success_path_advances_to_released_and_terminal_complete) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.311s
+
+OK
+{
+  "checkpoint": "tmpmv220gqp/orchestration/v2/checkpoints/FROZEN.json",
+  "state": {
+    "schema_version": "2.0-rc1",
+    "issue_id": "SP-RELEASE-CHECKPOINT",
+    "research_profile": "THEMATIC",
+    "publication_profile": "LONGFORM_SPECIAL",
+    "lifecycle_state": "RELEASED",
+    "profile": {
+      "path": "tmpmv220gqp/production-profile.json",
+      "sha256": "7bccc41f7ba684c7e6736770c8948bfa84364de6b8397bcc91ec927487d9bf9f"
+    },
+    "contract": {
+      "pipeline_contract_version": "2.0-rc1",
+      "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+      "quality_contract_version": "2.0-rc1",
+      "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+      "research_profile_version": "2.0-rc1",
+      "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+      "publication_profile_version": "2.0-rc1",
+      "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+    },
+    "implementation": {
+      "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c",
+      "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+    },
+    "history": [
+      {
+        "from": "FROZEN",
+        "to": "RELEASED",
+        "recorded_at": "2026-08-22T10:30:00Z",
+        "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c"
+      }
+    ],
+    "human_gates": {
+      "architecture_review": "approved",
+      "publication_preview": "approved"
+    },
+    "human_gate_provenance": {},
+    "target_gate": "ARCHITECTURE_REVIEW",
+    "next_action": null,
+    "terminal_reason": "COMPLETE",
+    "exception_gate": {
+      "status": "inactive",
+      "reason": null
+    },
+    "machine_checkpoints": {
+      "release": "passed"
+    },
+    "checkpoint_provenance": {
+      "release": {
+        "path": "tmpmv220gqp/orchestration/v2/checkpoints/FROZEN.json",
+        "sha256": "d1b9f32e40b049e123c656f4efa982b9d077a725dab9d036dd0bb32104471df5"
+      }
+    },
+    "legacy_compatibility": {
+      "mode": "NON_AUTHORITATIVE_READ_ONLY",
+      "legacy_state_present": false,
+      "legacy_state_path": "tmpmv220gqp/pipeline-state.json",
+      "legacy_state_sha256": null
+    },
+    "publication_revalidation_provenance": null
+  }
+}

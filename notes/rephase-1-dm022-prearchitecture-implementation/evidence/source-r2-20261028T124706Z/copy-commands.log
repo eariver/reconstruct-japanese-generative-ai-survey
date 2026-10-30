@@ -1,0 +1,79 @@
+# Source R2 copy commands — transcribed tool-observed record (NOT raw)
+
+Snapshot: `snapshot-r2-20261028T124706Z` of current candidate-work (A2/B/C
+corrections integrated; critical rejected pending review, NOT accepted).
+All commands ran with `workdir=/tmp` via bash tool. Entries below are
+TRANSCRIBED tool-observed commands + exits. Per instruction they are NOT
+labeled raw and are NOT saved-raw execution logs. No saved runners executed.
+No runtime/tests. No Human commit readback (no git commands in workspace root;
+candidate `.git/HEAD`/config read as plain files for source binding only).
+
+## 1. Pre-copy inspection
+
+```
+date -u +%Y%m%dT%H%M%SZ -> 20261028T124706Z (R2 stamp)
+CAND=.../dm022-prearchitecture-implementation-20261028T113126Z/candidate-work
+find CAND -path CAND/.git -prune -o -type f -print | wc -l -> 756
+R1 worktree count -> 756 (R1 snapshot intact, see §R1 below)
+ls evidence/ -> source-r1-20261028T121631Z (only; R2/A2 dirs not yet created)
+ls -l /tmp/dm022-a2-test-raw-20261028.txt -> 835B, Oct 28 21:42
+ls -ld /tmp/dm022-a2-private -> dir, 10 top entries, Oct 26 05:56 base
+```
+
+## 2. Directory creation
+
+```
+PARENT=.../dm022-prearchitecture-implementation-20261028T113126Z
+SNAP2=$PARENT/snapshot-r2-20261028T124706Z
+mkdir -p SNAP2/worktree SNAP2/git-independent -> exit 0
+mkdir -p notes/.../evidence/source-r2-20261028T124706Z -> exit 0
+mkdir -p notes/.../evidence/A2-original-20261028T124706Z -> exit 0
+```
+
+## 3. R2 snapshot byte-copy
+
+```
+tar --exclude=.git --hard-dereference -cf - -C CAND . | tar -xf - -C SNAP2/worktree
+  -> tar-pipeline-exit 0/0 (intended worktree only; no .git/cache residue)
+cp -a CAND/.git SNAP2/git-independent/.git
+  -> cp-git-exit 0 (byte copy, no --link; no sharing; no config mutation; no commit)
+find SNAP2/worktree -type f | wc -l -> 756
+cat SNAP2/git-independent/.git/HEAD -> 409b292756dd1277b9dfae87679934c0d2ce251c
+```
+
+## 4. R2 verification (read-only)
+
+```
+python rglob+sha256+stat CAND vs SNAP2/worktree (excl .git/__pycache__/*.pyc)
+  -> CAND 756 / SNAP2 756 / ONLY either side 0 / MISMATCH 0 / symlinks 0/0
+python find -printf '%d %i' CAND/.git vs SNAP2/git-independent/.git
+  -> CAND_GIT 83 / SNAP2_GIT 83 / OVERLAP 0
+ls SNAP2/.../.git/objects/info/alternates -> No such file
+ls SNAP2/.../.git/commondir -> No such file
+python manifest generator -> wrote snapshot-r2-manifest.json 756 entries
+sha256 snapshot-r2-manifest.json -> 53fde56bea8b69adeb2cdfbbd716bbe9534bfb0bc49739619f909ae6ca1f3935 / 149982B
+R1 untouched check -> snapshot-r1 dir present, worktree 756 files
+```
+
+## 5. A2 evidence binding (read-only inspection + byte preservation)
+
+```
+head /tmp/dm022-a2-test-raw-20261028.txt -> 5 ok lines + Ran 5 tests + OK + EXIT:0
+python sha256 raw -> 1ac355419351eea43fc751db7ed6abdb95350b4b474d4cb3d43c095e2a9b78fe / 835B / 11 lines
+ls -la /tmp/dm022-a2-private -> .github/.gitignore/.latexmkrc/AGENTS/README/config/docs/schemas/scripts/specials/templates/tests (no top-level .git)
+find private -path */.git -prune -o -type f -print | wc -l -> 783 (includes 27 *.pyc caches)
+find private -name .git -print -> (none)
+find private -name __pycache__ -> tests/__pycache__ scripts/__pycache__
+python intended inventory (excl .git/__pycache__/*.pyc) -> PRIV 756 / CAND 756 / R1 756
+A-owned 4 priv==cand all True (LOW c67e0afb…/109192B, HIGH 0407b1aa…/76295B, fixtures 7fdc692c…/3330B, tests 749c708e…/36770B); priv!=r1 all True
+PRIVvsR1 diff -> exactly 4 (only A-owned 4)
+CANDvsR1 diff -> 41 files (A2 4 + B/C corrections; list in binding doc)
+cp /tmp/dm022-a2-test-raw-20261028.txt evidence/A2-original-.../dm022-a2-test-raw-20261028.txt -> exit 0
+sha256 src vs dst raw -> both 1ac355…/835B, equal True
+python private manifest generator -> wrote private-source-manifest.json 756 entries
+sha256 private-source-manifest.json -> ad67931f85a9dcb8d13667930a3e04133508d43e90dd7f31fe818aa11bc0a584 / 150048B
+```
+
+Provenance: this file is a transcribed record, NOT raw. The only raw artifact here
+is the author-saved `/tmp/dm022-a2-test-raw-20261028.txt` (byte-preserved in
+A2-original); post-hoc hashes are observation, NOT retroactive per-run proof.

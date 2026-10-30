@@ -1,0 +1,61 @@
+# Source R1 preservation — copy commands/exits (tool-observed execution record)
+
+Snapshot: `snapshot-r1-20261028T121631Z` of current candidate-work (rejected author R1).
+All commands ran with `workdir=/tmp` via bash tool (no `cd` chains).
+Outputs below are tool-observed as executed; saved here durably via Write.
+No saved runners executed. No runtime/tests. No Human commit readback
+(no git commands in workspace reconstruct root; candidate `.git/HEAD`/`config`
+read as plain files for source binding only).
+
+## 1. Inspection (read-only, before copy)
+
+```
+ls -ld PARENT dm022-prearchitecture-implementation-20261028T113126Z  -> OK (exists)
+ls -ld notes/.../rephase-1-dm022-prearchitecture-implementation     -> OK
+CAND=.../dm022-prearchitecture-implementation-20261028T113126Z/candidate-work
+ls -1 CAND            -> AGENTS.md README.md config docs schemas scripts specials templates tests (+ .github/.gitignore/.latexmkrc dotfiles)
+cat CAND/.git/HEAD    -> 409b292756dd1277b9dfae87679934c0d2ce251c (no commit; parent HEAD stays actual409)
+cat CAND/.git/config  -> inert origin https://example.invalid/rephase-candidate-recovery.git (preserved)
+find CAND -path CAND/.git -prune -o -type f -print | wc -l -> 756
+find CAND ... -type d -name __pycache__ | wc -l -> 0
+find CAND ... -type f -name *.pyc | wc -l -> 0
+find CAND ... new dm022 files -> 5 schemas + 2 scripts + A/B/C1/C2 tests/helpers (14 new vs 742 baseline = 756)
+find CAND ... -type l | wc -l -> 0
+find CAND/.git -type f | wc -l -> 83
+date -u +%Y%m%dT%H%M%SZ -> 20261028T121631Z (snapshot stamp)
+```
+
+## 2. Snapshot creation (byte-copy, no hardlinks, no deletes, no commits)
+
+```
+PARENT=.../dm022-prearchitecture-implementation-20261028T113126Z
+SNAP=$PARENT/snapshot-r1-20261028T121631Z
+mkdir -p "$SNAP/worktree" "$SNAP/git-independent"  -> exit 0
+mkdir -p notes/.../evidence/source-r1-20261028T121631Z -> exit 0
+tar --exclude=.git --hard-dereference -cf - -C "$CAND" . | tar -xf - -C "$SNAP/worktree"
+  -> tar-pipeline-exit 0/0 (intended worktree only; no .git/cache residue)
+cp -a "$CAND/.git" "$SNAP/git-independent/.git"
+  -> cp-git-exit 0 (byte copy, no --link; no sharing; no config mutation; no commit)
+find SNAP/worktree -type f | wc -l -> 756
+find SNAP/worktree -type d -name __pycache__ | wc -l -> 0
+cat SNAP/git-independent/.git/HEAD -> 409b292756dd1277b9dfae87679934c0d2ce251c
+```
+
+## 3. Verification (read-only equality + isolation)
+
+```
+python rglob+sha256+stat CAND vs SNAP/worktree (excl .git/__pycache__/*.pyc)
+  -> CAND 756 / SNAP 756 / CAND_ONLY 0 / SNAP_ONLY 0 / MISMATCH 0 / symlinks 0/0
+python find -printf '%d %i' CAND/.git vs SNAP/git-independent/.git
+  -> CAND_GIT 83 / SNAP_GIT 83 / OVERLAP 0
+ls SNAP/.../.git/objects/info/alternates -> No such file
+ls SNAP/.../.git/commondir -> No such file
+cat SNAP/.../.git/config -> inert example.invalid origin (identical, unmutated)
+python manifest generator -> wrote snapshot-r1-manifest.json 756 entries
+sha256 snapshot-r1-manifest.json -> f67ad9b6253324854823b04ef4c3dbf08b1cf046d0c1b9240dce09f8527200dc / 149981B
+ls evidence/source-r1-20261028T121631Z -> snapshot-r1-manifest.json present
+```
+
+Provenance: tool-observed, transcribed here (not tee-captured raw shell logs).
+Candidate-work was NOT edited by this preservation task; snapshot is the frozen
+rejected-R1 source. Corrections may edit candidate-work only after this snapshot.

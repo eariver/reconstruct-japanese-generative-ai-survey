@@ -1,0 +1,54 @@
+F
+======================================================================
+FAIL: test_weekly_renewal_u_reuse_targets (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_u_reuse_targets)
+WEEKLY renewal U on VERSIONED_ACTIVE: prepare → finalize → CURRENT proof.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2929, in test_weekly_renewal_u_reuse_targets
+    act = self._run_fixture_renewal(
+        root, "u_activate",
+    ...<4 lines>...
+         "recorded_at": "2026-10-28T22:00:00+00:00"},
+        "weekly-full-ren-u-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2864, in _run_fixture_renewal
+    self.assertEqual(proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+                     f"renewal fixture op {op} must succeed (pid {pid}): {err_text[-3000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : renewal fixture op u_activate must succeed (pid 2624057): ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_history_v2.py", line 4469, in verify_versioned_history
+    info = _verify_versioned_ancestor(root, rec, ref, expected_predecessor, chronological, _inv_cache)
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_history_v2.py", line 3510, in _verify_versioned_ancestor
+    _verify_build_chain_hist(repo_root, build_doc, str(seal.get("build_record_ref", {}).get("path", "")), epoch_sha, chain if isinstance(chain, list) else [], str(record.get("issue_id", "")), "versioned ancestor build chain")
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_history_v2.py", line 2977, in _verify_build_chain_hist
+    raise RenewalHistoryError("HISTORY_TOOL_EPOCH_DRIFT", f"{label} REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_TOOL_EPOCH_DRIFT: versioned ancestor build chain REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_v2.py", line 3415, in activate_renewal
+    setmod.validate_activation_record(repo, Path(record_rel_out))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpgmj_eb6_/scripts/survey_publication_set_v2.py", line 1491, in validate_activation_record
+    return _validate_versioned_activation(root, rel, validated)
+  File "/tmp/tmpgmj_eb6_/scripts/survey_publication_set_v2.py", line 1463, in _validate_versioned_activation
+    raise PublicationSetError(f"versioned activation history invalid: {exc}") from exc
+scripts.survey_publication_set_v2.PublicationSetError: versioned activation history invalid: HISTORY_TOOL_EPOCH_DRIFT: versioned ancestor build chain REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 18, in <module>
+    act = high.activate_renewal(root, args['state'], args['set_path'], args['reason'], args['executor'], datetime.fromisoformat(args['recorded_at']))
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_v2.py", line 3418, in activate_renewal
+    raise _fail(str(code), "ACTIVATE", "PRESERVED_INCOMPLETE",
+                f"low activation-record validation failed: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: SEAL_BIND: low activation-record validation failed: versioned activation history invalid: HISTORY_TOOL_EPOCH_DRIFT: versioned ancestor build chain REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)
+
+
+----------------------------------------------------------------------
+Ran 1 test in 440.905s
+
+FAILED (failures=1)

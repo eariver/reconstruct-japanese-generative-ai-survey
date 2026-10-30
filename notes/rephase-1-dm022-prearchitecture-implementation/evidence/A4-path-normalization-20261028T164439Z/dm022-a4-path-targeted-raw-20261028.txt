@@ -1,0 +1,100 @@
+test_loader_accepts_str_path_same_as_path (tests.test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_loader_accepts_str_path_same_as_path)
+Public loader normalizes Path|str: same valid CP, identical result. ... ok
+test_loader_wrong_family_str_path (tests.test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_loader_wrong_family_str_path)
+A legacy checkpoint path (str or Path) classifies LEGACY, never PREARCH. ... ok
+test_weekly_refresh_validation_healthy_legacy_accepts_whole_path (tests.test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_weekly_refresh_validation_healthy_legacy_accepts_whole_path)
+Healthy control: valid legacy validation checkpoint passes PUBLIC validator. ... ERROR
+test_cli_main_success_and_error (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_cli_main_success_and_error) ... release checkpoint requires FROZEN Production State
+ok
+
+======================================================================
+ERROR: test_weekly_refresh_validation_healthy_legacy_accepts_whole_path (tests.test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_weekly_refresh_validation_healthy_legacy_accepts_whole_path)
+Healthy control: valid legacy validation checkpoint passes PUBLIC validator.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/dm022-a4p-path/scripts/survey_research_authority_v2.py", line 329, in load_typed_checkpoint_record
+    schema_gate.validate_instance(record, schema_abs, label="legacy checkpoint")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-a4p-path/scripts/survey_schema_v2.py", line 240, in validate_instance
+    raise SchemaConformanceError(f"schema path is missing or unsafe: {schema_path}")
+scripts.survey_schema_v2.SchemaConformanceError: schema path is missing or unsafe: /tmp/dm022-c2-refresh-ok-c9zogz7c/schemas/stage-checkpoint-v2.schema.json
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/dm022-a4p-path/tests/test_survey_dm022_c2_consumers_v2.py", line 225, in test_weekly_refresh_validation_healthy_legacy_accepts_whole_path
+    result = wmod.validate_refresh_validation_checkpoint(root, state, ref)
+  File "/tmp/dm022-a4p-path/scripts/survey_weekly_mechanical_refresh_v2.py", line 674, in validate_refresh_validation_checkpoint
+    _typed = _low_pub.load_typed_checkpoint_record(root, validation_ref["path"])
+  File "/tmp/dm022-a4p-path/scripts/survey_research_authority_v2.py", line 331, in load_typed_checkpoint_record
+    raise ResearchAuthorityError(f"legacy checkpoint schema invalid: {exc}") from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: legacy checkpoint schema invalid: schema path is missing or unsafe: /tmp/dm022-c2-refresh-ok-c9zogz7c/schemas/stage-checkpoint-v2.schema.json
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.424s
+
+FAILED (errors=1)
+{
+  "checkpoint": "tmpcj9f0ne2/orchestration/v2/checkpoints/FROZEN.json",
+  "state": {
+    "schema_version": "2.0-rc1",
+    "issue_id": "SP-RELEASE-CHECKPOINT",
+    "research_profile": "THEMATIC",
+    "publication_profile": "LONGFORM_SPECIAL",
+    "lifecycle_state": "RELEASED",
+    "profile": {
+      "path": "tmpcj9f0ne2/production-profile.json",
+      "sha256": "9b2c23e83307926ef3e215db4468c6f323953201aff1950700344b0c0c61c5f0"
+    },
+    "contract": {
+      "pipeline_contract_version": "2.0-rc1",
+      "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+      "quality_contract_version": "2.0-rc1",
+      "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+      "research_profile_version": "2.0-rc1",
+      "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+      "publication_profile_version": "2.0-rc1",
+      "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+    },
+    "implementation": {
+      "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c",
+      "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+    },
+    "history": [
+      {
+        "from": "FROZEN",
+        "to": "RELEASED",
+        "recorded_at": "2026-08-22T10:30:00Z",
+        "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c"
+      }
+    ],
+    "human_gates": {
+      "architecture_review": "approved",
+      "publication_preview": "approved"
+    },
+    "human_gate_provenance": {},
+    "target_gate": "ARCHITECTURE_REVIEW",
+    "next_action": null,
+    "terminal_reason": "COMPLETE",
+    "exception_gate": {
+      "status": "inactive",
+      "reason": null
+    },
+    "machine_checkpoints": {
+      "release": "passed"
+    },
+    "checkpoint_provenance": {
+      "release": {
+        "path": "tmpcj9f0ne2/orchestration/v2/checkpoints/FROZEN.json",
+        "sha256": "cf08a492cd54ea0ae407dd3ceb44856ad7a995307db648c0961c4b04e5e9f998"
+      }
+    },
+    "legacy_compatibility": {
+      "mode": "NON_AUTHORITATIVE_READ_ONLY",
+      "legacy_state_present": false,
+      "legacy_state_path": "tmpcj9f0ne2/pipeline-state.json",
+      "legacy_state_sha256": null
+    },
+    "publication_revalidation_provenance": null
+  }
+}

@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "<string>", line 28, in <module>
+    reader.build_review_record(root, _man_path, _pdf_path, _pages, 'SEMANTIC_EDITORIAL', _sem_checks, args['reviewer'], datetime.fromisoformat(args['recorded_at']), root / args['sem_rel'])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpuqxy0gmz/scripts/survey_reader_publication_v2.py", line 861, in build_review_record
+    fidelity.validate_review_depth(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        profile,
+        ^^^^^^^^
+    ...<4 lines>...
+        review_kind,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/tmpuqxy0gmz/scripts/survey_reader_fidelity_v2.py", line 460, in validate_review_depth
+    _require_evidence(
+    ~~~~~~~~~~~~~~~~~^
+        architecture_fidelity,
+        ^^^^^^^^^^^^^^^^^^^^^^
+        package_markers | coverage_locations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "ARCHITECTURE_CONTENT_FIDELITY",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/tmpuqxy0gmz/scripts/survey_reader_fidelity_v2.py", line 362, in _require_evidence
+    raise ValueError(f"{label} must bind exact review evidence; missing={missing}")
+ValueError: ARCHITECTURE_CONTENT_FIDELITY must bind exact review evidence; missing=['package:pkg-core']

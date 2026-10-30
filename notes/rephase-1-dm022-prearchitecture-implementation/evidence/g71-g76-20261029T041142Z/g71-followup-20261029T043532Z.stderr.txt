@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm022-prearchitecture-implementation/evidence/g71-g76-20261029T041142Z/g71-g76-followup-activate-20261029T050000Z.py", line 205, in main
+    freeze_cp=agent.build_stage_checkpoint(fixture_root,cfg,canon,{"freeze-record":freeze_path,"release-manifest":manifest_path,"visual-review-record":vis_abs},frevs_path,"Renewed freeze staged.",datetime(2026,10,30,1,0,0,tzinfo=timezone.utc))
+  File "/tmp/dm022-g71-keep-ny24cxee/scripts/survey_agent_control_v2.py", line 2257, in build_stage_checkpoint
+    _validate_stage_artifacts(repo_root, cfg, state, profile, artifact_rows)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-g71-keep-ny24cxee/scripts/survey_agent_control_v2.py", line 2179, in _validate_stage_artifacts
+    raise AgentControlError(f"Stage Checkpoint artifact path is not canonical for {name}: {configured['path']}")
+scripts.survey_agent_control_v2.AgentControlError: Stage Checkpoint artifact path is not canonical for freeze-record: {source_root}/publication/v2/freeze-record-v2.json

@@ -1,0 +1,62 @@
+E
+======================================================================
+ERROR: test_weekly_renewal_u_reuse_targets (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_u_reuse_targets)
+WEEKLY renewal U on VERSIONED_ACTIVE: prepare → finalize → CURRENT proof.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_source_v2.py", line 216, in _verify_module_roots
+    p.relative_to(repo_r)
+    ~~~~~~~~~~~~~^^^^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 489, in relative_to
+    raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+ValueError: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_history_v2.py' is not in the subpath of '/tmp/tmpzk8sr7fs'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_reader_publication_v2.py", line 248, in _validate_renewal_manuscript_binding
+    new_proof = srcmod.verify_renewal_source_proof(repo_root, basis_rel, proof_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_source_v2.py", line 1740, in verify_renewal_source_proof
+    _verify_current_tools_committed(repo, basis, dep, cfg_cur)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_source_v2.py", line 270, in _verify_current_tools_committed
+    _verify_module_roots(repo)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_source_v2.py", line 218, in _verify_module_roots
+    raise RenewalSourceError("BASIS_CURRENT_TOOL_DRIFT", f"loaded {name} module wrong root: {f}") from exc
+scripts.survey_versioned_renewal_source_v2.RenewalSourceError: BASIS_CURRENT_TOOL_DRIFT: loaded history module wrong root: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_history_v2.py
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2992, in test_weekly_renewal_u_reuse_targets
+    agent.approve_publication_preview(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        root, cfg, state_abs, "SYNTHETIC_FIXTURE_REVIEWER_GENERAL_FULL_V2",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        datetime(2026, 10, 29, 0, 0, 0, tzinfo=timezone.utc),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "synthetic-full-v2-renewal-preview")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_agent_control_v2.py", line 2472, in approve_publication_preview
+    publication.validate_candidate(repo_root, candidate, issue_id=state["issue_id"])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_publication_v2.py", line 1872, in validate_candidate
+    manuscript = reader.validate_manuscript_manifest(repo_root, manuscript_path, issue_id=payload["issue_id"],
+                                                     renewal_source_proof_ref=proof_ref if isinstance(proof_ref, dict) else None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_reader_publication_v2.py", line 714, in validate_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 renewal_source_proof_ref=renewal_source_proof_ref)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_reader_publication_v2.py", line 455, in _validate_manifest_semantics
+    _validate_renewal_manuscript_binding(repo_root, payload, renewal_source_proof_ref)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_reader_publication_v2.py", line 250, in _validate_renewal_manuscript_binding
+    raise ValueError(f"renewal proof Layer-B readback refused: {exc}") from exc
+ValueError: renewal proof Layer-B readback refused: BASIS_CURRENT_TOOL_DRIFT: loaded history module wrong root: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/scripts/survey_versioned_renewal_history_v2.py
+
+----------------------------------------------------------------------
+Ran 1 test in 465.141s
+
+FAILED (errors=1)

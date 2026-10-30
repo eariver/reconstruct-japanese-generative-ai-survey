@@ -1,0 +1,7 @@
+# Astra source finding — prior Human review window
+
+2026-10-29. Root read HIGH `verify_live_eligibility:299–357` and `_prove_before_graph_unbound:364–416`. The latter rejects only APPROVED rows in a schema-valid Human review index; REQUEST_CHANGES rows can pass when no currently present slot matches the old record. This does **not** implement the selected initial window, which excludes prior Human Gate presentation/review, not just current approval.
+
+Correct the HIGH eligibility/retention preflight to refuse prior recorded Human presentation/review/decision history (including REQUEST_CHANGES), even when active Gate status/provenance were cleared and all seven slots are absent. An absent or genuinely empty valid index can remain eligible; malformed/unreadable/index-issue mismatch remains fail-closed. Preserve existing State/Profile/stage checks and legitimate normal Human revision handling — that is a different operation, not DM022 entry. Do not permit the new same-State correction merely because old artifacts are now absent or have different SHAs.
+
+Use actual existing review-index/record/presentation paths and schema semantics, not guessed strings or a generic filesystem-wide scan. Add a meaningful public prepare/adopt negative for valid prior REQUEST_CHANGES history + pending/null current Gate + absent slots, and a healthy no-history control. No new Human Gate or authority role is introduced. No schema change. Earlier source-review closure is superseded for this exact predicate until corrected and independently confirmed.

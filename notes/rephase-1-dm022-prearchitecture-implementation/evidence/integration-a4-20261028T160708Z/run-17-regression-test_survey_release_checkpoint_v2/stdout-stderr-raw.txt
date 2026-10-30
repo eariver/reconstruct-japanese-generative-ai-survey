@@ -1,0 +1,96 @@
+test_cli_main_success_and_error (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_cli_main_success_and_error) ... ERROR
+test_drifted_core_authority_fails_before_state_mutation (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_drifted_core_authority_fails_before_state_mutation) ... ok
+test_idempotent_reexecution (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_idempotent_reexecution) ... ok
+test_missing_core_authority_fails_before_state_mutation (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_missing_core_authority_fails_before_state_mutation) ... ok
+test_release_authority_failure_fails_before_state_mutation (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_authority_failure_fails_before_state_mutation) ... ok
+test_release_boundary_uses_one_compact_checkpoint_with_current_tool_identity (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_boundary_uses_one_compact_checkpoint_with_current_tool_identity) ... ok
+test_release_checkpoint_rejects_release_record_bound_to_other_merge_verification (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_checkpoint_rejects_release_record_bound_to_other_merge_verification) ... ok
+test_release_checkpoint_requires_frozen_state (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_release_checkpoint_requires_frozen_state) ... ok
+test_success_path_advances_to_released_and_terminal_complete (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_success_path_advances_to_released_and_terminal_complete) ... ok
+
+======================================================================
+ERROR: test_cli_main_success_and_error (test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_cli_main_success_and_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_release_checkpoint_v2.py", line 375, in test_cli_main_success_and_error
+    ret = release_checkpoint.main()
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_release_checkpoint_v2.py", line 210, in main
+    checkpoint = build_release_checkpoint(
+        root, cfg, path(args.state), path(args.merge_verification), path(args.release_record), when,
+        core_stage_contract_path=contract_path,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_release_checkpoint_v2.py", line 77, in build_release_checkpoint
+    _typed = _low15.load_typed_checkpoint_record(repo_root, _ref["path"])
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 300, in load_typed_checkpoint_record
+    target = path if path.is_absolute() else (repo_root / str(path))
+                     ^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'is_absolute'
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.318s
+
+FAILED (errors=1)
+{
+  "checkpoint": "tmph7opzv7c/orchestration/v2/checkpoints/FROZEN.json",
+  "state": {
+    "schema_version": "2.0-rc1",
+    "issue_id": "SP-RELEASE-CHECKPOINT",
+    "research_profile": "THEMATIC",
+    "publication_profile": "LONGFORM_SPECIAL",
+    "lifecycle_state": "RELEASED",
+    "profile": {
+      "path": "tmph7opzv7c/production-profile.json",
+      "sha256": "5d3c5ee7693445dc0f49be904f16e7bd8e4846bf8944814f596bb337f4d43c98"
+    },
+    "contract": {
+      "pipeline_contract_version": "2.0-rc1",
+      "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+      "quality_contract_version": "2.0-rc1",
+      "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+      "research_profile_version": "2.0-rc1",
+      "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+      "publication_profile_version": "2.0-rc1",
+      "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+    },
+    "implementation": {
+      "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c",
+      "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+    },
+    "history": [
+      {
+        "from": "FROZEN",
+        "to": "RELEASED",
+        "recorded_at": "2026-08-22T10:30:00Z",
+        "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c"
+      }
+    ],
+    "human_gates": {
+      "architecture_review": "approved",
+      "publication_preview": "approved"
+    },
+    "human_gate_provenance": {},
+    "target_gate": "ARCHITECTURE_REVIEW",
+    "next_action": null,
+    "terminal_reason": "COMPLETE",
+    "exception_gate": {
+      "status": "inactive",
+      "reason": null
+    },
+    "machine_checkpoints": {
+      "release": "passed"
+    },
+    "checkpoint_provenance": {
+      "release": {
+        "path": "tmph7opzv7c/orchestration/v2/checkpoints/FROZEN.json",
+        "sha256": "4918f7b3579ae3a591aee6c4b042a8d9237b7beab30af67bbd97f63e2fdf58bc"
+      }
+    },
+    "legacy_compatibility": {
+      "mode": "NON_AUTHORITATIVE_READ_ONLY",
+      "legacy_state_present": false,
+      "legacy_state_path": "tmph7opzv7c/pipeline-state.json",
+      "legacy_state_sha256": null
+    },
+    "publication_revalidation_provenance": null
+  }
+}

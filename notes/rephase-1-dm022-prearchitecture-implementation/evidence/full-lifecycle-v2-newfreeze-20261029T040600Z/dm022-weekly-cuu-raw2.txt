@@ -1,0 +1,18 @@
+F
+======================================================================
+FAIL: test_weekly_renewal_c_u_u_release (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_c_u_u_release)
+WEEKLY C→U→U same fixture + Preview/Freeze/Release to RELEASED (new Freeze fix, CURRENT every readback).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-newfreeze-20261029T040600Z/tests/test_dm022_full_lifecycle_v2.py", line 4093, in test_weekly_renewal_c_u_u_release
+    self.assertEqual(rel_proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+                     f"release CLI must succeed post C→U→U (pid {rel_pid}): {rel_err[-2000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 2 != 0 : release CLI must succeed post C→U→U (pid 3339147): unknown checkpoint kind refused: 'VERSIONED_RENEWAL_ACTIVATION_V1'
+
+
+----------------------------------------------------------------------
+Ran 1 test in 870.988s
+
+FAILED (failures=1)

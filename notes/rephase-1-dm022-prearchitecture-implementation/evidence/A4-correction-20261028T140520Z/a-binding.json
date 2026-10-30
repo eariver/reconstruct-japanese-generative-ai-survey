@@ -1,0 +1,92 @@
+{
+ "a_owned_5": {
+  "note": "A4 return pins match observed hashes/sizes; all priv==cand; priv differs from the frozen R2 snapshot exactly on the 4 A4-modified files (fixtures helper byte-identical to R2, unchanged in A3/A4)",
+  "schemas_note": "No schema files changed in A3/A4 (all 5 byte-identical R2 == candidate == private)",
+  "scripts/survey_evidence_v2.py": {
+   "bytes": 125817,
+   "cand": "8b55dc6c328991fd9a9a5f0bbcc21503515c8814da20c4ad4f20986113d15af0",
+   "priv": "8b55dc6c3289",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  },
+  "scripts/survey_prearchitecture_acceptance_v2.py": {
+   "bytes": 87249,
+   "cand": "2fe12b9e492e93c6ac5f55962b5758f37b3e838a234e10cc200af9876873170e",
+   "priv": "2fe12b9e492e",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  },
+  "scripts/survey_research_authority_v2.py": {
+   "bytes": 148801,
+   "cand": "2df25c5d5672702bca0cafb1c53cab3991f87f9bf8baa035d17b2238a15186d0",
+   "priv": "2df25c5d5672",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  },
+  "tests/dm022_prearchitecture_fixtures_v2.py": {
+   "bytes": 3330,
+   "cand": "7fdc692ccba6ea21c0b39d0a1daa2e3942a3cdcf2e4d11436a30c76709945f56",
+   "priv": "7fdc692ccba6",
+   "priv_eq_cand": true,
+   "priv_eq_r2": true
+  },
+  "tests/test_dm022_prearchitecture_acceptance_v2.py": {
+   "bytes": 63453,
+   "cand": "a2e48ba16240e6e74ba11d9dc7ccd6abe2ca6bcdd51bfc6cea530dd8eaed8773",
+   "priv": "a2e48ba16240",
+   "priv_eq_cand": true,
+   "priv_eq_r2": false
+  }
+ },
+ "cross_owner_inputs": {
+  "B_sizedref_fix": "candidate scripts/survey_agent_control_v2.py accepts SizedRef {path,sha256,byte_count} review results in both PREARCH branches (A does not edit B; A tests exercise it read-only)",
+  "C1_C2": "not imported by A tests except pre-existing chain helpers; no A dependence on C closures"
+ },
+ "fixed_source": {
+  "manifest": "notes/rephase-1-dm022-prearchitecture-implementation/evidence/source-r2-20261028T124706Z/snapshot-r2-manifest.json",
+  "manifest_sha256": "53fde56bea8b69adeb2cdfbbd716bbe9534bf0bc49739619f909ae6ca1f3935",
+  "overlay": "FULL current candidate-work (includes B SizedRef fix + C work) minus .git; A files are candidate A4 state (no separate overlay step needed)",
+  "snapshot": ".rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/candidate-work (idle during run; ordinary commits untouched)"
+ },
+ "intended_counts_excl_caches": {
+  "priv": 756
+ },
+ "limitations": [
+  "Post-hoc hashes are observation, NOT retroactive per-run proof",
+  "No lost raw recreation; no fixture DB content copied into packet",
+  "Mode compared as permission bits; times not compared",
+  "Private copy has no .git; fixture DBs were temp-isolated per test and are NOT in this path"
+ ],
+ "other_files_diffs": {
+  "note": "private IS current candidate minus .git (0 diffs); R2-vs-current delta beyond A scope belongs to B/C and is not A-verified here",
+  "priv_vs_candidate_diff_count": 0,
+  "priv_vs_candidate_diff_paths": []
+ },
+ "private_source": {
+  "excluded": [
+   ".git",
+   "__pycache__",
+   "*.pyc"
+  ],
+  "fixture_db_in_packet": false,
+  "manifest": "private-source-manifest.json",
+  "manifest_sha256": "14ef836dfc9ae7ce8e30b1f27bb51ab45062cc8b9218cf44ff250704a35fcc4a",
+  "path": "/tmp/dm022-a4-final"
+ },
+ "provenance": "Preparation commands are transcribed tool-observed, NOT raw. Only author-saved raw txt is raw. No saved runners executed. Fresh private copy built AFTER all A4 edits from current idle candidate.",
+ "raw": {
+  "bytes": 3984,
+  "exit": 0,
+  "lines": 37,
+  "preserved_copy": "dm022-a4-test-raw-20261028.txt",
+  "result": "19/19 PASS (python3 -m unittest tests.test_dm022_prearchitecture_acceptance_v2 -v)",
+  "sha256": "61939974f5d5c524bdc131ef757c6fc942d2dd960db10a7a9470c970578e18ce",
+  "source": "/tmp/dm022-a4-raw-20261028.txt"
+ },
+ "runtime": {
+  "jsonschema": "4.23.0",
+  "pypdf": "6.16.2",
+  "python": "3.14.4",
+  "runner": "python3 -m unittest (NOT pytest)"
+ }
+}

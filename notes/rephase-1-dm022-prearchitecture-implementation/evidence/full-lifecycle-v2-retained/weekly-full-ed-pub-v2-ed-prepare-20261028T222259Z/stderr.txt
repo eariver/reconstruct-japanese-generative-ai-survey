@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<string>", line 14, in <module>
+    prep = edpub.prepare_publication(root, args['state'], args['proposal'], args['staged_manifest'], args['manuscript_spec'], args['toolchain_spec'], datetime.fromisoformat(args['recorded_at']))
+  File "/tmp/tmp23o_cf4c/scripts/survey_editorial_publication_v2.py", line 1957, in prepare_publication
+    receipt_closure = _editorial_closure_rows(repo, generator_route)
+  File "/tmp/tmp23o_cf4c/scripts/survey_editorial_publication_v2.py", line 2163, in _editorial_closure_rows
+    raise _fail("CLOSURE_SHAPE", "PREPARE", "REFUSED_PRE_WRITE", f"editorial closure expected 63, got {len(rows)}")
+scripts.survey_editorial_publication_v2.EditorialError: CLOSURE_SHAPE: [PREPARE/REFUSED_PRE_WRITE] editorial closure expected 63, got 70

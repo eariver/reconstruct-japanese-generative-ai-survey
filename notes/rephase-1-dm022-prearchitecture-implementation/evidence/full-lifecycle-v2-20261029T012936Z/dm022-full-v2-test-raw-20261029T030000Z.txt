@@ -1,0 +1,30 @@
+F
+======================================================================
+FAIL: test_weekly_renewal_u_reuse_targets (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_u_reuse_targets)
+WEEKLY renewal U on VERSIONED_ACTIVE: prepare → finalize → CURRENT proof.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 3083, in test_weekly_renewal_u_reuse_targets
+    rel_info = self._run_fixture_renewal_release(
+        root, state_abs, prep["finalize"]["candidate_path"],
+        "weekly-full-ren-u-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2999, in _run_fixture_renewal_release
+    self.assertEqual(proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+                     f"renewal release fixture op must succeed (pid {pid}): {err_text[-3000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : renewal release fixture op must succeed (pid 2757346): Traceback (most recent call last):
+  File "<string>", line 33, in <module>
+    publication.build_freeze(root, cand_abs, root / prev_path, datetime(2026,10,29,1,0,0,tzinfo=timezone.utc), freeze_path, manifest_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpbuk3qybj/scripts/survey_publication_v2.py", line 2092, in build_freeze
+    prep = _prepare_freeze_inputs(repo_root, candidate_path, approval_path)
+  File "/tmp/tmpbuk3qybj/scripts/survey_publication_v2.py", line 791, in _prepare_freeze_inputs
+    raise ValueError(f"renewal checkpoint wrapper {'+'.join(stages)} from/to/checkpoints mismatch: {ckpt_data.get('from_state')}->{ckpt_data.get('to_state')} {ckpt_data.get('checkpoints')}")
+ValueError: renewal checkpoint wrapper evidence+materiality+completeness from/to/checkpoints mismatch: None->None ['evidence', 'materiality', 'completeness']
+
+
+----------------------------------------------------------------------
+Ran 1 test in 512.720s
+
+FAILED (failures=1)

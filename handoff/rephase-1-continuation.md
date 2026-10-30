@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-30 DM022 implementation closeout
+
+**BOUNDED IMPLEMENTATION COMPLETE（qualified composite）、Human Commit Pointで停止。** [assessment/次task§5](../outputs/rephase-1-dm022-prearchitecture-implementation-assessment.md)、**[mandatory ROOT closeout全文](../notes/rephase-1-dm022-prearchitecture-implementation/astra-closeout-resolution.md)**、[packet/独立authority S2・operation§10 FINAL-BINDING・ledger§§F](../notes/rephase-1-dm022-prearchitecture-implementation/README.md)を読む。
+
+Whole prepare/external decision/adopt/resume/7slot通常再生成/later lifecycleを実装。両route実PDF→editorial→C→U→U→public RELEASED/COMPLETE、別Weekly genuine G71→G76→RELEASED、最終適用source87/87、late24/24、depth32（provided30＋実2）→33拒否。反復epochはartifact-only、actual40tool差分の互換controlと区別。研究PREARCHはpublication activationとは別。過去Human reviewをcreationで拒否し、later readbackは保持。guardの入口/直前/rollback書込みも検査。
+
+**FINAL133=54M79A／768 files、DIRECT409 patch25b488784d02a156db693459dce6c1d369e7144f1f3c49461c9b3a846b1b7260 /4931836B**、manifest31fa4a72…/185422B。独立check/apply0、全133/768一致。Proof `/tmp/opencode/jgas-dm022-indep-20261029T235900Z/proof-candidate`。Author `.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/candidate-work` の33pycは除外/保持、blind-copy禁止。旧93内包、layer不要。partialDB/runtimeTeX/whitespace/失敗raw資格はROOTに従う。
+
+**次Human continuation後:** final133の必要Profile/support適用性・修復契約選択（DM016/017、必要Retrospective/manual/direct-primary等も明示）。代表的品質→固定候補/audit→Human採用/実運用→実測削減の全体順序は不変。WholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN。元C PDF喪失と別run視覚点検、A4 metadata喪失/2raw回収、stale durable pin、TempDB/loaderlog限定を忘れない。Human Commit申告を続行前提としreadback authorityなし、通常Commit/Pushなし、既存55Gitlink dirt保持。
+
+## Preserved DM022 pre-code closeout (implementation-next is historical)
+
 ## Current — 2026-10-28 DM022 pre-code readiness
 
 **PRE_CODE_READY（具体設計map限定）、Human Commit Pointで停止。** [assessment/次実装§5](../outputs/rephase-1-dm022-prearchitecture-precode-assessment.md)、[packet](../notes/rephase-1-dm022-prearchitecture-precode/README.md)、**[mandatory ROOT INCLUDING§5](../notes/rephase-1-dm022-prearchitecture-precode/astra-precode-gate-resolution.md)**（全文SHA256 **0425c5300c9c7211e4468d3b842c4e3af1acb9f5bf1eba00e90f7ba72ef44a5a** /13788B）、[独立readiness §§8–9 FINAL-BINDING](../notes/rephase-1-dm022-prearchitecture-precode/independent-readiness-review.md)を読む。契約a345§11不変、R3詳細をR4＋5schema/R5family/R6role/ROOTで訂正。旧56b668は37行snapshotのみ。

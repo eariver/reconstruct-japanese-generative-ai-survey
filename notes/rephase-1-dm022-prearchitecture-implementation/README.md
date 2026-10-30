@@ -1,0 +1,39 @@
+# DM022 pre-Architecture implementation — final packet
+
+2026-10-30. **BOUNDED IMPLEMENTATION COMPLETE — qualified source/run composite. Human Commit Pointで停止。** Human authorized continuation after committing the pre-code unit and requested no Commit/Push readback. Ordinary Commit/Push remains Human-owned. Read the [assessment / next task §5](../../outputs/rephase-1-dm022-prearchitecture-implementation-assessment.md) and **[mandatory Astra closeout resolution](astra-closeout-resolution.md)** first.
+
+## Authority / source
+
+- [Selected contract INCLUDING §11](../../outputs/rephase-1-dm022-prearchitecture-contract-decision.md), unchanged `a345bb95…`.
+- [Pre-code ROOT INCLUDING §5](../rephase-1-dm022-prearchitecture-precode/astra-precode-gate-resolution.md), full `0425c530…`/13788B, and [pre-code assessment](../../outputs/rephase-1-dm022-prearchitecture-precode-assessment.md).
+- [Implementation coordination / ownership](astra-implementation-coordination.md).
+- Writable independent source: `.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/candidate-work`, actual409/tree8ce with inherited final93 plus this unit's changes. No ordinary candidate commit.
+- [Preparation](source-preparation.md) / [742-file equality and inode observation](source-preparation-appendix-742-equality-inode.md). Original final93 proof-copy remains read-only. Initial preparation commands were transcribed/tool-observed, not saved raw.
+
+## Final source / delivery
+
+Final actual409/tree8ce overlay is **133 paths54M79A /768 intended files**. The earlier [review freeze](review-source-freeze.md) `60aaaee…`/764 files/127 paths52M75A is historical; final A Human-history and B prepublish/rollback-guard corrections supersede it. Candidate has33 excluded pyc in2 directories, preserved; never blind-copy.
+
+- [Complete DIRECT409 patch](source-packaging/final-20261029T152913Z/complete-dm022-prearchitecture-409.patch): **25b488784d02a156db693459dce6c1d369e7144f1f3c49461c9b3a846b1b7260 /4931836B**. Inherited93 included; no old-overlay layering.
+- [Manifest](source-packaging/final-20261029T152913Z/complete-dm022-manifest.json): **31fa4a728cabc145232ef930b91c9c5e6f773692299a25a9177c994393d469fa /185422B**.
+- [Independent application review](source-packaging/final-20261029T152913Z/independent-final-packaging-review.md): new actual409 proof, check0/apply0, all133/all768 exact across PROOF/GEN/CAND. Proof `/tmp/opencode/jgas-dm022-indep-20261029T235900Z/proof-candidate`; scoped689 available base+79 new, not full hydration. Apply5 whitespace diagnostics/GEN diff-check2 retained; ROOT§5 corrects the narrower worktree-diff explanation.
+
+## Final-binding reviews and runtime evidence
+
+- **[Authority review Supplement S2 FINAL-BINDING including manifest erratum](independent-final-authority-review.md)** and **[operation review §10 FINAL-BINDING](independent-final-operation-review.md)**: BOUNDED IMPLEMENTATION PASS for the selected component. Earlier source-review overclaims are explicitly corrected in S1/§9. The erratum corrects a transcription typo in S2.0; the actual manifest is the `31fa4a728cabc145232ef…` file pinned above, not the earlier mistyped string.
+- **[Evidence ledger §§F.1–F.6](independent-evidence-ledger.md)** and [final run/source verification](evidence/full-lifecycle-v2-finalB-20261029T060000Z/final-run-source-binding-verification.md): FinalB/finalsrc768/768, TOOL40/40, retained CURRENT70×4 rows match delivery. Not per-import path logging or portable backup of gone Temp DBs. Durable162124Z manifest `b650` stencil is stale; actual code/Git blobs are final `d801/f8af`.
+- [Whole lifecycle](whole-lifecycle-witness-progress.md): final B2/A5 two-route fresh prepare/adopt/normal regeneration/Architecture/Draft/real PDF/editorial/C→U→U/Preview/Freeze/Release to RELEASED/COMPLETE, terminal2 tests2000.510s. Same-G76 repeat epochs are artifact-only, not repeated genuine tool changes.
+- [Final genuine compatibility control](final-source-compatibility-confirmation.md): Weekly G71→G76 TOOL40, KEEP115 observation, public U→RELEASED with full CURRENT proof and correct OLD stale-receipt refusal. [Earlier progress](g71-g76-compatibility-progress.md) retains first failures; follow-up script1 and corrected Release0 stay separate.
+- [Final applied-source affected confirmation](final-affected-state-confirmation.md): **87/87, skip0**, exact final delivery. [CURRENT late-guard binding](final-late-guard-source-binding.md): **24/24, skip0**, plus final B15 and rollback predicates. [Depth witness](publication-depth-boundary-evidence.md): provided30 legacy+actualeditorial31+actualrenewal32, then33 pre-write refusal, not32 operations.
+- [B2 rollback resolution](author-B2-rollback-guard-resolution.md), [A Human-history correction](author-A-human-history-window-correction.md), [C2 final fault-oracle fixes](author-C2-final-fault-oracle-resolution.md), [affected regression ledger](final-affected-regression-evidence.md), [Weekly/depth history](final-weekly-depth-regression-evidence.md), [late guard completion](late-guard-completion-evidence.md) retain their individual source/run scope. No total test-count sum or single-final-suite claim.
+
+## Mandatory qualifications
+
+- [R1 source rejection](astra-r1-source-review.md), [A3 integration resolution](astra-a3-integration-resolution.md), [historian findings](astra-history-wiring-findings.md) / [execution resolution](astra-historian-execution-resolution.md), [lifecycle blockers](astra-lifecycle-blocker-resolution.md), and [cross-family boundary review](independent-cross-family-boundary-review.md) preserve rejected stubs, fabricated proof/digest drafts, wrong role/decoder branches and the rejected OWN-only public admission. Use the corrections, not those earlier author completion labels.
+- [Final runtime-gap disposition](astra-final-runtime-gap-resolution.md) and [Human-history correction](astra-human-history-window-correction.md) override earlier blanket prepublish/Human-window closure. Both corrections were independently resolved and bound to final runtime. Unsupported `fab1ee` and stale timestamps/pins are excluded, not readback authority.
+- [C2 evidence qualification](c2-a4-evidence-qualification.md), [A evidence restoration/loss](evidence-restoration-and-loss.md), and [C PDF retention resolution](c-pdf-retention-resolution.md) are mandatory. Original C PDF bytes from the terminal CUU runs were lost; new C visual witnesses are different runs, not retroactive replacement. Some metadata/earlier failure raw was overwritten and not reconstructed.
+- Actual visual inspections: [six initial/editorial PDFs,30 pages](evidence/independent-final-visual-20261029T080000Z/independent-final-reader-visual-inspection.md), [separate new C-only PDFs,10 pages](evidence/independent-final-visual-20261029T080000Z/independent-c-pdf-visual-supplement.md), and **[actual FinalB terminal-chain C PDFs,10 pages](evidence/independent-final-visual-20261029T080000Z/independent-finalB-C-visual-supplement.md)**. These are distinct byte-bound scopes; old lost C is not retrospectively certified. Synthetic fixture visual scope only; Production semantic NO-GO remains.
+
+Partial Git DB, missing historical/bulk objects, nonbundled runtime/TeX and inherited55 bare Gitlinks/child dirt retain their prior qualifications. No Production action/rebaseline/network, genuine approval or W40 reproduction. WholeNOT_READY/step4B3OPEN/auditunstarted/DM021+022OPEN; necessary Profile/quality/adoption/savings remain open.
+
+**Next after Human continuation:** assessment§5's necessary Profile/support applicability and bounded repair-contract selection on final133 (DM016/017 and necessary Weekly/Special/Retrospective/manual/direct-primary routes). Do not automatically start it now. **Human Commit Point; ordinary Commit/Push Human-owned.**

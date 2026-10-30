@@ -1,0 +1,38 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_publication_set_v2.py", line 321, in load_and_validate_json_strict
+    schema_gate.validate_instance(value, schema_path, label=label)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_schema_v2.py", line 254, in validate_instance
+    raise SchemaConformanceError(f"{label} fails {schema_path}: {location}: {first.message}")
+scripts.survey_schema_v2.SchemaConformanceError: revalidation basis checkpoint completeness fails /tmp/dm022-renewal-probe-keep/fixture/schemas/stage-checkpoint-v2.schema.json: $: 'from_state' is a required property
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_agent_control_v2.py", line 2513, in _verify_preserved_provenance
+    record = pubset.load_and_validate_json_strict(
+        repo_root, authority["path"], repo_root / CHECKPOINT_SCHEMA, label=f"revalidation basis checkpoint {name}"
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_publication_set_v2.py", line 323, in load_and_validate_json_strict
+    raise PublicationSetError(f"{label} invalid: {exc}") from exc
+scripts.survey_publication_set_v2.PublicationSetError: revalidation basis checkpoint completeness invalid: revalidation basis checkpoint completeness fails /tmp/dm022-renewal-probe-keep/fixture/schemas/stage-checkpoint-v2.schema.json: $: 'from_state' is a required property
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/dm022-p1-probe.py", line 51, in <module>
+    record_path = agent.revalidate_publication_surface(
+        ROOT, cfg, state_path, "REVIEWED_CORE_CHANGE",
+        "Synthetic probe correction basis (explicit nongenuine fixture review)",
+        "SYNTHETIC_FIXTURE_GENERAL_FULL_V2",
+        datetime(2026, 10, 28, 16, 30, 0, tzinfo=timezone.utc), None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_agent_control_v2.py", line 2991, in revalidate_publication_surface
+    _verify_preserved_provenance(repo_root, cfg, state, validation_ref, superseded)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_agent_control_v2.py", line 2517, in _verify_preserved_provenance
+    raise AgentControlError(str(exc)) from exc
+scripts.survey_agent_control_v2.AgentControlError: revalidation basis checkpoint completeness invalid: revalidation basis checkpoint completeness fails /tmp/dm022-renewal-probe-keep/fixture/schemas/stage-checkpoint-v2.schema.json: $: 'from_state' is a required property
+state candidates: ['sources/2026-W33/production-state.json']
+state: VALIDATED_DRAFT 2026-W33
+corrected main.tex bytes: 2272 -> 2346
+PROBE TARGET OUTCOME (revalidate): AgentControlError revalidation basis checkpoint completeness invalid: revalidation basis checkpoint completeness fails /tmp/dm022-renewal-probe-keep/fixture/schemas/stage-checkpoint-v2.schema.json: $: 'from_state' is a required property

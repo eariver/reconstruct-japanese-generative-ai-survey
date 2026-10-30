@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "<string>", line 26, in <module>
+    reader.build_review_record(root, args['manuscript'], root / args['pdf_rel'], _pages, 'SEMANTIC_EDITORIAL', _sem_checks, args['reviewer'], datetime.fromisoformat(args['recorded_at']), root / args['sem_rel'])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpmydx53kz/scripts/survey_reader_publication_v2.py", line 828, in build_review_record
+    manuscript_file = _safe_file(repo_root, manuscript_path, "Reader Manuscript Manifest")
+  File "/tmp/tmpmydx53kz/scripts/survey_reader_publication_v2.py", line 87, in _safe_file
+    rel = _rel(repo_root, path)
+  File "/tmp/tmpmydx53kz/scripts/survey_reader_publication_v2.py", line 74, in _rel
+    resolved = path.resolve()
+               ^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'resolve'

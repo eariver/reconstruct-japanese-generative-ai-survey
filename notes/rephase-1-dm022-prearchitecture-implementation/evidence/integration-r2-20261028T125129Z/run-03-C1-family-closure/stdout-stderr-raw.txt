@@ -1,0 +1,37 @@
+test_known_schema_owned_fingerprint (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_known_schema_owned_fingerprint) ... ERROR
+test_literal_membership_plus_actual_files (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_literal_membership_plus_actual_files) ... ok
+test_own_epoch_fixture_public_verifier (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_own_epoch_fixture_public_verifier)
+Actual own-epoch fixture: independent Git DB, real epochs, public verifier. ... ok
+test_staged_literal_plus_ast (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_staged_literal_plus_ast) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_weekly_longform_canon_literal_plus_files (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_weekly_longform_canon_literal_plus_files) ... ERROR
+
+======================================================================
+ERROR: test_known_schema_owned_fingerprint (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_known_schema_owned_fingerprint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/tests/test_dm022_c1_family_closure_v2.py", line 133, in test_known_schema_owned_fingerprint
+    live_sha = hist._require_owned_schema_fingerprint(root, p, "c1-owned-fingerprint")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_versioned_renewal_history_v2.py", line 491, in _require_owned_schema_fingerprint
+    _require_known_schema_sha(schema_path, live_sha, label)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_versioned_renewal_history_v2.py", line 501, in _require_known_schema_sha
+    raise RenewalHistoryError("UNSUPPORTED_MIGRATION", f"{label} unknown foreign schema SHA for registered path {schema_path} (not old/new known, no broad migration)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: UNSUPPORTED_MIGRATION: c1-owned-fingerprint unknown foreign schema SHA for registered path schemas/dm022-revision-proof-v2.schema.json (not old/new known, no broad migration)
+
+======================================================================
+ERROR: test_weekly_longform_canon_literal_plus_files (test_dm022_c1_family_closure_v2.TestC1FamilyClosure.test_weekly_longform_canon_literal_plus_files)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/tests/test_dm022_c1_family_closure_v2.py", line 108, in test_weekly_longform_canon_literal_plus_files
+    mod._verify_actual_import_closure()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_weekly_derivation_v2.py", line 791, in _verify_actual_import_closure
+    raise ValueError(f"Weekly actual import beyond R4/R5 literal requires expansion: {_missing}")
+ValueError: Weekly actual import beyond R4/R5 literal requires expansion: ['scripts/survey_agent_control_v2.py', 'scripts/survey_agent_tool_v2.py', 'scripts/survey_drafting_v2.py', 'scripts/survey_evidence_v2.py', 'scripts/survey_production_v2.py', 'scripts/survey_schema_v2.py']
+
+----------------------------------------------------------------------
+Ran 5 tests in 1.289s
+
+FAILED (errors=2)

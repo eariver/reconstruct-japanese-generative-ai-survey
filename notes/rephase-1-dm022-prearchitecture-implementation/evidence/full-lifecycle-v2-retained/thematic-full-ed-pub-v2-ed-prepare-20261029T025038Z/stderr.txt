@@ -1,0 +1,45 @@
+Traceback (most recent call last):
+  File "/tmp/tmppemaf5ck/scripts/survey_editorial_publication_v2.py", line 1909, in prepare_publication
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo,
+        ^^^^^
+    ...<11 lines>...
+        editorial_source={"proposal_ref": {"path": proposal_rel_init, "sha256": proposal_sha_now}, "staged_manifest_ref": {"path": staged_rel_init, "sha256": staged_sha_now}},
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/tmppemaf5ck/scripts/survey_reader_publication_v2.py", line 657, in build_manuscript_manifest
+    _validate_manifest_semantics(repo_root, payload, suppressions=suppressions,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 renewal_source_proof_ref=dict(renewal_source)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                 if renewal_source is not None else None)
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmppemaf5ck/scripts/survey_reader_publication_v2.py", line 552, in _validate_manifest_semantics
+    fidelity.validate_reader_fidelity(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        source_path.read_text(encoding="utf-8"),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+        profile["publication_profile"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/tmppemaf5ck/scripts/survey_reader_fidelity_v2.py", line 309, in validate_reader_fidelity
+    resolved_final = [_resolve_location(value, blocks) for value in final_locations]
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/tmp/tmppemaf5ck/scripts/survey_reader_fidelity_v2.py", line 192, in _resolve_location
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: LONGFORM_SPECIAL reader location must identify an exact TeX content block as 'Section N — title' or 'Subsection N.M — title'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 15, in <module>
+    prep = edpub.prepare_publication(root, args['state'], args['proposal'], args['staged_manifest'], args['manuscript_spec'], args['toolchain_spec'], datetime.fromisoformat(args['recorded_at']))
+  File "/tmp/tmppemaf5ck/scripts/survey_editorial_publication_v2.py", line 1926, in prepare_publication
+    raise _fail("MANUSCRIPT_BUILD", "PREPARE", "PRESERVED_INCOMPLETE", f"manuscript builder failed; temp preserved at {tmp_manuscript}: {exc}") from exc
+scripts.survey_editorial_publication_v2.EditorialError: MANUSCRIPT_BUILD: [PREPARE/PRESERVED_INCOMPLETE] manuscript builder failed; temp preserved at /tmp/editorial-manuscript-vx1ls0iu/reader-manuscript-v2.json: LONGFORM_SPECIAL reader location must identify an exact TeX content block as 'Section N — title' or 'Subsection N.M — title'

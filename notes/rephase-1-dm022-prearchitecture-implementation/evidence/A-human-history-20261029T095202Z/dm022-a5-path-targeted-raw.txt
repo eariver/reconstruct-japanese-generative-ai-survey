@@ -1,0 +1,77 @@
+test_loader_accepts_str_path_same_as_path (tests.test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_loader_accepts_str_path_same_as_path)
+Public loader normalizes Path|str: same valid CP, identical result. ... ok
+test_loader_wrong_family_str_path (tests.test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_loader_wrong_family_str_path)
+A legacy checkpoint path (str or Path) classifies LEGACY, never PREARCH. ... ok
+test_weekly_refresh_validation_healthy_legacy_accepts_whole_path (tests.test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_weekly_refresh_validation_healthy_legacy_accepts_whole_path)
+Healthy control: valid legacy validation checkpoint passes PUBLIC validator. ... ok
+test_cli_main_success_and_error (tests.test_survey_release_checkpoint_v2.SurveyReleaseCheckpointV2Tests.test_cli_main_success_and_error) ... release checkpoint requires FROZEN Production State
+ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.521s
+
+OK
+{
+  "checkpoint": "tmps5dkxc1a/orchestration/v2/checkpoints/FROZEN.json",
+  "state": {
+    "schema_version": "2.0-rc1",
+    "issue_id": "SP-RELEASE-CHECKPOINT",
+    "research_profile": "THEMATIC",
+    "publication_profile": "LONGFORM_SPECIAL",
+    "lifecycle_state": "RELEASED",
+    "profile": {
+      "path": "tmps5dkxc1a/production-profile.json",
+      "sha256": "6f977d4b7dbe0d77c59eb9ebe9a12df931a7827c54eab9d41635cc94dccc3581"
+    },
+    "contract": {
+      "pipeline_contract_version": "2.0-rc1",
+      "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+      "quality_contract_version": "2.0-rc1",
+      "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+      "research_profile_version": "2.0-rc1",
+      "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+      "publication_profile_version": "2.0-rc1",
+      "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+    },
+    "implementation": {
+      "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c",
+      "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+    },
+    "history": [
+      {
+        "from": "FROZEN",
+        "to": "RELEASED",
+        "recorded_at": "2026-08-22T10:30:00Z",
+        "repository_commit_sha": "409b292756dd1277b9dfae87679934c0d2ce251c"
+      }
+    ],
+    "human_gates": {
+      "architecture_review": "approved",
+      "publication_preview": "approved"
+    },
+    "human_gate_provenance": {},
+    "target_gate": "ARCHITECTURE_REVIEW",
+    "next_action": null,
+    "terminal_reason": "COMPLETE",
+    "exception_gate": {
+      "status": "inactive",
+      "reason": null
+    },
+    "machine_checkpoints": {
+      "release": "passed"
+    },
+    "checkpoint_provenance": {
+      "release": {
+        "path": "tmps5dkxc1a/orchestration/v2/checkpoints/FROZEN.json",
+        "sha256": "50710abb82f2636eac5455355062389db2c0e1238d684c400d103f81bd1b0862"
+      }
+    },
+    "legacy_compatibility": {
+      "mode": "NON_AUTHORITATIVE_READ_ONLY",
+      "legacy_state_present": false,
+      "legacy_state_path": "tmps5dkxc1a/pipeline-state.json",
+      "legacy_state_sha256": null
+    },
+    "publication_revalidation_provenance": null
+  }
+}

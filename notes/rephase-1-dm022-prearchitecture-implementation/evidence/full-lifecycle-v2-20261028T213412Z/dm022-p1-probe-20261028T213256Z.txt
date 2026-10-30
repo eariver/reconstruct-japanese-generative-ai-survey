@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/tmp/dm022-p1-probe.py", line 39, in <module>
+    record_path = agent.revalidate_publication_surface(
+        ROOT, cfg, state_path, "REVIEWED_CORE_CHANGE",
+        "Synthetic probe correction basis (explicit nongenuine fixture review)",
+        "SYNTHETIC_FIXTURE_GENERAL_FULL_V2",
+        datetime(2026, 10, 28, 16, 30, 0, tzinfo=timezone.utc), None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_agent_control_v2.py", line 2944, in revalidate_publication_surface
+    pending_basis = built_checked_pending_publication_basis(repo_root, cfg, state_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_agent_control_v2.py", line 1611, in built_checked_pending_publication_basis
+    changed, kept = _collect_pending_rows(repo_root, cfg, state)
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-fixed2-20261028T192129Z/scripts/survey_agent_control_v2.py", line 1559, in _collect_pending_rows
+    raise AgentControlError("pending publication requires changed publication bytes")
+scripts.survey_agent_control_v2.AgentControlError: pending publication requires changed publication bytes
+state candidates: ['sources/2026-W33/production-state.json']
+state: VALIDATED_DRAFT 2026-W33
+PROBE TARGET OUTCOME (revalidate): AgentControlError pending publication requires changed publication bytes

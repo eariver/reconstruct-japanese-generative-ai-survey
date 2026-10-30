@@ -1,0 +1,36 @@
+test_accepted_and_authored_mutation_refused (tests.test_survey_weekly_mechanical_refresh_v2.WeeklyMechanicalRefreshV2Tests.test_accepted_and_authored_mutation_refused) ... ERROR
+
+======================================================================
+ERROR: test_accepted_and_authored_mutation_refused (tests.test_survey_weekly_mechanical_refresh_v2.WeeklyMechanicalRefreshV2Tests.test_accepted_and_authored_mutation_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/tests/test_survey_weekly_mechanical_refresh_v2.py", line 492, in test_accepted_and_authored_mutation_refused
+    edition = self._build_validated_draft()
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/tests/test_survey_weekly_mechanical_refresh_v2.py", line 157, in _build_validated_draft
+    chain = _base_suite()._complete_authorities(self, _base_suite()._chain(self))
+                                                      ~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 190, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 159, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/scripts/survey_production_v2.py", line 487, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-weeklydepth-20261029T071500Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+----------------------------------------------------------------------
+Ran 1 test in 0.290s
+
+FAILED (errors=1)

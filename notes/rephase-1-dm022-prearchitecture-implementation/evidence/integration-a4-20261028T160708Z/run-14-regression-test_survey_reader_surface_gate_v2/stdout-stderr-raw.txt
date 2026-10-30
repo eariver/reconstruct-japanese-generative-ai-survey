@@ -1,0 +1,623 @@
+test_bibliography_leakage_detected (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_bibliography_leakage_detected)
+Bibliography containing [V/M] tags or internal tmp paths is blocked. ... FAIL
+test_clean_reader_prose_passes_gate (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_clean_reader_prose_passes_gate)
+Clean reader-facing prose passes with 0 blocking findings. ... ERROR
+test_longform_revision_strengthened_validator (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_longform_revision_strengthened_validator)
+survey_longform_publication_v2 validates all reader text via strengthened surface gate. ... ok
+test_missing_reader_surface_gate_artifact_blocks_stage (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_reader_surface_gate_artifact_blocks_stage)
+DRAFT_COMPLETE and VALIDATED_DRAFT require reader-surface-gate artifact. ... ok
+test_missing_semantic_authority_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_semantic_authority_fails)
+Omitting machine-checkable semantic_authority raises ValueError and cannot PASS. ... ERROR
+test_must_cover_cop_out_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_must_cover_cop_out_fails)
+Asserting 'Architecture requires X' instead of explaining facts is blocked. ... FAIL
+test_narrow_allowlist_suppression_allows_pass (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_narrow_allowlist_suppression_allows_pass)
+Narrow allowlist with audited reason converts finding to SUPPRESSED and allows pass. ... ERROR
+test_pre_tex_structured_reader_surface_validation_catches_leakage (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_pre_tex_structured_reader_surface_validation_catches_leakage)
+Pre-TeX structured reader-facing scan detects blocking leakage before TeX generation. ... ok
+test_required_a_production_synthetic_builder_absent (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_a_production_synthetic_builder_absent)
+Test A: Production synthetic builder absent - shared production API cannot manufacture PASS. ... ERROR
+test_required_b_missing_semantic_checks (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_b_missing_semantic_checks)
+Test B: Missing semantic checks - decision=PASS and findings=[] without required checks fails. ... ok
+test_required_c_empty_semantic_check_evidence (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_c_empty_semantic_check_evidence)
+Test C: Empty semantic check evidence - detail="" or evidence_locations=[] fails. ... ok
+test_required_d_required_semantic_check_fail (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_d_required_semantic_check_fail)
+Test D: Required semantic check FAIL - READER_PIPELINE_INDEPENDENCE=FAIL prevents overall review PASS. ... ok
+test_required_e_authentic_pass (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_e_authentic_pass)
+Test E: Authentic PASS - bound to exact surface, correct review kind, required check PASS, valid digest. ... ERROR
+test_required_f_legacy_publication_review_rejected (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_f_legacy_publication_review_rejected)
+Test F: Legacy publication review rejected - valid publication-review-record-v2 fails pre-TeX gate. ... ERROR
+test_required_g_malformed_new_review_does_not_fallback (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_g_malformed_new_review_does_not_fallback)
+Test G: Malformed new review does not fallback - corrupted review fails closed. ... ok
+test_required_h_stale_new_review (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_h_stale_new_review)
+Test H: Stale new review - modifying surface payload after review creation fails validation. ... ERROR
+test_review_rationale_meta_rebuttal_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_review_rationale_meta_rebuttal_fails)
+Meta-rebuttal to prior review comments is blocked. ... FAIL
+test_semantic_authority_non_pass_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_non_pass_fails)
+Semantic authority with non-PASS status/decision triggers blocking finding. ... ERROR
+test_semantic_authority_surface_sha_mismatch_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_surface_sha_mismatch_fails)
+Semantic authority bound to wrong primary surface SHA triggers blocking finding. ... ERROR
+test_semantic_layer_review_contract_evaluation (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_layer_review_contract_evaluation)
+Semantic review layer flags process-dependent prose with proposed normalization. ... ERROR
+test_special_leakage_fixture_fails_fast (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_special_leakage_fixture_fails_fast)
+Special longform leakage (D017, 本 package, 一次資料として昇格させない, Verify, materiality) fails fast. ... FAIL
+test_validate_reader_surface_gate_identity_mismatch_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_identity_mismatch_fails)
+Independent validator rejects issue_id or publication_profile identity mismatch. ... ERROR
+test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails)
+Independent validator catches drifted or mutated on-disk surface bytes. ... ERROR
+test_validate_reader_surface_gate_tampered_gate_sha_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_tampered_gate_sha_fails)
+Independent validator catches fabricated or tampered gate_sha256. ... ERROR
+test_validate_reader_surface_gate_unresolved_blocking_finding_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_unresolved_blocking_finding_fails)
+Independent validator rejects gate record containing unresolved blocking findings. ... ERROR
+test_validate_reader_surface_gate_valid_passes (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_valid_passes)
+Independent validator passes a well-formed, untampered Reader-Surface Gate. ... ERROR
+test_weekly_leakage_fixture_fails_fast (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_weekly_leakage_fixture_fails_fast)
+Weekly magazine leakage (Selection r2, Package 4, Discovery observation) fails fast. ... FAIL
+
+======================================================================
+ERROR: test_clean_reader_prose_passes_gate (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_clean_reader_prose_passes_gate)
+Clean reader-facing prose passes with 0 blocking findings.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp5cetygdk/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 361, in test_clean_reader_prose_passes_gate
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<15 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmp5cetygdk/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_missing_semantic_authority_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_missing_semantic_authority_fails)
+Omitting machine-checkable semantic_authority raises ValueError and cannot PASS.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpu4y8w5ib/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 869, in test_missing_semantic_authority_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpu4y8w5ib/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_narrow_allowlist_suppression_allows_pass (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_narrow_allowlist_suppression_allows_pass)
+Narrow allowlist with audited reason converts finding to SUPPRESSED and allows pass.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp1j46fl_5/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 745, in test_narrow_allowlist_suppression_allows_pass
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<11 lines>...
+        suppressions=suppressions,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmp1j46fl_5/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_required_a_production_synthetic_builder_absent (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_a_production_synthetic_builder_absent)
+Test A: Production synthetic builder absent - shared production API cannot manufacture PASS.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpc5liwyvm/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 1002, in test_required_a_production_synthetic_builder_absent
+    _, main_tex, _, m_path = self._build_valid_manifest()
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpc5liwyvm/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_required_e_authentic_pass (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_e_authentic_pass)
+Test E: Authentic PASS - bound to exact surface, correct review kind, required check PASS, valid digest.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpaqkom62q/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 1107, in test_required_e_authentic_pass
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpaqkom62q/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_required_f_legacy_publication_review_rejected (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_f_legacy_publication_review_rejected)
+Test F: Legacy publication review rejected - valid publication-review-record-v2 fails pre-TeX gate.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpxac4t2e8/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 1125, in test_required_f_legacy_publication_review_rejected
+    _, main_tex, _, m_path = self._build_valid_manifest()
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpxac4t2e8/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_required_h_stale_new_review (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_required_h_stale_new_review)
+Test H: Stale new review - modifying surface payload after review creation fails validation.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpizmtv8jn/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 1213, in test_required_h_stale_new_review
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpizmtv8jn/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_semantic_authority_non_pass_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_non_pass_fails)
+Semantic authority with non-PASS status/decision triggers blocking finding.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp9rd2l4wb/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 887, in test_semantic_authority_non_pass_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmp9rd2l4wb/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_semantic_authority_surface_sha_mismatch_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_authority_surface_sha_mismatch_fails)
+Semantic authority bound to wrong primary surface SHA triggers blocking finding.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpywm8vct9/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 876, in test_semantic_authority_surface_sha_mismatch_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpywm8vct9/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_semantic_layer_review_contract_evaluation (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_semantic_layer_review_contract_evaluation)
+Semantic review layer flags process-dependent prose with proposed normalization.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpy7_jcyjm/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 803, in test_semantic_layer_review_contract_evaluation
+    m_path = reader.build_manuscript_manifest(
+        self.root, "2026-W35", profile, arch, app, main_tex, [], coverage, reader_reqs, "ChatGPT", self.now, m_out
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpy7_jcyjm/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_reader_surface_gate_identity_mismatch_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_identity_mismatch_fails)
+Independent validator rejects issue_id or publication_profile identity mismatch.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp5zn71qce/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 940, in test_validate_reader_surface_gate_identity_mismatch_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmp5zn71qce/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails)
+Independent validator catches drifted or mutated on-disk surface bytes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpguaf1cih/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 926, in test_validate_reader_surface_gate_stale_surface_sha_or_bytes_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpguaf1cih/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_reader_surface_gate_tampered_gate_sha_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_tampered_gate_sha_fails)
+Independent validator catches fabricated or tampered gate_sha256.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpa_mxetae/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 911, in test_validate_reader_surface_gate_tampered_gate_sha_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpa_mxetae/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_reader_surface_gate_unresolved_blocking_finding_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_unresolved_blocking_finding_fails)
+Independent validator rejects gate record containing unresolved blocking findings.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmp986nxvof/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 955, in test_validate_reader_surface_gate_unresolved_blocking_finding_fails
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmp986nxvof/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_reader_surface_gate_valid_passes (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_validate_reader_surface_gate_valid_passes)
+Independent validator passes a well-formed, untampered Reader-Surface Gate.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 115, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpi1pdkafj/sources/2026-W35/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 897, in test_validate_reader_surface_gate_valid_passes
+    _, _, _, m_path = self._build_valid_manifest()
+                      ~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 221, in _build_valid_manifest
+    m_path = reader.build_manuscript_manifest(
+        self.root,
+    ...<10 lines>...
+        m_out,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 2542, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/scripts/survey_research_authority_v2.py", line 117, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /tmp/tmpi1pdkafj/sources/2026-W35/production-state.json: errno=2
+
+======================================================================
+FAIL: test_bibliography_leakage_detected (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_bibliography_leakage_detected)
+Bibliography containing [V/M] tags or internal tmp paths is blocked.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 693, in test_bibliography_leakage_detected
+    self.assertIn("RSG-LEX-BIBLIOGRAPHY-LEAKAGE", err)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RSG-LEX-BIBLIOGRAPHY-LEAKAGE' not found in 'production state lstat failed: /tmp/tmp3_u39zxi/sources/2026-W35/production-state.json: errno=2'
+
+======================================================================
+FAIL: test_must_cover_cop_out_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_must_cover_cop_out_fails)
+Asserting 'Architecture requires X' instead of explaining facts is blocked.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 628, in test_must_cover_cop_out_fails
+    self.assertIn("RSG-LEX-REVIEW-RATIONALE-COP-OUT", err)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RSG-LEX-REVIEW-RATIONALE-COP-OUT' not found in 'production state lstat failed: /tmp/tmp1aq06yky/sources/2026-W35/production-state.json: errno=2'
+
+======================================================================
+FAIL: test_review_rationale_meta_rebuttal_fails (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_review_rationale_meta_rebuttal_fails)
+Meta-rebuttal to prior review comments is blocked.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 574, in test_review_rationale_meta_rebuttal_fails
+    self.assertIn("RSG-LEX-REVIEW-RATIONALE-COP-OUT", err)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'RSG-LEX-REVIEW-RATIONALE-COP-OUT' not found in 'production state lstat failed: /tmp/tmp57e4augs/sources/2026-W35/production-state.json: errno=2'
+
+======================================================================
+FAIL: test_special_leakage_fixture_fails_fast (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_special_leakage_fixture_fails_fast)
+Special longform leakage (D017, 本 package, 一次資料として昇格させない, Verify, materiality) fails fast.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 515, in test_special_leakage_fixture_fails_fast
+    self.assertIn("Pre-Publication Reader-Surface Gate FAILED", err)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Pre-Publication Reader-Surface Gate FAILED' not found in 'production state lstat failed: /tmp/tmp1al4_cov/sources/SP002/production-state.json: errno=2'
+
+======================================================================
+FAIL: test_weekly_leakage_fixture_fails_fast (test_survey_reader_surface_gate_v2.SurveyReaderSurfaceGateV2Tests.test_weekly_leakage_fixture_fails_fast)
+Weekly magazine leakage (Selection r2, Package 4, Discovery observation) fails fast.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-a4-integration-20261028T160708Z/tests/test_survey_reader_surface_gate_v2.py", line 452, in test_weekly_leakage_fixture_fails_fast
+    self.assertIn("Pre-Publication Reader-Surface Gate FAILED", err)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Pre-Publication Reader-Surface Gate FAILED' not found in 'production state lstat failed: /tmp/tmpcaqbp48g/sources/2026-W35/production-state.json: errno=2'
+
+----------------------------------------------------------------------
+Ran 27 tests in 0.645s
+
+FAILED (failures=5, errors=15)

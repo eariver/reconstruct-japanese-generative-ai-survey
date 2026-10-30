@@ -1,0 +1,139 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP001",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "status": "PASSED",
+  "scanned_surfaces": [
+    {
+      "path": "surveys/special/SP001/main.tex",
+      "sha256": "6fbb16034b8a6de5d36d76f502843b92320e9592c50494d40caea1b4cc20b140",
+      "kind": "PRIMARY_SOURCE",
+      "byte_count": 5889
+    },
+    {
+      "path": "surveys/special/SP001/references.bib",
+      "sha256": "594e229e425c3f12a6794f1e82a4ae4f9190ab575f958f49617b00af111a394f",
+      "kind": "BIBLIOGRAPHY",
+      "byte_count": 177
+    },
+    {
+      "path": "surveys/special/SP001/jgaisurvey.sty",
+      "sha256": "035645caa06eb77e5416ae7a54bc1fb7b987e0b575a02bd4b512bccb5d683aec",
+      "kind": "SUPPORTING_SOURCE",
+      "byte_count": 6569
+    },
+    {
+      "path": "sources/SP001/publication/v2/reader-manuscript-v2.json",
+      "sha256": "6867df1241b66f17fa1b7b3807aa24310b86c9e6f0d2ad4768c1690a69fb6152",
+      "kind": "MANUSCRIPT_MANIFEST",
+      "byte_count": 1740
+    },
+    {
+      "path": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+      "sha256": "4ac49386fe3504aed632375a0d9792134ad9a169871cc63b1e139fd518fbdeea",
+      "kind": "STRUCTURED_READER_SURFACE",
+      "byte_count": 7928
+    }
+  ],
+  "rules_checked": [
+    {
+      "rule_id": "RSG-LEX-CORE-VOCAB",
+      "layer": "LEXICAL_LINT",
+      "description": "Core v2 pipeline and architecture internal terminology in reader-facing prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-SELECTION-SCREENING",
+      "layer": "LEXICAL_LINT",
+      "description": "Candidate screening, selection rounds, and negative selection decisions in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-DISCOVERY-INTAKE",
+      "layer": "LEXICAL_LINT",
+      "description": "Discovery intake, observation metadata, and candidate reviews in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-VERIFICATION-MATERIALITY",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal verification obligations and materiality markers in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-INTERNAL-IDENTIFIERS",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal package identifiers and raw evidence IDs in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-STAGE-LIFECYCLE",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal stage and checkpoint lifecycle names used as publication prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-INTERNAL-PATHS",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal repository, transport, or Grok paths in reader prose or URLs",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-BIBLIOGRAPHY-LEAKAGE",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal evidence tags and materiality leaked into bibliography records",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-EDITORIAL-PROCESS",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal editorial operations explained as prose rather than underlying facts",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-REVIEW-RATIONALE-COP-OUT",
+      "layer": "LEXICAL_LINT",
+      "description": "Architecture review meta-rebuttals and cop-out coverage assertions",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-SEM-PROCESS-LEAKAGE",
+      "layer": "SEMANTIC_REVIEW",
+      "description": "Reader-facing sentence requiring internal pipeline knowledge to make sense",
+      "severity": "BLOCKING"
+    }
+  ],
+  "suppressions": [],
+  "findings": [],
+  "summary": {
+    "total_findings": 0,
+    "blocking_findings": 0,
+    "warning_findings": 0,
+    "suppressed_findings": 0,
+    "normalized_findings": 0,
+    "verdict": "PASSED"
+  },
+  "evaluated_by": "SYNTHETIC_FIXTURE_REVIEWER_GENERAL_FULL_V2",
+  "recorded_at": "2026-10-28T06:00:00Z",
+  "derivation": {
+    "route": "LONGFORM_GENERATED_V1",
+    "scope": "LONGFORM_MAIN_BIB_STYLE",
+    "receipt": {
+      "path": "sources/SP001/publication/v2/validated-source-manifest.json",
+      "sha256": "e3064681caf0203b8880b147f10491ac5d3531627cc6db909496c7b63054aeb0"
+    }
+  },
+  "semantic_authority": {
+    "status": "PASSED",
+    "decision": "PASS",
+    "reviewed_by": "SYNTHETIC_FIXTURE_REVIEWER_GENERAL_FULL_V2",
+    "surface_path": "sources/SP001/publication/v2/reader-surface-input-v2.json",
+    "surface_sha256": "4ac49386fe3504aed632375a0d9792134ad9a169871cc63b1e139fd518fbdeea",
+    "recorded_at": "2026-10-28T06:00:00Z",
+    "reviewed_at": "2026-10-28T06:00:00Z",
+    "review_path": "sources/SP001/publication/v2/reader-surface-semantic-review-v2.json",
+    "review_sha256": "42c4d580e20bc0b5762ebd14c69575524b271907f86266018b667dbd90699a86",
+    "summary": "Bound semantic review passed"
+  },
+  "gate_sha256": "3746e3d24de2a86948754fb362670ac43229604f045c48d95ef0750b266d6151"
+}

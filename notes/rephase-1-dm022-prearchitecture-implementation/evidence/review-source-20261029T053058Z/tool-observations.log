@@ -1,0 +1,66 @@
+# Review source freeze — tool observations (transcribed, NOT raw)
+
+Snapshot: `snapshot-review-20261029T053058Z`. All commands ran with
+`workdir=/tmp` (python/filesystem) except the Git inventory block, which ran
+with `workdir=candidate-work` (read-only git commands inside the candidate
+ONLY; no git commands in workspace reconstruct root — no Human commit
+readback). Entries below are TRANSCRIBED tool-observed commands + exits, saved
+here via Write (no tee capture, hence NOT saved-raw). No saved runners executed.
+No tests, no source edits, no commits, no network, no cleanup.
+
+## 1. Premise reads
+
+- `author-A-path-normalization.md` (A4 follow-up: `_norm_path` Path-or-str
+  coercion in LOW+HIGH + 2 new loader tests; targeted 3 PASS + 1 C2-owned ERROR;
+  full A 21/21 PASS in private `/tmp/dm022-a4p-path`, raws `5102c874…`/`632d41f7…`)
+- `whole-lifecycle-witness-progress.md` tail (Attempt blocked at release CLI
+  exit 2: VERSIONED activation unknown to LOW research loader; C2-owned;
+  Freeze-to-FROZEN green; THEMATIC/G71/terminal-COMPLETE open; no PASS claimed)
+- runtime parent listing (18 entries: candidate-work + snapshot-r1/r2/a4/bc +
+  exec-*/c2-* dirs; old snapshots preserved, untouched)
+
+## 2. Candidate audit (read-only)
+
+```
+find CAND -path CAND/.git -prune -o -type f -print | wc -l -> 797
+find ... -type d -name __pycache__ | wc -l -> 2
+find ... -type f -name *.pyc | wc -l -> 33
+find ... -type f (-name *.tmp/-name *.temp/-name *~) -> (none)
+intended (excl .git/__pycache__/*.pyc) -> 764 (797-33)
+python rglob inventory CAND vs snapshot-r2/worktree -> CAND 764 / R2 756 / +8 added / 0 removed
+8 added (all tests/, owners known — General lifecycle+G71: dm022_lifecycle_fixture_v2, test_dm022_full_lifecycle_v2, dm022_g71_g76_fixture_v2, test_dm022_g71_g76_compatibility_v2; C1: test_dm022_c1_h_presence_controls_v2; C2: test_survey_dm022_c2_editorial_closure_v2, test_survey_dm022_c2_release_decoder_v2, test_survey_dm022_c2_renewal_freeze_v2); no unknown-owner files, nothing held back
+extensions: .py 473 / .json 152 / .md 126 / .yml 7 / .txt 1 / .sty 1 / .in 2 / no-ext 2 (.latexmkrc, .gitignore base files); top dirs standard (scripts/schemas/config/tests/docs/specials/templates/.github + roots)
+grep BaseModule (scripts, then whole candidate) -> no matches (phrase not verifiable literally; audit above is the performed check)
+pins: release b9433b9e/14505, publication 705bcee3/155658, refresh dd01fa01/96623, history a9de2c97/315610, source b139f493/144597, agent b6506a8b/195749; grep _norm_path LOW 106 / HIGH 27
+```
+
+## 3. Delta inventory vs actual409 (Git read-only INSIDE candidate only)
+
+```
+git status --porcelain=v1 | awk/cut/sort/uniq -c -> 52 ' M' + 77 '??'
+?? = 75 intended new files + 2 collapsed __pycache__/ dirs (ls-files --others expands to 75+33 pyc = 108; .gitignore covers LaTeX/PDFs only, pyc untracked-but-excluded-from-snapshot by rule)
+git ls-files | wc -l -> 32155 (full HEAD tree; intended tracked-at-HEAD subset = 689)
+git diff --name-only | wc -l -> 52 (all under .github/workflows, config, schemas, scripts, templates, tests)
+cat .git/HEAD -> 409b292… (no commit; parent HEAD stays actual409)
+python intended∩ls-files -> 764 = 689 tracked + 75 untracked; modified 52 all-in-intended
+ACTUAL DELTA: 52M + 75A = 127 files (replaces inherited 40M53A for review purposes; no patch generated yet)
+```
+
+## 4. Snapshot creation + verification (read-only after copy)
+
+```
+mkdir -p SNAP/worktree SNAP/git-independent + evidence/review-source-20261029T053058Z -> exit 0
+python rglob+shutil.copy2 intended-only (skip .git/__pycache__/*.pyc) -> 764 files
+cp -a CAND/.git SNAP/git-independent/.git -> exit 0 (byte copy, no --link; no config mutation; no commit)
+find SNAP/worktree -type f | wc -l -> 764; -type l -> 0; git-HEAD -> 409b292…
+python rglob+sha256 CAND vs SNAP/worktree -> 764/764, 0 only-either-side, 0 mismatch
+python find -printf '%d %i' CAND/.git vs SNAP git -> 83/83, OVERLAP 0; alternates/commondir absent; origin inert example.invalid
+python manifest writer -> review-source-manifest.json 764 entries
+sha256 manifest -> 60aaaee8539f69432a01d0ad72c1131b23951fd87a5531981876642d877eceee / 158161B
+old snapshots intact (worktree file counts via .git-exact prune): r1/r2/a4/bc present
+packet find -name .git -> empty (no GitDB in packet)
+```
+
+Post-copy note: candidate grew 759→763→764 files during this unit from concurrent
+C2-only editing (B files re-verified unchanged at B-archive time); snapshot pins
+the state at copy time above. Runtime authors now idle until review findings.

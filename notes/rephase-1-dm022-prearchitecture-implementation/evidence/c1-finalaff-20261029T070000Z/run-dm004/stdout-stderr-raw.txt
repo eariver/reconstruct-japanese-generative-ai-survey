@@ -1,0 +1,318 @@
+test_cli_contract_refusals_have_no_effects (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_cli_contract_refusals_have_no_effects) ... ERROR
+test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline) ... ERROR
+test_failfast_uses_extracted_line_on_semantic_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_uses_extracted_line_on_semantic_invalid) ... ERROR
+test_generic_cli_accepts_valid_frozen_and_released (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_generic_cli_accepts_valid_frozen_and_released) ... ERROR
+test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors) ... ERROR
+test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd) ... ERROR
+test_validate_state_rejects_outside_paths (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_rejects_outside_paths) ... ERROR
+
+======================================================================
+ERROR: test_cli_contract_refusals_have_no_effects (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_cli_contract_refusals_have_no_effects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-CON/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 410, in test_cli_contract_refusals_have_no_effects
+    fix, _ = build_to_released(self, "CON")
+             ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 137, in build_to_released
+    fix = build_to_frozen(test, tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-CON/production-state.json: errno=2
+
+======================================================================
+ERROR: test_extracted_workflow_closure_block_offline (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_extracted_workflow_closure_block_offline)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-CLO/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 435, in test_extracted_workflow_closure_block_offline
+    fix = build_to_frozen(self, "CLO")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-CLO/production-state.json: errno=2
+
+======================================================================
+ERROR: test_failfast_uses_extracted_line_on_semantic_invalid (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_failfast_uses_extracted_line_on_semantic_invalid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-FF/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 494, in test_failfast_uses_extracted_line_on_semantic_invalid
+    fix, _ = build_to_released(self, "FF")
+             ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 137, in build_to_released
+    fix = build_to_frozen(test, tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-FF/production-state.json: errno=2
+
+======================================================================
+ERROR: test_generic_cli_accepts_valid_frozen_and_released (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_generic_cli_accepts_valid_frozen_and_released)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-POSF/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 210, in test_generic_cli_accepts_valid_frozen_and_released
+    frozen_fix = build_to_frozen(self, "POSF")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-POSF/production-state.json: errno=2
+
+======================================================================
+ERROR: test_invalid_states_rejected_with_discriminative_errors (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_invalid_states_rejected_with_discriminative_errors)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-NEG/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 327, in test_invalid_states_rejected_with_discriminative_errors
+    fix, checkpoint = build_to_released(self, "NEG")
+                      ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 137, in build_to_released
+    fix = build_to_frozen(test, tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-NEG/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_state_accepts_from_other_cwd (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_accepts_from_other_cwd)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-CWD/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 293, in test_validate_state_accepts_from_other_cwd
+    fix = build_to_frozen(self, "CWD")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-CWD/production-state.json: errno=2
+
+======================================================================
+ERROR: test_validate_state_rejects_outside_paths (tests.test_survey_dm004_release_validate_state_v2.DM004ReleaseValidateStateTests.test_validate_state_rejects_outside_paths)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 131, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-ESC/production-state.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 247, in test_validate_state_rejects_outside_paths
+    fix, _ = build_to_released(self, "ESC")
+             ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 137, in build_to_released
+    fix = build_to_frozen(test, tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm004_release_validate_state_v2.py", line 115, in build_to_frozen
+    fix = _DM.SpecialFixture(ROOT, issue, survey_rel)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 181, in __init__
+    self._publication_authority()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_survey_dm001_019_freeze_equivalence_v2.py", line 343, in _publication_authority
+    reader.build_manuscript_manifest(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.repo, self.issue, self.profile_path,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        EXECUTOR, T0, pub / "reader-manuscript-v2.json",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 606, in build_manuscript_manifest
+    _dm022_require_ready_for_manuscript(repo_root, _state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_reader_publication_v2.py", line 56, in _dm022_require_ready_for_manuscript
+    _low.require_research_operation_ready(repo_root, state_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 2641, in require_research_operation_ready
+    raw_state = _safe_read_bytes(abs_state, "production state")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/scripts/survey_research_authority_v2.py", line 133, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: production state lstat failed: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/sources/SP-DM004-ESC/production-state.json: errno=2
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.040s
+
+FAILED (errors=7)

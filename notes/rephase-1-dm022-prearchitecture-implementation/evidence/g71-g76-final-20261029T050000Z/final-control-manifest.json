@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0-rc1",
+  "control": "G71->G76 WEEKLY U narrow (latest REVIEWED snapshot, fixed decoder) to RELEASED terminal COMPLETE",
+  "old_source": {
+    "path": ".rephase-1-editorial-runtime/versioned-renewal-packaging-final-depth-20261025T205432Z/proof-copy/candidate-partial-b40de60",
+    "head": "409b292756dd1277b9dfae87679934c0d2ce251c",
+    "tree": "8ce3699861505f32d1d60bdc185d4d4f635aedb2",
+    "files": 742,
+    "pipeline": 71
+  },
+  "new_source": {
+    "path": ".rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/snapshot-review-20261029T053058Z/worktree",
+    "files": 764,
+    "manifest_sha256": "60aaaee8539f69432a01d0ad72c1131b23951fd87a5531981876642d877eceee131b23951fd87e5a5531981876642d0ad72c1",
+    "note": "Authoritative manifest notes/.../evidence/review-source-20261029T053058Z/review-source-manifest.json (60aaaee.../158161B/764 entries). TOOL pins below."
+  },
+  "new_tool_pins": {
+    "scripts/survey_release_checkpoint_v2.py": "b9433b9efeca14505",
+    "scripts/survey_publication_v2.py": "705bcee32557",
+    "scripts/survey_weekly_mechanical_refresh_v2.py": "dd01fa01c974",
+    "scripts/survey_versioned_renewal_history_v2.py": "a9de2c97eb40",
+    "scripts/survey_versioned_renewal_source_v2.py": "b139f493f791",
+    "scripts/survey_agent_control_v2.py": "b6506a8b3344"
+  },
+  "tool_overlay": {
+    "list": "/tmp/g76-tool-relpaths-final2.txt",
+    "count": 40,
+    "note": "TOOL-only (no tests): 1 config +5 schemas +2 new modules +32 mapped scripts. Genuine code/schema/config delta, not test helpers, not artifact intent. Previous 62 incl tests + new fix flags (release decoder/pub/refresh) = 40 TOOL + tests separate. Full diff 68 lines incl tests preserved in /tmp/g76-tool-overlay-final.txt."
+  },
+  "test_source_pins": {
+    "tests/dm022_g71_g76_fixture_v2.py": "2a8474c00d4be4c7c7dde877fbb450f725dde5e72d5ace186109a8a971a1441e",
+    "tests/test_dm022_g71_g76_compatibility_v2.py": "f999e0e5d4f7bbdd0b32ff1fade8e003e2c0c304236940aea28a6a61a4d8b7ed",
+    "note": "Own 2 only; no other test files installed as TOOL (other workers handle C->U->U)."
+  },
+  "graph_inventory": {
+    "G71_closure_rows": 63,
+    "G76_closure_rows": 70,
+    "delta": "2 modules (survey_prearchitecture_acceptance_v2, survey_research_authority_v2) +5 schemas (dm022-*)",
+    "expanded_upstream_pins": 115,
+    "note": "All materialized files under sources/2026-W33 at G71 VERSIONED_ACTIVE prePreview, byte-identical pre/post overlay (file-set identical, SHAs identical). Typed graph covers base all materialized."
+  },
+  "runs": [
+    {
+      "tag": "g71-final-probe",
+      "cmd": "PYTHONDONTWRITEBYTECODE=1 python3 notes/rephase-1-dm022-prearchitecture-implementation/evidence/g71-g76-final-20261029T050000Z/g71-final-probe-20261029T053633Z.py",
+      "cwd": "workspace-root (probe creates temp fixture from G71 worktree + snapshot-review overlay, cwd=fixture for inner drivers)",
+      "env": "PYTHONDONTWRITEBYTECODE=1, GIT_* cleared in probe (GIT_OPTIONAL_LOCKS=0, GIT_CONFIG_NOSYSTEM=1), PATH includes /home/eariver/.TinyTeX/bin/x86_64-linux from START, no network, no global Git config mutation, PROCESS identity only",
+      "stdout": "g71-final-20261029T053815Z.stdout.txt",
+      "stderr": "g71-final-20261029T053815Z.stderr.txt",
+      "exit": 0,
+      "pid": "not captured for outer bash (transcribed, not saved-raw); inner fixture subprocess pids in TeX logs (lualatex/biber per-step pid/exit/full log) + retained manifests; test driver pids in 041142Z meta JSONs",
+      "result": "G71 chain→VALIDATED_DRAFT (REAL PDF 62560B/5p)→editorial VERSIONED_ACTIVE→expanded 115-pin KEEP→TOOL 40 overlay→G76 epoch 26376ef2→renewal U finalize OK (7 paths), KEEP /tmp/dm022-g71-keep-2_h7xsqd"
+    },
+    {
+      "tag": "g71-followup-activate",
+      "cmd": "PYTHONDONTWRITEBYTECODE=1 python3 notes/rephase-1-dm022-prearchitecture-implementation/evidence/g71-g76-20261029T041142Z/g71-g76-followup-activate-20261029T050000Z.py /tmp/dm022-g71-keep-2_h7xsqd",
+      "stdout": "g71-followup-20261029T054110Z.stdout.txt (in final dir)",
+      "stderr": "g71-followup-20261029T054110Z.stderr.txt",
+      "exit": 1,
+      "note": "Exit 1 is expected intermediate (old script wrong release-checkpoint args, harness bug, fixed in release script). Core verified before failure: OLD history pass, OLD fail expected, NEW proof true, ACTIVATE, repeat CURRENT+PUBLIC green, Candidate→RELEASE_CANDIDATE, Preview, Freeze→FROZEN, Merge/Release OK. Preserved, not overwritten."
+    },
+    {
+      "tag": "g71-release",
+      "cmd": "PYTHONDONTWRITEBYTECODE=1 python3 notes/rephase-1-dm022-prearchitecture-implementation/evidence/g71-g76-20261029T041142Z/g71-g76-release-20261029T050000Z.py /tmp/dm022-g71-keep-2_h7xsqd",
+      "stdout": "g71-release-20261029T054258Z.stdout.txt (in final dir)",
+      "stderr": "g71-release-20261029T054258Z.stderr.txt",
+      "exit": 0,
+      "result": "FROZEN→RELEASED via FIXED decoder (b9433b9e), PUBLIC State green, CURRENT repeat true, terminal COMPLETE"
+    }
+  ],
+  "durable": {
+    "prePreview": ".rephase-1-editorial-runtime/dm022-g71-g76-final-prepreview-20261029T054401Z (HEAD 26376ef2, clean, VALIDATED_DRAFT VERSIONED_ACTIVE prePreview, no Preview/renewal – ideal for C1 HighU)",
+    "released": ".rephase-1-editorial-runtime/dm022-g71-g76-final-durable-20261029T054401Z (HEAD 26376ef2, working tree RELEASED terminal COMPLETE, 12 checkpoints, strict valid, PUBLIC green, CURRENT true)",
+    "first_failure_kept_frozen": ".rephase-1-editorial-runtime/dm022-g71-g76-durable-20261029T044241Z (FROZEN, HEAD 9074cc9c) + ...-prepreview-20261029T044319Z + /tmp/dm022-g71-keep-ny24cxee + /tmp/dm022-g71-keep-lh0nwyft + all 041142Z raw (never cleaned/overwritten)",
+    "db": "independent byte-copy, no shares, inert example.invalid origin, no alternates, no GitDB in packet, actual root not dangling"
+  },
+  "coverage": "WEEKLY U→RELEASED VERIFIED. THEMATIC NOT attempted (no same-code concern). C RENDER_TARGETS (C→U→U) owned by other worker, not duplicated. Minimum one narrow control per ROOT satisfied, reported exactly.",
+  "unit": "ongoing, no CommitPoint, no Human readback, no ordinary candidate/reconstruct commits, no network/Git config/cleanup/old runner. Source/test scope report, not whole approval."
+}

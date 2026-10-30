@@ -1,0 +1,53 @@
+F
+======================================================================
+FAIL: test_thematic_editorial_finalize_activate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_editorial_finalize_activate)
+THEMATIC editorial: prepare (real TinyTeX) → reviews → finalize → VERSIONED_ACTIVE (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 3395, in test_thematic_editorial_finalize_activate
+    activated = self._thematic_to_versioned_active("thematic-full-ed-pub-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 3004, in _thematic_to_versioned_active
+    reved = self._run_fixture_editorial(
+        root, "reviews",
+    ...<8 lines>...
+         "recorded_at": "2026-10-28T17:30:00+00:00"},
+        tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-full-lifecycle-attempt8-20261029T012936Z/tests/test_dm022_full_lifecycle_v2.py", line 2720, in _run_fixture_editorial
+    self.assertEqual(proc.returncode, 0,
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+                     f"editorial fixture op {op} must succeed (pid {pid}): {err_text[-3000:]}")
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 != 0 : editorial fixture op reviews must succeed (pid 2862559): Traceback (most recent call last):
+  File "<string>", line 28, in <module>
+    reader.build_review_record(root, _man_path, _pdf_path, _pages, 'SEMANTIC_EDITORIAL', _sem_checks, args['reviewer'], datetime.fromisoformat(args['recorded_at']), root / args['sem_rel'])
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpuqxy0gmz/scripts/survey_reader_publication_v2.py", line 861, in build_review_record
+    fidelity.validate_review_depth(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        profile,
+        ^^^^^^^^
+    ...<4 lines>...
+        review_kind,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/tmpuqxy0gmz/scripts/survey_reader_fidelity_v2.py", line 460, in validate_review_depth
+    _require_evidence(
+    ~~~~~~~~~~~~~~~~~^
+        architecture_fidelity,
+        ^^^^^^^^^^^^^^^^^^^^^^
+        package_markers | coverage_locations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "ARCHITECTURE_CONTENT_FIDELITY",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/tmpuqxy0gmz/scripts/survey_reader_fidelity_v2.py", line 362, in _require_evidence
+    raise ValueError(f"{label} must bind exact review evidence; missing={missing}")
+ValueError: ARCHITECTURE_CONTENT_FIDELITY must bind exact review evidence; missing=['package:pkg-core']
+
+
+----------------------------------------------------------------------
+Ran 1 test in 240.796s
+
+FAILED (failures=1)

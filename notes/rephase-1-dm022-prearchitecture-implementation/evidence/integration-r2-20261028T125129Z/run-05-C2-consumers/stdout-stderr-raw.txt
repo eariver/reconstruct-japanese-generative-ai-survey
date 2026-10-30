@@ -1,0 +1,36 @@
+test_original_validation_healthy_control_via_low_typed (test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_original_validation_healthy_control_via_low_typed)
+Healthy control: LOW typed loader classifies legacy (no-kind) vs PREARCH. ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_release_payload_prearch_refuses_whole_path (test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_release_payload_prearch_refuses_whole_path)
+Whole public path: PREARCH payload at release refuses (FROZEN->RELEASED only). ... ok
+test_weekly_refresh_validation_prearch_refuses_whole_path (test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_weekly_refresh_validation_prearch_refuses_whole_path)
+Whole public path helper: PREARCH at refresh validation refuses. ... ERROR
+test_independent_git_db_commit (test_survey_dm022_c2_consumers_v2.TestC2GuardCompletionWholePath.test_independent_git_db_commit) ... ok
+test_ready_requires_low_full_completion (test_survey_dm022_c2_consumers_v2.TestC2GuardCompletionWholePath.test_ready_requires_low_full_completion)
+Whole public path: LOW READY is required (no guard-only bypass). ... ok
+test_activation_record_prearch_refuses_whole_path (test_survey_dm022_c2_consumers_v2.TestC2PublicationSelectorsWholePath.test_activation_record_prearch_refuses_whole_path)
+Whole public path: PREARCH as activation record refuses (no CANONICAL fallback). ... ok
+test_artifact_path_prearch_roles_refuse_before_read (test_survey_dm022_c2_consumers_v2.TestC2PublicationSelectorsWholePath.test_artifact_path_prearch_roles_refuse_before_read)
+Whole public path: PREARCH research roles refuse before any file read. ... ok
+test_mode_probe_none_pointer_is_canonical_healthy_control (test_survey_dm022_c2_consumers_v2.TestC2PublicationSelectorsWholePath.test_mode_probe_none_pointer_is_canonical_healthy_control)
+Whole public path: None pointer -> CANONICAL (legacy healthy control). ... ok
+test_mode_probe_prearch_refuses_before_canonical_fallback (test_survey_dm022_c2_consumers_v2.TestC2PublicationSelectorsWholePath.test_mode_probe_prearch_refuses_before_canonical_fallback)
+Whole public path: PREARCH pointer refuses DM022_WRONG_FAMILY, never CANONICAL. ... ok
+test_stage_artifact_research_names_require_low (test_survey_dm022_c2_consumers_v2.TestC2PublicationSelectorsWholePath.test_stage_artifact_research_names_require_low)
+Whole public path: research 4-refs via stage-template refuse (F4b split). ... ok
+
+======================================================================
+ERROR: test_weekly_refresh_validation_prearch_refuses_whole_path (test_survey_dm022_c2_consumers_v2.TestC2CheckpointSitesWholePath.test_weekly_refresh_validation_prearch_refuses_whole_path)
+Whole public path helper: PREARCH at refresh validation refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-r2-integration-20261028T125129Z/tests/test_survey_dm022_c2_consumers_v2.py", line 165, in test_weekly_refresh_validation_prearch_refuses_whole_path
+    wmod._dm022_refuse_prearch_refresh(prearch, "refresh validation checkpoint")
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'scripts.survey_weekly_mechanical_refresh_v2' has no attribute '_dm022_refuse_prearch_refresh'
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.439s
+
+FAILED (errors=1)

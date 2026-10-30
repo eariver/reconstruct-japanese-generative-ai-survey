@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/tmp/tmpgmj_eb6_/scripts/survey_publication_set_v2.py", line 1461, in _validate_versioned_activation
+    hist.verify_versioned_history(root, rel)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_history_v2.py", line 4469, in verify_versioned_history
+    info = _verify_versioned_ancestor(root, rec, ref, expected_predecessor, chronological, _inv_cache)
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_history_v2.py", line 3510, in _verify_versioned_ancestor
+    _verify_build_chain_hist(repo_root, build_doc, str(seal.get("build_record_ref", {}).get("path", "")), epoch_sha, chain if isinstance(chain, list) else [], str(record.get("issue_id", "")), "versioned ancestor build chain")
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_history_v2.py", line 2977, in _verify_build_chain_hist
+    raise RenewalHistoryError("HISTORY_TOOL_EPOCH_DRIFT", f"{label} REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)")
+scripts.survey_versioned_renewal_history_v2.RenewalHistoryError: HISTORY_TOOL_EPOCH_DRIFT: versioned ancestor build chain REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_v2.py", line 3415, in activate_renewal
+    setmod.validate_activation_record(repo, Path(record_rel_out))
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/tmpgmj_eb6_/scripts/survey_publication_set_v2.py", line 1491, in validate_activation_record
+    return _validate_versioned_activation(root, rel, validated)
+  File "/tmp/tmpgmj_eb6_/scripts/survey_publication_set_v2.py", line 1463, in _validate_versioned_activation
+    raise PublicationSetError(f"versioned activation history invalid: {exc}") from exc
+scripts.survey_publication_set_v2.PublicationSetError: versioned activation history invalid: HISTORY_TOOL_EPOCH_DRIFT: versioned ancestor build chain REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 18, in <module>
+    act = high.activate_renewal(root, args['state'], args['set_path'], args['reason'], args['executor'], datetime.fromisoformat(args['recorded_at']))
+  File "/tmp/tmpgmj_eb6_/scripts/survey_versioned_renewal_v2.py", line 3418, in activate_renewal
+    raise _fail(str(code), "ACTIVATE", "PRESERVED_INCOMPLETE",
+                f"low activation-record validation failed: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: SEAL_BIND: low activation-record validation failed: versioned activation history invalid: HISTORY_TOOL_EPOCH_DRIFT: versioned ancestor build chain REUSED_BUILD renewal_tools.old must differ from new (genuine Core change)

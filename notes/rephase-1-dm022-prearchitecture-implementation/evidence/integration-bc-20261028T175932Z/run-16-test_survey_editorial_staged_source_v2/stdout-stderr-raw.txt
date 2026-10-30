@@ -1,0 +1,889 @@
+test_o10_same_inode_vs_new_inode (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct). ... ERROR
+test_o11_root_preexisting_and_postreadback_drift (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11_root_preexisting_and_postreadback_drift)
+O11 pre-existing root refuses; staged output swap after readback refuses. ... ERROR
+test_o11b_midcall_reader_drift (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta. ... ERROR
+test_o11c_late_control_retained (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at FINAL boundary. ... ERROR
+test_o11d_drift_before_claim_manifest (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11d_drift_before_claim_manifest)
+O11d drift after render/before claim and after source/before manifest. ... ERROR
+test_o11e_post_readback_replay (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay. ... ERROR
+test_o11f_root_ancestor_replace (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses. ... ERROR
+test_o12a_preexisting_tamper_verify (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12a_preexisting_tamper_verify)
+O12a verify-level tamper: truncated manifest / extra dir / zeroed output. ... ERROR
+test_o12b_during_write_faults_incomplete (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class. ... ERROR
+test_o12c_fsync_close_indeterminate (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12c_fsync_close_indeterminate)
+O12c fsync/close faults with complete bytes → INDETERMINATE + owned partials. ... ERROR
+test_o12d_manifest_failure_indeterminate (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12d_manifest_failure_indeterminate)
+O12d manifest write/close faults → INDETERMINATE; valid bytes stay verifiable. ... ERROR
+test_o12e_fstat_identity_mismatch (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12e_fstat_identity_mismatch)
+O12e fstat-vs-entry identity mismatch refuses with exact owned partials. ... ERROR
+test_o12f_short_partial_combined_close (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary. ... ERROR
+test_o13_immediate_no_write_before_repair (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o13_immediate_no_write_before_repair)
+O13 every refusal proves no-write with the fault still present. ... ERROR
+test_o14_byte_equal_existing_root_refuses (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o14_byte_equal_existing_root_refuses)
+O14 byte-equal pre-existing staged set still refuses writer takeover. ... ERROR
+test_o1_longform_materialize_and_replay (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta). ... ERROR
+test_o2_weekly_materialize_and_replay (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o2_weekly_materialize_and_replay)
+O2 healthy Weekly staged set + independent replay (real envelope delta). ... ERROR
+test_o3_coexistence_p1_refuse_p2r_p2v (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o3_coexistence_p1_refuse_p2r_p2v)
+O3 P1 still refuses retained destination; P2R/P2V coexist (no TeX use). ... ERROR
+test_o4_live_state_mutation_replay_ok_materializer_refuses (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses. ... ERROR
+test_o5_artifact_only_head_independence (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o5_artifact_only_head_independence)
+O5 artifact-only commit keeps replay VERIFIED without HEAD comparison. ... ERROR
+test_o6a_tool_drift_reaches_check (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6a_tool_drift_reaches_check)
+O6a TOOL_DRIFT via standalone artifact dependency tamper (verifier). ... ERROR
+test_o6b_keep_drift_preempts_honestly (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6b_keep_drift_preempts_honestly)
+O6b KEEP-byte drift reports the earlier KEEP refusal, not TOOL_DRIFT. ... ERROR
+test_o7_scope_refusals (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write. ... ERROR
+test_o8_path_ref_schema_inventory_tamper (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write. ... ERROR
+test_o9_alias_fifo_no_read (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang. ... ERROR
+test_r1_genuine_owner_binds_materialization (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh. ... ERROR
+
+======================================================================
+ERROR: test_o10_same_inode_vs_new_inode (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o10_same_inode_vs_new_inode)
+O10 same-inode edit refuses; same-byte/new-inode verifies (distinct).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1795, in test_o10_same_inode_vs_new_inode
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-10")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o11_root_preexisting_and_postreadback_drift (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11_root_preexisting_and_postreadback_drift)
+O11 pre-existing root refuses; staged output swap after readback refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1847, in test_o11_root_preexisting_and_postreadback_drift
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-11")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o11b_midcall_reader_drift (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11b_midcall_reader_drift)
+O11b reader drift between pin and use refuses with exact owned delta.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2194, in test_o11b_midcall_reader_drift
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-11b")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o11c_late_control_retained (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11c_late_control_retained)
+O11c late control/retained additions refuse at FINAL boundary.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2308, in test_o11c_late_control_retained
+    prep = _lf_prepare(self, root, self.workspace, f"fixture-lf-p3s-{fault}")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o11d_drift_before_claim_manifest (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11d_drift_before_claim_manifest)
+O11d drift after render/before claim and after source/before manifest.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2360, in test_o11d_drift_before_claim_manifest
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-drift-before-claim")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o11e_post_readback_replay (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11e_post_readback_replay)
+O11e in-place edit after self-readback and same-byte replace after replay.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2423, in test_o11e_post_readback_replay
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-edit")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o11f_root_ancestor_replace (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o11f_root_ancestor_replace)
+O11f root/ancestor replacement during claim refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2491, in test_o11f_root_ancestor_replace
+    prep = _lf_prepare(self, root, self.workspace, f"fixture-lf-p3s-{fault}")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o12a_preexisting_tamper_verify (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12a_preexisting_tamper_verify)
+O12a verify-level tamper: truncated manifest / extra dir / zeroed output.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1907, in test_o12a_preexisting_tamper_verify
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-12")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o12b_during_write_faults_incomplete (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12b_during_write_faults_incomplete)
+O12b real during-write zero/write/fstat/mkdir faults → INCOMPLETE-class.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1975, in test_o12b_during_write_faults_incomplete
+    prep = _lf_prepare(self, root, self.workspace, f"fixture-lf-p3s-{fault}")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o12c_fsync_close_indeterminate (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12c_fsync_close_indeterminate)
+O12c fsync/close faults with complete bytes → INDETERMINATE + owned partials.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2020, in test_o12c_fsync_close_indeterminate
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-12c")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o12d_manifest_failure_indeterminate (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12d_manifest_failure_indeterminate)
+O12d manifest write/close faults → INDETERMINATE; valid bytes stay verifiable.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2092, in test_o12d_manifest_failure_indeterminate
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-12d")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o12e_fstat_identity_mismatch (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12e_fstat_identity_mismatch)
+O12e fstat-vs-entry identity mismatch refuses with exact owned partials.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2160, in test_o12e_fstat_identity_mismatch
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-12e")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o12f_short_partial_combined_close (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o12f_short_partial_combined_close)
+O12f short completion, partial progress, combined primary+secondary.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2225, in test_o12f_short_partial_combined_close
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-short")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o13_immediate_no_write_before_repair (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o13_immediate_no_write_before_repair)
+O13 every refusal proves no-write with the fault still present.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2536, in test_o13_immediate_no_write_before_repair
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-13")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o14_byte_equal_existing_root_refuses (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o14_byte_equal_existing_root_refuses)
+O14 byte-equal pre-existing staged set still refuses writer takeover.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2580, in test_o14_byte_equal_existing_root_refuses
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-14")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o1_longform_materialize_and_replay (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o1_longform_materialize_and_replay)
+O1 healthy Longform staged set + independent replay (real prose delta).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1200, in test_o1_longform_materialize_and_replay
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-1")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o2_weekly_materialize_and_replay (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o2_weekly_materialize_and_replay)
+O2 healthy Weekly staged set + independent replay (real envelope delta).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1251, in test_o2_weekly_materialize_and_replay
+    prep = _weekly_prepare(self, root, "fixture-wk-p3s-1")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1091, in _weekly_prepare
+    built = p1t._build_weekly_validated(testcase, helper)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_correction_proposal_v2.py", line 208, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 487, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o3_coexistence_p1_refuse_p2r_p2v (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o3_coexistence_p1_refuse_p2r_p2v)
+O3 P1 still refuses retained destination; P2R/P2V coexist (no TeX use).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1268, in test_o3_coexistence_p1_refuse_p2r_p2v
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-3")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o4_live_state_mutation_replay_ok_materializer_refuses (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o4_live_state_mutation_replay_ok_materializer_refuses)
+O4 live-State drift: artifact replay VERIFIED, fresh writer refuses.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1287, in test_o4_live_state_mutation_replay_ok_materializer_refuses
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-4")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o5_artifact_only_head_independence (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o5_artifact_only_head_independence)
+O5 artifact-only commit keeps replay VERIFIED without HEAD comparison.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1334, in test_o5_artifact_only_head_independence
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-5")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o6a_tool_drift_reaches_check (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6a_tool_drift_reaches_check)
+O6a TOOL_DRIFT via standalone artifact dependency tamper (verifier).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1363, in test_o6a_tool_drift_reaches_check
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-6a")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o6b_keep_drift_preempts_honestly (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o6b_keep_drift_preempts_honestly)
+O6b KEEP-byte drift reports the earlier KEEP refusal, not TOOL_DRIFT.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1409, in test_o6b_keep_drift_preempts_honestly
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-6b")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o7_scope_refusals (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o7_scope_refusals)
+O7 missing/ordinary/malformed/stale-upstream scope refuses pre-write.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1463, in test_o7_scope_refusals
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-7")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o8_path_ref_schema_inventory_tamper (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o8_path_ref_schema_inventory_tamper)
+O8 path/ref/schema/inventory tamper refuses read-only with no-write.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1581, in test_o8_path_ref_schema_inventory_tamper
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-8")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_o9_alias_fifo_no_read (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_o9_alias_fifo_no_read)
+O9 alias/FIFO staged-reader + scope + ancestor refuse without read/hang.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1688, in test_o9_alias_fifo_no_read
+    prep = _lf_prepare(self, root, self.workspace, "fixture-lf-p3s-9")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 1049, in _lf_prepare
+    chain = helper._complete(helper._chain())
+                             ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_publication_integration_v2.py", line 206, in _chain
+    return self.worker._chain(dids=(DID1,))
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_longform_derivation_v2.py", line 163, in _chain
+    profile_path, state_path = helper.init_profile(root, cfg, "THEMATIC")
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_evidence_v2.py", line 80, in init_profile
+    profile = core.thematic_profile(
+        root,
+    ...<7 lines>...
+        },
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 542, in thematic_profile
+    "contract": contract_identity(repo_root, cfg, "THEMATIC", "LONGFORM_SPECIAL"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+======================================================================
+ERROR: test_r1_genuine_owner_binds_materialization (test_survey_editorial_staged_source_v2.EditorialStagedSourceV2Tests.test_r1_genuine_owner_binds_materialization)
+R1 genuine owner on the SAME chain: comment commit + fixture refresh.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_staged_source_v2.py", line 2614, in test_r1_genuine_owner_binds_materialization
+    built = p1t._build_weekly_validated(self, helper)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_editorial_correction_proposal_v2.py", line 208, in _build_weekly_validated
+    chain = helper._complete_authorities(helper._chain())
+                                         ~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 116, in _chain
+    chain = worker.build_authorized_chain("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_drafting_v2.py", line 20, in build_authorized_chain
+    chain = architecture_tests.SurveyArchitectureV2Tests.chain(self, research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_architecture_v2.py", line 25, in chain
+    profile_path, state_path = helper.init_profile(root, cfg, research_profile)
+                               ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/tests/test_survey_increment_b_weekly_derivation_v2.py", line 85, in init_profile
+    profile = core.weekly_profile(
+        repo_root, active_cfg, core.parse_instant("2026-09-19T02:00:00+09:00"), ISSUE
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 487, in weekly_profile
+    "contract": contract_identity(repo_root, cfg, "WEEKLY", "WEEKLY_MAGAZINE"),
+                ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 221, in contract_identity
+    "pipeline_contract_sha256": aggregate_file_hash(repo_root, pipeline_files),
+                                ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-bc-20261028T175932Z/scripts/survey_production_v2.py", line 173, in aggregate_file_hash
+    raise ValueError(f"contract file does not exist: {rel}")
+ValueError: contract file does not exist: schemas/dm022-preadoption-report-v2.schema.json
+
+----------------------------------------------------------------------
+Ran 26 tests in 12.637s
+
+FAILED (errors=26)

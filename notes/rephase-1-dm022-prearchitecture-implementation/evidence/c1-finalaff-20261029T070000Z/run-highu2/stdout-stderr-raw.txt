@@ -1,0 +1,37 @@
+test_high_u_finalize_longform (tests.test_versioned_renewal_source_phase_s.TestPhaseSHighU.test_high_u_finalize_longform) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch/phase-s-highu2-longform-20261029T065751Z-78df3p2w/work/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ERROR
+test_high_u_finalize_weekly (tests.test_versioned_renewal_source_phase_s.TestPhaseSHighU.test_high_u_finalize_weekly) ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/versioned-renewal-test-scratch/phase-s-highu2-weekly-20261029T065756Z-o4kje0li/work/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ERROR
+
+======================================================================
+ERROR: test_high_u_finalize_longform (tests.test_versioned_renewal_source_phase_s.TestPhaseSHighU.test_high_u_finalize_longform)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_versioned_renewal_source_phase_s.py", line 1020, in test_high_u_finalize_longform
+    self._run_u("longform")
+    ~~~~~~~~~~~^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_versioned_renewal_source_phase_s.py", line 988, in _run_u
+    checks_rel = _fresh_checks_for_u(sc)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_versioned_renewal_source_phase_s.py", line 951, in _fresh_checks_for_u
+    old = next(iter(sc.work.glob("sources/*/publication/v2/editorial-corrections/*/deterministic-checks.json")))
+StopIteration
+
+======================================================================
+ERROR: test_high_u_finalize_weekly (tests.test_versioned_renewal_source_phase_s.TestPhaseSHighU.test_high_u_finalize_weekly)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_versioned_renewal_source_phase_s.py", line 1017, in test_high_u_finalize_weekly
+    self._run_u("weekly")
+    ~~~~~~~~~~~^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_versioned_renewal_source_phase_s.py", line 988, in _run_u
+    checks_rel = _fresh_checks_for_u(sc)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/dm022-prearchitecture-implementation-20261028T113126Z/exec-c1-finalaff-20261029T070000Z/tests/test_versioned_renewal_source_phase_s.py", line 951, in _fresh_checks_for_u
+    old = next(iter(sc.work.glob("sources/*/publication/v2/editorial-corrections/*/deterministic-checks.json")))
+StopIteration
+
+----------------------------------------------------------------------
+Ran 2 tests in 8.649s
+
+FAILED (errors=2)

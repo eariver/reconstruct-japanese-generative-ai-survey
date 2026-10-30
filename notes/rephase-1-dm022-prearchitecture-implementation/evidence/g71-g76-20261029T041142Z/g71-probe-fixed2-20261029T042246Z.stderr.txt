@@ -1,0 +1,25 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-dm022-prearchitecture-implementation/evidence/g71-g76-20261029T041142Z/g71-probe-fixed2-20261029T044500Z.py", line 948, in main
+    assert _ren.returncode == 0, f"G71->G76 renewal U prepare/finalize failed: {_ren.stderr[-3000:]}"
+           ^^^^^^^^^^^^^^^^^^^^
+AssertionError: G71->G76 renewal U prepare/finalize failed: Traceback (most recent call last):
+  File "/tmp/dm022-g71-keep-lh0nwyft/scripts/survey_versioned_renewal_v2.py", line 1640, in finalize_renewal
+    srcmod.verify_renewal_source_proof(repo, basis_rel, proof_rel)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-g71-keep-lh0nwyft/scripts/survey_versioned_renewal_source_v2.py", line 1740, in verify_renewal_source_proof
+    _verify_current_tools_committed(repo, basis, dep, cfg_cur)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/dm022-g71-keep-lh0nwyft/scripts/survey_versioned_renewal_source_v2.py", line 294, in _verify_current_tools_committed
+    raise RenewalSourceError("BASIS_CURRENT_TOOL_DRIFT", "dirty working tree on control roots")
+scripts.survey_versioned_renewal_source_v2.RenewalSourceError: BASIS_CURRENT_TOOL_DRIFT: dirty working tree on control roots
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 20, in <module>
+    fin = high.finalize_renewal(root, args['state'], basis_rel, str(_chk_path.relative_to(root)), None, None, args['executor'], datetime.fromisoformat(args['finalized_at']))
+  File "/tmp/dm022-g71-keep-lh0nwyft/scripts/survey_versioned_renewal_v2.py", line 1643, in finalize_renewal
+    raise _fail(str(code), "FINALIZE", "REFUSED_PRE_WRITE",
+                f"detached proof verification failed: {exc}") from exc
+scripts.survey_versioned_renewal_v2.RenewalHighError: BASIS_CURRENT_TOOL_DRIFT: detached proof verification failed: BASIS_CURRENT_TOOL_DRIFT: dirty working tree on control roots
+
