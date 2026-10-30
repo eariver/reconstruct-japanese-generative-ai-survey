@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-30 necessary Profile/support contract selection
+
+**BOUNDED CONTRACT SELECTION COMPLETE、pre-code readiness OPEN。Human Commit Pointで停止。** [decision INCLUDING§7](../outputs/rephase-1-profile-support-contract-decision.md) SHA256 **62b14add5e50d7e5f7996c4b7536f95b5d74cdbc9b205b1eec54bde260527e2d /20472B**、[mandatory ROOT INCLUDING§5](../notes/rephase-1-profile-support-contract/astra-review-resolution.md) **021a0d7c…/7225B**、[packet/両独立FINAL-BINDING](../notes/rephase-1-profile-support-contract/README.md)を読む。
+
+DM016はcanonical10分類を追加し元type/既存mappingを保持。source classとclaim強度は別、推測URL/default SECONDARY/PR-never-primaryは不採用。DM017は既存arrayに3initial/5named-only、final7の参照列は内部導出。U=initial∪root∪effective、親ごとのOID脱落を新操作前に拒否。歴史validatorへの一律適用は不可。direct/agent-firstのcanonical-record/residual parityを含む。
+
+**次Human continuation後:** Generalの具体pre-code map（decision§6/ROOT§5）→独立readiness→Astra確認。直ちにcodeを始めない。非四系列Thematic/Retrospectiveのcomplete-reader/訂正契約は必須後続課題、manual PRIMARY_ONLYは維持するが代替完了とはしない。全体NOT_READY、品質/audit/採用/削減はOPEN。
+
+Source final133/768・patch25b488/manifest31faは下記不変、今回source-read/docs-only。Commit readbackなし。Humanが明示許可した固定c8d0ecc1の4文書のみGET済み（[intake](../notes/rephase-1-profile-support-contract/intake-20261030T124140Z/intake-summary.md)）；DATA Python非実行、actualRaw/全edition再検証なし、774baseline不変。既存55Gitlinks保持。普通のCommit/PushはHuman-owned。
+
+## Preserved DM022 implementation closeout (Profile-contract-next is historical)
+
 ## Current — 2026-10-30 DM022 implementation closeout
 
 **BOUNDED IMPLEMENTATION COMPLETE（qualified composite）、Human Commit Pointで停止。** [assessment/次task§5](../outputs/rephase-1-dm022-prearchitecture-implementation-assessment.md)、**[mandatory ROOT closeout全文](../notes/rephase-1-dm022-prearchitecture-implementation/astra-closeout-resolution.md)**、[packet/独立authority S2・operation§10 FINAL-BINDING・ledger§§F](../notes/rephase-1-dm022-prearchitecture-implementation/README.md)を読む。
