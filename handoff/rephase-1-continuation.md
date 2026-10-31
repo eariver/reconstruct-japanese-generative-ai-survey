@@ -1,5 +1,15 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-31 総編纂工数からのscope再評価
+
+**再評価完了、Human Commit Point。** [decision INCLUDING§8](../outputs/rephase-1-scope-reassessment-20261031.md)、[packet/独立scope review＋FINAL-BINDING・文書check](../notes/rephase-1-scope-reassessment-20261031/README.md)を読む。共有upstream P1–P4を最後の予定済み機能実装として維持し、**汎用非四系列Thematic/Retrospective complete-reader・訂正の必須先行gateを撤回**。R4後の自動宿題にもせず、実需要・不足・費用で再選択する。必要Specialの実用性を削らず、manualの実stage/訂正条件・費用を確認する。
+
+次Human continuation後はGeneralが既存precode ROOTbfb72bf2 INCLUDING§7に従ってwhole修復・意味ある影響検証・独立implementation review。新precode周回なし、必要authority/新capability gapはAstraへ返す。修復closeoutで停止後、次unitは具体的Weekly＋実需Specialのcapability/品質/費用rehearsal→固定candidate/fresh audit R4→Human限定採用R5→実測削減/旧作業除去R6。旧broader-reader-nextを再開しない。
+
+Technical契約62b14add/ROOT021/precodebfb不変、final133/768/patch25b488/manifest31fa不変。今回docs/source-readのみ、runtime/test/network/復元/source編集/Commit/Push/Human Commit readbackなし。55Gitlinks保持・新全面再認証なし。WholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN、quality/adoption/savings OPEN。**次unitを自動開始しない。**
+
+## Preserved pre-code closeout — technical map retained, broader-reader-next superseded
+
 ## Current — 2026-10-31 Profile/support pre-code readiness
 
 **PRE_CODE_READY（設計/interface map限定）、Human Commit Pointで停止。** [assessment/次実装§5](../outputs/rephase-1-profile-support-precode-assessment.md)、[packet](../notes/rephase-1-profile-support-precode/README.md)、**[mandatory ROOT INCLUDING§7](../notes/rephase-1-profile-support-precode/astra-precode-gate-resolution.md)**（FULL bfb72bf2a82691d26149fd970069d0b43e1f57aad380feeb484774f3011352fa /20159B）、[独立FINAL R5＋§8](../notes/rephase-1-profile-support-precode/independent-readiness-review.md)を読む。契約62b14add/ROOT021不変、旧da37はworking§§1–6 snapshotのみ。
