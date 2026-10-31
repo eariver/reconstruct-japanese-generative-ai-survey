@@ -1,0 +1,169 @@
+{
+  "authority": {
+    "decision": "outputs/rephase-1-profile-support-contract-decision.md",
+    "decision_sha256": "62b14add5e50d7e5f7996c4b7536f95b5d74cdbc9b205b1eec54bde260527e2d",
+    "decision_bytes": 20472,
+    "root": "notes/rephase-1-profile-support-contract/astra-review-resolution.md",
+    "root_sha256": "021a0d7ce696a1d386ff2accd803e97033a297872ea65a0d7646a9953ded217a",
+    "root_bytes": 7225,
+    "gate": "notes/rephase-1-profile-support-precode/astra-precode-gate-resolution.md",
+    "gate_sha256": "da37cb8dcf931377075ef01219539206c4fa5f447589f6cb2d7bd74150dbb544",
+    "gate_bytes": 13968,
+    "gate_note": "FULL including S6; SS1-5 unchanged, S6 binds R3 + focused kernel corrections; NOT_READY",
+    "kernel_md": "notes/rephase-1-profile-support-precode/detached-root-context-map.md",
+    "kernel_md_sha256": "6d80ffeb72e15637573b50e0421b12853ab8bbd33995f981ff518bef516e3df5",
+    "kernel_md_bytes": 18627,
+    "kernel_json": "notes/rephase-1-profile-support-precode/detached-root-context-map.json",
+    "kernel_json_sha256": "fac3e0e33be61bac49f447687a5f1bfee6521176f86ec97300cbad7df2ace199",
+    "kernel_json_bytes": 10130,
+    "r3_md": "notes/rephase-1-profile-support-precode/integrated-readiness-r3.md preserved, NOT_READY per RB1-RB7",
+    "source": "/tmp/opencode/jgas-dm022-indep-20261029T235900Z/proof-candidate",
+    "source_identity": "actual409/tree8ce +133paths54M79A/768 files",
+    "patch_sha256": "25b488784d02a156db693459dce6c1d369e7144f1c49461c9b3a846b1b7260",
+    "patch_bytes": 4931836,
+    "manifest_sha256": "31fa4a728cabc145232ef930b91c9c5e6f773692299a25a9177c994393d469fa",
+    "manifest_bytes": 185422,
+    "baseline": "774dd39a951c9ac3818e83dfffd4f7666efb0a20",
+    "status": "R4 DELTA FOR REVIEW; R3 claim all-closed WITHDRAWN; no author PASS; no code; independent readiness + Astra confirmation required"
+  },
+  "rb1_pure_chain": {
+    "may_use_state_free": [
+      "survey_discovery_v2.validate_acceptance:274-298 (acceptance schema + x_manifest state-free + raw/graph/X + record_count/records/graph_sha; no State/verify/agent/HEAD)"
+    ],
+    "must_use_content_only": [
+      "survey_screening_v2._validate_screening_package_basis_content:654-693",
+      "survey_screening_v2._check_screening_package_files_content:629-651",
+      "survey_screening_v2._check_screening_batches_and_digest:767-806",
+      "survey_screening_v2._resolve_effective_discovery_basis_content:809-856",
+      "survey_screening_v2._validate_screening_acceptance_content:859-894",
+      "survey_evidence_v2._validate_evidence_acceptance_content:1255-1283",
+      "survey_evidence_v2._validate_edition_views_acceptance_content:1322-1349",
+      "survey_evidence_v2._validate_materiality_ledger_content:2056-2099",
+      "survey_completeness_v2._validate_profile_completeness_content:241-262"
+    ],
+    "forbidden_in_low": [
+      "survey_screening_v2.validate_acceptance:897-916 (verify_state_basis + live SHA + _canonical_root_acceptance)",
+      "survey_screening_v2.resolve_effective_discovery_basis:353-439 (LIVE via _canonical_root_acceptance:325-350)",
+      "survey_screening_v2.resolve_active_screening_acceptance:442-489 (agent.resolve_checkpoint_artifact + verify + override)",
+      "_verify_own_epoch_commit:620-780 PREARCH 7-file Git only",
+      "_verify_adopted_graph_full:783-911 PREARCH only",
+      "_verify_completion_full:914-991 LIVE operational",
+      "_canonical_root_acceptance:325-350 reads LIVE State, never in LOW",
+      "agent.validate_agent_state, production.verify_state_basis, HIGH guard/completion in LOW"
+    ],
+    "ordinary_dcp_scp_contract": "record-owned Contract8 (core.contract_identity:210-228 equality :713-717); record-owned report equality _artifact_map==_artifact_map :727-731; historical canonical-State-path-only when state_path is None :710-712, no live SHA; never PREARCH 7-file Git proof",
+    "historic_12_keys": [
+      "schema_version",
+      "check_id",
+      "status",
+      "issue_id",
+      "from_state",
+      "to_state",
+      "production_state",
+      "production_profile",
+      "implementation_commit_sha",
+      "contract",
+      "artifacts",
+      "recorded_at"
+    ]
+  },
+  "rb2_bindings": {
+    "dcp": "COPY.checkpoint_provenance.discovery {path,sha256}; LEGACY only; PREARCH refuses DM022_WRONG_FAMILY; FULL CP required (EVIDENCE_REVIEWED before-State always passed D/S)",
+    "scp": "COPY.checkpoint_provenance.screening {path,sha256}; LEGACY only; same family rule",
+    "ecp": "request.before_checkpoint.evidence ArtifactRef + COPY.checkpoint_provenance.evidence; prior EVIDENCE != DCP; redundant supplied ECP removal allowed ONLY if same ECP derived from before_checkpoint.evidence/COPY evidence provenance, never Discovery provenance",
+    "profile_binding": "request.profile_ref SizedRef {path,sha256,byte_count} via _load_json_from_sized:1165-1169 + _verify_sized_ref_bytes:278-288; require issue_id/research_profile match COPY; HEAD/tree opaque (HIGH-only _current_head_tree)",
+    "exactly_one_core": "matches=[row where check_id==CORE_STAGE_CONTRACT]; require len==1 :665-667; kind DETERMINISTIC + status PASS :669-670; other DETERMINISTIC rows keep {path,sha256} rehash :878-890; PREARCH branch exactly one DM022_SUPERSESSION_PROOF SizedRef {path,sha256,byte_count} :631-644, never mixed :662-663",
+    "file_vs_digest": "acceptance FILE SHA == selected NamedRef/request SizedRef SHA (resolve + rehash + _verify_sized_ref_bytes); result_set_sha256 is separate recomputed digest + run_dir identity (_screening_acceptance_digest/_result_set_digest/_evidence_result_set_digest/_view_set_digest); never equate"
+  },
+  "rb4_public_paths_only": {
+    "rejected": "kernel (*,root_records,root_path) / (*,effective_records,effective_path) optional dict kwargs on public *_from_paths; NO root None means DIRECT fallback",
+    "new_public_contract_extension": [
+      "derive_ordinary_root_effective_context(repo_root:Path, request_path:Path, before_copy_path:Path)->dict in survey_research_authority_v2.py LOW COPY-only",
+      "derive_current_root_effective_context(repo_root:Path, request_path:Path, live_state_path:Path)->dict in survey_research_authority_v2.py HIGH-only after eligibility before first COPY",
+      "resolve_prepackage_root_effective(repo_root:Path, state_path:Path, discovery_path:Path, accepted_discovery_path:Path|None)->dict in survey_screening_v2.py ordinary S-prepare"
+    ],
+    "private_kernel": "_derive_root_effective_kernel(*, repo_root:Path, before_state:dict, canonical_state_path:str, dcp_record:dict, scp_record:dict, request:dict, profile_doc:dict, root_records:list, root_path:Path)->dict (pure, no permission token)",
+    "existing_kept": [
+      "derive_before_context(repo_root,request_path,before_copy_path,previous_checkpoint_path) KEEP 4-positional; delegates to kernel",
+      "build_revision_package_from_paths(repo_root,request_path,before_copy_path,output_dir) KEEP",
+      "build_revision_cards_views_from_paths(repo_root,package_path,request_path,results_dir,views_dir, *, before_copy_path:Path|None=None) ADD keyword-only PATH; HIGH passes retained COPY; else refuse",
+      "accept_revision_evidence_views_from_paths(repo_root,package_path,results_dir,views_dir,profile_path,evidence_accepted_root,views_accepted_root, *, request_path:Path|None=None, before_copy_path:Path|None=None) ADD keyword-only PATHS; HIGH passes both; forwards true root_records/root_path to evidence content cores; historical None,None stays history-only",
+      "build_versioned_ledger_from_paths(repo_root,profile_path,discovery_path,screening_acceptance_path,evidence_acceptance_path,views_acceptance_path, *, request_path:Path|None=None, before_copy_path:Path|None=None) ADD keyword-only PATHS",
+      "build_versioned_completeness_from_paths(repo_root,profile_path,discovery_path,screening_acceptance_path,evidence_acceptance_path,views_acceptance_path,ledger_path,request_path,old_completeness_path, *, before_copy_path:Path|None=None) ADD keyword-only PATH",
+      "prove_revision_from_paths(repo_root,revision_manifest_path,decision_path,before_copy_path) KEEP; OLD vs NEW separate contexts; no new DM016/DM017 in historic passes",
+      "check_supersession_record_from_paths(repo_root,checkpoint_path,report_path,before_copy_path) KEEP; before_copy derived from checkpoint.retention_plan/revision_root when not passed",
+      "_verify_adopted_graph_full(repo_root,checkpoint_path,checkpoint_sha, *, before_copy_path:Path|None=None) ADD keyword-only PATH (not root dicts); HIGH postread keeps 2-arg"
+    ],
+    "before_copy_derivation": "before_copy = repo_root / revision_root/retention/state-before.json (immutable path bound before_state SHA/byte_count + retention_plan SizedRef verified via _verify_sized_ref_bytes); request_path = record.request.path (manifest/request SizedRef verified bytes)",
+    "cycle_rule": "context loader loads ONLY D/S + profile binding; ECP metadata file+SHA only, no adoptedFull/completion/prove call; adoptedFull/completion call context loader (one direction); finite previous-PREARCH lineage bounded cap (stored parent/original_anchor/supersedes); forbidden: context->adoptedFull->context",
+    "per_site_R_vs_E": "package/tasks: content(...,root_records,root_path) + validate_discovery_set(root) + tasks from effective non-DROP; cards/views: request records bound to effective DIDs + task_authority leaf; acceptances: _validate_*_content(...,root_records,root_path) with expectations canonical_state_path; ledger/completeness: FULL content cores with R/E; prove/check: OLD vs NEW separate contexts"
+  },
+  "rb5_high_seven_only": "HIGH uses DM022 seven-field request fullObligation minLength:1 (schema-first load_revision_request) + classification + per-parent loss before first COPY; ordinary 3/5 U gate stays in normal runner N1 only; DM022 7-shape unchanged; R3 S6.4 3/5/U-for-HIGH WITHDRAWN",
+  "rb6_prepackage": {
+    "signature": "resolve_prepackage_root_effective(repo_root:Path, state_path:Path, discovery_path:Path, accepted_discovery_path:Path|None)->dict",
+    "paths_only": "derives canonical marker source_root/discovery/discovery-accepted-v2.json + State provenance on its own (verify_state_basis facade + Profile identity + validate_acceptance + SHA/ID/count); optional path is expected binding only (must equal canonical when present), never selector/suppressor",
+    "mode_split": "authorityKind NO_MARKER|STAGE_CLAIMED|CANONICAL_MARKER + basisMode DIRECT|DERIVED_EXPANSION (not ambiguous ACCEPTED_BOUND)",
+    "truth_table": [
+      "R1 noMarker initial: ISSUE_INITIALIZED + lstat ENOENT absent -> DIRECT root==records==supplied",
+      "R2 marker exists initial pending supported: ISSUE_INITIALIZED + present regular + validate_acceptance passes -> CANONICAL_MARKER DIRECT or DERIVED_EXPANSION (fixture test_screening_expansion_authority_v2:156-169 bound file, not State-passed claim; no new lifecycle)",
+      "R3 malformed/symlink/unreadable: symlink/nonregular/unreadable/parse/schema fail -> NEVER DIRECT fallback, refuse",
+      "R4 Stage-claimed DCP missing: DISCOVERY_COLLECTED or checkpoint_provenance.discovery present but marker ENOENT -> REFUSE, never DIRECT",
+      "R5 claimed-but-different: supplied != bound root when DIRECT expected or DERIVED without valid expansion or optional expected != canonical -> REFUSE; allow_unbound FORBIDDEN"
+    ]
+  },
+  "rb7_closure_arrays_imports": {
+    "closure_heading": "4 provenance/status-derived (expansion_passes, final_pass_new_sources, final_pass_new_material_obligations, final_pass_new_material_obligations_open) + 1 row-status count (open_material_obligations=needs_research) + 3 operator-fed (targeted_gap_fill_completed, status, limitations closure-first+residual-appended); R3 4-operator heading WITHDRAWN; formulae ROOT S5 control",
+    "c_r2_arrays_ref": "source-family-closure-map-r2.md/json arrays (_SHARED_PY_G71 35 + _DM022_PY_2 + _OLD_PY_30/_OLD_SCHEMAS_14/_NEW_PY_3/_NEW_SCHEMAS_4/_NEW_DM022_MODULES_2/_NEW_DM022_SCHEMAS_5/_FAMILY_PY_2/_FAMILY_SCHEMAS_4 + _KNOWN_* + _OLD_PIPELINE_67 + _DM022_SCHEMA_IDS + route_code_deps + staged 37py+27sch + union70 + pipeline76 + canonical36/41 + DM022-7) referenced with R4 FULL hashes (metadata, not new code); counts never authority; G76 exact-76 + member-wise + fresh CURRENT proof",
+    "lazy_imports": "Evidence/Screening/Completeness function-local only (precedent :397, HIGH :465/:616/:673, LOW :1887/:1322); top-level unchanged (screening:core; evidence:core+schema_gate+screening; LOW:core+schema_gate); drivers outside replay (control-root diff exact paths); NO auto-add to P3S; code change needs fresh CURRENT proof"
+  },
+  "operation_branches_source_facts": {
+    "S1": "entry ISSUE_INITIALIZED|DISCOVERY_COLLECTED:504-505 + verify:503; non-empty refuse:517-518; mkdir:520 + write_jsonl:525 + write_json:566 (check-then-write NOT O_EXCL); NEW RB6 loader + unknown + loss + U before :517",
+    "S2": "validate_package_basis:927 before copy; exists branch idempotent validate:953-954 else incomplete raise:956; copy2:960-965 + write_json:977 digest run_dir.name==digest; NEW preflight before first copy2",
+    "E1": "temp tasks:631 + package:680; non-empty refuse:595-596; NEW unknown before temp",
+    "E2_views": "digest-dir exists (not O_EXCL); incomplete raise; prepublish _dm022_require_ready:694,727; idempotent re-reads preserve validity no new policy",
+    "E3": "exists-or-symlink refuse:749-750,765-766; archive exists-sha-compare-raise:573-594; entry+prepublish :748,764,805",
+    "N1": "CANDIDATES_NORMALIZED+validate:610-614 + ready:623 + PREARCH refuse:624-631 + accepted+effective :637-648; NEW preflight after :641-648 before :653; task_source_ids after package",
+    "H_prepare": "eligibility:478-499 + unbound:499 + HEAD/tree:500 + request:502-508 + pins:515-522 + before SHA:524-535 + derive_current + DM016/DM017 7-field BEFORE first COPY :538 (_copy_regular_exclusive) + 7 slots :563-600; candidate only from :605 exclusive; canonical production-state.json only",
+    "H_adopt": "re-verify window :1127 + prove:1140 BEFORE proof :1142 + report :1176 + guard :1241 + checkpoint :1242-1243 + switch/clear/complete/release :1249-1254; stale pins refuse",
+    "resume": "B switch+clear+complete+release; E clear+complete+release; E+completion+guard-absent ALREADY_ACTIVE; else INDETERMINATE preserve",
+    "readback": "resolve_research_authority detached read-only :1379-1410; old readback NOT re-gated; producer boundary separate",
+    "current_vs_history": "old loss graphs VALID history; new S1/S2/N1/E1/E2/H1 refuse DECLARATION_LOSS; new policy only at current owners; passive guards entry-only"
+  },
+  "oracles_planning_only": {
+    "positive": [
+      "all10 new types via v2 task/card; old types unchanged",
+      "many-to-many per-(parent,OID) incl shared-OID pass variant",
+      "initial U==P 3-field all 3 Profiles WEEKLY 2026-W35 null / THEMATIC SP001 3->8 / RETRO SP-2025-H2 null",
+      "GAP_FILL O13 + REFERENCE_EXPANSION carrier 5-field passes derives DIDs/taskIDs",
+      "direct==agent-first byte-equal residual order",
+      "LIMITED residual-subset passes",
+      "HIGH prepare+adopt re-verified true R/E"
+    ],
+    "negative": [
+      "unknown incl DROP before writes",
+      "(R2,O1) loss despite global equality synthetic D1/D2",
+      "dup/missing/extra/undeclared-dim/empty-desc/5-on-initial/7-field/auto-status",
+      "NOT_APPLICABLE explicit",
+      "late drift caught",
+      "SOURCE-passes refused",
+      "E-as-R refused",
+      "None-as-DIRECT refused",
+      "Stage-claimed-DCP-missing refused",
+      "malformed/symlink/unreadable never DIRECT",
+      "file-vs-digest conflation refused"
+    ],
+    "note": "planning only; NO tests run; reuse EXISTING fixtures/methods only; no invented names; EFF-O13/O14/O15 secondary reference only"
+  },
+  "contract_extension_decision_required": [
+    "derive_ordinary_root_effective_context PATHS triple in LOW",
+    "derive_current_root_effective_context PATHS triple in LOW HIGH-only",
+    "resolve_prepackage_root_effective PATHS quadruple in Screening",
+    "_derive_root_effective_kernel private",
+    "keyword-only before_copy_path/request_path PATHS on five LOW from_paths"
+  ],
+  "unresolved": {
+    "technical": "R4 delta COMPLETE FOR REVIEW; preserves R3/kernel; closes RB1-RB7 as specified",
+    "blocking": "fresh independent readiness re-check of THIS R4 + final Astra confirmation BEFORE code; code BLOCKED; author declares no Commit Point",
+    "rule": "any essential contradiction returns ROOT NOT_READY; needs new public helper path nonequivalent API requires precise ROOT decision above before code not implementer choice"
+  }
+}

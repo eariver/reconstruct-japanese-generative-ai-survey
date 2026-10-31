@@ -1,5 +1,15 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-10-31 Profile/support pre-code readiness
+
+**PRE_CODE_READY（設計/interface map限定）、Human Commit Pointで停止。** [assessment/次実装§5](../outputs/rephase-1-profile-support-precode-assessment.md)、[packet](../notes/rephase-1-profile-support-precode/README.md)、**[mandatory ROOT INCLUDING§7](../notes/rephase-1-profile-support-precode/astra-precode-gate-resolution.md)**（FULL bfb72bf2a82691d26149fd970069d0b43e1f57aad380feeb484774f3011352fa /20159B）、[独立FINAL R5＋§8](../notes/rephase-1-profile-support-precode/independent-readiness-review.md)を読む。契約62b14add/ROOT021不変、旧da37はworking§§1–6 snapshotのみ。
+
+次Human continuation後、Generalがwhole upstream repair実装・検証へ。普通3/5→7、DM0227は別、root/effective完全束縛・parent/OID保持、HIGH最初のCOPY前、LOWはCOPYと通常DCP/SCP/record-owned reportから導出。公開LOWに必須PATHを追加しNoneから推測しない。履歴/current eligibilityを分離し、direct/agent-first残余制限順序を統一。R3/C-R2/kernelはR4→R5→ROOTで訂正、旧誤記を実装しない。
+
+final133/patch25b488/manifest31fa不変、今回source-read/docs-only、network/runtime/Commit/readbackなし。新コード/実行の証明は次unit。非四系列Thematic/Retro complete-reader/訂正と品質/audit/採用/削減は未了。既存55Gitlinks保持。WholeNOT_READY/step4B3OPEN/DM021+022OPEN、通常Commit/Push Human-owned。
+
+## Preserved Profile/support contract selection (pre-code-next is historical)
+
 ## Current — 2026-10-30 necessary Profile/support contract selection
 
 **BOUNDED CONTRACT SELECTION COMPLETE、pre-code readiness OPEN。Human Commit Pointで停止。** [decision INCLUDING§7](../outputs/rephase-1-profile-support-contract-decision.md) SHA256 **62b14add5e50d7e5f7996c4b7536f95b5d74cdbc9b205b1eec54bde260527e2d /20472B**、[mandatory ROOT INCLUDING§5](../notes/rephase-1-profile-support-contract/astra-review-resolution.md) **021a0d7c…/7225B**、[packet/両独立FINAL-BINDING](../notes/rephase-1-profile-support-contract/README.md)を読む。

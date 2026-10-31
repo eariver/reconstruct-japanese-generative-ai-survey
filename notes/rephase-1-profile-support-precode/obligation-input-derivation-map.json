@@ -1,0 +1,118 @@
+{
+  "authority": {
+    "decision": "outputs/rephase-1-profile-support-contract-decision.md FULL SHA256 62b14add5e50d7e5f7996c4b7536f95b5d74cdbc9b205b1eec54bde260527e2d §§4,6,7",
+    "root": "notes/rephase-1-profile-support-contract/astra-review-resolution.md FULL SHA256 021a0d7ce696a1d386ff2accd803e97033a297872ea65a0d7646a3953ded217a §5",
+    "reviews": "independent-authority §8 + independent-operation §§12-13 FINAL-BINDING selection ONLY",
+    "source": "/tmp/opencode/jgas-dm022-indep-20261029T235900Z/proof-candidate actual409/tree8ce +133paths54M79A/768 patch25b48878 manifest31fa4a72",
+    "baseline": "774dd39a unchanged",
+    "status": "PRE-CODE MAP ONLY; no code/runtime/imports/tests/build/fixtures/network/Git/HEAD; no readiness PASS"
+  },
+  "universe": {
+    "P": "profile initial_obligations ids",
+    "R": "root_records canonical JSONL",
+    "E": "effective records (same dict)",
+    "U": "P union named(R) union named(E)",
+    "loss": "DECLARATION_LOSS for uncovered (parent,OID) via actual provenance.parent_refs; DIRECT identity or valid derived child with Raw/source-identity/parent closure; new-operation gates only, historical validators unchanged"
+  },
+  "resolver": {
+    "counts_checks": "read_jsonl + validate_discovery_set + SHA drift + accepted_ids==root_ids + DIRECT vs validate_discovery_expansion",
+    "never_source": "compact acceptance parent_edges (discovery-acceptance-v2.schema.json:85-98) + supplement DIDs (prepare_evidence_package:563-591)"
+  },
+  "signatures": {
+    "validate_interactive_input": "validate_interactive_input(value, profile, expected_ids, task_source_ids=None, *, discovery_records, root_discovery_records) REQUIRED keyword-only",
+    "_validate_completeness_input": "_validate_completeness_input(value, profile, *, discovery_records, root_discovery_records) REQUIRED keyword-only",
+    "pure_helpers": [
+      "compute_obligation_universe(profile_initial_ids, root_records, effective_records)->set",
+      "find_declaration_loss(root_records, effective_records)->list[(parent,oid)]",
+      "derive_bindings(oid, effective_records, ledger_task_by_discovery)->(dids,task_ids)"
+    ],
+    "_build_completeness": "_build_completeness(repo_root, profile, profile_path, discovery_records, ledger_path, ledger, input_value) tuple KEEP; derive from same effective+validated ledger; no OLD fallback"
+  },
+  "inputs": {
+    "three_initial": ["obligation_id", "status", "rationale"],
+    "five_named_only": ["obligation_id", "status", "rationale", "dimension", "description"],
+    "rules": "exact cover set(input)==U; unique IDs; explicit status+rationale; dimension already Profile-declared",
+    "refuse": ["dup", "missing U member", "extra not-in-U", "5-fields on P id", "undeclared dimension", "empty description/rationale", "7-field row with discovery_ids/evidence_task_ids", "auto-status"]
+  },
+  "adapter": {
+    "current": [
+      "acceptance_with_canonical_discovery_records(run_evidence_v2_agent_first.py:33-52)",
+      "completeness_with_preserved_residual_limitations(:55-76)",
+      "monkey-patch in main :80-99"
+    ],
+    "shipping_callers": [
+      "run_evidence_v2_interactive.py:674-676 prod validate_interactive_input",
+      "tests/test_run_evidence_v2_interactive.py:101-106 test (positional today -> keyword + 2 args)",
+      "run_evidence_v2_interactive.py:309 internal _validate_completeness_input",
+      "run_evidence_v2_interactive.py:767-775 prod _build_completeness",
+      "run_evidence_v2_agent_first.py:88-91 wrapper *args/**kwargs"
+    ],
+    "frozen_data_excluded": [
+      "DATA.run_frozen_evidence_chain.py:166-167",
+      "DATA.run_frozen_evidence_chain.py:222-223"
+    ],
+    "selected": "thin delegation OR remove/inert after ALL-imported-caller proof; fold residual union into normal _build_completeness; preserve old API only if needed; no unrelated cleanup"
+  },
+  "guards_order": {
+    "entry": "validate_agent_state :610-612 + _dm022_require_ready :623 + PREARCH refuse :624-631",
+    "cands_state": "CANDIDATES_NORMALIZED :613-614",
+    "preflight_site": "after resolve_effective_discovery_basis :641-648 (holds root_records+records), BEFORE prepare_evidence_package :653-661 and ALL owned writes :694,727,748,764,805",
+    "records_binding": "records_by_id exact non-DROP cover :305-307; task_source_ids :665-672 still after package on generated universe",
+    "invariants": "no mutable globals, no recursion, refuse-overwrite ledger :749-750 + completeness :765-766, package non-empty survey_evidence_v2.py:595-596, archive conflict _archive_input :573-594",
+    "forbidden": "top-level Screening<->Evidence cycle (survey_evidence_v2.py:21); Screening->Evidence preflight must be function-local (:397 precedent)"
+  },
+  "derivation": {
+    "discovery_ids": "sorted(declaring.get(oid,[])); profile-only [] legitimate",
+    "ledger": "ledger_task_by_discovery from ledger rows; task_ids sorted union over declaring DIDs",
+    "drop": "DROP DIDs excluded from expected_ids :663-664; no invented tasks",
+    "statuses": ["SATISFIED", "LIMITATION", "NEEDS_RESEARCH", "NOT_APPLICABLE"],
+    "no_auto": true,
+    "residual_union": "stable order: list(input.residual) then append missing closure.limitations in order; folded into normal builder; survey_evidence_v2.py:2239-2240",
+    "closure_output_8": ["expansion_passes", "final_pass_new_sources", "final_pass_new_material_obligations", "final_pass_new_material_obligations_open", "targeted_gap_fill_completed", "open_material_obligations", "limitations", "status"],
+    "closure_rules": "all counters recomputed from provenance research_pass; COMPLETE needs gap-fill done + zero open + no limitations; LIMITED needs limitations + residual subset"
+  },
+  "schemas": {
+    "changed": [],
+    "final7": "profile-completeness-result.schema.json:27 + OBLIGATION_KEYS survey_completeness_v2.py:25-33",
+    "dm022_fullObligation": "dm022-revision-request-v2.schema.json:232-244 unchanged, separate from ordinary 3/5",
+    "note": "new API inputs are validation inputs, not permission tokens"
+  },
+  "cross_dependency_mapC": {
+    "consumers": [
+      "run_selection_architecture_v2_interactive.py:70-109",
+      "survey_architecture_v2_base.py:93-180",
+      "run_drafting_synthesis_v2_interactive.py:98-129"
+    ],
+    "note": "consume FINAL 7 only; flag any digest/closure/family necessity to Astra; unchanged-closure NOT promised"
+  },
+  "oracles": {
+    "positive": [
+      "initial-only U==P 3-field passes WEEKLY/THEMATIC/RETRO",
+      "GAP_FILL root + valid REFERENCE_EXPANSION child + 5-field passes with derived DIDs/taskIDs",
+      "direct==agent-first byte-equal obligations+residual order",
+      "LIMITED closure with residual subset passes full validators"
+    ],
+    "negative": [
+      "unknown source_type refuse before Screening/Evidence writes",
+      "shared-OID (R2,O1) loss refuses despite global equality",
+      "dup/missing/extra/undeclared-dim/5-on-initial/7-field refuse pre-write",
+      "LIMITED without residual subset refused",
+      "false SOURCE-passes counters refused"
+    ],
+    "profiles": {
+      "WEEKLY": "2026-W35, closure null",
+      "THEMATIC": "SP001, closure 3-field input -> 8-field output",
+      "RETROSPECTIVE_PERIOD": "SP-2025-H2, closure null"
+    },
+    "tests_reuse_only": "tests/test_run_evidence_v2_interactive.py:8-155 existing patterns; no invented names; planning only NOT executed; EFF-O13/O14/O15 secondary reference only"
+  },
+  "pending_contradictions_code_blocked": [
+    "exact new-vs-history callsite bytes + lazy-import closure",
+    "COUNT/SHA/ID/SCHEMA recheck table at :641-648",
+    "DM022 HIGH eligibility exact site pin",
+    "adapter thin-vs-remove diff with all callers",
+    "residual-order + 8-field counter table incl false-SOURCE rejection",
+    "multi-DID/source + shared-OID fixtures (synthetic D1/D2)",
+    "history-readback vs new-refusal separation without caller flags"
+  ]
+}

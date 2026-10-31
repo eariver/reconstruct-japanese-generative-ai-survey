@@ -1,0 +1,486 @@
+{
+  "authority": {
+    "decision": "outputs/rephase-1-profile-support-contract-decision.md",
+    "decision_sha256": "62b14add5e50d7e5f7996c4b7536f95b5d74cdbc9b205b1eec54bde260527e2d",
+    "decision_bytes": 20472,
+    "root": "notes/rephase-1-profile-support-contract/astra-review-resolution.md",
+    "root_sha256": "021a0d7ce696a1d386ff2accd803e97033a297872ea65a0d7646a9953ded217a",
+    "root_bytes": 7225,
+    "gate": "notes/rephase-1-profile-support-precode/astra-precode-gate-resolution.md",
+    "gate_sha256": "a29b199f855982e88a8358260d170882aae4a8bc6ea5343e99adb475015e60",
+    "gate_note": "working NOT_READY, not authority",
+    "review": "notes/rephase-1-profile-support-precode/independent-readiness-review.md B1-B9 PRE_CODE_NOT_READY",
+    "source": "/tmp/opencode/jgas-dm022-indep-20261029T235900Z/proof-candidate",
+    "source_identity": "actual409/tree8ce +133paths54M79A/768 intended files",
+    "patch_sha256": "25b488784d02a156db693459dce6c1d369e7144f1c49461c9b3a846b1b7260",
+    "patch_bytes": 4931836,
+    "manifest_sha256": "31fa4a728cabc145232ef930b91c9c5e6f773692299a25a9177c994393d469fa",
+    "manifest_bytes": 185422,
+    "baseline": "774dd39a951c9ac3818e83dfffd4f7666efb0a20 unchanged",
+    "status": "MAP COMPLETE FOR REVIEW; no author PASS; no code authorization; independent readiness + Astra confirmation required; stop at Human Commit Point"
+  },
+  "ownership": {
+    "canonical_mapper": "survey_evidence_v2._source_class:177-183 fail-closed; SOURCE_CLASS_MAP:44-109 +10 rows normative, old rows UNCHANGED",
+    "runner_dead_map": "REMOVE run_evidence_v2_interactive.SOURCE_CLASS_MAP:49-56 + _source_class:110-114 after census; live card :321 + inventory :666 already use evidence leaf",
+    "loss_home": "SINGLE-HOME selected: compute_obligation_universe + find_declaration_loss + derive_bindings in survey_screening_v2.py (owns parent_refs/PROVENANCE_KEYS); no Evidence home; no caller flags; no State recursion",
+    "prepackage_helper": "NEW resolve_prepackage_root_effective(repo_root:Path, state_path:Path, discovery_path:Path, accepted_discovery_path:Path|None) in survey_screening_v2.py; PATHS ONLY; no dummy package; no resolver on future path; no allow_unbound flag",
+    "threading": "validate_interactive_input(...,*,discovery_records REQUIRED, root_discovery_records REQUIRED) + _validate_completeness_input(...,*,discovery_records REQUIRED, root_discovery_records REQUIRED); _build_completeness tuple KEEP; normal builder owns residual union closure-first; agent-first main thin delegation keeping 2 pure helpers",
+    "high_low_roots": "HIGH reloads current canonical State/DiscoveryCP/acceptance + Screening package BEFORE first COPY :538; LOW derives same R/E from pinned before-State COPY + accepted refs, never LIVE State; no new request field"
+  },
+  "dm016_additions": [
+    {
+      "from": "PRIMARY_DOC",
+      "to": "PRIMARY_OFFICIAL"
+    },
+    {
+      "from": "PRIMARY_REPO",
+      "to": "PRIMARY_REPOSITORY"
+    },
+    {
+      "from": "PRIMARY_ANNOUNCEMENT",
+      "to": "PRIMARY_OFFICIAL"
+    },
+    {
+      "from": "PRIMARY_MODEL_CARD",
+      "to": "PRIMARY_OFFICIAL"
+    },
+    {
+      "from": "PRIMARY_SPEC",
+      "to": "PRIMARY_OFFICIAL"
+    },
+    {
+      "from": "SECONDARY_REFERENCE",
+      "to": "SECONDARY"
+    },
+    {
+      "from": "SECONDARY_TECHNICAL",
+      "to": "SECONDARY"
+    },
+    {
+      "from": "RUNTIME_RECIPE",
+      "to": "PRIMARY_OFFICIAL"
+    },
+    {
+      "from": "PACKAGING_DOCS",
+      "to": "PRIMARY_OFFICIAL"
+    },
+    {
+      "from": "RUNTIME_PR",
+      "to": "PRIMARY_REPOSITORY"
+    }
+  ],
+  "dm016_enforcement": {
+    "call_sites": [
+      "survey_evidence_v2.task_authority_sources:422-423",
+      "survey_evidence_v2.validate_evidence_authority_supplement:304-305",
+      "survey_evidence_v2.validate_evidence_card:1016 supplement branch + :1020-1028 exact branch",
+      "survey_evidence_v2.validate_research_record_content:1549-1624 + build_research_card_content:1647-1689 detached LOW cores (same leaf)"
+    ],
+    "screening_side": "open source_type string :171-173 so Screening-site refusal via NEW preflight calling canonical Evidence leaf function-locally (precedent :397), never top-level cycle (evidence :21 already imports screening)",
+    "drop_rule": "DROP excluded from tasks prepare_evidence_package:601-604 but still loss-checked, no type-eligibility shortcut",
+    "unknown_rule": "fail-closed BEFORE any owned/package write: S1 before :517, S2 before :958, E1 before temp :631, E2 before digest writes",
+    "rejected": [
+      "conditional classifier",
+      "default SECONDARY",
+      "PR-never-primary",
+      "URL-sniff run_special_interactive_evidence.py:41-47",
+      "alias/projection ledger",
+      "new module",
+      "legacy-enum edit",
+      "supplement-SOCIAL expansion"
+    ]
+  },
+  "new_helpers_full": {
+    "compute_obligation_universe": {
+      "signature": "compute_obligation_universe(profile_initial_ids:set[str], root_records:list[dict], effective_records:list[dict]) -> set[str]",
+      "location": "scripts/survey_screening_v2.py NEW pure, no I/O/globals/recursion",
+      "argument_origins": [
+        "profile_initial_ids from profile.research_scope.initial_obligations[*].obligation_id",
+        "root_records validated root JSONL already held at N1 :641-646 / S-preflight §6.2 context / H1 §6.4 true-R/E",
+        "effective_records validated effective JSONL same sources"
+      ],
+      "behavior": "named(X)=union provenance.obligation_ids over X; returns set(profile_initial_ids) | named(root) | named(effective)",
+      "returns": {
+        "U": "set[str] universe P union named(R) union named(E)",
+        "authority_token": "none"
+      }
+    },
+    "find_declaration_loss": {
+      "signature": "find_declaration_loss(root_records:list[dict], effective_records:list[dict]) -> list[tuple[str,str]]",
+      "location": "scripts/survey_screening_v2.py NEW pure, separate from unchanged validate_discovery_expansion:243-322",
+      "argument_origins": [
+        "root_records/effective_records already validate_discovery_set-passed; helper checks carrier existence only"
+      ],
+      "behavior": "for every root r and every o in r.provenance.obligation_ids require effective e with o in e.provenance.obligation_ids AND (e.discovery_id==r.discovery_id OR r.discovery_id in e.provenance.parent_refs); global OID equality insufficient",
+      "returns": {
+        "uncovered": "sorted list[(parent_id,OID)] by (parent_id,OID); [] means pass",
+        "refuse_message": "DECLARATION_LOSS uncovered=[...] before writes (planning-only shape, no new schema)"
+      }
+    },
+    "derive_bindings": {
+      "signature": "derive_bindings(oid:str, effective_records:list[dict], ledger_task_by_discovery:dict[str,list[str]]) -> tuple[list[str],list[str]]",
+      "argument_origins": [
+        "oid from universe member",
+        "effective_records same validated effective list",
+        "ledger_task_by_discovery from already-validated Ledger rows (E3 pattern run:771-774 + _build_completeness:492-508)"
+      ],
+      "behavior": "declaring=sorted(d.discovery_id for d in effective if oid in d.provenance.obligation_ids); task_ids=sorted union over declaring DIDs via ledger map; profile-only [] legitimate; DROP no invented tasks",
+      "returns": {
+        "discovery_ids": "sorted list[str]",
+        "evidence_task_ids": "sorted list[str]"
+      }
+    },
+    "resolve_prepackage_root_effective": {
+      "signature": "resolve_prepackage_root_effective(repo_root:Path, state_path:Path, discovery_path:Path, accepted_discovery_path:Path|None) -> dict[str,Any]",
+      "location": "scripts/survey_screening_v2.py NEW path-only public loader",
+      "argument_origins": [
+        "all Path (or repo-relative str normalized); never dict State/Profile",
+        "implementation_sha=c core.repository_commit_sha(repo_root) captured in-run",
+        "accepted_discovery_path derived from State-bound accepted path automatically; explicit only for tests with marker"
+      ],
+      "reloads": [
+        "state=core.load_json(state_path) + cfg + verify_state_basis",
+        "profile=core.load_json(repo_root/state.profile.path)",
+        "supplied=read_jsonl(discovery_path)+validate_discovery_set",
+        "if marker present: accepted=discovery.validate_acceptance + root_path/_repo_file + root SHA drift + root_records=read_jsonl+validate_discovery_set + accepted_ids==root_ids + DIRECT-vs-DERIVED branch (no future package)"
+      ],
+      "returns": {
+        "mode": "DIRECT | ACCEPTED_BOUND",
+        "marker_kind": "NO_MARKER | ACCEPTED_MARKER",
+        "profile": "dict",
+        "profile_path": "Path",
+        "profile_sha256": "str",
+        "state": "dict",
+        "state_sha256": "str",
+        "root_records": "list[dict]",
+        "root_path": "Path",
+        "root_sha256": "str",
+        "root_record_count": "int",
+        "records": "list[dict] (supplied candidate effective)",
+        "discovery_path": "Path",
+        "discovery_sha256": "str",
+        "discovery_record_count": "int",
+        "accepted_path": "Path|None",
+        "accepted_sha256": "str|None",
+        "accepted_record_count": "int|None"
+      },
+      "forbidden": [
+        "dummy package",
+        "resolver on future path",
+        "caller allow_unbound flag",
+        "silent new lifecycle requirement"
+      ]
+    }
+  },
+  "marker_truth_table": [
+    {
+      "row": "R1 initial DIRECT legacy permitted",
+      "lifecycle": "ISSUE_INITIALIZED",
+      "marker": "absent (is_file()==False)",
+      "supplied": "validate_discovery_set passes, issue_id matches",
+      "result": "DIRECT: root_records==records==supplied, mode DIRECT, marker NO_MARKER; no accepted claim"
+    },
+    {
+      "row": "R2 accepted-marker present",
+      "lifecycle": "ISSUE_INITIALIZED or DISCOVERY_COLLECTED (existing :504-505, no new requirement)",
+      "marker": "present + validate_acceptance passes + SHA/ID/count/schema binds",
+      "supplied": "validated",
+      "result": "ACCEPTED_BOUND: root_records from accepted JSONL, records=supplied; run unknown+loss+U checks"
+    },
+    {
+      "row": "R3 claimed-but-missing",
+      "lifecycle": "any with accepted reference",
+      "marker": "missing/mismatched SHA or accepted_ids!=root_ids or validate_acceptance fails",
+      "supplied": "any",
+      "result": "REFUSE before writes; never DIRECT fallback"
+    },
+    {
+      "row": "R4 claimed-but-different",
+      "lifecycle": "any",
+      "marker": "present but supplied bytes != bound root when DIRECT expected, or DERIVED without valid validate_discovery_expansion",
+      "supplied": "any",
+      "result": "REFUSE; caller allow_unbound flag FORBIDDEN"
+    },
+    {
+      "row": "R5 provenance distinction",
+      "lifecycle": "—",
+      "marker": "State file vs Profile file vs marker file are different facts",
+      "supplied": "—",
+      "result": "authorize by lifecycle + verify_state_basis + Profile issue/profile identity + marker validate_acceptance + JSONL SHA/ID/count/schema; marker alone never authorizes; lifecycle alone never authorizes"
+    }
+  ],
+  "threading_changes": {
+    "validate_interactive_input_proposed": "validate_interactive_input(value:dict, profile:dict, expected_ids:set[str], task_source_ids:dict[str,set[str]]|None=None, *, discovery_records:list[dict] REQUIRED, root_discovery_records:list[dict] REQUIRED) -> tuple[by_id,runner,completeness_input]",
+    "validate_completeness_input_proposed": "_validate_completeness_input(value:Any, profile:dict, *, discovery_records:list[dict] REQUIRED, root_discovery_records:list[dict] REQUIRED) -> dict",
+    "discovery_records_meaning": "effective records",
+    "root_meaning": "root_records",
+    "none_rule": "None refuses; validation inputs not permission tokens",
+    "build_completeness": "_build_completeness(repo_root:Path, profile:dict, profile_path:Path, discovery_records:list, ledger_path:Path, ledger:dict, input_value:dict)->dict:482 KEEP tuple; only row branch + internal derive + residual union change",
+    "adapter_forward_fix": "completeness_with_preserved_residual_limitations must forward explicit (repo_root,profile,profile_path,discovery_records,ledger_path,ledger,input_value), no *args/**kwargs swallowing; thin delegation KEEP pure helpers"
+  },
+  "inputs_3_5": {
+    "U": "P union named(R) union named(E); named=union provenance.obligation_ids; compact parent_edges NEVER U; supplement NEVER U",
+    "P_row": [
+      "obligation_id",
+      "status",
+      "rationale"
+    ],
+    "UminusP_row": [
+      "obligation_id",
+      "status",
+      "rationale",
+      "dimension",
+      "description"
+    ],
+    "refuse": [
+      "dup",
+      "missing U member",
+      "extra not-in-U",
+      "5-fields on P id",
+      "undeclared dimension",
+      "empty description/rationale",
+      "7-field row with discovery_ids/evidence_task_ids",
+      "auto-status"
+    ],
+    "statuses": [
+      "SATISFIED",
+      "LIMITATION",
+      "NEEDS_RESEARCH",
+      "NOT_APPLICABLE"
+    ],
+    "dimension_rule": "dimension already Profile-declared via _validate_obligation_shape:62-63; description non-empty",
+    "derivation": "discovery_ids sorted declaring.get(oid,[]) profile-only [] legitimate; task_ids sorted union over declaring DIDs via ledger_task_by_discovery; DROP excluded from expected_ids no invented tasks",
+    "old_3_only_valid": "exactly when U==P"
+  },
+  "residual_union_corrected": {
+    "actual_adapter": "run_evidence_v2_agent_first.py:66 normalized=list(closure_limitations); :67-69 for limitation in residual: if not in normalized: append",
+    "order": "closure-first, residual-appended (R2 reversed, now fixed)",
+    "current_build": "_build_completeness:554 copies closure_input.limitations verbatim (no union)",
+    "proposed": "fold stable union into normal builder byte-exactly as adapter; direct==agent-first byte-equal depends on order",
+    "downstream": "survey_evidence_v2.py:2239-2240 LIMITED-must-preserve-residual + :2239 subset check"
+  },
+  "closure_8_exact": {
+    "provenance_4": {
+      "expansion_passes": "max(1,max_pass); max_pass=max(research_pass over discovery_records, default 0)",
+      "final_pass_new_sources": "len(final_records); final_records=[row where max_pass>0 and research_pass==max_pass]",
+      "final_pass_new_material_obligations": "len(material_ids); final_ids={oid in final_records if oid in obligation_status}; material_ids={oid in final_ids where status in {SATISFIED,LIMITATION,NEEDS_RESEARCH}}",
+      "final_pass_new_material_obligations_open": "len(open_ids); open_ids={oid in material_ids where status==NEEDS_RESEARCH}"
+    },
+    "operator_4": {
+      "targeted_gap_fill_completed": "bool explicit operator judgment",
+      "open_material_obligations": "total NEEDS_RESEARCH row count (needs_research=sum status==NEEDS_RESEARCH)",
+      "limitations": "closure-input order first, then missing residual in residual order per residual_union_corrected",
+      "status": "explicit operator judgment cross-checked: overall INCOMPLETE if needs_research else LIMITED if limitations-or-residual else READY; expected_closure NEEDS_RESEARCH|L|COMPLETE must equal; FINISH requires gap-fill done + zero opens; COMPLETE retains no limitations; LIMITED states limitations + residual subset"
+    },
+    "validators": [
+      "survey_completeness_v2._thematic_closure_errors:81-142 binds 4 provenance counters",
+      "survey_completeness_v2._validate_obligation_shape:50-78 + _check_profile_completeness_extra_content:145-238",
+      "survey_evidence_v2 shared Completeness checks :2136-2243 (basis hashes, unique IDs, dimension coverage, overall_status, closure ints/bools/status/limitations)"
+    ],
+    "false_completeness": "SOURCE passes-style fixtures MUST NOT satisfy counters; verified against actual research_pass provenance; no boolean shortcut"
+  },
+  "pure_proof_chain": {
+    "required": [
+      "screening.read_jsonl + validate_discovery_set + SHA drift (:374-379,403-411)",
+      "accepted_ids==root_ids :408-411",
+      "DIRECT (derived_path==root_path + SHA equal :413-426) vs DERIVED via validate_discovery_expansion :428",
+      "discovery.validate_acceptance on acceptance file (State-free file/contract/digest)",
+      "screening.validate_acceptance + resolve_effective_discovery_basis + _resolve_effective_discovery_basis_content:809-856 + _validate_screening_acceptance_content:859-894 + evidence._validate_screening_acceptance_content:1352-1409 + _check_screening_package_files_content:629-651 + _validate_screening_package_basis_content:654-693"
+    ],
+    "forbidden_in_ordinary_LOW": [
+      "_verify_own_epoch_commit:620-648 PREARCH codeset only",
+      "_verify_adopted_graph_full:783-811 requires family PREARCH :809-810",
+      "_verify_completion_full:914-991 LIVE State recursion :984-991",
+      "_canonical_root_acceptance:325-350 reads LIVE State, never in LOW recovery",
+      "agent.validate_agent_state, production.verify_state_basis, HIGH guard/completion in LOW bodies (header :12-18)"
+    ],
+    "checkpoint_roles": "ordinary Discovery/Screening checkpoint roles use own schema/producer/artifact/report predicates from actual validators above with original recorded tools and no current-State validation"
+  },
+  "check_table": [
+    {
+      "site": "S1 prepare",
+      "before_read": "state+cfg+verify_state_basis:501-503; profile:506-508; read_jsonl+validate_discovery_set:509-510; prompt/result:512-515; NEW resolve_prepackage_root_effective (no future package)",
+      "first_write": "output_dir/input/batches/*.jsonl:525 via write_jsonl (mkdir-p) + package.json:566 via core.write_json (mkdir-p+write_bytes, check-then-write NOT O_EXCL); non-empty refuse :517-518; NEW preflight MUST precede :517",
+      "prepublish_current": "entry lifecycle ISSUE_INITIALIZED|DISCOVERY_COLLECTED:504-505 + verify_state_basis:503; no State mutation"
+    },
+    {
+      "site": "S2 accept",
+      "before_read": "package+validate_package_basis:927 (profile/discovery/prompt/contract SHA + state_sha256 + verify_state_basis:695-711); _exact_regular_files:929; _validate_result_batch:935 + dupe/count/digest:946-956",
+      "first_write": "accepted_root/<digest>/package.json+input/batches+results/screening-accepted.json:958-977 copy2+write_json:977; digest _result_set_digest:757-765 run_dir.name==digest; idempotent re-accept:953-954; incomplete raises:956; NEW preflight before first copy2",
+      "prepublish_current": "validate_package_basis before copy; run_dir.exists branch no overwrite; archive interactive-decisions/audit:88-126 exists-sha-compare-raise"
+    },
+    {
+      "site": "E1 prepare",
+      "before_read": "state+cfg+verify_state_basis:549-550; profile:552-553; validate_screening_acceptance:554-556 (resolve_effective:518-520 + SHA/ID/count:532-535 binds state_path:557-558); supplement:563-588; contracts:590-594",
+      "first_write": "temp tasks/task-*.json:631 + package.json:680; non-empty refuse:595-596; NEW unknown+loss+U preflight in N1 BEFORE E1 temp",
+      "prepublish_current": "temp-dir only; canonical no-overwrite at E2"
+    },
+    {
+      "site": "E2 accept+views",
+      "before_read": "reload package + validate_evidence_package_basis:1167 / validate_evidence_acceptance:1838 (reloads screening+evidence+views+SHA:1412-1434/1886-1907); _exact_regular_files + validate_evidence_card:1176 / validate_edition_view:1850",
+      "first_write": "evidence/v2/accepted/<digest>:1195-1212 + views/accepted/<digest>:1861-1882 copy2+write_json digest-dir exists check NOT O_EXCL; incomplete raise:1190-1194/1863-1869; NEW preflight already at N1/E1; card-time unknown raise backstop",
+      "prepublish_current": "_dm022_require_ready immediately before each write run:694,727"
+    },
+    {
+      "site": "E3 ledger/completeness/archive",
+      "before_read": "ledger reloads profile+screening+evidence+views:1920-1926 rows from effective:1933-1966; _build_completeness effective+ledger run:641-648/771-774; archive reloads acceptance+byte-compare",
+      "first_write": "materiality-ledger-v2.json:749-761 + profile-completeness-v2.json:764-795 exists-or-symlink refuse:749-750 + accepted-run INPUT/AUDIT:573-594 exists-sha-raise; validate_profile_completeness override:781-792 before write_json:795",
+      "prepublish_current": "entry _dm022_require_ready:748,764 + prepublish:805 before archive"
+    },
+    {
+      "site": "N1 early preflight NEW",
+      "before_read": "CANDIDATES_NORMALIZED+validate_agent_state:610-614; _dm022_require_ready:623; PREARCH refuse:624-631; discovery.validate_acceptance + resolve_active:637-640 + resolve_effective(...accepted_root_path=root_discovery_path):641-646 holds root_records+records; profile:616-618; input_doc:673 in-memory; task_source_ids:665-672 AFTER package",
+      "first_write": "no new writes; gate refuses before E1 temp",
+      "prepublish_current": "canonical _source_class per source_records incl DROP + find_declaration_loss per (parent,OID) + 3/5+U AFTER :641-648 BEFORE :653"
+    },
+    {
+      "site": "H1 prepare/adopt/resume/readback",
+      "before_read": "LIVE strict parse:470-476; verify_live_eligibility SAME bytes:478-480; canonical-State check:484-489; require_no_active_guard:495; _prove_before_graph_unbound BEFORE first R write:499; HEAD/tree:500; request parse+schema:502-508; tool_pins+contract LIVE:515-522; before_state SHA/byte_count:524-535; COPY:536-538; 7-slot COPYs:563-600; OLD via before_checkpoint.evidence:541-559",
+      "first_write": "FIRST R-owned write is retention state-before COPY at :538 via _copy_regular_exclusive, then 7-slot COPYs :563-600, then candidate ONLY from :605 via _exclusive_write_bytes:83 O_CREAT|O_EXCL+link+fsync+postread partial PRESERVED; State switch ONLY replace_state_triplet; NEW DM016+DM017 BEFORE first COPY :538; adopt re-verifies before guard claim :1127 and before proof write :1140-1142",
+      "prepublish_current": "state_path must be canonical production-state.json; resume reuses bound guard/retention/planned bytes (B/E/ALREADY_ACTIVE/INDETERMINATE); readback:1379 read-only; old readback NOT re-gated"
+    }
+  ],
+  "dm022_true_RE": {
+    "gap": "request Discovery treated as DIRECT; HIGH postwrite None,None at prepare:677,682 (E-as-R gap)",
+    "repair": "HIGH prepare/adopt + LOW derive_before:1172/package:1310/cards:1458/accept:1550/ledger:1675/completeness:1795/prove:2002/check:2401 receive TRUE validated root context not E-as-R nor None,None",
+    "high_fix": "NEW DM016+DM017 BEFORE first COPY :538; re-verified at adopt before guard claim :1127 and before proof write :1140-1142; fix :677/:682 to true R/E",
+    "chain_no_new_field": "beforeState COPY bytes==request.before_state.sha256/byte_count:1197-1203 -> COPY triplet==request.before_checkpoint:1207-1215 -> load_typed_checkpoint_record:1205-1206 (kind dispatch only) -> profile/discovery/screening live re-hash:1227-1236 + prove:2126-2138 -> read_jsonl+validate_discovery_set:1247-1255 -> screening_doc + non-DROP allowlist + records exact-cover:1256-1272 -> OLD 4-artifact graph:1273-1297",
+    "low_historical": "beforeState COPY->DiscoveryCP->accepted artifact->canonical RootJSONL + Screening package E via existing paths; logical State paths stay canonical, COPY supplies bytes",
+    "crossbind": "request.discovery_ref==E effective JSONL bound by Screening package; request.screening_ref==selected old Screening acceptance; no inputRoot dict/alias/old-State fake",
+    "missing_R_gap_rule": "if required R authority absent/unrecoverable report exact site + missing ref + SHA/byte_count mismatch to Astra before any schema change or support reduction; no broadened RETRO DM022 schema; no next complete-reader contract; no new family",
+    "research_profile_scope": "WEEKLY/THEMATIC only this unit; RETRO excluded; non-four-family/Retro reader deferred"
+  },
+  "callers": {
+    "note": "shipping only; DATA.run_frozen_evidence_chain.py:166-167/:222-223 + acquired compat .py are DATA never shipping never updated/executed",
+    "validate_interactive_input": [
+      "run_evidence_v2_interactive.py:674-676 prod positional today -> keyword+2 REQUIRED",
+      "tests/test_run_evidence_v2_interactive.py:101-106 test positional today -> same migration (profiles WEEKLY 2026-W35 / THEMATIC SP001 / RETRO SP-2025-H2)"
+    ],
+    "internal_completeness": [
+      "run_evidence_v2_interactive.py:309 internal caller same migration"
+    ],
+    "build_completeness": [
+      "run_evidence_v2_interactive.py:767-775 prod 7-tuple KEEP",
+      "run_evidence_v2_agent_first.py:88-91 wrapper explicit forward after fix"
+    ],
+    "agent_pure_direct_tests": [
+      "tests/test_run_evidence_v2_agent_first.py:54,82 acceptance_with_canonical_discovery_records",
+      "tests/test_run_evidence_v2_agent_first.py:96,111 completeness_with_preserved_residual_limitations"
+    ],
+    "screening_prepare": [
+      "cmd_prepare:1005",
+      "run_screening:164 in run_screening_v2_interactive.py:129-206",
+      "test_survey_screening_v2.py:150,209,235,287",
+      "test_survey_screening_archive_v2.py:25",
+      "test_survey_evidence_v2.py:117",
+      "test_survey_drafting_basis_v2.py:159,641",
+      "test_screening_expansion_authority_v2.py:169 marker-exists initial-pending",
+      "test_dm022_g71_g76_compatibility_v2.py:208"
+    ],
+    "evidence_prepare": [
+      "run:653 only prod caller",
+      "test_survey_evidence_v2.py:245,354,671",
+      "test_screening_expansion_authority_v2.py:214",
+      "test_dm022_g71_g76_compatibility_v2.py:219",
+      "test_survey_longform_derivation_v2.py:213",
+      "test_survey_screening_archive_v2.py:56"
+    ],
+    "evidence_accept_views": [
+      "run:696,729",
+      "test_survey_evidence_v2.py:259,308,366,368",
+      "test_dm022_g71_g76_compatibility_v2.py:228",
+      "test_survey_longform_derivation_v2.py:225"
+    ],
+    "low_high": [
+      "prepare_revision:603,618,686,695 calls LOW builders",
+      "adopt:1140 calls low.prove_revision_from_paths",
+      "no other shipping callers; DM022 fixtures dm022_*_v2.py are HIGH/LOW scope"
+    ],
+    "allowlist": "survey_agent_tool_v2.py:36-39 allows ONLY screening+evidence; agent-first via runpy not allowlist",
+    "runner_removal": "REMOVE runner SOURCE_CLASS_MAP/_source_class (0 in-file calls; live :321/:666 use evidence leaf)",
+    "adapter_decision": "thin-delegation KEEP pure helpers (not delete) for compat + direct tests"
+  },
+  "import_digest_closure_history": {
+    "surface": "existing Evidence, Screening, normal interactive, agent-first, HIGH + LOW pure helpers, tests/docs only; no new module/schema/family/request-field",
+    "evidence_top": "survey_evidence_v2.py:21 top-level screening already closed",
+    "screening_preflight_rule": "Screening->Evidence preflight MUST be function-local (:397 precedent), never top-level cycle",
+    "low_top": "LOW keeps ONLY core+schema_gate:48-49",
+    "high_top": "HIGH keeps core+schema_gate+low + function-local agent:312,466 and evidence:616,673",
+    "staged_canonical": "Evidence/Screening staged replay members; interactive/agent-first drivers NOT; HIGH/LOW in BOTH staged and canonical36/41 via identical DM022_7; drivers covered only via control-root diff predicates",
+    "g76_rule": "G76 stays ONLY under exact-76 + member-wise equality + fresh CURRENT proof; otherwise UNSUPPORTED_MIGRATION/CODE_DEPS_*/HISTORY_*; unchanged-closure NEVER presumed; counts never authority",
+    "lazy_rule": "lazy Screening->Evidence safe ONLY function-local; NO historian->agent/HIGH/current-State",
+    "freshness_rule": "code-bytes change requires fresh CURRENT proof (family derivation + verify_tool_basis/_verify_head_bytes + Contract8 + callsite pins + member-wise closure equality)",
+    "history_rule": "old accepted graphs WITH loss remain valid history; new eligible writers reject loss; no blanket re-gating; idempotent re-reads preserve validity"
+  },
+  "oracles_limits_planning_only": {
+    "positive": [
+      "all10 new types via actual v2 task/card; unchanged old types unchanged",
+      "many-to-many per-(parent,OID)",
+      "initial-only U==P 3-field all 3 Profiles WEEKLY 2026-W35 null / THEMATIC SP001 3->8 / RETRO SP-2025-H2 null",
+      "GAP_FILL root O13 + valid REFERENCE_EXPANSION child carrying (parent,O13) with 5-field passes and derives DIDs/taskIDs",
+      "direct==agent-first byte-equal + residual order closure-first",
+      "LIMITED residual subset passes full validators",
+      "HIGH prepare+adopt re-verified"
+    ],
+    "negative_prewrite": [
+      "unknown source_type incl DROP before Screening/Evidence writes",
+      "(R2,O1) loss despite global equality (synthetic D1/D2 labelled)",
+      "dup/missing/extra/undeclared-dim/empty-desc/5-on-initial/7-field/auto-status",
+      "NOT_APPLICABLE explicit",
+      "late drift caught",
+      "SOURCE-passes false-completeness refused"
+    ],
+    "limits": [
+      "non-four-family/Retro complete-reader REQUIRED follow-on not solved",
+      "manual DIRECT_PRIMARY/PRIMARY_ONLY byte-hash only; post-VALIDATED republication UNSUPPORTED_ROUTE",
+      "custom-period --spec sufficient; no engine",
+      "DM022 research_profile WEEKLY/THEMATIC only; RETRO excluded",
+      "multi-DID/multi-source ambiguous-primary refused",
+      "old history valid new loss refused",
+      "epoch drift INDETERMINATE preserve no auto-rollback",
+      "no full-suite/test-count sum"
+    ],
+    "profiles": {
+      "WEEKLY": "2026-W35 closure null",
+      "THEMATIC": "SP001 closure 3-field input -> 8-field output",
+      "RETROSPECTIVE_PERIOD": "SP-2025-H2 closure null"
+    },
+    "execution": "planning only; NO tests run; tests reuse EXISTING fixtures/methods only, no invented names"
+  },
+  "freshness_guard_failure_table": [
+    {
+      "phase": "freshness",
+      "current_NEW": "code-bytes change requires fresh CURRENT proof + member-wise closure equality; G76 same-family only under exact-76 + fresh proof",
+      "readback_existing": "old graphs read under accepted contract without new-policy re-gating",
+      "resume_stale": "stale HEAD/tree/contract/tools/before_state SHA refuses; NEW bounded attempt, no silent overwrite"
+    },
+    {
+      "phase": "guard",
+      "current_NEW": "S verify_state_basis+lifecycle; E/N CANDIDATES_NORMALIZED+validate_agent_state+_dm022_require_ready+PREARCH refuse; H require_no_active_guard+_prove_before_graph_unbound+verify_live_eligibility+canonical-State path",
+      "readback_existing": "passive guards stay entry-only, no agent/State/HIGH inside",
+      "resume_stale": "nonce-bound guard intent (planned_sha + before/expected SHAs + retention equality) verified; mismatch INDETERMINATE"
+    },
+    {
+      "phase": "no-overwrite",
+      "current_NEW": "S1 output-dir non-empty refuse; S2/E2 digest-dir exists branch; E3 exists-or-symlink refuse; H O_CREAT|O_EXCL+link + _copy_regular_exclusive; adopt guard pre-claim check",
+      "readback_existing": "idempotent re-accept returns existing; archive exists-sha-compare-raise",
+      "resume_stale": "ALREADY_ACTIVE without writes when E+completion+guard-absent; INDETERMINATE preserves otherwise"
+    },
+    {
+      "phase": "failure",
+      "current_NEW": "check-then-write TOCTOU preserved; copy2+write_json non-atomic; HIGH partial PRESERVED; INDETERMINATE preserve no auto-rollback no takeover",
+      "readback_existing": "no generic rerunner certification; logger may suppress flush/close",
+      "resume_stale": "lost-guard/vanished-slot/retention-mismatch INDETERMINATE manual resolution"
+    }
+  ],
+  "schema_family_bounds": {
+    "changed": [],
+    "note": "SOURCE_CLASS_MAP +10 rows is data-row addition in existing canonical mapper, not new module/schema/family; runner deletion is deletion; keyword-only is tightening; new pure functions live inside existing survey_screening_v2 (already staged + control-root covered), not new modules; any required expansion returns to Astra with exact evidence BEFORE code"
+  },
+  "unresolved": {
+    "technical_Qs": "CLOSED: Q-LOSS-HOME single-home, Q-S1-ROOT-SOURCE auto-derived accepted path, Q-RUNNER-TABLE remove, Q-ADAPTER thin-delegation, Q-HIGH-IMPORT function-local, Q-TRUE-R-GAP gap-rule, Q-COMPAT renewal/staged verifier ownership",
+    "blocking": "fresh independent readiness re-check of THIS R3 + final Astra confirmation BEFORE code; code remains BLOCKED",
+    "rule": "any essential contradiction returns ROOT NOT_READY; do not declare completed while questions remain open"
+  },
+  "stop_point": "stop at Human Commit Point; non-four-family/Retrospective reader, quality, audit, adoption, savings remain OPEN; Whole NOT_READY/step4B3 OPEN/audit unstarted/DM021+022 OPEN"
+}

@@ -1,0 +1,42 @@
+{
+  "status": "DELTA_FOR_INDEPENDENT_REVIEW_NOT_IMPLEMENTATION",
+  "decision_sha256": "62b14add5e50d7e5f7996c4b7536f95b5d74cdbc9b205b1eec54bde260527e2d",
+  "decision_bytes": 20472,
+  "contract_root_sha256": "021a0d7ce696a1d386ff2accd803e97033a297872ea65a0d7646a9953ded217a",
+  "contract_root_bytes": 7225,
+  "source_patch_sha256": "25b488784d02a156db693459dce6c1d369e7144f1f3c49461c9b3a846b1b7260",
+  "source_patch_bytes": 4931836,
+  "source_manifest_sha256": "31fa4a728cabc145232ef930b91c9c5e6f773692299a25a9177c994393d469fa",
+  "source_manifest_bytes": 185422,
+  "baseline_commit": "774dd39a951c9ac3818e83dfffd4c7666efb0a20",
+  "required_keyword_paths": {
+    "build_revision_cards_views_from_paths": ["before_copy_path"],
+    "accept_revision_evidence_views_from_paths": ["request_path", "before_copy_path"],
+    "build_versioned_ledger_from_paths": ["request_path", "before_copy_path"],
+    "build_versioned_completeness_from_paths": ["before_copy_path"]
+  },
+  "existing_required_positional_paths_preserved": {
+    "derive_before_context": ["repo_root", "request_path", "before_copy_path", "previous_checkpoint_path"],
+    "build_revision_package_from_paths": ["repo_root", "request_path", "before_copy_path", "output_dir"],
+    "prove_revision_from_paths": ["repo_root", "revision_manifest_path", "decision_path", "before_copy_path"],
+    "check_supersession_record_from_paths": ["repo_root", "checkpoint_path", "report_path", "before_copy_path"]
+  },
+  "private_adopted_full_signature": ["repo_root", "checkpoint_path", "checkpoint_sha"],
+  "private_copy_derivation": {
+    "source": "verified checkpoint revision_root + fixed retention/state-before.json layout",
+    "required_bindings": ["checkpoint file SHA", "request SizedRef", "retention_plan SizedRef", "revision identity/root", "manifest binding", "before_state SHA and byte_count"],
+    "forbidden": ["LIVE logical State path as historical bytes", "unbound basename discovery", "optional public COPY default", "context-to-adopted-full recursion"]
+  },
+  "previous_checkpoint_binding": "ECP from request.before_checkpoint.evidence == COPY.checkpoint_provenance.evidence, never DCP",
+  "high_prepare_keyword_origins": {
+    "request_path": "request_abs",
+    "before_copy_path": "verified state_copy after exclusive creation"
+  },
+  "screening_expected_path_none": "no additional expectation; independently derive marker/provenance, never suppress a marker",
+  "marker_absence": "lstat ENOENT only",
+  "ordinary_history_contract": "record-owned Contract8/implementation; canonical historical State path only, no current-contract fallback",
+  "reviews_rule": "exactly one matching CORE_STAGE_CONTRACT; other schema-valid reviews permitted; all deterministic result refs checked",
+  "digest_rule": "FILE SHA matches refs; result_set_sha256 recomputed separately and binds run directory",
+  "new_schema_module_family_selected": false,
+  "runtime_executed": false
+}
