@@ -1,0 +1,32 @@
+test_c_binding_integrity_drift (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift)
+Integrity/drift bindings: exact type+message, honest windows. ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+FAIL
+
+======================================================================
+FAIL: test_c_binding_integrity_drift (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift)
+Integrity/drift bindings: exact type+message, honest windows.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 689, in test_c_binding_integrity_drift
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        _errs8,
+        ^^^^^^^
+        [f"retention inventory row != stored manifest snapshot for slot: {_slot0}"])
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Lists differ: ['adopted graph FULL validation failed: che[96 chars]son'] != ['retention inventory row != stored manifes[42 chars]son']
+
+First differing element 0:
+'adopted graph FULL validation failed: che[95 chars]json'
+'retention inventory row != stored manifes[41 chars]json'
+
+- ['adopted graph FULL validation failed: checkpoint retention_plan inventory '
+-  'row != stored manifest snapshot for slot: candidate-matrix-v2.json']
++ ['retention inventory row != stored manifest snapshot for slot: '
++  'candidate-matrix-v2.json']
+
+----------------------------------------------------------------------
+Ran 1 test in 2.145s
+
+FAILED (failures=1)

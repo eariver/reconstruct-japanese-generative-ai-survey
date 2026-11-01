@@ -1,0 +1,31 @@
+test_c_derived_weekly_true_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_true_r_not_equal_e)
+Weekly DERIVED: accepted root R vs Screening-derived E (raw parent refs). ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_c_negatives_profile_copy_retention_refuse_no_write (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_negatives_profile_copy_retention_refuse_no_write)
+Targeted negatives: exact mapped type+message, SHA inventories. ... ok
+test_c_binding_ref_mismatch (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_ref_mismatch)
+Valid-control ref mismatches: exact type+message, SHA inventories. ... ok
+test_c_binding_integrity_drift (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift)
+Integrity/drift bindings: exact type+message, honest windows. ... FAIL
+
+======================================================================
+FAIL: test_c_binding_integrity_drift (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift)
+Integrity/drift bindings: exact type+message, honest windows.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 684, in test_c_binding_integrity_drift
+    self.assertTrue(
+    ~~~~~~~~~~~~~~~^
+        str(_cm8.exception).startswith(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            "retention inventory row != stored manifest snapshot for slot: "),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        f"N8 must refuse manifest/inventory row inequality: {_cm8.exception}")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : N8 must refuse manifest/inventory row inequality: decision manifest_ref does not bind revision manifest FILE sha
+
+----------------------------------------------------------------------
+Ran 4 tests in 8.826s
+
+FAILED (failures=1)

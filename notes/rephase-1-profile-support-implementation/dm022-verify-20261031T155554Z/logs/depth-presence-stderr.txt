@@ -1,0 +1,1228 @@
+EEEEEEEEEEEEEEEEEEEEEEEE.FFE/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp0vb34ncp'>
+  _warnings.warn(warn_message, ResourceWarning)
+E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpyxs0algd'>
+  _warnings.warn(warn_message, ResourceWarning)
+E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpdhqdwbex'>
+  _warnings.warn(warn_message, ResourceWarning)
+E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp4xvf0_kl'>
+  _warnings.warn(warn_message, ResourceWarning)
+
+======================================================================
+ERROR: test_expose_durable_versioned_fixture (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_expose_durable_versioned_fixture)
+Expose DURABLE both-route prePreview VERSIONED_ACTIVE fixtures for C1.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2345, in test_expose_durable_versioned_fixture
+    validated_w = self._weekly_to_validated_draft("weekly-durable-validated-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_expose_prepreview_fixture_manifest_both_routes (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_expose_prepreview_fixture_manifest_both_routes)
+Expose fresh prePreview fixture layout+metadata for C1 PhaseS pointers.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2237, in test_expose_prepreview_fixture_manifest_both_routes
+    weekly = self._weekly_to_validated_draft("weekly-fixture-expose-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_repeat_correction_preserves_anchor_and_wrong_role_refuses (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_repeat_correction_preserves_anchor_and_wrong_role_refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 4561, in test_repeat_correction_preserves_anchor_and_wrong_role_refuses
+    chain = self._chain_root("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_candidate_to_released (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_candidate_to_released)
+THEMATIC: VALIDATED_DRAFT -> Candidate -> Preview -> Freeze -> Release.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2140, in test_thematic_candidate_to_released
+    validated = self._thematic_to_validated_draft("thematic-full-rel-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1923, in _thematic_to_validated_draft
+    witness = self._full_route_witness("THEMATIC", tag,
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_dm022_to_selection_stage (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_dm022_to_selection_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 856, in test_thematic_dm022_to_selection_stage
+    witness = self._full_route_witness("THEMATIC", "thematic-full-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_draft_synthesis_reader (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_draft_synthesis_reader)
+THEMATIC: ordinary Drafting synthesis runner on the revised graph.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1696, in test_thematic_draft_synthesis_reader
+    witness = self._full_route_witness("THEMATIC", "thematic-full-draft-v2",
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_editorial_finalize_activate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_editorial_finalize_activate)
+THEMATIC editorial: prepare (real TinyTeX) → reviews → finalize → VERSIONED_ACTIVE (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 3570, in test_thematic_editorial_finalize_activate
+    activated = self._thematic_to_versioned_active("thematic-full-ed-pub-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2974, in _thematic_to_versioned_active
+    staged = self._thematic_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2924, in _thematic_to_editorial_staged
+    validated = self._thematic_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1923, in _thematic_to_validated_draft
+    witness = self._full_route_witness("THEMATIC", tag,
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_full_to_architecture_approval (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_full_to_architecture_approval)
+THEMATIC: same Architecture stage + synthetic Gate (both-route approval).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1022, in test_thematic_full_to_architecture_approval
+    witness = self._full_route_witness("THEMATIC", "thematic-full-arch-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_publication_real_pdf_to_validated_draft (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_publication_real_pdf_to_validated_draft)
+THEMATIC: DRAFT_COMPLETE -> longform render -> REAL PDF -> strict admission.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2131, in test_thematic_publication_real_pdf_to_validated_draft
+    validated = self._thematic_to_validated_draft("thematic-full-pub-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1923, in _thematic_to_validated_draft
+    witness = self._full_route_witness("THEMATIC", tag,
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_renewal_c_before_preview (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_renewal_c_before_preview)
+THEMATIC renewal C: new build + new longform reviews (exact new paths) → CURRENT proof → activate (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 3827, in test_thematic_renewal_c_before_preview
+    activated = self._thematic_to_versioned_active("thematic-full-ren-c-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2974, in _thematic_to_versioned_active
+    staged = self._thematic_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2924, in _thematic_to_editorial_staged
+    validated = self._thematic_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1923, in _thematic_to_validated_draft
+    witness = self._full_route_witness("THEMATIC", tag,
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_renewal_c_u_u_release (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_renewal_c_u_u_release)
+THEMATIC C→U→U same fixture + Preview/Freeze/Release to RELEASED (new source, CURRENT every readback, longform evidence).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 4288, in test_thematic_renewal_c_u_u_release
+    activated = self._thematic_to_versioned_active("thematic-full-cuu-rel-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2974, in _thematic_to_versioned_active
+    staged = self._thematic_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2924, in _thematic_to_editorial_staged
+    validated = self._thematic_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1923, in _thematic_to_validated_draft
+    witness = self._full_route_witness("THEMATIC", tag,
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_thematic_renewal_u_before_preview (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_thematic_renewal_u_before_preview)
+THEMATIC renewal U on VERSIONED_ACTIVE: prepare → finalize → CURRENT proof → activate (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 3577, in test_thematic_renewal_u_before_preview
+    activated = self._thematic_to_versioned_active("thematic-full-ren-u-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2974, in _thematic_to_versioned_active
+    staged = self._thematic_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2924, in _thematic_to_editorial_staged
+    validated = self._thematic_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1923, in _thematic_to_validated_draft
+    witness = self._full_route_witness("THEMATIC", tag,
+                                       discovery_id="ln-D001")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_candidate_to_released (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_candidate_to_released)
+WEEKLY: VALIDATED_DRAFT → Candidate → Preview → Freeze → Release.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1602, in test_weekly_candidate_to_released
+    validated = self._weekly_to_validated_draft("weekly-full-rel-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_dm022_to_selection_stage (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_dm022_to_selection_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 852, in test_weekly_dm022_to_selection_stage
+    witness = self._full_route_witness("WEEKLY", "weekly-full-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_draft_synthesis_reader (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_draft_synthesis_reader)
+WEEKLY: ordinary Drafting synthesis runner on the revised graph + reader.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1116, in test_weekly_draft_synthesis_reader
+    witness = self._full_route_witness("WEEKLY", "weekly-full-draft-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_editorial_correction_proposal (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_editorial_correction_proposal)
+WEEKLY editorial correction proposal on adopted VALIDATED_DRAFT.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2465, in test_weekly_editorial_correction_proposal
+    validated = self._weekly_to_validated_draft("weekly-full-edprop-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_editorial_finalize_activate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_editorial_finalize_activate)
+WEEKLY editorial: prepare (real TinyTeX build) → external reviews →
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 3146, in test_weekly_editorial_finalize_activate
+    activated = self._weekly_to_versioned_active("weekly-full-ed-pub-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2784, in _weekly_to_versioned_active
+    staged = self._weekly_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2609, in _weekly_to_editorial_staged
+    validated = self._weekly_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_editorial_staged_full (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_editorial_staged_full)
+WEEKLY editorial: P1 proposal → P2R capture → P2V → P3S staged4.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2667, in test_weekly_editorial_staged_full
+    staged = self._weekly_to_editorial_staged("weekly-full-edstaged-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2609, in _weekly_to_editorial_staged
+    validated = self._weekly_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_full_to_architecture_approval (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_full_to_architecture_approval)
+Extend WEEKLY witness: SELECTION_COMPLETE→ARCHITECTURE_ESTABLISHED + synthetic Gate.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 939, in test_weekly_full_to_architecture_approval
+    witness = self._full_route_witness("WEEKLY", "weekly-full-arch-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_present_old_seven_slots_retain_clear_regenerate (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_present_old_seven_slots_retain_clear_regenerate)
+Present-old-7slots: ordinary regen BEFORE adopt, retained/cleared/verified, new regen.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 871, in test_weekly_present_old_seven_slots_retain_clear_regenerate
+    chain = self._chain_root("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_publication_real_pdf_to_validated_draft (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_publication_real_pdf_to_validated_draft)
+WEEKLY: DRAFT_COMPLETE → derivation → REAL PDF → strict admission.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1588, in test_weekly_publication_real_pdf_to_validated_draft
+    validated = self._weekly_to_validated_draft("weekly-full-pub-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_renewal_c_before_preview (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_c_before_preview)
+WEEKLY renewal C on VERSIONED_ACTIVE: new build + new reviews (exact new paths) → CURRENT proof → activate (before Preview).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 3652, in test_weekly_renewal_c_before_preview
+    activated = self._weekly_to_versioned_active("weekly-full-ren-c-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2784, in _weekly_to_versioned_active
+    staged = self._weekly_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2609, in _weekly_to_editorial_staged
+    validated = self._weekly_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_renewal_c_u_u_release (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_c_u_u_release)
+WEEKLY C→U→U same fixture + Preview/Freeze/Release to RELEASED (new Freeze fix, CURRENT every readback).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 4009, in test_weekly_renewal_c_u_u_release
+    activated = self._weekly_to_versioned_active("weekly-full-cuu-rel-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2784, in _weekly_to_versioned_active
+    staged = self._weekly_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2609, in _weekly_to_editorial_staged
+    validated = self._weekly_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_weekly_renewal_u_reuse_targets (tests.test_dm022_full_lifecycle_v2.Dm022FullLifecycleWitnessTests.test_weekly_renewal_u_reuse_targets)
+WEEKLY renewal U on VERSIONED_ACTIVE: prepare → finalize → CURRENT proof.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 3460, in test_weekly_renewal_u_reuse_targets
+    activated = self._weekly_to_versioned_active("weekly-full-ren-u-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2784, in _weekly_to_versioned_active
+    staged = self._weekly_to_editorial_staged(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 2609, in _weekly_to_editorial_staged
+    validated = self._weekly_to_validated_draft(tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_04_wrong_role_and_prearch_not_counted (tests.test_dm022_publication_depth_boundary_v2.Dm022PublicationDepthBoundaryTests.test_04_wrong_role_and_prearch_not_counted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 195, in repository_commit_sha
+    result = subprocess.run(
+        ["git", "rev-parse", "HEAD"],
+    ...<3 lines>...
+        text=True,
+    )
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_publication_depth_boundary_v2.py", line 692, in test_04_wrong_role_and_prearch_not_counted
+    validated = helper._weekly_to_validated_draft(f"{TAG_BASE}-wrongrole-v2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 138, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(
+                                           ~~~~~~~~~~~~~~~~~~~~~^
+        root, state_path, records, decisions)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 750, in resolve_prepackage_root_effective
+    implementation_sha = core.repository_commit_sha(repo_root)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 203, in repository_commit_sha
+    raise ValueError("cannot resolve implementation repository commit; pass --implementation-sha") from exc
+ValueError: cannot resolve implementation repository commit; pass --implementation-sha
+
+======================================================================
+ERROR: test_absent_at_epoch_still_passes_via_live (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_absent_at_epoch_still_passes_via_live)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 68, in test_absent_at_epoch_still_passes_via_live
+    out=self._run_one("WEEKLY","rev-c1-pres-abs-w",commit_request=False)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 23, in _run_one
+    chain=a._chain_root(research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 181, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(root, state_path, records, decisions)
+                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 751, in resolve_prepackage_root_effective
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_committed_inputs_still_pass_via_live_no_cp_cycle (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_committed_inputs_still_pass_via_live_no_cp_cycle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 72, in test_committed_inputs_still_pass_via_live_no_cp_cycle
+    out=self._run_one("WEEKLY","rev-c1-pres-com-w",commit_request=True)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 23, in _run_one
+    chain=a._chain_root(research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 181, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(root, state_path, records, decisions)
+                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 751, in resolve_prepackage_root_effective
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_thematic_absent_and_committed (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_thematic_absent_and_committed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 76, in test_thematic_absent_and_committed
+    out1=self._run_one("THEMATIC","rev-c1-pres-abs-t",commit_request=False)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 23, in _run_one
+    chain=a._chain_root(research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 181, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(root, state_path, records, decisions)
+                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 751, in resolve_prepackage_root_effective
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+FAIL: test_02_fresh_prepreview_valid (tests.test_dm022_publication_depth_boundary_v2.Dm022PublicationDepthBoundaryTests.test_02_fresh_prepreview_valid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_publication_depth_boundary_v2.py", line 182, in test_02_fresh_prepreview_valid
+    ps = _check_no_duplicate("fresh-prepreview")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_publication_depth_boundary_v2.py", line 132, in _check_no_duplicate
+    raise AssertionError(f"duplicate test children before {tag}: {len(matches)} matches: {matches[:5]}")
+AssertionError: duplicate test children before fresh-prepreview: 3 matches: ['eariver  2362472    1760  0 01:08 ?        00:00:00 /bin/bash -c PYTHONDONTWRITEBYTECODE=1 timeout 200 /usr/bin/python3 -m unittest tests.test_dm022_publication_depth_boundary_v2 tests.test_dm022_c1_h_presence_controls_v2 >/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-stdout.txt 2>/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-stderr.txt; echo $? >/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-exit.txt; echo "exit:$(cat /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-exit.txt)"; tail -n 6 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-stderr.txt', 'eariver  2362473 2362472  0 01:08 ?        00:00:00 timeout 200 /usr/bin/python3 -m unittest tests.test_dm022_publication_depth_boundary_v2 tests.test_dm022_c1_h_presence_controls_v2', 'eariver  2362475 2362473 97 01:08 ?        00:00:02 /usr/bin/python3 -m unittest tests.test_dm022_publication_depth_boundary_v2 tests.test_dm022_c1_h_presence_controls_v2']
+
+======================================================================
+FAIL: test_03_provided30_editorial31_renewal32_33refuses (tests.test_dm022_publication_depth_boundary_v2.Dm022PublicationDepthBoundaryTests.test_03_provided30_editorial31_renewal32_33refuses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_publication_depth_boundary_v2.py", line 342, in test_03_provided30_editorial31_renewal32_33refuses
+    ps = _check_no_duplicate("depth32-full")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_publication_depth_boundary_v2.py", line 132, in _check_no_duplicate
+    raise AssertionError(f"duplicate test children before {tag}: {len(matches)} matches: {matches[:5]}")
+AssertionError: duplicate test children before depth32-full: 3 matches: ['eariver  2362472    1760  0 01:08 ?        00:00:00 /bin/bash -c PYTHONDONTWRITEBYTECODE=1 timeout 200 /usr/bin/python3 -m unittest tests.test_dm022_publication_depth_boundary_v2 tests.test_dm022_c1_h_presence_controls_v2 >/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-stdout.txt 2>/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-stderr.txt; echo $? >/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-exit.txt; echo "exit:$(cat /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-exit.txt)"; tail -n 6 /home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-profile-support-implementation/dm022-verify-20261031T155554Z/logs/depth-presence-stderr.txt', 'eariver  2362473 2362472  0 01:08 ?        00:00:00 timeout 200 /usr/bin/python3 -m unittest tests.test_dm022_publication_depth_boundary_v2 tests.test_dm022_c1_h_presence_controls_v2', 'eariver  2362475 2362473 97 01:08 ?        00:00:02 /usr/bin/python3 -m unittest tests.test_dm022_publication_depth_boundary_v2 tests.test_dm022_c1_h_presence_controls_v2']
+
+----------------------------------------------------------------------
+Ran 31 tests in 2.437s
+
+FAILED (failures=2, errors=28)

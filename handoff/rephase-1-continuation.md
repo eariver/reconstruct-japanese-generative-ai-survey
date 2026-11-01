@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-11-01 Profile/support upstream実装closeout
+
+**BOUNDED IMPLEMENTATION COMPLETE（qualified composite）、Human Commit Point。** [assessment/次rehearsal§5](../outputs/rephase-1-profile-support-implementation-assessment.md)、[packet](../notes/rephase-1-profile-support-implementation/README.md)、**[mandatory ROOT全文](../notes/rephase-1-profile-support-implementation/astra-closeout-resolution.md)**、独立final review FINAL-BINDING＋closeout確認、final applied7補足を読む。Whole P1–P4を実装し、source-bound検証と完全配送を確認した。普通3/5とDM0227の意味は別、実root/effective/current/history/guardを束縛。
+
+**Final138=57M81A／770files、完全DIRECT409 patch efb505e44c1ccb3c83121db2fbaa9fec05ed900c252184765ca3b50f7b28254e /5247647B、manifest634d41f9…/186847B。** Packet `source-packaging/final-20261031T202327Z/`、available proof `.rephase-1-editorial-runtime/profile-support-packaging-20261031T202327Z/proof-copy/candidate-partial-b40de60`。Check/apply0/all770+mode、old133内包。Firste0ca packageはtestoracle修正前、保存。PartialDB/runtime/whitespace/失敗rawの限定はROOT。
+
+次は**具体的Weekly＋実需Specialのcapability・品質・通常訂正・費用rehearsal／R4準備**。Actual対象/許可資料が不足した時だけHumanへ必要選択/取得許可を求める。汎用reader必須gateは復活しない、必要Specialを暗黙に外さない。修復/新機能が必要と判明したら具体gapをAstraへ。Rehearsal後は固定candidate/fresh audit→Human限定採用→実測削減/旧作業除去。
+
+普通28/affected26/A225/affected37/consumer各1とFINAL applied7は別run、他769不変のcomposite。初期summary-only/不正test・retention overwrite/loader・fixture失敗/誤hash保持。新PDF/quality/adoption/savings未証明。WholeNOT_READY/step4B3OPEN/audit未開始/DM021+022OPEN。通常Commit/Push Human-owned、readback/network/Productionなし、55Gitlinks保持。**ここで停止、rehearsalを自動開始しない。**
+
+## Preserved reassessment — shared-upstream implementation-next completed
+
 ## Current — 2026-10-31 総編纂工数からのscope再評価
 
 **再評価完了、Human Commit Point。** [decision INCLUDING§8](../outputs/rephase-1-scope-reassessment-20261031.md)、[packet/独立scope review＋FINAL-BINDING・文書check](../notes/rephase-1-scope-reassessment-20261031/README.md)を読む。共有upstream P1–P4を最後の予定済み機能実装として維持し、**汎用非四系列Thematic/Retrospective complete-reader・訂正の必須先行gateを撤回**。R4後の自動宿題にもせず、実需要・不足・費用で再選択する。必要Specialの実用性を削らず、manualの実stage/訂正条件・費用を確認する。

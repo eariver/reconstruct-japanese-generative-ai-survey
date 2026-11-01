@@ -1,0 +1,80 @@
+....../usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpjkc_eyoz'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpe45pcq36'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp07zrwkds'>
+  _warnings.warn(warn_message, ResourceWarning)
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp0pqrl8tx'>
+  _warnings.warn(warn_message, ResourceWarning)
+................../usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmphs6qq65k'>
+  _warnings.warn(warn_message, ResourceWarning)
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpxeh9y50z'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpud536ppk'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp8_8u8eyj'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpejlon52i'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpu5tgu82v'>
+  _warnings.warn(warn_message, ResourceWarning)
+.E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpynam00cn'>
+  _warnings.warn(warn_message, ResourceWarning)
+.E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp4_v5xptc'>
+  _warnings.warn(warn_message, ResourceWarning)
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmppd1cu06x'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpcgc8wlu5'>
+  _warnings.warn(warn_message, ResourceWarning)
+..
+======================================================================
+ERROR: test_18_stage_advance_then_drafting_accepted_authority (tests.test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_18_stage_advance_then_drafting_accepted_authority)
+Blocker2: stale StateSHA wrapper refuses, content facade passes.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_prearch_b_ordinary_consumers_v2.py", line 496, in test_18_stage_advance_then_drafting_accepted_authority
+    screening_mod.validate_package_basis(root, package_path, package, "4" * 40)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_20_r1_healthy_prearch_before_versioned (tests.test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_20_r1_healthy_prearch_before_versioned)
+Real public R1 on PREARCH VALIDATED_DRAFT before versioned (healthy).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_prearch_b_ordinary_consumers_v2.py", line 592, in test_20_r1_healthy_prearch_before_versioned
+    validated = gen._weekly_to_validated_draft("b-r1-healthy")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 737, in _full_route_witness
+    chain = self._chain_root(research_profile, discovery_id=discovery_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 144, in _chain_root
+    ledger = evidence_mod.build_materiality_ledger(
+        root, profile_path, discovery_path, screening_acceptance,
+        evidence_acceptance, views_acceptance, "4" * 40)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_evidence_v2.py", line 1993, in build_materiality_ledger
+    screening_acceptance, _, discoveries = validate_screening_acceptance(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_acceptance_path, discovery_path, profile["issue_id"], implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_evidence_v2.py", line 552, in validate_screening_acceptance
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+----------------------------------------------------------------------
+Ran 37 tests in 26.087s
+
+FAILED (errors=2)

@@ -1,0 +1,26 @@
+test_c_direct_weekly_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_direct_weekly_prepare_adopt_readback)
+ONE Weekly DIRECT positive: prepare → adopt → readback → checker. ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_c_thematic_direct_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_thematic_direct_prepare_adopt_readback)
+THEMATIC positive: second supported route + pure parentOID oracles. ... ERROR
+
+======================================================================
+ERROR: test_c_thematic_direct_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_thematic_direct_prepare_adopt_readback)
+THEMATIC positive: second supported route + pure parentOID oracles.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 243, in test_c_thematic_direct_prepare_adopt_readback
+    chain = self._chain_root_real_head("THEMATIC")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 167, in _chain_root_real_head
+    views_acceptance = evidence.accept_edition_views(
+        root, profile_path, evidence_acceptance, views_dir,
+        root / "views-accepted", head)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_evidence_v2.py", line 1910, in accept_edition_views
+    raise ValueError(f"Edition Evidence View {task_id} invalid: {'; '.join(errors)}")
+ValueError: Edition Evidence View evidence:SP001:2556cd0b7e345984 invalid: Thematic Edition View annotations invalid; Thematic lineage_role invalid; Thematic branch_ids invalid; Thematic transition_ids invalid
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.935s
+
+FAILED (errors=1)

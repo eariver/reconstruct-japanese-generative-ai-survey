@@ -1,0 +1,62 @@
+test_c_derived_weekly_true_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_true_r_not_equal_e)
+Weekly DERIVED: accepted root R vs Screening-derived E (raw parent refs). ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ERROR
+
+======================================================================
+ERROR: test_c_derived_weekly_true_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_true_r_not_equal_e)
+Weekly DERIVED: accepted root R vs Screening-derived E (raw parent refs).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_research_authority_v2.py", line 1599, in _derive_root_effective_kernel
+    screening_acceptance = screening_mod._validate_screening_acceptance_content(
+        repo_root, s_accept_abs, expectations, root_records, root_path,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1520, in _validate_screening_acceptance_content
+    _resolve_effective_discovery_basis_content(repo_root, package_path, package, root_records, root_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1482, in _resolve_effective_discovery_basis_content
+    accounting = validate_discovery_expansion(repo_root, root_records, derived_records, package["issue_id"])
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_screening_v2.py", line 303, in validate_discovery_expansion
+    raise ValueError(
+        f"derived Discovery {child_id} source identity is not rooted in a declared accepted parent"
+    )
+ValueError: derived Discovery derived-source source identity is not rooted in a declared accepted parent
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_prearchitecture_acceptance_v2.py", line 545, in prepare_revision
+    current_ctx = low.derive_current_root_effective_context(repo_root, request_abs, abs_state)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_research_authority_v2.py", line 1956, in derive_current_root_effective_context
+    return _context_from_before_state(repo_root, request, live_state)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_research_authority_v2.py", line 1848, in _context_from_before_state
+    return _derive_root_effective_kernel(
+        repo_root=repo_root,
+    ...<7 lines>...
+        root_path=root_abs,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_research_authority_v2.py", line 1603, in _derive_root_effective_kernel
+    raise ResearchAuthorityError(f"kernel SCP screening acceptance invalid: {exc}") from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: kernel SCP screening acceptance invalid: derived Discovery derived-source source identity is not rooted in a declared accepted parent
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 346, in test_c_derived_weekly_true_r_not_equal_e
+    out, request_path, decision_path = a2._prepare_and_decide(
+                                       ~~~~~~~~~~~~~~~~~~~~~~^
+        chain, state_abs, "rev-c-derived-1",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ["derived-source"], extra_obligations=extra)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 624, in _prepare_and_decide
+    out = high.prepare_revision(root, state_abs, request_path, revision_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_prearchitecture_acceptance_v2.py", line 547, in prepare_revision
+    raise AcceptanceError(f"HIGH current root/effective context refused before first COPY: {exc}") from exc
+scripts.survey_prearchitecture_acceptance_v2.AcceptanceError: HIGH current root/effective context refused before first COPY: kernel SCP screening acceptance invalid: derived Discovery derived-source source identity is not rooted in a declared accepted parent
+
+----------------------------------------------------------------------
+Ran 1 test in 1.081s
+
+FAILED (errors=1)

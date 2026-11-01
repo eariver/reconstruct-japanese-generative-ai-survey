@@ -1,0 +1,42 @@
+RAW CHECK TRANSCRIPT — workstream C (DM022 HIGH/LOW runtime), 2026-10-31T154321Z UTC
+Workcopy: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-implementation-20261031T153148Z/candidate-work
+Only files edited by owner C (exclusive ownership):
+  scripts/survey_research_authority_v2.py
+  scripts/survey_prearchitecture_acceptance_v2.py
+
+--- command 1 (syntax, no-cache, no writes) ---
+env: PYTHONDONTWRITEBYTECODE=1
+cwd: <workcopy>
+command: python3 -c "import ast,sys; [ast.parse(open(p,encoding='utf-8').read(), filename=p) for p in ['scripts/survey_research_authority_v2.py','scripts/survey_prearchitecture_acceptance_v2.py']]; print('SYNTAX_OK')"
+--- stdout ---
+SYNTAX_OK
+--- stderr ---
+(empty)
+--- exit ---
+0
+
+--- command 2 (source pins) ---
+command: sha256sum scripts/survey_research_authority_v2.py scripts/survey_prearchitecture_acceptance_v2.py; wc -l scripts/survey_research_authority_v2.py scripts/survey_prearchitecture_acceptance_v2.py
+--- stdout ---
+881de0f66d6f375445fd139d236f4be10bdbce4e5c3479acea6b0aae0517b49f  scripts/survey_research_authority_v2.py
+6c2b4d0364fec9030aa36ad71854bd0295124093b4945d878b473af0d17f64d0  scripts/survey_prearchitecture_acceptance_v2.py
+  3500 scripts/survey_research_authority_v2.py
+  1540 scripts/survey_prearchitecture_acceptance_v2.py
+  5040 total
+--- stderr ---
+(empty)
+--- exit ---
+0
+
+--- command 3 (no-cache residue probe) ---
+cwd: /home/eariver/git/reconstruct-japanese-generative-ai-survey
+command: find .rephase-1-editorial-runtime/profile-support-implementation-20261031T153148Z/candidate-work -name "*.pyc" -o -name "__pycache__"
+--- stdout ---
+(empty)
+--- stderr ---
+(empty)
+--- exit ---
+0 (marker: residue-check-done)
+
+No behavioral suite executed on shared moving source (integration testing follows per packet; owners A/B/D land before meaningful runs).
+No imports, no fixtures, no builds, no network, no commits, no reconstruct Git inspection, no Human Commit readback.

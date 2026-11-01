@@ -1,0 +1,9 @@
+RUN: tests.test_profile_support_upstream_repair_v2 (ordinary only, fixed snapshot 170000Z)
+COMMAND: bash -c 'echo RUN_PID:$$; exec env PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest tests.test_profile_support_upstream_repair_v2 -v'
+WORKDIR: .rephase-1-editorial-runtime/profile-support-ordinary-20261031T170000Z/snapshot-work
+ENV: PYTHONDONTWRITEBYTECODE=1, /usr/bin/python3 3.14.4, no GIT_* env, no installs/network
+PID: 2374829 (echoed via RUN_PID, exec preserves PID for python)
+EXIT: 1 (21/24 pass; 3 STAGE_CLAIMED blocked, see ordinary-verification.md §6)
+BEFORE PINS (snapshot-work): evidence 174c04cf37ca…, screening 7cc1fe4d229b…, runner 5a6280ac1998…, agent f73f2ab91fc8…, test 78c6d102e0b5…
+AFTER PINS: unchanged (no source/test writes during run; fixtures in isolated temp dirs only)
+STDOUT/STDERR: 21 ok, test_19 FAIL + test_20 FAIL + test_20b ERROR all with "checkpoint attestation fields invalid: discovery" (production State attestation vs LEGACY DCP content clash). test_21 symlink now passes after symlink no-follow repair. Full transcript in tool execution record; this file is the durable pointer, not a rewrite.

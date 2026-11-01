@@ -1,0 +1,34 @@
+test_weekly_prepare_adopt_resume_readback (tests.test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_weekly_prepare_adopt_resume_readback) ... ERROR
+
+======================================================================
+ERROR: test_weekly_prepare_adopt_resume_readback (tests.test_dm022_prearchitecture_acceptance_v2.Dm022A2OperationTests.test_weekly_prepare_adopt_resume_readback)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 641, in test_weekly_prepare_adopt_resume_readback
+    chain = self._chain_root("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 184, in _chain_root
+    ledger = evidence_mod.build_materiality_ledger(
+        root, profile_path, discovery_path, screening_acceptance,
+        evidence_acceptance, views_acceptance, "4" * 40,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_evidence_v2.py", line 1993, in build_materiality_ledger
+    screening_acceptance, _, discoveries = validate_screening_acceptance(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_acceptance_path, discovery_path, profile["issue_id"], implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_evidence_v2.py", line 552, in validate_screening_acceptance
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+----------------------------------------------------------------------
+Ran 1 test in 0.142s
+
+FAILED (errors=1)

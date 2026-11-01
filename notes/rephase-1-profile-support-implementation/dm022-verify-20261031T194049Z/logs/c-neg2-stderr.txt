@@ -1,0 +1,21 @@
+test_c_negatives_profile_copy_retention_refuse_no_write (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_negatives_profile_copy_retention_refuse_no_write)
+Targeted negatives with exact predicates + immediate no-write proof. ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+FAIL
+
+======================================================================
+FAIL: test_c_negatives_profile_copy_retention_refuse_no_write (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_negatives_profile_copy_retention_refuse_no_write)
+Targeted negatives with exact predicates + immediate no-write proof.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 433, in test_c_negatives_profile_copy_retention_refuse_no_write
+    self.assertTrue(any("sha" in str(e).lower() or "byte" in str(e).lower() for e in errs),
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    f"N2 refusal must name SHA/bytes: {errs}")
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true : N2 refusal must name SHA/bytes: ['checkpoint load failed: checkpoint FILE lstat failed: /tmp/tmpg983v0pa/sources/2026-W33/research/v2/acceptance-revisions/rev-c-neg-base/checkpoint/record.json: errno=2']
+
+----------------------------------------------------------------------
+Ran 1 test in 1.357s
+
+FAILED (failures=1)

@@ -1,0 +1,58 @@
+....../usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpltrks9lt'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpmy468h6w'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp8dq43pn8'>
+  _warnings.warn(warn_message, ResourceWarning)
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpmgi79oao'>
+  _warnings.warn(warn_message, ResourceWarning)
+................../usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp9ienkdbn'>
+  _warnings.warn(warn_message, ResourceWarning)
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpysy6bp3z'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpq32f5op6'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpg9a_4ikp'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpqe1um6it'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp7ric5_au'>
+  _warnings.warn(warn_message, ResourceWarning)
+../usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmphnxk39mc'>
+  _warnings.warn(warn_message, ResourceWarning)
+.F/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmprzys254t'>
+  _warnings.warn(warn_message, ResourceWarning)
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpueg9ohpn'>
+  _warnings.warn(warn_message, ResourceWarning)
+./usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp1r210w0r'>
+  _warnings.warn(warn_message, ResourceWarning)
+..
+======================================================================
+FAIL: test_20_r1_healthy_prearch_before_versioned (tests.test_dm022_prearch_b_ordinary_consumers_v2.OrdinaryConsumersTests.test_20_r1_healthy_prearch_before_versioned)
+Real public R1 on PREARCH VALIDATED_DRAFT before versioned (healthy).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_prearch_b_ordinary_consumers_v2.py", line 592, in test_20_r1_healthy_prearch_before_versioned
+    validated = gen._weekly_to_validated_draft("b-r1-healthy")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 1415, in _weekly_to_validated_draft
+    witness = self._full_route_witness("WEEKLY", tag)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 738, in _full_route_witness
+    state_abs = self._make_evidence_reviewed_state(chain)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 230, in _make_evidence_reviewed_state
+    head, _ = self._git_init(root)
+              ~~~~~~~~~~~~~~^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/test_dm022_full_lifecycle_v2.py", line 213, in _git_init
+    return fix.init_independent_git(root, identity=f"dm022-full-v2-{os.getpid()}")
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/dm022_lifecycle_fixture_v2.py", line 66, in init_independent_git
+    run("remote", "add", "origin", f"https://example.invalid/{identity}.git")
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T194049Z/snapshot-fixed/tests/dm022_lifecycle_fixture_v2.py", line 61, in run
+    raise AssertionError(f"git {' '.join(args)} failed: {res.stderr[:2000]}")
+AssertionError: git remote add origin https://example.invalid/dm022-full-v2-2477984.git failed: error: remote origin already exists.
+
+
+----------------------------------------------------------------------
+Ran 37 tests in 26.367s
+
+FAILED (failures=1)

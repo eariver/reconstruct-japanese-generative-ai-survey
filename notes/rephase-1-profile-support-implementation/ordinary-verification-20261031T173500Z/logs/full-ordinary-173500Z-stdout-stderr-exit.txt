@@ -1,0 +1,7 @@
+RUN: full ordinary suite (with 14b all-profile operation + 16c real parity)
+COMMAND: bash -c 'echo RUN_PID:$$; exec env PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest tests.test_profile_support_upstream_repair_v2 -v'
+WORKDIR: .rephase-1-editorial-runtime/profile-support-ordinary-20261031T173500Z/snapshot-work
+ENV: PYTHONDONTWRITEBYTECODE=1, /usr/bin/python3 3.14.4
+PID: 2434619
+EXIT: 0 (26/26 pass: 24 prior + test_14b WEEKLY/RETRO named5→7/Selection refs + test_16c THEMATIC real public parity; preserves initial 21/24 as history)
+BEFORE/AFTER PINS: unchanged (see focused log for pins; no source/test writes during run)

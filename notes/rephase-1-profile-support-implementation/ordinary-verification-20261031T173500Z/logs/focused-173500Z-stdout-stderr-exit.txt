@@ -1,0 +1,8 @@
+RUN: focused 3 failures + control + public pair (probe + real)
+COMMAND: bash -c 'echo RUN_PID:$$; exec env PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_19_claimed_but_marker_missing_refuses_no_direct_fallback tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_20_initial_valid_marker_pending_and_mismatched_state_claim tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_20b_healthy_stage_claimed_and_producer_report_negatives tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_18_initial_direct_preserved_no_marker tests.test_profile_support_upstream_repair_v2.ProfileParityTests.test_16_direct_and_agent_first_real_builder_parity_closure_first tests.test_profile_support_upstream_repair_v2.ProfileParityTests.test_16c_real_public_parity_direct_run_vs_agent_main_cloned_fixtures -v'
+WORKDIR: .rephase-1-editorial-runtime/profile-support-ordinary-20261031T173500Z/snapshot-work
+ENV: PYTHONDONTWRITEBYTECODE=1, /usr/bin/python3 3.14.4, no GIT_* env, no installs/network
+PID: 2434170 (echoed RUN_PID, exec preserves python PID)
+EXIT: 0 (6/6 pass: 19 marker-missing + 20 mismatched + 20b healthy/B3/report with strict facade + 18 bare DIRECT control + 16 probe + 16c real parity)
+BEFORE/AFTER PINS: Screening f0f28954…, Evidence 36b7b583…, shared helper ed0155cd…, ordinary tests d9b590bc… (unchanged by run; fixtures in isolated temp dirs only)
+NOTE: B0 stray-arg fix + B3 one-role/rehash + strict facade required for STAGE to reach DCP gates; bare DIRECT preserved for initial cases.

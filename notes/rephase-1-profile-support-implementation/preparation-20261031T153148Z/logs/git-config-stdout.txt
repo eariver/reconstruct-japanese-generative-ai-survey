@@ -1,0 +1,30 @@
+[core]
+	repositoryformatversion = 1
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[extensions]
+	worktreeConfig = true
+[remote "origin"]
+	url = https://example.invalid/rephase-candidate-recovery.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+===config.worktree===
+[core]
+	sparseCheckout = true
+	sparseCheckoutCone = true
+===HEAD===
+409b292756dd1277b9dfae87679934c0d2ce251c
+===shallow===
+774dd39a951c9ac3818e83dfffd4c7666efb0a20
+===alternates check===
+ls: cannot access '.rephase-1-editorial-runtime/profile-support-implementation-20261031T153148Z/candidate-work/.git/objects/info/alternates': No such file or directory
+no alternates file - OK
+===refs===
+.rephase-1-editorial-runtime/profile-support-implementation-20261031T153148Z/candidate-work/.git/refs:
+heads
+
+.rephase-1-editorial-runtime/profile-support-implementation-20261031T153148Z/candidate-work/.git/refs/heads:
+codex
+
+.rephase-1-editorial-runtime/profile-support-implementation-20261031T153148Z/candidate-work/.git/refs/heads/codex:
+rephase-candidate-recovery

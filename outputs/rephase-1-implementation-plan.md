@@ -1,5 +1,9 @@
 # Re:Phase next-session implementation plan
 
+**CURRENT 2026-11-01 Profile/support upstream BOUNDED IMPLEMENTATION COMPLETE:** [assessment/次task§5](rephase-1-profile-support-implementation-assessment.md)＋[mandatory ROOT全文](../notes/rephase-1-profile-support-implementation/astra-closeout-resolution.md)＋[packet/独立FINAL-BINDING・closeout確認](../notes/rephase-1-profile-support-implementation/README.md)へ。Whole既存map P1–P4実装・検証・完全DIRECT409配送138paths57M81A/770、patch efb505e4…/5247647B、manifest634d41f9…/186847B。Check/apply0/all770+mode、初期8batchと最終TEST-only applied7のqualified composite、旧C6は置換・他769不変。品質/audit/採用/効果測定ではない。
+
+**次Human continuation後:** 具体的Weekly＋実需Specialのcapability/品質/通常訂正/総費用rehearsalとR4準備。既存実装を再着手せず、汎用reader/訂正機構の必須先行gateも復活しない。採用対象と本当に必要な操作を閉じて候補固定/fresh七観点audit→Human採用→実測削減/旧仕事除去へ。新authority/capability gapはscope拡張前にAstraへ。Human Commit Point停止、次unit未開始、WholeNOT_READY維持。以下旧実装nextは履歴。
+
 **CURRENT 2026-10-31 scope再評価 COMPLETE:** [decision INCLUDING§8](rephase-1-scope-reassessment-20261031.md)＋[packet/独立scope review FINAL-BINDING](../notes/rephase-1-scope-reassessment-20261031/README.md)が投資順序を更新。次Human continuation後General whole P1–P4 upstream修復（既存precodeROOTbfb72bf2§7の技術map維持、再precode不要）を最後の予定済み機能実装として選択。追加authority/dependency/契約gapはAstraへ返す。変更predicate/affected consumerに基づく検証・CURRENT proof・独立implementation reviewを保持する。
 
 **修復後は具体的rehearsal/R4準備へ。** 非四系列Thematic/Retrospective汎用reader・訂正の自動必須gateは撤回し、必要な実用途が既存経路で完了不能／反復費用が支配的な時だけ再選択。必要Weekly/Specialの品質・正常修正・費用を確認→exact候補/fresh audit→Human限定採用→実測効果/旧作業除去。manual PRIMARY_ONLYを完全readerや架空Gateに置換しない。final133不変、今回docs-only、実装未開始・Human Commit Point。WholeNOT_READY維持。以下の旧必須reader/next記述は本decisionが優先する。

@@ -1,5 +1,7 @@
 # Reconstruction 完了ロードマップ — 2026-10-19 再計画
 
+**CURRENT 2026-11-01 Profile/support upstream実装closeout:** [assessment/次rehearsal§5](rephase-1-profile-support-implementation-assessment.md)＋[mandatory ROOT](../notes/rephase-1-profile-support-implementation/astra-closeout-resolution.md)＋独立final implementation/packagingで**whole共有修復BOUNDED COMPLETE（qualified composite）**。Final138paths/770、完全DIRECT409、normal/DM022/実DERIVED・repeat・後続consumerの影響検証まで。最後の予定済み機能実装はここでcloseout。次は具体的Weekly/実需Specialの品質・正常訂正・総費用rehearsal／R4準備であり、generic reader設計gateを自動開始しない。品質/候補固定七観点audit/Human採用/実測削減は未完了。Human Commit Point停止、次unit未開始。
+
 **CURRENT 2026-10-31 total-work再評価:** [decision INCLUDING§8](rephase-1-scope-reassessment-20261031.md)＋[packet/独立scope review FINAL-BINDING](../notes/rephase-1-scope-reassessment-20261031/README.md)が現在の投資順序を決める。Whole共有upstream修復を最後の予定済み機能実装として維持し、**汎用非四系列Thematic/Retrospective reader・訂正の無条件先行gateを撤回**。修復後は具体的Weekly/実需Specialの品質・正常修正・費用rehearsal→一候補固定/fresh audit R4→Human限定採用R5→実測削減/旧作業除去R6。必要Specialの実用性は維持、全形式同じ生成方式は不要。新機能は必要操作が不能／反復費用が支配的と判明した時だけ比較・再選択する。今回docs-only、final133不変、Human Commit Point。以下の旧必須reader/next条件は歴史、技術契約と証拠限定は保持。
 
 **CURRENT 2026-10-31 Profile/support pre-code:** [readiness assessment/次実装§5](rephase-1-profile-support-precode-assessment.md)＋[ROOT INCLUDING§7](../notes/rephase-1-profile-support-precode/astra-precode-gate-resolution.md)（FULL bfb72bf2…）＋独立FINAL R5/§8で**PRE_CODE_READY（mapのみ）**。新規受付対歴史、真のroot/effective、通常DCP/SCPとPREARCHの分離、必須PATH、3/5→7／DM0227、closure/controlを具体化。次Human continuation後whole upstream実装・検証、sourcefinal133は今回不変。必要非四系列Thematic/Retrospective reader/訂正、品質/audit/採用/実測削減は残る。Human Commit Point停止、以下旧nextは履歴。
@@ -75,7 +77,7 @@ DM022を「別Productionだから無関係」とも「新しいので最優先�
 
 | 段階 | 現在の次作業／出口 |
 |---|---|
-| R3残り：共有upstream修復 | 既存PRE_CODE_READYのwhole P1–P4を実装・影響検証・独立implementation review。新authority/契約gapはscopeを広げる前にAstraへ。最後の予定済み機能実装、全欠陥を放置する宣言ではない。closeoutでCommit Point |
+| R3共有upstream修復：bounded complete | 2026-11-01、[assessment](rephase-1-profile-support-implementation-assessment.md)でwhole P1–P4実装・影響検証・独立review・138paths完全配送を限定完了。最後の予定済み機能実装のCommit Point。新authority/契約gapは引続きAstraへ、全欠陥放置の宣言ではない |
 | R4準備 | 具体的Weekly＋実需Specialを最低限の代表にし、必要経路表・品質・正常修正・費用rehearsal。全形式の代表証明ではない。未代表の必要経路とmanualの実条件を明示。汎用reader契約を自動開始しない |
 | R4固定／監査 | 選択範囲に未解決blockerがなく、正確なsource/overlay/runtime/必要assetsとdiagnostics/環境check・移行/rollback/除去表が揃った一候補へfresh独立七観点audit。限定auditを全必要経路の採用／全体完了に拡張しない |
 | R5限定採用 | Human明示許可の下で監査対象範囲を実運用、品質非劣化・正常操作・切戻しを確認 |

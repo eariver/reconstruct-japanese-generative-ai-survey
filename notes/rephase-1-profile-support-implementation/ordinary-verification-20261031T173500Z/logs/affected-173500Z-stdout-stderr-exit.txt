@@ -1,0 +1,7 @@
+RUN: affected existing (shared-helper migration check)
+COMMAND: bash -c 'echo RUN_PID:$$; exec env PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest tests.test_survey_evidence_v2 tests.test_run_evidence_v2_interactive tests.test_run_evidence_v2_agent_first tests.test_survey_evidence_source_class_regression'
+WORKDIR: .rephase-1-editorial-runtime/profile-support-ordinary-20261031T173500Z/snapshot-work
+ENV: PYTHONDONTWRITEBYTECODE=1, /usr/bin/python3 3.14.4
+PID: 2435750
+EXIT: 0 (26/26 pass: 12 evidence_v2 with real HEADs + 8 interactive + 4 agent-first + 2 source-class; preserves initial 14/14 for non-shared-helper tests; all 12 old evidence_v2 assertions green after Git-before-initialize migration, no validity-window change)
+BEFORE/AFTER PINS: unchanged

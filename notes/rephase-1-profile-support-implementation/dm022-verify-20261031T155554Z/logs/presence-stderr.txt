@@ -1,0 +1,91 @@
+/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpeav_s0jg'>
+  _warnings.warn(warn_message, ResourceWarning)
+E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpbec7uapd'>
+  _warnings.warn(warn_message, ResourceWarning)
+E/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpkgp8h6cp'>
+  _warnings.warn(warn_message, ResourceWarning)
+
+======================================================================
+ERROR: test_absent_at_epoch_still_passes_via_live (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_absent_at_epoch_still_passes_via_live)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 68, in test_absent_at_epoch_still_passes_via_live
+    out=self._run_one("WEEKLY","rev-c1-pres-abs-w",commit_request=False)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 23, in _run_one
+    chain=a._chain_root(research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 181, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(root, state_path, records, decisions)
+                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 751, in resolve_prepackage_root_effective
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_committed_inputs_still_pass_via_live_no_cp_cycle (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_committed_inputs_still_pass_via_live_no_cp_cycle)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 72, in test_committed_inputs_still_pass_via_live_no_cp_cycle
+    out=self._run_one("WEEKLY","rev-c1-pres-com-w",commit_request=True)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 23, in _run_one
+    chain=a._chain_root(research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 181, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(root, state_path, records, decisions)
+                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 751, in resolve_prepackage_root_effective
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_thematic_absent_and_committed (tests.test_dm022_c1_h_presence_controls_v2.TestC1HPresenceControls.test_thematic_absent_and_committed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 76, in test_thematic_absent_and_committed
+    out1=self._run_one("THEMATIC","rev-c1-pres-abs-t",commit_request=False)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c1_h_presence_controls_v2.py", line 23, in _run_one
+    chain=a._chain_root(research_profile)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 181, in _chain_root
+    discovery_path, screening_acceptance = helper.make_screening(root, state_path, records, decisions)
+                                           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_survey_evidence_v2.py", line 117, in make_screening
+    package_path = screening.prepare_package(
+        root,
+    ...<3 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 1117, in prepare_package
+    _prepackage = resolve_prepackage_root_effective(repo_root, state_path, discovery_path, None)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_screening_v2.py", line 751, in resolve_prepackage_root_effective
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.431s
+
+FAILED (errors=3)

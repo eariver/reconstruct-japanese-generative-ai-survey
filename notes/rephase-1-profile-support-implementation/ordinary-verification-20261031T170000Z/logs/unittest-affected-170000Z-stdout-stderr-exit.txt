@@ -1,0 +1,8 @@
+RUN: affected existing (ordinary, no Git needed)
+COMMAND: bash -c 'echo RUN_PID:$$; exec env PYTHONDONTWRITEBYTECODE=1 /usr/bin/python3 -m unittest tests.test_run_evidence_v2_interactive tests.test_run_evidence_v2_agent_first tests.test_survey_evidence_source_class_regression -v'
+WORKDIR: .rephase-1-editorial-runtime/profile-support-ordinary-20261031T170000Z/snapshot-work
+ENV: PYTHONDONTWRITEBYTECODE=1, /usr/bin/python3 3.14.4
+PID: 2375972
+EXIT: 0 (14/14 pass: 8 interactive + 4 agent-first + 2 source-class)
+BEFORE/AFTER PINS: unchanged (see ordinary-verification.md §1)
+NOTE: tests.test_survey_evidence_v2 (old "4"*40 without Git) now correctly fails at prepackage CURRENT-proof gate after A; documented as migration debt, not run as PASS here.

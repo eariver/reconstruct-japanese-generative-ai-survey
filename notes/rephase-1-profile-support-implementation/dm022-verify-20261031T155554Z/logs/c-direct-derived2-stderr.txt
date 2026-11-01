@@ -1,0 +1,35 @@
+test_c_derived_weekly_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_r_not_equal_e)
+Weekly DERIVED positive: expansion-parent row proves true R/E handling. ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ERROR
+test_c_direct_weekly_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_direct_weekly_prepare_adopt_readback)
+ONE Weekly DIRECT positive: prepare → adopt → readback → checker. ... ok
+
+======================================================================
+ERROR: test_c_derived_weekly_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_r_not_equal_e)
+Weekly DERIVED positive: expansion-parent row proves true R/E handling.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_c_direct_operation_v2.py", line 258, in test_c_derived_weekly_r_not_equal_e
+    state_abs = a2._make_evidence_reviewed_state(chain)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 348, in _make_evidence_reviewed_state
+    discovery_acceptance_path = self._materialize_production_discovery_acceptance(chain)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/tests/test_dm022_prearchitecture_acceptance_v2.py", line 327, in _materialize_production_discovery_acceptance
+    discovery_mod.build_acceptance(root, chain["discovery_path"], manifest_path, chain["issue_id"], acceptance_path)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_discovery_v2.py", line 249, in build_acceptance
+    records = [_normalize_record(repo_root, value, issue_id) for value in raw_records]
+               ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_discovery_v2.py", line 117, in _normalize_record
+    edges = [_parse_parent(value, issue_id) for value in parent_refs]
+             ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/profile-support-dm022-verify-20261031T155554Z/snapshot-fixed/scripts/survey_discovery_v2.py", line 69, in _parse_parent
+    raise ValueError(
+        f"parent ref must use explicit local:<discovery_id> or external:<issue_id>:<discovery_id> namespace: {ref}"
+    )
+ValueError: parent ref must use explicit local:<discovery_id> or external:<issue_id>:<discovery_id> namespace: target-source
+
+----------------------------------------------------------------------
+Ran 2 tests in 1.895s
+
+FAILED (errors=1)
