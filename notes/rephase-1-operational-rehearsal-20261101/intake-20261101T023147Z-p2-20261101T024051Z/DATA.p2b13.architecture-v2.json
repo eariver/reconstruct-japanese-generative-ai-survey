@@ -1,0 +1,380 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "research_profile": "WEEKLY",
+  "publication_profile": "WEEKLY_MAGAZINE",
+  "status": "PROPOSED",
+  "basis": {
+    "production_profile_sha256": "a6e3eb3006dde95da008876486cbfc7fdce75f507f7efcd6b0fcaba5e154b21a",
+    "profile_completeness_sha256": "e06686ec348fc88b5e48cedbb30e8154203d56bb3b5ba5fd47077ff12b455420",
+    "materiality_ledger_sha256": "aa8a785af59ca67a8f96d8466f9c1cefed4c3fc9238b4de09d54810a8635e3bf",
+    "candidate_matrix_sha256": "b2e9fe60e8046e6e41453c3fbe60aa522536f594050f2563a485a965b7551529",
+    "candidate_selection_sha256": "ac7cbc291b0af167ad8aefe858da541875f24961626b5bb445160b037abdc00d"
+  },
+  "editorial_thesis": "W34の生成AIは、単体モデルの性能競争よりも、agentが実際の業務・取引・共同作業の中で「何を実行できるか」、その実行を「どのpolicy・authorization・memory・security境界で制御するか」、さらに「どの価格・region・provider・multimodal surfaceで配備できるか」へ重心が移った週として読む。\n\nPayments、Computer Use、Slack code channels、Agentic Searchを中心に、個別releaseを羅列するのではなく、**agent executionのproductionization**を主軸とする。その外周としてsafety/security governance、model economics/distribution、creative multimodal production、gateway/infrastructure economicsを配置し、「モデルが賢くなったか」から「何が、どこで、いくらで、どの統制下で実行可能になったか」へ読者の問いを移す。",
+  "architecture_goals": [
+    "41 selected candidatesを41本の記事へ展開せず、相互関係が読める6つのsubstantive packageへ圧縮する。",
+    "AgentのproductionizationをW34の中心に置き、payments / computer use / policy / memory / authorizationとcollaborative workflow / retrieval / tool orchestrationを別の技術層として見せる。",
+    "collaborative-agent-workflowsとretrieval-tool-orchestrationは、共同作業surface上でagentが検索・navigation・tool/MCPを実行する一続きのreader questionとして1 packageへ統合する。",
+    "Model base releaseと、pricing / provider availability / regional processing / cross-region inference / local accessibilityを混同しない。",
+    "Security/safetyではvendor safety narrative、independent vulnerability research、CISA/official operational evidenceをsource roleごとに分離する。",
+    "Creative/multimodalでは個別model launchの列挙ではなく、production availability・migration・audio/image/video/vision surfaceの変化として束ねる。",
+    "Infrastructure/economicsはmodel/product updateから切り離し、gateway consolidationとcompute commitmentがdeployment economicsへ与える構造変化として扱う。",
+    "Evidence statusがPARTIALのselected supporting candidateをVERIFIED相当に書き換えず、各packageでsource-specific limitationを保持する。",
+    "368 HOLD candidatesを「調査しなかったもの」にせず、Human Architecture Reviewでnegative space / omission rationaleとして可視化する。",
+    "最後に独立したWEEKLY_SYNTHESIS / WEEK_IN_REVIEW packageを置き、6 substantive packageを横断して「今週何が変わったか・なぜ重要か・次に何を見るか」を総括する。"
+  ],
+  "page_plan": {
+    "target_pages": 20,
+    "max_pages": 26,
+    "notes": "six substantive packages: approximately 15 pages total; WEEKLY_SYNTHESIS: approximately 2 pages; cover / contents / source notes / layout slack: approximately 3 pages. Selected-candidate count must not mechanically determine page count."
+  },
+  "packages": [
+    {
+      "package_id": "w34-agent-control-plane",
+      "title": "Agent Control Plane — 取引・Computer Use・policy・memoryを誰が統制するか",
+      "purpose": "Agentが単なるtool-calling demoから、payment、computer/browser use、durable execution、memory、authorization、policy enforcementを伴うproduction execution surfaceへ移る変化を示す。",
+      "primary_candidate_ids": [
+        "candidate:2026-W34:47af95a24a85a967",
+        "candidate:2026-W34:63e743bf4e94df12"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:2026-W34:6c7c33f2f5ae3478",
+        "candidate:2026-W34:8a935401f462fe8c",
+        "candidate:2026-W34:9190c838790c2602",
+        "candidate:2026-W34:abb9ad278b8be3fe",
+        "candidate:2026-W34:b7f2b1b1713db179",
+        "candidate:2026-W34:bd2f9ee331cdc1d8"
+      ],
+      "must_cover_requirements": [
+        "Amazon Bedrock AgentCore Paymentsを、payment API/MCP、guardrail、observabilityの実装surfaceとして説明し、vendorの「safe at scale」表現は結果事実として採用しない。",
+        "Claude Platform Computer Use / Skills API / Files APIのGA surfaceを分け、computer useとbrowser-use toolを同一語で潰さない。",
+        "authorization context、policy authoring、memory extraction、async executionを個別releaseとして増殖させず、control-plane capabilitiesとして接続する。",
+        "Alipay agentic commerceはmerchant/ecosystem規模のcompany claimと、Skills/MCP/AHA等の確認可能なmechanismを分離する。"
+      ],
+      "boundaries": [
+        "Regional availability, fiat-support roadmap, and merchant-ecosystem size are stated without exhaustive lists in captured bytes.",
+        "'Agents transact safely at scale' is vendor framing; captured bytes support mechanisms, not outcomes.",
+        "Performance/latency improvement claims for multi-action turns are vendor-stated without benchmarks in captured bytes.",
+        "Files API is documented as not ZDR-eligible in secondary coverage; the captured first-party bodies do not state retention scope, so no retention claim is made here.",
+        "Docs describe steady-state platform properties, not a dated W34 release; the W34 delta is the observed enterprise-pattern currency, not a launch.",
+        "Merge into the AgentCore control-plane feature set is an editorial option, not a docs-stated fact.",
+        "Merchant-adoption figures and ecosystem scale claims are company-reported without disclosed methodology in captured bytes.",
+        "Payments/identity/risk/fulfillment implementation details beyond the announcement level are not in captured bytes.",
+        "Cost/behavioral claims are pattern-level and workload-dependent; no measured savings in captured bytes.",
+        "How-to/sample scope: production hardening beyond the sample is reader work, not a stated guarantee.",
+        "Behavioral/quality effects undescribed beyond the feature statement.",
+        "Original Dogwood OSS release (Aug 6) is pre-window background; only the Aug 20 authoring/production-context follow-up is the W34 delta.",
+        "Validation-completeness claims are vendor-described without adversarial evaluation in captured bytes.",
+        "regional coverage / merchant scale / outcome claims where not exhaustively established",
+        "vendor-described safety or scalability is not independently demonstrated",
+        "supporting AWS policy/memory records may describe capability architecture rather than a distinct launch event"
+      ],
+      "drafting_order": 1,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "architecture_roles": [
+          "WEEKLY:agent-control-plane"
+        ]
+      },
+      "publication_extensions": {
+        "section_kind": "FEATURE",
+        "target_pages": 3
+      }
+    },
+    {
+      "package_id": "w34-collaborative-agent-workflows-retrieval",
+      "title": "Agent Workflows — Slack・IDE・Search・MCPが一つの作業面へ近づく",
+      "purpose": "Agent executionが1人のchat/sessionから、Slack、IDE、team collaboration、search/navigation、MCP/workflow surfaceへ広がる流れを一つのreader questionとして整理する。",
+      "primary_candidate_ids": [
+        "candidate:2026-W34:089aea0f0b318bee",
+        "candidate:2026-W34:d07d09cf27cdbac2"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:2026-W34:0935de32fc1e579e",
+        "candidate:2026-W34:1304f775904893d8",
+        "candidate:2026-W34:2d0d187691bbd65d",
+        "candidate:2026-W34:3ebd2dfa1c0a39c4",
+        "candidate:2026-W34:53b656c753539a3d",
+        "candidate:2026-W34:5a69916736f60a65",
+        "candidate:2026-W34:a370405a82c55d14",
+        "candidate:2026-W34:b02b61e7d2629db7",
+        "candidate:2026-W34:c03e3fc696356d50",
+        "candidate:2026-W34:f9bc89dfab1847d9"
+      ],
+      "must_cover_requirements": [
+        "Slack code channelsをagent coding workのshared channel化、artifact/audit/collaboration surfaceとして説明する。",
+        "Mistral Agentic Searchをsearch/open/navigate/read/refineのmulti-step retrieval loopとして説明し、vendor benchmarkはmaker-reportedと明示する。",
+        "Runway MCP workflow support、Kimi Code CLI、Gemini/Antigravity、OpenAI/Replit、GitHub Slack/Teams/JetBrainsなどを、個別ニュースの列ではなく「agent work surfaceの拡張」として配置する。",
+        "Grok BotはAug 21 first-party X observationと現行Aug 26 page re-dateのchronology conflictを保持し、Aug 26 pageをAug 21 exact datelineとして使用しない。",
+        "GitHub Slack/Teams supporting rowsでcandidate-specific body wordingが限定的な場合、機能をEvidence以上に具体化しない。"
+      ],
+      "boundaries": [
+        "FinanceBench/OfficeQA Pro figures are Mistral-reported with default-stack settings; no independent reproduction in captured bytes.",
+        "Availability/pricing/surface scope beyond the announcement post is not in captured bytes.",
+        "Enterprise rollout/plan availability specifics beyond 'live today' are not detailed in captured bytes.",
+        "Agent-output quality and review-burden claims are vendor framing, not measured in captured bytes.",
+        "Apple-silicon-only and Work/Codex-only scope per secondary detail was not separately verified in captured notes bytes; scope claims stay entry-bounded.",
+        "No Apple endorsement; local-automation mechanism per secondary reporting, not captured first-party.",
+        "Snapshot is dated by capture (Sep 8), not by a page dateline; W34 timing rests on the changelog-entry context plus Discovery observation.",
+        "Rollout/plan specifics beyond the entry are not in captured bytes.",
+        "Base Aug 14 entry is date-only vs W34 start; the clean W34 delta is the Aug 20 expansion.",
+        "Privacy properties beyond the notes text are not independently tested in captured bytes.",
+        "The captured page is dated Aug 26 (edited/re-dated after the event) and is never cited as Aug 21 exact-body authority; Aug 21 timing rests on the DailyX X observation plus secondary Aug 21 dating.",
+        "Free-trial and Enterprise-waitlist details on the current page may reflect post-Aug-21 edits.",
+        "Free Mode eligibility/limits and Luna performance specifics are not detailed in captured bytes.",
+        "Price-cut causality is vendor narrative, not audited.",
+        "Cloud-blog dating is Aug 21 without time; position vs 22:00Z cutoff is a stated precision limit, though the Aug 20 Antigravity post independently carries the bundle.",
+        "Plan-eligibility edge cases beyond Standard/Plus/emerging-market require console verification.",
+        "Snapshot capture-dated (Sep 8); entry-level dating vs W34 relies on changelog context plus Discovery observation.",
+        "Agent-workflow quality/limits are undescribed in the changelog entry.",
+        "Behavioral/quality effects of the new tools are undescribed beyond feature statements.",
+        "maker-reported benchmark figures for Agentic Search",
+        "Grok Bot Aug 21 / Aug 26 chronology provenance",
+        "GitHub Slack/Teams claim-text capture limitations where applicable",
+        "regional processing is NOT part of this package after Selection r2; it belongs to Package 4"
+      ],
+      "drafting_order": 2,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "architecture_roles": [
+          "WEEKLY:collaborative-agent-workflows",
+          "WEEKLY:retrieval-tool-orchestration"
+        ]
+      },
+      "publication_extensions": {
+        "section_kind": "FEATURE",
+        "target_pages": 3
+      }
+    },
+    {
+      "package_id": "w34-safety-security-governance",
+      "title": "Safety & Security Governance — 利用者routingからagent attack chainまで",
+      "purpose": "W34のsafety/security変化を、teen routing、frontier capability pacing、privacy/retention、provenance/compliance、operational vulnerability evidenceという異なるgovernance layerに分解する。",
+      "primary_candidate_ids": [
+        "candidate:2026-W34:37fa585df606156a",
+        "candidate:2026-W34:398467ab6b0c3897"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:2026-W34:2fe8a809cd8757e5",
+        "candidate:2026-W34:5a2062532bcbc408",
+        "candidate:2026-W34:62bf6568978fb1d9",
+        "candidate:2026-W34:8d798f99cbccd02c",
+        "candidate:2026-W34:dfb0503d53997eee"
+      ],
+      "must_cover_requirements": [
+        "ChatGPT for Teensのage routing、teen safeguards、Study Mode等をfirst-party supported claimsとして扱い、旧generic-placeholder欠陥を再発させない。",
+        "CoSnitchをindependent researcher evidenceとして扱い、vendor advisory bytesが取得できていない箇所をMicrosoft公式断定へ変換しない。",
+        "CISA KEV、OpenAI pacing、ZDR/Private Safety Processing、watermarking、Defender's Windowをそれぞれoperational / vendor governance / compliance narrativeとしてsource roleを分ける。",
+        "safety claimとsecurity mechanismのどちらも「安全になった」という一語へ圧縮しない。"
+      ],
+      "boundaries": [
+        "Effectiveness of age estimation and safeguards is vendor-described; no independent test data in captured bytes.",
+        "Page publication date was not extracted from captured bytes; W34 timing rests on the Aug 18 first-observation record plus page content, not a captured dateline.",
+        "MSRC advisory bytes were not captured (retrieved page is a JS shell); vendor severity/product-scope wording is researcher-attributed, not vendor-quoted.",
+        "Exploitability details beyond the researcher's account are not independently tested in captured bytes.",
+        "KEV listing confirms catalog status only; exploitation scope and vendor-fix completeness require the Ray advisory/NVD record, not captured here.",
+        "The HTML catalog page retrieved alongside is a JS application shell without entries in captured bytes; verification rests on the machine-readable feed, not the rendered page.",
+        "Exact page publication time vs the Aug 14 22:00Z W34-start boundary is unresolved: the page carries a date only.",
+        "Watermark robustness/detection-tool claims are vendor-described; no independent test or detector in captured bytes.",
+        "Astra's Critical-tier status is vendor-described as preliminary ('cannot be ruled out' as of the post); no evaluation scores or external verification in captured bytes.",
+        "Monitoring-overhead (~20% of monitored inference compute) is an OpenAI estimate, not a measured result in captured bytes.",
+        "Private Safety Processing is a preview, not GA; architecture is prose-described with a technical white paper planned September 2026, not proven in captured bytes.",
+        "ZDR eligibility boundaries and the pre-existing CSAM-reporting carve-out are policy details summarized from the post, not legal text.",
+        "Thesis essay, not a product release or measured result; 'defender advantage' economics is vendor argument, not evidence.",
+        "RSS snapshot was the discovery lead; the linked article body now consumed here resolves the candidate-specific review.",
+        "age-estimation/safeguard effectivenessはvendor-described",
+        "independent exploit researchとvendor confirmationの区別",
+        "pacing/security essaysはtechnical narrativeでありindependent outcome evidenceではない",
+        "dateline/page-time precision limits where recorded"
+      ],
+      "drafting_order": 3,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "architecture_roles": [
+          "WEEKLY:safety-security-governance"
+        ]
+      },
+      "publication_extensions": {
+        "section_kind": "SECURITY_GOVERNANCE",
+        "target_pages": 3
+      }
+    },
+    {
+      "package_id": "w34-model-economics-distribution",
+      "title": "Model Economics & Distribution — 新モデルより「どこで、いくらで使えるか」",
+      "purpose": "Base-model announcementと、価格、provider availability、region coverage、regional processing、cross-region inference、local/open deploymentを明確に分け、deployabilityの変化として比較する。",
+      "primary_candidate_ids": [
+        "candidate:2026-W34:377341138be8ea98",
+        "candidate:2026-W34:fcdfa6012cb0150f"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:2026-W34:179764e85c6ece42",
+        "candidate:2026-W34:4d54f555301de6d4",
+        "candidate:2026-W34:9d72ed7562de06a1",
+        "candidate:2026-W34:c2bba597cc13428b",
+        "candidate:2026-W34:fe3f3db788282cf4"
+      ],
+      "must_cover_requirements": [
+        "GPT-5.6 SolのAug 21 promotional pricing/access deltaをbase releaseや以前のTerra/Luna pricing changeと分離する。",
+        "Qwen3.8-27Bはofficial availabilityとcommunity/local optimizationを分け、exact release timeが未確定ならその境界を残す。",
+        "Grok 4.6 Bedrock、AWS cross-region inference、DeepSeek V4-Pro、Alibaba kimi-k3 Model Studioをdistribution/service deltasとして扱う。",
+        "OpenAI API regional processing (w34-event-c045)をこのpackageのSUPPORTINGとして必ず配置する。retrieval/tool packageへ戻してはいけない。",
+        "provider distribution dateとmodel base release dateをmodel名だけでcollapseしない。"
+      ],
+      "boundaries": [
+        "Post-promo pricing and subscription-credit rollout scope are stated as time-bounded/rolling-out; not confirmed beyond the page text.",
+        "The AWS reduced-pricing mirror is dated Sep 3 (post-cutoff) and was captured only as a mirror, not as W34 authority.",
+        "Exact Aug 14 release time (vs 22:00Z boundary) is unresolved; repo news line is date-only.",
+        "Benchmark comparisons to frontier coding models are vendor/community-reported elsewhere, not in captured bytes.",
+        "Exact new tariff figures ($0.66/$1.98 off-peak etc.) are secondary-reported and not extracted from captured first-party bytes; do not cite as first-party-verified numbers.",
+        "Aug 13 GA is pre-window background; only the in-window pricing/access change is the W34 delta.",
+        "Throughput/cost advantages of cross-region routing are architectural claims without workload measurements in captured bytes.",
+        "Region-by-region availability must be checked in-console; not exhaustively listed in captured bytes.",
+        "Table gives date-level precision only; no clock times.",
+        "Parameter/architecture descriptors are Alibaba-stated.",
+        "Underlying Grok 4.6 model launched pre-window (Aug 12); only Bedrock distribution is the W34 delta.",
+        "Bedrock-specific benchmark/latency behavior is unpublished in captured bytes.",
+        "Geography/eligibility boundaries beyond the entry text are not detailed in captured bytes.",
+        "exact Qwen release timing where unresolved",
+        "DeepSeek tariff figures relying partly on secondary reporting",
+        "provider availability is not equivalent to new model release",
+        "promotional pricing has a bounded validity period"
+      ],
+      "drafting_order": 4,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "architecture_roles": [
+          "WEEKLY:model-economics-distribution"
+        ]
+      },
+      "publication_extensions": {
+        "section_kind": "MARKET_TECHNICAL",
+        "target_pages": 3
+      }
+    },
+    {
+      "package_id": "w34-creative-multimodal-production",
+      "title": "Creative Multimodal Production — 生成機能からproduction surfaceへ",
+      "purpose": "Audio/image/video/visionの動向を個別モデル名の列ではなく、実際のproduction availability、migration、API/tool surfaceの更新として整理する。",
+      "primary_candidate_ids": [
+        "candidate:2026-W34:e08eed08e82ed84f"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:2026-W34:46ff6976e65bad74",
+        "candidate:2026-W34:88e23410bb947c1d",
+        "candidate:2026-W34:d3ade8ef0ea9a1f3",
+        "candidate:2026-W34:ef6911e6a4dd7efb"
+      ],
+      "must_cover_requirements": [
+        "Firefly Generate Music / Speech / Sound EffectsのGAを中心に置く。",
+        "Imagen shutdown -> Gemini image migrationをavailability/migration eventとして扱う。",
+        "Pika audio model family、Alibaba wan3.0-video-prime、DeepSeek experimental vision/multimodal APIをproduction surfaceの比較として扱う。",
+        "Alibaba wan3.0-video-prime Aug 20 service availabilityとlater Runway integrationを混同しない。"
+      ],
+      "boundaries": [
+        "'Commercially safe' is Adobe framing; license terms and ElevenLabs-option parity require the actual terms, not captured here.",
+        "Quality/coverage claims are vendor-stated without independent testing in captured bytes.",
+        "Date-level precision only.",
+        "Capability descriptors are Alibaba-stated.",
+        "Cost-multiple claims (9x/20x/10x/2x vs named rivals) are Pika-reported on non-normalized units; not independently verified.",
+        "Aug 18 per-model posts elaborate the Aug 14 family launch; they are not four additional launches.",
+        "Vertex AI surfaces carry a different documented date (June 30) for the same IDs; the Gemini-API Aug 17 date is the verified claim, Vertex scope unresolved.",
+        "Exact UTC cutoff moment on Aug 17 is unspecified in captured bytes.",
+        "Capability-parity and any benchmark figures are vendor-stated; methodology and independent evaluation are absent from captured bytes.",
+        "commercial-safety claims remain vendor framing",
+        "capability quality is not inferred from availability alone",
+        "migration/deprecation event and new-model launch are distinct identities"
+      ],
+      "drafting_order": 5,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "architecture_roles": [
+          "WEEKLY:creative-multimodal-production"
+        ]
+      },
+      "publication_extensions": {
+        "section_kind": "MULTIMODAL",
+        "target_pages": 2
+      }
+    },
+    {
+      "package_id": "w34-ecosystem-infrastructure-economics",
+      "title": "Ecosystem & Infrastructure Economics — Gateway統合と8GW級compute commitment",
+      "purpose": "AI stackの構造変化を、gateway consolidation / payments ecosystemと大規模compute commitmentの二点から短く示し、個別モデル記事とは別レイヤとして位置づける。",
+      "primary_candidate_ids": [
+        "candidate:2026-W34:640a7eda09b7fd14"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:2026-W34:f9c42aebdee168fd"
+      ],
+      "must_cover_requirements": [
+        "Stripe/OpenRouter transaction/integration eventはfirst-party confirmationに限定し、gateway scale figuresはcompany-reportedと帰属させる。",
+        "PORTS-Pike agreementはcompute/infrastructure commitmentとして扱い、将来価格や競争優位を事実として推定しない。",
+        "両者を「AI infrastructure economics」の上下流として接続するが、直接因果を捏造しない。"
+      ],
+      "boundaries": [
+        "Transaction price/terms are not stated on either first-party page; widely reported $7-8B figures are press-reported and were not consumed as facts.",
+        "Gateway scale figures (tokens/day, model counts) are company-reported without disclosed methodology in captured bytes.",
+        "Capacity timelines (first 800MW 2028), ratepayer protections, and $105B financing figures beyond the $1.5B investment are stated plans/coverage, not completed facts.",
+        "No training-compute performance or model-release implications follow from this infrastructure commitment.",
+        "company-reported scale figures",
+        "economic implications are analysis, not directly proven outcomes",
+        "contract/agreement capacity is not identical to deployed capacity"
+      ],
+      "drafting_order": 6,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "architecture_roles": [
+          "WEEKLY:ecosystem-infrastructure-economics"
+        ]
+      },
+      "publication_extensions": {
+        "section_kind": "ECOSYSTEM",
+        "target_pages": 1
+      }
+    },
+    {
+      "package_id": "w34-week-in-review",
+      "title": "WEEKLY_SYNTHESIS / WEEK_IN_REVIEW — Agent productionizationが変えた今週の読み方",
+      "purpose": "六つのsubstantive packageを横断し、W34を「agent productionization」「governed execution」「deployability」という三つの軸で総括する。",
+      "primary_candidate_ids": [],
+      "supporting_candidate_ids": [],
+      "must_cover_requirements": [
+        "今週の中心変化: agentがpayment/computer use/collaboration/searchまでproduction surfaceへ進んだこと。",
+        "制約側の変化: policy/authorization/memory/safety/securityがfeatureではなくexecution architectureの一部になったこと。",
+        "deployability側の変化: pricing/region/provider/local availabilityがbase-model releaseと同じ程度に実用性を左右すること。",
+        "next watch: agent transaction governance、browser/computer control boundaries、collaborative-agent auditability、regional deployment economics、security incident response。",
+        "368 HOLD candidatesを背景researchとして扱い、未選択=不存在とはしない。"
+      ],
+      "boundaries": [
+        "Cross-package synthesis only; no direct candidate Evidence boundaries apply.",
+        "368 HOLD candidates remain background research, not non-existence."
+      ],
+      "drafting_order": 7,
+      "profile_extensions": {
+        "sol_directive": "sol-architecture-directive-20260910-r1",
+        "synthesis_kind": "WEEKLY_SYNTHESIS",
+        "architecture_roles": []
+      },
+      "publication_extensions": {
+        "section_kind": "WEEKLY_SYNTHESIS",
+        "target_pages": 2
+      }
+    }
+  ],
+  "selected_exceptions": [],
+  "profile_extensions": {
+    "sol_directive": "sol-architecture-directive-20260910-r1",
+    "selection_version": "w34-sol-selection-r2",
+    "review_scope": "Architecture review only; no reader-facing prose or Human decision recorded."
+  },
+  "publication_extensions": {
+    "deferred_until": "ARCHITECTURE_REVIEW approval"
+  },
+  "human_review": {
+    "reviewed_by": null,
+    "reviewed_at": null,
+    "review_reference": null
+  }
+}

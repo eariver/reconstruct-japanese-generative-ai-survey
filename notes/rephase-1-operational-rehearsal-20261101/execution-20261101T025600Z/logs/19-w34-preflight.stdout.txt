@@ -1,0 +1,15 @@
+fresh root acceptance: n=369 graph=a13afd9e06e5...
+event expansion (packet DATA, NOT staged): n=439
+root∩event overlap (must be empty per no-reuse rule): [] count=0
+archived latest accepted decisions (415...): n=439; == event IDs: True
+archived vs fresh-root: missing=369 extra=439 (runner expects exact fresh-root coverage)
+archived counts: record_count=439 batch_count=12
+archived decision values: {'DROP': 30, 'INSPECT': 200, 'MAYBE': 136, 'KEEP': 73}
+root graph re-validated: 369
+REFUSAL (preserved, no rewrite): ValueError: parent ref must use explicit local:<discovery_id> or external:<issue_id>:<discovery_id> namespace: w34-discovery-sol-event-baseline-v0_2
+REFUSAL scope: 439/439 event records carry bare (non-namespaced) parent_refs
+REFUSAL predicate: survey_discovery_v2._parse_parent via _normalize_record requires explicit local:<id> or external:<issue>:<id>
+REFUSAL note: bare refs == root ID set exactly (369/369, all roots referenced); format gap vs current contract, not corrupt data
+REFUSAL consequence: expansion accounting / universe / loss / runner coverage NOT computable on un-normalized records; no further graph attempt (same cause)
+STALE SUBSETS: 105 (2ab82c6b) / 110 (5699a79a) historical acceptances NOT fetched, NOT used (explicitly excluded per instruction).
+DONE-PREFLIGHT (read-only; no runner, no writes)

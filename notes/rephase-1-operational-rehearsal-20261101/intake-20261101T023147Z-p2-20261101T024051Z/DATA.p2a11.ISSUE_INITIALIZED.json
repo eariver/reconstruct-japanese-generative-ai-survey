@@ -1,0 +1,45 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "ISSUE_INITIALIZED",
+  "to_state": "DISCOVERY_COLLECTED",
+  "checkpoints": [
+    "discovery"
+  ],
+  "recorded_at": "2026-09-22T01:00:00Z",
+  "implementation": {
+    "repository_commit_sha": "d2f02ffbe9c8c63084f45e613eb3b7f0a1e1558a",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "discovery-acceptance",
+      "path": "sources/SP-efficient-llm-2026/discovery/discovery-accepted-v2.json",
+      "sha256": "b57fb044dde560925af93a426f7b087366959f16574862bedde0eb9ff92f65d6"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Survey Production Core v2 survey_stage_validation_v2.py",
+      "evidence": "Current Core Discovery stage-contract validation passed against the fresh Sol-reviewed 165-record canonical Discovery acceptance (X COMPLETE). This is a machine validation only; Sol reviews are recorded separately and no Human Gate decision is implied.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/x-completion/validation/core-discovery-stage-validation-x.json",
+        "sha256": "8450e8f30c8c4231e015169f32711155db2da7a96f7c82d896a072cb0b497d7a"
+      }
+    }
+  ],
+  "summary": "Sol-reviewed 165-record canonical Discovery (161 technical + accepted X r3 ledger EFF-D162 + bounded F1-F3 follow-up EFF-D163-165) materialized and validated; technical and X Discovery canonical. Screening authorized next."
+}

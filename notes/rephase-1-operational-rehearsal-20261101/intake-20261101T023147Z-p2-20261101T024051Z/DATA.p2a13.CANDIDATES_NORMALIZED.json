@@ -1,0 +1,62 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "CANDIDATES_NORMALIZED",
+  "to_state": "EVIDENCE_REVIEWED",
+  "checkpoints": [
+    "evidence",
+    "materiality",
+    "completeness"
+  ],
+  "recorded_at": "2026-09-22T16:00:00Z",
+  "implementation": {
+    "repository_commit_sha": "247e864af5d476038738e1f5aeda5dbb71941cef",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "edition-views-acceptance",
+      "path": "sources/SP-efficient-llm-2026/evidence/v2/views/accepted/2bf475f518d80c8088dff7a67a0bc5cae5e2fa5c9a309d56695e66b1d54d7762/edition-views-accepted.json",
+      "sha256": "364d484a6466220d0fd3d98ed450fa8283098f3cbf61c10c83e8d193527227fb"
+    },
+    {
+      "name": "evidence-acceptance",
+      "path": "sources/SP-efficient-llm-2026/evidence/v2/accepted/dba89409c1cdcfb6a8b319ef35e0e1ee1b5ffdc74cad4715dbe44e10345e5603/evidence-accepted.json",
+      "sha256": "72ba3407b63161c58d7f4c6a9c0c1db65f9fc26c498b781322e3f88b376a3047"
+    },
+    {
+      "name": "materiality-ledger",
+      "path": "sources/SP-efficient-llm-2026/materiality-ledger-v2.json",
+      "sha256": "ad7509369252ee39b73aaf92798972bb61ac5dda6add3daaecf03ee6e087d913"
+    },
+    {
+      "name": "profile-completeness",
+      "path": "sources/SP-efficient-llm-2026/profile-completeness-v2.json",
+      "sha256": "aeeadd1981f3827ff4cc951b39f804f37346b096499a4600d6180df0f535e918"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Survey Production Core v2 survey_stage_validation_v2.py",
+      "evidence": "Current Core Evidence/Materiality/Completeness stage-contract validation passed: 160 Evidence results accepted, Edition Views accepted, Materiality Ledger built, Profile Completeness LIMITED (15 obligations incl. O13-O15 gap-fill lanes). Machine validation only; Sol authority-consumption/materiality review is the required next supervisory boundary.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/evidence-stage-advance/validation/evidence-stage-validation-r1.json",
+        "sha256": "724294da4581d3bb650f0dfe6c6689ca9b8abb102b0913b19c7d3f8a36aaf1c4"
+      }
+    }
+  ],
+  "summary": "SP-efficient-llm-2026 Evidence/Materiality/Completeness complete over 160-task compat package (67 projected / 93 passthrough, frozen-validated) with 13-source frozen supplement: 160 Evidence Cards accepted, Edition Views accepted, Materiality Ledger built, Completeness LIMITED. Stop for Sol authority-consumption review; Selection not entered."
+}

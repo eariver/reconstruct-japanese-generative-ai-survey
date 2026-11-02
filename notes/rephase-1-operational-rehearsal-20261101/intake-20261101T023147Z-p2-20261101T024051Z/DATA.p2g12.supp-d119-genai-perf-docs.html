@@ -1,0 +1,2027 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GenAI-Perf &#8212; NVIDIA Triton Inference Server</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/nvidia-sphinx-theme.css?v=933278ad" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+
+    <script src="../../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://js.hcaptcha.com/1/api.js"></script>
+    <script src="//assets.adobedtm.com/5d4962a43b79/c1061d2c5e7b/launch-191c2462b890.min.js"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'perf_analyzer/genai-perf/README';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.15.4';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/_static/switcher.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '2.72.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner = false;
+        </script>
+
+    <link rel="canonical" href="https://docs.nvidia.com/deeplearning/triton-inference-server/user-guide/docs/perf_analyzer/genai-perf/README.html" />
+    <link rel="icon" href="../../_static/favicon.png"/>
+
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Profile Large Language Models with GenAI-Perf" href="docs/tutorial.html" />
+    <link rel="prev" title="GenAI Performance Analyzer" href="../../perf_benchmark/genai_perf.html" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+
+
+
+
+
+  </head>
+
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../contents.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA Triton Inference Server - Home"/>
+    <script>document.write(`<img src="../../_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark" alt="NVIDIA Triton Inference Server - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">NVIDIA Triton Inference Server</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-2"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-2"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-2"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-2">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/triton-inference-server/server" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../contents.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/nvidia-logo-horiz-rgb-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA Triton Inference Server - Home"/>
+    <script>document.write(`<img src="../../_static/nvidia-logo-horiz-rgb-wht-for-screen.svg" class="logo__image only-dark" alt="NVIDIA Triton Inference Server - Home"/>`);</script>
+  
+  
+    <p class="title logo__title">NVIDIA Triton Inference Server</p>
+  
+</a>
+
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+
+<script>
+document.write(`
+  <div class="version-switcher__container dropdown">
+    <button id="pst-version-switcher-button-3"
+      type="button"
+      class="version-switcher__button btn btn-sm dropdown-toggle"
+      data-bs-toggle="dropdown"
+      aria-haspopup="listbox"
+      aria-controls="pst-version-switcher-list-3"
+      aria-label="Version switcher list"
+    >
+      Choose version  <!-- this text may get changed later by javascript -->
+      <span class="caret"></span>
+    </button>
+    <div id="pst-version-switcher-list-3"
+      class="version-switcher__menu dropdown-menu list-group-flush py-0"
+      role="listbox" aria-labelledby="pst-version-switcher-button-3">
+      <!-- dropdown will be populated by javascript on page load -->
+    </div>
+  </div>
+`);
+</script></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/triton-inference-server/server" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Table of Contents">
+  <p class="bd-links__title" role="heading" aria-level="1">Table of Contents</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/release_notes.html">Release notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../introduction/compatibility.html">Compatibility matrix</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../getting_started/quick_deployment.html">Quick Deployment Guide by backend</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/llm.html">TRT-LLM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Popular_Models_Guide/Llama2/vllm_guide.html">vLLM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Quick_Deploy/HuggingFaceTransformers/README.html">Python with HuggingFace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Quick_Deploy/PyTorch/README.html">PyTorch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Quick_Deploy/ONNX/README.html">ONNX</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Quick_Deploy/OpenVINO/README.html">Openvino</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started/trtllm_user_guide.html">LLM With TensorRT-LLM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Popular_Models_Guide/Llava1.5/llava_trtllm_guide.html">Multimodal model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Popular_Models_Guide/StableDiffusion/README.html">Stable diffusion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Popular_Models_Guide/HSTU/README.html">HSTU (Generative Recommenders)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Scaling guide</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Deployment/Kubernetes/EKS_Multinode_Triton_TRTLLM/README.html">Multi-Node (AWS)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Deployment/Kubernetes/TensorRT-LLM_Autoscaling_and_Load_Balancing/README.html">Multi-Instance</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">LLM Features</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Feature_Guide/Constrained_Decoding/README.html">Constrained Decoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/Feature_Guide/Function_Calling/README.html">Function Calling</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../llm_features/speculative_decoding.html">Speculative Decoding</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Feature_Guide/Speculative_Decoding/README.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Feature_Guide/Speculative_Decoding/TRT-LLM/README.html">TRT-LLM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/Feature_Guide/Speculative_Decoding/vLLM/README.html">vLLM</a></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Client</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../client_guide/api_reference.html">API Reference</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../client_guide/openai_readme.html">OpenAI API</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../client_guide/kserve.html">KServe API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../customization_guide/inference_protocols.html">HTTP/REST and GRPC Protocol</a></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../client_guide/kserve_extension.html">Extensions</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_binary_data.html">Binary tensor data extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_classification.html">Classification extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_schedule_policy.html">Schedule policy extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_sequence.html">Sequence extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_shared_memory.html">Shared-memory extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_model_configuration.html">Model configuration extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_model_repository.html">Model repository extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_statistics.html">Statistics extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_trace.html">Trace extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_logging.html">Logging extension</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../protocol/extension_parameters.html">Parameters extension</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../client_guide/in_process.html">In-Process Triton Server API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../customization_guide/inprocess_c_api.html">C/C++</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../client_guide/python.html">Python</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/Triton_Inference_Server_Python_API/README.html">Overview</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/Triton_Inference_Server_Python_API/examples/kafka-io/README.html">Kafka I/O</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../tutorials/Triton_Inference_Server_Python_API/examples/rayserve/README.html">Rayserve</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../customization_guide/inprocess_java_api.html">Java</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../client/README.html">Client Libraries</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../_reference/tritonclient_api.html">Python tritonclient Package API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.html">tritonclient</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.grpc.html">tritonclient.grpc</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.grpc.aio.html">tritonclient.grpc.aio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.grpc.auth.html">tritonclient.grpc.auth</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.http.html">tritonclient.http</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.http.aio.html">tritonclient.http.aio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.http.auth.html">tritonclient.http.auth</a></li>
+</ul>
+</details></li>
+<li class="toctree-l3 has-children"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.utils.html">tritonclient.utils</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.utils.cuda_shared_memory.html">tritonclient.utils.cuda_shared_memory</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../_reference/tritonclient/tritonclient.utils.shared_memory.html">tritonclient.utils.shared_memory</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Server</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/model_execution.html">Concurrent Model Execution</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/scheduler.html">Scheduler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/batcher.html">Batcher</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../server_guide/model_pipelines.html">Model Pipelines</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user_guide/ensemble_models.html">Ensemble</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user_guide/bls.html">Business Logic Scripting</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../server_guide/state_management.html">State Management</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user_guide/implicit_state_management.html">Implicit State Management</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/request_cancellation.html">Request Cancellation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/rate_limiter.html">Rate Limiter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/response_cache.html">Caching</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/metrics.html">Metrics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/trace.html">Tracing</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Model Management</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/model_repository.html">Repository</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/model_configuration.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/optimization.html">Optimization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/model_management.html">Controls</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/decoupled_models.html">Decoupled models</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/custom_operations.html">Custom operators</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Backends</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../tensorrtllm_backend/README.html">TensorRT-LLM</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../backend_guide/vllm.html">vLLM</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../vllm_backend/README.html">vLLM Backend</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vllm_backend/docs/llama_multi_lora_tutorial.html">Multi-LoRA</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../python_backend/README.html">Python Backend</a></li>
+
+
+
+
+
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="../../pytorch_backend/README.html">PyTorch</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../onnxruntime_backend/README.html">ONNX Runtime</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tensorrt_backend/README.html">TensorRT</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../fil_backend/README.html">FIL</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dali_backend/README.html">DALI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../backend/README.html">Custom</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Performance benchmarking and tuning</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../../perf_benchmark/genai_perf.html">GenAI Perf Analyzer</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/tutorial.html">Large language models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/multi_modal.html">Visual language models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/embeddings.html">Embedding models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/rankings.html">Ranking models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="docs/lora.html">Multiple LoRA adapters</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../perf_benchmark/perf_analyzer.html">Performance Analyzer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../README.html">Triton Performance Analyzer</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../docs/README.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../docs/quick_start.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../docs/install.html">Recommended Installation Method</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../docs/cli.html">CLI Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../docs/inference_load_modes.html">Inference Load Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../docs/input_data.html">Input Data</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../docs/measurements_metrics.html">Measurement Modes</a></li>
+
+
+<li class="toctree-l2"><a class="reference internal" href="../docs/benchmarking.html">Benchmarking Triton via HTTP or gRPC endpoint</a></li>
+
+
+
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../perf_benchmark/model_analyzer.html">Model Analyzer</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/README.html">Triton Model Analyzer</a></li>
+
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/README.html">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/quick_start.html">Quick Start</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/install.html">Recommended Installation Method</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/cli.html">CLI Reference</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/launch_modes.html">Launch Modes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/config.html">Table of Contents</a></li>
+
+
+
+
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/config_search.html">Table of Contents</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/metrics.html">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/checkpoints.html">Checkpointing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/report.html">Reports</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/kubernetes_deploy.html">Kubernetes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/model_types.html">Model Types</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/ensemble_quick_start.html">Ensemble Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/bls_quick_start.html">BLS Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../model_analyzer/docs/mm_quick_start.html">Multi-Model</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../model_navigator/README.html">Model Navigator</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Debugging</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../user_guide/debugging_guide.html">Guide</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../contents.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../perf_benchmark/genai_perf.html" class="nav-link">GenAI Performance Analyzer</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">GenAI-Perf</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+<!--
+Copyright (c) 2024-2026, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+ * Redistributions of source code must retain the above copyright
+   notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+   notice, this list of conditions and the following disclaimer in the
+   documentation and/or other materials provided with the distribution.
+ * Neither the name of NVIDIA CORPORATION nor the names of its
+   contributors may be used to endorse or promote products derived
+   from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+<section class="tex2jax_ignore mathjax_ignore" id="genai-perf">
+<h1>GenAI-Perf<a class="headerlink" href="#genai-perf" title="Link to this heading">#</a></h1>
+<p>⚠️ <strong>GenAI-Perf is being phased out.</strong> We are no longer actively developing new features for GenAI-Perf. For new performance benchmarking needs, please use <a class="reference external" href="https://github.com/ai-dynamo/aiperf">AIPerf</a> instead.</p>
+<p>GenAI-Perf is a command line tool for measuring the throughput and latency of
+generative AI models as served through an inference server.
+For large language models (LLMs), GenAI-Perf provides metrics such as
+<a class="reference internal" href="#output_token_throughput_metric"><span class="xref myst">output token throughput</span></a>,
+<a class="reference internal" href="#time_to_first_token_metric"><span class="xref myst">time to first token</span></a>,
+<a class="reference internal" href="#time_to_second_token_metric"><span class="xref myst">time to second token</span></a>,
+<a class="reference internal" href="#inter_token_latency_metric"><span class="xref myst">inter token latency</span></a>, and
+<a class="reference internal" href="#request_throughput_metric"><span class="xref myst">request throughput</span></a>.
+For a full list of metrics please see the <a class="reference internal" href="#metrics">Metrics section</a>.</p>
+<p>Users specify a model name, an inference server URL, the type of inputs to use
+(synthetic or from a dataset defined via a file), and the type of load to generate
+(number of concurrent requests, request rate).</p>
+<p>GenAI-Perf generates the specified load, measures the performance of the
+inference server and reports the metrics in a simple table as console output.
+The tool also logs all results in a csv and json file that can be used to derive
+additional metrics and visualizations. The inference server must already be
+running when GenAI-Perf is run.</p>
+<p>You can use GenAI-Perf to run performance benchmarks on</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="docs/tutorial.html"><span class="std std-doc">Large Language Models</span></a></p></li>
+<li><p><a class="reference internal" href="docs/multi_modal.html"><span class="std std-doc">Multi-Modal Language Models</span></a></p></li>
+<li><p><a class="reference internal" href="docs/embeddings.html"><span class="std std-doc">Embedding Models</span></a></p></li>
+<li><p><a class="reference internal" href="docs/rankings.html"><span class="std std-doc">Ranking Models</span></a></p></li>
+<li><p><a class="reference internal" href="docs/lora.html"><span class="std std-doc">Multiple LoRA Adapters</span></a></p></li>
+</ul>
+<p>You can also use GenAI-Perf to run benchmarks on your
+custom APIs using either
+<a class="reference internal" href="docs/customizable_frontends.html"><span class="std std-doc">customizable frontends</span></a>
+or
+<a class="reference internal" href="docs/customizable_payloads.html"><span class="std std-doc">customizable payloads</span></a>.
+Customizable frontends provide more customizability,
+while customizable payloads allow you to specify
+specific payload schemas using a Jinja2 template.</p>
+</br>
+<!--
+======================
+INSTALLATION
+======================
+-->
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<p>The easiest way to install GenAI-Perf is through pip.</p>
+<section id="install-genai-perf-ubuntu-24-04-python-3-10">
+<h3>Install GenAI-Perf (Ubuntu 24.04, Python 3.10+)<a class="headerlink" href="#install-genai-perf-ubuntu-24-04-python-3-10" title="Link to this heading">#</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>genai-perf
+</pre></div>
+</div>
+<p><strong>NOTE</strong>: you must already have CUDA 12 installed</p>
+<details>
+<summary>Alternatively, to install the container:</summary>
+<p><a class="reference external" href="https://ngc.nvidia.com/catalog/containers/nvidia:tritonserver">Triton Server SDK container</a></p>
+<p>Pull the latest release using the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">RELEASE</span><span class="o">=</span><span class="s2">"25.01"</span>
+
+docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--net<span class="o">=</span>host<span class="w"> </span>--gpus<span class="o">=</span>all<span class="w">  </span>nvcr.io/nvidia/tritonserver:<span class="si">${</span><span class="nv">RELEASE</span><span class="si">}</span>-py3-sdk
+
+<span class="c1"># Validate the genai-perf command works inside the container:</span>
+genai-perf<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>You can also build Perf Analyzer <a class="reference internal" href="../docs/install.html#build-from-source"><span class="std std-ref">from source</span></a> to use alongside GenAI-Perf as well.</p>
+</details>
+</br>
+<!--
+======================
+QUICK START
+======================
+-->
+</section>
+</section>
+<section id="quick-start">
+<h2>Quick Start<a class="headerlink" href="#quick-start" title="Link to this heading">#</a></h2>
+<p>In this quick start, we will use GenAI-Perf to run performance benchmarking on
+the GPT-2 model running on Triton Inference Server with a TensorRT-LLM engine.</p>
+<section id="serve-gpt-2-tensorrt-llm-model-using-triton-cli">
+<h3>Serve GPT-2 TensorRT-LLM model using Triton CLI<a class="headerlink" href="#serve-gpt-2-tensorrt-llm-model-using-triton-cli" title="Link to this heading">#</a></h3>
+<p>You can follow the <a class="reference external" href="https://github.com/triton-inference-server/triton_cli?tab=readme-ov-file#serving-a-trt-llm-model">quickstart guide</a>
+in the Triton CLI Github repository to serve GPT-2 on the Triton server with the TensorRT-LLM backend.
+<strong>NOTE</strong>: pip dependency error messages can be safely ignored.</p>
+<p>The full instructions are copied below for convenience:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># This container comes with all of the dependencies for building TRT-LLM engines</span>
+<span class="c1"># and serving the engine with Triton Inference Server.</span>
+docker<span class="w"> </span>run<span class="w"> </span>-ti<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--gpus<span class="w"> </span>all<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--network<span class="o">=</span>host<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--shm-size<span class="o">=</span>1g<span class="w"> </span>--ulimit<span class="w"> </span><span class="nv">memlock</span><span class="o">=</span>-1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span>/tmp:/tmp<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-v<span class="w"> </span><span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/.cache/huggingface:/root/.cache/huggingface<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>nvcr.io/nvidia/tritonserver:25.01-trtllm-python-py3
+
+<span class="c1"># Install the Triton CLI</span>
+pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/triton-inference-server/triton_cli.git@0.1.2
+
+<span class="c1"># Build TRT LLM engine and generate a Triton model repository pointing at it</span>
+triton<span class="w"> </span>remove<span class="w"> </span>-m<span class="w"> </span>all
+triton<span class="w"> </span>import<span class="w"> </span>-m<span class="w"> </span>gpt2<span class="w"> </span>--backend<span class="w"> </span>tensorrtllm
+
+<span class="c1"># Start Triton pointing at the default model repository</span>
+triton<span class="w"> </span>start
+</pre></div>
+</div>
+</section>
+<section id="running-genai-perf">
+<h3>Running GenAI-Perf<a class="headerlink" href="#running-genai-perf" title="Link to this heading">#</a></h3>
+<p>Now we can run GenAI-Perf inside the Triton Inference Server SDK container:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genai-perf<span class="w"> </span>profile<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-m<span class="w"> </span>gpt2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--backend<span class="w"> </span>tensorrtllm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--streaming
+</pre></div>
+</div>
+<p>Example output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>                              NVIDIA GenAI-Perf | LLM Metrics
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━┳━━━━━━━━┳━━━━━━━━┳━━━━━━━━┳━━━━━━━━┓
+┃                         Statistic ┃    avg ┃    min ┃    max ┃    p99 ┃    p90 ┃    p75 ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━╇━━━━━━━━╇━━━━━━━━╇━━━━━━━━╇━━━━━━━━╇━━━━━━━━┩
+│          Time to first token (ms) │  16.26 │  12.39 │  17.25 │  17.09 │  16.68 │  16.56 │
+│          Inter token latency (ms) │   1.85 │   1.55 │   2.04 │   2.02 │   1.97 │   1.92 │
+│              Request latency (ms) │ 499.20 │ 451.01 │ 554.61 │ 548.69 │ 526.13 │ 514.19 │
+│            Output sequence length │ 261.90 │ 256.00 │ 298.00 │ 296.60 │ 270.00 │ 265.00 │
+│             Input sequence length │ 550.06 │ 550.00 │ 553.00 │ 551.60 │ 550.00 │ 550.00 │
+│ Output token throughput (per sec) │ 520.87 │    N/A │    N/A │    N/A │    N/A │    N/A │
+│      Request throughput (per sec) │   1.99 │    N/A │    N/A │    N/A │    N/A │    N/A │
+└───────────────────────────────────┴────────┴────────┴────────┴────────┴────────┴────────┘
+</pre></div>
+</div>
+<p>See <a class="reference internal" href="docs/tutorial.html"><span class="std std-doc">Tutorial</span></a> for additional examples.</p>
+</br>
+<!--
+=====================
+Config File
+====================
+-->
+</section>
+</section>
+<section id="configuration-file">
+<h2>Configuration File<a class="headerlink" href="#configuration-file" title="Link to this heading">#</a></h2>
+<p>In addition to setting options via the command-line, GenAI-Perf supports the passing in of a config file (in YAML format). The command is:</br></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genai-perf<span class="w"> </span>config<span class="w"> </span>-f<span class="w"> </span>&lt;config_file&gt;
+</pre></div>
+</div>
+<section id="creating-a-template-config-file">
+<h3>Creating a Template Config File<a class="headerlink" href="#creating-a-template-config-file" title="Link to this heading">#</a></h3>
+<p>In order to make it easier for you to use config files, we have added a new subcommand that generates a template config file containing all possible options, pre-populated to their default settings. The command to create this is:</br></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genai-perf<span class="w"> </span>create-template
+</pre></div>
+</div>
+<p>By default the config file is named <code class="docutils literal notranslate"><span class="pre">genai_perf_config.yaml</span></code>, but you can change that by passing in a custom name using the <code class="docutils literal notranslate"><span class="pre">-f</span></code> option.</br>
+For less experienced users, you can include <code class="docutils literal notranslate"><span class="pre">-v/--verbose</span></code> and the config file will also contain descriptions for each option (similar to what you would see using <code class="docutils literal notranslate"><span class="pre">-h</span></code> from the command line).</p>
+<p>Here is a sample section of what the template config file looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">endpoint</span><span class="p">:</span>
+    <span class="n">model_selection_strategy</span><span class="p">:</span> <span class="n">round_robin</span>
+    <span class="n">backend</span><span class="p">:</span> <span class="n">tensorrtllm</span>
+    <span class="n">custom</span><span class="p">:</span>
+    <span class="nb">type</span><span class="p">:</span> <span class="n">kserve</span>
+    <span class="n">streaming</span><span class="p">:</span> <span class="kc">False</span>
+    <span class="n">server_metrics_urls</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8002</span><span class="o">/</span><span class="n">metrics</span>
+    <span class="n">url</span><span class="p">:</span> <span class="n">localhost</span><span class="p">:</span><span class="mi">8001</span>
+    <span class="n">grpc_method</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>and with <code class="docutils literal notranslate"><span class="pre">--verbose</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="w"> </span>endpoint:
+<span class="w">    </span><span class="c1"># When multiple model are specified, this is how a specific model should be assigned to a prompt.</span>
+<span class="w">    </span><span class="c1"># round_robin: nth prompt in the list gets assigned to n-mod len(models).</span>
+<span class="w">    </span><span class="c1"># random: assignment is uniformly random</span>
+<span class="w">    </span>model_selection_strategy:<span class="w"> </span>round_robin
+
+<span class="w">    </span><span class="c1"># When benchmarking Triton, this is the backend of the model.</span>
+<span class="w">    </span><span class="c1"># For the TENSORRT-LLM backend,you currently must set 'exclude_input_in_output' to true</span>
+<span class="w">    </span><span class="c1"># in the model config to not echo the input tokens</span>
+<span class="w">    </span>backend:<span class="w"> </span>tensorrtllm
+
+<span class="w">    </span><span class="c1"># Set a custom endpoint that differs from the OpenAI defaults.</span>
+<span class="w">    </span>custom:
+
+<span class="w">    </span><span class="c1"># The type to send requests to on the server.</span>
+<span class="w">    </span>type:<span class="w"> </span>kserve
+
+<span class="w">    </span><span class="c1"># An option to enable the use of the streaming API.</span>
+<span class="w">    </span>streaming:<span class="w"> </span>False
+
+<span class="w">    </span><span class="c1"># The list of server metrics URLs.</span>
+<span class="w">    </span><span class="c1"># These are used for Telemetry metric reporting.</span>
+<span class="w">    </span>server_metrics_urls:<span class="w"> </span>http://localhost:9400/metrics
+
+<span class="w">    </span><span class="c1"># URL of the endpoint to target for benchmarking.</span>
+<span class="w">    </span>url:<span class="w"> </span>localhost:8001
+
+<span class="w">    </span><span class="c1"># A fully-qualified gRPC method name in '&lt;package&gt;.&lt;service&gt;/&lt;method&gt;' format.</span>
+<span class="w">    </span><span class="c1"># The option is only supported by dynamic gRPC service kind and is</span>
+<span class="w">    </span><span class="c1"># required to identify the RPC to use when sending requests to the server.</span>
+<span class="w">    </span>grpc_method:
+</pre></div>
+</div>
+</section>
+<section id="overriding-config-options">
+<h3>Overriding Config Options<a class="headerlink" href="#overriding-config-options" title="Link to this heading">#</a></h3>
+<p>Once you have setup your config file to your liking, there could be times where you might want to re-profile with just a few options changed.</br>
+Rather than editing your config you can include the <code class="docutils literal notranslate"><span class="pre">--override-config</span></code> option on the CLI along with the options you want to change. For example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genai-perf<span class="w"> </span>config<span class="w"> </span>-f<span class="w"> </span>genai_perf_config.yaml<span class="w"> </span>--override-config<span class="w"> </span>--warmup-request-count<span class="w"> </span><span class="m">100</span><span class="w"> </span>--concurrency<span class="w"> </span><span class="m">32</span>
+</pre></div>
+</div>
+</br>
+<!--
+=====================
+Analyze Subcommand
+====================
+-->
+</section>
+</section>
+<section id="analyze">
+<h2>Analyze<a class="headerlink" href="#analyze" title="Link to this heading">#</a></h2>
+<p>GenAI-Perf can be used to sweep through PA or GenAI-Perf stimulus allowing the user to profile multiple scenarios with a single command.
+See <a class="reference internal" href="docs/analyze.html"><span class="std std-doc">Analyze</span></a> for details on how this subcommand can be utilized.</p>
+<!--
+======================
+VISUALIZATION
+======================
+-->
+</section>
+<section id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Link to this heading">#</a></h2>
+<p>GenAI-Perf can also generate various plots that visualize the performance of the
+current profile run. This is disabled by default but users can easily enable it
+by passing the <code class="docutils literal notranslate"><span class="pre">--generate-plots</span></code> option when running the benchmark:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genai-perf<span class="w"> </span>profile<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-m<span class="w"> </span>gpt2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--backend<span class="w"> </span>tensorrtllm<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--streaming<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--concurrency<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--generate-plots
+</pre></div>
+</div>
+<p>This will generate a <a class="reference internal" href="docs/example_plots.html"><span class="std std-doc">set of default plots</span></a> such as:</p>
+<ul class="simple">
+<li><p>Time to first token (TTFT) analysis</p></li>
+<li><p>Request latency analysis</p></li>
+<li><p>TTFT vs Input sequence lengths</p></li>
+<li><p>Inter token latencies vs Token positions</p></li>
+<li><p>Input sequence lengths vs Output sequence lengths</p></li>
+</ul>
+</br>
+<!--
+=====================
+PROCESS EXPORT FILES SUBCOMMAND
+====================
+-->
+</section>
+<section id="process-export-files">
+<h2>Process Export Files<a class="headerlink" href="#process-export-files" title="Link to this heading">#</a></h2>
+<p>GenAI-Perf can be used to process multiple profile export files from distributed runs and generate outputs with aggregated metrics.
+See <a class="reference internal" href="docs/process_export_files.html"><span class="std std-doc">Process Export Files</span></a> for details on how this subcommand can be utilized.</p>
+</br>
+<!--
+======================
+MODEL INPUTS
+======================
+-->
+</section>
+<section id="model-inputs">
+<h2>Model Inputs<a class="headerlink" href="#model-inputs" title="Link to this heading">#</a></h2>
+<p>GenAI-Perf supports model input prompts from either synthetically generated
+inputs, or from a dataset defined via a file.</p>
+<p>When the dataset is synthetic, you can specify the following options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-dataset-entries</span> <span class="pre">&lt;int&gt;</span></code>: The number of unique payloads to sample from.
+These will be reused until benchmarking is complete.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--synthetic-input-tokens-mean</span> <span class="pre">&lt;int&gt;</span></code>: The mean of number of tokens in the
+generated prompts when using synthetic data, &gt;= 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--synthetic-input-tokens-stddev</span> <span class="pre">&lt;int&gt;</span></code>: The standard deviation of number of
+tokens in the generated prompts when using synthetic data, &gt;= 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--random-seed</span> <span class="pre">&lt;int&gt;</span></code>: The seed used to generate random values, &gt;= 0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--request-count</span> <span class="pre">&lt;int&gt;</span></code>: The number of requests to benchmark</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--warmup-request-count</span> <span class="pre">&lt;int&gt;</span></code>: The number of requests to send before
+benchmarking</p></li>
+</ul>
+<p>When the dataset is coming from a file, you can specify the following
+options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--input-file</span> <span class="pre">&lt;path&gt;</span></code>: The input file or directory containing the prompts or
+filepaths to images to use for benchmarking as JSON objects.</p></li>
+</ul>
+<p>For any dataset, you can specify the following options:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-prefix-prompts</span> <span class="pre">&lt;int&gt;</span></code>: The number of synthetic prefix prompts to
+sample from. If this value is &gt;0, synthetic prefix prompts will be prepended
+to user prompts.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output-tokens-mean</span> <span class="pre">&lt;int&gt;</span></code>: The mean number of tokens in each output. Ensure
+the <code class="docutils literal notranslate"><span class="pre">--tokenizer</span></code> value is set correctly, &gt;= 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output-tokens-stddev</span> <span class="pre">&lt;int&gt;</span></code>: The standard deviation of the number of tokens
+in each output. This is only used when output-tokens-mean is provided, &gt;= 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--output-tokens-mean-deterministic</span></code>: When using <code class="docutils literal notranslate"><span class="pre">--output-tokens-mean</span></code>, this
+flag can be set to improve precision by setting the minimum number of tokens
+equal to the requested number of tokens. This is currently supported with
+Triton. Note that there is still some variability in the
+requested number of output tokens, but GenAi-Perf attempts its best effort
+with your model to get the right number of output tokens.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--prefix-prompt-length</span> <span class="pre">&lt;int&gt;</span></code>: The number of tokens to include in each
+prefix prompt. This value is only used if –num-prefix-prompts is positive.</p></li>
+</ul>
+<p>You can optionally set additional model inputs with the following option:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--extra-inputs</span> <span class="pre">&lt;input_name&gt;:&lt;value&gt;</span></code>: An additional input for use with the
+model with a singular value, such as <code class="docutils literal notranslate"><span class="pre">stream:true</span></code> or <code class="docutils literal notranslate"><span class="pre">max_tokens:5</span></code>. This
+flag can be repeated to supply multiple extra inputs.</p></li>
+</ul>
+<p>For <a class="reference internal" href="docs/tutorial.html"><span class="std std-doc">Large Language Models</span></a>, there is no batch size (i.e.
+batch size is always <code class="docutils literal notranslate"><span class="pre">1</span></code>). Each request includes the inputs for one individual
+inference. Other modes such as the <a class="reference internal" href="docs/embeddings.html"><span class="std std-doc">embeddings</span></a> and
+<a class="reference internal" href="docs/rankings.html"><span class="std std-doc">rankings</span></a> endpoints support client-side batching, where
+<code class="docutils literal notranslate"><span class="pre">--batch-size-text</span> <span class="pre">N</span></code> means that each request sent will include the inputs for
+<code class="docutils literal notranslate"><span class="pre">N</span></code> separate inferences, allowing them to be processed together.</p>
+</br>
+<section id="use-moon-cake-file-as-input-payload">
+<h3>Use moon_cake file as input payload<a class="headerlink" href="#use-moon-cake-file-as-input-payload" title="Link to this heading">#</a></h3>
+<p>Genai-perf supports <code class="docutils literal notranslate"><span class="pre">--input-file</span> <span class="pre">payload:&lt;file&gt;</span></code> as the command option to use a payload file with a fixed schedule workload for profiling.</p>
+<p>The payload file is in <a class="reference external" href="https://github.com/kvcache-ai/Mooncake">moon_cake format</a> which contains a <code class="docutils literal notranslate"><span class="pre">timestamp</span></code> field and you can optionally add <code class="docutils literal notranslate"><span class="pre">input_length</span></code>, <code class="docutils literal notranslate"><span class="pre">output_length</span></code>, <code class="docutils literal notranslate"><span class="pre">text_input</span></code>, <code class="docutils literal notranslate"><span class="pre">session_id</span></code>, <code class="docutils literal notranslate"><span class="pre">hash_ids</span></code> and <code class="docutils literal notranslate"><span class="pre">priority</span></code>. For further examples using these fields, you can refer to our <a class="reference internal" href="docs/multi_turn.html#approach-2-benchmark-with-a-custom-dataset"><span class="std std-ref">multi-turn session benchmark tutorial</span></a>.</p>
+<p>Here is an example file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s2">"input_length"</span><span class="p">:</span> <span class="mi">6955</span><span class="p">,</span>
+    <span class="s2">"output_length"</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+    <span class="s2">"hash_ids"</span><span class="p">:</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">2353</span><span class="p">,</span> <span class="mi">2354</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="p">{</span>
+    <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">10535</span><span class="p">,</span>	<span class="c1"># in milli-second</span>
+    <span class="s2">"input_length"</span><span class="p">:</span> <span class="mi">6472</span><span class="p">,</span>
+    <span class="s2">"output_length"</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span>
+    <span class="s2">"hash_ids"</span><span class="p">:</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">2366</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="p">{</span>
+    <span class="s2">"timestamp"</span><span class="p">:</span> <span class="mi">27482</span><span class="p">,</span>
+    <span class="s2">"input_length"</span><span class="p">:</span> <span class="mi">6955</span><span class="p">,</span>
+    <span class="s2">"output_length"</span><span class="p">:</span> <span class="mi">52</span><span class="p">,</span>
+    <span class="s2">"hash_ids"</span><span class="p">:</span> <span class="p">[</span><span class="mi">46</span><span class="p">,</span> <span class="mi">47</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">49</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">51</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="mi">54</span><span class="p">,</span> <span class="mi">55</span><span class="p">,</span> <span class="mi">56</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">2353</span><span class="p">,</span> <span class="mi">2354</span><span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">hash_ids</span></code> are a list of hash_id, each of which maps to a unique synthetic prompt sequence with <code class="docutils literal notranslate"><span class="pre">block_size</span></code> (current block size is 512) of tokens after tokenizer encoding, defined in <a class="reference external" href="https://github.com/triton-inference-server/perf_analyzer/blob/main/genai-perf/genai_perf/inputs/retrievers/synthetic_prompt_generator.py#L37">create_synthetic_prompt</a>. Since the same hash_id maps to the same input block, it is effective to test features such as kv cache and speculative decoding.</p>
+</section>
+<section id="how-to-generate-a-payload-file">
+<h3>How to generate a payload file<a class="headerlink" href="#how-to-generate-a-payload-file" title="Link to this heading">#</a></h3>
+<section id="synthetic-data-from-sampling">
+<h4>1. Synthetic data from sampling<a class="headerlink" href="#synthetic-data-from-sampling" title="Link to this heading">#</a></h4>
+<p><a class="reference external" href="https://github.com/ai-dynamo/dynamo">Nvidia Dynamo</a> provides <a class="reference external" href="https://github.com/ai-dynamo/dynamo/blob/main/benchmarks/sin_load_generator/sin_synth.py">a script</a> (with <a class="reference external" href="https://github.com/ai-dynamo/dynamo/blob/main/benchmarks/sin_load_generator/README.md">README</a>) to generate synthetic moon_cake style payload:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>sin_synth.py<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--time-duration<span class="w"> </span><span class="m">600</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--request-rate-min<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--request-rate-max<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--request-rate-period<span class="w"> </span><span class="m">150</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--isl1<span class="w"> </span><span class="m">3000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--osl1<span class="w"> </span><span class="m">150</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--isl2<span class="w"> </span><span class="m">3000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--osl2<span class="w"> </span><span class="m">150</span>
+</pre></div>
+</div>
+<p>This will generate a mooncake style payload file with</p>
+<ul class="simple">
+<li><p>duration = 600 seconds</p></li>
+<li><p>isl/osl = 3000/150</p></li>
+<li><p>request rate varies sinusoidally from 0.75 to 3 requests with a period of 150 seconds
+For other models and GPU SKUs, adjust the request rate ranges accordingly to match the load.</p></li>
+</ul>
+<p>Example genai-perf command to run the generated payload:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>genai-perf<span class="w"> </span>profile<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tokenizer<span class="w"> </span>deepseek-ai/DeepSeek-R1-Distill-Llama-8B<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-m<span class="w"> </span>deepseek-ai/DeepSeek-R1-Distill-Llama-8B<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--endpoint-type<span class="w"> </span>chat<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--url<span class="w"> </span>http://localhost:8000<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--streaming<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--input-file<span class="w"> </span>payload:sin_b512_t600_rr5.0-20.0-150.0_io3000150-3000150-0.2-0.8-10.jsonl
+</pre></div>
+</div>
+</section>
+<section id="record-real-traffic-and-replay">
+<h4>2. Record real traffic and replay<a class="headerlink" href="#record-real-traffic-and-replay" title="Link to this heading">#</a></h4>
+<p>We recommend users to build a traffic footprint collector over their inference service to generate the moon_cake format payload file based on real service traffic. Although popular inference servers do not support this feature, users can add this feature to their inference service.</p>
+<p>Example code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Hypothetical integration with the inference engine</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">InferenceEngine</span>  <span class="c1"># Assume this exists</span>
+
+<span class="n">engine</span> <span class="o">=</span> <span class="n">InferenceEngine</span><span class="p">()</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="s2">"mooncake_traffic.jsonl"</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">process_request</span><span class="p">(</span><span class="n">prompt</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">infer</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">log_request</span><span class="p">({</span>
+        <span class="s2">"input_length"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">prompt</span><span class="p">)),</span>
+        <span class="s2">"output_length"</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">engine</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">result</span><span class="p">)),</span>
+        <span class="s2">"text_input"</span><span class="p">:</span> <span class="n">prompt</span><span class="p">,</span>
+        <span class="s2">"session_id"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()),</span>
+        <span class="s2">"hash_ids"</span><span class="p">:</span> <span class="n">engine</span><span class="o">.</span><span class="n">get_kvcache_hashes</span><span class="p">(</span><span class="n">prompt</span><span class="p">),</span>
+        <span class="s2">"priority"</span><span class="p">:</span> <span class="mi">1</span>
+    <span class="p">})</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</div>
+<!--
+======================
+AUTHENTICATION
+======================
+-->
+</section>
+</section>
+</section>
+<section id="authentication">
+<h2>Authentication<a class="headerlink" href="#authentication" title="Link to this heading">#</a></h2>
+<p>GenAI-Perf can benchmark secure endpoints such as OpenAI, which require API
+key authentication. To do so, you must add your API key directly in the command.
+Add the following flag to your command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-H<span class="w"> </span><span class="s2">"Authorization: Bearer </span><span class="si">${</span><span class="nv">API_KEY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-H<span class="w"> </span><span class="s2">"Accept: text/event-stream"</span>
+</pre></div>
+</div>
+</br>
+<!--
+======================
+METRICS
+======================
+-->
+</section>
+<section id="metrics">
+<h2>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">#</a></h2>
+<p>GenAI-Perf collects a diverse set of metrics that captures the performance of
+the inference server.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Metric</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Aggregations</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><span id="time_to_first_token_metric">Time to First Token</span></p></td>
+<td><p>Time between when a request is sent and when its first response is received, one value per request in benchmark</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-odd"><td><p><span id="time_to_second_token_metric">Time to Second Token</span></p></td>
+<td><p>Time between when the first streaming response is received and when the second streaming response is received, one value per request in benchmark</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-even"><td><p><span id="inter_token_latency_metric">Inter Token Latency</span></p></td>
+<td><p>Time between intermediate responses for a single request divided by the number of generated tokens of the latter response, one value per response per request in benchmark</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-odd"><td><p><span id="output_token_throughput_per_user_metric">Output Token Throughput Per User</span></p></td>
+<td><p>Total number of output tokens (excluding the first token) divided by the total duration of the generation phase of each request</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-even"><td><p>Request Latency</p></td>
+<td><p>Time between when a request is sent and when its final response is received, one value per request in benchmark</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-odd"><td><p>Output Sequence Length</p></td>
+<td><p>Total number of output tokens of a request, one value per request in benchmark</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-even"><td><p>Input Sequence Length</p></td>
+<td><p>Total number of input tokens of a request, one value per request in benchmark</p></td>
+<td><p>Avg, min, max, p99, p90, p75</p></td>
+</tr>
+<tr class="row-odd"><td><p><span id="output_token_throughput_metric">Output Token Throughput</span></p></td>
+<td><p>Total number of output tokens from benchmark divided by benchmark duration</p></td>
+<td><p>None–one value per benchmark</p></td>
+</tr>
+<tr class="row-even"><td><p><span id="request_throughput_metric">Request Throughput</span></p></td>
+<td><p>Number of final responses from benchmark divided by benchmark duration</p></td>
+<td><p>None–one value per benchmark</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</br>
+<section id="gpu-telemetry">
+<h3>GPU Telemetry<a class="headerlink" href="#gpu-telemetry" title="Link to this heading">#</a></h3>
+<p>During benchmarking, GPU metrics such as GPU power usage, GPU utilization, energy consumption, and total GPU memory
+are automatically collected. These metrics are collected from the <code class="docutils literal notranslate"><span class="pre">/metrics</span></code> endpoint
+exposed by the <a class="reference external" href="https://github.com/NVIDIA/dcgm-exporter">DCGM Exporter</a>, which must be running on the <strong>same machine</strong> as the inference server.</p>
+<p>GenAI-Perf collects the following GPU metrics during benchmarking:</p>
+</section>
+<section id="power-metrics">
+<h3>Power Metrics<a class="headerlink" href="#power-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_power_usage</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_power_limit</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">energy_consumption</span></code></p></li>
+</ul>
+</section>
+<section id="memory-metrics">
+<h3>Memory Metrics<a class="headerlink" href="#memory-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">total_gpu_memory</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_memory_used</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_memory_free</span></code></p></li>
+</ul>
+</section>
+<section id="temperature-metrics">
+<h3>Temperature Metrics<a class="headerlink" href="#temperature-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_temperature</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_memory_temperature</span></code></p></li>
+</ul>
+</section>
+<section id="clock-metrics">
+<h3>Clock Metrics<a class="headerlink" href="#clock-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_clock_sm</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_clock_memory</span></code></p></li>
+</ul>
+</section>
+<section id="utilization-metrics">
+<h3>Utilization Metrics<a class="headerlink" href="#utilization-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">gpu_utilization</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sm_utilization</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">memory_copy_utilization</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">video_encoder_utilization</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">video_decoder_utilization</span></code></p></li>
+</ul>
+</section>
+<section id="ecc-metrics">
+<h3>ECC Metrics<a class="headerlink" href="#ecc-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">total_ecc_sbe_volatile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_ecc_dbe_volatile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_ecc_sbe_aggregate</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_ecc_dbe_aggregate</span></code></p></li>
+</ul>
+</section>
+<section id="errors-and-violations-metrics">
+<h3>Errors and Violations Metrics<a class="headerlink" href="#errors-and-violations-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xid_last_error</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">power_throttle_duration</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">thermal_throttle_duration</span></code></p></li>
+</ul>
+</section>
+<section id="retired-pages-metrics">
+<h3>Retired Pages Metrics<a class="headerlink" href="#retired-pages-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">retired_pages_sbe</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">retired_pages_dbe</span></code></p></li>
+</ul>
+</section>
+<section id="nvlink-error-metrics">
+<h3>NVLink Error Metrics<a class="headerlink" href="#nvlink-error-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">total_nvlink_crc_flit_errors</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">total_nvlink_crc_data_errors</span></code></p></li>
+</ul>
+</section>
+<section id="pcie-metrics">
+<h3>PCIE Metrics<a class="headerlink" href="#pcie-metrics" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pcie_transmit_throughput</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcie_receive_throughput</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pcie_replay_counter</span></code></p></li>
+</ul>
+<blockquote>
+<div><p>[!Note]
+Use the <code class="docutils literal notranslate"><span class="pre">--verbose</span></code> flag to print telemetry metrics on the console.</p>
+</div></blockquote>
+<p>To collect GPU metrics, follow the <a class="reference internal" href="docs/gpu_telemetry.html"><span class="std std-doc">GPU Telmetry tutorial</span></a>.
+Use the provided <a class="reference external" href="https://github.com/triton-inference-server/perf_analyzer/blob/main/genai-perf/docs/assets/custom_gpu_metrics.csv"><code class="docutils literal notranslate"><span class="pre">custom-metrics.csv</span></code></a> to ensure all required metrics are included in the output.</p>
+</br>
+<!--
+======================
+COMMAND LINE OPTIONS
+======================
+-->
+</section>
+</section>
+<section id="command-line-options">
+<h2>Command Line Options<a class="headerlink" href="#command-line-options" title="Link to this heading">#</a></h2>
+<section id="h">
+<h3><code class="docutils literal notranslate"><span class="pre">-h</span></code><a class="headerlink" href="#h" title="Link to this heading">#</a></h3>
+</section>
+<section id="help">
+<h3><code class="docutils literal notranslate"><span class="pre">--help</span></code><a class="headerlink" href="#help" title="Link to this heading">#</a></h3>
+<p>Show the help message and exit.</p>
+</section>
+<section id="config-options">
+<h3>Config Options<a class="headerlink" href="#config-options" title="Link to this heading">#</a></h3>
+<section id="f">
+<h4><code class="docutils literal notranslate"><span class="pre">-f</span></code><a class="headerlink" href="#f" title="Link to this heading">#</a></h4>
+</section>
+<section id="file">
+<h4><code class="docutils literal notranslate"><span class="pre">--file</span></code><a class="headerlink" href="#file" title="Link to this heading">#</a></h4>
+<p>The path to the config file - REQUIRED.</p>
+</section>
+<section id="override-config">
+<h4><code class="docutils literal notranslate"><span class="pre">--override-config</span></code><a class="headerlink" href="#override-config" title="Link to this heading">#</a></h4>
+<p>An option that allows the user to override values specified in the config file.</p>
+</section>
+</section>
+<section id="template-options">
+<h3>Template Options<a class="headerlink" href="#template-options" title="Link to this heading">#</a></h3>
+<section id="id1">
+<h4><code class="docutils literal notranslate"><span class="pre">-f</span></code><a class="headerlink" href="#id1" title="Link to this heading">#</a></h4>
+</section>
+<section id="id2">
+<h4><code class="docutils literal notranslate"><span class="pre">--file</span></code><a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<p>The name of the template file to be created. Default is <code class="docutils literal notranslate"><span class="pre">genai_perf_config.yaml</span></code>.</p>
+</section>
+</section>
+<section id="endpoint-options">
+<h3>Endpoint Options:<a class="headerlink" href="#endpoint-options" title="Link to this heading">#</a></h3>
+<section id="m-list">
+<h4><code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">&lt;list&gt;</span></code><a class="headerlink" href="#m-list" title="Link to this heading">#</a></h4>
+</section>
+<section id="model-list">
+<h4><code class="docutils literal notranslate"><span class="pre">--model</span> <span class="pre">&lt;list&gt;</span></code><a class="headerlink" href="#model-list" title="Link to this heading">#</a></h4>
+<p>The names of the models to benchmark.
+A single model is recommended, unless you are
+<a class="reference internal" href="docs/lora.html"><span class="std std-doc">profiling multiple LoRA adapters</span></a>. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="model-selection-strategy-round-robin-random">
+<h4><code class="docutils literal notranslate"><span class="pre">--model-selection-strategy</span> <span class="pre">{round_robin,</span> <span class="pre">random}</span></code><a class="headerlink" href="#model-selection-strategy-round-robin-random" title="Link to this heading">#</a></h4>
+<p>When multiple models are specified, this is how a specific model
+is assigned to a prompt. Round robin means that each model receives
+a request in order. Random means that assignment is uniformly random
+(default: <code class="docutils literal notranslate"><span class="pre">round_robin</span></code>)</p>
+</section>
+<section id="backend-tensorrtllm-vllm">
+<h4><code class="docutils literal notranslate"><span class="pre">--backend</span> <span class="pre">{tensorrtllm,vllm}</span></code><a class="headerlink" href="#backend-tensorrtllm-vllm" title="Link to this heading">#</a></h4>
+<p>When benchmarking Triton, this is the backend of the model.
+(default: tensorrtllm)</p>
+</section>
+<section id="endpoint-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--endpoint</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#endpoint-str" title="Link to this heading">#</a></h4>
+<p>Set a custom endpoint that differs from the OpenAI defaults. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="endpoint-type-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--endpoint-type</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#endpoint-type-str" title="Link to this heading">#</a></h4>
+<p>The endpoint-type to send requests to on the server. (default: <code class="docutils literal notranslate"><span class="pre">kserve</span></code>)</p>
+</section>
+<section id="server-metrics-urls-list">
+<h4><code class="docutils literal notranslate"><span class="pre">--server-metrics-urls</span> <span class="pre">&lt;list&gt;</span></code><a class="headerlink" href="#server-metrics-urls-list" title="Link to this heading">#</a></h4>
+<p>The list of server metrics URLs. These are used for Telemetry metric
+reporting when benchmarking. Example usage: –server-metrics-urls
+http://server1:9400/metrics http://server2:9400/metrics.
+(default: <code class="docutils literal notranslate"><span class="pre">http://localhost:9400/metrics</span></code>)</p>
+</section>
+<section id="streaming">
+<h4><code class="docutils literal notranslate"><span class="pre">--streaming</span></code><a class="headerlink" href="#streaming" title="Link to this heading">#</a></h4>
+<p>An option to enable the use of the streaming API. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</section>
+<section id="u-url">
+<h4><code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">&lt;url&gt;</span></code><a class="headerlink" href="#u-url" title="Link to this heading">#</a></h4>
+</section>
+<section id="url-url">
+<h4><code class="docutils literal notranslate"><span class="pre">--url</span> <span class="pre">&lt;url&gt;</span></code><a class="headerlink" href="#url-url" title="Link to this heading">#</a></h4>
+<p>URL of the endpoint to target for benchmarking. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="grpc-method-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--grpc-method</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#grpc-method-str" title="Link to this heading">#</a></h4>
+<p>A fully-qualified gRPC method name in ‘<package>.<service>/<method>’ format.
+The option is only supported with dynamic gRPC and is required to
+identify the RPC to use when sending requests to the server. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+</section>
+<section id="input-options">
+<h3>Input Options<a class="headerlink" href="#input-options" title="Link to this heading">#</a></h3>
+<section id="audio-length-mean-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--audio-length-mean</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#audio-length-mean-int" title="Link to this heading">#</a></h4>
+<p>The mean length of audio data in seconds. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="audio-length-stddev-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--audio-length-stddev</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#audio-length-stddev-int" title="Link to this heading">#</a></h4>
+<p>The standard deviation of the length of audio data in seconds.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="audio-format-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--audio-format</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#audio-format-str" title="Link to this heading">#</a></h4>
+<p>The format of the audio data. Currently we support wav and mp3 format.
+(default: <code class="docutils literal notranslate"><span class="pre">wav</span></code>)</p>
+</section>
+<section id="audio-depths-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--audio-depths</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#audio-depths-int" title="Link to this heading">#</a></h4>
+<p>A list of audio bit depths to randomly select from in bits.
+(default: <code class="docutils literal notranslate"><span class="pre">[16]</span></code>)</p>
+</section>
+<section id="audio-sample-rates-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--audio-sample-rates</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#audio-sample-rates-int" title="Link to this heading">#</a></h4>
+<p>A list of audio sample rates to randomly select from in kHz.
+(default: <code class="docutils literal notranslate"><span class="pre">[16]</span></code>)</p>
+</section>
+<section id="audio-num-channels-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--audio-num-channels</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#audio-num-channels-int" title="Link to this heading">#</a></h4>
+<p>The number of audio channels to use for the audio data generation.
+Currently only 1 (mono) and 2 (stereo) are supported.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code> (mono channel))</p>
+</section>
+<section id="b-int">
+<h4><code class="docutils literal notranslate"><span class="pre">-b</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#b-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="batch-size-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--batch-size</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#batch-size-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="batch-size-text">
+<h4>`–batch-size-text <int><a class="headerlink" href="#batch-size-text" title="Link to this heading">#</a></h4>
+<p>The text batch size of the requests GenAI-Perf should send.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</section>
+<section id="id3">
+<h4>`–batch-size-text <int><a class="headerlink" href="#id3" title="Link to this heading">#</a></h4>
+<p>The text batch size of the requests GenAI-Perf should send.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</section>
+<section id="batch-size-audio-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--batch-size-audio</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#batch-size-audio-int" title="Link to this heading">#</a></h4>
+<p>The audio batch size of the requests GenAI-Perf should send.
+This is currently only supported with the OpenAI <code class="docutils literal notranslate"><span class="pre">multimodal</span></code> endpoint type.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</section>
+<section id="batch-size-text-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--batch-size-text</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#batch-size-text-int" title="Link to this heading">#</a></h4>
+<p>The text batch size of the requests GenAI-Perf should send.
+This is currently only supported with the
+<a class="reference internal" href="docs/embeddings.html"><span class="std std-doc">embeddings</span></a>, and
+<a class="reference internal" href="docs/rankings.html"><span class="std std-doc">rankings</span></a> endpoint types.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</section>
+<section id="batch-size-image-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--batch-size-image</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#batch-size-image-int" title="Link to this heading">#</a></h4>
+<p>The image batch size of the requests GenAI-Perf should send.
+This is currently only supported with the
+image retrieval endpoint type.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</section>
+<section id="extra-inputs-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--extra-inputs</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#extra-inputs-str" title="Link to this heading">#</a></h4>
+<p>Provide additional inputs to include with every request. You can repeat this
+flag for multiple inputs. Inputs should be in an input_name:value format.
+Alternatively, a string representing a json formatted dict can be provided.
+(default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="header-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--header</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#header-str" title="Link to this heading">#</a></h4>
+</section>
+<section id="h-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--H</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#h-str" title="Link to this heading">#</a></h4>
+<p>Add a custom header to the requests. Headers must be specified as
+‘Header:Value’. You can repeat this flag for multiple headers.
+(default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="input-file-path">
+<h4><code class="docutils literal notranslate"><span class="pre">--input-file</span> <span class="pre">&lt;path&gt;</span></code><a class="headerlink" href="#input-file-path" title="Link to this heading">#</a></h4>
+<p>The input file or directory for profiling. Each line should be a JSON object
+with a <code class="docutils literal notranslate"><span class="pre">text</span></code> or <code class="docutils literal notranslate"><span class="pre">image</span></code> field in JSONL format. Example:
+<code class="docutils literal notranslate"><span class="pre">{&quot;text&quot;:</span> <span class="pre">&quot;Your</span> <span class="pre">prompt</span> <span class="pre">here&quot;}</span></code>. To use synthetic files, prefix with
+<code class="docutils literal notranslate"><span class="pre">synthetic:</span></code> followed by a comma-separated list of filenames without
+extensions (Example: <code class="docutils literal notranslate"><span class="pre">synthetic:queries,passages</span></code>). To use a payload file with
+a fixed schedule workload, prefix with <code class="docutils literal notranslate"><span class="pre">payload:</span></code> followed by the filename
+(Example: <code class="docutils literal notranslate"><span class="pre">payload:input.jsonl</span></code>). (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="num-dataset-entries-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--num-dataset-entries</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#num-dataset-entries-int" title="Link to this heading">#</a></h4>
+<p>The number of unique payloads to sample from. These will be reused until
+benchmarking is complete. (default: <code class="docutils literal notranslate"><span class="pre">100</span></code>)</p>
+</section>
+<section id="num-prefix-prompts-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--num-prefix-prompts</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#num-prefix-prompts-int" title="Link to this heading">#</a></h4>
+<p>The number of prefix prompts to select from. If this value is not zero, these
+are prompts that are prepended to input prompts. This is useful for
+benchmarking models that use a K-V cache. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="output-tokens-mean-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--output-tokens-mean</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#output-tokens-mean-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="osl">
+<h4><code class="docutils literal notranslate"><span class="pre">--osl</span></code><a class="headerlink" href="#osl" title="Link to this heading">#</a></h4>
+<p>The mean number of tokens in each output. Ensure the <code class="docutils literal notranslate"><span class="pre">--tokenizer</span></code> value is set
+correctly. (default: <code class="docutils literal notranslate"><span class="pre">-1</span></code>)</p>
+</section>
+<section id="output-tokens-mean-deterministic">
+<h4><code class="docutils literal notranslate"><span class="pre">--output-tokens-mean-deterministic</span></code><a class="headerlink" href="#output-tokens-mean-deterministic" title="Link to this heading">#</a></h4>
+<p>When using <code class="docutils literal notranslate"><span class="pre">--output-tokens-mean</span></code>, this flag can be set to improve precision by
+setting the minimum number of tokens equal to the requested number of tokens.
+This is currently supported with Triton. Note that there is
+still some variability in the requested number of output tokens, but GenAi-Perf
+attempts its best effort with your model to get the right number of output
+tokens. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</section>
+<section id="output-tokens-stddev-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--output-tokens-stddev</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#output-tokens-stddev-int" title="Link to this heading">#</a></h4>
+<p>The standard deviation of the number of tokens in each output. This is only used
+when <code class="docutils literal notranslate"><span class="pre">--output-tokens-mean</span></code> is provided. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="random-seed-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--random-seed</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#random-seed-int" title="Link to this heading">#</a></h4>
+<p>The seed used to generate random values. If not provided, a random seed will be
+used.</p>
+</section>
+<section id="request-count-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--request-count</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#request-count-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="num-requests-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--num-requests</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#num-requests-int" title="Link to this heading">#</a></h4>
+<p>The number of requests to use for measurement.
+(default: <code class="docutils literal notranslate"><span class="pre">10</span></code>)</p>
+</section>
+<section id="synthetic-input-tokens-mean-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--synthetic-input-tokens-mean</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#synthetic-input-tokens-mean-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="isl">
+<h4><code class="docutils literal notranslate"><span class="pre">--isl</span></code><a class="headerlink" href="#isl" title="Link to this heading">#</a></h4>
+<p>The mean of number of tokens in the generated prompts when using synthetic
+data. (default: <code class="docutils literal notranslate"><span class="pre">550</span></code>)</p>
+</section>
+<section id="synthetic-input-tokens-stddev-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--synthetic-input-tokens-stddev</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#synthetic-input-tokens-stddev-int" title="Link to this heading">#</a></h4>
+<p>The standard deviation of number of tokens in the generated prompts when
+using synthetic data. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="prefix-prompt-length-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--prefix-prompt-length</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#prefix-prompt-length-int" title="Link to this heading">#</a></h4>
+<p>The number of tokens in each prefix prompt. This value is only used if
+–num-prefix-prompts is positive. Note that due to the prefix and user prompts
+being concatenated, the number of tokens in the final prompt may be off by one.
+(default: <code class="docutils literal notranslate"><span class="pre">100</span></code>)</p>
+</section>
+<section id="image-width-mean-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--image-width-mean</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#image-width-mean-int" title="Link to this heading">#</a></h4>
+<p>The mean width of images in pixels when generating synthetic image data.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="image-width-stddev-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--image-width-stddev</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#image-width-stddev-int" title="Link to this heading">#</a></h4>
+<p>The standard deviation of width of images in pixels when generating synthetic image data.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="image-height-mean-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--image-height-mean</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#image-height-mean-int" title="Link to this heading">#</a></h4>
+<p>The mean height of images in pixels when generating synthetic image data.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="image-height-stddev-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--image-height-stddev</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#image-height-stddev-int" title="Link to this heading">#</a></h4>
+<p>The standard deviation of height of images in pixels when generating synthetic image data.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="image-format-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--image-format</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#image-format-str" title="Link to this heading">#</a></h4>
+<p>The compression format of the images. If format is not selected,
+format of generated image is selected at random.</p>
+</section>
+<section id="warmup-request-count-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--warmup-request-count</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#warmup-request-count-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="num-warmup-requests-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--num-warmup-requests</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#num-warmup-requests-int" title="Link to this heading">#</a></h4>
+<p>The number of warmup requests to send before benchmarking. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+</section>
+<section id="profiling-options">
+<h3>Profiling Options<a class="headerlink" href="#profiling-options" title="Link to this heading">#</a></h3>
+<section id="concurrency-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--concurrency</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#concurrency-int" title="Link to this heading">#</a></h4>
+<p>The concurrency value to benchmark. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="measurement-interval-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--measurement-interval</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#measurement-interval-int" title="Link to this heading">#</a></h4>
+</section>
+<section id="p-int">
+<h4><code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#p-int" title="Link to this heading">#</a></h4>
+<p>The time interval used for each measurement in milliseconds.
+Perf Analyzer will sample a time interval specified and take
+measurement over the requests completed within that time interval.
+When using the default stability percentage, GenAI-Perf will benchmark
+for 3*(measurement_interval) milliseconds.</p>
+</section>
+<section id="request-rate-float">
+<h4><code class="docutils literal notranslate"><span class="pre">--request-rate</span> <span class="pre">&lt;float&gt;</span></code><a class="headerlink" href="#request-rate-float" title="Link to this heading">#</a></h4>
+<p>Sets the request rate for the load generated by PA. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</section>
+<section id="fixed-schedule">
+<h4><code class="docutils literal notranslate"><span class="pre">--fixed-schedule</span></code><a class="headerlink" href="#fixed-schedule" title="Link to this heading">#</a></h4>
+<p>An option to enable fixed schedule (trace) inference load mode. (default:
+<code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</section>
+<section id="s-float">
+<h4><code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">&lt;float&gt;</span></code><a class="headerlink" href="#s-float" title="Link to this heading">#</a></h4>
+</section>
+<section id="stability-percentage-float">
+<h4><code class="docutils literal notranslate"><span class="pre">--stability-percentage</span> <span class="pre">&lt;float&gt;</span></code><a class="headerlink" href="#stability-percentage-float" title="Link to this heading">#</a></h4>
+<p>The allowed variation in latency measurements when determining if a result is
+stable. The measurement is considered as stable if the ratio of max / min from
+the recent 3 measurements is within (stability percentage) in terms of both
+infer per second and latency. (default: <code class="docutils literal notranslate"><span class="pre">999</span></code>)</p>
+</section>
+</section>
+<section id="output-options">
+<h3>Output Options<a class="headerlink" href="#output-options" title="Link to this heading">#</a></h3>
+<section id="artifact-dir">
+<h4><code class="docutils literal notranslate"><span class="pre">--artifact-dir</span></code><a class="headerlink" href="#artifact-dir" title="Link to this heading">#</a></h4>
+<p>The directory to store all the (output) artifacts generated by GenAI-Perf and
+Perf Analyzer. (default: <code class="docutils literal notranslate"><span class="pre">artifacts</span></code>)</p>
+</section>
+<section id="checkpoint-dir">
+<h4><code class="docutils literal notranslate"><span class="pre">--checkpoint-dir</span></code><a class="headerlink" href="#checkpoint-dir" title="Link to this heading">#</a></h4>
+<p>The directory to store/restore the checkpoint generated by GenAI-Perf.</p>
+</section>
+<section id="generate-plots">
+<h4><code class="docutils literal notranslate"><span class="pre">--generate-plots</span></code><a class="headerlink" href="#generate-plots" title="Link to this heading">#</a></h4>
+<p>An option to enable the generation of plots. (default: False)</p>
+</section>
+<section id="enable-checkpointing">
+<h4><code class="docutils literal notranslate"><span class="pre">--enable-checkpointing</span></code><a class="headerlink" href="#enable-checkpointing" title="Link to this heading">#</a></h4>
+<p>Enables the checkpointing of the GenAI-Perf state.
+This is useful for running GenAI-Perf in a stateful manner. (default: False)</p>
+</section>
+<section id="profile-export-file-path">
+<h4><code class="docutils literal notranslate"><span class="pre">--profile-export-file</span> <span class="pre">&lt;path&gt;</span></code><a class="headerlink" href="#profile-export-file-path" title="Link to this heading">#</a></h4>
+<p>The path where the perf_analyzer profile export will be generated. By default,
+the profile export will be to <code class="docutils literal notranslate"><span class="pre">profile_export.json</span></code>. The genai-perf files will be
+exported to <code class="docutils literal notranslate"><span class="pre">&lt;profile_export_file&gt;_genai_perf.json</span></code> and
+<code class="docutils literal notranslate"><span class="pre">&lt;profile_export_file&gt;_genai_perf.csv</span></code>. For example, if the profile
+export file is <code class="docutils literal notranslate"><span class="pre">profile_export.json</span></code>, the genai-perf file will be exported to
+<code class="docutils literal notranslate"><span class="pre">profile_export_genai_perf.csv</span></code>. (default: <code class="docutils literal notranslate"><span class="pre">profile_export.json</span></code>)</p>
+</section>
+</section>
+<section id="session-options">
+<h3>Session Options<a class="headerlink" href="#session-options" title="Link to this heading">#</a></h3>
+<section id="num-sessions">
+<h4><code class="docutils literal notranslate"><span class="pre">--num-sessions</span></code><a class="headerlink" href="#num-sessions" title="Link to this heading">#</a></h4>
+<p>The number of sessions to simulate. This is used when generating synthetic
+session data. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="session-concurrency-int">
+<h4><code class="docutils literal notranslate"><span class="pre">--session-concurrency</span> <span class="pre">&lt;int&gt;</span></code><a class="headerlink" href="#session-concurrency-int" title="Link to this heading">#</a></h4>
+<p>The number of concurrent sessions to benchmark. This must be specified
+when benchmarking sessions. (default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="session-delay-ratio-float">
+<h4><code class="docutils literal notranslate"><span class="pre">--session-delay-ratio</span> <span class="pre">&lt;float&gt;</span></code><a class="headerlink" href="#session-delay-ratio-float" title="Link to this heading">#</a></h4>
+<p>A ratio to scale multi-turn delays when using a payload file. This allows adjusting
+the timing between turns in a session without changing the payload file.
+(default: <code class="docutils literal notranslate"><span class="pre">1.0</span></code>)</p>
+</section>
+<section id="session-turn-delay-mean">
+<h4><code class="docutils literal notranslate"><span class="pre">--session-turn-delay-mean</span></code><a class="headerlink" href="#session-turn-delay-mean" title="Link to this heading">#</a></h4>
+<p>The mean delay (in milliseconds) between turns in a session.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="session-turn-delay-stddev">
+<h4><code class="docutils literal notranslate"><span class="pre">--session-turn-delay-stddev</span></code><a class="headerlink" href="#session-turn-delay-stddev" title="Link to this heading">#</a></h4>
+<p>The standard deviation of the delay (in milliseconds) between turns in a session.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+<section id="session-turns-mean">
+<h4><code class="docutils literal notranslate"><span class="pre">--session-turns-mean</span></code><a class="headerlink" href="#session-turns-mean" title="Link to this heading">#</a></h4>
+<p>The mean number of turns per session.
+(default: <code class="docutils literal notranslate"><span class="pre">1</span></code>)</p>
+</section>
+<section id="session-turns-stddev">
+<h4><code class="docutils literal notranslate"><span class="pre">--session-turns-stddev</span></code><a class="headerlink" href="#session-turns-stddev" title="Link to this heading">#</a></h4>
+<p>The standard deviation of the number of turns per session.
+(default: <code class="docutils literal notranslate"><span class="pre">0</span></code>)</p>
+</section>
+</section>
+<section id="tokenizer-options">
+<h3>Tokenizer Options<a class="headerlink" href="#tokenizer-options" title="Link to this heading">#</a></h3>
+<section id="tokenizer-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--tokenizer</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#tokenizer-str" title="Link to this heading">#</a></h4>
+<p>The HuggingFace tokenizer to use to interpret token metrics from prompts and
+responses. The value can be the name of a tokenizer or the filepath of the
+tokenizer. The default value is the model name.
+(default: “&lt;model_value&gt;”)</p>
+</section>
+<section id="tokenizer-revision-str">
+<h4><code class="docutils literal notranslate"><span class="pre">--tokenizer-revision</span> <span class="pre">&lt;str&gt;</span></code><a class="headerlink" href="#tokenizer-revision-str" title="Link to this heading">#</a></h4>
+<p>The specific tokenizer model version to use. It can be a branch
+name, tag name, or commit ID. (default: <code class="docutils literal notranslate"><span class="pre">main</span></code>)</p>
+</section>
+<section id="tokenizer-trust-remote-code">
+<h4><code class="docutils literal notranslate"><span class="pre">--tokenizer-trust-remote-code</span></code><a class="headerlink" href="#tokenizer-trust-remote-code" title="Link to this heading">#</a></h4>
+<p>Allow custom tokenizer to be downloaded and executed. This carries security
+risks and should only be used for repositories you trust. This is only
+necessary for custom tokenizers stored in HuggingFace Hub.  (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</section>
+</section>
+<section id="other-options">
+<h3>Other Options<a class="headerlink" href="#other-options" title="Link to this heading">#</a></h3>
+<section id="v">
+<h4><code class="docutils literal notranslate"><span class="pre">-v</span></code><a class="headerlink" href="#v" title="Link to this heading">#</a></h4>
+</section>
+<section id="verbose">
+<h4><code class="docutils literal notranslate"><span class="pre">--verbose</span></code><a class="headerlink" href="#verbose" title="Link to this heading">#</a></h4>
+<p>An option to enable verbose mode. (default: <code class="docutils literal notranslate"><span class="pre">False</span></code>)</p>
+</section>
+<section id="version">
+<h4><code class="docutils literal notranslate"><span class="pre">--version</span></code><a class="headerlink" href="#version" title="Link to this heading">#</a></h4>
+<p>An option to print the version and exit.</p>
+</section>
+<section id="g-list">
+<h4><code class="docutils literal notranslate"><span class="pre">-g</span> <span class="pre">&lt;list&gt;</span></code><a class="headerlink" href="#g-list" title="Link to this heading">#</a></h4>
+</section>
+<section id="goodput-list">
+<h4><code class="docutils literal notranslate"><span class="pre">--goodput</span> <span class="pre">&lt;list&gt;</span></code><a class="headerlink" href="#goodput-list" title="Link to this heading">#</a></h4>
+<p>An option to provide constraints in order to compute goodput. Specify goodput
+constraints as ‘key:value’ pairs, where the key is a valid metric name, and the
+value is a number representing either milliseconds or a throughput value per
+second. For example, ‘request_latency:300’ or
+‘output_token_throughput_per_user:600’. Multiple key:value pairs can be
+provided, separated by spaces. (default: <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p>
+</br>
+<!--
+======================
+Known Issues
+======================
+-->
+</section>
+</section>
+</section>
+<section id="known-issues">
+<h2>Known Issues<a class="headerlink" href="#known-issues" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>GenAI-Perf can be slow to finish if a high request-rate is provided</p></li>
+<li><p>Token counts may not be exact</p></li>
+</ul>
+</section>
+</section>
+
+<div class="section ablog__blog_comments">
+  
+  
+</div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../../perf_benchmark/genai_perf.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">GenAI Performance Analyzer</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="docs/tutorial.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Profile Large Language Models with GenAI-Perf</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+
+
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-genai-perf-ubuntu-24-04-python-3-10">Install GenAI-Perf (Ubuntu 24.04, Python 3.10+)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Quick Start</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#serve-gpt-2-tensorrt-llm-model-using-triton-cli">Serve GPT-2 TensorRT-LLM model using Triton CLI</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-genai-perf">Running GenAI-Perf</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-file">Configuration File</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-template-config-file">Creating a Template Config File</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#overriding-config-options">Overriding Config Options</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#analyze">Analyze</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#visualization">Visualization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#process-export-files">Process Export Files</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-inputs">Model Inputs</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-moon-cake-file-as-input-payload">Use moon_cake file as input payload</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-generate-a-payload-file">How to generate a payload file</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-data-from-sampling">1. Synthetic data from sampling</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#record-real-traffic-and-replay">2. Record real traffic and replay</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#metrics">Metrics</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gpu-telemetry">GPU Telemetry</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#power-metrics">Power Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#memory-metrics">Memory Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#temperature-metrics">Temperature Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clock-metrics">Clock Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#utilization-metrics">Utilization Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ecc-metrics">ECC Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#errors-and-violations-metrics">Errors and Violations Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retired-pages-metrics">Retired Pages Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#nvlink-error-metrics">NVLink Error Metrics</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pcie-metrics">PCIE Metrics</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#command-line-options">Command Line Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#h"><code class="docutils literal notranslate"><span class="pre">-h</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#help"><code class="docutils literal notranslate"><span class="pre">--help</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#config-options">Config Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#f"><code class="docutils literal notranslate"><span class="pre">-f</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#file"><code class="docutils literal notranslate"><span class="pre">--file</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#override-config"><code class="docutils literal notranslate"><span class="pre">--override-config</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#template-options">Template Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id1"><code class="docutils literal notranslate"><span class="pre">-f</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id2"><code class="docutils literal notranslate"><span class="pre">--file</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#endpoint-options">Endpoint Options:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#m-list"><code class="docutils literal notranslate"><span class="pre">-m</span> <span class="pre">&lt;list&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#model-list"><code class="docutils literal notranslate"><span class="pre">--model</span> <span class="pre">&lt;list&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#model-selection-strategy-round-robin-random"><code class="docutils literal notranslate"><span class="pre">--model-selection-strategy</span> <span class="pre">{round_robin,</span> <span class="pre">random}</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#backend-tensorrtllm-vllm"><code class="docutils literal notranslate"><span class="pre">--backend</span> <span class="pre">{tensorrtllm,vllm}</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#endpoint-str"><code class="docutils literal notranslate"><span class="pre">--endpoint</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#endpoint-type-str"><code class="docutils literal notranslate"><span class="pre">--endpoint-type</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#server-metrics-urls-list"><code class="docutils literal notranslate"><span class="pre">--server-metrics-urls</span> <span class="pre">&lt;list&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#streaming"><code class="docutils literal notranslate"><span class="pre">--streaming</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#u-url"><code class="docutils literal notranslate"><span class="pre">-u</span> <span class="pre">&lt;url&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#url-url"><code class="docutils literal notranslate"><span class="pre">--url</span> <span class="pre">&lt;url&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#grpc-method-str"><code class="docutils literal notranslate"><span class="pre">--grpc-method</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#input-options">Input Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-length-mean-int"><code class="docutils literal notranslate"><span class="pre">--audio-length-mean</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-length-stddev-int"><code class="docutils literal notranslate"><span class="pre">--audio-length-stddev</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-format-str"><code class="docutils literal notranslate"><span class="pre">--audio-format</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-depths-int"><code class="docutils literal notranslate"><span class="pre">--audio-depths</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-sample-rates-int"><code class="docutils literal notranslate"><span class="pre">--audio-sample-rates</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#audio-num-channels-int"><code class="docutils literal notranslate"><span class="pre">--audio-num-channels</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#b-int"><code class="docutils literal notranslate"><span class="pre">-b</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size-int"><code class="docutils literal notranslate"><span class="pre">--batch-size</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size-text">`–batch-size-text <int></int></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">`–batch-size-text <int></int></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size-audio-int"><code class="docutils literal notranslate"><span class="pre">--batch-size-audio</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size-text-int"><code class="docutils literal notranslate"><span class="pre">--batch-size-text</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#batch-size-image-int"><code class="docutils literal notranslate"><span class="pre">--batch-size-image</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#extra-inputs-str"><code class="docutils literal notranslate"><span class="pre">--extra-inputs</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#header-str"><code class="docutils literal notranslate"><span class="pre">--header</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#h-str"><code class="docutils literal notranslate"><span class="pre">--H</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#input-file-path"><code class="docutils literal notranslate"><span class="pre">--input-file</span> <span class="pre">&lt;path&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#num-dataset-entries-int"><code class="docutils literal notranslate"><span class="pre">--num-dataset-entries</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#num-prefix-prompts-int"><code class="docutils literal notranslate"><span class="pre">--num-prefix-prompts</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#output-tokens-mean-int"><code class="docutils literal notranslate"><span class="pre">--output-tokens-mean</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#osl"><code class="docutils literal notranslate"><span class="pre">--osl</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#output-tokens-mean-deterministic"><code class="docutils literal notranslate"><span class="pre">--output-tokens-mean-deterministic</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#output-tokens-stddev-int"><code class="docutils literal notranslate"><span class="pre">--output-tokens-stddev</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#random-seed-int"><code class="docutils literal notranslate"><span class="pre">--random-seed</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#request-count-int"><code class="docutils literal notranslate"><span class="pre">--request-count</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#num-requests-int"><code class="docutils literal notranslate"><span class="pre">--num-requests</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-input-tokens-mean-int"><code class="docutils literal notranslate"><span class="pre">--synthetic-input-tokens-mean</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#isl"><code class="docutils literal notranslate"><span class="pre">--isl</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#synthetic-input-tokens-stddev-int"><code class="docutils literal notranslate"><span class="pre">--synthetic-input-tokens-stddev</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#prefix-prompt-length-int"><code class="docutils literal notranslate"><span class="pre">--prefix-prompt-length</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#image-width-mean-int"><code class="docutils literal notranslate"><span class="pre">--image-width-mean</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#image-width-stddev-int"><code class="docutils literal notranslate"><span class="pre">--image-width-stddev</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#image-height-mean-int"><code class="docutils literal notranslate"><span class="pre">--image-height-mean</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#image-height-stddev-int"><code class="docutils literal notranslate"><span class="pre">--image-height-stddev</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#image-format-str"><code class="docutils literal notranslate"><span class="pre">--image-format</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#warmup-request-count-int"><code class="docutils literal notranslate"><span class="pre">--warmup-request-count</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#num-warmup-requests-int"><code class="docutils literal notranslate"><span class="pre">--num-warmup-requests</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#profiling-options">Profiling Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#concurrency-int"><code class="docutils literal notranslate"><span class="pre">--concurrency</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#measurement-interval-int"><code class="docutils literal notranslate"><span class="pre">--measurement-interval</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#p-int"><code class="docutils literal notranslate"><span class="pre">-p</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#request-rate-float"><code class="docutils literal notranslate"><span class="pre">--request-rate</span> <span class="pre">&lt;float&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fixed-schedule"><code class="docutils literal notranslate"><span class="pre">--fixed-schedule</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#s-float"><code class="docutils literal notranslate"><span class="pre">-s</span> <span class="pre">&lt;float&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-percentage-float"><code class="docutils literal notranslate"><span class="pre">--stability-percentage</span> <span class="pre">&lt;float&gt;</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#output-options">Output Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#artifact-dir"><code class="docutils literal notranslate"><span class="pre">--artifact-dir</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#checkpoint-dir"><code class="docutils literal notranslate"><span class="pre">--checkpoint-dir</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#generate-plots"><code class="docutils literal notranslate"><span class="pre">--generate-plots</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-checkpointing"><code class="docutils literal notranslate"><span class="pre">--enable-checkpointing</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#profile-export-file-path"><code class="docutils literal notranslate"><span class="pre">--profile-export-file</span> <span class="pre">&lt;path&gt;</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#session-options">Session Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#num-sessions"><code class="docutils literal notranslate"><span class="pre">--num-sessions</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#session-concurrency-int"><code class="docutils literal notranslate"><span class="pre">--session-concurrency</span> <span class="pre">&lt;int&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#session-delay-ratio-float"><code class="docutils literal notranslate"><span class="pre">--session-delay-ratio</span> <span class="pre">&lt;float&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#session-turn-delay-mean"><code class="docutils literal notranslate"><span class="pre">--session-turn-delay-mean</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#session-turn-delay-stddev"><code class="docutils literal notranslate"><span class="pre">--session-turn-delay-stddev</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#session-turns-mean"><code class="docutils literal notranslate"><span class="pre">--session-turns-mean</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#session-turns-stddev"><code class="docutils literal notranslate"><span class="pre">--session-turns-stddev</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizer-options">Tokenizer Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizer-str"><code class="docutils literal notranslate"><span class="pre">--tokenizer</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizer-revision-str"><code class="docutils literal notranslate"><span class="pre">--tokenizer-revision</span> <span class="pre">&lt;str&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#tokenizer-trust-remote-code"><code class="docutils literal notranslate"><span class="pre">--tokenizer-trust-remote-code</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-options">Other Options</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#v"><code class="docutils literal notranslate"><span class="pre">-v</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#verbose"><code class="docutils literal notranslate"><span class="pre">--verbose</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#version"><code class="docutils literal notranslate"><span class="pre">--version</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#g-list"><code class="docutils literal notranslate"><span class="pre">-g</span> <span class="pre">&lt;list&gt;</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#goodput-list"><code class="docutils literal notranslate"><span class="pre">--goodput</span> <span class="pre">&lt;list&gt;</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#known-issues">Known Issues</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+<a class="footer-brand logo" href="https://www.nvidia.com">
+  <img src="../../_static/nvidia-logo-horiz-rgb-1c-blk-for-screen.svg" class="logo__image only-light" alt="NVIDIA"/>
+  <img src="../../_static/nvidia-logo-horiz-rgb-1c-wht-for-screen.svg" class="logo__image only-dark" alt="NVIDIA"/>
+</a></div>
+      
+        <div class="footer-item">
+
+<div class="footer-links">
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-policy/">Privacy Policy</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/privacy-center/">Your Privacy Choices</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/terms-of-service/">Terms of Service</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/accessibility/">Accessibility</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/about-nvidia/company-policies/">Corporate Policies</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/product-security/">Product Security</a>
+   | 
+  
+  
+  
+  <a class="external" href="https://www.nvidia.com/en-us/contact/">Contact</a>
+  
+  
+  
+</div>
+</div>
+      
+        <div class="footer-item">
+
+
+
+
+  <p class="copyright">
+    
+      Copyright © 2018-2026, NVIDIA Corporation.
+      <br/>
+    
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "FROZEN",
+  "to_state": "RELEASED",
+  "checkpoints": [
+    "release"
+  ],
+  "recorded_at": "2026-09-23T12:56:57Z",
+  "implementation": {
+    "repository_commit_sha": "66037d67145fb01a8ea7669a4663ecd8381f4244",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "merge-verification",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/merge-verification-v2.json",
+      "sha256": "a0268ca96980d5d252502450151e45c1f942cf2bf0403f517d3450365d0344ab"
+    },
+    {
+      "name": "release-record",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/release-record-v2.json",
+      "sha256": "a610d46d28c706042d94edce368a8e929f8dc2f6a8c4f03a83d43bb3e56e3f95"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "survey-production-v2-release.yml",
+      "evidence": "Exact pre-transition Production State, Production Profile, Core contract identity, implementation identity, and stage release artifacts were verified before release adoption.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/publication/v2/core-stage-contract-v2.json",
+        "sha256": "0b364680fb1cd02b7558f8f55d8b1b4b52343c3032beedf9a85797338b402692"
+      }
+    },
+    {
+      "check_id": "RELEASE_EXACT_BYTE_RECONCILIATION",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "survey-production-v2-release.yml",
+      "evidence": "Public issue-only Release identity, target and downloaded asset bytes were reconciled against the frozen Release Manifest before adoption.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/publication/v2/release-record-v2.json",
+        "sha256": "a610d46d28c706042d94edce368a8e929f8dc2f6a8c4f03a83d43bb3e56e3f95"
+      }
+    }
+  ],
+  "summary": "Exact frozen publication bytes were released or reconciled idempotently, CORE_STAGE_CONTRACT was verified, and the immutable Release Record was validated."
+}

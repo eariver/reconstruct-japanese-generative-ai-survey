@@ -1,0 +1,1786 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "selection_version": "interactive-v2-1",
+  "status": "ESTABLISHED",
+  "basis": {
+    "production_profile_sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117",
+    "candidate_matrix_sha256": "1dcc290232bf6947fca59e8c476d4d505dcd749935967aa85b956c7a39119afb",
+    "profile_completeness_sha256": "aeeadd1981f3827ff4cc951b39f804f37346b096499a4600d6180df0f535e918",
+    "materiality_ledger_sha256": "ad7509369252ee39b73aaf92798972bb61ac5dda6add3daaecf03ee6e087d913"
+  },
+  "assignments": [
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b510bf0fafbc1f87",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P1 anchor: Kaplan scaling-laws origin for the loss-scaling half of the bottleneck contract; revised by Chinchilla but required historical anchor.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p1-bottleneck-primary",
+      "architecture_role": "THEMATIC:fundamentals-anchor",
+      "profile_extensions": {
+        "lane": "fundamentals"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7e1d57deba6ac3e0",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P1 anchor: Chinchilla compute-optimal allocation (~20 tok/param) that reframes training efficiency as data/model allocation, not just scale.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p1-bottleneck-primary",
+      "architecture_role": "THEMATIC:fundamentals-anchor",
+      "profile_extensions": {
+        "lane": "fundamentals"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b058568e643e53c4",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P1 anchor: Orca iteration-level scheduling origin establishing the prefill/decode split every later package reasons about.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p1-bottleneck-primary",
+      "architecture_role": "THEMATIC:fundamentals-anchor",
+      "profile_extensions": {
+        "lane": "fundamentals"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:88ecfbacbed58fee",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: Dynamo V4.1-Flash deployment recipe as the concrete 2026 serving instance of the P1 bottleneck model; release-level authority, body line-level detail outstanding per Card limitation.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c944abddfd187ae3",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P4 anchor: FP8 formats paper grounding low-precision training; supplement-bound to verified true identity 2209.05433, abstract-scope.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-primary",
+      "architecture_role": "THEMATIC:precision-anchor",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:027894507da335be",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: DeepSeek-V3 report (FP8 training at scale + MTP objective) tying precision to training allocation and to the decode package.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e2d60d5ecb56a6d7",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: Muon optimizer reference implementation for the optimizer-efficiency thread; implementation authority, convergence-theory detail per Card boundary.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2ad51c4075704080",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P8 anchor: Qwen3.8-Next architecture report, body-consumed (Tab.11, three-axis eval, GR, Muon/stability sections); comparative spine for Qwen alongside D127/D029/D081.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-primary",
+      "architecture_role": "THEMATIC:capstone-anchor",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:469668b739fb38b0",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Qwen3-Next launch announcement superseded for architecture purposes by first-party D008 (body-consumed report), D081 (official blog), and D127 (repo source of truth); announcement adds no distinct citable claim.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1b3602386136c57d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: sparsely-gated MoE origin (Shazeer) opening the conditional-compute lineage.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:402fadea955bc6b8",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: GShard covering the Switch/GShard-class transition to scaled expert parallelism.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0e42b601e002e5a7",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: Switch Transformers (simplified routing at scale), paired with GShard for the transition narrative.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:69ba280465a0d426",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: Mixtral as Western open-MoE corroboration that sparse experts reached production outside the DeepSeek line.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:56e9aafdea4093c6",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: DeepSeekMoE fine-grained specialist lexicon bridging classic MoE to the modern DeepSeek line.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fad7db1b9c91251b",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P2 anchor: DeepSeek-V2 (strong, economical, efficient MoE) establishing MLA+MoE economics before V3/V4.1.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-primary",
+      "architecture_role": "THEMATIC:moe-training-anchor",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:121cc8d882ba383f",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Qwen3 family-breadth anchor superseded by D008 (Qwen3.8-Next design report, body-consumed) for every architecture claim this thesis needs; retained breadth narrative is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:172185a2d91518ad",
+      "disposition": "REJECT",
+      "rationale": "REJECT: V4-Flash model card superseded by D030 (V4.1 card, same lineage identity fields) plus D123 (V4.1 report) for architecture claims; predecessor-card identity adds no distinct citable claim.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b0ac63976750b497",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: MQA origin (one write-head) for the MHA-to-shared-KV reduction thread.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6f43affc42e873eb",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: GQA generalizing MQA; the grouped-KV design deployed across the 2026 capstones.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8ac1993ecf21134a",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: FlashAttention exact-attention-with-better-IO thesis; the contrast point for architectures that change computation/storage.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:94b059b627c85482",
+      "disposition": "REJECT",
+      "rationale": "REJECT: FlashAttention-2 version intermediate superseded by D020 (exact-IO thesis origin) plus D056 (current MLA decode kernel) for deployed-kernel claims; version delta adds no distinct thesis claim.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:53d65f176f32d592",
+      "disposition": "REJECT",
+      "rationale": "REJECT: FlashAttention-3 version intermediate superseded by D020 plus D056 for the same reason as D021; Hopper-kernel detail is an unnecessary editorial role here.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3ad05060e2b13a53",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Mamba SSM-origin detail superseded for the linear-attention narrative by D024 (GDN, direct Kimi Linear lineage) plus D027; SSM taxonomy is beyond this thesis scope.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0d6617d2b29c9d0f",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: Gated DeltaNet as the direct recurrent/linear lineage into Kimi Linear; abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5cf3feffb8a133d0",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: Mistral 7B sliding-window anchor for the sparse/local attention thread.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ae6d3f132eeabadc",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: Native Sparse Attention for learned sparse/local attention; abstract-scope, ablations outstanding.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:bad52a2a1f7ff239",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: Kimi Linear report, body-consumed (3:1 interleave, DPLR, drop-in compat, license fact); linear-attention capstone mechanism.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ffe79e6955027f08",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P8 anchor: Kimi-Linear repo (KDA kernel, vLLM path, checkpoints) as Kimi implementation ground complementing the D027 report anchor in P3.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-primary",
+      "architecture_role": "THEMATIC:capstone-anchor",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:42bee8e78f269f73",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3+P8: Qwen README (QSA config, scores) binding QSA attention claims for the attention package and Qwen score conditions for the capstone comparison; vendor scores quarantined to stated conditions.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c144a78090278fb5",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P8 anchor: V4.1-Flash model card (CED, CSA2, Engram, DSpark identity) as the V4.1 checkpoint-identity authority.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-primary",
+      "architecture_role": "THEMATIC:capstone-anchor",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5c58895830e17e56",
+      "disposition": "REJECT",
+      "rationale": "REJECT: V4.1-Flash launch announcement superseded by D123 (body-consumed report), D030 (model card), and D126 (V-series launch lineage); announcement adds no distinct citable claim.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a44df8e64e8a20d9",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: DSA announcement trace, VERIFIED via launch Raw plus supplement; former INSPECT closed; DSA-debut authority with homepage-locator boundary resolved.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1ff8f5b7703b49b4",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: Leviathan speculative-decoding origin (draft/target framing) for the stop-waiting-serially arc.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0da207cf6835f153",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P5: Chen speculative-sampling companion origin corroborating the draft/verify mechanism; D033 carries the primary framing.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-supporting",
+      "architecture_role": "THEMATIC:decoding-ttc-context",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fbeebd1ffa86ddfe",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P5: Medusa multi-head draft precedent bridging early speculation to EAGLE/MTP adoption.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-supporting",
+      "architecture_role": "THEMATIC:decoding-ttc-context",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:76886cd64a5743f1",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: EAGLE, VERIFIED with speedups and guarantee scope consumed; current-adoption core of P5.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1f57606119617d5e",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P5: EAGLE-2 dynamic draft trees corroborating EAGLE evolution; D036 carries primary claims.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-supporting",
+      "architecture_role": "THEMATIC:decoding-ttc-context",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c99750a02188c6f9",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: MTP paper (mechanism plus HumanEval/MBPP gains consumed) tying multi-token prediction to training and serving adoption.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:440ab8dcea9176b1",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P5: vLLM MTP speculative-decoding docs as implementation authority; release-level, line-level detail per Card boundary.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-supporting",
+      "architecture_role": "THEMATIC:decoding-ttc-context",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5370eb8d0284be7d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P6+P8: DSpark evidence bundle (vLLM deepseek_v41 plus Dynamo recipe) as serving/runtime corroboration for V4.1; release-level.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fafd1042940cfcd8",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P4 anchor: LLM.int8() 8-bit matmul origin opening the bit-reduction thread.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-primary",
+      "architecture_role": "THEMATIC:precision-anchor",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2b84aa05d6985cbf",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P4 anchor: GPTQ as the practical post-training quantization workhorse for local deployment.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-primary",
+      "architecture_role": "THEMATIC:precision-anchor",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:dac4d7ad4dd69cd2",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: SmoothQuant corroborating activation-aware scaling; AWQ/GPTQ carry primary practical claims.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8a5f25cf43a5bf52",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: AWQ activation-aware quantization corroboration; method detail abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b1e2dd4352d316ca",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P4 anchor: QLoRA tying quantization to adaptation for hand-held fine-tuning economics.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-primary",
+      "architecture_role": "THEMATIC:precision-anchor",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:28aed068bf01ae34",
+      "disposition": "REJECT",
+      "rationale": "REJECT: SparseGPT unstructured-sparsity claims superseded for this thesis by GPTQ/AWQ (practical quantization lane) plus D150 (pruning-as-efficiency via reasoning); no deployment path in the local-inference narrative needs it.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5b09c57ff50e2054",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: BitNet 1-bit origin for the low-bit/native-low-bit boundary discussion; full-body training detail outstanding, 40-target UNRESOLVED t2 noted.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4bc5db40e85eac5e",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P4 anchor: GGUF specification authority with the mandatory boundary that GGUF is a representation format, not a quantization algorithm.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-primary",
+      "architecture_role": "THEMATIC:precision-anchor",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1f0313471a6689a0",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: MXFP4/FP4-expert deployment evidence binding the FP4 story from V4-line training to vLLM dispatch; release-level.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d53dcf04e16c7b74",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P4 anchor: llama.cpp (GGML history, GGUF runtime, k-quants, CPU/GPU split) as the local-inference runtime spine; body line-level detail outstanding.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-primary",
+      "architecture_role": "THEMATIC:precision-anchor",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4e1c1856a98985f1",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: KTransformers heterogeneous CPU/GPU MoE execution corroborating the weight-memory reality for MoE local runs; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ce375b79d8145799",
+      "disposition": "REJECT",
+      "rationale": "REJECT: vLLM Ascend GLM tutorial superseded by D163 (vLLM deployment authority, VERIFIED) plus D129 (GLM deployment matrix) for serving claims; Ascend-specific tutorial is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fd2c6699609f1e6d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P6 anchor: PagedAttention/vLLM (SOSP'23) origin; production efficiency does not follow from architecture efficiency alone.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-primary",
+      "architecture_role": "THEMATIC:serving-anchor",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f325ecb7024c5587",
+      "disposition": "REJECT",
+      "rationale": "REJECT: SGLang repo superseded by D055 (paper carrying RadixAttention mechanism) for architecture claims; living-repo artifact adds no distinct citable claim for this package.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1f72d5c9dfbc366c",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P6 anchor: SGLang paper (structured-program execution, RadixAttention) for prefix/KV-reuse systematization.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-primary",
+      "architecture_role": "THEMATIC:serving-anchor",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f272bafd6c642c4e",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3+P6: FlashMLA decode kernel corroborating MLA inference reality; release-level, H20/ETAP detail excluded per D057 rejection.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ec3aecc79e955138",
+      "disposition": "REJECT",
+      "rationale": "REJECT: FlashMLA-ETAP H20-specific case superseded by D056 for MLA-kernel claims; export-constrained hardware detail is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6e433351d315e1d6",
+      "disposition": "REJECT",
+      "rationale": "REJECT: TensorRT-LLM production stack detail superseded by D066 (FlashInfer kernels) plus vLLM/SGLang runtime anchors for the kernel/runtime lane; vendor-stack depth is unnecessary here.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fa7898ffcb81cd0b",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P6 anchor: Splitwise prefill/decode disaggregation origin for the disaggregation thread.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-primary",
+      "architecture_role": "THEMATIC:serving-anchor",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:463b0364e21ff1c2",
+      "disposition": "REJECT",
+      "rationale": "REJECT: DistServe disaggregated-SLO placement detail superseded by D059 (disaggregation origin) plus D061 (disaggregated store); placement nuance is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3e5fc49c26038504",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P6 anchor: Mooncake KV-cache-centric disaggregated store; supplement-bound to verified identity 2407.00079, abstract-scope.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-primary",
+      "architecture_role": "THEMATIC:serving-anchor",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:cf74ecbbbff883f9",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P6 anchor: SARATHI chunked-prefill lineage (2023 paper plus 2024 Sarathi-Serve follow-up bound additively); supplement-verified identities.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-primary",
+      "architecture_role": "THEMATIC:serving-anchor",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6602393f720355ac",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Dynamo serving-lens recipe reading superseded by D004 (deployment recipe) plus D163 (VERIFIED vLLM recipe) for Dynamo serving claims; second Dynamo reading is redundant.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b3ed58884dfb4810",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P6: DeepEP expert-parallel communication library corroborating MoE communication cost; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:bc692472004835f4",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2+P6: DeepGEMM FP8 GEMM library tying low-precision training substrate (P2) to serving kernels (P6); body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9c5f3bf57f317c27",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P6: FlashInfer AI serving kernels corroborating the production kernel stack; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f0bf3aa6fee0e272",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: Hinton distillation origin for the train-only-what-is-useful lineage; bounding role, not a deployment claim.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9c07cd38a5cdf09e",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: LoRA low-rank adaptation origin feeding the QLoRA adaptation story in P4; method detail abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7a0e7638ccc24693",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P5: DeepSeek-R1 plus distilled models as reasoning-model context for the test-time-compute arc; distillation claims bounded.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-supporting",
+      "architecture_role": "THEMATIC:decoding-ttc-context",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b8b9f70aa257d535",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P7 anchor: Jev TypeSafe launch, VERIFIED first-party pages consumed; mandatory specialization case, vendor claims bounded by thin independent reproduction.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-primary",
+      "architecture_role": "THEMATIC:routing-kasane-anchor",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:cc12f66d1bfb44ff",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P7 anchor: TypeSafe System One concepts plus introduction docs, VERIFIED; suitability and task-class bounds documented.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-primary",
+      "architecture_role": "THEMATIC:routing-kasane-anchor",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3bf3aa0d490ac4de",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P7: Jev wiki dated model-card fact snapshot as timeline corroboration only; former MAYBE resolved as CONTEXT, explicitly not specification authority.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-supporting",
+      "architecture_role": "THEMATIC:routing-kasane-context",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6e5163a98fbeebdb",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P7: awesome-jev community reproduction hub documenting community attempt activity around Jev; corroboration only, KEEP-origin CONTEXT.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-supporting",
+      "architecture_role": "THEMATIC:routing-kasane-context",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4e3e44193894d38f",
+      "disposition": "HOLD",
+      "rationale": "HOLD: DataCamp Jev access/pricing explainer held; access and pricing facts are covered by first-party D070/D141, so the secondary explainer adds no unique authority for this architecture. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b9746b8ce1a7146a",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Lambda provider page superseded by first-party D030/D129 for specification facts; provider-measured throughput is quarantined per authority boundary and carries no unique deployment claim. Former MAYBE with explicit rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c8b9c4a14c536fb1",
+      "disposition": "HOLD",
+      "rationale": "HOLD: DeepInfra API pricing snapshot held; API-economics is not load-bearing for the mechanism-stack thesis and D153 effort-binding plus first-party pricing carry the cost discussion. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1a20e24aa8841ee7",
+      "disposition": "INSPECT",
+      "rationale": "INSPECT: AI-drafted UNEDITED V4.1 parameter study held for inspection; tensor derivations must be inspected before any architecture use. Former INSPECT retained as INSPECT with explicit reason, not silently promoted.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8bde9fa57b59aa3e",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P6+P8: vLLM deepseek_v41 model code docs as runtime-implementation corroboration; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:246bf224ee4d431e",
+      "disposition": "HOLD",
+      "rationale": "HOLD: llm-stats Qwen launch analysis held; weights-vs-API split is useful but vendor comparisons need quarantine and first-party D008/D081/D127 cover launch facts. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e7157c0c760b45a1",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: NVIDIA GB300 Qwen deployment blog as deployment-existence evidence with explicit prefix-hit-conditioned boundary; vendor-adjacent numbers quarantined. Former MAYBE resolved as bounded SUPPORTING.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2f85ca2aa6ae916b",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: Qwen3.8-Flash-Next official blog as first-party launch-claim authority alongside D008/D127.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0e188f2aea37b4fd",
+      "disposition": "HOLD",
+      "rationale": "HOLD: llm-stats GLM launch analysis held for the same reason as D079; promo-vs-list pricing needs quarantine and first-party GLM authorities (D128-D131) cover launch facts. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f222e412d3f00738",
+      "disposition": "REJECT",
+      "rationale": "REJECT: HF transformers GLM doc superseded by D131 (Z.ai developer docs) plus D130 (model card) for GLM-5.3 facts; integration-doc angle adds no distinct mechanism claim.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3a9c308ab0aa5f81",
+      "disposition": "INSPECT",
+      "rationale": "INSPECT: LM Studio GLM page held for inspection; vendor benchmark table carries a harness warning and IndexPool-adjacent claims need inspection before use. Former MAYBE retained as INSPECT.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d81c04170eaa71f8",
+      "disposition": "INSPECT",
+      "rationale": "INSPECT: NVIDIA NIM GLM card held for inspection; hybrid claims plus the KDA-label collision with Kimi KDA must be resolved before architecture use. Former MAYBE retained as INSPECT.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:687b0492036c0eb2",
+      "disposition": "HOLD",
+      "rationale": "HOLD: MiniMax-M2.x materiality watch held; no distinct efficiency mechanism confirmed, so pursue/park remains a later materiality judgment, not an architecture placement. Former MAYBE with explicit watch rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ceb5aa2846453959",
+      "disposition": "HOLD",
+      "rationale": "HOLD: gpt-oss open-weight watch held; distinct-mechanism contribution unverified and gap-fill-locator-only. Former MAYBE with explicit watch rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b0fc7b79b92d6404",
+      "disposition": "REJECT",
+      "rationale": "REJECT: MMLU-Pro benchmark-definition authority not selected; P9 teaches methodology through validity exhibits (D092/D093/D098/D118) and P8 compares mechanism stacks, not leaderboard ranks, so per-benchmark definition pages are unnecessary editorial roles. No headline number is load-bearing.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4583e3717400bcf3",
+      "disposition": "REJECT",
+      "rationale": "REJECT: GPQA Diamond not selected for the same reason as D088; reasoning-eval grounding travels with capstone Evidence Cards under stated conditions, not with standalone definition authority.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:cae45d0a218549d5",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Humanity's Last Exam not selected for the same reason as D088; saturation/version-drift claims cite P9 methodology exhibits, not each harness.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:751c86ef815d465d",
+      "disposition": "REJECT",
+      "rationale": "REJECT: LiveCodeBench not selected for the same reason as D088; code-eval validity is carried by D093/D094/D100 exhibits.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e2fbf2395f30a780",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P9 anchor: SWE-bench grounding the Verified/Pro distinction the methodology package turns on.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-primary",
+      "architecture_role": "THEMATIC:methodology-anchor",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a1d24c5083e64fcd",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P9 anchor: SWE-bench-Pro validity-evolution case; former INSPECT closed via supplement identity plus captured full text, section-level consumption outstanding as stated boundary.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-primary",
+      "architecture_role": "THEMATIC:methodology-anchor",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:61532b4a895e3a69",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P9 anchor: Terminal-Bench agentic/tool-access case; supplement-bound to verified 2.0 identity, v1-ID boundary noted.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-primary",
+      "architecture_role": "THEMATIC:methodology-anchor",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:499531f52100f745",
+      "disposition": "REJECT",
+      "rationale": "REJECT: BFCL leaderboard repo not selected; function-calling/task-cost representation is carried by D096-class agentic exhibits plus D100 harness-dependence note, and per-harness authority is unnecessary here for the same D088 reason.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:59a7a17c0e90208f",
+      "disposition": "REJECT",
+      "rationale": "REJECT: tau-bench not selected; agentic task-cost argument is carried by D094 (Terminal-Bench) plus D100, so a second agent-harness authority is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5bed21e89b9b7632",
+      "disposition": "HOLD",
+      "rationale": "HOLD: BrowseComp announcement-grade record held; version/harness outstanding and RULER/T-Bench carry the agent/long-context validity exhibits. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f21cef758a2f2f6a",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P9 anchor: RULER long-context retrieval/reasoning validity case; supplement-bound to verified identity 2404.06654, abstract-scope.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-primary",
+      "architecture_role": "THEMATIC:methodology-anchor",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ac105938f470a93d",
+      "disposition": "HOLD",
+      "rationale": "HOLD: AIME/MAA competition authority held; generation/year/CI conditions outstanding and the reasoning-budget discussion does not need contest rules. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:437c59ea0e05b298",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P9: DeepSWE methodology note as the harness-dependence cautionary exhibit; standalone primary outstanding per Card boundary. Former MAYBE resolved as bounded SUPPORTING.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-supporting",
+      "architecture_role": "THEMATIC:methodology-context",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b3558002d9d15dfe",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: Megatron-LM tensor model-parallelism origin for the training-allocation context; parallelism detail bounded.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:be2bae764031b52d",
+      "disposition": "REJECT",
+      "rationale": "REJECT: GPipe pipeline-parallelism detail superseded by D101 (tensor-parallel origin) plus D103 (memory sharding) for the training-allocation context this thesis needs.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c0d517b717cb062c",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: ZeRO memory-sharding anchor for trillion-parameter training memory economics.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:60f2de25a715bcff",
+      "disposition": "REJECT",
+      "rationale": "REJECT: ZeRO-Offload/Infinity heterogeneous-memory detail superseded by D103 for memory-sharding claims; offload depth is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b9d560b7b954dc26",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Activation-checkpointing origin detail superseded by D103/D101 for the training-memory narrative; sublinear-memory technique depth is beyond this inference-efficiency thesis scope.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e6ad3f6955a5d9bd",
+      "disposition": "REJECT",
+      "rationale": "REJECT: FSDP productization detail superseded by D103 (ZeRO lineage) for sharding claims; PyTorch-packaging angle adds no distinct mechanism.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4b547bca728415e7",
+      "disposition": "REJECT",
+      "rationale": "REJECT: DeepSpeed-Ulysses sequence-parallelism detail superseded by D108-class long-context parallelism framing, itself out of scope (see D108); training-time sequence detail unnecessary.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:eb8fb0405842d7b9",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Ring Attention training-time sequence parallelism out of inference-thesis scope; inference long-context is carried by D026/D027/D098, so this is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:85cb4f411c555385",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: H2O heavy-hitter oracle for eviction-style KV budgeting; abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b97bb6cf3b58112f",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: StreamingLLM attention-sinks landmark for streaming KV retention; abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:483eb44c8afbac82",
+      "disposition": "REJECT",
+      "rationale": "REJECT: SnapKV clustering-window detail superseded by H2O (heavy-hitter, D109) plus PyramidKV (layer-budgeting, D112) for the KV-budgeting narrative; fourth eviction method is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:985c1af80ce75d8d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: PyramidKV pyramidal layer-budgeting; supplement-bound to verified identity 2406.02069 with wrong-locator boundary preserved.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1c0a12fd466ad082",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3+P6: vLLM automatic prefix caching docs binding prefix/KV-reuse claims across memory and serving packages; release-level.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3b2e72aae690ed83",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3+P6: LMCache external KV-cache layer corroborating cache/offload practice; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:27e27bd9f9b92e82",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: Mixture-of-Depths conditional-depth precedent for compute-that-adapts-per-token; abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a980d465762b05a4",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: LayerSkip self-speculative early-exit bridging conditional compute to the P5 decode arc; abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:03fef8fddfed0609",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: DeeBERT earliest early-exit lineage anchor, one-line bounding role only with no LLM-scale claim. Former MAYBE resolved as narrow SUPPORTING; supplement-bound to verified identity 2004.12993.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:88b92f88cd1f3f3d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P9 anchor: MLPerf Inference methodology standard for TTFT/TPOT/throughput/concurrency binding; release-level, version pin per Card boundary.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-primary",
+      "architecture_role": "THEMATIC:methodology-anchor",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d8b2a4aa00c15187",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P9: GenAI-Perf docs consumed and bound as LLM-benchmarking tooling authority; AIPerf-as-product remains open per stated limitation. Former INSPECT closed as bounded SUPPORTING.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-supporting",
+      "architecture_role": "THEMATIC:methodology-context",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:15c6a238a429e1ad",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P9: LLMPerf included for its caveats, teaching incomparability rather than ground truth. Former MAYBE resolved as cautionary SUPPORTING.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-supporting",
+      "architecture_role": "THEMATIC:methodology-context",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:495befe1c4b19f20",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P9: lm-evaluation-harness as the standard open harness reference; version pin per Card boundary.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-supporting",
+      "architecture_role": "THEMATIC:methodology-context",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d5592f5bf028fc12",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P9: HELM holistic-evaluation reference for beyond-accuracy methodology framing.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p9-measure-supporting",
+      "architecture_role": "THEMATIC:methodology-context",
+      "profile_extensions": {
+        "lane": "methodology"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fc8b6d6bf93465f6",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P8 anchor: DeepSeek-V4.1-Flash technical report, body-consumed at section level (CSA2 modes, FP4-KV training, SWA replay, appendix map, post-training pipeline); per-figure pins open per Card boundary.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-primary",
+      "architecture_role": "THEMATIC:capstone-anchor",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0b3a9d566340b160",
+      "disposition": "REJECT",
+      "rationale": "REJECT: DeepSeek-V4 report (section-structure-level only) superseded by D123 (body-consumed V4.1 report) plus D032/D126 for V-line lineage; predecessor structure adds no citable claim beyond the lineage pointer D123 already carries.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0f91a3c1d45fc789",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: DeepSeek-V3.2 report as the DSA mechanism primary (indexer equations, ReLU/FP8, MLA-MQA consumed); V3.2 lineage presence in P8 travels via D126.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7032f499359e113a",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3+P8: V3.2-Exp launch plus API docs as DSA-debut lineage authority (50%+ price-cut debut framing); launch-page scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f6feab6e543b821a",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: Qwen GitHub repo as report-plus-README source of truth complementing the D008 report anchor; body line-level detail outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a25e760c25def989",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P8 anchor with MANDATORY scope boundary: GLM-5 technical report is PRIMARY but abstract-scope for the material claims presently consumed (abstract consumed; full-body DSA details, RL infrastructure, benchmark tables NOT consumed). Mixed-authority-depth lineage member; NEVER described as full-body verified. D128 remains usable as bounded primary authority.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-primary",
+      "architecture_role": "THEMATIC:capstone-anchor",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:24d5d70dbd8841b8",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: GLM-5 GitHub repo (IndexShare, MTP, deployment matrix) corroborating GLM lineage depth beyond the D128 abstract; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9a1e8695996f4b60",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: GLM-5.3-Flash model card as first-party checkpoint-identity authority for the GLM capstone member.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:41882e59c2dc6fa7",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P8: Z.ai developer docs GLM overview as first-party capability-claim authority; vendor ratios quarantined.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p8-capstone-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:17cdbbb4075316ed",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3+P8: KDA kernel implementation (FLA) plus vLLM path binding Kimi Linear kernel claims; body outstanding, KDA-label collision with D085 noted as unresolved.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4ef1ba1df3ab2efa",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: Expert Choice Routing as the expert-choice routing variant bounding the token-choice routing narrative; abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:005c15e0e1f98d79",
+      "disposition": "REJECT",
+      "rationale": "REJECT: MegaBlocks MoE compute-substrate detail superseded by D064 (DeepEP communication library) plus D014 for expert-parallel narrative; historical substrate depth is an unnecessary editorial role.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8359346139cbca7a",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: BitNet b1.58 native-ternary lineage for the native-low-bit side of the boundary with D047; non-MSR industrial deployment remains not-found per limitation.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1b1bf5c87d542b81",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4: OCP Microscaling MX specification v1.0 as the normative FP4/MX standard behind D049 deployment evidence; spec-level, body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3e7dc4b0a18836a7",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Microscaling data-formats paper superseded by D136 (normative OCP spec) for spec facts plus D005/D049 for training/deployment; paper-level retelling is redundant.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:86388aef8783f3f6",
+      "disposition": "REJECT",
+      "rationale": "REJECT: Training-data dedup detail superseded by D139 (DoReMi mixture optimization) for the data-efficiency thread; preprocessing depth is beyond this thesis scope.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a5fb39cc06bdfcc6",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P2: DoReMi data-mixture optimization for the train-only-useful-data thread; supplement-bound to verified identity 2305.10429, abstract-scope.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p2-scaling-moe-supporting",
+      "architecture_role": "THEMATIC:moe-training-context",
+      "profile_extensions": {
+        "lane": "moe-training"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4700b268375ef45d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P7 anchor: Jev 1.13 official Models page, VERIFIED card-equivalent first-party model facts; vendor scope, independent reproduction thin.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-primary",
+      "architecture_role": "THEMATIC:routing-kasane-anchor",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:21ce0892d8846adf",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P7: TypeSafe API reference (contract plus confidence derivation) bounding how Jev probabilistic decisions are actually invoked; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-supporting",
+      "architecture_role": "THEMATIC:routing-kasane-context",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:53d9064c7c7f4d2d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P3 anchor: Engram conditional-memory paper (adaptations, delta table, LogitLens consumed) for memory-that-adapts-per-query.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-primary",
+      "architecture_role": "THEMATIC:attention-memory-anchor",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1668c2950942bdad",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: Engram official implementation repo corroborating the conditional-memory mechanism; body outstanding.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ba5d745e504eca71",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P3: Qwen N-gram vs Engram lineage assessment recorded as PARALLEL_OR_UNRESOLVED_LINEAGE; unresolved-lineage boundary preserved, not asserted.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p3-attention-supporting",
+      "architecture_role": "THEMATIC:attention-memory-context",
+      "profile_extensions": {
+        "lane": "attention-memory"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2a56146e032edc8e",
+      "disposition": "HOLD",
+      "rationale": "HOLD: kNN-LM explicit-corpus retrieval precedent held; boundary-sharpening-only role versus static lookup, and the Engram/Kimi memory treatment carries the lane without a retrieval-architecture detour. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:818d8b0c63b49536",
+      "disposition": "HOLD",
+      "rationale": "HOLD: RETRO chunked cross-attention precedent held for the same reason as D146; precedent sweep closed at Screening, editorial role unnecessary for this architecture. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6ff1e24bd2b5f646",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: Snell test-time-compute scaling, VERIFIED with 4x/14x numbers consumed; the optimal-compute-allocation pole of the TTC thread.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9b418dc6edbb6684",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: s1 simple test-time scaling, VERIFIED (curation, budget forcing, o1-preview comparison); budget-forcing origin.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3257899e27fab8fc",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: ThinkPrune RL pruning of long CoT, VERIFIED (results table plus protocol consumed); former INSPECT closed; weight-vs-substitute boundary per Card.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3c97b39cc48f81ce",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: overthinking cost-utility analysis, VERIFIED; the more-thinking-hurts pole bounding reasoning-budget waste claims.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9090aba950844352",
+      "disposition": "HOLD",
+      "rationale": "HOLD: Reasoning-on-a-Budget adaptive-TTC survey held as deferred follow-up pool; secondary-by-design taxonomy and candidate-finder-only role, with Snell/s1/ThinkPrune primaries carrying TTC claims. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:23d7c5bbe7624e7d",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P5 anchor: current-model effort-control binding (V4.1 plus Qwen) grounding reasoning-budget claims in shipping behavior, not just papers.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p5-decode-primary",
+      "architecture_role": "THEMATIC:decoding-ttc-anchor",
+      "profile_extensions": {
+        "lane": "decoding-ttc"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4fb4b67a42855df6",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P7 anchor: FrugalGPT cascade, VERIFIED (Table 3 plus pricing analysis consumed); the avoid-calling-the-big-model origin.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-primary",
+      "architecture_role": "THEMATIC:routing-kasane-anchor",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d8e97ced679fe64f",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P7 anchor: RouteLLM preference-data router (data pipeline plus eval design consumed) for learned routing economics.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-primary",
+      "architecture_role": "THEMATIC:routing-kasane-anchor",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:37a4bb1384103c99",
+      "disposition": "HOLD",
+      "rationale": "HOLD: 2026 routing/cascading survey held as deferred follow-up pool; secondary unifier, not primary authority, with FrugalGPT/RouteLLM/fragility primaries carrying routing claims. Former MAYBE with explicit park rationale.",
+      "architecture_usage": "NONE",
+      "publication_role": null,
+      "architecture_role": null,
+      "profile_extensions": {
+        "lane": "unselected"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a558d1a673811397",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED PRIMARY P7 anchor: router-LLM fragility analysis (EACL 2026) with MANDATORY summary-scope boundary; captured-but-unconsumed body detail constrains how far fragility generalizations may travel.",
+      "architecture_usage": "PRIMARY",
+      "publication_role": "LONGFORM_SPECIAL:p7-routing-primary",
+      "architecture_role": "THEMATIC:routing-kasane-anchor",
+      "profile_extensions": {
+        "lane": "routing-kasane"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7dc41c44f5b22741",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4+P8 with MANDATORY boundary: accepted X reception ledger (27 observations, 24 accounts, 20 independent) usable ONLY as SUPPORTING reception/deployment evidence, never PRIMARY technical authority; self-reported measurements configuration-bound.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:capstone-context",
+      "profile_extensions": {
+        "lane": "capstone"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:254e4aa47881a5cf",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P6+P8: vLLM V4.1-Flash recipe, VERIFIED deployment authority with AMD-verification-refusal and MTP-module-drop boundaries consumed; F1 runtime follow-up.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p6-serving-supporting",
+      "architecture_role": "THEMATIC:serving-context",
+      "profile_extensions": {
+        "lane": "serving"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6f16b3a1e1ac01e8",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4+P8 with MANDATORY boundary: Unsloth GLM local-quantization authority supporting GGUF availability, local-memory feasibility, and packaging/runtime paths only; vendor-measured speed/quality figures quarantined. F2 runtime follow-up.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:22eef64d61a9d277",
+      "disposition": "SELECTED",
+      "rationale": "SELECTED SUPPORTING P4+P8: llama.cpp Qwen port (merged PR 27742: converter, GDN, QSA, PLE), VERIFIED implementation authority for local-feasibility and Qwen runtime support. F3 runtime follow-up.",
+      "architecture_usage": "SUPPORTING",
+      "publication_role": "LONGFORM_SPECIAL:p4-precision-supporting",
+      "architecture_role": "THEMATIC:precision-context",
+      "profile_extensions": {
+        "lane": "precision"
+      }
+    }
+  ],
+  "summary": {
+    "candidate_count": 160,
+    "disposition_counts": {
+      "HOLD": 12,
+      "INSPECT": 3,
+      "REJECT": 33,
+      "SELECTED": 112
+    },
+    "selected_count": 112
+  }
+}

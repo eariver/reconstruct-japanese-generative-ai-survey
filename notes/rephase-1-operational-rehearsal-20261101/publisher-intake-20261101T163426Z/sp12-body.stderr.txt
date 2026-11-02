@@ -1,0 +1,92 @@
+* Host docs.typesafe.ai:443 was resolved.
+* IPv6: 2606:4700:7::2fd, 2a06:98c1:58::2fd
+* IPv4: 172.66.3.9, 162.159.143.13
+*   Trying [2606:4700:7::2fd]:443...
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [1571 bytes data]
+* SSL Trust Anchors:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+*   CApath: /etc/ssl/certs
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [1210 bytes data]
+* TLSv1.3 (IN), TLS change cipher, Change cipher spec (1):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [3420 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [79 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [52 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [52 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519MLKEM768 / id-ecPublicKey
+* ALPN: server accepted h2
+* Server certificate:
+*   subject: CN=docs.typesafe.ai
+*   start date: Sep 11 21:23:49 2026 GMT
+*   expire date: Dec 10 21:23:48 2026 GMT
+*   issuer: C=US; O=Let's Encrypt; CN=YE1
+*   Certificate level 0: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 1: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 2: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 3: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   subjectAltName: "docs.typesafe.ai" matches cert's "docs.typesafe.ai"
+* SSL certificate verified via OpenSSL.
+* Established connection to docs.typesafe.ai (2606:4700:7::2fd port 443) from 2404:7a81:e0a1:4a00:921b:eff:fef6:acc6 port 45732 
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://docs.typesafe.ai/concepts/system-one
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: docs.typesafe.ai]
+* [HTTP/2] [1] [:path: /concepts/system-one]
+* [HTTP/2] [1] [user-agent: Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET /concepts/system-one HTTP/2
+> Host: docs.typesafe.ai
+> User-Agent: Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)
+> Accept: */*
+> 
+* Request completely sent off
+} [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [238 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [238 bytes data]
+< HTTP/2 200 
+< date: Sun, 01 Nov 2026 16:35:41 GMT
+< content-type: text/html; charset=utf-8
+< cf-ray: a53c506a6d2ce3de-NRT
+< cf-cache-status: HIT
+< age: 50159
+< cache-control: no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0
+< expires: 0
+< last-modified: Sun, 01 Nov 2026 03:12:59 GMT
+< link: </_mintlify/assets/index-BSPJDRoU.css?dpl=dpl_DeHjVRGfFnhYQwHnfC2pjeXXv8h9>; rel=preload; as=style; crossorigin, </_mintlify/assets/index-B2TY3ua1.js?dpl=dpl_DeHjVRGfFnhYQwHnfC2pjeXXv8h9>; rel=modulepreload; crossorigin; fetchpriority=low, </_mintlify/assets/fonts/inter/Inter-latin.woff2>; rel=preload; as=font; type=font/woff2; crossorigin, </llms.txt>; rel="llms-txt", </llms-full.txt>; rel="llms-full-txt", </.well-known/api-catalog>; rel="api-catalog", </.well-known/mcp/server-card.json>; rel="mcp-server-card", </.well-known/agent-card.json>; rel="agent-card", </.well-known/agent-skills/index.json>; rel="agent-skills"
+< server: cloudflare
+< strict-transport-security: max-age=63072000
+< vary: accept, accept-encoding, User-Agent
+< pragma: no-cache
+< x-mint-proxy-version: 1.0.0-prod
+< x-served-version: dpl_DeHjVRGfFnhYQwHnfC2pjeXXv8h9
+< content-security-policy: worker-src 'self' blob:; object-src 'none'; base-uri 'self'; upgrade-insecure-requests; frame-ancestors 'self' https://dashboard.mintlify.com https://app.mintlify.com; form-action 'self'; default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: blob: https:; font-src 'self' data: https:; media-src 'self' data: blob: https:; frame-src 'self' blob: https:; connect-src 'self' data: https: wss:;
+< server-timing: data;dur=48, mdx;dur=13, render;dur=16, total;dur=103
+< x-frame-options: DENY
+< x-llms-txt: /llms.txt
+< x-mintlify-client-version: 0.0.4044
+< x-vercel-cache: BYPASS
+< x-vercel-id: iad1::iad1::t6n9v-1793500781782-4e7544127cf9
+{ [5 bytes data]
+< x-vercel-project-id: prj_yXOeaGKuDidfrNqkveqTlVxPRlX9
+< x-version: dpl_DeHjVRGfFnhYQwHnfC2pjeXXv8h9
+< alt-svc: h3=":443"; ma=86400
+< 
+{ [5 bytes data]
+* Connection #0 to host docs.typesafe.ai:443 left intact

@@ -1,0 +1,5 @@
+Attempt-1 record (superseded by attempt-2 exit-0 log 21-*, NOT reconstructed):
+- argv: same script with prepare_package(..., implementation_sha=None)
+- refusal (exact, quoted from live stderr before overwrite): ValueError: agent-first stage helper must record the actual current work-branch implementation commit (from verify_current_stage_basis via current_stage_basis_override facade).
+- Cause: harness argv fault (failed to pass actual HEAD 48082356); NOT a data/graph refusal. No writes occurred (refusal precedes package write).
+- Disposition: initial raw stdio overwritten by retry and NOT reconstructed; this note is the only record. Do NOT count as runtime evidence for/against admission. Admission evidence = attempt-2 exit-0 log only (with implementation_sha=48082356).

@@ -1,5 +1,9 @@
 # Re:Phase next-session implementation plan
 
+**CURRENT 2026-11-02 real-material rehearsal PARTIAL / R4 NOT_READY:** [assessment/next§5](rephase-1-operational-rehearsal-assessment.md)＋[ROOT全文INCLUDING§7](../notes/rephase-1-operational-rehearsal-20261101/astra-rehearsal-resolution.md)＋[packet/独立closeout FINAL-BINDING](../notes/rephase-1-operational-rehearsal-20261101/README.md)へ。W34＋efficient-LLMは両CANDIDATES_NORMALIZED。W34は実409/425Rawの重複検証costでEvidence未完了、SPは160/15のstructural accept後にsemantic CHANGES_REQUIRED。追加原文・修正DATA案・retryの所有/退避条件を保持。
+
+**次Human continuation後の選択unit:** Evidence bulk-validation scaling repair。まず短い具体private-interface/caller全閉包/current-history/return-write/epoch/oracle map→Astra＋独立scoped確認BEFOREcode、その後whole選択修復・実W34409完了・meaningful affected回帰・CURRENT proof・完全配送/独立implementation review。No global/epoch cache/public verified-dict/new schema/module/family/第三validatorコピー/generic reader。脚本だけの変更が必ずContract8を変えると仮定せず、正当な継続可否を実sourceで確認。Source final138/770不変・repair未着手。未受理canonical outputsのretryは削除/上書き未許可、fresh startを通常訂正の証明にしない。Human Commit Point停止。以下旧rehearsal-nextは履歴。
+
 **CURRENT 2026-11-01 Profile/support upstream BOUNDED IMPLEMENTATION COMPLETE:** [assessment/次task§5](rephase-1-profile-support-implementation-assessment.md)＋[mandatory ROOT全文](../notes/rephase-1-profile-support-implementation/astra-closeout-resolution.md)＋[packet/独立FINAL-BINDING・closeout確認](../notes/rephase-1-profile-support-implementation/README.md)へ。Whole既存map P1–P4実装・検証・完全DIRECT409配送138paths57M81A/770、patch efb505e4…/5247647B、manifest634d41f9…/186847B。Check/apply0/all770+mode、初期8batchと最終TEST-only applied7のqualified composite、旧C6は置換・他769不変。品質/audit/採用/効果測定ではない。
 
 **次Human continuation後:** 具体的Weekly＋実需Specialのcapability/品質/通常訂正/総費用rehearsalとR4準備。既存実装を再着手せず、汎用reader/訂正機構の必須先行gateも復活しない。採用対象と本当に必要な操作を閉じて候補固定/fresh七観点audit→Human採用→実測削減/旧仕事除去へ。新authority/capability gapはscope拡張前にAstraへ。Human Commit Point停止、次unit未開始、WholeNOT_READY維持。以下旧実装nextは履歴。

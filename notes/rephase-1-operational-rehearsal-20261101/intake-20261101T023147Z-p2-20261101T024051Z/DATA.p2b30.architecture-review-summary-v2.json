@@ -1,0 +1,1785 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "research_profile": "THEMATIC",
+  "basis": {
+    "architecture_sha256": "e214040b16e1620bb8682ea255402335f385f04f07e30f044ee7575bd1574970",
+    "production_profile_sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117",
+    "profile_completeness_sha256": "aeeadd1981f3827ff4cc951b39f804f37346b096499a4600d6180df0f535e918",
+    "materiality_ledger_sha256": "ad7509369252ee39b73aaf92798972bb61ac5dda6add3daaecf03ee6e087d913",
+    "candidate_matrix_sha256": "1dcc290232bf6947fca59e8c476d4d505dcd749935967aa85b956c7a39119afb",
+    "candidate_selection_sha256": "f91af7cf24150045f930c7ef8901817fea6e8f55058d439bf8c33d9fb78d99f7"
+  },
+  "readiness": {
+    "status": "READY_FOR_ARCHITECTURE_REVIEW",
+    "errors": []
+  },
+  "discovery": {
+    "total": 165,
+    "counts": {
+      "BASE": 100,
+      "GAP_FILL": 65
+    }
+  },
+  "research_expansion": {
+    "max_research_pass": 3,
+    "pass_counts": {
+      "0": 100,
+      "1": 42,
+      "2": 19,
+      "3": 4
+    },
+    "parent_link_count": 30,
+    "obligation_link_count": 248,
+    "unique_obligation_count": 15,
+    "root_discovery_count": 141,
+    "expanded_discovery_count": 65
+  },
+  "screening": {
+    "total": 165,
+    "counts": {
+      "DROP": 5,
+      "INSPECT": 5,
+      "KEEP": 135,
+      "MAYBE": 20
+    }
+  },
+  "evidence": {
+    "total": 160,
+    "counts": {
+      "PARTIAL": 148,
+      "VERIFIED": 12
+    }
+  },
+  "materiality": {
+    "total": 165,
+    "counts": {
+      "CONTEXT": 23,
+      "EXCLUDED": 5,
+      "MATERIAL": 137
+    }
+  },
+  "selection": {
+    "total": 160,
+    "counts": {
+      "HOLD": 12,
+      "INSPECT": 3,
+      "REJECT": 33,
+      "SELECTED": 112
+    }
+  },
+  "completeness": {
+    "overall_status": "LIMITED",
+    "obligation_counts": {
+      "LIMITATION": 12,
+      "SATISFIED": 3
+    }
+  },
+  "major_material_destinations": [
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:005c15e0e1f98d79",
+      "title": "MegaBlocks: Efficient Sparse Training with Mixture-of-Experts (Gale et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: MegaBlocks MoE compute-substrate detail superseded by D064 (DeepEP communication library) plus D014 for expert-parallel narrative; historical substrate depth is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:027894507da335be",
+      "title": "DeepSeek-V3 Technical Report (2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:03fef8fddfed0609",
+      "title": "DeeBERT: Dynamic Early Exiting for Accelerating BERT Inference (Xin et al., 2020)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0b3a9d566340b160",
+      "title": "DeepSeek-V4 technical report (2026)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: DeepSeek-V4 report (section-structure-level only) superseded by D123 (body-consumed V4.1 report) plus D032/D126 for V-line lineage; predecessor structure adds no citable claim beyond the lineage pointer D123 already carries."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0d6617d2b29c9d0f",
+      "title": "Gated DeltaNet (Yang et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0da207cf6835f153",
+      "title": "Accelerating Large Language Model Decoding with Speculative Sampling (Chen et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0e188f2aea37b4fd",
+      "title": "GLM-5.3-Flash launch analysis (llm-stats)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: llm-stats GLM launch analysis held for the same reason as D079; promo-vs-list pricing needs quarantine and first-party GLM authorities (D128-D131) cover launch facts. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0e42b601e002e5a7",
+      "title": "Switch Transformers: Scaling to Trillion Parameter Models (Fedus et al., 2021)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:0f91a3c1d45fc789",
+      "title": "DeepSeek-V3.2 report (2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:121cc8d882ba383f",
+      "title": "Qwen3 Technical Report (Qwen Team, 2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Qwen3 family-breadth anchor superseded by D008 (Qwen3.8-Next design report, body-consumed) for every architecture claim this thesis needs; retained breadth narrative is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:15c6a238a429e1ad",
+      "title": "LLMPerf (Ray; caveated throughput harness)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1668c2950942bdad",
+      "title": "deepseek-ai/Engram official implementation",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:172185a2d91518ad",
+      "title": "DeepSeek-V4-Flash model card (Hugging Face)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: V4-Flash model card superseded by D030 (V4.1 card, same lineage identity fields) plus D123 (V4.1 report) for architecture claims; predecessor-card identity adds no distinct citable claim."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:17cdbbb4075316ed",
+      "title": "KDA kernel implementation (FLA) + vLLM path",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1a20e24aa8841ee7",
+      "title": "Infra-oriented V4.1-Flash architecture study (parameter accounting)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "INSPECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "INSPECT: AI-drafted UNEDITED V4.1 parameter study held for inspection; tensor derivations must be inspected before any architecture use. Former INSPECT retained as INSPECT with explicit reason, not silently promoted."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1b1bf5c87d542b81",
+      "title": "OCP Microscaling (MX) Specification v1.0",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1b3602386136c57d",
+      "title": "Outrageously Large Neural Networks: The Sparsely-Gated Mixture-of-Experts Layer (Shazeer et al., 2017)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1c0a12fd466ad082",
+      "title": "vLLM Automatic Prefix Caching (documentation)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention",
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1f0313471a6689a0",
+      "title": "MXFP4/FP4-expert deployment evidence (V4 line + vLLM dispatch)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1f57606119617d5e",
+      "title": "EAGLE-2: Faster Inference with Dynamic Draft Trees (2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1f72d5c9dfbc366c",
+      "title": "SGLang: Efficient Execution of Structured Language Model Programs (Zheng et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:1ff8f5b7703b49b4",
+      "title": "Fast Inference from Transformers via Speculative Decoding (Leviathan et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:21ce0892d8846adf",
+      "title": "TypeSafe API reference (docs.typesafe.ai/api)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:22eef64d61a9d277",
+      "title": "llama.cpp Qwen3.8-Flash-Next implementation port (merged PR 27742)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:23d7c5bbe7624e7d",
+      "title": "Current-model effort-control binding (V4.1 + Qwen)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:246bf224ee4d431e",
+      "title": "Qwen3.8-Flash-Next launch analysis (llm-stats)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: llm-stats Qwen launch analysis held; weights-vs-API split is useful but vendor comparisons need quarantine and first-party D008/D081/D127 cover launch facts. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:24d5d70dbd8841b8",
+      "title": "zai-org/GLM-5 GitHub (IndexShare, MTP, deployment matrix)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:254e4aa47881a5cf",
+      "title": "vLLM DeepSeek-V4.1-Flash recipe (deployment authority)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p6-serving",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:27e27bd9f9b92e82",
+      "title": "Mixture-of-Depths: Dynamically allocating compute in transformer-based language models (Raposo et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:28aed068bf01ae34",
+      "title": "SparseGPT: Massive Language Models Can Be Accurately Pruned in One-Shot (Frantar & Alistarh, 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: SparseGPT unstructured-sparsity claims superseded for this thesis by GPTQ/AWQ (practical quantization lane) plus D150 (pruning-as-efficiency via reasoning); no deployment path in the local-inference narrative needs it."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2a56146e032edc8e",
+      "title": "Generalization through Memorization: Nearest Neighbor Language Models (Khandelwal et al., 2019)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: kNN-LM explicit-corpus retrieval precedent held; boundary-sharpening-only role versus static lookup, and the Engram/Kimi memory treatment carries the lane without a retrieval-architecture detour. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2ad51c4075704080",
+      "title": "On the Design of Qwen3.8-Next Architecture (Qwen Team, 2026)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2b84aa05d6985cbf",
+      "title": "GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers (Frantar et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:2f85ca2aa6ae916b",
+      "title": "Qwen3.8-Flash-Next official blog (Qwen)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3257899e27fab8fc",
+      "title": "ThinkPrune: Pruning Long Chain-of-Thought of LLMs via Reinforcement Learning (Hou et al., 2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:37a4bb1384103c99",
+      "title": "Dynamic Model Routing and Cascading for Efficient LLM Inference: A Survey (2026)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: 2026 routing/cascading survey held as deferred follow-up pool; secondary unifier, not primary authority, with FrugalGPT/RouteLLM/fragility primaries carrying routing claims. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3a9c308ab0aa5f81",
+      "title": "GLM-5.3-Flash LM Studio page (IndexPool, benchmarks)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "INSPECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "INSPECT: LM Studio GLM page held for inspection; vendor benchmark table carries a harness warning and IndexPool-adjacent claims need inspection before use. Former MAYBE retained as INSPECT."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3ad05060e2b13a53",
+      "title": "Mamba: Linear-Time Sequence Modeling with Selective State Spaces (Gu & Dao, 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Mamba SSM-origin detail superseded for the linear-attention narrative by D024 (GDN, direct Kimi Linear lineage) plus D027; SSM taxonomy is beyond this thesis scope."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3b2e72aae690ed83",
+      "title": "LMCache (external KV-cache layer)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention",
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3bf3aa0d490ac4de",
+      "title": "Jev wiki: Jev 1.13 model-card facts (jevai.wiki)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3c97b39cc48f81ce",
+      "title": "When More Thinking Hurts: Overthinking in LLM Test-Time Compute Scaling (2026)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3e5fc49c26038504",
+      "title": "Mooncake: A KVCache-centric Disaggregated Architecture for LLM Serving (Qin et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:3e7dc4b0a18836a7",
+      "title": "Microscaling Data Formats for Deep Learning (Rouhani et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Microscaling data-formats paper superseded by D136 (normative OCP spec) for spec facts plus D005/D049 for training/deployment; paper-level retelling is redundant."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:402fadea955bc6b8",
+      "title": "GShard: Scaling Giant Models with Conditional Computation and Automatic Sharding (Lepikhin et al., 2020)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:41882e59c2dc6fa7",
+      "title": "Z.ai developer docs: GLM-5.3-Flash overview",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:42bee8e78f269f73",
+      "title": "Qwen/Qwen3.8-Flash-Next README (Hugging Face)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:437c59ea0e05b298",
+      "title": "DeepSWE-1.1 methodology note (harness dependence)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:440ab8dcea9176b1",
+      "title": "vLLM speculative decoding with Multi-Token Prediction (documentation)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4583e3717400bcf3",
+      "title": "GPQA: A Graduate-Level Google-Proof Q&A Benchmark (Rein et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: GPQA Diamond not selected for the same reason as D088; reasoning-eval grounding travels with capstone Evidence Cards under stated conditions, not with standalone definition authority."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:463b0364e21ff1c2",
+      "title": "DistServe: Disaggregating Prefill and Decoding for Goodput-optimized LLM Serving (Zhong et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: DistServe disaggregated-SLO placement detail superseded by D059 (disaggregation origin) plus D061 (disaggregated store); placement nuance is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:469668b739fb38b0",
+      "title": "Qwen3-Next: Towards Ultimate Training & Inference Efficiency (Qwen blog)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Qwen3-Next launch announcement superseded for architecture purposes by first-party D008 (body-consumed report), D081 (official blog), and D127 (repo source of truth); announcement adds no distinct citable claim."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4700b268375ef45d",
+      "title": "Jev 1.13 official Models page (docs.typesafe.ai/models)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:483eb44c8afbac82",
+      "title": "SnapKV: LLM Knows What You Are Looking for Before Generation (Li et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: SnapKV clustering-window detail superseded by H2O (heavy-hitter, D109) plus PyramidKV (layer-budgeting, D112) for the KV-budgeting narrative; fourth eviction method is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:495befe1c4b19f20",
+      "title": "EleutherAI lm-evaluation-harness",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:499531f52100f745",
+      "title": "BFCL / Berkeley Function-Calling Leaderboard (Gorilla repo)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: BFCL leaderboard repo not selected; function-calling/task-cost representation is carried by D096-class agentic exhibits plus D100 harness-dependence note, and per-harness authority is unnecessary here for the same D088 reason."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4b547bca728415e7",
+      "title": "DeepSpeed-Ulysses: System Optimizations for Enabling Training of Extreme Long Sequence Transformer Models (Jacobs et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: DeepSpeed-Ulysses sequence-parallelism detail superseded by D108-class long-context parallelism framing, itself out of scope (see D108); training-time sequence detail unnecessary."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4bc5db40e85eac5e",
+      "title": "GGUF specification (ggml project)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4e1c1856a98985f1",
+      "title": "KTransformers (heterogeneous CPU/GPU MoE execution)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4e3e44193894d38f",
+      "title": "Jev explainer with access/pricing facts (DataCamp)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: DataCamp Jev access/pricing explainer held; access and pricing facts are covered by first-party D070/D141, so the secondary explainer adds no unique authority for this architecture. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4ef1ba1df3ab2efa",
+      "title": "Mixture-of-Experts with Expert Choice Routing (Zhou et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:4fb4b67a42855df6",
+      "title": "FrugalGPT: How to Use Large Language Models While Reducing Cost and Improving Performance (Chen et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5370eb8d0284be7d",
+      "title": "DSpark evidence bundle (vLLM deepseek_v41 docs + Dynamo recipe)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p6-serving",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:53d65f176f32d592",
+      "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision (Shah et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: FlashAttention-3 version intermediate superseded by D020 plus D056 for the same reason as D021; Hopper-kernel detail is an unnecessary editorial role here."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:53d9064c7c7f4d2d",
+      "title": "Conditional Memory via Scalable Lookup / Engram (Cheng et al., 2026)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:56e9aafdea4093c6",
+      "title": "DeepSeekMoE: Towards the Ultimate Specialist Lexicon (DeepSeek-AI, 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:59a7a17c0e90208f",
+      "title": "tau-bench: A Benchmark for Tool-Agent-User Interaction (Yao et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: tau-bench not selected; agentic task-cost argument is carried by D094 (Terminal-Bench) plus D100, so a second agent-harness authority is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5b09c57ff50e2054",
+      "title": "BitNet: Scaling 1-bit Transformers for Large Language Models (Wang et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5bed21e89b9b7632",
+      "title": "BrowseComp (web-research agents, OpenAI announcement)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: BrowseComp announcement-grade record held; version/harness outstanding and RULER/T-Bench carry the agent/long-context validity exhibits. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5c58895830e17e56",
+      "title": "Introducing DeepSeek-V4.1-Flash (DeepSeek official launch)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: V4.1-Flash launch announcement superseded by D123 (body-consumed report), D030 (model card), and D126 (V-series launch lineage); announcement adds no distinct citable claim."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:5cf3feffb8a133d0",
+      "title": "Mistral 7B (Jiang et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:60f2de25a715bcff",
+      "title": "ZeRO-Offload: Democratizing Billion-Scale Model Training (Ren et al., 2021)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: ZeRO-Offload/Infinity heterogeneous-memory detail superseded by D103 for memory-sharding claims; offload depth is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:61532b4a895e3a69",
+      "title": "Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces (Merrill et al.)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6602393f720355ac",
+      "title": "NVIDIA Dynamo V4.1-Flash recipe (serving-lens reading)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Dynamo serving-lens recipe reading superseded by D004 (deployment recipe) plus D163 (VERIFIED vLLM recipe) for Dynamo serving claims; second Dynamo reading is redundant."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:687b0492036c0eb2",
+      "title": "MiniMax-M2.x materiality watch",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: MiniMax-M2.x materiality watch held; no distinct efficiency mechanism confirmed, so pursue/park remains a later materiality judgment, not an architecture placement. Former MAYBE with explicit watch rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:69ba280465a0d426",
+      "title": "Mixtral of Experts (Jiang et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6e433351d315e1d6",
+      "title": "TensorRT-LLM (NVIDIA production kernel stack)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: TensorRT-LLM production stack detail superseded by D066 (FlashInfer kernels) plus vLLM/SGLang runtime anchors for the kernel/runtime lane; vendor-stack depth is unnecessary here."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6e5163a98fbeebdb",
+      "title": "awesome-jev community reproduction hub (OmniJev)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6f16b3a1e1ac01e8",
+      "title": "Unsloth GLM-5.3-Flash local quantization authority (GGUF table, memory-fit guidance)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6f43affc42e873eb",
+      "title": "GQA: Training Generalized Multi-Query Transformers from Multi-Head Checkpoints (Ainslie et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:6ff1e24bd2b5f646",
+      "title": "Scaling LLM Test-Time Compute Optimally can be More Effective than Scaling Model Parameters (Snell et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7032f499359e113a",
+      "title": "DeepSeek-V3.2-Exp launch + API docs (DSA debut, 50%+ price cut)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:751c86ef815d465d",
+      "title": "LiveCodeBench: Holistic and Contamination Free Evaluation of LLMs for Code (Jain et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: LiveCodeBench not selected for the same reason as D088; code-eval validity is carried by D093/D094/D100 exhibits."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:76886cd64a5743f1",
+      "title": "EAGLE: Speculative Sampling Requires Rethinking Feature Uncertainty (ICML'24)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7a0e7638ccc24693",
+      "title": "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning (2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7dc41c44f5b22741",
+      "title": "Accepted X reception ledger r3 (27 direct observations, 24 accounts, 20 independent)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:7e1d57deba6ac3e0",
+      "title": "Training Compute-Optimal Large Language Models / Chinchilla (Hoffmann et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p1-bottleneck"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:818d8b0c63b49536",
+      "title": "Improving Language Models by Retrieving from Trillions of Tokens / RETRO (Borgeaud et al., 2021)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: RETRO chunked cross-attention precedent held for the same reason as D146; precedent sweep closed at Screening, editorial role unnecessary for this architecture. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8359346139cbca7a",
+      "title": "The Era of 1-bit LLMs: All Large Language Models are in 1.58 Bits (Ma et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:85cb4f411c555385",
+      "title": "H2O: Heavy-Hitter Oracle for Efficient Generative Inference of Large Language Models (Zhang et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:86388aef8783f3f6",
+      "title": "Deduplicating Training Data Makes Language Models Better (Lee et al., 2021)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Training-data dedup detail superseded by D139 (DoReMi mixture optimization) for the data-efficiency thread; preprocessing depth is beyond this thesis scope."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:88b92f88cd1f3f3d",
+      "title": "MLPerf Inference (MLCommons LLM methodology)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:88ecfbacbed58fee",
+      "title": "NVIDIA Dynamo DeepSeek-V4.1-Flash deployment recipe",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8a5f25cf43a5bf52",
+      "title": "AWQ: Activation-aware Weight Quantization for On-Device LLM Compression and Acceleration (Lin et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8ac1993ecf21134a",
+      "title": "FlashAttention: Fast and Memory-Efficient Exact Attention with IO-Awareness (Dao et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:8bde9fa57b59aa3e",
+      "title": "vLLM deepseek_v41 model code docs",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p6-serving",
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9090aba950844352",
+      "title": "Reasoning on a Budget: A Survey of Adaptive and Controllable Test-Time Compute in LLMs (2025)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: Reasoning-on-a-Budget adaptive-TTC survey held as deferred follow-up pool; secondary-by-design taxonomy and candidate-finder-only role, with Snell/s1/ThinkPrune primaries carrying TTC claims. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:94b059b627c85482",
+      "title": "FlashAttention-2: Faster Attention with Better Parallelism and Work Partitioning (Dao, 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: FlashAttention-2 version intermediate superseded by D020 (exact-IO thesis origin) plus D056 (current MLA decode kernel) for deployed-kernel claims; version delta adds no distinct thesis claim."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:985c1af80ce75d8d",
+      "title": "PyramidKV: Dynamic KV Cache Compression based on Pyramidal Information Funneling (Cai et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9a1e8695996f4b60",
+      "title": "zai-org/GLM-5.3-Flash model card (Hugging Face)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9b418dc6edbb6684",
+      "title": "s1: Simple test-time scaling (Muennighoff et al., 2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9c07cd38a5cdf09e",
+      "title": "LoRA: Low-Rank Adaptation of Large Language Models (Hu et al., 2021)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:9c5f3bf57f317c27",
+      "title": "FlashInfer (AI kernels for LLM serving)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a1d24c5083e64fcd",
+      "title": "SWE-Bench Pro: Can AI Agents Solve Long-Horizon Software Engineering Tasks? (Deng et al.)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a25e760c25def989",
+      "title": "GLM-5 technical report (Z.ai, 2026)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a44df8e64e8a20d9",
+      "title": "Introducing DeepSeek-V3.2-Exp (DeepSeek official launch, 2025-09-29)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a558d1a673811397",
+      "title": "Router-LLM fragility analysis (EACL 2026 Findings)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a5fb39cc06bdfcc6",
+      "title": "DoReMi: Optimizing Data Mixtures Speeds Up Language Model Pretraining (Xie et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:a980d465762b05a4",
+      "title": "LayerSkip: Enabling Early Exit Inference and Self-Speculative Decoding (Elhoushi et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ac105938f470a93d",
+      "title": "AIME / MAA competition authority",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: AIME/MAA competition authority held; generation/year/CI conditions outstanding and the reasoning-budget discussion does not need contest rules. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ae6d3f132eeabadc",
+      "title": "Native Sparse Attention: Hardware-Aligned and Natively Trainable Sparse Attention (Yuan et al., 2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b058568e643e53c4",
+      "title": "Orca: A Distributed Serving System for Transformer Generative Models (OSDI'22)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p1-bottleneck"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b0ac63976750b497",
+      "title": "Fast Transformer Decoding: One Write-Head Is All You Need / MQA (Shazeer, 2019)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b0fc7b79b92d6404",
+      "title": "MMLU-Pro (Wang et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: MMLU-Pro benchmark-definition authority not selected; P9 teaches methodology through validity exhibits (D092/D093/D098/D118) and P8 compares mechanism stacks, not leaderboard ranks, so per-benchmark definition pages are unnecessary editorial roles. No headline number is load-bearing."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b1e2dd4352d316ca",
+      "title": "QLoRA: Efficient Finetuning of Quantized LLMs (Dettmers et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b3558002d9d15dfe",
+      "title": "Megatron-LM: Training Multi-Billion Parameter Language Models Using Model Parallelism (Shoeybi et al., 2019)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b3ed58884dfb4810",
+      "title": "DeepEP (DeepSeek expert-parallel communication library)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b510bf0fafbc1f87",
+      "title": "Scaling Laws for Neural Language Models (Kaplan et al., 2020)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p1-bottleneck"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b8b9f70aa257d535",
+      "title": "Introducing System One Models & Jev (TypeSafe launch, 2026-09-15)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b9746b8ce1a7146a",
+      "title": "DeepSeek-V4-Flash provider page (Lambda)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Lambda provider page superseded by first-party D030/D129 for specification facts; provider-measured throughput is quarantined per authority boundary and carries no unique deployment claim. Former MAYBE with explicit rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b97bb6cf3b58112f",
+      "title": "Efficient Streaming Language Models with Attention Sinks (Xiao et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:b9d560b7b954dc26",
+      "title": "Training Deep Nets with Sublinear Memory Cost (Chen et al., 2016)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Activation-checkpointing origin detail superseded by D103/D101 for the training-memory narrative; sublinear-memory technique depth is beyond this inference-efficiency thesis scope."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ba5d745e504eca71",
+      "title": "Qwen N-gram vs Engram lineage assessment (Qwen3.8-Flash-Next repo)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:bad52a2a1f7ff239",
+      "title": "Kimi Linear: An Expressive, Efficient Attention Architecture (Moonshot AI, 2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p3-attention"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:bc692472004835f4",
+      "title": "DeepGEMM (DeepSeek FP8 GEMM library)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe",
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:be2bae764031b52d",
+      "title": "GPipe: Efficient Training of Giant Neural Networks using Pipeline Parallelism (Huang et al., 2018)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: GPipe pipeline-parallelism detail superseded by D101 (tensor-parallel origin) plus D103 (memory sharding) for the training-allocation context this thesis needs."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c0d517b717cb062c",
+      "title": "ZeRO: Memory Optimizations Toward Training Trillion Parameter Models (Rajbhandari et al., 2019)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c144a78090278fb5",
+      "title": "deepseek-ai/DeepSeek-V4.1-Flash model card (Hugging Face)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c8b9c4a14c536fb1",
+      "title": "DeepInfra V4 Flash API pricing snapshot",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: DeepInfra API pricing snapshot held; API-economics is not load-bearing for the mechanism-stack thesis and D153 effort-binding plus first-party pricing carry the cost discussion. Former MAYBE with explicit park rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c944abddfd187ae3",
+      "title": "FP8 Formats for Deep Learning (Micikevicius et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:c99750a02188c6f9",
+      "title": "Better & Faster Large Language Models via Multi-token Prediction (Gloeckle et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:cae45d0a218549d5",
+      "title": "Humanity's Last Exam (Phan et al., 2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Humanity's Last Exam not selected for the same reason as D088; saturation/version-drift claims cite P9 methodology exhibits, not each harness."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:cc12f66d1bfb44ff",
+      "title": "TypeSafe docs: System One concepts + Introduction",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ce375b79d8145799",
+      "title": "vLLM Ascend GLM-5.3-Flash deployment tutorial",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: vLLM Ascend GLM tutorial superseded by D163 (vLLM deployment authority, VERIFIED) plus D129 (GLM deployment matrix) for serving claims; Ascend-specific tutorial is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ceb5aa2846453959",
+      "title": "gpt-oss open-weight models (OpenAI announcement)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "HOLD",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "HOLD: gpt-oss open-weight watch held; distinct-mechanism contribution unverified and gap-fill-locator-only. Former MAYBE with explicit watch rationale."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:cf74ecbbbff883f9",
+      "title": "SARATHI: Efficient LLM Inference by Piggybacking Decodes with Chunked Prefills (Agrawal et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d53dcf04e16c7b74",
+      "title": "llama.cpp (GGML history, GGUF runtime, k-quants, CPU/GPU split)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d5592f5bf028fc12",
+      "title": "HELM (Stanford CRFM holistic evaluation)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d81c04170eaa71f8",
+      "title": "NVIDIA NIM GLM-5.3-Flash card",
+      "materiality": "CONTEXT",
+      "selection_disposition": "INSPECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "INSPECT: NVIDIA NIM GLM card held for inspection; hybrid claims plus the KDA-label collision with Kimi KDA must be resolved before architecture use. Former MAYBE retained as INSPECT."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d8b2a4aa00c15187",
+      "title": "GenAI-Perf — NVIDIA Triton Inference Server (tooling docs)",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:d8e97ced679fe64f",
+      "title": "RouteLLM: Learning to Route LLMs with Preference Data (Ong et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p7-routing"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:dac4d7ad4dd69cd2",
+      "title": "SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models (Xiao et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e2d60d5ecb56a6d7",
+      "title": "Muon optimizer reference implementation (Keller Jordan)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e2fbf2395f30a780",
+      "title": "SWE-bench: Can Language Models Resolve Real-World GitHub Issues? (Jimenez et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e6ad3f6955a5d9bd",
+      "title": "PyTorch FSDP: Experiences on Scaling Fully Sharded Data Parallel (Zhao et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: FSDP productization detail superseded by D103 (ZeRO lineage) for sharding claims; PyTorch-packaging angle adds no distinct mechanism."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:e7157c0c760b45a1",
+      "title": "NVIDIA blog: Qwen3.8-Flash-Next on GB300 NVL72",
+      "materiality": "CONTEXT",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:eb8fb0405842d7b9",
+      "title": "Ring Attention with Blockwise Transformers for Near-Infinite Context (Liu et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: Ring Attention training-time sequence parallelism out of inference-thesis scope; inference long-context is carried by D026/D027/D098, so this is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ec3aecc79e955138",
+      "title": "FlashMLA-ETAP: MLA inference on H20 (2025)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: FlashMLA-ETAP H20-specific case superseded by D056 for MLA-kernel claims; export-constrained hardware detail is an unnecessary editorial role."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f0bf3aa6fee0e272",
+      "title": "Distilling the Knowledge in a Neural Network (Hinton et al., 2015)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f21cef758a2f2f6a",
+      "title": "RULER: What is the Real Context Size of Your Long-Context Language Models? (Hsieh et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p9-measure"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f222e412d3f00738",
+      "title": "HF transformers GLM5-next doc (hybrid sparse+linear, mHC, 30T)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: HF transformers GLM doc superseded by D131 (Z.ai developer docs) plus D130 (model card) for GLM-5.3 facts; integration-doc angle adds no distinct mechanism claim."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f272bafd6c642c4e",
+      "title": "FlashMLA (DeepSeek MLA decode kernel)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p3-attention",
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f325ecb7024c5587",
+      "title": "SGLang + RadixAttention (sgl-project)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "REJECT",
+      "destination_kind": "NOT_SELECTED",
+      "destinations": [],
+      "exception_reason": "REJECT: SGLang repo superseded by D055 (paper carrying RadixAttention mechanism) for architecture claims; living-repo artifact adds no distinct citable claim for this package."
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:f6feab6e543b821a",
+      "title": "QwenLM/Qwen3.8-Flash-Next GitHub (report + README source of truth)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fa7898ffcb81cd0b",
+      "title": "Splitwise: Efficient Generative LLM Inference Using Phase Splitting (Patel et al., 2023)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fad7db1b9c91251b",
+      "title": "DeepSeek-V2: A Strong, Economical, and Efficient Mixture-of-Experts Language Model (2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p2-scaling-moe"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fafd1042940cfcd8",
+      "title": "LLM.int8(): 8-bit Matrix Multiplication for Transformers at Scale (Dettmers et al., 2022)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p4-precision"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fbeebd1ffa86ddfe",
+      "title": "Medusa: Simple LLM Inference Acceleration Framework with Multiple Decoding Heads (Cai et al., 2024)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "SUPPORTING",
+      "destinations": [
+        "p5-decode"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fc8b6d6bf93465f6",
+      "title": "DeepSeek-V4.1-Flash technical report (2026)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:fd2c6699609f1e6d",
+      "title": "Efficient Memory Management for LLM Serving with PagedAttention (Kwon et al., SOSP'23)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p6-serving"
+      ],
+      "exception_reason": null
+    },
+    {
+      "candidate_id": "candidate:SP-efficient-llm-2026:ffe79e6955027f08",
+      "title": "MoonshotAI/Kimi-Linear (GitHub)",
+      "materiality": "MATERIAL",
+      "selection_disposition": "SELECTED",
+      "destination_kind": "PRIMARY",
+      "destinations": [
+        "p8-capstone"
+      ],
+      "exception_reason": null
+    }
+  ],
+  "residual_limitations": [
+    "Canonical Discovery locators for D005/D061/D062/D093/D094/D098/D112/D117/D139 remain wrong-identity bytes; citing authority is the frozen-validated supplement (amendment deferred to Sol).",
+    "Full-body section/ablation detail outstanding for most paper records as stated per-record; abstract-scope records retained only where claims are scoped accordingly.",
+    "Jev independent reproduction/evaluation remains thin; vendor claims quarantined, not promoted.",
+    "AIPerf standalone product surface unconsumed (successor named in captured docs); MiniMax/gpt-oss mechanism contributions unconfirmed (watches held).",
+    "Per-figure benchmark pins (V4.1 appendix, Qwen ablations, Kimi tables, routing/TTC results) and version pins (kernels, repos, harnesses) outstanding as stated per-record limitations."
+  ],
+  "architecture": {
+    "status": "PROPOSED",
+    "editorial_thesis": "LLM efficiency has evolved from optimizing a single axis such as parameter count or FLOPs into a layered systems problem: training only what is useful, activating only part of the model, moving less memory, retaining less state, decoding fewer serial steps, routing requests to the cheapest adequate computation, and sometimes replacing free-form generation with specialized probabilistic decisions. No single technique makes a model efficient; the relevant bottleneck moves across training, prefill, decode, memory capacity, bandwidth, communication and serving conditions.",
+    "package_count": 9,
+    "packages": [
+      "「効率」とは何を減らすことなのか",
+      "ScalingからConditional Computeへ",
+      "AttentionとMemoryを減らす",
+      "Bitを減らし、巨大モデルを手元で動かす",
+      "1 tokenずつ待たない",
+      "Servingで消える無駄",
+      "「大きなモデルを毎回呼ぶ」必要はあるか",
+      "2026年の実装点",
+      "数字をどう読むか"
+    ],
+    "page_plan": {
+      "target_pages": 76,
+      "max_pages": 96,
+      "notes": "Package targets P1 7 / P2 9 / P3 11 / P4 9 / P5 8 / P6 9 / P7 7 / P8 11 / P9 6 (sum 77 incl. rounding); soft minimum ~64; do not pad to reach target."
+    }
+  }
+}

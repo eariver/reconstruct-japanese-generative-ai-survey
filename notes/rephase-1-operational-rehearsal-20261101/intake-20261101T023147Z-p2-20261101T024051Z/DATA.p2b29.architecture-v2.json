@@ -1,0 +1,499 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "status": "PROPOSED",
+  "basis": {
+    "production_profile_sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117",
+    "profile_completeness_sha256": "aeeadd1981f3827ff4cc951b39f804f37346b096499a4600d6180df0f535e918",
+    "materiality_ledger_sha256": "ad7509369252ee39b73aaf92798972bb61ac5dda6add3daaecf03ee6e087d913",
+    "candidate_matrix_sha256": "1dcc290232bf6947fca59e8c476d4d505dcd749935967aa85b956c7a39119afb",
+    "candidate_selection_sha256": "f91af7cf24150045f930c7ef8901817fea6e8f55058d439bf8c33d9fb78d99f7"
+  },
+  "editorial_thesis": "LLM efficiency has evolved from optimizing a single axis such as parameter count or FLOPs into a layered systems problem: training only what is useful, activating only part of the model, moving less memory, retaining less state, decoding fewer serial steps, routing requests to the cheapest adequate computation, and sometimes replacing free-form generation with specialized probabilistic decisions. No single technique makes a model efficient; the relevant bottleneck moves across training, prefill, decode, memory capacity, bandwidth, communication and serving conditions.",
+  "architecture_goals": [
+    "establish-bottleneck-contract",
+    "trace-conditional-compute-lineage",
+    "separate-exact-io-from-architecture-change",
+    "compare-2026-stacks-by-mechanism",
+    "teach-benchmark-literacy"
+  ],
+  "page_plan": {
+    "target_pages": 76,
+    "max_pages": 96,
+    "notes": "Package targets P1 7 / P2 9 / P3 11 / P4 9 / P5 8 / P6 9 / P7 7 / P8 11 / P9 6 (sum 77 incl. rounding); soft minimum ~64; do not pad to reach target."
+  },
+  "packages": [
+    {
+      "package_id": "p1-bottleneck",
+      "title": "「効率」とは何を減らすことなのか",
+      "purpose": "Establish the bottleneck model as the conceptual contract: training vs inference, prefill vs decode, compute vs memory capacity vs bandwidth vs communication, latency vs throughput, total vs active parameters, weights vs KV-cache, token cost vs task cost. Later comparisons are meaningless without it.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:b510bf0fafbc1f87",
+        "candidate:SP-efficient-llm-2026:7e1d57deba6ac3e0",
+        "candidate:SP-efficient-llm-2026:b058568e643e53c4"
+      ],
+      "supporting_candidate_ids": [],
+      "must_cover_requirements": [
+        "EFF-O01"
+      ],
+      "boundaries": [
+        "Abstract-scope paper sections retained only where claims are scoped accordingly; no naked cross-condition comparison.",
+        "Full-body coefficient tables and experimental setup not consumed; claims scoped to abstract-level scaling form.",
+        "Full-body isoFLOP curves and ablation tables not consumed; ratio quoted as the paper's headline prescription, not a universal constant.",
+        "Full-body scheduling algorithm details and throughput numbers not consumed; no numeric speedup quoted."
+      ],
+      "drafting_order": 1,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p2-scaling-moe",
+      "title": "ScalingからConditional Computeへ",
+      "purpose": "Trace scaling laws and Chinchilla allocation into sparse MoE history (Shazeer through Switch/GShard) and modern fine-grained MoE economics, ending at active-vs-total parameter economics with expert memory/communication consequences. Contemporary Qwen/GLM stacks are compared in P8; P2 carries the lineage and training-allocation mechanics.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:027894507da335be",
+        "candidate:SP-efficient-llm-2026:e2d60d5ecb56a6d7",
+        "candidate:SP-efficient-llm-2026:1b3602386136c57d",
+        "candidate:SP-efficient-llm-2026:402fadea955bc6b8",
+        "candidate:SP-efficient-llm-2026:0e42b601e002e5a7",
+        "candidate:SP-efficient-llm-2026:56e9aafdea4093c6",
+        "candidate:SP-efficient-llm-2026:fad7db1b9c91251b"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:69ba280465a0d426",
+        "candidate:SP-efficient-llm-2026:bc692472004835f4",
+        "candidate:SP-efficient-llm-2026:f0bf3aa6fee0e272",
+        "candidate:SP-efficient-llm-2026:9c07cd38a5cdf09e",
+        "candidate:SP-efficient-llm-2026:b3558002d9d15dfe",
+        "candidate:SP-efficient-llm-2026:c0d517b717cb062c",
+        "candidate:SP-efficient-llm-2026:4ef1ba1df3ab2efa",
+        "candidate:SP-efficient-llm-2026:a5fb39cc06bdfcc6"
+      ],
+      "must_cover_requirements": [
+        "EFF-O02",
+        "EFF-O03",
+        "EFF-O09"
+      ],
+      "boundaries": [
+        "D005/D139 supplement-bound identities, abstract-scope; training-parallelism detail bounded to allocation context; contemporary Qwen/GLM comparison deferred to P8.",
+        "Full 2412.19437 body (training infra, evaluation tables) not consumed; no benchmark numbers quoted.",
+        "Repository code and experiment logs not audited; optimizer mathematics stated from community-established descriptions.",
+        "Full-body gating equations and LSTM experimental tables not consumed; mechanism stated at survey level.",
+        "Full-body sharding annotations and translation-benchmark tables not consumed.",
+        "Full-body scaling curves and multilingual tables not consumed.",
+        "Full-body ablation tables (expert granularity sweeps) not consumed.",
+        "Full-body MLA formulation and benchmark tables not consumed.",
+        "Full-body routing analyses and benchmark tables not consumed; active-param figure stated at established level.",
+        "Kernel code and numerics analysis not consumed.",
+        "Full-body temperature experiments not consumed.",
+        "Full-body rank-sweep tables not consumed.",
+        "Full-body communication-op design not consumed.",
+        "Full-body communication-volume analysis not consumed.",
+        "Full-body pretraining-speedup analysis not consumed.",
+        "Full paper body (DRO formulation, domain-weight tables) outstanding.",
+        "Canonical locator amendment deferred to Sol."
+      ],
+      "drafting_order": 2,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p3-attention",
+      "title": "AttentionとMemoryを減らす",
+      "purpose": "Reduce attention and memory: MHA to MQA/GQA, FlashAttention exact-IO, sparse/local attention, DSA/QSA, recurrent/linear attention through Kimi Linear, KV-cache reduction, and conditional memory via Engram. Central distinction: exact computation with better IO versus architecture that changes computation/storage.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:b0ac63976750b497",
+        "candidate:SP-efficient-llm-2026:6f43affc42e873eb",
+        "candidate:SP-efficient-llm-2026:8ac1993ecf21134a",
+        "candidate:SP-efficient-llm-2026:ae6d3f132eeabadc",
+        "candidate:SP-efficient-llm-2026:bad52a2a1f7ff239",
+        "candidate:SP-efficient-llm-2026:a44df8e64e8a20d9",
+        "candidate:SP-efficient-llm-2026:0f91a3c1d45fc789",
+        "candidate:SP-efficient-llm-2026:53d9064c7c7f4d2d"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:0d6617d2b29c9d0f",
+        "candidate:SP-efficient-llm-2026:5cf3feffb8a133d0",
+        "candidate:SP-efficient-llm-2026:42bee8e78f269f73",
+        "candidate:SP-efficient-llm-2026:f272bafd6c642c4e",
+        "candidate:SP-efficient-llm-2026:85cb4f411c555385",
+        "candidate:SP-efficient-llm-2026:b97bb6cf3b58112f",
+        "candidate:SP-efficient-llm-2026:985c1af80ce75d8d",
+        "candidate:SP-efficient-llm-2026:1c0a12fd466ad082",
+        "candidate:SP-efficient-llm-2026:3b2e72aae690ed83",
+        "candidate:SP-efficient-llm-2026:27e27bd9f9b92e82",
+        "candidate:SP-efficient-llm-2026:a980d465762b05a4",
+        "candidate:SP-efficient-llm-2026:03fef8fddfed0609",
+        "candidate:SP-efficient-llm-2026:7032f499359e113a",
+        "candidate:SP-efficient-llm-2026:17cdbbb4075316ed",
+        "candidate:SP-efficient-llm-2026:1668c2950942bdad",
+        "candidate:SP-efficient-llm-2026:ba5d745e504eca71"
+      ],
+      "must_cover_requirements": [
+        "EFF-O04",
+        "EFF-O13"
+      ],
+      "boundaries": [
+        "D032 VERIFIED launch scope; D125 V3.2 body sections as consumed; D145 parallel-or-unresolved lineage never asserted; KDA-label collision (D085) unresolved and excluded; paper ablation detail outstanding as stated per-record.",
+        "Full-body quality-degradation tables not consumed; no numeric tradeoff quoted.",
+        "Full-body uptraining cost tables not consumed.",
+        "Full-body IO-complexity proofs and benchmark tables not consumed.",
+        "Full-body kernel details and speedup tables not consumed.",
+        "Fair-comparison per-task tables at section scope; independent reproduction open (D028).",
+        "Launch page is announcement scope; indexer equations and parity protocols belong to D125.",
+        "V3.2 (non-Exp) page summarized from excerpts only; launch page is the bound authority.",
+        "Indexer warm-up protocol and benchmark tables at excerpt scope; full-body ablations outstanding.",
+        "Allocation-curve points and training-cost accounting outstanding.",
+        "Full-body gating ablations not consumed.",
+        "Full-body SWA ablation tables not consumed.",
+        "Card page body not fetched; config facts corroborated via D008/D127 only.",
+        "Kernel code and benchmark tables not consumed.",
+        "Full-body heavy-hitter analysis and benchmark tables not consumed.",
+        "Full-body sink-emergence analysis not consumed.",
+        "Full paper body (funneling algorithm, evaluations) outstanding.",
+        "Canonical locator amendment deferred to Sol.",
+        "Docs page not fetched; mechanism scoped to established role.",
+        "version binding: No version pin extracted.",
+        "Repository not fetched; API/backend matrix outstanding.",
+        "Full-body capacity/allocation analysis not consumed.",
+        "Full-body dropout-schedule and speedup tables not consumed.",
+        "Full paper body outstanding; precedent role only.",
+        "Launch/API pages summarized from search excerpts; full pages not consumed.",
+        "Kernel code, numerics, and perf numbers not consumed.",
+        "numerics/perf at Evidence: Numerics/perf unconsumed; no performance fact cited.",
+        "Repo code, demo, and figures not consumed.",
+        "Exhaustive derivation-statement search not claimed; Qwen-side provenance docs may postdate this pass."
+      ],
+      "drafting_order": 3,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p4-precision",
+      "title": "Bitを減らし、巨大モデルを手元で動かす",
+      "purpose": "Reduce bits and run giant models locally: int8/GPTQ/SmoothQuant/AWQ, FP8/FP4/MX, QLoRA, low-bit/native-low-bit boundary, GGUF as format (never as algorithm), llama.cpp, heterogeneous CPU/GPU reality, MoE weight-memory. Community/X material is supporting evidence only.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:c944abddfd187ae3",
+        "candidate:SP-efficient-llm-2026:fafd1042940cfcd8",
+        "candidate:SP-efficient-llm-2026:2b84aa05d6985cbf",
+        "candidate:SP-efficient-llm-2026:b1e2dd4352d316ca",
+        "candidate:SP-efficient-llm-2026:4bc5db40e85eac5e",
+        "candidate:SP-efficient-llm-2026:d53dcf04e16c7b74"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:dac4d7ad4dd69cd2",
+        "candidate:SP-efficient-llm-2026:8a5f25cf43a5bf52",
+        "candidate:SP-efficient-llm-2026:5b09c57ff50e2054",
+        "candidate:SP-efficient-llm-2026:1f0313471a6689a0",
+        "candidate:SP-efficient-llm-2026:4e1c1856a98985f1",
+        "candidate:SP-efficient-llm-2026:8359346139cbca7a",
+        "candidate:SP-efficient-llm-2026:1b1bf5c87d542b81",
+        "candidate:SP-efficient-llm-2026:7dc41c44f5b22741",
+        "candidate:SP-efficient-llm-2026:6f16b3a1e1ac01e8",
+        "candidate:SP-efficient-llm-2026:22eef64d61a9d277"
+      ],
+      "must_cover_requirements": [
+        "EFF-O06",
+        "EFF-O07",
+        "EFF-O09"
+      ],
+      "boundaries": [
+        "GGUF is a representation format, not a quantization algorithm; D164 vendor speed/quality figures quarantined; D162 X ledger SUPPORTING-only, configuration-bound; D005 supplement-bound identity, abstract-scope; non-MSR native-1-bit deployment not found.",
+        "Full paper body (scaling laws for FP8, per-tensor scaling recipes) outstanding; format details at established level.",
+        "Canonical Discovery locator amendment deferred to Sol; supplement is the citing authority.",
+        "Full-body outlier-emergence analysis and benchmark tables not consumed.",
+        "Full-body layer-wise error analysis not consumed.",
+        "Full-body optimizer/memory analysis not consumed.",
+        "Spec page not fetched; claims scoped to established role + D050/D164 corroboration.",
+        "Codebase not cloned or audited; implementation-correctness claims rest on PR-page validation reports.",
+        "version/content binding at Evidence: No version pin extracted; project is continuously developed, binding deferred.",
+        "Full-body smoothing-factor derivations and tables not consumed.",
+        "Full-body salience analysis and on-device tables not consumed.",
+        "Full-body training-stability analysis not consumed.",
+        "adoption status: Non-MSR industrial adoption not confirmed this pass; recorded as open, not as negative.",
+        "vLLM dispatch code not audited; claims rest on recipe documentation.",
+        "Repository not fetched; mechanism details at description level.",
+        "version/content binding at Evidence: No version pin extracted.",
+        "Full-body scaling-law derivations not consumed; deployment status per D047 limitation.",
+        "deployment status: Industrial deployment beyond research open; consistent with D047.",
+        "Spec PDF not fetched; element/format details at established level.",
+        "Raw X corpus imported as ledger record; per-observation verification not performed and not claimed.",
+        "No technical, economic, or license fact is sourced to this record.",
+        "GGUF quality figures (top-1/KLD) are Unsloth-measured; independent quantization-quality verification outstanding.",
+        "llama.cpp fork PR contents not audited beyond the docs' description.",
+        "MTP claim independence: MTP speedup figures vendor-measured only; independent confirmation outstanding.",
+        "Port correctness rests on PR-reported validation; no independent rebuild or measurement performed.",
+        "Host-side PLE memory behavior (97.7GiB table, streaming converter, ~300GB RSS peak avoided) is implementation-described."
+      ],
+      "drafting_order": 4,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p5-decode",
+      "title": "1 tokenずつ待たない",
+      "purpose": "Stop waiting one token at a time: speculative decoding (draft/target), EAGLE, MTP with current adoption, then test-time compute, budget forcing, ThinkPrune and overthinking. Tie decode seriality and reasoning-budget waste into one arc without claiming they are the same mechanism.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:1ff8f5b7703b49b4",
+        "candidate:SP-efficient-llm-2026:76886cd64a5743f1",
+        "candidate:SP-efficient-llm-2026:c99750a02188c6f9",
+        "candidate:SP-efficient-llm-2026:6ff1e24bd2b5f646",
+        "candidate:SP-efficient-llm-2026:9b418dc6edbb6684",
+        "candidate:SP-efficient-llm-2026:3257899e27fab8fc",
+        "candidate:SP-efficient-llm-2026:3c97b39cc48f81ce",
+        "candidate:SP-efficient-llm-2026:23d7c5bbe7624e7d"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:0da207cf6835f153",
+        "candidate:SP-efficient-llm-2026:fbeebd1ffa86ddfe",
+        "candidate:SP-efficient-llm-2026:1f57606119617d5e",
+        "candidate:SP-efficient-llm-2026:440ab8dcea9176b1",
+        "candidate:SP-efficient-llm-2026:7a0e7638ccc24693"
+      ],
+      "must_cover_requirements": [
+        "EFF-O05",
+        "EFF-O14",
+        "EFF-O09"
+      ],
+      "boundaries": [
+        "Decode seriality and reasoning-budget waste are adjacent, not identical; D150 weight-vs-substitute boundary preserved; D069 distillation claims bounded.",
+        "Full-body acceptance-criterion proofs and speedup tables not consumed.",
+        "Ablation details (tree structure, training data) at section scope; batch-size sensitivity outstanding.",
+        "Multi-epoch/scale ablations and appendix derivations at structural scope.",
+        "Verifier-training details (PRM/ORM appendices) and revision-model ablations outstanding.",
+        "Ablation tables (quantity/diversity/difficulty, forcing-vs-rejection-sampling) at structural scope.",
+        "Generalization beyond R1-Distill-1.5B/AIME24-class math outstanding.",
+        "RL training-cost accounting not extracted.",
+        "Flip-mechanism causal analysis at section scope; full ablations outstanding.",
+        "Card/interface pages not fetched separately; Qwen-side tier semantics at summary level.",
+        "Full-body proofs and benchmark tables not consumed.",
+        "Full-body tree-construction and speedup tables not consumed.",
+        "Full-body acceptance-model details and tables not consumed.",
+        "Docs page body not fetched; claims scoped to Discovery summary with downstream corroboration.",
+        "runtime version binding: Exact doc revision / supported-version floor not pinned from this page.",
+        "Full-body RL pipeline and distillation evaluation tables not consumed."
+      ],
+      "drafting_order": 5,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p6-serving",
+      "title": "Servingで消える無駄",
+      "purpose": "Eliminate waste in serving: Orca-style scheduling, continuous batching, PagedAttention/vLLM, prefix/KV reuse, disaggregation, Mooncake, Sarathi, cache/offload, SLO/concurrency. Architecture efficiency alone does not determine production efficiency.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:fd2c6699609f1e6d",
+        "candidate:SP-efficient-llm-2026:1f72d5c9dfbc366c",
+        "candidate:SP-efficient-llm-2026:fa7898ffcb81cd0b",
+        "candidate:SP-efficient-llm-2026:3e5fc49c26038504",
+        "candidate:SP-efficient-llm-2026:cf74ecbbbff883f9"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:5370eb8d0284be7d",
+        "candidate:SP-efficient-llm-2026:f272bafd6c642c4e",
+        "candidate:SP-efficient-llm-2026:b3ed58884dfb4810",
+        "candidate:SP-efficient-llm-2026:bc692472004835f4",
+        "candidate:SP-efficient-llm-2026:9c5f3bf57f317c27",
+        "candidate:SP-efficient-llm-2026:8bde9fa57b59aa3e",
+        "candidate:SP-efficient-llm-2026:1c0a12fd466ad082",
+        "candidate:SP-efficient-llm-2026:3b2e72aae690ed83",
+        "candidate:SP-efficient-llm-2026:254e4aa47881a5cf"
+      ],
+      "must_cover_requirements": [
+        "EFF-O08",
+        "EFF-O15"
+      ],
+      "boundaries": [
+        "D061/D062 supplement-bound identities, abstract-scope; D163 AMD-refusal and MTP-module-drop boundaries preserved; release-level recipe authority, line-level detail outstanding.",
+        "Full-body block-table design and throughput tables not consumed.",
+        "Full-body scheduler design and speedup tables not consumed.",
+        "Full-body placement analysis and cost tables not consumed.",
+        "Full paper body (disaggregation protocol, evaluation) outstanding.",
+        "Canonical locator amendment deferred to Sol.",
+        "Full bodies (chunking algorithm, tradeoff analysis, evaluations) outstanding.",
+        "No paper-grade ablations exist; acceptance numbers are workload-measured only (InferenceX golden 3.51 in benchmark config).",
+        "Kernel code and benchmark tables not consumed.",
+        "Library code and benchmark numbers not consumed.",
+        "version binding at Evidence: No version pin extracted.",
+        "Kernel code and numerics analysis not consumed.",
+        "Kernel code and coverage matrix not consumed.",
+        "Docs page not fetched separately; claims rest on D163 consumption and Discovery summary.",
+        "version binding: Doc-to-release version pin not extracted.",
+        "Docs page not fetched; mechanism scoped to established role.",
+        "version binding: No version pin extracted.",
+        "Repository not fetched; API/backend matrix outstanding.",
+        "Recipe is living documentation (nightly drift); pinned-config validation does not transfer to other images or scheduler caps.",
+        "Throughput-mode synthetic acceptance is measurement-only; EVAL_ONLY=true (real rejection) governs serving."
+      ],
+      "drafting_order": 6,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p7-routing",
+      "title": "「大きなモデルを毎回呼ぶ」必要はあるか",
+      "purpose": "Ask whether the big model must be called every time: FrugalGPT cascades, RouteLLM learned routing, router fragility, and Jev/System One as a current specialization case with explicitly bounded vendor claims and thin independent reproduction stated as a limitation.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:b8b9f70aa257d535",
+        "candidate:SP-efficient-llm-2026:cc12f66d1bfb44ff",
+        "candidate:SP-efficient-llm-2026:4700b268375ef45d",
+        "candidate:SP-efficient-llm-2026:4fb4b67a42855df6",
+        "candidate:SP-efficient-llm-2026:d8e97ced679fe64f",
+        "candidate:SP-efficient-llm-2026:a558d1a673811397"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:3bf3aa0d490ac4de",
+        "candidate:SP-efficient-llm-2026:6e5163a98fbeebdb",
+        "candidate:SP-efficient-llm-2026:21ce0892d8846adf"
+      ],
+      "must_cover_requirements": [
+        "EFF-O10"
+      ],
+      "boundaries": [
+        "Jev presented as a current specialization case, never as an established generative-LLM replacement; vendor claims bounded by missing independent reproduction and unresolved public calibration protocol; D157 summary-scope constrains fragility generalizations; D072 explicitly not specification authority.",
+        "Independent reproduction of latency/price/accuracy claims outstanding (D073 community leads only).",
+        "RLCD algorithm internals not disclosed on this page; architecture detail limited to sampler/output semantics.",
+        "Behavioral calibration quality and non-English accuracy untested independently.",
+        "API-reference contract details belong to D142, not this page.",
+        "Behavioral compliance with documented limits untested independently.",
+        "Non-English (incl. CJK) accuracy explicitly weaker; test-on-own-content warning recorded.",
+        "Full cascade-optimization formulation outstanding; prices stale by construction.",
+        "Savings/results tables not extracted; router-architecture ablations outstanding.",
+        "Paper body not consumed; fragility conditions at summary level.",
+        "Snapshot date and edit provenance not established; wiki content mutable.",
+        "Hub contents not audited lead-by-lead; independent evaluation status remains LOW_SIGNAL per X corpus (D162).",
+        "Reference page not fetched; schema/confidence-derivation details outstanding.",
+        "calibration protocol gap: No public calibration protocol located; independent evidence NOT FOUND retained."
+      ],
+      "drafting_order": 7,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p8-capstone",
+      "title": "2026年の実装点",
+      "purpose": "Compare the four 2026 implementation points by mechanism stack, not leaderboard rank: DeepSeek V4.1 Flash, Qwen3.8-Flash-Next, Kimi Linear, GLM-5.3-Flash, plus the Jev current-case pointer. Dimensions: total/active parameters, attention/memory design, precision, decoding, serving/runtime support, local feasibility, documented trade-offs, evidence quality. GLM D128 abstract-scope limitation is visible.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:2ad51c4075704080",
+        "candidate:SP-efficient-llm-2026:ffe79e6955027f08",
+        "candidate:SP-efficient-llm-2026:c144a78090278fb5",
+        "candidate:SP-efficient-llm-2026:fc8b6d6bf93465f6",
+        "candidate:SP-efficient-llm-2026:a25e760c25def989"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:88ecfbacbed58fee",
+        "candidate:SP-efficient-llm-2026:42bee8e78f269f73",
+        "candidate:SP-efficient-llm-2026:5370eb8d0284be7d",
+        "candidate:SP-efficient-llm-2026:8bde9fa57b59aa3e",
+        "candidate:SP-efficient-llm-2026:e7157c0c760b45a1",
+        "candidate:SP-efficient-llm-2026:2f85ca2aa6ae916b",
+        "candidate:SP-efficient-llm-2026:7032f499359e113a",
+        "candidate:SP-efficient-llm-2026:f6feab6e543b821a",
+        "candidate:SP-efficient-llm-2026:24d5d70dbd8841b8",
+        "candidate:SP-efficient-llm-2026:9a1e8695996f4b60",
+        "candidate:SP-efficient-llm-2026:41882e59c2dc6fa7",
+        "candidate:SP-efficient-llm-2026:17cdbbb4075316ed",
+        "candidate:SP-efficient-llm-2026:7dc41c44f5b22741",
+        "candidate:SP-efficient-llm-2026:254e4aa47881a5cf",
+        "candidate:SP-efficient-llm-2026:6f16b3a1e1ac01e8",
+        "candidate:SP-efficient-llm-2026:22eef64d61a9d277"
+      ],
+      "must_cover_requirements": [
+        "EFF-O11"
+      ],
+      "boundaries": [
+        "D128 PRIMARY-but-abstract-scope: report abstract consumed; full-body DSA adoption details, RL infrastructure, benchmark tables NOT consumed; mixed GLM authority depth (D128 plus first-party model/docs/runtime); vendor ratios quarantined; no full-body-verified language for GLM; per-figure pins open across capstones; D162 SUPPORTING-only.",
+        "Per-ablation tables and QSA evaluation details outstanding; vendor ratios quarantined.",
+        "Codebase not cloned or audited; no independent reproduction executed this pass.",
+        "kernel/runtime version binding: Exact kernel/runtime commit pins not extracted; deferred to Sol gap-fill judgment.",
+        "Card page body not fetched; spec figures rest on report + recipe corroboration.",
+        "Per-figure benchmark numbers and scaffold-config details outstanding; figures cited for no fact.",
+        "Training-infra (§3) and data-curation (§4) sections at structural scope.",
+        "scaffold/version binding: Appendix B/C per-figure pins not extracted; binding rule recorded, figures quarantined.",
+        "Full-body DSA-adoption details, RL-infra design, and benchmark tables not consumed.",
+        "Recipe page body not consumed line-level this pass; claims scoped to Discovery summary plus D163 recipe consumption.",
+        "topology/precision binding at Evidence: Exact per-topology precision matrix from this specific Dynamo page not extracted; carried as limitation for Sol gap-fill judgment.",
+        "Card page body not fetched; config facts corroborated via D008/D127 only.",
+        "No paper-grade ablations exist; acceptance numbers are workload-measured only (InferenceX golden 3.51 in benchmark config).",
+        "Docs page not fetched separately; claims rest on D163 consumption and Discovery summary.",
+        "version binding: Doc-to-release version pin not extracted.",
+        "Blog page not fetched; figures not independently verified or harness-decomposed.",
+        "Blog page not fetched; substance rests on D008 corroboration.",
+        "Launch/API pages summarized from search excerpts; full pages not consumed.",
+        "Repo not fetched; footnote text and runtime matrix outstanding.",
+        "bound/footnote verification: SWE-Pro footnote text not extracted; normalization claim unconfirmed.",
+        "Repo not fetched; IndexShare/MTP figures unconfirmed beyond repo reporting.",
+        "IndexPool resolution: IndexPool identity unresolved; Sol judgment whether to pursue.",
+        "Card page not fetched; identity facts scoped to summary.",
+        "Docs page not fetched; measurement conditions outstanding.",
+        "Kernel code, numerics, and perf numbers not consumed.",
+        "numerics/perf at Evidence: Numerics/perf unconsumed; no performance fact cited.",
+        "Raw X corpus imported as ledger record; per-observation verification not performed and not claimed.",
+        "No technical, economic, or license fact is sourced to this record.",
+        "Recipe is living documentation (nightly drift); pinned-config validation does not transfer to other images or scheduler caps.",
+        "Throughput-mode synthetic acceptance is measurement-only; EVAL_ONLY=true (real rejection) governs serving.",
+        "GGUF quality figures (top-1/KLD) are Unsloth-measured; independent quantization-quality verification outstanding.",
+        "llama.cpp fork PR contents not audited beyond the docs' description.",
+        "MTP claim independence: MTP speedup figures vendor-measured only; independent confirmation outstanding.",
+        "Port correctness rests on PR-reported validation; no independent rebuild or measurement performed.",
+        "Host-side PLE memory behavior (97.7GiB table, streaming converter, ~300GB RSS peak avoided) is implementation-described."
+      ],
+      "drafting_order": 8,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    },
+    {
+      "package_id": "p9-measure",
+      "title": "数字をどう読むか",
+      "purpose": "Teach how to read numbers: TTFT, TPOT/ITL, tokens/sec, aggregate throughput, concurrency, context length, hardware, reasoning budget, benchmark version, scaffold/tool access, contamination, task-completion cost. SWE-bench Pro and validity exhibits show why apparently simple model comparisons fail.",
+      "primary_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:e2fbf2395f30a780",
+        "candidate:SP-efficient-llm-2026:a1d24c5083e64fcd",
+        "candidate:SP-efficient-llm-2026:61532b4a895e3a69",
+        "candidate:SP-efficient-llm-2026:f21cef758a2f2f6a",
+        "candidate:SP-efficient-llm-2026:88b92f88cd1f3f3d"
+      ],
+      "supporting_candidate_ids": [
+        "candidate:SP-efficient-llm-2026:437c59ea0e05b298",
+        "candidate:SP-efficient-llm-2026:d8b2a4aa00c15187",
+        "candidate:SP-efficient-llm-2026:15c6a238a429e1ad",
+        "candidate:SP-efficient-llm-2026:495befe1c4b19f20",
+        "candidate:SP-efficient-llm-2026:d5592f5bf028fc12"
+      ],
+      "must_cover_requirements": [
+        "EFF-O12"
+      ],
+      "boundaries": [
+        "No headline number travels without methodology and conditions; D093 section-level consumption outstanding; AIPerf product authority unresolved; tooling version pins per-record; D120 teaches incomparability, not ground truth.",
+        "Full-body task-collection protocol not consumed.",
+        "Full-text section-level consumption outstanding (captured 597KB Raw available for Sol-directed follow-up).",
+        "Public vs commercial vs held-out figures must never be mixed; per-figure scaffold pins outstanding.",
+        "Canonical locator amendment deferred to Sol.",
+        "Full 2.0 body outstanding; v1 original ID unpinned.",
+        "Full paper body (task suite, grading protocol) outstanding.",
+        "Spec pages not fetched; scenario details at established level.",
+        "Standalone DeepSWE primary not located; note body scoped to summary.",
+        "standalone DeepSWE primary: Standalone primary outstanding; figures quarantined.",
+        "perf_analyzer repo itself not cloned; metric semantics rest on docs.",
+        "AIPerf product identity beyond the successor pointer remains open.",
+        "locate/confirm AIPerf product identity: Successor named only; standalone product surface not located. Limitation preserved, not closed by assertion.",
+        "Repo and caveat docs not fetched; role scoped to screening decision.",
+        "Repo and task configs not consumed.",
+        "HELM repo and paper body not consumed."
+      ],
+      "drafting_order": 9,
+      "profile_extensions": {},
+      "publication_extensions": {}
+    }
+  ],
+  "selected_exceptions": [],
+  "profile_extensions": {},
+  "publication_extensions": {},
+  "human_review": {
+    "reviewed_by": null,
+    "reviewed_at": null,
+    "review_reference": null
+  }
+}

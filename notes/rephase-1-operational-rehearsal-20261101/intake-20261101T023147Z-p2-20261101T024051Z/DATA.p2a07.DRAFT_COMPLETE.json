@@ -1,0 +1,70 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "from_state": "DRAFT_COMPLETE",
+  "to_state": "VALIDATED_DRAFT",
+  "checkpoints": [
+    "validation"
+  ],
+  "recorded_at": "2026-09-13T14:35:00Z",
+  "implementation": {
+    "repository_commit_sha": "07c4b6a7522b19a14c09c9bdbdf6ad055ebef9c4",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "7e37522cb71aefd4c0a07fe2b7d1070e5faf6998c16d90414b99db3269eda324",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+  },
+  "artifacts": [
+    {
+      "name": "publication-pdf",
+      "path": "surveys/weekly/2026-W34/main.pdf",
+      "sha256": "e93db71a5be8249d65d66c5f3b0284875447d953eeadf3b66ca23a9318bd06de"
+    },
+    {
+      "name": "quality-regression-bundle",
+      "path": "sources/2026-W34/publication/v2/quality-regression-bundle-v2.json",
+      "sha256": "e1bd647975f6d8676a12a5e8b842bcd4fdb7d0cbf4c82d1f08ab572cd9012ef6"
+    },
+    {
+      "name": "reader-manuscript",
+      "path": "sources/2026-W34/publication/v2/reader-manuscript-v2.json",
+      "sha256": "c453bea798f6d7693d2e92d1dbae3fc7838b24d90df382c2547f3ad033b7c10e"
+    },
+    {
+      "name": "semantic-review",
+      "path": "sources/2026-W34/publication/v2/semantic-editorial-review-v2.json",
+      "sha256": "4d852488ff111e8c0868ca60c73967e953e52aaa7aea1f96e3a8e76e5dc5f2ec"
+    },
+    {
+      "name": "validated-source",
+      "path": "surveys/weekly/2026-W34/main.tex",
+      "sha256": "9d320a62a3ee8cb00262d214bc7b309c830dcd66a1f77e2c31285846a166e197"
+    },
+    {
+      "name": "visual-review",
+      "path": "sources/2026-W34/publication/v2/visual-review-v2.json",
+      "sha256": "692321069f001c966a008e490cddb7cac4dbb559b7b35ece7b4ca4adc6f66edb"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Gemini 3.8 Flash (W34 r2 Issue #491 repair)",
+      "evidence": "r2 Issue #491 repair validation",
+      "result": {
+        "path": "sources/2026-W34/execution/luna/w34-human-preview-r2-issue491-repair/validation/reader-publication-stage-validation-r4.json",
+        "sha256": "329d407aff2d7c8e125cd87595b87b9796460f5e4ec98d4f8880349641482e45"
+      }
+    }
+  ],
+  "summary": "W34 r2 Issue #491 repair validation (boundary normalization + Core #492 bibliography regeneration)"
+}

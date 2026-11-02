@@ -1,0 +1,147 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "review_kind": "SEMANTIC_EDITORIAL",
+  "status": "PASSED",
+  "production_profile": {
+    "path": "sources/SP-efficient-llm-2026/production-profile.json",
+    "sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117"
+  },
+  "reader_manuscript": {
+    "path": "sources/SP-efficient-llm-2026/publication/v2/reader-manuscript-v2.json",
+    "sha256": "cf7aca20714a23ba0b909fb62d79fe644c5e1fbc0d68ebc16b883d0a408f416e"
+  },
+  "source": {
+    "path": "surveys/special/efficient-llm-2026/main.tex",
+    "sha256": "87bcb707e13cfde7e3d589271415b66e42385d4c7359f3bb492e9adf2d09fabe",
+    "byte_count": 293777
+  },
+  "pdf": {
+    "path": "surveys/special/efficient-llm-2026/main.pdf",
+    "sha256": "8a9a721ac35b2e5baa2e20162b5a6ba4ae63945d512d985484aeae56073a23c1",
+    "byte_count": 850785
+  },
+  "page_count": 66,
+  "checks": [
+    {
+      "check_id": "ARCHITECTURE_CONTENT_FIDELITY",
+      "status": "PASS",
+      "detail": "All 9 packages and 17 must-cover requirements fulfilled in Sections 1-9 with claim boundaries preserved; DeepSeek V4.1-Flash now reads as 552B total with 8B input / 16B output asymmetric actives bound to v41report+v41card CED design (no whole-range 一桁B級前後 summary remains; prose and comparison table agree; prefill/input and decode/output consistent; no benchmark ranking); terminology consistent; 4 capstones without rank; citations support nearby claims.",
+      "evidence_locations": [
+        "package:p1-bottleneck",
+        "package:p2-scaling-moe",
+        "package:p3-attention",
+        "package:p4-precision",
+        "package:p5-decode",
+        "package:p6-serving",
+        "package:p7-routing",
+        "package:p8-capstone",
+        "package:p9-measure",
+        "Section 1 — 「効率」とは何を減らすことなのか",
+        "Section 2 — ScalingからConditional Computeへ",
+        "Section 3 — AttentionとMemoryを減らす",
+        "Section 4 — Bitを減らし、巨大モデルを手元で動かす",
+        "Section 5 — 1 tokenずつ待たない",
+        "Section 6 — Servingで消える無駄",
+        "Section 7 — 「大きなモデルを毎回呼ぶ」必要はあるか",
+        "Section 8 — 2026年の実装点",
+        "Section 9 — 数字をどう読むか"
+      ]
+    },
+    {
+      "check_id": "LONGFORM_TECHNICAL_DEPTH",
+      "status": "PASS",
+      "detail": "66 pages against target 76 (below target, consciously reviewed): depth retained across 9 packages with per-mechanism subsections, comparison tables, boundary boxes, exhibits, glossary, and appendix notes; no padding; below-target density disposition recorded here rather than auto-passed.",
+      "evidence_locations": [
+        "package:p1-bottleneck",
+        "package:p2-scaling-moe",
+        "package:p3-attention",
+        "package:p4-precision",
+        "package:p5-decode",
+        "package:p6-serving",
+        "package:p7-routing",
+        "package:p8-capstone",
+        "package:p9-measure",
+        "Section 1 — 「効率」とは何を減らすことなのか",
+        "Section 2 — ScalingからConditional Computeへ",
+        "Section 3 — AttentionとMemoryを減らす",
+        "Section 4 — Bitを減らし、巨大モデルを手元で動かす",
+        "Section 5 — 1 tokenずつ待たない",
+        "Section 6 — Servingで消える無駄",
+        "Section 7 — 「大きなモデルを毎回呼ぶ」必要はあるか",
+        "Section 8 — 2026年の実装点",
+        "Section 9 — 数字をどう読むか",
+        "page-plan:66/76",
+        "density-review:below-target-substantive"
+      ]
+    },
+    {
+      "check_id": "FINAL_SYNTHESIS_QUALITY",
+      "status": "PASS",
+      "detail": "Section 10 closes the layered thesis with per-layer takeaways, field guide, diagnostics, training discipline, and positional guidance; synthesis payload preserved without new claims.",
+      "evidence_locations": [
+        "Section 10 — 結び──層として読む効率",
+        "reader-role:final-synthesis",
+        "package:p9-measure"
+      ]
+    },
+    {
+      "check_id": "PUBLICATION_BOUNDARY",
+      "status": "PASS",
+      "detail": "No headline numbers without conditions; no leaderboard; vendor claims quarantined; GLM abstract-scope visible; citation-policy now reads technical-fact authority as primary/official/implementation/procedure with reception/community only as observation/reproduction leads (not technical-fact grounds); internal IDs absent from reader prose.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.tex: Sections 1, 8-9",
+        "publication/v2/reader-surface-gate-v2.json"
+      ]
+    },
+    {
+      "check_id": "BIBLIOGRAPHY_METADATA",
+      "status": "PASS",
+      "detail": "110/110 cited keys resolve to bibliography records with truthful authority notes; DeepSeek numeric claim bound to already-accepted first-party v41report+v41card containing 552B/8B/16B; three entries carry literal collective authorship where evidence cards name no author; no invented dates.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/references.bib",
+        "publication/v2/deterministic/subject-entity-property-binding.json"
+      ]
+    },
+    {
+      "check_id": "POST_TRANSFORM_SEMANTIC_REVALIDATION",
+      "status": "PASS",
+      "detail": "Post-TeX semantic revalidation: layout-only glossary \\par\\noindent fix preserves all glossary semantics; DeepSeek wording repair preserves publication boundary (no benchmarks, no ranking, no broadened claim); citation-policy repair narrows community authority (observation-only); boundary boxes restate draft CLAIM_BOUNDARY dispositions.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.tex: claimboundary x10",
+        "draft/v2/packages: 9/9 results"
+      ]
+    },
+    {
+      "check_id": "SOURCE_SPECIFIC_FAIL_CLOSED_NOTES",
+      "status": "PASS",
+      "detail": "Fail-closed notes honored: abstract-scope sections stay abstract; launch pages at announcement scope; port reports as reporter-side records; living docs as pinned-config only; unresolved items left open.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.tex: Sections 3-4, 7-9"
+      ]
+    },
+    {
+      "check_id": "THEMATIC_HISTORICAL_ATTRIBUTION",
+      "status": "PASS",
+      "detail": "No unresolved lineage asserted (Engram/Qwen parallel-unresolved; KDA collision excluded); no ancestry from temporal proximity or shared terms; refits framed as構成-dependent.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.tex: Sections 2-3",
+        "draft/v2/profile-synthesis-result.json: historical_attribution_boundaries"
+      ]
+    },
+    {
+      "check_id": "THEMATIC_RESEARCH_CLOSURE",
+      "status": "PASS",
+      "detail": "Branch transitions, competing relations, and open lineage questions carried into closing synthesis; completeness LIMITATION obligations visible as reader-facing boundaries.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.tex: Section 10",
+        "draft/v2/profile-synthesis-result.json"
+      ]
+    }
+  ],
+  "reviewed_by": "Muse Spark (worker/execution review)",
+  "recorded_at": "2026-09-23T00:37:00Z",
+  "review_sha256": "89033922ad60957f1e766fb68b22c14c8046f1f489f162f68d78c12c7025b0e4"
+}

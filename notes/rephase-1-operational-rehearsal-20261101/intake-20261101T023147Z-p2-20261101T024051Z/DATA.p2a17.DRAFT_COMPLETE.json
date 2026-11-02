@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "DRAFT_COMPLETE",
+  "to_state": "VALIDATED_DRAFT",
+  "checkpoints": [
+    "validation"
+  ],
+  "recorded_at": "2026-09-22T19:10:00Z",
+  "implementation": {
+    "repository_commit_sha": "b0f1f539e020db5695858595723d9745905a544d",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "publication-pdf",
+      "path": "surveys/special/efficient-llm-2026/main.pdf",
+      "sha256": "bc6e280c668a4a17ff98dae58fc574cdce701cce9dd8926eb8b1138e82a46e0b"
+    },
+    {
+      "name": "quality-regression-bundle",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/quality-regression-bundle-v2.json",
+      "sha256": "08c0e35848b93e8e27ae6937ea255278dbe760eec96dc32af6f295eed1f0f18d"
+    },
+    {
+      "name": "reader-manuscript",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/reader-manuscript-v2.json",
+      "sha256": "f99c3b9353e978aec009871875a0df77d30b7be387b2c90ede15ac44aacbd693"
+    },
+    {
+      "name": "reader-surface-gate",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/reader-surface-gate-v2.json",
+      "sha256": "417e49ac28b9e1c8babeac181fb541618a8f23935e61533ac79e5d21bce678a5"
+    },
+    {
+      "name": "semantic-review",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/semantic-editorial-review-v2.json",
+      "sha256": "c60513eb08a27d8339909dea75d48ea1ddcd6dfe439106a26c8d29465d10c10f"
+    },
+    {
+      "name": "validated-source",
+      "path": "surveys/special/efficient-llm-2026/main.tex",
+      "sha256": "b09ab3516afaadb5e0f64e21515d2e71dd43cbb926c657e40d48b939dc54b44c"
+    },
+    {
+      "name": "visual-review",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/visual-review-v2.json",
+      "sha256": "c4ae1c38c09477dfd003336cf820f9e23267c864861b8292f669a65257d6a222"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Survey Production Core v2 survey_stage_validation_v2.py",
+      "evidence": "TS-001 reissue reader publication validation: 66-page exact main.tex/PDF pair with manuscript, quality bundle (4 deterministic PASS), semantic review (9 checks PASS incl. below-target density disposition 66/76), visual review (5 checks PASS over exact PDF bytes), reader-surface gate PASSED. Machine validation only.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/validation/reader-publication-stage-validation-r1.json",
+        "sha256": "b87ca916727c18f5c5448f54ddc3c9f7412db2e6fe944b419c7aaa4034d1277c"
+      }
+    }
+  ],
+  "summary": "TS-001 reissue: validate 66-page reader publication with full QA authority"
+}

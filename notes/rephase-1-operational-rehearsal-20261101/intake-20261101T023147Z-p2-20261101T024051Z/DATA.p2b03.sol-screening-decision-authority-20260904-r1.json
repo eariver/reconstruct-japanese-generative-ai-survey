@@ -1,0 +1,86 @@
+{
+  "schema_version": "0.1",
+  "issue_id": "2026-W34",
+  "authority": "SOL_SCREENING_DECISION",
+  "status": "FINAL_FOR_SCREENING_MATERIALIZATION",
+  "basis": {
+    "package_path": "sources/2026-W34/screening/v2/prepared/w34-event-screening-r1/package.json",
+    "package_sha256": "547305a3991a5a1e7f633ef2b0188bb4e44c916fc19a1b307778c7e01434e84a",
+    "profile_sha256": "a6e3eb3006dde95da008876486cbfc7fdce75f507f7efcd6b0fcaba5e154b21a",
+    "state_sha256": "2eaa0dbb1a6bdee745b2fb836a9fc6ad70c46bded86b51faf313cf5e3e512768",
+    "prompt_sha256": "3e45900ead73688eab8734036e6e476c1ec4f1a7ce38da42d5ca52a68ef0a862",
+    "result_contract_sha256": "a05b65b41efbcaf654df5c3c5944254a76d93d8a28cab961f2c06f6d580da5a2",
+    "batch_sha256": {
+      "batch-001": "6ff2bf503d59d866d0840b1d90fcb1f151f6e638ebd7f8faa142dea2f0ff3228",
+      "batch-002": "d406a8f9aeff7e7e26b1f52ea40d422492ee078c9a50057fd6536cfb5963f11e",
+      "batch-003": "5041f5904f76caaa25e2bf6c006ca3b42fa9a4eae8d253fd8ddfc008d7a12204"
+    }
+  },
+  "counts": {
+    "KEEP": 45,
+    "MAYBE": 19,
+    "INSPECT": 16,
+    "DROP": 25,
+    "TOTAL": 105
+  },
+  "decision_sets": {
+    "KEEP": ["W34-C001","W34-C002","W34-C003","W34-C004","W34-C005","W34-C006","W34-C008","W34-C009","W34-C010","W34-C011","W34-C012","W34-C013","W34-C015","W34-C017","W34-C018","W34-C019","W34-C020","W34-C022","W34-C023","W34-C025","W34-C026","W34-C030","W34-C031","W34-C039","W34-C040","W34-C047","W34-C050","W34-C052","W34-C055","W34-C057","W34-C065","W34-C083","W34-C087","W34-C091","W34-C092","W34-C096","W34-C097","W34-C098","W34-C099","W34-C100","W34-C101","W34-C102","W34-C103","W34-C104","W34-C105"],
+    "MAYBE": ["W34-C014","W34-C021","W34-C024","W34-C027","W34-C028","W34-C029","W34-C032","W34-C033","W34-C034","W34-C036","W34-C041","W34-C046","W34-C058","W34-C066","W34-C080","W34-C081","W34-C082","W34-C093","W34-C095"],
+    "INSPECT": ["W34-C007","W34-C016","W34-C035","W34-C037","W34-C038","W34-C043","W34-C044","W34-C045","W34-C048","W34-C051","W34-C053","W34-C054","W34-C056","W34-C073","W34-C085","W34-C088"],
+    "DROP": ["W34-C042","W34-C049","W34-C059","W34-C060","W34-C061","W34-C062","W34-C063","W34-C064","W34-C067","W34-C068","W34-C069","W34-C070","W34-C071","W34-C072","W34-C074","W34-C075","W34-C076","W34-C077","W34-C078","W34-C079","W34-C084","W34-C086","W34-C089","W34-C090","W34-C094"]
+  },
+  "materialization_rules": {
+    "discovery_id": "Use the exact event-level discovery_id corresponding to each W34-Cxxx in the repaired event-discovery-v2.jsonl; W34-C001 maps to w34-event-c001 through W34-C105 maps to w34-event-c105.",
+    "reason": {
+      "KEEP": "<title> is materially relevant to W34 on current relevance and/or technical significance; proceed to Evidence verification without treating discovery claims as established evidence.",
+      "MAYBE": "<title> has a plausible W34 delta, but its relative technical/editorial significance is not yet strong enough for unconditional Evidence priority.",
+      "INSPECT": "<title> may be materially relevant, but source identity, chronology, authority, or claim scope remains insufficiently resolved for a direct KEEP/DROP decision.",
+      "DROP": "<title> is outside the ordinary W34 scope, duplicate/context-only, routine noise, or lacks sufficient standalone technical relevance for Evidence work."
+    },
+    "scope_tags": "Deterministically derive from source.metadata.lane by splitting on ' / ', trimming, lowercasing, replacing spaces with hyphens, and removing duplicates. Do not introduce new semantic tags beyond the lane components.",
+    "verification_targets": "For KEEP, MAYBE, and INSPECT use exactly one target: source.metadata.next_verification when non-empty, otherwise source.summary_text. For DROP use an empty array.",
+    "confidence": {
+      "default_KEEP": "high",
+      "KEEP_medium_overrides": ["W34-C001","W34-C002"],
+      "default_MAYBE": "medium",
+      "default_INSPECT": "medium",
+      "INSPECT_low_overrides": ["W34-C053","W34-C054","W34-C085"],
+      "default_DROP": "high",
+      "DROP_medium_overrides": ["W34-C049","W34-C062","W34-C086"]
+    },
+    "duplicate_group": {
+      "W34-C013": "lfm2.5-inference",
+      "W34-C098": "lfm2.5-inference",
+      "W34-C023": "grok-4.6-distribution",
+      "W34-C024": "grok-4.6-distribution",
+      "W34-C042": "grok-4.6-distribution",
+      "W34-C025": "grok-build",
+      "W34-C067": "grok-build",
+      "W34-C029": "nemotron-3.5",
+      "W34-C070": "nemotron-3.5",
+      "W34-C031": "dogwood",
+      "W34-C069": "dogwood",
+      "W34-C043": "qwen3.8-community-optimization",
+      "W34-C044": "qwen3.8-community-optimization",
+      "W34-C100": "copilot-collaboration",
+      "W34-C101": "copilot-collaboration",
+      "W34-C104": "agentcore-control-plane",
+      "W34-C105": "agentcore-control-plane",
+      "default": null
+    }
+  },
+  "sol_screening_rationale": {
+    "KEEP": "Clear W34 technical/product/research/infrastructure delta with sufficient importance to justify Evidence verification.",
+    "MAYBE": "Real or plausible W34 delta, but relative importance versus stronger items is not yet clear.",
+    "INSPECT": "Potentially material item blocked by first-party authority, exact chronology, artifact identity, or concrete claim-scope uncertainty.",
+    "DROP": "Pure pre/post-window background, explicit duplicate/context cluster, routine nightly/noise, or insufficient standalone technical relevance."
+  },
+  "guards": [
+    "Exactly 105 event decisions are authoritative; no event may be omitted or added.",
+    "Luna must not change a Sol decision or reinterpret a DROP/KEEP/MAYBE/INSPECT assignment.",
+    "Materialization fields may be generated only by the deterministic rules in this file from the repaired event-discovery input.",
+    "DailyX/Grok/X observations remain discovery/community signals and are not technical Evidence.",
+    "Formal Screening acceptance and lifecycle advancement are allowed only after all three Core result files validate against the exact prepared package basis.",
+    "No Evidence acceptance, Materiality, Completeness, Selection, Architecture, or Human Gate work is authorized by this decision record."
+  ]
+}

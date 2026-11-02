@@ -1,0 +1,131 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "research_scope": {
+    "question": "Large Language Modelsは、dense scalingとfull-attention Transformerを単純に巨大化する段階から、どのように「必要な計算だけを行う」「必要なmemoryだけを保持する」「生成を高速化する」「serving wasteを削る」「必要なら生成そのものを行わない」というarchitecture / systems co-designへ進化してきたのか。各効率化技術はどこで生まれ、どのモデルへ採用され、compute・memory・latency・throughput・costとmodel capabilityへどのような測定可能な効果とtrade-offをもたらしたのか。",
+    "inclusion": [
+      "D01 efficiency fundamentals / bottleneck model：training vs inference、prefill vs decode、compute/memory-bandwidth/communication bound、latency vs throughput、FLOPs vs memory movement、total vs active parameters、KV-cache/weight footprint、energy/hardware利用率、token cost vs completed-task costの分離",
+      "D02 scaling and training efficiency：scaling laws、Chinchilla/compute-optimal、data/model配分、低精度/FP8学習、optimizer効率、Muon、architecture別scaling-law refit、training-token削減（文書化範囲）。Qwen3.8-Flash-NextとDeepSeek系への接続を含む",
+      "D03 conditional computation / MoE：Shazeer sparsely-gated MoE、GShard、Switch Transformer、routing/load-balancing、Mixtral、DeepSeekMoE、DeepSeek V2/V3/V4.1系譜、Qwen MoE系譜、GLM/MiniMax等のmaterialなMoE。routing/top-k/shared-routed/fine-grained experts、load balance、通信、expert memory residency、total/active比、学習・serving含意",
+      "D04 attention/sequence/KV-cache efficiency（major lane）：MHA基準、MQA、GQA、FlashAttention 1/2/3、MLA、sparse attention、sliding-window/local attention、Mamba/selective SSM、Gated DeltaNet、Kimi Delta Attention/Kimi Linear、DeepSeek Sparse Attention、Qwen Sparse Attention、hybrid linear+sparse/full attention、DeepSeek V4.1 Causal Encoder–Decoder、SWA replay/reconstructed cache（検証範囲）。IO効率のexact attentionとcompute/storageを変えるarchitectureを区別",
+      "D05 decoding acceleration：speculative decoding、draft/target関係、EAGLE、Medusa（material範囲）、Multi-Token Predictionと現行MTP採用、DeepSeek DSparkまたは検証済み等価機構、Qwen MTP。分布保存、再学習要否、acceptance、latency/throughput、hardware/batching制約、品質相互作用",
+      "D06 precision/quantization/compression：LLM.int8()、GPTQ、SmoothQuant、AWQ、FP8、FP4/MXFP4（採用範囲）、QLoRA、SparseGPT/pruning、BitNet/native low-bit、importance-matrix/mixed quantization。PTQ/QAT・native low-bit、weight-only/weight+activation、KV-cache量子化、optimizer/学習精度、file/storage encodingを分離。GGUFはformatであり量子化algorithmではない",
+      "D07 model representation and local inference：GGML史（必要範囲）、GGUF仕様、llama.cpp、GGUF metadata/tensor、mmap/local loading、llama.cpp量子化family、CPU/GPU split、consumer hardware（material範囲）、KTransformers、MoEのheterogeneous CPU/GPU実行。huge-total/low-active MoEのweight-memory問題を説明。size/active compute/memory容量/bandwidthを分離",
+      "D08 inference kernels and serving systems：Orca iteration-level scheduling、continuous/inflight batching、PagedAttention/vLLM、prefix/KV reuse、SGLang/RadixAttention、FlashMLA、TensorRT-LLM（material範囲）、Splitwise、DistServe、Mooncake、prefill/decode disaggregation、KV-cache offload/distributed cache、chunked prefill、scheduler/SLO tradeoff",
+      "D09 distillation/pruning/adaptation efficiency：現行用法を説明する十分なdistillation史、reasoning-model distillation（material範囲）、DeepSeek R1 distilled models、pruning+retraining例、fine-tuning効率としてのLoRA/QLoRA、quality/capacity tradeoff。汎用fine-tuning tutorialにしない",
+      "D10 specialization instead of generation：Jev（TypeSafe AI System One Model）をmandatory current caseとする。typed probabilistic outputs、architecture主張、RLCD、parallel sampler、latency/price/throughput主張、厳密な評価方法、限界、availability、独立再現の有無。vendor benchmarkは独立再現までvendor claim。分類/routing/ranking/構造化確率的意思決定でtoken生成が必要かを問う。先行/並行precedentは無理なancestry主張なしに探索",
+      "2026 capstone model case studies：DeepSeek V4.1 Flash、Qwen3.8-Flash-Next、Kimi Linear、GLM-5.3-Flashを独立調査。MiniMax-M2.x、gpt-oss等の2025–2026モデルはmateriality判断で調査。国籍は選択基準にしない",
+      "benchmark methodology lane：taxonomy（broad knowledge/reasoning、expert science、math、code、repo-level SWE、terminal/environment、tool/function calling、interactive agents、web/browsing/research、long-context、必要範囲のmultimodal、inference/system efficiency）、seed benchmarks（MMLU-Pro、GPQA Diamond、Humanity's Last Exam、AIME系、LiveCodeBench、SWE-bench系、Terminal-Bench、BFCL、τ-bench、BrowseComp、RULER等）、efficiency metrics（TTFT、TPOT、tokens/sec、throughput、batch/concurrency、prefill/decode、KV-cache bytes、footprint、total/active params、FLOPs/token、energy、API価格、task完了cost）。全数値にmodel/version・benchmark version・date・harness・scaffold・reasoning budget・sampling・context/output制限・pass@k意味・hardware・authority・vendor/independentをbind。条件差のある横断比較を暗示しない。benchmark validity（saturation、contamination、version drift、broken tasks、hidden scaffolds、vendor harness、test-time compute、tool access、public/private、自己申告、独立再現；SWE-bench Verified/Proをmandatory例とする）をfirst-classで扱う"
+    ],
+    "exclusion": [
+      "単純な「最強LLMランキング」やbenchmark条件を無視した横断leaderboardを主目的とする構成",
+      "model parameter countだけによる性能比較",
+      "中国対米国など国家単位の政治的優劣評価",
+      "GPU/TPU/NPU semiconductor architectureそのものの網羅的歴史（algorithm/runtime co-designに必要な範囲のみ扱う）",
+      "datacenter infrastructure全般",
+      "prompt engineering tipsのカタログ",
+      "consumer向けmodel recommendation",
+      "一般的なagent framework一覧",
+      "multimodal generation技術史そのもの",
+      "すべてのLLM benchmarkの完全な歴史（本号の技術比較に必要なtaxonomy/methodology/failure modesに限定）",
+      "X投稿や二次報道だけを根拠にmodel specification、benchmark値、release date、license条件、歴史的priorityを確定すること"
+    ],
+    "scope_dimensions": [
+      "efficiency_fundamentals",
+      "scaling_and_training_efficiency",
+      "conditional_compute_moe",
+      "attention_sequence_kv_cache",
+      "decoding_acceleration",
+      "precision_quantization_compression",
+      "model_representation_local_inference",
+      "inference_kernels_serving",
+      "distillation_pruning_adaptation",
+      "specialization_instead_of_generation",
+      "capstone_2026_models",
+      "benchmark_methodology"
+    ],
+    "initial_obligations": [
+      {
+        "description": "training vs inference、prefill vs decode、compute/memory-bandwidth/communication bound、latency vs throughput、FLOPs vs memory movement、total vs active、KV-cache/weight footprint、energy/利用率、token cost vs task costを分離したbottleneck modelを一次資料で確立する。「高速化」への一語化を禁止。",
+        "dimension": "efficiency_fundamentals",
+        "obligation_id": "EFF-O01"
+      },
+      {
+        "description": "scaling laws、Chinchilla/compute-optimal、data/model配分、低精度・FP8学習、optimizer効率（Muon含む）、architecture別refit、training-token削減を一次資料で追跡し、Qwen3.8-Flash-NextとDeepSeek系へ接続する。",
+        "dimension": "scaling_and_training_efficiency",
+        "obligation_id": "EFF-O02"
+      },
+      {
+        "description": "Shazeer MoEからGShard/Switchを経てMixtral/DeepSeekMoE/DeepSeek V2/V3/V4.1/Qwen MoE/GLM/MiniMax等の現行系譜まで、routing/top-k/shared-routed/fine-grained/load-balance/通信/memory residency/total-active比と学習・serving含意を一次資料で追跡する。",
+        "dimension": "conditional_compute_moe",
+        "obligation_id": "EFF-O03"
+      },
+      {
+        "description": "MHA/MQA/GQA、FlashAttention 1/2/3、MLA、sparse/sliding-window/local attention、Mamba/SSM、Gated DeltaNet、KDA/Kimi Linear、DeepSeek/Qwen Sparse Attention、hybrid attention、V4.1 Causal Encoder–Decoder、SWA replay等をmajor laneとして一次資料で追跡し、IO効率exact attentionとcompute/storage変更architectureを区別する。",
+        "dimension": "attention_sequence_kv_cache",
+        "obligation_id": "EFF-O04"
+      },
+      {
+        "description": "speculative decoding、draft/target、EAGLE、Medusa（material範囲）、MTPと現行採用、DSparkまたは検証済み等価機構、Qwen MTPについて、分布保存・再学習要否・acceptance・latency/throughput・hardware/batching制約・品質相互作用を一次資料で検証する。",
+        "dimension": "decoding_acceleration",
+        "obligation_id": "EFF-O05"
+      },
+      {
+        "description": "LLM.int8()/GPTQ/SmoothQuant/AWQ/FP8/FP4-MXFP4/QLoRA/SparseGPT/BitNet等について、PTQ/QAT・native low-bit、weight-only/weight+activation、KV-cache量子化、optimizer/学習精度、storage encodingを分離して一次資料で検証する。GGUFを量子化algorithmと呼ばない。",
+        "dimension": "precision_quantization_compression",
+        "obligation_id": "EFF-O06"
+      },
+      {
+        "description": "GGML史、GGUF仕様、llama.cpp、metadata/tensor、mmap、量子化family、CPU/GPU split、KTransformers、heterogeneous MoE実行を一次資料で検証し、huge-total/low-active MoEのweight-memory問題を説明する。size/active/memory容量/bandwidthを分離。",
+        "dimension": "model_representation_local_inference",
+        "obligation_id": "EFF-O07"
+      },
+      {
+        "description": "Orca/continuous batching、PagedAttention/vLLM、prefix/KV reuse、SGLang/RadixAttention、FlashMLA、TensorRT-LLM（material範囲）、Splitwise/DistServe/Mooncake、disaggregation、offload/distributed cache、chunked prefill、scheduler/SLOを一次資料で検証する。architecture単体でcost/throughputを決めない。",
+        "dimension": "inference_kernels_serving",
+        "obligation_id": "EFF-O08"
+      },
+      {
+        "description": "現行用法に必要なdistillation史、reasoning distillation、R1 distilled models、pruning+retraining、LoRA/QLoRAのfine-tuning効率、quality/capacity tradeoffを一次資料で検証する。汎用tutorialにしない。",
+        "dimension": "distillation_pruning_adaptation",
+        "obligation_id": "EFF-O09"
+      },
+      {
+        "description": "Jev/TypeSafe System One Modelをmandatory caseとして、typed probabilistic outputs、architecture主張、RLCD、parallel sampler、latency/price/throughput主張、評価方法、限界、availability、独立再現有無を一次資料で検証する。vendor benchmarkはvendor claimとして扱う。先行/並行precedentは無理なancestryなしに探索。",
+        "dimension": "specialization_instead_of_generation",
+        "obligation_id": "EFF-O10"
+      },
+      {
+        "description": "DeepSeek V4.1 Flash、Qwen3.8-Flash-Next、Kimi Linear、GLM-5.3-Flashの要求領域（spec/attention/precision/decoding/serving/経済性/方法論/独立証拠）を独立調査し、MiniMax-M2.x/gpt-oss等の2025–2026モデルをmateriality判断で調査する。国籍を選択基準にしない。",
+        "dimension": "capstone_2026_models",
+        "obligation_id": "EFF-O11"
+      },
+      {
+        "description": "seed benchmarksとefficiency metricsのtaxonomy/methodology/failure modesを一次資料で確立し、全数値にmodel/version・benchmark version・date・harness・scaffold・budget・sampling・制限・pass@k意味・hardware・authority・vendor/independentをbindする。条件差のある横断比較を暗示しない。SWE-bench Verified/Proをmandatory例としてvalidityをfirst-classで扱う。",
+        "dimension": "benchmark_methodology",
+        "obligation_id": "EFF-O12"
+      }
+    ],
+    "temporal_policy": {
+      "mode": "OPEN_HISTORY_AS_OF",
+      "as_of": "2026-09-21T16:10:00Z"
+    }
+  },
+  "paths": {
+    "source_root": "sources/SP-efficient-llm-2026",
+    "survey_root": "surveys/special/efficient-llm-2026",
+    "work_branch": "special/efficient-llm-2026-work"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  }
+}

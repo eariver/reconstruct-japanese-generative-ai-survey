@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "from_state": "SELECTION_COMPLETE",
+  "to_state": "ARCHITECTURE_ESTABLISHED",
+  "checkpoints": [
+    "architecture"
+  ],
+  "recorded_at": "2026-09-10T20:30:00Z",
+  "implementation": {
+    "repository_commit_sha": "2b49ad77eafc4128f5d7dbf7004f767d8e29c078",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "704eacb989bd01cb08dd225f133e73c0505c77d52456fb6bd02c13fa3b8ca2e1",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+  },
+  "artifacts": [
+    {
+      "name": "architecture-review-attention",
+      "path": "sources/2026-W34/architecture-review-attention-v2.json",
+      "sha256": "2460890acf3d6aa7f67faf289d2b82f784a7a966cc37ef1eea97a6b9bab72b92"
+    },
+    {
+      "name": "architecture-review-summary",
+      "path": "sources/2026-W34/architecture-review-summary-v2.json",
+      "sha256": "a5daa11688463ed6944accd08de2735f91f3a18bb4d79e4bc0c7073101304029"
+    },
+    {
+      "name": "issue-architecture",
+      "path": "sources/2026-W34/architecture-v2.json",
+      "sha256": "7f30d273253805a5044a29e78c8c1d2a1a9817666a453ff61c77ac80ecb1b334"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Survey Production Core v2 survey_stage_validation_v2.py",
+      "evidence": "Sol Architecture Directive r1 mechanical materialization (Muse Spark 1.3 EXPERIMENTAL_LUNA_ROLE_SUBSTITUTION): 41 SELECTED placed exactly once across Packages 1-6 (P1 2+6=8, P2 2+10=12, P3 2+5=7, P4 2+5=7 including w34-event-c045/OpenAI API regional processing as SUPPORTING in Package 4, P5 1+4=5, P6 1+1=2; P7 WEEKLY_SYNTHESIS empty); PRIMARY 10/SUPPORTING 31; usage preserved; no HOLD placed; selected_exceptions []; target_pages 20/max_pages 26. Current-Core architecture-check PASS, review-summary READY_FOR_ARCHITECTURE_REVIEW, attention PASS, stage-contract SELECTION_COMPLETE->ARCHITECTURE_ESTABLISHED PASS under reviewed implementation 2b49ad77. Machine materialization only; Sol Architecture review required; Human Architecture Review pending; Drafting not authorized.",
+      "result": {
+        "path": "sources/2026-W34/execution/luna/w34-architecture-after-sol-selection-r2/validation/architecture-stage-validation-r1.json",
+        "sha256": "407d636cf73911447aa39bc8a213ed71c4527fa31b75db509c3d785d2f9bf8a6"
+      }
+    }
+  ],
+  "summary": "Sol Architecture Directive r1 materialized (Muse Spark 1.3 EXPERIMENTAL_LUNA_ROLE_SUBSTITUTION): 41 SELECTED exactly once P1-6 (10 PRIMARY/31 SUPPORTING), P7 synthesis empty, c045 in Package 4 SUPPORTING, exceptions [], pages 20/26; current-Core validation PASS; advance to ARCHITECTURE_ESTABLISHED for Human Architecture Review."
+}

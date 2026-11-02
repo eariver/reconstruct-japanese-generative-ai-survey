@@ -1,0 +1,66 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "RELEASE_CANDIDATE",
+  "to_state": "FROZEN",
+  "checkpoints": [
+    "freeze"
+  ],
+  "recorded_at": "2026-09-23T12:53:36Z",
+  "implementation": {
+    "repository_commit_sha": "80e829841002ef181129639789e19dfe74383007",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "freeze-record",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/freeze-record-v2.json",
+      "sha256": "142846f3b6580447e7ccb0c5c9b34ffc953d3cdff58cba453ed7b871630c35bd"
+    },
+    {
+      "name": "release-manifest",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/release-manifest-v2.json",
+      "sha256": "302926da3fa119d7c5112625f444beb781958757516a7333fb9462a0c48e0748"
+    },
+    {
+      "name": "visual-review-record",
+      "path": "sources/SP-efficient-llm-2026/publication/v2/visual-review-v2.json",
+      "sha256": "fae79e6739beb225e6c810bf9de2943729853a1b37e792ddc651765425b70487"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "survey_stage_validation_v2 with bounded Freeze/Human-Gate artifact admission correction",
+      "evidence": "Canonical RELEASE_CANDIDATE -> FROZEN semantics validated against the exact approved TS-001 Publication Candidate (candidate file adf22516, internal 6b9fd905), Human Publication Preview r2 approval (15b88fb2), candidate-bound pre-preview VISUAL review, Freeze record and Release Manifest. Bounded Freeze/Human-Gate artifact admission correction applied runtime-only per W34-W38 precedent (CV2-DM-001/002/003 recurrence); release identity uses the profile-derived public identity special/efficient-llm-2026 enforced by the frozen release workflow (CV2-DM-019); no shared-Core change.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/validation/freeze-stage-validation.json",
+        "sha256": "37bd963507c9afc82465faae05dc7b8ebb9f7e5dafda7fc6885cfbe359e6698c"
+      }
+    },
+    {
+      "check_id": "stage:freeze",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "survey_publication_v2.build_freeze + profile identity validation",
+      "evidence": "Freeze binds exact PDF SHA-256 8a9a721ac35b2e5baa2e20162b5a6ba4ae63945d512d985484aeae56073a23c1, 850785 bytes, 66 pages. Freeze Record is byte-identical to the canonical build_freeze reference; Release Manifest differs only in release_identity (special/efficient-llm-2026). visual-review-record is the already candidate-bound pre-preview VISUAL review; no post-approval review was invented. Production Profile and Quality Bundle bind LONGFORM_SPECIAL and release identity special/efficient-llm-2026.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/validation/freeze-stage-validation.json",
+        "sha256": "37bd963507c9afc82465faae05dc7b8ebb9f7e5dafda7fc6885cfbe359e6698c"
+      }
+    }
+  ],
+  "summary": "TS-001 reissue: freeze exact Human-approved Publication Preview r2 bytes (66pp PDF 8a9a721a, 850785 bytes; candidate adf22516; source 87bcb707) using canonical candidate-bound pre-preview VISUAL review and profile-derived release identity special/efficient-llm-2026; bounded runtime-only compat for CV2-DM-001/002/003 recurrence and CV2-DM-019 identity; no shared-Core change, no reader-byte change."
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "from_state": "FROZEN",
+  "to_state": "RELEASED",
+  "checkpoints": [
+    "release"
+  ],
+  "recorded_at": "2026-09-13T16:48:08Z",
+  "implementation": {
+    "repository_commit_sha": "5c809346757c49ed878d25e01281db79cafc24ae",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "7e37522cb71aefd4c0a07fe2b7d1070e5faf6998c16d90414b99db3269eda324",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+  },
+  "artifacts": [
+    {
+      "name": "merge-verification",
+      "path": "sources/2026-W34/publication/v2/merge-verification-v2.json",
+      "sha256": "4e67919c4d6620ec91cacbbbd33f9234cf0064f42034a32314e72c5af0892e97"
+    },
+    {
+      "name": "release-record",
+      "path": "sources/2026-W34/publication/v2/release-record-v2.json",
+      "sha256": "6808dbb0f0880f0a371689df135aa73b05e607a7f17ae9ee350da5d4e55465f2"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "post-release exact-byte reconciliation recovery",
+      "evidence": "Existing public weekly/2026-W34 Release target and downloaded asset were independently revalidated against the exact frozen main, Release Manifest, PDF SHA-256 and byte count before lifecycle adoption.",
+      "result": {
+        "path": "sources/2026-W34/execution/luna/w34-release/validation/core-stage-contract.json",
+        "sha256": "1566bca9d5bf5f1e65069078eebceb65155cba0588d94300941687cfde9a8f95"
+      }
+    },
+    {
+      "check_id": "RELEASE_EXACT_BYTE_RECONCILIATION",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "survey-production-v2-release.yml run 34769565399 plus bounded reconciliation",
+      "evidence": "Public issue-only Release identity, target and downloaded asset bytes were reconciled against the frozen Release Manifest; canonical run 34769565399 created and exact-byte verified the Release before the repository provenance helper defect stopped adoption.",
+      "result": {
+        "path": "sources/2026-W34/publication/v2/release-record-v2.json",
+        "sha256": "6808dbb0f0880f0a371689df135aa73b05e607a7f17ae9ee350da5d4e55465f2"
+      }
+    }
+  ],
+  "summary": "Exact frozen 2026-W34 publication bytes were publicly released and independently reconciled; repository provenance was adopted after supplying the deterministic Core report omitted by the current Release checkpoint helper."
+}

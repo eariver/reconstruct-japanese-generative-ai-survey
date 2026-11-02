@@ -1,0 +1,6 @@
+38 killed after ~14min hang (REAL-CLOCK start 2026-11-01T16:51:32Z, PID 3048844, ppid 1477).
+PRE only in stdout (508B), stderr 0, no evidence/v2 created, no state change.
+Observed via /proc/3048844/io: rchar 228011353736B (228GB) after 14:38, +8GB/30s linear, 99.9% CPU, fd only stdout/stderr, no Raw open (page-cache re-reads).
+Root cause (diag 40/41): task_authority_sources -> _supplement_entries_for_package re-validates 425-file/189MB supplement (SHA each Raw + screening re-validation) per task (409x) = ~77GB+ per phase, 200GB+ observed. Existing impl, no source change allowed, no stub bypass.
+Preserved: no overwrite (evidence/v2 absent), no state advance, SP untouched. Safe retry would duplicate same blowup; returned as capability gap to Root.
+Prior attempt1 120s timeout (0-byte, PID 3043897) + 600s timeout (0-byte) both with no evidence/v2, no alive PID, preserved in attempt1-timeout-note.

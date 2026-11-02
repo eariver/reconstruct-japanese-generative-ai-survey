@@ -1,0 +1,1056 @@
+{
+  "intake_dir": "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z",
+  "naming_note": "publisher-intake-<actualUTC> NEW unique dir 20261101T163426Z; per-GET *.time.txt governs (start/end UTC); prefix lineage to P5 did-bodies.md, suffix actual UTC start",
+  "repo": "eariver/japanese-generative-ai-survey (READ-ONLY, no Production checkout/Git readback/Production writes)",
+  "cutoff_historical_scope": "2026-09-21T16:10:00Z; prefer immutable vN/commit available by cutoff when verifiable; living docs saved as current observation 2026-11-01 with historical UNCONFIRMED",
+  "human_authorization": "Packet README \u00a762-64: Human explicitly selected \u9650\u5b9a\u53d6\u5f97\u3092\u8a31\u53ef for EXACT17 SP record URLs in intake-20261101T023147Z-p5-20261101T114236Z/did-bodies.md; permission covers necessary body + matching version/date metadata reads only; no broad new search, no code execution/adoption, no model-weight download, no Production changes. This intake stays within 17 original URLs + directly necessary version/body endpoints (export.arxiv API, abs version history, version-pinned PDF, HF model API, gh PR/commits/comments for listed PR). No general current-main, no wide websearch.",
+  "evidence_hold": "Independent reviews/evidence-efficient-llm-review-20261101T113240Z.md \u00a7\u00a73-5/\u00a77 CHANGES_REQUIRED: 11/12 VERIFIED unsupported (bodies absent) + loadbearing PARTIAL body-VERIFIED overclaims + O05/O04/O11 rationale overstatements. This intake supplies bodies, NOT status VERIFIED - semantic PASS requires independent re-review. Actual historical facts may contradict old claims - flagged not rewritten.",
+  "transport": {
+    "total_requests": 40,
+    "exit_0": 40,
+    "http_200": 40,
+    "total_data_files": 40,
+    "total_data_bytes": 21054963,
+    "note": "Transport 40/40 HTTP200 exit0; content-verified 40/40 bytes+SHA (PDF %PDF magic + content-type, HTML <title> + keywords, JSON keys, MD recipe). Transport200 != content VERIFIED. Zero-byte payloads: none. No unbounded retry (single attempt per URL; PDF fallback not needed - all HTML primaries succeeded where attempted, PDFs version-pinned direct). Failed attempts: none (all unblocked 17 retrieved). No saved old scripts rerun (new fetch-phase1.sh/phase2.sh only)."
+  },
+  "counts": {
+    "requested_dids": 17,
+    "bodies_retrieved": 17,
+    "metadata_retrieved": 17,
+    "unavailable_404_blocked": 0,
+    "failed_transport": 0,
+    "arxiv_version_pinned_confirmed": 10,
+    "living_doc_current_only_historical_unconfirmed": 7,
+    "pr_paginated_partial": 1
+  },
+  "version_boundary_gaps": [
+    "PR27742 commits 30/65 (page1 only, total 65 per PR metadata) + comments 30/144 (page1 only, total 144) - gh default per_page 30. Full conversation requires ?page=2..5 / ?per_page=100 on same endpoint - same-URL pagination, needs explicit follow-up if reviewer demands full 65/144. Current 30+30 saved as partial, not fake full.",
+    "Living docs (sp11-14, sp16-17): no immutable vN/commit available in headers; current observation 2026-11-01 only. Historical 2026-09-21 revision UNCONFIRMED. vLLM pinned 2026-09-20 claim unverified in page bytes. HF lastModified 2026-10-16 AFTER cutoff. Jev launch Last-Modified 2026-10-28 AFTER cutoff. Dynamo dev branch only. Do NOT promote to retroactive proof.",
+    "arXiv all 10 version-pinned and CONFIRMED < cutoff (sp01 v3 2025-03-04, sp02 v1, sp03 v3 2025-03-01, sp04 v1, sp05 v1 2026-04-12, sp06 v1, sp07 v2 2025-11-01, sp08 v1 2026-08-31, sp09 v1 2026-09-17, sp10 v1 2025-12-02). No post-cutoff version found in API/abs history for these IDs (latest == cutoff-available). If future vN appears after 2026-11-01, it is outside scope.",
+    "P5 date mismatches flagged (not coerced): sp05 API 2026-04-12 vs P5 2026-08-24; sp06 API 2023-05-09 vs P5 2023-05-10; sp07 API 2025-10-30 vs P5 2025-10-29; sp09 API 2026-09-17 vs P5 2026-09-18; sp11 actual Oct 28 2026 vs P5 2026-09-15; sp16 lastModified Oct 16 2026 vs P5 2026-09-10. Preserve both, do not rewrite."
+  ],
+  "did_map": [
+    {
+      "did": "EFF-D036",
+      "paper": "EAGLE",
+      "arxiv": "2401.15077",
+      "original_url": "https://arxiv.org/abs/2401.15077",
+      "actual_body_url": "https://arxiv.org/pdf/2401.15077v3",
+      "version": "v3",
+      "published": "2024-01-26T18:59:01Z",
+      "updated": "2025-03-04T13:58:39Z",
+      "body_file": "DATA.sp01-eagle-v3.pdf",
+      "gid_body": "sp01-body",
+      "metadata_files": [
+        "DATA.sp01-api.xml",
+        "DATA.sp01-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES - <title> EAGLE + abs history v1 2024-01-26 / v2 2024-02-04 / v3 2025-03-04, API id .../abs/2401.15077v3, PDF %PDF-1.5 1865998B raw contains EAGLE",
+      "historical_status": "CONFIRMED - v3 updated 2025-03-04 < cutoff 2026-09-21T16:10:00Z, immutable vN, preferred version",
+      "error": "none",
+      "p5_claim": "published_at 2024-01-26 matches API 2024-01-26",
+      "evidence_review_row": "\u00a73 row2 - VERIFIED overclaim to repair",
+      "required_sections_for_body_task": "\u00a75 results (3x/2x/1.6x, 160 tok/s vs 24 HF) + lossless guarantee scope + composability + feature-level draft + tree attention; vendor/author quarantine preserved, NOT VERIFIED until independent re-review",
+      "semantic_coverage": "PENDING - body saved, not consumed/VERIFIED; needs independent Evidence re-review"
+    },
+    {
+      "did": "EFF-D148",
+      "paper": "Snell TTC",
+      "arxiv": "2408.03314",
+      "original_url": "https://arxiv.org/abs/2408.03314",
+      "actual_body_url": "https://arxiv.org/pdf/2408.03314v1",
+      "version": "v1",
+      "published": "2024-08-06T17:35:05Z",
+      "updated": "2024-08-06T17:35:05Z (single version)",
+      "body_file": "DATA.sp02-snell-v1.pdf",
+      "gid_body": "sp02-body",
+      "metadata_files": [
+        "DATA.sp02-api.xml",
+        "DATA.sp02-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES - <title> Scaling LLM Test-Time Compute Optimally ... matches P5 locator, PDF %PDF-1.5 3870997B",
+      "historical_status": "CONFIRMED - v1 2024-08-06 < cutoff, only version",
+      "error": "none",
+      "p5_claim": "published_at 2024-08 matches API 2024-08-06",
+      "evidence_review_row": "\u00a73 row6",
+      "required_sections_for_body_task": "\u00a77 synthesis + headline 4x+ over BoN / 14x FLOPs-matched comparison + stated condition/allocation method",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D149",
+      "paper": "s1",
+      "arxiv": "2501.19393",
+      "original_url": "https://arxiv.org/abs/2501.19393",
+      "actual_body_url": "https://arxiv.org/pdf/2501.19393v3",
+      "version": "v3",
+      "published": "2025-01-31T18:48:08Z",
+      "updated": "2025-03-01T06:07:39Z",
+      "body_file": "DATA.sp03-s1-v3.pdf",
+      "gid_body": "sp03-body",
+      "metadata_files": [
+        "DATA.sp03-api.xml",
+        "DATA.sp03-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES - title s1: Simple test-time scaling, history v1 2025-01-31 / v2 2025-02-03 / v3 2025-03-01, PDF %PDF-1.5 1480533B",
+      "historical_status": "CONFIRMED - v3 2025-03-01 < cutoff",
+      "error": "none",
+      "p5_claim": "published_at 2025-01-31 matches API",
+      "evidence_review_row": "\u00a73 row7",
+      "required_sections_for_body_task": "\u00a72-3 method (s1K curation, budget forcing) + headline +27% over o1-preview, 50\u219257% AIME24 + Qwen2.5-32B / o1-preview benchmark scope",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D150",
+      "paper": "ThinkPrune",
+      "arxiv": "2504.01296",
+      "original_url": "https://arxiv.org/abs/2504.01296",
+      "actual_body_url": "https://arxiv.org/pdf/2504.01296v1",
+      "version": "v1",
+      "published": "2025-04-02T01:59:26Z",
+      "updated": "2025-04-02T01:59:26Z",
+      "body_file": "DATA.sp04-thinkprune-v1.pdf",
+      "gid_body": "sp04-body",
+      "metadata_files": [
+        "DATA.sp04-api.xml",
+        "DATA.sp04-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES - title ThinkPrune ..., PDF %PDF-1.5 1035542B raw contains ThinkPrune",
+      "historical_status": "CONFIRMED - v1 < cutoff",
+      "error": "none",
+      "p5_claim": "published_at 2025-04 matches API 2025-04-02",
+      "evidence_review_row": "\u00a73 row8",
+      "required_sections_for_body_task": "\u00a73.3/\u00a75 RL token-limit schedule + iterative pruning + results Table MATH500/AIME24/AMC + eval config temp 0.6/N=64/top-p/max tokens/harness",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D151",
+      "paper": "overthinking",
+      "arxiv": "2604.10739",
+      "original_url": "https://arxiv.org/abs/2604.10739",
+      "actual_body_url": "https://arxiv.org/pdf/2604.10739v1",
+      "version": "v1",
+      "published": "2026-04-12T17:20:35Z (API; P5 claimed 2026-08-24 FLAGGED)",
+      "updated": "2026-04-12T17:20:35Z",
+      "body_file": "DATA.sp05-overthinking-v1.pdf",
+      "gid_body": "sp05-body",
+      "metadata_files": [
+        "DATA.sp05-api.xml",
+        "DATA.sp05-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES title When More Thinking Hurts ... matches, BUT date mismatch flagged - actual API 2026-04-12 vs P5 2026-08-24, do NOT rewrite history, preserve both",
+      "historical_status": "CONFIRMED with FLAG - v1 2026-04-12 < cutoff 2026-09-21, available by cutoff; P5 date 2026-08-24 contradicts actual metadata, flagged not coerced",
+      "error": "date mismatch flagged, no fetch failure",
+      "p5_claim": "published_at 2026-08-24 CONTRADICTS API 2026-04-12 - flagged",
+      "evidence_review_row": "\u00a73 row9",
+      "required_sections_for_body_task": "\u00a73.3/\u00a75 flip methods + crossover stats CI [1.21,1.68]/[0.71,1.05] + cost-utility U_lambda + 16k-token 32x cost arithmetic + model/task scope",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D154",
+      "paper": "FrugalGPT",
+      "arxiv": "2305.05176",
+      "original_url": "https://arxiv.org/abs/2305.05176",
+      "actual_body_url": "https://arxiv.org/pdf/2305.05176v1",
+      "version": "v1",
+      "published": "2023-05-09T05:11:02Z (P5 claimed 2023-05-10, 1-day diff flagged)",
+      "updated": "2023-05-09T05:11:02Z",
+      "body_file": "DATA.sp06-frugalgpt-v1.pdf",
+      "gid_body": "sp06-body",
+      "metadata_files": [
+        "DATA.sp06-api.xml",
+        "DATA.sp06-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES title FrugalGPT ..., PDF %PDF-1.5 1171365B",
+      "historical_status": "CONFIRMED - v1 < cutoff",
+      "error": "1-day date diff flagged (API 05-09 vs P5 05-10), not material",
+      "p5_claim": "published_at 2023-05-10 ~ API 2023-05-09",
+      "evidence_review_row": "\u00a73 row10",
+      "required_sections_for_body_task": "\u00a74 results Table 3 50-98% savings, OVERRULING +1%/-73% + heterogeneous pricing analysis",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D027",
+      "paper": "Kimi Linear",
+      "arxiv": "2510.26692",
+      "original_url": "https://arxiv.org/abs/2510.26692",
+      "actual_body_url": "https://arxiv.org/pdf/2510.26692v2",
+      "version": "v2",
+      "published": "2025-10-30T16:59:43Z (P5 claimed 2025-10-29, 1-day diff)",
+      "updated": "2025-11-01T12:05:18Z (< cutoff 2026-09-21, latest before cutoff)",
+      "body_file": "DATA.sp07-kimi-v2.pdf",
+      "gid_body": "sp07-body",
+      "metadata_files": [
+        "DATA.sp07-api.xml",
+        "DATA.sp07-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES title Kimi Linear ..., history v1 2025-10-30 / v2 2025-11-01, PDF %PDF-1.7 1354769B raw contains Kimi Linear",
+      "historical_status": "CONFIRMED - v2 2025-11-01 < cutoff, preferred immutable vN; P5 did not pin version, now pinned",
+      "error": "none (1-day publish diff flagged)",
+      "p5_claim": "published_at 2025-10-29 ~ API 2025-10-30",
+      "evidence_review_row": "\u00a74 loadbearing PARTIAL (KDA, identical-recipe, KV/decode bounds, CC BY-NC-ND license)",
+      "required_sections_for_body_task": "KDA mechanism + hybrid + NoPE + 48B/3B + KV/throughput claims + per-task tables + identical-recipe protocol + license pin + fair-comparison/context bounds",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D008",
+      "paper": "Qwen3.8-Next",
+      "arxiv": "2608.30320",
+      "original_url": "https://arxiv.org/abs/2608.30320",
+      "actual_body_url": "https://arxiv.org/pdf/2608.30320v1",
+      "version": "v1",
+      "published": "2026-08-31T06:35:07Z",
+      "updated": "2026-08-31T06:35:07Z",
+      "body_file": "DATA.sp08-qwen-v1.pdf",
+      "gid_body": "sp08-body",
+      "metadata_files": [
+        "DATA.sp08-api.xml",
+        "DATA.sp08-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES title On the Design of Qwen3.8-Next ..., PDF %PDF-1.7 2363790B raw contains Qwen3",
+      "historical_status": "CONFIRMED - v1 2026-08-31 < cutoff",
+      "error": "none",
+      "p5_claim": "published_at 2026-08-31 matches API",
+      "evidence_review_row": "\u00a74 loadbearing (Tab.11 14-benchmarks, 1/3 tokens / 1/9 FLOPs, Gated Residual / n-gram placement, stability)",
+      "required_sections_for_body_task": "Tab.11 + \u00a7 architecture/ratios/stability/ablations + vendor 1/3 / 1/9 self-comparison scope preserved as quarantine",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D123",
+      "paper": "DeepSeek-V4.1-Flash report",
+      "arxiv": "2609.19969",
+      "original_url": "https://arxiv.org/abs/2609.19969",
+      "actual_body_url": "https://arxiv.org/pdf/2609.19969v1",
+      "version": "v1",
+      "published": "2026-09-17T09:43:10Z (P5 claimed 2026-09-18, 1-day diff)",
+      "updated": "2026-09-17T09:43:10Z",
+      "body_file": "DATA.sp09-v41-v1.pdf",
+      "gid_body": "sp09-body",
+      "metadata_files": [
+        "DATA.sp09-api.xml",
+        "DATA.sp09-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES title DeepSeek-V4.1-Flash: Pushing the Limits of KV Cache Compression, PDF %PDF-1.7 1663475B raw contains DeepSeek",
+      "historical_status": "CONFIRMED - v1 2026-09-17 < cutoff 2026-09-21T16:10:00Z (4 days before cutoff), immutable",
+      "error": "1-day diff flagged",
+      "p5_claim": "published_at 2026-09-18 ~ API 2026-09-17",
+      "evidence_review_row": "\u00a74 loadbearing (552B/CED/CSA2/FP4-KV/SWA/Engram/45T/appendix, per-figure UNRESOLVED preserved)",
+      "required_sections_for_body_task": "architecture + CED/CSA2/FP4-KV/SWA/Engram + post-training + eval appendix + version/scaffold pins + per-figure binding deferred",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D125",
+      "paper": "DeepSeek-V3.2",
+      "arxiv": "2512.02556",
+      "original_url": "https://arxiv.org/abs/2512.02556",
+      "actual_body_url": "https://arxiv.org/pdf/2512.02556v1",
+      "version": "v1",
+      "published": "2025-12-02T09:25:14Z",
+      "updated": "2025-12-02T09:25:14Z",
+      "body_file": "DATA.sp10-v32-v1.pdf",
+      "gid_body": "sp10-body",
+      "metadata_files": [
+        "DATA.sp10-api.xml",
+        "DATA.sp10-abs.html"
+      ],
+      "content_type": "application/pdf",
+      "identity_match": "YES title DeepSeek-V3.2: Pushing the Frontier ..., PDF %PDF-1.7 980616B raw contains DeepSeek",
+      "historical_status": "CONFIRMED - v1 < cutoff",
+      "error": "none",
+      "p5_claim": "published_at 2025-12 (month) matches API 2025-12-02",
+      "evidence_review_row": "\u00a74 loadbearing (DSA formulation + parity findings, indexer equations belong to D125)",
+      "required_sections_for_body_task": "DSA formulation + indexer/selection/O(Lk)/continuation/parity + V3.2-Exp vs non-Exp scope separation",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D070",
+      "paper": "Jev launch (TypeSafe)",
+      "arxiv": null,
+      "original_url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "actual_body_url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev (effective same, Framer, Last-Modified 2026-10-28T06:35:51Z)",
+      "version": "living doc, no immutable vN; current observation 2026-11-01T16:35:40Z",
+      "published": "P5 claimed 2026-09-15; actual page header Published Oct 28, 2026, 6:35 AM UTC + Last-Modified Oct 28 2026 FLAGGED",
+      "body_file": "DATA.sp11-launch.html",
+      "gid_body": "sp11-body",
+      "metadata_files": [
+        "sp11-body.headers.txt (Last-Modified, ETag)"
+      ],
+      "content_type": "text/html",
+      "identity_match": "YES - <title> Introducing System One Models & Jev - TypeSafe AI Blog, body 270966B contains jev/System One/$0.042/RLCD/sampler, HTTP200 Framer, no block",
+      "historical_status": "UNCONFIRMED historical - current observation only (retrieved 2026-11-01, Last-Modified 2026-10-28 AFTER cutoff 2026-09-21). NOT retroactive proof of 2026-09-15 version. Use as current lead only with vendor quarantine.",
+      "error": "date drift flagged (P5 09-15 vs actual 10-28), no fetch failure",
+      "p5_claim": "published_at 2026-09-15 vs actual Oct 28 2026",
+      "evidence_review_row": "\u00a73 row3",
+      "required_sections_for_body_task": "architecture/sampler/RLCD/price ($0.042/MTok)/latency (70-500ms/40-200x)/eval-design Pareto + race/accuracy quarantine with bias disclosures",
+      "semantic_coverage": "PENDING - current bytes saved, historical VERIFIED still requires 09-21 revision or narrower PARTIAL"
+    },
+    {
+      "did": "EFF-D071",
+      "paper": "Jev concepts",
+      "arxiv": null,
+      "original_url": "https://docs.typesafe.ai/concepts/system-one",
+      "actual_body_url": "https://docs.typesafe.ai/concepts/system-one (effective same, current)",
+      "version": "living doc, no version; current observation 2026-11-01",
+      "published": "P5 None (no date); actual no date in page",
+      "body_file": "DATA.sp12-concepts.html",
+      "gid_body": "sp12-body",
+      "metadata_files": [
+        "sp12-body.headers.txt"
+      ],
+      "content_type": "text/html",
+      "identity_match": "YES - <title> System One - TypeSafe, 165512B contains System One/primitive/Score, HTTP200, no block; calibration exact-string absent (check Calibration capitalisation downstream, not a fetch fault)",
+      "historical_status": "UNCONFIRMED historical - current observation only, NOT retroactive proof of 2026-09-21 revision",
+      "error": "none",
+      "p5_claim": "published_at None",
+      "evidence_review_row": "\u00a73 row4",
+      "required_sections_for_body_task": "primitives + Score-then-choose + calibration semantics + limits + workflow role + suitability/decomposition guidance",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D141",
+      "paper": "Jev models",
+      "arxiv": null,
+      "original_url": "https://docs.typesafe.ai/models",
+      "actual_body_url": "https://docs.typesafe.ai/models (effective same, current)",
+      "version": "living doc, no version; current observation 2026-11-01",
+      "published": "P5 None; actual no date",
+      "body_file": "DATA.sp13-models.html",
+      "gid_body": "sp13-body",
+      "metadata_files": [
+        "sp13-body.headers.txt"
+      ],
+      "content_type": "text/html",
+      "identity_match": "YES - <title> Models - TypeSafe, 219035B contains jev-1.13/alias/pricing/limit, HTTP200",
+      "historical_status": "UNCONFIRMED historical - current observation only",
+      "error": "none",
+      "p5_claim": "Jev 1.13.0 card equivalent",
+      "evidence_review_row": "\u00a73 row5",
+      "required_sections_for_body_task": "jev-1.13.0 pricing/limits/context/alias-drift/versioning/training facts + alias-drift semantics",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D163",
+      "paper": "vLLM recipe",
+      "arxiv": null,
+      "original_url": "https://recipes.vllm.ai/deepseek-ai/DeepSeek-V4.1-Flash",
+      "actual_body_url": "https://recipes.vllm.ai/deepseek-ai/DeepSeek-V4.1-Flash (Vercel HIT, effective same)",
+      "version": "living doc; P5 claimed pinned 2026-09-20, actual page has no explicit version in headers - current observation 2026-11-01",
+      "published": "P5 pinned 2026-09-20 (not verified in headers, carried as claim)",
+      "body_file": "DATA.sp14-vllm-recipe.html",
+      "gid_body": "sp14-body",
+      "metadata_files": [
+        "sp14-body.headers.txt (Vercel ETag, x-vercel-cache HIT)"
+      ],
+      "content_type": "text/html",
+      "identity_match": "YES - <title> deepseek-ai/DeepSeek-V4.1-Flash | vLLM Recipes, 2705796B contains 0.30.0/DSpark/MTP/CED/Engram/AMD, HTTP200",
+      "historical_status": "UNCONFIRMED historical - current observation only; pinned 2026-09-20 revision NOT cryptographically verified (no version header). Highest loadbearing drift risk per review.",
+      "error": "none (version pin unverified, flagged)",
+      "p5_claim": "pinned 2026-09-20",
+      "evidence_review_row": "\u00a73 row11 P0 capstone",
+      "required_sections_for_body_task": "version floor 0.30.0+ + CED/attention/Engram (552B+196.6B) + precision/effort/layout/offload (8B/16B, 1P1D/TP4) + DSpark-only/MTP-dropped + AMD refusal + per-SKU overrides + validation (GSM8K diagnostic)",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D165",
+      "paper": "llama.cpp PR27742",
+      "arxiv": null,
+      "original_url": "https://github.com/ggml-org/llama.cpp/pull/27742",
+      "actual_body_url": "https://github.com/ggml-org/llama.cpp/pull/27742 (via gh api repos/ggml-org/llama.cpp/pulls/27742)",
+      "version": "merged commit eaf93765572e794b8e3754fe45adbe12d381e997 (head qwen4exp/qwen3.8-flash-next), base 732707dff265be513347b02911e1dd18f7e1f386, merged_at 2026-08-27T19:32:31Z",
+      "body_file": "DATA.sp15-pr.json (26122B) + DATA.sp15-commits.json (129618B, 30/65 paginated) + DATA.sp15-comments.json (66029B, 30/144 paginated)",
+      "gid_body": "sp15-pr",
+      "metadata_files": [
+        "sp15-pr.headers.txt, sp15-commits.headers.txt, sp15-comments.headers.txt"
+      ],
+      "content_type": "application/json (gh api)",
+      "identity_match": "YES - number 27742, title 'model: add Qwen3.8-Flash-Next (qwen4exp)' (P5 descriptive title differs, flagged as description not mismatch), state closed, merged True 2026-08-27 matches P5, 65 commits / 28 files +2881/-38",
+      "historical_status": "CONFIRMED merge date 2026-08-27 < cutoff; current API observation 2026-11-01, PR immutable after merge except comments updated 2026-09-05 (still < cutoff for merge, comments updated 09-05 < 09-21 cutoff, so within cutoff). Commits/comments paginated PARTIAL - 30/65 commits, 30/144 comments fetched (page1 only). Need page2+ if review requires full conversation.",
+      "error": "pagination partial (gh default per_page 30), no fetch failure - flagged as version-boundary gap, not unavailable",
+      "p5_claim": "merged 2026-08-27 matches API merged_at",
+      "evidence_review_row": "\u00a73 row12 (merged existence != correctness, no rebuild claim)",
+      "required_sections_for_body_task": "merged status + QSA/PLE support + host-side memory + validation method (wikitext ppl 4.0068/4.0126) + known gaps (UD-IQ1 delta 2.84e-03) + conversation + commit messages + AI-use disclosure + port-report scope, no rebuild boundary",
+      "semantic_coverage": "PENDING; commits/comments partial - full 65/144 requires ?page=2..5 (same endpoint, needs explicit follow-up if reviewer demands)"
+    },
+    {
+      "did": "EFF-D030",
+      "paper": "HF DeepSeek-V4.1-Flash modelcard",
+      "arxiv": null,
+      "original_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+      "actual_body_url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash (current) + https://huggingface.co/api/models/deepseek-ai/DeepSeek-V4.1-Flash (metadata)",
+      "version": "living doc; card current 2026-11-01; API sha 314113f8a7dadb388215396ba5fbee2c610a04d6 lastModified 2026-10-16T09:27:28Z (AFTER cutoff) - UNCONFIRMED historical",
+      "body_file": "DATA.sp16-modelcard.html (452330B) + DATA.sp16-hf-api.json (24520B)",
+      "gid_body": "sp16-body",
+      "metadata_files": [
+        "sp16-api.headers.txt, sp16-body.headers.txt, HF API JSON (sha, lastModified, siblings 90)"
+      ],
+      "content_type": "text/html (card) + application/json (api)",
+      "identity_match": "YES - <title> deepseek-ai/DeepSeek-V4.1-Flash \u00b7 Hugging Face, card contains CED/CSA/Engram/DSpark/DeepSeek-V4.1-Flash, HTTP200 moon/CloudFront, no block (captcha string is config key, not block)",
+      "historical_status": "UNCONFIRMED historical - lastModified 2026-10-16 AFTER cutoff, current observation only; P5 claimed 2026-09-10 NOT verified in current API (no version history in API). Modelcard ONLY per permission, no weights fetched.",
+      "error": "none (version drift flagged)",
+      "p5_claim": "published_at 2026-09-10 vs actual lastModified 2026-10-16 - flagged",
+      "evidence_review_row": "\u00a74 loadbearing (spec/precision MXFP4/MXFP8/FP4-KV B200-conditionality, corroboration via D123+D163 - both now saved but still PENDING review)",
+      "required_sections_for_body_task": "spec facts + CED/CSA2/Engram/DSpark + MXFP/MXFP8/FP4-KV bindings + B200-conditionality + pricing/limits/context/alias/versioning/training (cross-check D123/D163, broken-chain collapse noted in review resolved by this intake, still PENDING semantic PASS)",
+      "semantic_coverage": "PENDING"
+    },
+    {
+      "did": "EFF-D004",
+      "paper": "Dynamo recipe",
+      "arxiv": null,
+      "original_url": "https://docs.nvidia.com/dynamo/dev/recipes/deepseek-v4-1-flash.md",
+      "actual_body_url": "https://docs.nvidia.com/dynamo/dev/recipes/deepseek-v4-1-flash.md (effective same, Cloudflare HIT, dev branch)",
+      "version": "living doc dev branch; current observation 2026-11-01; no immutable pin; header 'This page is for version dev'",
+      "published": "P5 claimed 2026-09",
+      "body_file": "DATA.sp17-dynamo.md (16535B text/markdown)",
+      "gid_body": "sp17-body",
+      "metadata_files": [
+        "sp17-body.headers.txt (ETag, dev)"
+      ],
+      "content_type": "text/markdown",
+      "identity_match": "YES - content is Dynamo recipe MD (dev index + recipe), HTTP200 Cloudflare, no block; contains FP4/DSpark/disaggregation, FP8 exact-string absent (check FP8 variants downstream, not fetch fault)",
+      "historical_status": "UNCONFIRMED historical - dev branch current only, NOT retroactive proof of 2026-09 revision",
+      "error": "none",
+      "p5_claim": "published_at 2026-09 (month) - dev current, version unpinned",
+      "evidence_review_row": "\u00a74 loadbearing (per-topology precision matrix UNRESOLVED, sibling D163 corroboration collapse resolved by intake, still PENDING)",
+      "required_sections_for_body_task": "per-topology precision matrix + FP8/FP4 + DSpark-only + disaggregation + recipe/version conditions (sibling D163 now saved, cross-ref still PENDING review)",
+      "semantic_coverage": "PENDING"
+    }
+  ],
+  "results": [
+    {
+      "gid": "sp01-abs",
+      "label": "EAGLE 2401.15077 abs version history",
+      "url": "https://arxiv.org/abs/2401.15077",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp01-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp01-abs.html\" \"https://arxiv.org/abs/2401.15077\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:36Z | end 2026-11-01T16:35:36Z | bytes 42120 sha256 3605a135fc153aa2dc3eba29d107fa4c990ce9d06251bbe1dfa00d699207a5e5 exit 0",
+      "bytes": "42120",
+      "sha256": "3605a135fc153aa2dc3eba29d107fa4c990ce9d06251bbe1dfa00d699207a5e5",
+      "data_files": [
+        {
+          "local": "DATA.sp01-abs.html",
+          "bytes": 42120,
+          "sha256": "3605a135fc153aa2dc3eba29d107fa4c990ce9d06251bbe1dfa00d699207a5e5"
+        }
+      ]
+    },
+    {
+      "gid": "sp01-api",
+      "label": "EAGLE 2401.15077 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2401.15077",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp01-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp01-api.xml\" \"https://export.arxiv.org/api/query?id_list=2401.15077\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:36Z | end 2026-11-01T16:35:36Z | bytes 2717 sha256 369a37bb61d63419903fb35cb84c8c154887f7fcaffc5ed9acc6a26d60ab66fe exit 0",
+      "bytes": "2717",
+      "sha256": "369a37bb61d63419903fb35cb84c8c154887f7fcaffc5ed9acc6a26d60ab66fe",
+      "data_files": [
+        {
+          "local": "DATA.sp01-api.xml",
+          "bytes": 2717,
+          "sha256": "369a37bb61d63419903fb35cb84c8c154887f7fcaffc5ed9acc6a26d60ab66fe"
+        }
+      ]
+    },
+    {
+      "gid": "sp01-body",
+      "label": "EAGLE 2401.15077v3 PDF primary (updated 2025-03-04 < cutoff)",
+      "url": "https://arxiv.org/pdf/2401.15077v3",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp01-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp01-eagle-v3.pdf\" \"https://arxiv.org/pdf/2401.15077v3\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:42Z | end 2026-11-01T16:36:42Z | bytes 1865998 sha256 3484aad4d255ac8ff3ebbb0df9f3b2fdb222145923f59ad25727812f4748a0f4 exit 0",
+      "bytes": "1865998",
+      "sha256": "3484aad4d255ac8ff3ebbb0df9f3b2fdb222145923f59ad25727812f4748a0f4",
+      "data_files": []
+    },
+    {
+      "gid": "sp02-abs",
+      "label": "Snell 2408.03314 abs version history",
+      "url": "https://arxiv.org/abs/2408.03314",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp02-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp02-abs.html\" \"https://arxiv.org/abs/2408.03314\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:37Z | end 2026-11-01T16:35:37Z | bytes 44439 sha256 c38ea95eb2e29a5154f502608d5abea49cfddaf6b74674bb3cd42a5fd6d16086 exit 0",
+      "bytes": "44439",
+      "sha256": "c38ea95eb2e29a5154f502608d5abea49cfddaf6b74674bb3cd42a5fd6d16086",
+      "data_files": [
+        {
+          "local": "DATA.sp02-abs.html",
+          "bytes": 44439,
+          "sha256": "c38ea95eb2e29a5154f502608d5abea49cfddaf6b74674bb3cd42a5fd6d16086"
+        }
+      ]
+    },
+    {
+      "gid": "sp02-api",
+      "label": "Snell 2408.03314 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2408.03314",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp02-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp02-api.xml\" \"https://export.arxiv.org/api/query?id_list=2408.03314\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:36Z | end 2026-11-01T16:35:37Z | bytes 3379 sha256 d33eb86ba39a0d578df968cc027d5ac2add58af320ca8287a35e8903b25031e1 exit 0",
+      "bytes": "3379",
+      "sha256": "d33eb86ba39a0d578df968cc027d5ac2add58af320ca8287a35e8903b25031e1",
+      "data_files": [
+        {
+          "local": "DATA.sp02-api.xml",
+          "bytes": 3379,
+          "sha256": "d33eb86ba39a0d578df968cc027d5ac2add58af320ca8287a35e8903b25031e1"
+        }
+      ]
+    },
+    {
+      "gid": "sp02-body",
+      "label": "Snell 2408.03314v1 PDF primary (2024-08-06)",
+      "url": "https://arxiv.org/pdf/2408.03314v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp02-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp02-snell-v1.pdf\" \"https://arxiv.org/pdf/2408.03314v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:43Z | end 2026-11-01T16:36:43Z | bytes 3870997 sha256 ded7b20b51493258c5ce2a1a024cd33dd752de1fa3373d1207620da4cfe24545 exit 0",
+      "bytes": "3870997",
+      "sha256": "ded7b20b51493258c5ce2a1a024cd33dd752de1fa3373d1207620da4cfe24545",
+      "data_files": []
+    },
+    {
+      "gid": "sp03-abs",
+      "label": "s1 2501.19393 abs version history",
+      "url": "https://arxiv.org/abs/2501.19393",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp03-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp03-abs.html\" \"https://arxiv.org/abs/2501.19393\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:37Z | end 2026-11-01T16:35:37Z | bytes 42886 sha256 b9cab37b28af10bf6ef523bead995fa0f5e7c690708511b4d52460ad2af0b2cd exit 0",
+      "bytes": "42886",
+      "sha256": "b9cab37b28af10bf6ef523bead995fa0f5e7c690708511b4d52460ad2af0b2cd",
+      "data_files": [
+        {
+          "local": "DATA.sp03-abs.html",
+          "bytes": 42886,
+          "sha256": "b9cab37b28af10bf6ef523bead995fa0f5e7c690708511b4d52460ad2af0b2cd"
+        }
+      ]
+    },
+    {
+      "gid": "sp03-api",
+      "label": "s1 2501.19393 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2501.19393",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp03-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp03-api.xml\" \"https://export.arxiv.org/api/query?id_list=2501.19393\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:37Z | end 2026-11-01T16:35:37Z | bytes 3329 sha256 22af09bd934c4f62ece0a069f7313ec34effdb6c9d0f073ecf271a1364bde3a7 exit 0",
+      "bytes": "3329",
+      "sha256": "22af09bd934c4f62ece0a069f7313ec34effdb6c9d0f073ecf271a1364bde3a7",
+      "data_files": [
+        {
+          "local": "DATA.sp03-api.xml",
+          "bytes": 3329,
+          "sha256": "22af09bd934c4f62ece0a069f7313ec34effdb6c9d0f073ecf271a1364bde3a7"
+        }
+      ]
+    },
+    {
+      "gid": "sp03-body",
+      "label": "s1 2501.19393v3 PDF primary (updated 2025-03-01 < cutoff)",
+      "url": "https://arxiv.org/pdf/2501.19393v3",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp03-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp03-s1-v3.pdf\" \"https://arxiv.org/pdf/2501.19393v3\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:43Z | end 2026-11-01T16:36:43Z | bytes 1480533 sha256 598932c9f96849cd52495d8b3e12ba4d224e41d5588d2278a78f76c744d8a3bc exit 0",
+      "bytes": "1480533",
+      "sha256": "598932c9f96849cd52495d8b3e12ba4d224e41d5588d2278a78f76c744d8a3bc",
+      "data_files": []
+    },
+    {
+      "gid": "sp04-abs",
+      "label": "ThinkPrune 2504.01296 abs version history",
+      "url": "https://arxiv.org/abs/2504.01296",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp04-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp04-abs.html\" \"https://arxiv.org/abs/2504.01296\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:38Z | end 2026-11-01T16:35:38Z | bytes 42919 sha256 3319ad7c0f61e1c91112323f330eb6e7f5cd8b1d47b2e28b68af770fdddd75c8 exit 0",
+      "bytes": "42919",
+      "sha256": "3319ad7c0f61e1c91112323f330eb6e7f5cd8b1d47b2e28b68af770fdddd75c8",
+      "data_files": [
+        {
+          "local": "DATA.sp04-abs.html",
+          "bytes": 42919,
+          "sha256": "3319ad7c0f61e1c91112323f330eb6e7f5cd8b1d47b2e28b68af770fdddd75c8"
+        }
+      ]
+    },
+    {
+      "gid": "sp04-api",
+      "label": "ThinkPrune 2504.01296 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2504.01296",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp04-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp04-api.xml\" \"https://export.arxiv.org/api/query?id_list=2504.01296\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:37Z | end 2026-11-01T16:35:38Z | bytes 3060 sha256 dbbac97811f494b041f662c10206dba5b232688703373b7adf780e3403238922 exit 0",
+      "bytes": "3060",
+      "sha256": "dbbac97811f494b041f662c10206dba5b232688703373b7adf780e3403238922",
+      "data_files": [
+        {
+          "local": "DATA.sp04-api.xml",
+          "bytes": 3060,
+          "sha256": "dbbac97811f494b041f662c10206dba5b232688703373b7adf780e3403238922"
+        }
+      ]
+    },
+    {
+      "gid": "sp04-body",
+      "label": "ThinkPrune 2504.01296v1 PDF primary (2025-04-02)",
+      "url": "https://arxiv.org/pdf/2504.01296v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp04-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp04-thinkprune-v1.pdf\" \"https://arxiv.org/pdf/2504.01296v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:43Z | end 2026-11-01T16:36:43Z | bytes 1035542 sha256 63d4ee6f96ce18bf0a65b925fc3cbe433784d7c30c685d4e38190d4c3d84437c exit 0",
+      "bytes": "1035542",
+      "sha256": "63d4ee6f96ce18bf0a65b925fc3cbe433784d7c30c685d4e38190d4c3d84437c",
+      "data_files": []
+    },
+    {
+      "gid": "sp05-abs",
+      "label": "overthinking 2604.10739 abs version history",
+      "url": "https://arxiv.org/abs/2604.10739",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp05-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp05-abs.html\" \"https://arxiv.org/abs/2604.10739\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:38Z | end 2026-11-01T16:35:38Z | bytes 41169 sha256 de2b3ff1373cf83b7334c00e571178ccbced8be7d34c85a0c0ec30110a165055 exit 0",
+      "bytes": "41169",
+      "sha256": "de2b3ff1373cf83b7334c00e571178ccbced8be7d34c85a0c0ec30110a165055",
+      "data_files": [
+        {
+          "local": "DATA.sp05-abs.html",
+          "bytes": 41169,
+          "sha256": "de2b3ff1373cf83b7334c00e571178ccbced8be7d34c85a0c0ec30110a165055"
+        }
+      ]
+    },
+    {
+      "gid": "sp05-api",
+      "label": "overthinking 2604.10739 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2604.10739",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp05-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp05-api.xml\" \"https://export.arxiv.org/api/query?id_list=2604.10739\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:38Z | end 2026-11-01T16:35:38Z | bytes 2549 sha256 5658125780aff7a34f4752eee272591767e53cd2241748a6199c6eb8592350cf exit 0",
+      "bytes": "2549",
+      "sha256": "5658125780aff7a34f4752eee272591767e53cd2241748a6199c6eb8592350cf",
+      "data_files": [
+        {
+          "local": "DATA.sp05-api.xml",
+          "bytes": 2549,
+          "sha256": "5658125780aff7a34f4752eee272591767e53cd2241748a6199c6eb8592350cf"
+        }
+      ]
+    },
+    {
+      "gid": "sp05-body",
+      "label": "overthinking 2604.10739v1 PDF primary (2026-04-12 < cutoff; P5 claim 2026-08-24 flagged)",
+      "url": "https://arxiv.org/pdf/2604.10739v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp05-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp05-overthinking-v1.pdf\" \"https://arxiv.org/pdf/2604.10739v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:43Z | end 2026-11-01T16:36:44Z | bytes 531162 sha256 c4254e531f3ab61bc5979357f6d8f0988f5c413f8d96f8d906ababb2c7e7ad3d exit 0",
+      "bytes": "531162",
+      "sha256": "c4254e531f3ab61bc5979357f6d8f0988f5c413f8d96f8d906ababb2c7e7ad3d",
+      "data_files": []
+    },
+    {
+      "gid": "sp06-abs",
+      "label": "FrugalGPT 2305.05176 abs version history",
+      "url": "https://arxiv.org/abs/2305.05176",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp06-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp06-abs.html\" \"https://arxiv.org/abs/2305.05176\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:39Z | end 2026-11-01T16:35:39Z | bytes 42342 sha256 9ff28dd137f27e3f9c8fef0d05f0945deae5e40bc05f43da3eba9103f610c5e3 exit 0",
+      "bytes": "42342",
+      "sha256": "9ff28dd137f27e3f9c8fef0d05f0945deae5e40bc05f43da3eba9103f610c5e3",
+      "data_files": [
+        {
+          "local": "DATA.sp06-abs.html",
+          "bytes": 42342,
+          "sha256": "9ff28dd137f27e3f9c8fef0d05f0945deae5e40bc05f43da3eba9103f610c5e3"
+        }
+      ]
+    },
+    {
+      "gid": "sp06-api",
+      "label": "FrugalGPT 2305.05176 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2305.05176",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp06-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp06-api.xml\" \"https://export.arxiv.org/api/query?id_list=2305.05176\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:38Z | end 2026-11-01T16:35:39Z | bytes 2770 sha256 0135876fc01e9d209246181485072a12404597dc67c122115898f951a38963a5 exit 0",
+      "bytes": "2770",
+      "sha256": "0135876fc01e9d209246181485072a12404597dc67c122115898f951a38963a5",
+      "data_files": [
+        {
+          "local": "DATA.sp06-api.xml",
+          "bytes": 2770,
+          "sha256": "0135876fc01e9d209246181485072a12404597dc67c122115898f951a38963a5"
+        }
+      ]
+    },
+    {
+      "gid": "sp06-body",
+      "label": "FrugalGPT 2305.05176v1 PDF primary (2023-05-09)",
+      "url": "https://arxiv.org/pdf/2305.05176v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp06-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp06-frugalgpt-v1.pdf\" \"https://arxiv.org/pdf/2305.05176v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:44Z | end 2026-11-01T16:36:44Z | bytes 1171365 sha256 035ae8b90333dad8b7817fc8f55e7c4cbca435368c5c1a4dbf7bba9e5db87473 exit 0",
+      "bytes": "1171365",
+      "sha256": "035ae8b90333dad8b7817fc8f55e7c4cbca435368c5c1a4dbf7bba9e5db87473",
+      "data_files": []
+    },
+    {
+      "gid": "sp07-abs",
+      "label": "Kimi 2510.26692 abs version history",
+      "url": "https://arxiv.org/abs/2510.26692",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp07-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp07-abs.html\" \"https://arxiv.org/abs/2510.26692\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:39Z | end 2026-11-01T16:35:39Z | bytes 51487 sha256 d91b905343b5f9a73f27a72b988592e4c4ea707b918724836bcd3992737a0461 exit 0",
+      "bytes": "51487",
+      "sha256": "d91b905343b5f9a73f27a72b988592e4c4ea707b918724836bcd3992737a0461",
+      "data_files": [
+        {
+          "local": "DATA.sp07-abs.html",
+          "bytes": 51487,
+          "sha256": "d91b905343b5f9a73f27a72b988592e4c4ea707b918724836bcd3992737a0461"
+        }
+      ]
+    },
+    {
+      "gid": "sp07-api",
+      "label": "Kimi 2510.26692 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2510.26692",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp07-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp07-api.xml\" \"https://export.arxiv.org/api/query?id_list=2510.26692\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:39Z | end 2026-11-01T16:35:39Z | bytes 6359 sha256 9e513683cdea585f5cf9bf2e5060b64058a929d877f40499163edfe4d94a4065 exit 0",
+      "bytes": "6359",
+      "sha256": "9e513683cdea585f5cf9bf2e5060b64058a929d877f40499163edfe4d94a4065",
+      "data_files": [
+        {
+          "local": "DATA.sp07-api.xml",
+          "bytes": 6359,
+          "sha256": "9e513683cdea585f5cf9bf2e5060b64058a929d877f40499163edfe4d94a4065"
+        }
+      ]
+    },
+    {
+      "gid": "sp07-body",
+      "label": "Kimi 2510.26692v2 PDF primary (updated 2025-11-01 < cutoff; latest before cutoff)",
+      "url": "https://arxiv.org/pdf/2510.26692v2",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp07-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp07-kimi-v2.pdf\" \"https://arxiv.org/pdf/2510.26692v2\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:44Z | end 2026-11-01T16:36:44Z | bytes 1354769 sha256 e2e23a449fc9bb27e34e783d20b2e6cd0f1ac67d58efdc0479c03c54db956a17 exit 0",
+      "bytes": "1354769",
+      "sha256": "e2e23a449fc9bb27e34e783d20b2e6cd0f1ac67d58efdc0479c03c54db956a17",
+      "data_files": []
+    },
+    {
+      "gid": "sp08-abs",
+      "label": "Qwen 2608.30320 abs version history",
+      "url": "https://arxiv.org/abs/2608.30320",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp08-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp08-abs.html\" \"https://arxiv.org/abs/2608.30320\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:40Z | end 2026-11-01T16:35:40Z | bytes 48581 sha256 c0a1a5b54f706c0d4f9702334f3cbda582d02d152d039820fb554709f8ea53df exit 0",
+      "bytes": "48581",
+      "sha256": "c0a1a5b54f706c0d4f9702334f3cbda582d02d152d039820fb554709f8ea53df",
+      "data_files": [
+        {
+          "local": "DATA.sp08-abs.html",
+          "bytes": 48581,
+          "sha256": "c0a1a5b54f706c0d4f9702334f3cbda582d02d152d039820fb554709f8ea53df"
+        }
+      ]
+    },
+    {
+      "gid": "sp08-api",
+      "label": "Qwen 2608.30320 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2608.30320",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp08-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp08-api.xml\" \"https://export.arxiv.org/api/query?id_list=2608.30320\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:39Z | end 2026-11-01T16:35:40Z | bytes 5121 sha256 f62cb16e6d39a0eb55a3e54df3a79a771510f24c19cea4328365c9f118bab606 exit 0",
+      "bytes": "5121",
+      "sha256": "f62cb16e6d39a0eb55a3e54df3a79a771510f24c19cea4328365c9f118bab606",
+      "data_files": [
+        {
+          "local": "DATA.sp08-api.xml",
+          "bytes": 5121,
+          "sha256": "f62cb16e6d39a0eb55a3e54df3a79a771510f24c19cea4328365c9f118bab606"
+        }
+      ]
+    },
+    {
+      "gid": "sp08-body",
+      "label": "Qwen 2608.30320v1 PDF primary (2026-08-31)",
+      "url": "https://arxiv.org/pdf/2608.30320v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp08-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp08-qwen-v1.pdf\" \"https://arxiv.org/pdf/2608.30320v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:44Z | end 2026-11-01T16:36:45Z | bytes 2363790 sha256 17db868acaa0b86caaf89cd9516e0a92f79d7e161431e5e274b70a3123d60ef7 exit 0",
+      "bytes": "2363790",
+      "sha256": "17db868acaa0b86caaf89cd9516e0a92f79d7e161431e5e274b70a3123d60ef7",
+      "data_files": []
+    },
+    {
+      "gid": "sp09-abs",
+      "label": "V4.1 2609.19969 abs version history",
+      "url": "https://arxiv.org/abs/2609.19969",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp09-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp09-abs.html\" \"https://arxiv.org/abs/2609.19969\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:40Z | end 2026-11-01T16:35:40Z | bytes 137426 sha256 20a85d60266362ba0213c8c523aad4229d8ecb75af2a55114bb7af3b4b7909c7 exit 0",
+      "bytes": "137426",
+      "sha256": "20a85d60266362ba0213c8c523aad4229d8ecb75af2a55114bb7af3b4b7909c7",
+      "data_files": [
+        {
+          "local": "DATA.sp09-abs.html",
+          "bytes": 137426,
+          "sha256": "20a85d60266362ba0213c8c523aad4229d8ecb75af2a55114bb7af3b4b7909c7"
+        }
+      ]
+    },
+    {
+      "gid": "sp09-api",
+      "label": "V4.1 2609.19969 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2609.19969",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp09-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp09-api.xml\" \"https://export.arxiv.org/api/query?id_list=2609.19969\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:40Z | end 2026-11-01T16:35:40Z | bytes 37036 sha256 68b79afd0953413a4ba7404e2c0c396ccd117537132b6c60a86b9b84d9b16319 exit 0",
+      "bytes": "37036",
+      "sha256": "68b79afd0953413a4ba7404e2c0c396ccd117537132b6c60a86b9b84d9b16319",
+      "data_files": [
+        {
+          "local": "DATA.sp09-api.xml",
+          "bytes": 37036,
+          "sha256": "68b79afd0953413a4ba7404e2c0c396ccd117537132b6c60a86b9b84d9b16319"
+        }
+      ]
+    },
+    {
+      "gid": "sp09-body",
+      "label": "V4.1 2609.19969v1 PDF primary (2026-09-17 < cutoff)",
+      "url": "https://arxiv.org/pdf/2609.19969v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp09-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp09-v41-v1.pdf\" \"https://arxiv.org/pdf/2609.19969v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:45Z | end 2026-11-01T16:36:45Z | bytes 1663475 sha256 0cfdda19c8e1691b5226dd0d4949e2397051268e8a823c2fb61db94ea20c4ac0 exit 0",
+      "bytes": "1663475",
+      "sha256": "0cfdda19c8e1691b5226dd0d4949e2397051268e8a823c2fb61db94ea20c4ac0",
+      "data_files": []
+    },
+    {
+      "gid": "sp10-abs",
+      "label": "V3.2 2512.02556 abs version history",
+      "url": "https://arxiv.org/abs/2512.02556",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp10-abs.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp10-abs.html\" \"https://arxiv.org/abs/2512.02556\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:40Z | end 2026-11-01T16:35:41Z | bytes 82979 sha256 58e47fbce8bb9315cd7ef153e7ff2fa4c166f91be4f4a6191cf4bad436d6b064 exit 0",
+      "bytes": "82979",
+      "sha256": "58e47fbce8bb9315cd7ef153e7ff2fa4c166f91be4f4a6191cf4bad436d6b064",
+      "data_files": [
+        {
+          "local": "DATA.sp10-abs.html",
+          "bytes": 82979,
+          "sha256": "58e47fbce8bb9315cd7ef153e7ff2fa4c166f91be4f4a6191cf4bad436d6b064"
+        }
+      ]
+    },
+    {
+      "gid": "sp10-api",
+      "label": "V3.2 2512.02556 arXiv API metadata",
+      "url": "https://export.arxiv.org/api/query?id_list=2512.02556",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp10-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp10-api.xml\" \"https://export.arxiv.org/api/query?id_list=2512.02556\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:40Z | end 2026-11-01T16:35:40Z | bytes 17585 sha256 fdcbd37cb2d2ae6eeda00e645cfaa6f65251b1608814b3a4113d73c1b8aab753 exit 0",
+      "bytes": "17585",
+      "sha256": "fdcbd37cb2d2ae6eeda00e645cfaa6f65251b1608814b3a4113d73c1b8aab753",
+      "data_files": [
+        {
+          "local": "DATA.sp10-api.xml",
+          "bytes": 17585,
+          "sha256": "fdcbd37cb2d2ae6eeda00e645cfaa6f65251b1608814b3a4113d73c1b8aab753"
+        }
+      ]
+    },
+    {
+      "gid": "sp10-body",
+      "label": "V3.2 2512.02556v1 PDF primary (2025-12-02)",
+      "url": "https://arxiv.org/pdf/2512.02556v1",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 180 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp10-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp10-v32-v1.pdf\" \"https://arxiv.org/pdf/2512.02556v1\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:36:45Z | end 2026-11-01T16:36:45Z | bytes 980616 sha256 2bec0671778769c159ec389412727d1f3d4889fe1c71564b61edaa24705bd17b exit 0",
+      "bytes": "980616",
+      "sha256": "2bec0671778769c159ec389412727d1f3d4889fe1c71564b61edaa24705bd17b",
+      "data_files": []
+    },
+    {
+      "gid": "sp11-body",
+      "label": "Jev launch page current observation",
+      "url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp11-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp11-launch.html\" \"https://typesafe.ai/blog/introducing-system-one-models-and-jev\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:41Z | end 2026-11-01T16:35:41Z | bytes 270966 sha256 278478f09f3df3c2987dba4c7620ef7b842fed1c1e13f362e3a11d3713c21de9 exit 0",
+      "bytes": "270966",
+      "sha256": "278478f09f3df3c2987dba4c7620ef7b842fed1c1e13f362e3a11d3713c21de9",
+      "data_files": []
+    },
+    {
+      "gid": "sp12-body",
+      "label": "Jev concepts page current observation",
+      "url": "https://docs.typesafe.ai/concepts/system-one",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp12-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp12-concepts.html\" \"https://docs.typesafe.ai/concepts/system-one\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:41Z | end 2026-11-01T16:35:41Z | bytes 165512 sha256 b58d91ae23784860dd4083c04ca51b1a382b9c045c54af053085c0e0bfe3540d exit 0",
+      "bytes": "165512",
+      "sha256": "b58d91ae23784860dd4083c04ca51b1a382b9c045c54af053085c0e0bfe3540d",
+      "data_files": []
+    },
+    {
+      "gid": "sp13-body",
+      "label": "Jev models page current observation",
+      "url": "https://docs.typesafe.ai/models",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp13-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp13-models.html\" \"https://docs.typesafe.ai/models\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:41Z | end 2026-11-01T16:35:41Z | bytes 219035 sha256 59b6c17b12d3cb8ac781abdf5f9b52888ce336d840d35c49cc9c1f9ec9286e60 exit 0",
+      "bytes": "219035",
+      "sha256": "59b6c17b12d3cb8ac781abdf5f9b52888ce336d840d35c49cc9c1f9ec9286e60",
+      "data_files": []
+    },
+    {
+      "gid": "sp14-body",
+      "label": "vLLM DeepSeek-V4.1-Flash recipe current observation",
+      "url": "https://recipes.vllm.ai/deepseek-ai/DeepSeek-V4.1-Flash",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp14-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp14-vllm-recipe.html\" \"https://recipes.vllm.ai/deepseek-ai/DeepSeek-V4.1-Flash\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:42Z | end 2026-11-01T16:35:42Z | bytes 2705796 sha256 fa61427e75ee14b172bc56ce79e46179e1a6c906fad4142625c4a0eea7d908c2 exit 0",
+      "bytes": "2705796",
+      "sha256": "fa61427e75ee14b172bc56ce79e46179e1a6c906fad4142625c4a0eea7d908c2",
+      "data_files": []
+    },
+    {
+      "gid": "sp15-comments",
+      "label": "llama.cpp PR27742 issue comments",
+      "url": "repos/ggml-org/llama.cpp/issues/27742/comments",
+      "command": "gh api -i \"repos/ggml-org/llama.cpp/issues/27742/comments\"",
+      "exit": "0",
+      "http": "HTTP/2.0 200 OK",
+      "time": "start 2026-11-01T16:35:45Z | end 2026-11-01T16:35:46Z",
+      "bytes": "66029",
+      "sha256": "c9f7d5f225de6916debedf0b7a3ac96b90b6f7e064c03472c9c33032de8721c2",
+      "data_files": [
+        {
+          "local": "DATA.sp15-comments.json",
+          "bytes": 66029,
+          "sha256": "c9f7d5f225de6916debedf0b7a3ac96b90b6f7e064c03472c9c33032de8721c2"
+        }
+      ]
+    },
+    {
+      "gid": "sp15-commits",
+      "label": "llama.cpp PR27742 commits",
+      "url": "repos/ggml-org/llama.cpp/pulls/27742/commits",
+      "command": "gh api -i \"repos/ggml-org/llama.cpp/pulls/27742/commits\"",
+      "exit": "0",
+      "http": "HTTP/2.0 200 OK",
+      "time": "start 2026-11-01T16:35:45Z | end 2026-11-01T16:35:45Z",
+      "bytes": "129618",
+      "sha256": "2b8ac89e26831f3158aaae13ebb51d87106f1481f1aa7e67055ae2e3b4a5ac31",
+      "data_files": [
+        {
+          "local": "DATA.sp15-commits.json",
+          "bytes": 129618,
+          "sha256": "2b8ac89e26831f3158aaae13ebb51d87106f1481f1aa7e67055ae2e3b4a5ac31"
+        }
+      ]
+    },
+    {
+      "gid": "sp15-pr",
+      "label": "llama.cpp PR27742 metadata",
+      "url": "repos/ggml-org/llama.cpp/pulls/27742",
+      "command": "gh api -i \"repos/ggml-org/llama.cpp/pulls/27742\"",
+      "exit": "0",
+      "http": "HTTP/2.0 200 OK",
+      "time": "start 2026-11-01T16:35:44Z | end 2026-11-01T16:35:45Z",
+      "bytes": "26122",
+      "sha256": "3728e08d0731a5faab852f32d0aee0fdd6011bf0873c7c697cb4280b0a338561",
+      "data_files": [
+        {
+          "local": "DATA.sp15-pr.json",
+          "bytes": 26122,
+          "sha256": "3728e08d0731a5faab852f32d0aee0fdd6011bf0873c7c697cb4280b0a338561"
+        }
+      ]
+    },
+    {
+      "gid": "sp16-api",
+      "label": "HF DeepSeek-V4.1-Flash model API metadata",
+      "url": "https://huggingface.co/api/models/deepseek-ai/DeepSeek-V4.1-Flash",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp16-api.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp16-hf-api.json\" \"https://huggingface.co/api/models/deepseek-ai/DeepSeek-V4.1-Flash\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:42Z | end 2026-11-01T16:35:43Z | bytes 24520 sha256 551212a140c7fb2b1f9730765c01a4459b8fb99acd88d207a9624c6258a44f95 exit 0",
+      "bytes": "24520",
+      "sha256": "551212a140c7fb2b1f9730765c01a4459b8fb99acd88d207a9624c6258a44f95",
+      "data_files": []
+    },
+    {
+      "gid": "sp16-body",
+      "label": "HF DeepSeek-V4.1-Flash modelcard ONLY current observation",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp16-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp16-modelcard.html\" \"https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:43Z | end 2026-11-01T16:35:44Z | bytes 452330 sha256 99c60974c5b170d3ce1279df98ec4501050610a74abbe19f54cfc71064c40db2 exit 0",
+      "bytes": "452330",
+      "sha256": "99c60974c5b170d3ce1279df98ec4501050610a74abbe19f54cfc71064c40db2",
+      "data_files": []
+    },
+    {
+      "gid": "sp17-body",
+      "label": "Dynamo DeepSeek-V4.1-Flash recipe current observation",
+      "url": "https://docs.nvidia.com/dynamo/dev/recipes/deepseek-v4-1-flash.md",
+      "command": "curl -L --max-redirs 5 --connect-timeout 20 --max-time 120 -A \"Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)\" -D \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/sp17-body.headers.txt\" -o \"notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp17-dynamo.md\" \"https://docs.nvidia.com/dynamo/dev/recipes/deepseek-v4-1-flash.md\"",
+      "exit": "0",
+      "http": "HTTP/2 200 ",
+      "time": "start 2026-11-01T16:35:44Z | end 2026-11-01T16:35:44Z | bytes 16535 sha256 5b9ddeb7a047130d5811926d40d14237142562ccd291a7e88c9cd77fc8f9ff66 exit 0",
+      "bytes": "16535",
+      "sha256": "5b9ddeb7a047130d5811926d40d14237142562ccd291a7e88c9cd77fc8f9ff66",
+      "data_files": []
+    }
+  ],
+  "no_code_adopt": "Downloaded HTML/PDF/MD/JSON treated as DATA never executed. No downloaded code executed, no weights downloaded (HF modelcard ONLY, API metadata only, siblings not fetched). No source files/gates/State edits, source138 unchanged.",
+  "secure": "No token/credential logs (curl without auth, gh token redacted, argv-extra notes redaction). Raw responses+headers/redirect chain (curl -v stderr) + status/argv/start-end UTC/exit/stderr/bytes/SHA256 saved per GET (*.command.txt, *.url.txt, *.headers.txt, *.stderr.txt, *.exit.txt, *.time.txt, *.bytes.txt, *.sha256.txt, *.argv-extra.txt, *.pid.txt). Downloaded bytes unchanged, no text extraction saved as primary (downstream extraction if any must be separately labelled derivative - none in this intake). SHA all saved payloads, API Git blob ref where provided: PR head eaf93765..., base 732707df..., HF sha 314113f8..., arXiv version IDs.",
+  "worklog": {
+    "requests": 40,
+    "bytes": 21054963,
+    "time_utc": "2026-11-01T16:35:36Z to 2026-11-01T16:36:42Z (~66s wall for network) + verification + manifest build",
+    "repeated_research_cost": "UNKNOWN (this intake is one-time acquisition; recurring worklog baseline stays UNKNOWN per operation-readiness CORR C3, no synthetic timing as baseline)",
+    "method": "curl -L --max-redirs 5 (redirect chain in *.stderr.txt, effective URL in *.url.txt original, headers final) + gh api -i (headers+body split); single attempt per URL, no overwrite (unique gids), no unbounded retry"
+  },
+  "deliverable_note": "Actual success 17/17 bodies (10 version-pinned PDFs CONFIRMED historical + 7 living-doc current observations UNCONFIRMED historical) + 20 arXiv metadata + 3 PR JSON (partial paginated) = 40/40 transport success, 0 unavailable. Exact raw locations in intake dir DATA.* + sidecars. Semantic coverage PENDING for all - independent Evidence re-review required before any VERIFIED status change. Additional permission only if needed outside 17 (none needed - all unblocked retrieved, no broad crawl)."
+}

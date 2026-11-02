@@ -1,0 +1,41 @@
+% Generated from Core v2 validated Draft bytes. Do not hand-edit.
+\documentclass[lualatex,a4paper,10pt]{jlreq}
+\usepackage{jgaisurvey}
+\usepackage{balance}
+\addbibresource{references.bib}
+
+\surveysetup
+  {2026-W34}
+  {Japanese Generative AI Technical Survey}
+  {2026-08-21}
+  {2026-08-14 18:00 - 2026-08-21 18:00 America/New\_York}
+\surveyeditiondescriptor{週刊Technical Survey}
+
+\surveycoverstory
+  {エージェントの本番化が進んだ週}
+  {支払いと操作、共同作業と検索が実装の姿で並び、統制と配備が実行の構えを決めた。モデルの賢さではなく、何がどこでいくらでどの条件のもと動くかが問われた。}
+  {FEATURE: CONTROL PLANE \quad / \quad FEATURE: WORKFLOWS \quad / \quad REVIEW: WHAT TO WATCH}
+
+\begin{document}
+
+\surveycover
+\clearpage
+\input{sections/00-frontmatter}
+
+\clearpage
+\twocolumn
+\input{sections/10-agent-control-plane}
+\input{sections/20-agent-workflows}
+\input{sections/30-safety-security}
+\input{sections/40-model-economics}
+\input{sections/50-creative-multimodal}
+\input{sections/60-ecosystem-infrastructure}
+\input{sections/70-week-in-review}
+\balance
+
+\clearpage
+\onecolumn
+\input{sections/99-source-notes}
+\printbibliography[title={References}]
+
+\end{document}

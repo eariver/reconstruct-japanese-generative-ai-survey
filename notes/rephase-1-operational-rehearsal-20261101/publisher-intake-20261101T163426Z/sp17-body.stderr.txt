@@ -1,0 +1,89 @@
+* Host docs.nvidia.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 23.53.3.148, 23.53.3.136
+*   Trying 23.53.3.148:443...
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [1570 bytes data]
+* SSL Trust Anchors:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+*   CApath: /etc/ssl/certs
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [1210 bytes data]
+* TLSv1.3 (IN), TLS change cipher, Change cipher spec (1):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [4350 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [80 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [52 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [52 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_256_GCM_SHA384 / X25519MLKEM768 / id-ecPublicKey
+* ALPN: server accepted h2
+* Server certificate:
+*   subject: C=US; ST=California; L=Santa Clara; O=NVIDIA Corporation; CN=it.nvidia.com
+*   start date: Oct 27 00:00:00 2026 GMT
+*   expire date: May 13 23:59:59 2027 GMT
+*   issuer: C=US; O=DigiCert Inc; CN=DigiCert Global G3 TLS ECC SHA384 2020 CA1
+*   Certificate level 0: Public key type EC/prime256v1 (256/128 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 1: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   Certificate level 2: Public key type EC/secp384r1 (384/192 Bits/secBits), signed using ecdsa-with-SHA384
+*   subjectAltName: "docs.nvidia.com" matches cert's "*.nvidia.com"
+* SSL certificate verified via OpenSSL.
+* Established connection to docs.nvidia.com (23.53.3.148 port 443) from 192.168.10.7 port 60936 
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://docs.nvidia.com/dynamo/dev/recipes/deepseek-v4-1-flash.md
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: docs.nvidia.com]
+* [HTTP/2] [1] [:path: /dynamo/dev/recipes/deepseek-v4-1-flash.md]
+* [HTTP/2] [1] [user-agent: Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET /dynamo/dev/recipes/deepseek-v4-1-flash.md HTTP/2
+> Host: docs.nvidia.com
+> User-Agent: Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)
+> Accept: */*
+> 
+* Request completely sent off
+} [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [281 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [281 bytes data]
+< HTTP/2 200 
+< content-type: text/markdown; charset=utf-8
+< content-length: 16535
+< nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+< cf-ray: a53c50799f06e39c-NRT
+< cf-cache-status: HIT
+< accept-ranges: bytes
+< cache-control: public, max-age=0, must-revalidate
+< etag: "db703e87dd69b1aa7caa2ffad4c234c5"
+< link: </dynamo/dev/recipes/deepseek-v4-1-flash.md>; rel="alternate"; type="text/markdown", </dynamo/dev/recipes/llms.txt>; rel="describedby"
+< server: cloudflare
+< strict-transport-security: max-age=63072000; includeSubDomains; preload
+< cf-placement: remote-SJC
+< permissions-policy: camera=(self), microphone=(self), geolocation=()
+< referrer-policy: strict-origin-when-cross-origin
+< x-content-type-options: nosniff
+< x-fern-renderer: static
+< report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=s2Jw89gEXx4m7w6t7kaajkKd3p%2BKok8eow8el0ZngZTL0laVDggxk2OEovagwueewiXxOe0MdmvQ8s2kTH7LGDR490hAlWct72ywWwDs7TEcUi8g4DtXkPe%2BHTPES5GadR1mXllw5hsTUw%3D%3D"}]}
+< x-amz-cf-pop: NRT20-P8
+< x-amz-cf-id: PFpZsmsdNpErc9x_PPC6QdDHBlJaG6RJ5hi3RR7HlRnfPqBLPS81VQ==
+< date: Sun, 01 Nov 2026 16:35:44 GMT
+< x-accept: */*
+< set-cookie: c_code=JP; Domain=nvidia.com; Path=/; Secure
+< vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Next-Router-Segment-Prefetch
+< akamai-cache-status: NotCacheable from child
+< 
+{ [5 bytes data]
+* Connection #0 to host docs.nvidia.com:443 left intact

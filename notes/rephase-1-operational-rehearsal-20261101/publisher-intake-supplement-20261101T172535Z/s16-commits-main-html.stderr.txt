@@ -1,0 +1,80 @@
+* Host huggingface.co:443 was resolved.
+* IPv6: 2600:9000:282b:5a00:17:b174:6d00:93a1, 2600:9000:282b:c800:17:b174:6d00:93a1, 2600:9000:282b:6400:17:b174:6d00:93a1, 2600:9000:282b:7000:17:b174:6d00:93a1, 2600:9000:282b:ca00:17:b174:6d00:93a1, 2600:9000:282b:800:17:b174:6d00:93a1, 2600:9000:282b:8000:17:b174:6d00:93a1, 2600:9000:282b:fe00:17:b174:6d00:93a1
+* IPv4: 3.169.5.90, 3.169.5.78, 3.169.5.29, 3.169.5.94
+*   Trying [2600:9000:282b:5a00:17:b174:6d00:93a1]:443...
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [1569 bytes data]
+* SSL Trust Anchors:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+*   CApath: /etc/ssl/certs
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [1210 bytes data]
+* TLSv1.3 (IN), TLS change cipher, Change cipher spec (1):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [3811 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519MLKEM768 / RSASSA-PSS
+* ALPN: server accepted h2
+* Server certificate:
+*   subject: CN=huggingface.co
+*   start date: Aug 14 00:00:00 2026 GMT
+*   expire date: Feb 27 23:59:59 2027 GMT
+*   issuer: C=US; O=Amazon; CN=Amazon RSA 2048 M01
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   subjectAltName: "huggingface.co" matches cert's "huggingface.co"
+* SSL certificate verified via OpenSSL.
+* Established connection to huggingface.co (2600:9000:282b:5a00:17:b174:6d00:93a1 port 443) from 2404:7a81:e0a1:4a00:921b:eff:fef6:acc6 port 35290 
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/commits/main
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: huggingface.co]
+* [HTTP/2] [1] [:path: /deepseek-ai/DeepSeek-V4.1-Flash/commits/main]
+* [HTTP/2] [1] [user-agent: Mozilla/5.0 (compatible; SP-publisher-supplement/20261101; bounded-research)]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET /deepseek-ai/DeepSeek-V4.1-Flash/commits/main HTTP/2
+> Host: huggingface.co
+> User-Agent: Mozilla/5.0 (compatible; SP-publisher-supplement/20261101; bounded-research)
+> Accept: */*
+> 
+* Request completely sent off
+} [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [157 bytes data]
+< HTTP/2 200 
+< content-type: text/html; charset=utf-8
+< content-length: 267351
+< date: Sun, 01 Nov 2026 17:26:28 GMT
+< etag: W/"41457-Pin/i7YB6TJwo1BInPQ6Af5U0hI"
+< x-powered-by: huggingface-moon
+< x-request-id: Root=1-6ae77644-1d14f6531e59f8391af8e162
+< ratelimit: "pages";r=99;t=272
+< ratelimit-policy: "fixed window";"pages";q=100;w=300
+< cross-origin-opener-policy: same-origin
+< referrer-policy: strict-origin-when-cross-origin
+< x-frame-options: DENY
+< x-cache: Miss from cloudfront
+< via: 1.1 2e26d87845b3faf7db1f2a631e831e9e.cloudfront.net (CloudFront)
+< x-amz-cf-pop: NRT57-P6
+< alt-svc: h3=":443"; ma=86400
+< x-amz-cf-id: nh2p2EPs7xS-gr6_uxL-U5O7uQn6a_6KzkKAEHJcEAoDt4TquG65Eg==
+< strict-transport-security: max-age=31536000
+< 
+{ [7249 bytes data]
+* Connection #0 to host huggingface.co:443 left intact

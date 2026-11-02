@@ -1,0 +1,19 @@
+\section{エージェントが取引し、操作し、統制される場所}
+\sectionkicker{FEATURE: AGENT CONTROL PLANE}
+\begin{wideflow}
+{\Large\bfseries エージェントが取引し、操作し、統制される場所}\par
+\smallskip
+{\color{SurveyMuted}エージェントが代金を支払い、画面を操作し、方針と記憶と権限のもとで長時間動くための土台が、今週は実装の姿で並んだ。}\par
+\end{wideflow}
+
+\noindent 8月18日のAWSの発表によると、Bedrock AgentCoreの決済機能が一般提供となり、エージェントが有料APIやMCP、コンテンツを探して利用し、代金を支払うための実装面が用意された。HTTPの402応答をきっかけとする支払いフローや、CoinbaseとStripe Privyによるステーブルコインの財布、x402とMPPへの対応、利用量に応じた動的な価格指定、セッションごとの予算や有効期限を基盤側で強制する仕組みが説明されている。認証情報の分離や、実行の記録と監査の仕組みもあわせて示されている。ただし対応地域や法定通貨対応の見通し、加盟店網の規模は網羅的な一覧としては示されておらず、「大規模でも安全に取引できる」という表現は提供側の説明として受け止める必要がある。 \cite{w2026w34w34eventc010}\par\medskip
+
+\noindent 8月20日のAnthropicの発表では、Claudeの基盤上でコンピューター操作機能とスキル管理、ファイル管理の機能が一般提供となり、新しいブラウザー操作のツールが加わった。コンピューター操作は画面の見た目をもとに押す・入力する・スクロールする動作を続け、ブラウザー操作はページの部品構造を捉える点で区別されている。スキル管理はフォルダー単位の技能を版管理して提供側の実行環境で動かし、ファイル管理は一度上げた資料を番号で参照し、期限や上限、組織あたり1TBまでの枠が示されている。連続動作の速さや使い勝手の向上は提供側の説明であり、測定結果は示されていない。ファイルの保存範囲についても今回の一次資料だけでは断定しない。 \cite{w2026w34w34eventc011}\par\medskip
+
+\noindent 統制面では、ツールへの通信をゲートウェイで受け止めて評価し、自然文の文書からCedar方針を起こしてツールの定義と照合し、過不足を点検して記録に残す流れが示されている。8月20日のAWSの記事が扱うのは、この自然文からの方針作成と本番運用の文脈であり、8月6日の公開自体は今週の出来事ではなく背景として位置づく。記憶の仕組みは会話以外のJSON形式の出来事や記録も最大100KBまで取り込み、意味・好み・要約・挿話の4方式で同じ流れに載せるとされる。利用者の権限情報をエージェント実行に引き継ぎ、本人に許された資料だけが見えるようにする実装例も示され、実行の外側で受け止める考え方が共通する。いずれも定常的な基盤の性質の記述であり、検証の完全性や振る舞い・品質への効果は提供側の説明の範囲を超えて断定しない。見本を超える本番対応は読者側の作業として残る。 \cite{w2026w34w34eventc087,w2026w34w34eventc031,w2026w34w34eventgapawsagentcorememoryjson,w2026w34w34eventc104}\par\medskip
+
+\noindent 長時間の実行については、待ち時間に計算資源を空費せず、作業の合図で再開する方式や、外部機能との直結、 durableな関数連携の考え方が示されている。費用や振る舞いの主張は仕事量により変わる目安であり、測定された節減額はない。一方、8月17日に杭州で示されたAlipayの構想は、店舗のページや商品、接客の流れをエージェント向けの技能やMCPのツールに変え、作成・編成・実行・運用を束ね、AHAと呼ばれる規約で相互運用につなげる内容である。加盟店数や生態系の規模は企業側の発表数字として区別し、決済や本人確認、危険管理、履行の実装細部は発表の範囲を超えて書き込まない。 \cite{w2026w34w34eventc105,w2026w34w34eventc007}\par\medskip
+
+\begin{claimboundary}[読解上の境界]
+この節の読解上の境界: Regional availability, fiat-support roadmap, and merchant-ecosystem size are stated without exhaustive lists in captured bytes. / 'Agents transact safely at scale' is vendor framing; captured bytes support mechanisms, not outcomes. / Performance/latency improvement claims for multi-action turns are vendor-stated without benchmarks in captured bytes. / Files API is documented as not ZDR-eligible in secondary coverage; the captured first-party bodies do not state retention scope, so no retention claim is made here. / Docs describe steady-state platform properties, not a dated W34 release; the W34 delta is the observed enterprise-pattern currency, not a launch. / Merge into the AgentCore control-plane feature set is an editorial option, not a docs-stated fact. / Merchant-adoption figures and ecosystem scale claims are company-reported without disclosed methodology in captured bytes. / Payments/identity/risk/fulfillment implementation details beyond the announcement level are not in captured bytes. / Cost/behavioral claims are pattern-level and workload-dependent; no measured savings in captured bytes. / How-to/sample scope: production hardening beyond the sample is reader work, not a stated guarantee. / Behavioral/quality effects undescribed beyond the feature statement. / Original Dogwood OSS release (Aug 6) is pre-window background; only the Aug 20 authoring/production-context follow-up is the W34 delta. / Validation-completeness claims are vendor-described without adversarial evaluation in captured bytes. / regional coverage / merchant scale / outcome claims where not exhaustively established / vendor-described safety or scalability is not independently demonstrated / supporting AWS policy/memory records may describe capability architecture rather than a distinct launch event
+\end{claimboundary}

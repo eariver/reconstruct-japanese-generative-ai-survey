@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "status": "PASSED",
+  "scanned_surfaces": [
+    {
+      "path": "surveys/special/efficient-llm-2026/main.tex",
+      "sha256": "87bcb707e13cfde7e3d589271415b66e42385d4c7359f3bb492e9adf2d09fabe",
+      "kind": "PRIMARY_SOURCE",
+      "byte_count": 293777
+    },
+    {
+      "path": "surveys/special/efficient-llm-2026/references.bib",
+      "sha256": "9c0edead748c24beea8fd9a2e97982d7e6dd7b0086ab0b30906286e09f8478d2",
+      "kind": "BIBLIOGRAPHY",
+      "byte_count": 39266
+    },
+    {
+      "path": "sources/SP-efficient-llm-2026/publication/v2/reader-manuscript-v2.json",
+      "sha256": "cf7aca20714a23ba0b909fb62d79fe644c5e1fbc0d68ebc16b883d0a408f416e",
+      "kind": "MANUSCRIPT_MANIFEST",
+      "byte_count": 9657
+    }
+  ],
+  "rules_checked": [
+    {
+      "rule_id": "RSG-LEX-CORE-VOCAB",
+      "layer": "LEXICAL_LINT",
+      "description": "Core v2 pipeline and architecture internal terminology in reader-facing prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-SELECTION-SCREENING",
+      "layer": "LEXICAL_LINT",
+      "description": "Candidate screening, selection rounds, and negative selection decisions in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-DISCOVERY-INTAKE",
+      "layer": "LEXICAL_LINT",
+      "description": "Discovery intake, observation metadata, and candidate reviews in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-VERIFICATION-MATERIALITY",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal verification obligations and materiality markers in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-INTERNAL-IDENTIFIERS",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal package identifiers and raw evidence IDs in reader prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-STAGE-LIFECYCLE",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal stage and checkpoint lifecycle names used as publication prose",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-INTERNAL-PATHS",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal repository, transport, or Grok paths in reader prose or URLs",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-BIBLIOGRAPHY-LEAKAGE",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal evidence tags and materiality leaked into bibliography records",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-EDITORIAL-PROCESS",
+      "layer": "LEXICAL_LINT",
+      "description": "Internal editorial operations explained as prose rather than underlying facts",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-LEX-REVIEW-RATIONALE-COP-OUT",
+      "layer": "LEXICAL_LINT",
+      "description": "Architecture review meta-rebuttals and cop-out coverage assertions",
+      "severity": "BLOCKING"
+    },
+    {
+      "rule_id": "RSG-SEM-PROCESS-LEAKAGE",
+      "layer": "SEMANTIC_REVIEW",
+      "description": "Reader-facing sentence requiring internal pipeline knowledge to make sense",
+      "severity": "BLOCKING"
+    }
+  ],
+  "suppressions": [],
+  "findings": [],
+  "summary": {
+    "total_findings": 0,
+    "blocking_findings": 0,
+    "warning_findings": 0,
+    "suppressed_findings": 0,
+    "normalized_findings": 0,
+    "verdict": "PASSED"
+  },
+  "evaluated_by": "Core v2 Pre-Publication Reader-Surface Gate",
+  "recorded_at": "2026-09-23T00:36:00Z",
+  "semantic_authority": {
+    "status": "PASSED",
+    "decision": "PASS",
+    "reviewed_by": "Muse Spark (worker/execution review)",
+    "surface_path": "surveys/special/efficient-llm-2026/main.tex",
+    "surface_sha256": "87bcb707e13cfde7e3d589271415b66e42385d4c7359f3bb492e9adf2d09fabe",
+    "recorded_at": "2026-09-23T00:36:00Z",
+    "reviewed_at": "2026-09-23T00:36:00Z",
+    "review_path": "sources/SP-efficient-llm-2026/publication/v2/reader-surface-semantic-review-v2.json",
+    "review_sha256": "fa32b2263d4005ec6f4539762b897b28955b48107d3c8912ed3a6b1a0ba28838",
+    "summary": "Bound semantic review passed"
+  },
+  "gate_sha256": "dc2232a4a3424f70a9e36a9c8d7d135b9724725bfa72db82848837a5bd61c89f"
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "0.1",
+  "issue_id": "2026-W34",
+  "authority": "SOL_SCREENING_COVERAGE_SUPPLEMENT",
+  "status": "FINAL_FOR_POST_483_SCREENING_REPAIR",
+  "basis": {
+    "reviewed_main_sha": "a9f121f0d65591f52b53515712d7c0bae573b2ef",
+    "historical_105_decision_authority": "sources/2026-W34/screening/decisions/sol-screening-decision-authority-20260904-r1.json",
+    "historical_105_acceptance": "sources/2026-W34/screening/v2/accepted/2ab82c6b52b26fc01cc6a82d20da08ef4b37dadaf2ff1b0e5a570f50652b3662/screening-accepted.json",
+    "accepted_root_discovery": "sources/2026-W34/discovery/discovery-v2.jsonl"
+  },
+  "coverage_children": [
+    {
+      "discovery_id": "w34-coverage-comfy-org-comfyui",
+      "parent_root_id": "w34-github-releases-comfy-org-comfyui",
+      "decision": "DROP"
+    },
+    {
+      "discovery_id": "w34-coverage-ggml-org-llama-cpp",
+      "parent_root_id": "w34-github-releases-ggml-org-llama-cpp",
+      "decision": "DROP"
+    },
+    {
+      "discovery_id": "w34-coverage-nvidia-tensorrt-llm",
+      "parent_root_id": "w34-github-releases-nvidia-tensorrt-llm",
+      "decision": "DROP"
+    },
+    {
+      "discovery_id": "w34-coverage-sgl-project-sglang",
+      "parent_root_id": "w34-github-releases-sgl-project-sglang",
+      "decision": "DROP"
+    },
+    {
+      "discovery_id": "w34-coverage-vllm-project-vllm",
+      "parent_root_id": "w34-github-releases-vllm-project-vllm",
+      "decision": "DROP"
+    }
+  ],
+  "derived_record_rules": {
+    "origin": "REFERENCE_EXPANSION",
+    "parent_refs": "Exactly the single parent_root_id listed for the child.",
+    "source": "Copy the accepted parent Discovery source object verbatim so stable source identity, Raw paths, and metadata remain rooted in the accepted parent.",
+    "obligation_ids": "Copy the exact accepted parent provenance.obligation_ids; do not add an obligation.",
+    "research_pass": "Use one deterministic downstream expansion pass consistent with the existing event-level derived set; do not reinterpret source semantics.",
+    "reason": "Coverage passthrough only: preserve complete accepted-root downstream accounting for a GitHub Releases collector root that has no separately qualifying W34 event represented by this root. This child is not a new Weekly event."
+  },
+  "decision_materialization": {
+    "reason": "coverage-only GitHub Releases root with no separately qualifying W34 event represented by this root",
+    "verification_targets": [],
+    "confidence": "high",
+    "duplicate_group": null,
+    "scope_tags": "Derive mechanically from the copied parent source.metadata.lane using the same rule as the historical 105-event decision authority; do not invent semantic tags."
+  },
+  "expected_corrected_counts": {
+    "accepted_root_records": 40,
+    "historical_event_derived_records": 105,
+    "coverage_passthrough_records": 5,
+    "corrected_derived_records": 110,
+    "accounted_root_records": 40,
+    "unaccounted_root_records": 0,
+    "KEEP": 45,
+    "MAYBE": 19,
+    "INSPECT": 16,
+    "DROP": 30,
+    "TOTAL": 110,
+    "NON_DROP_EVIDENCE_TASKS": 80
+  },
+  "guards": [
+    "Do not modify or delete the historical 105-event accepted Screening run.",
+    "Do not alter any of the 105 historical Sol decisions.",
+    "The five coverage children are accounting passthroughs, not new editorial events.",
+    "All five supplemental decisions are exactly DROP.",
+    "Do not weaken complete accepted-root closure in reviewed Core.",
+    "DailyX/Grok/X observations remain Discovery/community signal, not technical Evidence authority."
+  ]
+}

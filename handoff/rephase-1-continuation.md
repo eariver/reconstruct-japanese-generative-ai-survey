@@ -1,5 +1,17 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-11-02 実資料rehearsal PARTIAL／R4 NOT_READY
+
+[assessment/次修復§5](../outputs/rephase-1-operational-rehearsal-assessment.md)、[packet](../notes/rephase-1-operational-rehearsal-20261101/README.md)、**[mandatory ROOT全文INCLUDING§7](../notes/rephase-1-operational-rehearsal-20261101/astra-rehearsal-resolution.md)**、独立closeout FINAL-BINDING・current state/source/process observation・doc checkを読む。Human選択W34@774＋efficient-LLM@c8、後続17文書限定取得の実資料でpre-Architecture試行。両State CANDIDATES_NORMALIZED、まだ新Human Gate／Draft/PDFなし。
+
+W34はR369/E439の通常DERIVED Screeningまで成功。409 Evidence＋425 Raw級で重複検証が支配的となりrun143終了、canonical Evidenceなし。rchar228011353736/14:38はoperator転記観測、raw /proc不在、disk/完走時間ではない。SPは160/15を普通経路で生成したが現在productsは根拠消費CHANGES_REQUIRED。追加原文・版確認・修正DATA draftは保持、5文書の歴史版は未確定。未受理canonical Ledger/Completenessのretry条件も未解決、勝手に削除・上書きしない。
+
+**次Human continuation後:** bounded Evidence scaling repair。短いprivate-interface／全transitive caller／current-history／write-return／epoch／oracle mapをAstra＋独立reviewが確認してから実装し、実W34409完了と保証保持・CURRENT proof・完全配送・独立実装reviewを行う。Global cache/public verified-dict/validator増殖/generic readerは不採用。Script-onlyならContract8が必ず変わる訳ではない；合法なtool更新継続を調べ、State/Profileを手でrepinしない。SP案・一次資料・同stage訂正の要件は引継ぐ。
+
+Code final138/770/patch efb505e4／manifest634d41f9不変。Rehearsal `.rephase-1-editorial-runtime/rehearsal-20261101T025600Z/candidate-work`、isolated48082356、770content/mode一致。範囲外checkout読取、P3空payload/P4修復、r1/r2 epoch混同、失敗/stdio欠落/誤記はROOT。通常Commit/Push/readback/Production変更なし。WholeNOT_READY/DM021+022OPEN、audit/品質/採用/削減未了。**Human Commit Point停止、修復を自動開始しない。**
+
+## Preserved implementation closeout — next rehearsal attempted, findings above control
+
 ## Current — 2026-11-01 Profile/support upstream実装closeout
 
 **BOUNDED IMPLEMENTATION COMPLETE（qualified composite）、Human Commit Point。** [assessment/次rehearsal§5](../outputs/rephase-1-profile-support-implementation-assessment.md)、[packet](../notes/rephase-1-profile-support-implementation/README.md)、**[mandatory ROOT全文](../notes/rephase-1-profile-support-implementation/astra-closeout-resolution.md)**、独立final review FINAL-BINDING＋closeout確認、final applied7補足を読む。Whole P1–P4を実装し、source-bound検証と完全配送を確認した。普通3/5とDM0227の意味は別、実root/effective/current/history/guardを束縛。

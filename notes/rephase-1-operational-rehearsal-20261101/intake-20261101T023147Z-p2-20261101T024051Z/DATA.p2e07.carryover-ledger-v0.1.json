@@ -1,0 +1,53 @@
+{
+  "schema_version": "0.1",
+  "issue_id": "2026-W34",
+  "prior_issue": "2026-W33",
+  "generated_at": "2026-09-02T12:26:00Z",
+  "derivation": {
+    "source_path": "sources/2026-W33/candidate-selection-v2.json",
+    "source_git_blob_sha": "85fdad2c496b8a8ed4872473371bdb42620de67f",
+    "source_content_sha256": "7d7b56c27fa31c17d1ee00f8a508d6afb96802990d33fb0d6ef848d1e6f9df7e",
+    "roles_considered": [
+      "HOLD_OUT",
+      "WATCHLIST",
+      "LATE_BREAKING"
+    ],
+    "expected_count": 1,
+    "rationale": "W33 final selection exposes one unresolved HOLD (MiniMax candidate:2026-W33:986cf7db00a0202e). No WATCHLIST or LATE_BREAKING role is present, and explicit REJECT items do not auto-carry."
+  },
+  "entries": [
+    {
+      "obligation_id": "carryover:2026-W33:986cf7db00a0202e",
+      "prior_candidate_id": "candidate:2026-W33:986cf7db00a0202e",
+      "prior_role": "HOLD_OUT",
+      "subject": "MiniMax official news/index item",
+      "prior_status": "HOLD",
+      "prior_rationale": "Official MiniMax index capture had product labels/navigation but no dated W33 event body; qualifying event identity could not be selected without new evidence.",
+      "status": "RECHECKED_UNRESOLVED",
+      "recheck": {
+        "checked_at": "2026-09-02T12:26:00Z",
+        "source_urls": [
+          "https://www.minimax.io/news",
+          "https://ir.minimax.io/news-events/new-releases",
+          "https://www.minimax.io/blog/minimax-music-3-0-next-generation-open-weights-production-ready-versatile-music-model",
+          "https://www.minimax.io/news/minimax-h3-open-source"
+        ],
+        "observations": [
+          "The official MiniMax IR listing shows Music 3.0 dated 2026-08-13 and H3 dated 2026-08-03; both precede W34.",
+          "The same listing shows a MiniMax financial-results item dated 2026-08-26; it is post-cutoff.",
+          "No dated MiniMax event in the Aug 14–21 W34 window was found in the manually reviewed official listings."
+        ],
+        "promotion_to_current": false,
+        "current_primary_locator": null,
+        "disposition_reason": "RECHECKED_UNRESOLVED"
+      }
+    }
+  ],
+  "validation": {
+    "before_screening": "PASS",
+    "every_expected_obligation_present": true,
+    "pending_recheck_count": 0,
+    "before_selection": "NOT_RUN_BY_SCOPE",
+    "note": "The obligation is rechecked and remains unresolved; no current-week promotion is made."
+  }
+}

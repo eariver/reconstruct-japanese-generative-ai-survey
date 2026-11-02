@@ -1,0 +1,50 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "EVIDENCE_REVIEWED",
+  "to_state": "SELECTION_COMPLETE",
+  "checkpoints": [
+    "selection"
+  ],
+  "recorded_at": "2026-09-22T17:30:00Z",
+  "implementation": {
+    "repository_commit_sha": "cca2b71e82861d479ce070c65edd5bcf95a9e8e0",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "candidate-matrix",
+      "path": "sources/SP-efficient-llm-2026/candidate-matrix-v2.json",
+      "sha256": "1dcc290232bf6947fca59e8c476d4d505dcd749935967aa85b956c7a39119afb"
+    },
+    {
+      "name": "candidate-selection",
+      "path": "sources/SP-efficient-llm-2026/candidate-selection-v2.json",
+      "sha256": "f91af7cf24150045f930c7ef8901817fea6e8f55058d439bf8c33d9fb78d99f7"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Survey Production Core v2 survey_stage_validation_v2.py",
+      "evidence": "Current Core Selection stage-contract validation passed: 160 Matrix candidates assigned (SELECTED 112 / HOLD 12 / REJECT 33 / INSPECT 3) under Sol-reviewed Selection semantics; no fixed-count requirement triggered (selected_count 112 within [40, 120]). Machine validation only; Sol Architecture review and the Human-facing dossier remain due.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/selection-stage-advance/validation/selection-stage-validation-r1.json",
+        "sha256": "88e8732393d64296c963046ef8c72c40b105d33746169b31eb444fd6c51b663a"
+      }
+    }
+  ],
+  "summary": "SP-efficient-llm-2026 Selection complete over 160-candidate Matrix under Sol Evidence PASS boundaries (D128 abstract-scope correction propagated; X/D164 bounded; Jev mandatory case; DROP continuity kept): 112 SELECTED (53 PRIMARY / 59 SUPPORTING), 12 HOLD, 33 REJECT, 3 INSPECT. Architecture proposed next."
+}

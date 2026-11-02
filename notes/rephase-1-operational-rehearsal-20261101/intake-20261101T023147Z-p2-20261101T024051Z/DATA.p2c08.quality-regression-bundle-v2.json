@@ -1,0 +1,73 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "production_profile": {
+    "path": "sources/SP-efficient-llm-2026/production-profile.json",
+    "sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117"
+  },
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "source": {
+    "path": "surveys/special/efficient-llm-2026/main.tex",
+    "sha256": "87bcb707e13cfde7e3d589271415b66e42385d4c7359f3bb492e9adf2d09fabe"
+  },
+  "pdf": {
+    "storage": "REPOSITORY_FILE",
+    "path": "surveys/special/efficient-llm-2026/main.pdf",
+    "sha256": "8a9a721ac35b2e5baa2e20162b5a6ba4ae63945d512d985484aeae56073a23c1",
+    "byte_count": 850785,
+    "actions_artifact": null
+  },
+  "checks": [
+    {
+      "check_id": "EMPTY_WRAPPER_SUPPRESSION",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Muse Spark (worker/execution review)",
+      "evidence": "10/10 numbered sections non-empty; all reader environments balanced; no empty wrappers.",
+      "recorded_at": "2026-09-23T00:36:00Z",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/publication/v2/deterministic/empty-wrapper-suppression.json",
+        "sha256": "48b53b86b3bc4c707c6c74894b3d96a2e8f4006b48042e4bec6c22f6927e95cc"
+      }
+    },
+    {
+      "check_id": "IDENTIFIER_PRESERVATION",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Muse Spark (worker/execution review)",
+      "evidence": "9/9 approved packages preserved into Sections 1-9 plus closing synthesis; draft package/result SHAs bound.",
+      "recorded_at": "2026-09-23T00:36:00Z",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/publication/v2/deterministic/identifier-preservation.json",
+        "sha256": "abc0fa0da8b0cbadceadcf937225e37e7b113d1872d3c0792c8e366f023d36df"
+      }
+    },
+    {
+      "check_id": "PDF_PREFLIGHT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Muse Spark (worker/execution review)",
+      "evidence": "CI run 35801995228 success; 66 pages; zero blocking log findings; exact r2 PDF bytes pinned.",
+      "recorded_at": "2026-09-23T00:36:00Z",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/publication/v2/deterministic/pdf-preflight.json",
+        "sha256": "97b73cc5af1cc768607db121979bc16c3e27dfbc7fad9404dcde498a0a20fb60"
+      }
+    },
+    {
+      "check_id": "SUBJECT_ENTITY_PROPERTY_BINDING",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Muse Spark (worker/execution review)",
+      "evidence": "110/110 citation keys resolve to bibliography records; per-section binding recorded.",
+      "recorded_at": "2026-09-23T00:36:00Z",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/publication/v2/deterministic/subject-entity-property-binding.json",
+        "sha256": "11cd51b30780d2c867cb8a122a634b71c65d85ac835b6431888ada27cf30f02d"
+      }
+    }
+  ],
+  "status": "PASS",
+  "bundle_sha256": "b38c9dad876dbd9214ae749b2939ac06eec53dc6953d907b416634f5c0004c29"
+}

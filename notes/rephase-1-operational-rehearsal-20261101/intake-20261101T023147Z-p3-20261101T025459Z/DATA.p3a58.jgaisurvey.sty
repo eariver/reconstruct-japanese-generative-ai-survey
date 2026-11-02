@@ -1,0 +1,210 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{jgaisurvey}[2026/08/23 Japanese Generative AI Survey style]
+
+\RequirePackage[haranoaji,deluxe,match,nfssonly]{luatexja-preset}
+\RequirePackage[margin=18mm,headsep=5mm,footskip=9mm]{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{graphicx}
+\RequirePackage{booktabs}
+\RequirePackage{tabularx}
+\RequirePackage{array}
+\RequirePackage{multicol}
+\RequirePackage{needspace}
+\RequirePackage{rotating}
+\RequirePackage{enumitem}
+\RequirePackage[most]{tcolorbox}
+\RequirePackage{fancyhdr}
+\RequirePackage{xurl}
+\RequirePackage{hyperref}
+\RequirePackage{bookmark}
+\RequirePackage{etoolbox}
+\RequirePackage[
+  backend=biber,
+  style=numeric,
+  sorting=none,
+  giveninits=true,
+  maxbibnames=99
+]{biblatex}
+
+\definecolor{SurveyInk}{HTML}{17202A}
+\definecolor{SurveyAccent}{HTML}{2457A6}
+\definecolor{SurveyMuted}{HTML}{5D6D7E}
+\definecolor{SurveyRule}{HTML}{D5D8DC}
+\definecolor{SurveySoft}{HTML}{F4F6F7}
+\definecolor{SurveyWarn}{HTML}{7D3C98}
+\definecolor{SurveyLate}{HTML}{922B21}
+
+\hypersetup{
+  unicode=true,
+  colorlinks=true,
+  linkcolor=SurveyAccent,
+  citecolor=SurveyAccent,
+  urlcolor=SurveyAccent,
+  pdfcreator={LuaLaTeX}
+}
+
+\setlength{\headheight}{14pt}
+\setlength{\columnsep}{7mm}
+\setlength{\parindent}{1em}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{3em}
+\setlength{\tabcolsep}{2.75pt}
+\setlist{nosep,leftmargin=1.8em}
+\raggedbottom
+\Urlmuskip=0mu plus 1mu\relax
+
+% LONGFORM_SPECIAL tables contain mixed Japanese/English technical tokens.
+% Ragged X columns avoid artificial stretching and give TeX more legal breaks.
+\renewcommand{\tabularxcolumn}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\SurveyIssue}{UNSET}
+\newcommand{\SurveyTitle}{Japanese Generative AI Technical Survey}
+\newcommand{\SurveyDate}{UNSET}
+\newcommand{\SurveyCutoff}{UNSET}
+\newcommand{\SurveyRepository}{eariver/japanese-generative-ai-survey}
+\newcommand{\SurveyCoverHeadline}{}
+\newcommand{\SurveyCoverDeck}{}
+\newcommand{\SurveyCoverAnchors}{}
+\newcommand{\SurveyEditionDescriptor}{週刊Technical Survey}
+
+\newcommand{\surveysetup}[4]{%
+  \renewcommand{\SurveyIssue}{#1}%
+  \renewcommand{\SurveyTitle}{#2}%
+  \renewcommand{\SurveyDate}{#3}%
+  \renewcommand{\SurveyCutoff}{#4}%
+  \hypersetup{pdftitle={#2 -- #1}}%
+}
+
+\newcommand{\surveycoverstory}[3]{%
+  \renewcommand{\SurveyCoverHeadline}{#1}%
+  \renewcommand{\SurveyCoverDeck}{#2}%
+  \renewcommand{\SurveyCoverAnchors}{#3}%
+}
+
+\newcommand{\surveyeditiondescriptor}[1]{%
+  \renewcommand{\SurveyEditionDescriptor}{#1}%
+}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\color{SurveyMuted}\SurveyTitle}
+\fancyhead[R]{\small\color{SurveyMuted}\SurveyIssue}
+\fancyfoot[C]{\small\color{SurveyMuted}\thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+\renewcommand{\footrulewidth}{0pt}
+
+\newcommand{\surveycover}{%
+  \thispagestyle{empty}%
+  \vspace*{18mm}%
+  \noindent{\color{SurveyAccent}\rule{\linewidth}{2.2pt}}\\[8mm]
+  {\hyphenpenalty=10000\exhyphenpenalty=10000\fontsize{22}{29}\selectfont\bfseries \SurveyTitle\par}
+  \vspace{6mm}
+  {\Large\bfseries \SurveyIssue\par}
+  \vspace{3mm}
+  {\large \SurveyDate\par}
+  \ifdefempty{\SurveyCoverHeadline}{}{%
+    \vspace{14mm}%
+    {\fontsize{22}{29}\selectfont\bfseries\color{SurveyInk}\SurveyCoverHeadline\par}
+    \vspace{4mm}%
+    {\large\color{SurveyMuted}\SurveyCoverDeck\par}
+    \ifdefempty{\SurveyCoverAnchors}{}{%
+      \vspace{8mm}%
+      {\footnotesize\bfseries\color{SurveyAccent}\SurveyCoverAnchors\par}%
+    }%
+  }%
+  \vfill
+  \noindent\begin{tabularx}{\linewidth}{@{}>{\bfseries}p{0.23\linewidth}X@{}}
+    Editorial cutoff & \SurveyCutoff \\
+    Repository & \SurveyRepository \\
+    Build & LuaLaTeX / jlreq / LuaTeX-ja \\
+  \end{tabularx}
+  \vspace{8mm}
+  {\small\color{SurveyMuted}一次情報・論文・OSS・X上の技術反応を分離し、検証可能なEvidence chainとして編成する\SurveyEditionDescriptor。\par}
+  \vspace*{10mm}
+}
+
+\newcommand{\sectionkicker}[1]{%
+  {\small\bfseries\color{SurveyAccent}\MakeUppercase{#1}\par}\vspace{1mm}%
+}
+
+% LONGFORM_SPECIAL wraps full-page blocks in wideflow while its renderer owns
+% the two-column narrative regions via multicols. Keep the normal page measure
+% and suppress the document's 1em first-line offset so full-width tabularx
+% blocks do not become exactly 1em wider than \linewidth.
+\newenvironment{wideflow}{%
+  \par
+  \begingroup
+  \setlength{\parindent}{0pt}%
+}{\par\endgroup}
+
+\newtcolorbox{claimboundary}[1][Claim boundary]{
+  enhanced,
+  breakable,
+  colback=SurveySoft,
+  colframe=SurveyWarn,
+  boxrule=0.6pt,
+  arc=1mm,
+  title={#1},
+  fonttitle=\bfseries,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm
+}
+
+\newtcolorbox{themeoverview}[1][Theme at a glance]{
+  enhanced,
+  breakable,
+  colback=SurveySoft,
+  colframe=SurveyAccent,
+  boxrule=0.6pt,
+  arc=1mm,
+  title={#1},
+  fonttitle=\bfseries,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm
+}
+
+\newtcolorbox{technicalnote}[1][Source-backed Technical Note]{
+  enhanced,
+  breakable,
+  colback=white,
+  colframe=SurveyRule,
+  boxrule=0.6pt,
+  arc=1mm,
+  title={#1},
+  fonttitle=\bfseries,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm
+}
+
+\newtcolorbox{communitynote}[1][X / Community observation]{
+  enhanced,
+  breakable,
+  colback=SurveySoft,
+  colframe=SurveyAccent,
+  boxrule=0.6pt,
+  arc=1mm,
+  title={#1},
+  fonttitle=\bfseries,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm
+}
+
+\newtcolorbox{latebreaking}[1][Late Breaking]{
+  enhanced,
+  breakable,
+  colback=SurveySoft,
+  colframe=SurveyLate,
+  boxrule=0.8pt,
+  arc=1mm,
+  title={#1},
+  fonttitle=\bfseries,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm
+}
+
+\newcommand{\sourceclass}[1]{%
+  \begingroup\setlength{\fboxsep}{2pt}%
+  \colorbox{SurveySoft}{\textcolor{SurveyMuted}{\sffamily\scriptsize #1}}%
+  \endgroup
+}
+
+\newcommand{\draftplaceholder}[1]{%
+  \begin{claimboundary}[Draft status]
+  Article drafting has not started. Evidence package: \texttt{#1}.
+  \end{claimboundary}
+}

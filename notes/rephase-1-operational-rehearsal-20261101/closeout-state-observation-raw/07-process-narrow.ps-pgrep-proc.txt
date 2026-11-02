@@ -1,0 +1,14 @@
+=== ps known PIDs ===
+ps -p 3043897,3048844,3055742,3056828,3057930 -o pid,ppid,etime,cmd -> header only, no rows; exit 1 (empty set)
+=== pgrep scoped (self-excluded) ===
+pgrep -af "w34-evidence-run-38\.py|w34-evidence-diag-39\.py|w34-evidence-diag-39b\.py|w34-evidence-diag-41\.py|rehearsal-20261101T025600Z" | grep -v "pgrep -af" -> pgrep_empty
+=== /proc cmdline+cwd ===
+PID 3043897 absent (/proc missing)
+PID 3048844 absent (/proc missing)
+PID 3055742 absent (/proc missing)
+PID 3056828 absent (/proc missing)
+PID 3057930 absent (/proc missing)
+self_pid 3160343 cmd /bin/bash -c ... (excluded as inspection itself)
+method: ps/pgrep//proc only, scoped to this rehearsal scripts+PIDs; no kill; no unrelated study
+limits: 600s attempt PID never preserved (lost); cannot prove entire-host negative via PID alone; scoped command search + 5 known-PID absence is reported scope; no blanket no-zombies/all-host cert
+recorded PIDs/cmds: 120s 3043897 / run38 3048844 w34-evidence-run-38.py / diag39 3055742 w34-evidence-diag-39.py / diag40b 3056828 w34-evidence-diag-39b.py / diag41c 3057930 w34-evidence-diag-41.py; exits run38 143, diag41c 143, diag39 1, diag40b 0, final-verify-42 0, SP evidence 0

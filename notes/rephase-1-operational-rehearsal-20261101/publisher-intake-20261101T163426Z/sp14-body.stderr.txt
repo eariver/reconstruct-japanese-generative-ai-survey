@@ -1,0 +1,81 @@
+* Host recipes.vllm.ai:443 was resolved.
+* IPv6: (none)
+* IPv4: 216.150.16.65, 216.150.1.65
+*   Trying 216.150.16.65:443...
+* ALPN: curl offers h2,http/1.1
+} [5 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+} [1570 bytes data]
+* SSL Trust Anchors:
+*   CAfile: /etc/ssl/certs/ca-certificates.crt
+*   CApath: /etc/ssl/certs
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+{ [1210 bytes data]
+* TLSv1.3 (IN), TLS change cipher, Change cipher spec (1):
+{ [1 bytes data]
+* TLSv1.3 (IN), TLS handshake, Encrypted Extensions (8):
+{ [19 bytes data]
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+{ [4073 bytes data]
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* TLSv1.3 (OUT), TLS change cipher, Change cipher spec (1):
+} [1 bytes data]
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / X25519MLKEM768 / RSASSA-PSS
+* ALPN: server accepted h2
+* Server certificate:
+*   subject: CN=recipes.vllm.ai
+*   start date: Oct 24 21:07:52 2026 GMT
+*   expire date: Jan 22 21:07:51 2027 GMT
+*   issuer: C=US; O=Let's Encrypt; CN=YR1
+*   Certificate level 0: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type RSA (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type RSA (4096/152 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 3: Public key type RSA (4096/152 Bits/secBits), signed using sha256WithRSAEncryption
+*   subjectAltName: "recipes.vllm.ai" matches cert's "recipes.vllm.ai"
+* SSL certificate verified via OpenSSL.
+* Established connection to recipes.vllm.ai (216.150.16.65 port 443) from 192.168.10.7 port 59938 
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://recipes.vllm.ai/deepseek-ai/DeepSeek-V4.1-Flash
+* [HTTP/2] [1] [:method: GET]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: recipes.vllm.ai]
+* [HTTP/2] [1] [:path: /deepseek-ai/DeepSeek-V4.1-Flash]
+* [HTTP/2] [1] [user-agent: Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)]
+* [HTTP/2] [1] [accept: */*]
+} [5 bytes data]
+> GET /deepseek-ai/DeepSeek-V4.1-Flash HTTP/2
+> Host: recipes.vllm.ai
+> User-Agent: Mozilla/5.0 (compatible; SP-publisher-intake/20261101; bounded-research)
+> Accept: */*
+> 
+* Request completely sent off
+{ [5 bytes data]
+* TLSv1.3 (IN), TLS handshake, Newsession Ticket (4):
+{ [122 bytes data]
+< HTTP/2 200 
+< accept-ranges: bytes
+< access-control-allow-origin: *
+< age: 48188
+< cache-control: public, max-age=0, must-revalidate
+< content-disposition: inline
+< content-type: text/html; charset=utf-8
+< date: Sun, 01 Nov 2026 16:35:42 GMT
+< etag: "16af79ef63ff8c20398ff052774b9b5a"
+< server: Vercel
+< strict-transport-security: max-age=63072000
+< vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+< x-matched-path: /deepseek-ai/DeepSeek-V4.1-Flash
+< x-nextjs-prerender: 1
+< x-nextjs-stale-time: 300
+< x-vercel-cache: HIT
+< x-vercel-id: hnd1::vcfpb-1793550942573-c6c1c06aa9ae
+< content-length: 2705796
+< 
+{ [5 bytes data]
+* Connection #0 to host recipes.vllm.ai:443 left intact

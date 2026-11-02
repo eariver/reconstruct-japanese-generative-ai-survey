@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "from_state": "VALIDATED_DRAFT",
+  "to_state": "RELEASE_CANDIDATE",
+  "checkpoints": [],
+  "recorded_at": "2026-09-13T14:40:00Z",
+  "implementation": {
+    "repository_commit_sha": "07c4b6a7522b19a14c09c9bdbdf6ad055ebef9c4",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "7e37522cb71aefd4c0a07fe2b7d1070e5faf6998c16d90414b99db3269eda324",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+  },
+  "artifacts": [
+    {
+      "name": "publication-candidate",
+      "path": "sources/2026-W34/publication/v2/publication-candidate-v2.json",
+      "sha256": "df376f474acf5fafa14f9af5196727858b1dd76f5c7d17664fa52ba784e32061"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Gemini 3.8 Flash (W34 r2 Issue #491 repair)",
+      "evidence": "r2 Issue #491 repair candidate",
+      "result": {
+        "path": "sources/2026-W34/execution/luna/w34-human-preview-r2-issue491-repair/validation/publication-candidate-stage-validation-r4.json",
+        "sha256": "b79e3fb1710b34c6294ea57c9f601ae16badd0c880dd3ae60e170419977fa380"
+      }
+    }
+  ],
+  "summary": "W34 r2 Issue #491 repair candidate validation"
+}

@@ -1,0 +1,9 @@
+CMD: verify P3 API size/blob vs local DATA (p3a54, p3a59 proven; p3a02 bad zero, NOT consumed)
+PID=2791483
+ACTUAL-CLOCK 20261101T031939Z
+p3a54 local bytes 31172 blob 40ce19e15c1a api_size 31172 api_blob 40ce19e15c1a MATCH
+p3a59 local bytes 30213 blob 11cecd3376a5 api_size 30213 api_blob 11cecd3376a5 MATCH
+p3a02 local bytes 0 blob e69de29bb2d1 api_size 1805968 api_blob 90462213d982 MISMATCH-BADZERO
+workcopy staged proven:
+sol-discovery-event-inventory-v0.2.md 31172 6153a02519ac
+x-reception-result-r3.md 30213 b3a8a0404e6d

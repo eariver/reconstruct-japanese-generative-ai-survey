@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Amazon Bedrock AgentCore payments: Enable secure microtransaction payments for AI agents - Amazon Bedrock AgentCore</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="payments" /><meta name="default_state" content="payments" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/payments.html" /><meta name="description" content="Amazon Bedrock AgentCore payments is a fully managed service that enables microtransaction payments in AI agents to access paid APIs, MCP servers, and content. AI agents increasingly handle complex tasks by calling APIs, accessing MCP servers, and interacting with other agents. As more services monetize through pay-per-use models, developers face challenges integrating payments into agentic workflows. Transactions are typically microtransactions (often under $1 or fractions of a cent), making traditional payment methods cost-prohibitive due to high minimum transaction fees. Meanwhile, content providers and publishers are introducing paywalls for AI agents to access their content. AgentCore payments provides a suite of developer-friendly capabilities that help you develop solutions to enable secure, instant payments to paid services using stablecoin, open protocols like x402 for cost-effective microtransactions, and configurable guardrails to help control agent spending. This can reduce developer effort from months to days." /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon Bedrock AgentCore" /><meta name="guide" content="Developer Guide" /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/payments.html" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/bedrock-agentcore/latest/devguide/payments.html" hreflang="id-id" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/bedrock-agentcore/latest/devguide/payments.html" hreflang="id" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/bedrock-agentcore/latest/devguide/payments.html" hreflang="de-de" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/bedrock-agentcore/latest/devguide/payments.html" hreflang="de" /><link rel="alternate" href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/payments.html" hreflang="en-us" /><link rel="alternate" href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/payments.html" hreflang="en" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/bedrock-agentcore/latest/devguide/payments.html" hreflang="es-es" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/bedrock-agentcore/latest/devguide/payments.html" hreflang="es" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/bedrock-agentcore/latest/devguide/payments.html" hreflang="fr-fr" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/bedrock-agentcore/latest/devguide/payments.html" hreflang="fr" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/bedrock-agentcore/latest/devguide/payments.html" hreflang="it-it" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/bedrock-agentcore/latest/devguide/payments.html" hreflang="it" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/bedrock-agentcore/latest/devguide/payments.html" hreflang="ja-jp" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/bedrock-agentcore/latest/devguide/payments.html" hreflang="ja" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/bedrock-agentcore/latest/devguide/payments.html" hreflang="ko-kr" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/bedrock-agentcore/latest/devguide/payments.html" hreflang="ko" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/bedrock-agentcore/latest/devguide/payments.html" hreflang="pt-br" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/bedrock-agentcore/latest/devguide/payments.html" hreflang="pt" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_cn/bedrock-agentcore/latest/devguide/payments.html" hreflang="zh-cn" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_tw/bedrock-agentcore/latest/devguide/payments.html" hreflang="zh-tw" /><link rel="alternate" href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/payments.html" hreflang="x-default" /><meta name="feedback-item" content="bedrock-agentcore" /><meta name="this_doc_product" content="Amazon Bedrock AgentCore" /><meta name="this_doc_guide" content="Developer Guide" /><head xmlns="http://www.w3.org/1999/xhtml"> <script defer="" src="/assets/r/awsdocs-doc-page.2.0.0.js"></script><link href="/assets/r/awsdocs-doc-page.2.0.0.css" rel="stylesheet"/></head>
+<script defer="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'bedrock-agentcore'}"></script><meta id="panorama-serviceSubSection" value="Developer Guide" /><meta id="panorama-serviceConsolePage" value="Amazon Bedrock AgentCore payments: Enable secure microtransaction payments for AI agents" /><meta name="uiVersion" content="2024.10" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><p><a href="payments.md">View a markdown version of this page</a></p><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Amazon Bedrock AgentCore payments: Enable secure microtransaction payments for AI agents - Amazon Bedrock AgentCore</title><meta name="pdf" content="/pdfs/bedrock-agentcore/latest/devguide/bedrock-agentcore-dg.pdf#payments" /><meta name="rss" content="bedrock-agentcore-dg.rss" /><meta name="forums" content="https://repost.aws/search/content?globalSearch=Amazon Bedrock AgentCore" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=bedrock-agentcore&amp;topic_url=https://docs.aws.amazon.com/en_us/bedrock-agentcore/latest/devguide/payments.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/bedrock-agentcore/latest/devguide/payments.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/bedrock-agentcore/latest/devguide/payments.html" /><link rel="alternate" type="text/markdown" href="payments.md" title="Markdown version" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "Amazon Bedrock AgentCore",
+        "item" : "https://docs.aws.amazon.com/bedrock-agentcore/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "Developer Guide",
+        "item" : "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Amazon Bedrock AgentCore payments: Enable secure microtransaction payments for AI agents",
+        "item" : "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/payments.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/bedrock-agentcore/latest/devguide/bedrock-agentcore-dg.pdf#payments" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/bedrock-agentcore/index.html">Amazon Bedrock AgentCore</a><a href="what-is-bedrock-agentcore.html">Developer Guide</a></div><div id="page-toc-src"><a href="#payments-what-is">What is AWS Amazon Bedrock AgentCore payments?</a><a href="#payments-what-customer-problem-solve">What customer problem does it solve?</a><a href="#payments-key-use-cases">Use cases</a><a href="#payments-key-features">Key features</a><a href="#payments-accessing">Accessing AgentCore payments</a><a href="#payments-related-services">Related services</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="payments">Amazon Bedrock AgentCore payments: Enable secure microtransaction payments for AI agents</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div>
+      <h2 id="payments-what-is">What is AWS Amazon Bedrock AgentCore payments?</h2>
+      <p>Amazon Bedrock AgentCore payments is a fully managed service that enables microtransaction payments in AI agents to access paid APIs, MCP servers, and content. AI agents increasingly handle complex tasks by calling APIs, accessing MCP servers, and interacting with other agents. As more services monetize through pay-per-use models, developers face challenges integrating payments into agentic workflows. Transactions are typically microtransactions (often under $1 or fractions of a cent), making traditional payment methods cost-prohibitive due to high minimum transaction fees. Meanwhile, content providers and publishers are introducing paywalls for AI agents to access their content. AgentCore payments provides a suite of developer-friendly capabilities that help you develop solutions to enable secure, instant payments to paid services using stablecoin, open protocols like x402 for cost-effective microtransactions, and configurable guardrails to help control agent spending. This can reduce developer effort from months to days.</p>
+    
+      <h2 id="payments-what-customer-problem-solve">What customer problem does it solve?</h2>
+      <p>Amazon Bedrock AgentCore payments addresses challenges that agent developers face when integrating payment capabilities into their AI agents. Traditionally, developers must establish and manage separate billing relationships with each external service provider their agents need to access, creating operational overhead and complexity. The economics of agent-to-merchant transactions present a fundamental challenge: individual API calls or content requests often have values measured in cents, yet traditional payment methods like credit cards (limited availability due to geographical restrictions) impose minimum transaction fees, making microtransactions economically unviable.</p>
+      <p>Beyond the cost structure, developers can face months of engineering effort to integrate third-party wallets, build payment orchestration systems, implement support for emerging agentic protocols, handle edge cases, and establish end-to-end observability across payment flows. Because AI agents operate autonomously, developers typically build governance frameworks and budget controls from scratch to prevent runaway spending, while supporting compliance with payment regulations and maintaining security standards, which can be complex. These requirements become increasingly complex in a payments context. AgentCore payments addresses these challenges by providing a fully managed, purpose-built service that enables developers to add payment capabilities to their agents with a few lines of code.</p>
+    
+      <h2 id="payments-key-use-cases">Use cases</h2>
+      <p>Amazon Bedrock AgentCore payments supports use cases where AI agents require dynamic, pay-per-use access to premium resources and services.</p>
+      <div class="itemizedlist">
+          
+          
+          
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <strong>Research</strong> — Research agents can operate with allocated budgets, intelligently selecting and purchasing access to specialized paid data sources on demand to deliver insights while staying within cost constraints.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Financial analysis</strong> — Financial analysts can use agents to pay for access to real-time market data behind paywalls (such as proprietary financial databases and trading platforms) to perform analysis and inform investment decisions.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Browser agents</strong> — Browser-based UI or browser agents can navigate and extract content from websites that monetize or restrict bot access, enabling automated research, data collection, and task completion at scale.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Pay-per-intelligence</strong> — Agents can dynamically route tasks to the optimal AI model, paying only for actual token usage rather than maintaining subscriptions across multiple model providers.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>On-demand storage</strong> — Agents can provision temporary storage resources on demand with granular pay-per-use pricing, helping to reduce the need for pre-allocated capacity and reducing waste.</p>
+         </li></ul></div>
+      <p>These capabilities enable autonomous workflows that were previously impractical due to payment friction, while giving developers more control over costs and resource allocation.</p>
+    
+      <h2 id="payments-key-features">Key features</h2>
+      <p>Amazon Bedrock AgentCore payments provides the following capabilities to simplify and secure payment operations for AI agents.</p>
+      <div class="itemizedlist">
+          
+          
+          
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <strong>Orchestrating Payments</strong> — With AgentCore payments, you can orchestrate payments using open HTTP-native standards, including the x402 protocol and the Machine Payments Protocol (MPP). Both protocols use the HTTP 402 Payment Required status code for programmatic payments. AgentCore payments manages the complete lifecycle on the agent side, from receiving the merchant’s payment request, through transaction signing by using the configured wallet provider, to returning the payment proof that the agent submits back to the merchant. It handles multi-step flows and exceptions automatically, enabling real-time agent-to-merchant microtransactions that would be cost-prohibitive with traditional payment methods (which impose minimum fees).</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Payment limits</strong> — Built-in payment limits help developers to establish granular budget controls at both user and agent levels. Each PaymentSession has a configurable budget limit (maxSpendAmount, currency) and an expiry time. When the session expires or the budget is reached, further payment requests are denied. If a payment signing fails after budget deduction, the budget does not deduct the failed payment.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Third-party wallet integration</strong> — The service offers secure wallet integration with two providers: CoinbaseCDP and Stripe(Privy) for embedded stablecoin wallet operations. Sensitive credentials such as API keys and wallet secrets are stored via AgentCore Identity. AgentCore helps developers limit which agents can access wallet resources.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Endpoint discoverability</strong> — AgentCore payments offers a ready-to-use Coinbase x402 Bazaar MCP server, which exposes 10,000+ pay-per-use x402 endpoints through the AgentCore Gateway. Developers can browse and search for x402-enabled services and add them as targets in a Gateway via the console or CLI.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>Observability</strong> —  End-to-end observability through Amazon CloudWatch provides visibility across the entire payment lifecycle. Customers can access vended logs (application logs published automatically to your CloudWatch log group) and vended spans (trace records viewable in AWS X-Ray) for every data plane API call, helping developers to monitor transaction success rates, track spending patterns, and diagnose errors.</p>
+         </li></ul></div>
+    
+      <h2 id="payments-accessing">Accessing AgentCore payments</h2>
+      <p>You can interact with AWS AgentCore payments by directly invoking the payments service’s public APIs through the AWS CLI, AWS SDKs, AgentCore SDK, and AgentCore CLI. To scaffold your payment resources and add a process payment tool to your agent, use the AgentCore Payments skill in the AWS agent toolkit. At runtime, you can integrate payment processing with supported agent SDK frameworks like Strands Agents and LangGraph.</p>
+    
+      <h2 id="payments-related-services">Related services</h2>
+      <div class="itemizedlist">
+          
+          
+          
+          
+      <ul class="itemizedlist"><li class="listitem">
+            <p>
+               <strong>
+                  <a href="./identity.html">AgentCore Identity</a>
+               </strong> - Securely store and federate payment credentials to help implement least permissions principle for access. Your Coinbase API keys and Stripe/Privy Wallet credentials will be securely stored here as a PaymentCredentialProvider.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>
+                  <a href="./gateway.html">AgentCore Gateway</a>
+               </strong> - Connect to paid MCP servers ensuring your agents have secure access to them via AgentCore Gateway. You can also leverage pre-existing integration of Coinbase x402 Bazaar through AgentCore Gateway to discover thousands of existing paid MCP tools.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>
+                  <a href="./browser-tool.html">AgentCore Browser</a>
+               </strong> - AgentCore Browser, together with AgentCore payments, helps you autonomously and securely access paywalled websites that support x402.</p>
+         </li><li class="listitem">
+            <p>
+               <strong>
+                  <a href="./observability.html">AgentCore Observability</a>
+               </strong> - Helps you trace, debug, and monitor AI agents' performance in production environments. AgentCore payments provides metrics and traces for you to observe for your AI agent.</p>
+         </li></ul></div>
+   <awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./identity-tagging.html">Identity resource tagging</div><div id="next" class="next-link" accesskey="n" href="./payments-concepts.html">Core concepts</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=bedrock-agentcore&amp;topic_url=https://docs.aws.amazon.com/en_us/bedrock-agentcore/latest/devguide/payments.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=bedrock-agentcore&amp;topic_url=https://docs.aws.amazon.com/en_us/bedrock-agentcore/latest/devguide/payments.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

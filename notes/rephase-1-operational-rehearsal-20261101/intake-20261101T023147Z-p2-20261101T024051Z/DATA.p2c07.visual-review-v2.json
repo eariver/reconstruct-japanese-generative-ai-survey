@@ -1,0 +1,79 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "research_profile": "THEMATIC",
+  "publication_profile": "LONGFORM_SPECIAL",
+  "review_kind": "VISUAL",
+  "status": "PASSED",
+  "production_profile": {
+    "path": "sources/SP-efficient-llm-2026/production-profile.json",
+    "sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117"
+  },
+  "reader_manuscript": {
+    "path": "sources/SP-efficient-llm-2026/publication/v2/reader-manuscript-v2.json",
+    "sha256": "cf7aca20714a23ba0b909fb62d79fe644c5e1fbc0d68ebc16b883d0a408f416e"
+  },
+  "source": {
+    "path": "surveys/special/efficient-llm-2026/main.tex",
+    "sha256": "87bcb707e13cfde7e3d589271415b66e42385d4c7359f3bb492e9adf2d09fabe",
+    "byte_count": 293777
+  },
+  "pdf": {
+    "path": "surveys/special/efficient-llm-2026/main.pdf",
+    "sha256": "8a9a721ac35b2e5baa2e20162b5a6ba4ae63945d512d985484aeae56073a23c1",
+    "byte_count": 850785
+  },
+  "page_count": 66,
+  "checks": [
+    {
+      "check_id": "EXACT_PDF_VISUAL_REVIEW",
+      "status": "PASS",
+      "detail": "Exact r2 66-page PDF fully rendered and reviewed (all 66 pages; not sampled): p.56 first glossary table entirely within text/page bounds with right-edge clipping 0; p.57 and p.58 glossary tables correct; no overlap, no cropped glyphs, no orphan header, no new near-blank page, no page hole, no bibliography regression. Rendered evidence preserved for p.1, pp.4-5 TOC, pp.39-45 capstone, pp.46-49 measurement, pp.53-59 appendix/glossary, pp.60-66 references; pp.56-58 individually inspected.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.pdf: pages 1-66",
+        "publication/v2/deterministic/pdf-preflight.json",
+        "sources/SP-efficient-llm-2026/execution/validation/overfull-guard-r2.json"
+      ]
+    },
+    {
+      "check_id": "LONGFORM_MIXED_LAYOUT",
+      "status": "PASS",
+      "detail": "Balanced two-column narrative via multicols (all subsections inside); full-width tables and boxes as wide surfaces; one-column references; TOC hierarchy intact. Glossary first-table layout-only \\par\\noindent fix; no unrelated page redesign; no appendix redesign.",
+      "evidence_locations": [
+        "reader-layout:wide-surfaces-full-width",
+        "reader-layout:references-one-column",
+        "reader-layout:balanced-two-column-narrative"
+      ]
+    },
+    {
+      "check_id": "LONGFORM_PAGE_BALANCE",
+      "status": "PASS",
+      "detail": "66 pages (unchanged from r1) within 64-96 soft band; no padded pages; no near-blank pages (min page chars 655 on p.1; glossary pages 681-986; references 966-4022); multicols balance without stranded columns.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.pdf: pages 1-66",
+        "page-plan:66/76"
+      ]
+    },
+    {
+      "check_id": "TECHNICAL_NOTES_TAIL_NEEDSPACE",
+      "status": "PASS",
+      "detail": "Appendix technical-note tables guarded by Needspace; tail notes not stranded; glossary split across pp.56-58 without orphaned headers. Overfull guard: max 10.0pt (<20pt BLOCK threshold); 12x 10.0pt REVIEW_REQUIRED findings at TeX lines 1204-1280 (full-width tabularx tables) visually disposed as within-margin, no clipping; 6x 8.99pt RECORD-only.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.pdf: pages 53-59",
+        "surveys/special/efficient-llm-2026/main.tex: Needspace guards",
+        "sources/SP-efficient-llm-2026/execution/validation/overfull-guard-r2.json"
+      ]
+    },
+    {
+      "check_id": "TOC_HIERARCHY",
+      "status": "PASS",
+      "detail": "TOC lists 10 numbered sections with numbered subsections and page numbers; unnumbered frontmatter/appendix excluded from numbered hierarchy as designed.",
+      "evidence_locations": [
+        "surveys/special/efficient-llm-2026/main.pdf: pages 4-5"
+      ]
+    }
+  ],
+  "reviewed_by": "Muse Spark (worker/execution review)",
+  "recorded_at": "2026-09-23T00:37:00Z",
+  "review_sha256": "693761ee16af15cf9e656c39e761d5e74edd81b0e99773e6d28a221e6d76d6d6"
+}

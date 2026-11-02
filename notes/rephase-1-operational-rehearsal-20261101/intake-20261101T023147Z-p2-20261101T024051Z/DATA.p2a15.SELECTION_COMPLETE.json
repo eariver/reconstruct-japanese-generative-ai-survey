@@ -1,0 +1,55 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "SELECTION_COMPLETE",
+  "to_state": "ARCHITECTURE_ESTABLISHED",
+  "checkpoints": [
+    "architecture"
+  ],
+  "recorded_at": "2026-09-22T18:00:00Z",
+  "implementation": {
+    "repository_commit_sha": "cca2b71e82861d479ce070c65edd5bcf95a9e8e0",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "ee89796245c22072cec98f34931180214a4928c24f399280793cd6420a4c8e71",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "architecture-review-attention",
+      "path": "sources/SP-efficient-llm-2026/architecture-review-attention-v2.json",
+      "sha256": "970c32319993d78c0a0ded59b5a046da60a311f300afd33c74a3206e089b6c68"
+    },
+    {
+      "name": "architecture-review-summary",
+      "path": "sources/SP-efficient-llm-2026/architecture-review-summary-v2.json",
+      "sha256": "bc4a40d8a9729d7cff94d01695dba93dec6f844947057b916794c8e09e9dbdac"
+    },
+    {
+      "name": "issue-architecture",
+      "path": "sources/SP-efficient-llm-2026/architecture-v2.json",
+      "sha256": "e214040b16e1620bb8682ea255402335f385f04f07e30f044ee7575bd1574970"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "Survey Production Core v2 survey_stage_validation_v2.py",
+      "evidence": "Current Core Architecture stage-contract validation passed: 9-package PROPOSED Architecture (target 76 / max 96 pages) with READY_FOR_ARCHITECTURE_REVIEW summary and bounded attention surface; human_review null, no Human approval recorded. Machine validation only; Sol Architecture review and the Human-facing dossier remain due before any Gate presentation.",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/execution/architecture-stage-advance/validation/architecture-stage-validation-r1.json",
+        "sha256": "79e708db1116f561213d17ddd15f444e0e2e49b523f67b2337183adf769fd0c2"
+      }
+    }
+  ],
+  "summary": "SP-efficient-llm-2026 Architecture established as PROPOSED 9-package plan (P1 bottleneck through P9 methodology; D128 abstract-scope visible in P8; Jev specialization case in P7; X/D164 bounded) with READY review summary. Human Architecture Review pending; drafting not started."
+}
