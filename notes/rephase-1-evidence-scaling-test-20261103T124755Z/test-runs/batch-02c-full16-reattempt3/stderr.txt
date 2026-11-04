@@ -1,0 +1,49 @@
+test_golden_full_card_public_builder_matches_reviewed_baseline_and_validates_clean (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_golden_full_card_public_builder_matches_reviewed_baseline_and_validates_clean)
+True baseline/golden vs new PUBLIC builder + full card validator. ... ok
+test_historical_readback_never_reads_live_state_and_validates_content (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_historical_readback_never_reads_live_state_and_validates_content)
+History content core: path-identity, never LIVE State pin/read. ... ok
+test_late_raw_drift_after_context_before_public_accept_refuses_exact_and_preserves_inventory (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_late_raw_drift_after_context_before_public_accept_refuses_exact_and_preserves_inventory)
+Late Raw fault AFTER ctx/first-card, BEFORE publication: exact guard. ... ok
+test_late_task_mutation_after_load_before_accept_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_late_task_mutation_after_load_before_accept_refuses_exact)
+Package/task mutation after initial load/validation must not reseal. ... ok
+test_lazy_error_order_invalid_card_triggers_no_supplement_io (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_lazy_error_order_invalid_card_triggers_no_supplement_io)
+Invalid card fails before the supplement getter (exact order, IO count). ... ok
+test_low_copy_and_none_refusals_are_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_low_copy_and_none_refusals_are_exact)
+LOW loader refusals: exact messages (COPY/LIVE/None), no TypeError. ... ok
+test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds)
+LOW small DERIVED case: COPY-only, true R!=E, real validators + supp. ... /usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpw2glq_pt'>
+  _warnings.warn(warn_message, ResourceWarning)
+ok
+test_post_evidence_accept_views_failure_preserves_earlier_absent_later (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_post_evidence_accept_views_failure_preserves_earlier_absent_later)
+Post-Evidence-accept Views fault: earlier present, later absent. ... ok
+test_post_validation_package_field_drift_refuses_before_first_write (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_post_validation_package_field_drift_refuses_before_first_write)
+Reseal regression: fault hook validates then plants package drift. ... ok
+test_public_acceptance_readback_real_io_slope_is_package_linear (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_public_acceptance_readback_real_io_slope_is_package_linear)
+Real PUBLIC accept+readback Raw-I/O slope: package-linear, N/M scaled. ... ok
+test_readback_result_mutation_after_check_before_return_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_readback_result_mutation_after_check_before_return_refuses_exact)
+Readback freshness: result drift after its check, before RETURN. ... FAIL
+test_repo_root_none_structural_nonsupplement_unbound_cases_are_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_repo_root_none_structural_nonsupplement_unbound_cases_are_exact)
+PUBLIC ``repo_root=None`` structural/non-supp/unbound exact cases. ... ok
+test_standalone_two_public_calls_after_manifest_change_second_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_standalone_two_public_calls_after_manifest_change_second_refuses_exact)
+Two ACTUAL PUBLIC calls; manifest byte_count edit → second refuses. ... ok
+test_standalone_two_public_calls_after_raw_change_second_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_standalone_two_public_calls_after_raw_change_second_refuses_exact)
+Two ACTUAL PUBLIC calls; Raw change → second refuses (exact). ... ok
+test_two_healthy_operations_with_changed_source_metadata_yield_new_values (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_two_healthy_operations_with_changed_source_metadata_yield_new_values)
+Two healthy PUBLIC ops with changed Raw bytes → new digests, no reuse. ... ok
+test_unit_private_slices_match_public_authority_map (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_unit_private_slices_match_public_authority_map)
+UNIT probe: pure private slices vs PUBLIC ``task_authority_sources``. ... ok
+
+======================================================================
+FAIL: test_readback_result_mutation_after_check_before_return_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_readback_result_mutation_after_check_before_return_refuses_exact)
+Readback freshness: result drift after its check, before RETURN.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 1184, in test_readback_result_mutation_after_check_before_return_refuses_exact
+    with self.assertRaisesRegex(ValueError, "bytes changed"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 16 tests in 5.463s
+
+FAILED (failures=1)

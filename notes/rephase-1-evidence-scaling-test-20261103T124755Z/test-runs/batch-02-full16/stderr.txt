@@ -1,0 +1,170 @@
+test_golden_full_card_public_builder_matches_reviewed_baseline_and_validates_clean (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_golden_full_card_public_builder_matches_reviewed_baseline_and_validates_clean)
+True baseline/golden vs new PUBLIC builder + full card validator. ... ok
+test_historical_readback_never_reads_live_state_and_validates_content (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_historical_readback_never_reads_live_state_and_validates_content)
+History content core: path-identity, never LIVE State pin/read. ... ok
+test_late_raw_drift_after_context_before_public_accept_refuses_exact_and_preserves_inventory (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_late_raw_drift_after_context_before_public_accept_refuses_exact_and_preserves_inventory)
+Late Raw fault AFTER ctx/first-card, BEFORE publication: exact guard. ... ok
+test_late_task_mutation_after_load_before_accept_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_late_task_mutation_after_load_before_accept_refuses_exact)
+Package/task mutation after initial load/validation must not reseal. ... ok
+test_lazy_error_order_invalid_card_triggers_no_supplement_io (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_lazy_error_order_invalid_card_triggers_no_supplement_io)
+Invalid card fails before the supplement getter (exact order, IO count). ... ok
+test_low_copy_and_none_refusals_are_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_low_copy_and_none_refusals_are_exact)
+LOW loader refusals: exact messages (COPY/LIVE/None), no TypeError. ... FAIL
+test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds)
+LOW small DERIVED case: COPY-only, true R!=E, real validators + supp. ... ERROR
+/usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmp9gwqf98a'>
+  _warnings.warn(warn_message, ResourceWarning)
+test_post_evidence_accept_views_failure_preserves_earlier_absent_later (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_post_evidence_accept_views_failure_preserves_earlier_absent_later)
+Post-Evidence-accept Views fault: earlier present, later absent. ... FAIL
+test_post_validation_package_field_drift_refuses_before_first_write (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_post_validation_package_field_drift_refuses_before_first_write)
+Reseal regression: fault hook validates then plants package drift. ... FAIL
+test_public_acceptance_readback_real_io_slope_is_package_linear (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_public_acceptance_readback_real_io_slope_is_package_linear)
+Real PUBLIC accept+readback Raw-I/O slope: package-linear, N/M scaled. ... FAIL
+test_readback_result_mutation_after_check_before_return_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_readback_result_mutation_after_check_before_return_refuses_exact)
+Readback freshness: result drift after its check, before RETURN. ... FAIL
+test_repo_root_none_structural_nonsupplement_unbound_cases_are_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_repo_root_none_structural_nonsupplement_unbound_cases_are_exact)
+PUBLIC ``repo_root=None`` structural/non-supp/unbound exact cases. ... ok
+test_standalone_two_public_calls_after_manifest_change_second_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_standalone_two_public_calls_after_manifest_change_second_refuses_exact)
+Two ACTUAL PUBLIC calls; manifest byte_count edit → second refuses. ... ok
+test_standalone_two_public_calls_after_raw_change_second_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_standalone_two_public_calls_after_raw_change_second_refuses_exact)
+Two ACTUAL PUBLIC calls; Raw change → second refuses (exact). ... ok
+test_two_healthy_operations_with_changed_source_metadata_yield_new_values (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_two_healthy_operations_with_changed_source_metadata_yield_new_values)
+Two healthy PUBLIC ops with changed Raw bytes → new digests, no reuse. ... ERROR
+test_unit_private_slices_match_public_authority_map (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_unit_private_slices_match_public_authority_map)
+UNIT probe: pure private slices vs PUBLIC ``task_authority_sources``. ... FAIL
+
+======================================================================
+ERROR: test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds)
+LOW small DERIVED case: COPY-only, true R!=E, real validators + supp.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/scripts/survey_research_authority_v2.py", line 2343, in build_revision_cards_views_from_paths
+    evidence_mod._validate_evidence_package_basis_content(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, pkg_target, package, _low_expect,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        ds_context["root_records"], ds_context["root_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/scripts/survey_evidence_v2.py", line 1172, in _validate_evidence_package_basis_content
+    _check_evidence_package_files_content(repo_root, package)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/scripts/survey_evidence_v2.py", line 1064, in _check_evidence_package_files_content
+    raise ValueError("Evidence supplement contract metadata missing")
+ValueError: Evidence supplement contract metadata missing
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 1317, in test_low_derived_copy_build_accept_readback_with_supplement_raw_succeeds
+    built = low.build_revision_cards_views_from_paths(
+        root, supp_pkg_path, supp_request_path, bulk_results, bulk_views,
+        before_copy_path=copy_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/scripts/survey_research_authority_v2.py", line 2348, in build_revision_cards_views_from_paths
+    raise ResearchAuthorityError(f"revision package basis invalid against true root: {exc}") from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: revision package basis invalid against true root: Evidence supplement contract metadata missing
+
+======================================================================
+ERROR: test_two_healthy_operations_with_changed_source_metadata_yield_new_values (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_two_healthy_operations_with_changed_source_metadata_yield_new_values)
+Two healthy PUBLIC ops with changed Raw bytes → new digests, no reuse.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 756, in test_two_healthy_operations_with_changed_source_metadata_yield_new_values
+    second_acc = run_once("op2")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 727, in run_once
+    pkg_path = evidence.prepare_evidence_package(
+        root, state_path, discovery_path, screening_acceptance,
+        root / f"sources/SP001/evidence/v2/healthy-{tag}", head, manifest_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/scripts/survey_evidence_v2.py", line 874, in prepare_evidence_package
+    manifest = validate_evidence_authority_supplement(
+        repo_root,
+    ...<9 lines>...
+        discoveries=discoveries,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/scripts/survey_evidence_v2.py", line 632, in validate_evidence_authority_supplement
+    raise ValueError(f"{prefix} byte_count drift: {entry['raw_path']}")
+ValueError: Evidence Authority Supplement sources[0] byte_count drift: sources/SP001/raw/auth-h1.html
+
+======================================================================
+FAIL: test_low_copy_and_none_refusals_are_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_low_copy_and_none_refusals_are_exact)
+LOW loader refusals: exact messages (COPY/LIVE/None), no TypeError.
+----------------------------------------------------------------------
+scripts.survey_research_authority_v2.ResearchAuthorityError: revision request path must be a Path or non-empty string, got NoneType
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 1375, in test_low_copy_and_none_refusals_are_exact
+    with self.assertRaisesRegex(
+         ~~~~~~~~~~~~~~~~~~~~~~^
+        low.ResearchAuthorityError, "requires request_path and before_copy_path"):
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "requires request_path and before_copy_path" does not match "revision request path must be a Path or non-empty string, got NoneType"
+
+======================================================================
+FAIL: test_post_evidence_accept_views_failure_preserves_earlier_absent_later (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_post_evidence_accept_views_failure_preserves_earlier_absent_later)
+Post-Evidence-accept Views fault: earlier present, later absent.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 1039, in test_post_evidence_accept_views_failure_preserves_earlier_absent_later
+    _assert_inventory_equal_except(self, before_inv, after_inv, expected_changed={fault_rel})
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 101, in _assert_inventory_equal_except
+    test.assertIn(rel, before, f"intentional fault target missing before: {rel}")
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'views-partial/view-0a90e862ddfbaf2f2ded.json' not found in {'sources/SP001/discovery': {'kind': 'dir'}, 'sources/SP001/discovery/discovery.jsonl': {'kind': 'file', 'sha256': '52a8cfdd0be4368b1dd520956e2d25ed45eb581dfa5e04b52d9c86fe5220fdad', 'bytes': 526, 'mode': '0o664'}, 'sources/SP001/evidence': {'kind': 'dir'}, 'sources/SP001/evidence/v2': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-pkg': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-pkg/package.json': {'kind': 'file', 'sha256': '470bce4f87be63c74c1342dde658715adc601e1e1cd91ab3d1cfb5888c605786', 'bytes': 2956, 'mode': '0o664'}, 'sources/SP001/evidence/v2/partial-pkg/results-partial': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-pkg/results-partial/task-0a90e862ddfbaf2f2ded.json': {'kind': 'file', 'sha256': '79c9f096837cf6d34f90d5f4e5de7fb198dfd1b0e87fb020edb9f23c10fb719d', 'bytes': 2387, 'mode': '0o664'}, 'sources/SP001/evidence/v2/partial-pkg/tasks': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-pkg/tasks/task-0a90e862ddfbaf2f2ded.json': {'kind': 'file', 'sha256': '698aeaa6fff6e10ca8973ccbd466be279ec5c61aefffb73b50080853276e213d', 'bytes': 1030, 'mode': '0o664'}, 'sources/SP001/evidence/v2/partial-runs': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098/evidence-accepted.json': {'kind': 'file', 'sha256': '60a2df2be9cff50f418669146bfc1d5f8bea09faac2b8782fee9e950e0112689', 'bytes': 695, 'mode': '0o664'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098/package.json': {'kind': 'file', 'sha256': '470bce4f87be63c74c1342dde658715adc601e1e1cd91ab3d1cfb5888c605786', 'bytes': 2956, 'mode': '0o664'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098/results': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098/results/task-0a90e862ddfbaf2f2ded.json': {'kind': 'file', 'sha256': '79c9f096837cf6d34f90d5f4e5de7fb198dfd1b0e87fb020edb9f23c10fb719d', 'bytes': 2387, 'mode': '0o664'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098/tasks': {'kind': 'dir'}, 'sources/SP001/evidence/v2/partial-runs/9cb2abb1f85d6f47a18a628539b06552867e0e9b1365226564ecab57c9eb0098/tasks/task-0a90e862ddfbaf2f2ded.json': {'kind': 'file', 'sha256': '698aeaa6fff6e10ca8973ccbd466be279ec5c61aefffb73b50080853276e213d', 'bytes': 1030, 'mode': '0o664'}, 'sources/SP001/evidence-authority-supplement.json': {'kind': 'file', 'sha256': 'c2aa6dcf12ded08f98770ea7a61b679b923745c6c706478b64df6481efdd53b6', 'bytes': 1207, 'mode': '0o664'}, 'sources/SP001/production-profile.json': {'kind': 'file', 'sha256': '2d34d63427822d3d3c1ed7ee8483e11e15a3b63286d0bd2cd64cd6a1199ed770', 'bytes': 1590, 'mode': '0o664'}, 'sources/SP001/production-state.json': {'kind': 'file', 'sha256': '1e48c863d56cb5a95882eaf455da54e26cd6b203a214fd1a9312409d2d0f1b06', 'bytes': 2600, 'mode': '0o664'}, 'sources/SP001/raw': {'kind': 'dir'}, 'sources/SP001/raw/auth-w1.html': {'kind': 'file', 'sha256': '8591a745d5a86693a4f65c7a16854c3be634044f68fedeee56d49542e5a8ffbf', 'bytes': 84, 'mode': '0o664'}, 'sources/SP001/screening': {'kind': 'dir'}, 'sources/SP001/screening/v2': {'kind': 'dir'}, 'sources/SP001/screening/v2/package': {'kind': 'dir'}, 'sources/SP001/screening/v2/package/input': {'kind': 'dir'}, 'sources/SP001/screening/v2/package/input/batches': {'kind': 'dir'}, 'sources/SP001/screening/v2/package/input/batches/batch-001.jsonl': {'kind': 'file', 'sha256': '52a8cfdd0be4368b1dd520956e2d25ed45eb581dfa5e04b52d9c86fe5220fdad', 'bytes': 526, 'mode': '0o664'}, 'sources/SP001/screening/v2/package/package.json': {'kind': 'file', 'sha256': '7183cf70da1b6be9a17fe1947104251d535ace5164687cb3949601595c7c455e', 'bytes': 1734, 'mode': '0o664'}, 'sources/SP001/screening/v2/package/results': {'kind': 'dir'}, 'sources/SP001/screening/v2/package/results/batch-001.json': {'kind': 'file', 'sha256': 'f21f2d8deb33c2e24d9180cc19f3baaa02dfb2a18f0280f99c0b5223b7159329', 'bytes': 955, 'mode': '0o664'}, 'sources/SP001/screening/v2/runs': {'kind': 'dir'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287': {'kind': 'dir'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/input': {'kind': 'dir'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/input/batches': {'kind': 'dir'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/input/batches/batch-001.jsonl': {'kind': 'file', 'sha256': '52a8cfdd0be4368b1dd520956e2d25ed45eb581dfa5e04b52d9c86fe5220fdad', 'bytes': 526, 'mode': '0o664'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/package.json': {'kind': 'file', 'sha256': '7183cf70da1b6be9a17fe1947104251d535ace5164687cb3949601595c7c455e', 'bytes': 1734, 'mode': '0o664'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/results': {'kind': 'dir'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/results/batch-001.json': {'kind': 'file', 'sha256': 'f21f2d8deb33c2e24d9180cc19f3baaa02dfb2a18f0280f99c0b5223b7159329', 'bytes': 955, 'mode': '0o664'}, 'sources/SP001/screening/v2/runs/f4f0da9aea4bebb60df6415d832950202ea787fcd864edf889bb6ace4342a287/screening-accepted.json': {'kind': 'file', 'sha256': 'b241e5fb58be9f472ae9f8da148f5fd50c3bede79b791c790a8886f080d98b00', 'bytes': 892, 'mode': '0o664'}} : intentional fault target missing before: views-partial/view-0a90e862ddfbaf2f2ded.json
+
+======================================================================
+FAIL: test_post_validation_package_field_drift_refuses_before_first_write (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_post_validation_package_field_drift_refuses_before_first_write)
+Reseal regression: fault hook validates then plants package drift.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 977, in test_post_validation_package_field_drift_refuses_before_first_write
+    _assert_inventory_equal_except(self, after_hook_inv, post_inv, expected_changed=set())
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 107, in _assert_inventory_equal_except
+    test.assertEqual(before[rel], after[rel], f"unintended drift at {rel}")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: {'kin[18 chars]6': '63bc455a52cee2c84f252b99c2ca19500bb69cdb7[52 chars]664'} != {'kin[18 chars]6': '336a6a7eaa796449f3ff1750545d1e5df597f5bef[52 chars]664'}
+- {'bytes': 2956,
++ {'bytes': 3010,
+   'kind': 'file',
+   'mode': '0o664',
+-  'sha256': '63bc455a52cee2c84f252b99c2ca19500bb69cdb7f4042aa6f9b37684032fe79'}
++  'sha256': '336a6a7eaa796449f3ff1750545d1e5df597f5bef69c502042c01585ba1ff59f'} : unintended drift at sources/SP001/evidence/v2/reseal-pkg/package.json
+
+======================================================================
+FAIL: test_public_acceptance_readback_real_io_slope_is_package_linear (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_public_acceptance_readback_real_io_slope_is_package_linear)
+Real PUBLIC accept+readback Raw-I/O slope: package-linear, N/M scaled.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 557, in test_public_acceptance_readback_real_io_slope_is_package_linear
+    self.assertLessEqual(large_per, 8)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^
+AssertionError: 12.0 not less than or equal to 8
+
+======================================================================
+FAIL: test_readback_result_mutation_after_check_before_return_refuses_exact (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_readback_result_mutation_after_check_before_return_refuses_exact)
+Readback freshness: result drift after its check, before RETURN.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 1153, in test_readback_result_mutation_after_check_before_return_refuses_exact
+    with self.assertRaisesRegex(ValueError, "bytes changed"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_unit_private_slices_match_public_authority_map (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_unit_private_slices_match_public_authority_map)
+UNIT probe: pure private slices vs PUBLIC ``task_authority_sources``.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T124755Z/candidate-work/tests/test_evidence_scaling_v2.py", line 480, in test_unit_private_slices_match_public_authority_map
+    self.assertGreater(old_count, new_count)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 1 not greater than 1
+
+----------------------------------------------------------------------
+Ran 16 tests in 4.598s
+
+FAILED (failures=6, errors=2)

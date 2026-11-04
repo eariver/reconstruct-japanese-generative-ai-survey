@@ -1,0 +1,61 @@
+test_01_all_ten_leaf_mappings_exact (tests.test_profile_support_upstream_repair_v2.DM016CanonicalTenTests.test_01_all_ten_leaf_mappings_exact)
+Unit probe: canonical10 leaf mapping (not task/card acceptance). ... ok
+test_02_unchanged_old_mappings_preserved (tests.test_profile_support_upstream_repair_v2.DM016CanonicalTenTests.test_02_unchanged_old_mappings_preserved)
+Unit probe: pre-existing mappings unchanged (not task/card acceptance). ... ok
+test_03_all_ten_through_actual_task_card_acceptance_zero_errors (tests.test_profile_support_upstream_repair_v2.DM016CanonicalTenTests.test_03_all_ten_through_actual_task_card_acceptance_zero_errors)
+Genuine task/card path: one chain with 10 distinct canonical types. ... ok
+test_04_unknown_types_fail_closed_leaf (tests.test_profile_support_upstream_repair_v2.DM016CanonicalTenTests.test_04_unknown_types_fail_closed_leaf)
+Unit probe: unknown literals fail closed at the leaf. ... ok
+test_05_unknown_including_prospective_drop_refuses_pure_preflight (tests.test_profile_support_upstream_repair_v2.DM016UnknownDropPrewriteTests.test_05_unknown_including_prospective_drop_refuses_pure_preflight)
+Unit probe: pure preflight refuses unknown in KEEP and prospective DROP. ... ok
+test_06_screening_prepare_with_unknown_refuses_before_write_with_control (tests.test_profile_support_upstream_repair_v2.DM016UnknownDropPrewriteTests.test_06_screening_prepare_with_unknown_refuses_before_write_with_control)
+Operation: Screening new-entry write boundary refuses unknown with no-write. ... ok
+test_11_initial_only_three_fields_when_u_eq_p_real_profiles (tests.test_profile_support_upstream_repair_v2.DM017OrdinaryInputTests.test_11_initial_only_three_fields_when_u_eq_p_real_profiles)
+Validator unit with real Profile factories: initial-only 3-field passes iff U==P. ... ok
+test_12_named_only_five_fields_with_real_dimension (tests.test_profile_support_upstream_repair_v2.DM017OrdinaryInputTests.test_12_named_only_five_fields_with_real_dimension)
+Validator unit with real Profiles: named-only 5-field with Profile dimension. ... ok
+test_13_shape_status_dimension_coverage_refusals_real_profiles (tests.test_profile_support_upstream_repair_v2.DM017OrdinaryInputTests.test_13_shape_status_dimension_coverage_refusals_real_profiles)
+Validator unit: strict shape/dimension/status/coverage gates refuse. ... ok
+test_14_builder_derives_through_real_ledger_and_passes_full_validators (tests.test_profile_support_upstream_repair_v2.DM017OrdinaryInputTests.test_14_builder_derives_through_real_ledger_and_passes_full_validators)
+Operation: _build_completeness derives discovery_ids/task_ids from effective+Ledger. ... ok
+test_14b_named5_to_accepted7_for_weekly_and_retro_with_selection_refs (tests.test_profile_support_upstream_repair_v2.DM017OrdinaryInputTests.test_14b_named5_to_accepted7_for_weekly_and_retro_with_selection_refs)
+Operation for WEEKLY/RETROSPECTIVE_PERIOD: named5 → accepted7 + Selection refs. ... ok
+test_07_universe_is_initial_union_root_union_effective (tests.test_profile_support_upstream_repair_v2.DM017UniverseLossTests.test_07_universe_is_initial_union_root_union_effective)
+Unit: U = P ∪ named(R) ∪ named(E). ... ok
+test_08_shared_oid_global_equality_insufficient (tests.test_profile_support_upstream_repair_v2.DM017UniverseLossTests.test_08_shared_oid_global_equality_insufficient)
+Unit: per-parent loss detected even when global OID sets match. ... ok
+test_09_direct_and_derived_carriers_pass_nonarray_refused (tests.test_profile_support_upstream_repair_v2.DM017UniverseLossTests.test_09_direct_and_derived_carriers_pass_nonarray_refused)
+Unit: identical DIRECT and valid derived carriers pass; non-array refused. ... ok
+test_10_derive_bindings_drop_safe_and_profile_only_empty (tests.test_profile_support_upstream_repair_v2.DM017UniverseLossTests.test_10_derive_bindings_drop_safe_and_profile_only_empty)
+Unit: profile-only yields ([],[]); DROP declarers yield DIDs, no invented tasks. ... ok
+test_23_healthy_derived_many_to_many_named5_to_7_with_selection (tests.test_profile_support_upstream_repair_v2.DerivedOperationTests.test_23_healthy_derived_many_to_many_named5_to_7_with_selection)
+Genuine DERIVED R!=E public operation (THEMATIC, shared OID, many-to-many). ... ok
+test_24_lossy_derived_shared_oid_refuses_new_prewrite_with_full_inventory (tests.test_profile_support_upstream_repair_v2.DerivedOperationTests.test_24_lossy_derived_shared_oid_refuses_new_prewrite_with_full_inventory)
+Lossy DERIVED (R-2,O-SHARED) with valid old expansion refuses NEW prewrite. ... ok
+test_22_prepare_guard_and_accept_idempotence (tests.test_profile_support_upstream_repair_v2.GuardNoOverwriteIdempotenceTests.test_22_prepare_guard_and_accept_idempotence)
+Late guard/no-overwrite + idempotent accept re-read (no new writes). ... ok
+test_17_healthy_history_readback_vs_new_refusal_for_shared_oid_loss (tests.test_profile_support_upstream_repair_v2.HistoryVersusNewOperationTests.test_17_healthy_history_readback_vs_new_refusal_for_shared_oid_loss)
+Behavioral separation: same lossy graph passes historical, refuses new. ... ok
+test_18_initial_direct_preserved_no_marker (tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_18_initial_direct_preserved_no_marker)
+Initial DIRECT (NO_MARKER): no marker, ISSUE_INITIALIZED, unclaimed. ... ok
+test_19_claimed_but_marker_missing_refuses_no_direct_fallback (tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_19_claimed_but_marker_missing_refuses_no_direct_fallback)
+Stage-claimed lifecycle with absent marker refuses (no DIRECT fallback). ... ok
+test_20_initial_valid_marker_pending_and_mismatched_state_claim (tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_20_initial_valid_marker_pending_and_mismatched_state_claim)
+Initial valid-marker pending (CANONICAL_MARKER) vs mismatched State DCP claim. ... ok
+test_20b_healthy_stage_claimed_and_producer_report_negatives (tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_20b_healthy_stage_claimed_and_producer_report_negatives)
+Healthy STAGE_CLAIMED binds the State-named DCP; producer/report tampering refuses. ... ok
+test_21_symlink_nonregular_and_unreadable_markers_refuse (tests.test_profile_support_upstream_repair_v2.PrepackageBindingTests.test_21_symlink_nonregular_and_unreadable_markers_refuse)
+Symlink, nonregular (directory) and unreadable markers refuse with no-write. ... ok
+test_15_all_three_profiles_upstream_with_real_factories (tests.test_profile_support_upstream_repair_v2.ProfileParityTests.test_15_all_three_profiles_upstream_with_real_factories)
+Operation-level validator with real factories (no relabel, no hand-built profiles). ... ok
+test_16_direct_and_agent_first_real_builder_parity_closure_first (tests.test_profile_support_upstream_repair_v2.ProfileParityTests.test_16_direct_and_agent_first_real_builder_parity_closure_first)
+Delegation unit probe (NOT real public parity): real builder via adapter. ... ok
+test_16b_required_keyword_only_discovery_records (tests.test_profile_support_upstream_repair_v2.ProfileParityTests.test_16b_required_keyword_only_discovery_records)
+API census (behavioral): R/E inputs are required keyword-only, no E-as-R default. ... ok
+test_16c_real_public_parity_direct_run_vs_agent_main_cloned_fixtures (tests.test_profile_support_upstream_repair_v2.ProfileParityTests.test_16c_real_public_parity_direct_run_vs_agent_main_cloned_fixtures)
+Real public parity: direct runner.run vs agent-first main on cloned fixtures. ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 8.380s
+
+OK

@@ -1,5 +1,7 @@
 # Reconstruction 完了ロードマップ — 2026-10-19 再計画
 
+**CURRENT 2026-11-04 Evidence scaling修復限定完了:** [assessment/next§5](rephase-1-evidence-scaling-implementation-assessment.md)＋[mandatory ROOT](../notes/rephase-1-evidence-scaling-repair/astra-closeout-resolution.md)＋独立final reviewでBOUNDED IMPLEMENTATION COMPLETE。実W34409を旧State/Profile/CP保持の独立新code epochで完了、完全DIRECT409 139paths/771配送を確認。これは実規模の機械的阻害要因の修復で、研究品質/R4/採用/実測net削減ではない。次は保存rehearsalのEvidence実質reviewとSP同stage訂正/owned-output条件、必要品質・費用を閉じてからR4へ。Generic readerを自動追加せず、Human Commit Point停止。
+
 **CURRENT 2026-11-02 real-material rehearsal PARTIAL／R4 NOT_READY:** [assessment](rephase-1-operational-rehearsal-assessment.md)＋[mandatory ROOT全文§7](../notes/rephase-1-operational-rehearsal-20261101/astra-rehearsal-resolution.md)＋独立closeoutで、W34/efficient-LLMの実資料pre-Architecture試行を限定評価。両CANDIDATES_NORMALIZED、W34は実規模409/425Rawの反復検証cost、SPは根拠消費とsame-stage retryが未解決。**次の必要投資はbounded Evidence scaling repair**（短い具体private-map＋独立/Astra確認前にcodeなし）。全transitive readback・guard/freshness・履歴/currentを保持、global authority cacheやgeneric readerへ拡張しない。修復後に保存rehearsalを正当に再開して品質/訂正/費用を確認し、それからR4。今回Source138不変、Human Commit Point停止。
 
 **CURRENT 2026-11-01 Profile/support upstream実装closeout:** [assessment/次rehearsal§5](rephase-1-profile-support-implementation-assessment.md)＋[mandatory ROOT](../notes/rephase-1-profile-support-implementation/astra-closeout-resolution.md)＋独立final implementation/packagingで**whole共有修復BOUNDED COMPLETE（qualified composite）**。Final138paths/770、完全DIRECT409、normal/DM022/実DERIVED・repeat・後続consumerの影響検証まで。最後の予定済み機能実装はここでcloseout。次は具体的Weekly/実需Specialの品質・正常訂正・総費用rehearsal／R4準備であり、generic reader設計gateを自動開始しない。品質/候補固定七観点audit/Human採用/実測削減は未完了。Human Commit Point停止、次unit未開始。
@@ -80,7 +82,7 @@ DM022を「別Productionだから無関係」とも「新しいので最優先�
 | 段階 | 現在の次作業／出口 |
 |---|---|
 | R3共有upstream修復：bounded complete | 2026-11-01、[assessment](rephase-1-profile-support-implementation-assessment.md)でwhole P1–P4実装・影響検証・独立review・138paths完全配送を限定完了。最後の予定済み機能実装のCommit Point。新authority/契約gapは引続きAstraへ、全欠陥放置の宣言ではない |
-| R4準備：rehearsal PARTIAL | W34＋efficient-LLMの実資料で両CANDIDATES_NORMALIZEDまで進行。実規模の反復検証cost・SP根拠消費/owned-output retryを検出。[限定scaling修復](rephase-1-operational-rehearsal-assessment.md)を次に選択し、解消後に必要品質/正常訂正/費用rehearsalを継続。全形式代表ではなく、汎用reader契約を自動開始しない |
+| R4準備：rehearsal継続、scaling阻害は限定修復済み | [Evidence scaling実装assessment](rephase-1-evidence-scaling-implementation-assessment.md)で実W34409の完了と139path配送まで確認。両対象の研究StateはCAND、W34実質review・SP根拠修正/owned-output retry・必要品質/正常訂正/費用は未了。保存rehearsalを再開し、これらを閉じてから候補固定へ。全形式代表や汎用reader自動gateにしない |
 | R4固定／監査 | 選択範囲に未解決blockerがなく、正確なsource/overlay/runtime/必要assetsとdiagnostics/環境check・移行/rollback/除去表が揃った一候補へfresh独立七観点audit。限定auditを全必要経路の採用／全体完了に拡張しない |
 | R5限定採用 | Human明示許可の下で監査対象範囲を実運用、品質非劣化・正常操作・切戻しを確認 |
 | R6効果判定 | 過去投資・移行・並行保守も含め実際の作業除去と総費用を評価。未知はunknown、改善がなければ調整/撤回/責任単位の置換 |

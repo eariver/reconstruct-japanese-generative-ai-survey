@@ -1,5 +1,19 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-11-04 Evidence scaling修復限定完了
+
+**BOUNDED IMPLEMENTATION COMPLETE、Human Commit Point。** [assessment/次task§5](../outputs/rephase-1-evidence-scaling-implementation-assessment.md)、[packet](../notes/rephase-1-evidence-scaling-repair/README.md)、**[mandatory ROOT全文](../notes/rephase-1-evidence-scaling-repair/astra-closeout-resolution.md)**、独立final review FINAL-BINDING＋closeout確認を読む。Private phase内処理・canonical card core・境界/return再確認で実W34409が通常APIで完了。公開bypass/cache/schema追加なし、source/guard/historyを維持。
+
+Final139=57M82A／771files、完全DIRECT409 patch **de0af9cbd58665dc632a53cee5a0605da30ba9cdd3dc63202268565ba9887d49 /5408065B**、manifest **c5a6b230c975dc94a45e651f48cd42687f84d060c65b37f49d9917ff1bf0f143 /202204B**。Applied proof `.rephase-1-editorial-runtime/evidence-scaling-packaging-20261103T174718Z/proof-copy/candidate-partial-b40de60`。旧138内包、mode-warning修正後check0/apply0/all771＋mode、partialDB/whitespace限定保持。
+
+成功rehearsal copy `.rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work` はisolated **e84a82a** parent48082356、State/Profile/CP/Contract8不変。175.26秒／logical rchar増分45238986845B、409/409/439/3 LIMITED、State CANDのまま。旧bd80失敗は新callbackのfacade外実行で、State repinせず修正。最終19とaffected各batch・実CURRENT proofは別証拠；realrun d486と配送7b86の差はtest1fileだけ。No新PDF/semantic PASS/実測net savings。
+
+次Human continuation後は修復runtime上の保存rehearsalを再開し、W34 Evidenceの実質review／Selection-Architecture準備、SP根拠修正案とowned-unaccepted出力の安全な同stage retryを確認する。成功409を件数目的で再実行しない。SP oldproducts CHANGES_REQUIRED・5歴史版未確認、cleanupやfake Gateは未選択。R4前に必要品質/訂正/費用を閉じる。WholeNOT_READY/DM021+022OPEN維持、generic reader自動開始なし。
+
+通常Commit/Push/Production変更なし。**委任先の不要なreconstruct HEAD読取は記録・quarantine済み**で、zero-readbackとしない；source根拠には不使用。その他原失敗/誤coverage/fixture config/harness/packaging限定はROOT。**ここで停止。**
+
+## Preserved rehearsal closeout — scaling-next completed
+
 ## Current — 2026-11-02 実資料rehearsal PARTIAL／R4 NOT_READY
 
 [assessment/次修復§5](../outputs/rephase-1-operational-rehearsal-assessment.md)、[packet](../notes/rephase-1-operational-rehearsal-20261101/README.md)、**[mandatory ROOT全文INCLUDING§7](../notes/rephase-1-operational-rehearsal-20261101/astra-rehearsal-resolution.md)**、独立closeout FINAL-BINDING・current state/source/process observation・doc checkを読む。Human選択W34@774＋efficient-LLM@c8、後続17文書限定取得の実資料でpre-Architecture試行。両State CANDIDATES_NORMALIZED、まだ新Human Gate／Draft/PDFなし。

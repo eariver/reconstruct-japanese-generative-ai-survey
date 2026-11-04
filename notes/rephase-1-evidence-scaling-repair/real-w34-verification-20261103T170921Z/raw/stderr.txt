@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-evidence-scaling-repair/real-w34-verification-20261103T170921Z/run_w34_verify.py", line 163, in main
+    result = run_mod.run(repo_root, state_path, input_path, supp_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-verification-20261103T170921Z/candidate-work/scripts/run_evidence_v2_interactive.py", line 712, in run
+    evidence._finish_authority_phase(repo_root, _run_ctx, _run_pins, revalidate_owner=_revalidate_run_owner)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-verification-20261103T170921Z/candidate-work/scripts/survey_evidence_v2.py", line 446, in _finish_authority_phase
+    revalidate_owner()
+    ~~~~~~~~~~~~~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-verification-20261103T170921Z/candidate-work/scripts/run_evidence_v2_interactive.py", line 710, in _revalidate_run_owner
+    evidence.validate_evidence_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-verification-20261103T170921Z/candidate-work/scripts/survey_evidence_v2.py", line 1223, in validate_evidence_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-verification-20261103T170921Z/candidate-work/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+

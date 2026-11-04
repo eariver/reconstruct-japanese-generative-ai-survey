@@ -1,0 +1,25 @@
+test_runner_epoch_advance_executes_new_finish_callbacks_inside_facade (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_runner_epoch_advance_executes_new_finish_callbacks_inside_facade)
+PUBLIC run() with State-init A and actual HEAD B (artifact-only). ... ERROR
+
+======================================================================
+ERROR: test_runner_epoch_advance_executes_new_finish_callbacks_inside_facade (tests.test_evidence_scaling_v2.EvidenceScalingRepairTests.test_runner_epoch_advance_executes_new_finish_callbacks_inside_facade)
+PUBLIC run() with State-init A and actual HEAD B (artifact-only).
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T172903Z/candidate-work/tests/test_evidence_scaling_v2.py", line 1627, in test_runner_epoch_advance_executes_new_finish_callbacks_inside_facade
+    evidence.validate_evidence_acceptance(root, evidence_acc, head_b)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T172903Z/candidate-work/scripts/survey_evidence_v2.py", line 1983, in validate_evidence_acceptance
+    validate_evidence_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T172903Z/candidate-work/scripts/survey_evidence_v2.py", line 1223, in validate_evidence_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-fixed-20261103T172903Z/candidate-work/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+----------------------------------------------------------------------
+Ran 1 test in 1.743s
+
+FAILED (errors=1)
