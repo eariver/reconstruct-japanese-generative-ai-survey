@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:869204615d103a1b",
+  "basis": {
+    "task_sha256": "7611e10e1f230f31296a518e6ffc92ff0bb2837eb4aad99cf903107dc0baed20",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20969",
+      "canonical_name": "Kinematic Knowledge Maps for Pattern Alignment: Structured Latent Representational Learning in Multimodal Gait Analysis",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20969"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20969",
+    "artifact_type": "PAPER",
+    "canonical_name": "Kinematic Knowledge Maps for Pattern Alignment: Structured Latent Representational Learning in Multimodal Gait Analysis",
+    "canonical_url": "https://arxiv.org/abs/2608.20969"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-1536daa9d04b17d5",
+      "url": "https://arxiv.org/pdf/2608.20969",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv PDF body for 2608.20969 (HTML conversion unavailable; text extracted via pdftotext for inspection)",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:54:49Z",
+      "role": "Post-Screening exact authority supplement: primary paper PDF body; HTML full-text conversion unavailable so PDF was retrieved and text-extracted for method/evaluation/results inspection"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Kinematic Knowledge Maps for Pattern Alignment: Structured Latent Representational Learning in Multimodal Gait Analysis\" proposes Gnment:\n      Structured Latent Representational Learning in\n                Multimodal Gait Analysis\n                                           Dong.",
+      "subject_id": "paper-2608.20969",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1536daa9d04b17d5"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Internal\nnot backbone choice—provide the primary evidence for              validation contains a higher proportion of self-referred\nmultimodal design; encoder comparisons are reported as            hospital cases, whereas external evaluation is dominated by\nrobustness checks.    ",
+      "subject_id": "paper-2608.20969",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1536daa9d04b17d5"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): EXPERIMENTAL RESULTS                            set, all Transformer models improved relative to their internal\n                                                                  validation performance, with ViViT (scratch) reaching an\nA.",
+      "subject_id": "paper-2608.20969",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1536daa9d04b17d5"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.20969",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-1536daa9d04b17d5"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20969",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1536daa9d04b17d5"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv PDF text extraction exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20969",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1536daa9d04b17d5"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20969) in lane multimodal_media. Discovery triage only: matched=multimodal_media,retrieval_embeddings,safety_security,training_methods; title_matches=multimodal_media,safety_security; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Multimodal clinical AI is limited by weakly aligned inputs and the absence of domain-specific interpretable representations, particularly when learning from dense video stream, structured time-series, and template-based kinematic text. Here we present ScoliDetect, an explainable framework for adolescent idiopathic scoliosis screening from monocular gait video, built around a kinematic knowledge map (KKM) and complementary template-based kinematic text derived from per-sequence pose statics. KKM is a fixed-index structured representation that encodes gait features across absolute motion, self-s",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv PDF text extraction confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20969"
+        ],
+        "source_ids": [
+          "supplement-src-1536daa9d04b17d5"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:3b7674b90865019b",
+  "basis": {
+    "task_sha256": "cc257d2667c75a7267a4cb28499bd53598cdfa23675c0f0f19b622c9709b072e",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.18521",
+      "canonical_name": "Which Negatives Matter? Ask Your Text Encoder: Adaptive Similarity Margins for Dense-Caption Retrieval",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.18521"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.18521",
+    "artifact_type": "PAPER",
+    "canonical_name": "Which Negatives Matter? Ask Your Text Encoder: Adaptive Similarity Margins for Dense-Caption Retrieval",
+    "canonical_url": "https://arxiv.org/abs/2608.18521"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-19110347f71fad6c",
+      "url": "https://arxiv.org/abs/2608.18521",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.18521",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:38:03Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Which Negatives Matter? Ask Your Text Encoder: Adaptive Similarity Margins for Dense-Caption Retrieval\" proposes Which Negatives Matter?Ask Your Text Encoder: Adaptive SimilarityMargins for Dense-Caption Retrieval Title: Content selection saved.",
+      "subject_id": "paper-2608.18521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-19110347f71fad6c"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: All models are fine-tuned on the official training split of each benchmark; Long-DCI evaluates the DCI-trained models with full-length captions following the protocol of GOAL, and Urban-1K is test-only, so models are fine-tuned on Visual Genome paragraph captions and evaluated by",
+      "subject_id": "paper-2608.18521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-19110347f71fad6c"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): The resulting training-time modification sets a new state of the art on four benchmarks, matches or exceeds most baselines’ final accuracy after a single epoch, requires only one fifth of the training data to surpass the strongest full-data baseline, and improves all six tested f",
+      "subject_id": "paper-2608.18521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-19110347f71fad6c"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.18521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-19110347f71fad6c"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.18521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-19110347f71fad6c"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.18521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-19110347f71fad6c"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.18521) in lane retrieval_embeddings. Discovery triage only: matched=evaluation,inference_serving,language_models,retrieval_embeddings,training_methods; title_matches=retrieval_embeddings; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Dense-caption retrieval has recently been improved by introducing segmentation, edge maps, LLM-filtered captions, and cross-modal modules into contrastive fine-tuning. However, these methods largely inherit the same InfoNCE objective, whose optimization can prematurely saturate under a strong pre-trained initialization: on dense captions, the loss falls below 10^-3 on 80% of batches within the first epoch, while its gradient becomes numerically zero in 47% of measurements. We find that this behavior is closely related to the large number of near-duplicate captions in dense-caption benchmarks,",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.18521"
+        ],
+        "source_ids": [
+          "supplement-src-19110347f71fad6c"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

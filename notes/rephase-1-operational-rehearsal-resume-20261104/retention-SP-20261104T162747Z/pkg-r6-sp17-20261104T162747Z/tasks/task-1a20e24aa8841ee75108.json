@@ -1,0 +1,45 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:ae93304a4b09d605",
+  "discovery_ids": [
+    "EFF-D077"
+  ],
+  "source_records": [
+    {
+      "source_type": "SECONDARY_TECHNICAL",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "Infra-oriented V4.1-Flash architecture study (parameter accounting)",
+      "locator": "https://deepseek-v3.ezyang.com/studies/dsv41-flash.html",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-capstones-2026.md"
+      ],
+      "published_at": "2026-09",
+      "summary_text": "Tensor-derived 552B+196B accounting, 890B/tok derivation; AI-drafted, UNEDITED — lead only. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "cap",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "verify derivations against report/card"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D077",
+        "decision": "INSPECT",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026"
+        ]
+      }
+    ]
+  }
+}

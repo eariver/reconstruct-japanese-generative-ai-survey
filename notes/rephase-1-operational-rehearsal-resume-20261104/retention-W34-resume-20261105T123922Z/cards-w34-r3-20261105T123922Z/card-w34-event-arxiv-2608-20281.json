@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:fa04961599a46af7",
+  "basis": {
+    "task_sha256": "7ff52f379074097eb569f99f6348e00b9fc90ad40b4138bb29012d16e26483ab",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20281",
+      "canonical_name": "Inject, Align, Recover: Staged Post-Training for Retrieval-Free Document Knowledge Internalization",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20281"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20281",
+    "artifact_type": "PAPER",
+    "canonical_name": "Inject, Align, Recover: Staged Post-Training for Retrieval-Free Document Knowledge Internalization",
+    "canonical_url": "https://arxiv.org/abs/2608.20281"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-88dd9b319c6baa31",
+      "url": "https://arxiv.org/abs/2608.20281",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.20281",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:39:41Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Inject, Align, Recover: Staged Post-Training for Retrieval-Free Document Knowledge Internalization\" proposes Ning for Retrieval-Free Document Knowledge Internalization Title: Content selection saved.",
+      "subject_id": "paper-2608.20281",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-88dd9b319c6baa31"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: In the main comparison, IAR improves over Vanilla SFT on all four reported metrics in 7 of 8 dataset-model settings, with average gains of 3.6 percentage points in domain QA accuracy and 12.1 percentage points in mean general performance across IFEval, MMLU, and MSBench.",
+      "subject_id": "paper-2608.20281",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-88dd9b319c6baa31"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Qwen3-4B starts from an unusually high 70.6% base domain score, leaving less headroom for adaptation; nevertheless, IAR improves over Vanilla SFT on all four reported metrics.",
+      "subject_id": "paper-2608.20281",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-88dd9b319c6baa31"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.20281",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-88dd9b319c6baa31"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20281",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-88dd9b319c6baa31"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20281",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-88dd9b319c6baa31"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20281) in lane retrieval_embeddings. Discovery triage only: matched=inference_serving,language_models,retrieval_embeddings,safety_security,training_methods; title_matches=retrieval_embeddings,training_methods; score=11. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Large language models often fail to answer questions about a bounded document collection when the source documents are not retrieved at inference time. We study this setting as document knowledge internalization: converting a fixed corpus into usable parametric knowledge for retrieval-free question answering. We propose IAR (Inject, Align, and Recover), a three-stage post-training framework that separates structured document knowledge injection, QA behavior alignment, and general ability recovery. Unlike conventional continued pretraining, Inject converts source documents into continuation, re",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20281"
+        ],
+        "source_ids": [
+          "supplement-src-88dd9b319c6baa31"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

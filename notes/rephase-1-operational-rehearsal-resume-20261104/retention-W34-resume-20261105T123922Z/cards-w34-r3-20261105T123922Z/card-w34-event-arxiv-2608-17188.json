@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:6099141c69228d2a",
+  "basis": {
+    "task_sha256": "89198669f47278372226cb06289fefe1745ef9c515702569aedceb8390a06fbd",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.17188",
+      "canonical_name": "Token Optimization and Context Window Management in Multi-Agent AI Workflows",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.17188"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.17188",
+    "artifact_type": "PAPER",
+    "canonical_name": "Token Optimization and Context Window Management in Multi-Agent AI Workflows",
+    "canonical_url": "https://arxiv.org/abs/2608.17188"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-e9dae8745ea5bb77",
+      "url": "https://arxiv.org/pdf/2608.17188",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv PDF body for 2608.17188 (HTML conversion unavailable; text extracted via pdftotext for inspection)",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:54:40Z",
+      "role": "Post-Screening exact authority supplement: primary paper PDF body; HTML full-text conversion unavailable so PDF was retrieved and text-extracted for method/evaluation/results inspection"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Token Optimization and Context Window Management in Multi-Agent AI Workflows\" proposes The prompt windows here are short by\nlong-context standards: 10 items, roughly 2,000-3,000 tokens.",
+      "subject_id": "paper-2608.17188",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e9dae8745ea5bb77"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: The primary metric is Relevance Accuracy (RelAcc): agreement between the model’s 0-3\nrelevance score and the human annotation, giving full credit for an exact match and partial\ncredit when the scores are adjacent.",
+      "subject_id": "paper-2608.17188",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e9dae8745ea5bb77"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): In the all-11 paired analysis, the 50:50 signal/noise condition improved relevance\naccuracy by +0.077 over the 100% signal condition (naive 95% CI [+0.056, +0.098], Cohen’s d\n\n\n\n                                               1\n\f= 0.49, Holm-adjusted p < .001, n = 220).",
+      "subject_id": "paper-2608.17188",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e9dae8745ea5bb77"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.17188",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-e9dae8745ea5bb77"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.17188",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e9dae8745ea5bb77"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv PDF text extraction exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.17188",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e9dae8745ea5bb77"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.17188) in lane agents_tools. Discovery triage only: matched=agents_tools,evaluation,inference_serving,memory_context; title_matches=agents_tools,memory_context; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Multi-agent AI workflows are limited not only by model quality but by token cost, latency, and context-window quality. This paper presents a practitioner framework for token optimization and context-window management, grounded in an internal production dashboard that extracts structured work items from meetings, email, and chat with LLMs and routes summaries across workstreams. Six patterns are described: context stratification, fetch-once/process-locally architecture, schema-contracted prompts, token-aware fallback chains, semantic caching, and inter-agent communication compression. In produc",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv PDF text extraction confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.17188"
+        ],
+        "source_ids": [
+          "supplement-src-e9dae8745ea5bb77"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

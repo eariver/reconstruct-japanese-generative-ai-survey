@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:83f9d7f9a8f301cd",
+  "basis": {
+    "task_sha256": "1b5471908eba9fe720968ba2ceb7c02ff294f6fe686615b8882a26d4d0a83fd6",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.21595",
+      "canonical_name": "Perturb the Thought, Not the Pixels: Latent-Space Rollout Diversification for Reinforcement Learning of Vision-Language Models",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.21595"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.21595",
+    "artifact_type": "PAPER",
+    "canonical_name": "Perturb the Thought, Not the Pixels: Latent-Space Rollout Diversification for Reinforcement Learning of Vision-Language Models",
+    "canonical_url": "https://arxiv.org/abs/2608.21595"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-773214cc0c93cd23",
+      "url": "https://arxiv.org/abs/2608.21595",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.21595",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:41:26Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Perturb the Thought, Not the Pixels: Latent-Space Rollout Diversification for Reinforcement Learning of Vision-Language Models\" proposes Ent-Space Rollout Diversification for Reinforcement Learning of Vision–Language Models Title: Content selection saved.",
+      "subject_id": "paper-2608.21595",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-773214cc0c93cd23"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Table 5 answers this: on Qwen3-VL-8B-Thinking, under the identical protocol (same σ 0 = 0.2 \\sigma_{0}{=}0.2 , on a different trainer and inference stack), NC-GRPO improves pooled OOD by + 1.3 +1.3 pp with p < 10 − 4 p{<}10^{-4} — stronger than on Qwen2.5-VL, with three individua",
+      "subject_id": "paper-2608.21595",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-773214cc0c93cd23"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Geo3K (ID) Hallusion MathVista MathVerse MathVision WeMath OOD avg NoisyRollout (image) 52.1 70.7 71.5 46.5 ∗ 27.8 64.3 ∗ 56.2 ∗ Δ \\Delta vs. vanilla − 0.8 -0.8 + 0.5 +0.5 + 0.8 +0.8 + 3.5 +3.5 + 0.7 +0.7 + 15.2 +15.2 + 4.2 +4.2 Table 3: Image-space noise on the reasoning suite (",
+      "subject_id": "paper-2608.21595",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-773214cc0c93cd23"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.21595",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-773214cc0c93cd23"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.21595",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-773214cc0c93cd23"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.21595",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-773214cc0c93cd23"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.21595) in lane language_models. Discovery triage only: matched=evaluation,inference_serving,language_models,multimodal_media,safety_security,training_methods; title_matches=language_models,multimodal_media,training_methods; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Reinforcement learning with verifiable rewards (RLVR) improves the reasoning ability of vision-language models (VLMs), and diversifying the rollouts within each optimization group amplifies its gains. Existing approaches diversify through decoding temperature or pixel-space image distortion; we ask whether the perturbation belongs in the model's latent space instead. We introduce Noise-Contrastive GRPO (NC-GRPO), which injects scale-calibrated Gaussian noise into the last hidden layer of the prompt-encoding pass for half of each rollout group, branching those rollouts from a displaced departur",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.21595"
+        ],
+        "source_ids": [
+          "supplement-src-773214cc0c93cd23"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:68ab36c5d2965dcd",
+  "basis": {
+    "task_sha256": "745ed21a757e03d03969b438df040a4d31eb02b4f7cb0da9f8d2bbed73ba31de",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "slack-code",
+      "canonical_name": "Slack Code channels",
+      "entity_type": "PRODUCT",
+      "organization": "Slack / Salesforce",
+      "canonical_url": "https://docs.slack.dev/changelog/2026/08/20/slack-code"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "slack-code",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Slack Code channels",
+    "canonical_url": "https://docs.slack.dev/changelog/2026/08/20/slack-code"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-71435359f103a21a",
+      "url": "https://docs.slack.dev/changelog/2026/08/20/slack-code",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://docs.slack.dev/changelog/2026/08/20/slack-code",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:05Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-a4b473ae266da038",
+      "url": "https://slack.com/blog/news/slack-code-channels-for-agents",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://slack.com/blog/news/slack-code-channels-for-agents",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:07Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Slack's Aug 20 changelog states Slack Code creates dedicated channels from existing conversations where agents and people build together, publishing code diffs, Block Kit views, HTML previews, and canvases.",
+      "subject_id": "slack-code",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-71435359f103a21a",
+        "supplement-src-a4b473ae266da038"
+      ],
+      "context": "Changelog + blog bodies."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Live at launch for Claude, Devin, GitHub Copilot, and Vercel integrations (ChatGPT soon); sessions archive on completion with audit logs.",
+      "subject_id": "slack-code",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-71435359f103a21a",
+        "supplement-src-a4b473ae266da038"
+      ],
+      "context": "Availability/integration list in captured bodies."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Enterprise rollout/plan availability specifics beyond 'live today' are not detailed in captured bytes.",
+      "subject_id": "slack-code",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-71435359f103a21a",
+        "supplement-src-a4b473ae266da038"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Agent-output quality and review-burden claims are vendor framing, not measured in captured bytes.",
+      "subject_id": "slack-code",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-71435359f103a21a",
+        "supplement-src-a4b473ae266da038"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Moves agent coding work from private sessions into collaborative code channels.",
+        "status": "VERIFIED",
+        "finding": "Captured Slack first-party bodies confirm agent coding work moving from private sessions into collaborative code channels with shared artifacts.",
+        "subject_ids": [
+          "slack-code"
+        ],
+        "source_ids": [
+          "supplement-src-71435359f103a21a",
+          "supplement-src-a4b473ae266da038"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

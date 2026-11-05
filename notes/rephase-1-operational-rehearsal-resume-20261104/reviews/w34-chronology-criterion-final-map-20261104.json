@@ -1,0 +1,120 @@
+{
+  "role": "General independent supervisory reviewer (NOT author/root/operator, NOT Sol/Luna/Human)",
+  "issue_id": "2026-W34",
+  "window_utc": "[2026-08-14T22:00Z,2026-08-21T22:00Z)",
+  "profile_window": {
+    "mode": "ROLLING_WINDOW",
+    "window_start": "2026-08-14T18:00:00-04:00",
+    "window_end": "2026-08-21T18:00:00-04:00",
+    "cutoff": "2026-08-21T18:00:00-04:00",
+    "timezone": "America/New_York"
+  },
+  "proposal_files": {
+    "w34-corrected-input-20261104.json": {
+      "bytes": 1575840,
+      "sha256": "5e53a179ea49ac0f3ea190cf2e9fc7e77f69aa1d3c1f504d84971a5a9ac2bfe2"
+    },
+    "w34-corrected-delta-20261104.json": {
+      "bytes": 19856,
+      "sha256": "c55395774e075f4ce2db1d14e10fe39dcee6f0281c3938a5c3b6dde80c34d46e"
+    }
+  },
+  "criterion": "overall VERIFIED+MAIN_EVENT+MATERIAL asserts week-eligible event; boundary Aug14/Aug21 date-only or Sep8 capture+context asserted as W34 placement with unresolved 22Z side => overall PARTIAL with split content-VERIFIED/timing-UNRESOLVED; internal Aug15-20 date-only needs no clock; Last-Modified/capture/sitemap != publication; MATERIAL alone no timing proof",
+  "final_table": [
+    {
+      "discovery_id": "w34-event-c002",
+      "required_overall": "PARTIAL",
+      "split": "content VERIFIED / timing UNRESOLVED",
+      "unresolved": "Aug14 date-only vs 22Z start",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c004",
+      "required_overall": "VERIFIED",
+      "split": "none (content-only, Aug18 internal)",
+      "unresolved": "none load-bearing (residual note only)",
+      "claim": "unchanged",
+      "reason_VERIFIED": "no boundary assertion, internal date sufficient"
+    },
+    {
+      "discovery_id": "w34-event-c020",
+      "required_overall": "PARTIAL",
+      "split": "content VERIFIED / timing UNRESOLVED",
+      "unresolved": "Aug14 date-only vs 22Z start",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c022",
+      "required_overall": "PARTIAL",
+      "split": "add timing UNRESOLVED (not in proposal)",
+      "unresolved": "Aug21 date-only vs 22Z end",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c024",
+      "required_overall": "PARTIAL CONTEXT",
+      "split": "content VERIFIED / listing-date UNRESOLVED",
+      "unresolved": "Aug21 listing precision observed-not-captured",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c039",
+      "required_overall": "PARTIAL",
+      "split": "content VERIFIED / timing UNRESOLVED",
+      "unresolved": "Aug14 date-only vs 22Z start",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c045",
+      "required_overall": "PARTIAL",
+      "split": "add timing UNRESOLVED (not in proposal)",
+      "unresolved": "Aug21 date-only vs 22Z end",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c066",
+      "required_overall": "PARTIAL",
+      "split": "keep plan VERIFIED / timing UNRESOLVED",
+      "unresolved": "Aug21 via X+secondary only",
+      "claim": "already narrowed (X lead only)"
+    },
+    {
+      "discovery_id": "w34-event-c099",
+      "required_overall": "PARTIAL",
+      "split": "content VERIFIED / entry-dating UNRESOLVED",
+      "unresolved": "Sep8 capture+context, not primary date",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c100",
+      "required_overall": "PARTIAL",
+      "split": "content VERIFIED / entry-dating UNRESOLVED",
+      "unresolved": "Sep8 capture+context",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c101",
+      "required_overall": "PARTIAL",
+      "split": "content VERIFIED / entry-dating UNRESOLVED",
+      "unresolved": "Sep8 capture+context",
+      "claim": "unchanged"
+    },
+    {
+      "discovery_id": "w34-event-c102",
+      "required_overall": "PARTIAL",
+      "split": "Aug20 VERIFIED / Aug21 addition UNRESOLVED",
+      "unresolved": "Aug21 no-clock vs 22Z end",
+      "claim": "narrow or split (Aug20 suffices for bundle)"
+    },
+    {
+      "discovery_id": "w34-event-c001",
+      "required_overall": "PARTIAL stays",
+      "split": "split sub-target content VERIFIED / timing UNRESOLVED",
+      "unresolved": "Aug14 vs 22Z side",
+      "claim": "unchanged"
+    }
+  ],
+  "wording_clarification": "PROCEED_TO_SELECTION_PREP was shorthand, not stage authorization; status remains CHANGES_REQUIRED until corrected acceptance re-run + independent re-review",
+  "verdict": "CHANGES_REQUIRED_NARROW_FINAL_CRITERION",
+  "read_scope": "source/data-read only; no network/Production/reconstruct Git/readback/imports/runtime/tests/build/State/source writes; no subagents; no input authoring; no new fetches"
+}

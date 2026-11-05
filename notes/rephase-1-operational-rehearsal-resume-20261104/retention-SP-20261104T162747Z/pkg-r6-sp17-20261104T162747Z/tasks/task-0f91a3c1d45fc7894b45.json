@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:d55d1f65341bb12e",
+  "discovery_ids": [
+    "EFF-D125"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_PAPER",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r2",
+      "observed_at": "2026-09-21T17:30:00Z",
+      "title": "DeepSeek-V3.2 report (DSA primary; closes r1 G03)",
+      "locator": "https://arxiv.org/abs/2512.02556",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-r2-g16-capstone-firstparty.md"
+      ],
+      "published_at": "2025-12",
+      "summary_text": "DSA lightning indexer + token selection under MLA, O(Lk); continued training from Terminus; parity + independent long-context signal. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "g16",
+        "expansion": "r2",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D125",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-932f948f35a308ac"
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:940530a2dade1fb4",
+  "basis": {
+    "task_sha256": "4dc630821f3efbf92f1a144c2bbcb1e95e4068f89e8f87c170bf5daa25edbde2",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "openai-chatgpt-teens",
+      "canonical_name": "ChatGPT for Teens",
+      "entity_type": "PRODUCT",
+      "organization": "OpenAI",
+      "canonical_url": "https://openai.com/index/chatgpt-for-teens"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openai-chatgpt-teens",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "ChatGPT for Teens",
+    "canonical_url": "https://openai.com/index/chatgpt-for-teens"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-e8560ee482105592",
+      "url": "https://openai.com/index/chatgpt-for-teens",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openai.com/index/chatgpt-for-teens",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:21Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "OpenAI's page states users estimated under 18, or stating age 13-17, are automatically placed into ChatGPT for Teens.",
+      "subject_id": "openai-chatgpt-teens",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e8560ee482105592"
+      ],
+      "context": "Age-routing statement in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "For under-18 users the page states age-appropriate safeguards that reduce exposure to harmful or developmentally inappropriate content while preserving learning/creation.",
+      "subject_id": "openai-chatgpt-teens",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e8560ee482105592"
+      ],
+      "context": "Safeguards description in captured body."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "The captured body references Study Mode among teen-support features (12 mentions) alongside parental controls, the Under-18 Model Spec, Teen Safety Blueprint, and age prediction.",
+      "subject_id": "openai-chatgpt-teens",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e8560ee482105592"
+      ],
+      "context": "Feature-list spans in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Effectiveness of age estimation and safeguards is vendor-described; no independent test data in captured bytes.",
+      "subject_id": "openai-chatgpt-teens",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e8560ee482105592"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Page publication date was not extracted from captured bytes; W34 timing rests on the Aug 18 first-observation record plus page content, not a captured dateline.",
+      "subject_id": "openai-chatgpt-teens",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e8560ee482105592"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Distinct teen experience with automatic age routing and stronger safety controls.",
+        "status": "VERIFIED",
+        "finding": "Captured OpenAI first-party body directly supports teen-specific experience, automatic age routing, stronger safeguards, and Study Mode; prior contradictory generic limitation is removed.",
+        "subject_ids": [
+          "openai-chatgpt-teens"
+        ],
+        "source_ids": [
+          "supplement-src-e8560ee482105592"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

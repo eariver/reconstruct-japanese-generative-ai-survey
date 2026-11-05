@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:fd26212833bf34fd",
+  "basis": {
+    "task_sha256": "62ef24f956e4261c91e714b623467f923898e63fc1f73b4322514713c20042b2",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.19825",
+      "canonical_name": "Towards Clinically Faithful Medical Image Captioning via Enhanced Vision-Language Alignment",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.19825"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.19825",
+    "artifact_type": "PAPER",
+    "canonical_name": "Towards Clinically Faithful Medical Image Captioning via Enhanced Vision-Language Alignment",
+    "canonical_url": "https://arxiv.org/abs/2608.19825"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-cb10811b0ecc6de2",
+      "url": "https://arxiv.org/abs/2608.19825",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.19825",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:39:15Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Towards Clinically Faithful Medical Image Captioning via Enhanced Vision-Language Alignment\" proposes E Captioning via Enhanced Vision–Language Alignment Title: Content selection saved.",
+      "subject_id": "paper-2608.19825",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-cb10811b0ecc6de2"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Second, there is no guarantee that generated text is automatically aligned with clinical concept spaces (terminologies/types) or with evaluation metrics (e.g., BERTScore, ROUGE, biomedical similarity).",
+      "subject_id": "paper-2608.19825",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-cb10811b0ecc6de2"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Under the 8B decoder setting, the configuration combining dual encoders with auxiliary UMLS supervision achieves the most stable and strongest performance across BERTScore, ROUGE-1, BLEURT, and UMLS F1, suggesting that complementary visual representations and explicit concept lea",
+      "subject_id": "paper-2608.19825",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-cb10811b0ecc6de2"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.19825",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-cb10811b0ecc6de2"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.19825",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-cb10811b0ecc6de2"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.19825",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-cb10811b0ecc6de2"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.19825) in lane multimodal_media. Discovery triage only: matched=evaluation,inference_serving,language_models,multimodal_media,retrieval_embeddings,safety_security; title_matches=multimodal_media,safety_security; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Medical image captioning is a technique that accelerates early-stage diagnostic workflows and enhances the interpretability of medical diagnostic AI systems. However, unlike general image captioning, clinically reliable captioning remains challenging due to grayscale-based modalities, subtle anatomical cues, specialized medical phrasing, and variations in data quality. Despite recent advances in large vision-language models, fluent outputs do not necessarily guarantee sufficient alignment with clinical concept spaces or evaluation criteria. To address this issue, we propose a framework that st",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.19825"
+        ],
+        "source_ids": [
+          "supplement-src-cb10811b0ecc6de2"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

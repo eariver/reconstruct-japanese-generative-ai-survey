@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:a0c03c58845c5894",
+  "basis": {
+    "task_sha256": "5e2347867e6e495d9e4b391140ec0522f4fbb87c7bd61bbe5fcf1d1b5df1a1e4",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "qwen3-8-27b",
+      "canonical_name": "Qwen3.8-27B",
+      "entity_type": "MODEL",
+      "organization": "Alibaba Qwen",
+      "canonical_url": "https://github.com/QwenLM/Qwen3.8"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "qwen3-8-27b",
+    "artifact_type": "OPEN_WEIGHT",
+    "canonical_name": "Qwen3.8-27B",
+    "canonical_url": "https://github.com/QwenLM/Qwen3.8"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-184094c85f6de8b6",
+      "url": "https://github.com/QwenLM/Qwen3.8",
+      "source_class": "PRIMARY_REPOSITORY",
+      "title": "First-party/official body: https://github.com/QwenLM/Qwen3.8",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:50Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The Qwen3.8 repo page states 'News 2026-08-14: Qwen3.8-27B is now available on Hugging Face Hub and ModelScope'.",
+      "subject_id": "qwen3-8-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-184094c85f6de8b6"
+      ],
+      "context": "Dated repo text in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The repo identifies Qwen/Qwen3.8-27B distribution across HF/ModelScope with standard framework support.",
+      "subject_id": "qwen3-8-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-184094c85f6de8b6"
+      ],
+      "context": "Repo distribution statement."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Exact Aug 14 release time (vs 22:00Z boundary) is unresolved; repo news line is date-only.",
+      "subject_id": "qwen3-8-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-184094c85f6de8b6"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Benchmark comparisons to frontier coding models are vendor/community-reported elsewhere, not in captured bytes.",
+      "subject_id": "qwen3-8-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-184094c85f6de8b6"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Base availability date confirmed but exact release time unresolved; W34 local optimization/adoption is independently observable.",
+        "status": "UNRESOLVED",
+        "finding": "Base availability content VERIFIED in captured first-party bytes (Hugging Face/ModelScope); exact Aug 14 vs 22:00Z week placement remains UNRESOLVED. No community-artifact timing corroboration is claimed here (single binding only).",
+        "subject_ids": [
+          "qwen3-8-27b"
+        ],
+        "source_ids": [
+          "supplement-src-184094c85f6de8b6"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Base availability date confirmed but exact release time unresolved; W34 local optimization/adoption is independently observable.: Base availability content VERIFIED in captured first-party bytes (Hugging Face/ModelScope); exact Aug 14 vs 22:00Z week placement remains UNRESOLVED. No community-artifact timing corroboration is claimed here (single binding only)."
+    ],
+    "contradictions": []
+  }
+}

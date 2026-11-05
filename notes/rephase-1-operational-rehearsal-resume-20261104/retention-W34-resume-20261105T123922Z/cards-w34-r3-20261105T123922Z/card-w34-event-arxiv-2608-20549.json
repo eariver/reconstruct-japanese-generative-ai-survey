@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:41188580bc035a2b",
+  "basis": {
+    "task_sha256": "4748709f106eeb9d0de0a7736f0eb7fa85ba729aae9857a340d00f00a9167425",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20549",
+      "canonical_name": "Volumetric Radiology AI in the Era of Multimodal Large Language Models",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20549"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20549",
+    "artifact_type": "PAPER",
+    "canonical_name": "Volumetric Radiology AI in the Era of Multimodal Large Language Models",
+    "canonical_url": "https://arxiv.org/abs/2608.20549"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-94795c6ac9d5e811",
+      "url": "https://arxiv.org/abs/2608.20549",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.20549",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:39:55Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Volumetric Radiology AI in the Era of Multimodal Large Language Models\" proposes Ltimodal Large Language Models Title: Content selection saved.",
+      "subject_id": "paper-2608.20549",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-94795c6ac9d5e811"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Specifically, we organize the literature around volumetric representation and multimodal understanding at the model level, agentic orchestration at the system level, and relate both levels to clinical applications and their evaluation.",
+      "subject_id": "paper-2608.20549",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-94795c6ac9d5e811"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): As a result, reliable volumetric radiology AI requires both representations that preserve task-relevant three-dimensional (3D) information and systems that can access, verify, and integrate this information during image interpretation and across clinical workflows.",
+      "subject_id": "paper-2608.20549",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-94795c6ac9d5e811"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No public code/model artifact link was found in the inspected arXiv HTML full text sections; reproducibility cannot be confirmed from captured bytes.",
+      "subject_id": "paper-2608.20549",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-94795c6ac9d5e811"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20549",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-94795c6ac9d5e811"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-3",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20549",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-94795c6ac9d5e811"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20549) in lane language_models. Discovery triage only: matched=agents_tools,evaluation,language_models,memory_context,multimodal_media,safety_security,training_methods; title_matches=language_models,multimodal_media; score=11. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Advances in multimodal large language models (MLLMs) are extending radiological artificial intelligence (AI) beyond task-specific image analysis toward multimodal understanding and reasoning. Volumetric radiology, however, presents a fundamental representational mismatch: clinical interpretation often requires full-volume spatial context and acquisition-dependent quantitative information, whereas current MLLMs are commonly conditioned on selected two-dimensional (2D) images, compressed visual representations, or report-derived text. Reliable volumetric radiology AI therefore requires represent",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20549"
+        ],
+        "source_ids": [
+          "supplement-src-94795c6ac9d5e811"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

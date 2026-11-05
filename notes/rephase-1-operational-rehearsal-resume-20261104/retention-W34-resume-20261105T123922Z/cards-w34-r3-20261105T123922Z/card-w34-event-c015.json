@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:43588a954a8d9568",
+  "basis": {
+    "task_sha256": "e525f96941d07b4fb9b64f636bd378c41c2953175bebb1004820103430f44999",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "tencent-ui-mate-27b",
+      "canonical_name": "Tencent UI-Mate-27B",
+      "entity_type": "MODEL",
+      "organization": "Tencent",
+      "canonical_url": "https://huggingface.co/tencent/UI-Mate-27B"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "tencent-ui-mate-27b",
+    "artifact_type": "OPEN_WEIGHT",
+    "canonical_name": "Tencent UI-Mate-27B",
+    "canonical_url": "https://huggingface.co/tencent/UI-Mate-27B"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-1e644e2878132ada",
+      "url": "https://arxiv.org/abs/2608.15930",
+      "source_class": "PRIMARY_PAPER",
+      "title": "First-party/official body: https://arxiv.org/abs/2608.15930",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:28Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-717101c8bb30e524",
+      "url": "https://huggingface.co/tencent/UI-Mate-27B",
+      "source_class": "PRIMARY_REPOSITORY",
+      "title": "First-party/official body: https://huggingface.co/tencent/UI-Mate-27B",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:27Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The Hugging Face card identifies UI-Mate-27B as a 27B Apache-2.0 foundation GUI agent fine-tuned from Qwen3.6-27B, emitting pyautogui-compatible actions from screenshots.",
+      "subject_id": "tencent-ui-mate-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-1e644e2878132ada",
+        "supplement-src-717101c8bb30e524"
+      ],
+      "context": "Card fields in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The card lists OSWorld-Verified 77.0, WindowsAgentArena 66.2, OSWorkerBench 41.00 strict/76.86 progress.",
+      "subject_id": "tencent-ui-mate-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1e644e2878132ada",
+        "supplement-src-717101c8bb30e524"
+      ],
+      "context": "Card evaluation table; vendor-reported, no independent rerun in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No Tencent announcement, hosted API, or launch post exists in captured bytes; this is a repo-first drop, so release-date/availability claims rest on repo timestamps, not a dated announcement.",
+      "subject_id": "tencent-ui-mate-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1e644e2878132ada",
+        "supplement-src-717101c8bb30e524"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Benchmark figures are vendor-reported; the card's own SOTA framing is setup-dependent and unrereproduced in captured bytes.",
+      "subject_id": "tencent-ui-mate-27b",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1e644e2878132ada",
+        "supplement-src-717101c8bb30e524"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "27B GUI agent for long-horizon desktop tasks; benchmark numbers maker-reported.",
+        "status": "VERIFIED",
+        "finding": "Model-card artifact confirms the 27B GUI-agent artifact and listed figures; figures stay maker-reported per target.",
+        "subject_ids": [
+          "tencent-ui-mate-27b"
+        ],
+        "source_ids": [
+          "supplement-src-1e644e2878132ada",
+          "supplement-src-717101c8bb30e524"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:de1212a83ac48879",
+  "basis": {
+    "task_sha256": "fa1cc8f9b949c1a63eab7ee7af4fd53dd3042ccb425bb64b5c3124455083ab89",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "stability-audio-workflow",
+      "canonical_name": "Stable Audio workflow expansion",
+      "entity_type": "PRODUCT",
+      "organization": "Stability AI",
+      "canonical_url": "https://stability.ai/news-updates/sharing-a-new-way-to-work-with-stable-audio"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "stability-audio-workflow",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Stable Audio workflow expansion",
+    "canonical_url": "https://stability.ai/news-updates/sharing-a-new-way-to-work-with-stable-audio"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-7ad2a55d341871bd",
+      "url": "https://stability.ai/news-updates/sharing-a-new-way-to-work-with-stable-audio",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://stability.ai/news-updates/sharing-a-new-way-to-work-with-stable-audio",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:45Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Stability's Aug 18 post shares two new ways to use Stable Audio 3.0, including a plugin bringing generation directly into DAWs.",
+      "subject_id": "stability-audio-workflow",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-7ad2a55d341871bd"
+      ],
+      "context": "Post body in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No new Stable Audio 3.0 model release is announced in the captured body; model-capability claims must not be inferred from workflow additions.",
+      "subject_id": "stability-audio-workflow",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-7ad2a55d341871bd"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "DAW plugin and advanced web workflow; not a new Stable Audio 3.0 model release.",
+        "status": "VERIFIED",
+        "finding": "Captured Stability body confirms DAW plugin and advanced web workflow; no new 3.0 model release per target.",
+        "subject_ids": [
+          "stability-audio-workflow"
+        ],
+        "source_ids": [
+          "supplement-src-7ad2a55d341871bd"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

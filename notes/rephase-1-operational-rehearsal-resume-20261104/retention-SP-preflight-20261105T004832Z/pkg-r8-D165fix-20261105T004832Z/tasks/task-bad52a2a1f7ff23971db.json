@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:5e09bbc97f0fb5da",
+  "discovery_ids": [
+    "EFF-D027"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_PAPER",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "Kimi Linear: Expressive, Efficient Attention Architecture",
+      "locator": "https://arxiv.org/abs/2510.26692",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-d04-attention-kvcache.md"
+      ],
+      "published_at": "2025-10-29",
+      "summary_text": "KDA + 3:1 MLA hybrid, NoPE; 48B/3B; claimed fair-comparison win; KV -75%, 6x decode @1M. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "d04",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "fair-comparison and KV/decode claims"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D027",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-8f0c74d69a49bf6c"
+  ]
+}

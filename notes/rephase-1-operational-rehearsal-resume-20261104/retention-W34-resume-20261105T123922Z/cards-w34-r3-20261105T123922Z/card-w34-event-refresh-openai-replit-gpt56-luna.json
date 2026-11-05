@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:c24ed6d68276279e",
+  "basis": {
+    "task_sha256": "7f3560d51ed7baafb43d405daa7d3aead6f88b54e45062c668497a531d159b31",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "replit-gpt56-luna",
+      "canonical_name": "Replit Free Mode on GPT-5.6 Luna",
+      "entity_type": "PRODUCT",
+      "organization": "Replit / OpenAI",
+      "canonical_url": "https://openai.com/index/replit"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "replit-gpt56-luna",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Replit Free Mode on GPT-5.6 Luna",
+    "canonical_url": "https://openai.com/index/replit"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-485b9b4c75157dec",
+      "url": "https://openai.com/index/replit",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openai.com/index/replit",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:19Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "OpenAI's Aug 19 post states Replit introduces Free Mode powered by GPT-5.6 Luna so anyone can turn ideas into working software.",
+      "subject_id": "replit-gpt56-luna",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-485b9b4c75157dec"
+      ],
+      "context": "Dated post in captured body (4KB text)."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The post attributes the move to GPT-5.6 Luna capability/price-performance and recent OpenAI price cuts enabling scaled free access.",
+      "subject_id": "replit-gpt56-luna",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-485b9b4c75157dec"
+      ],
+      "context": "Vendor rationale with CEO quote; cost causality is vendor-framed."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Free Mode eligibility/limits and Luna performance specifics are not detailed in captured bytes.",
+      "subject_id": "replit-gpt56-luna",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-485b9b4c75157dec"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Price-cut causality is vendor narrative, not audited.",
+      "subject_id": "replit-gpt56-luna",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-485b9b4c75157dec"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "OpenAI's official RSS snapshot lists the W34 item 'Replit expands access to software creation with GPT-5.6 Luna'. The RSS item is a Discovery lead; the linked article body and technical relevance require candidate-specific Evidence review.",
+        "status": "VERIFIED",
+        "finding": "Linked article body consumed: Aug 19 Replit Free Mode on GPT-5.6 Luna with stated price-performance rationale.",
+        "subject_ids": [
+          "replit-gpt56-luna"
+        ],
+        "source_ids": [
+          "supplement-src-485b9b4c75157dec"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

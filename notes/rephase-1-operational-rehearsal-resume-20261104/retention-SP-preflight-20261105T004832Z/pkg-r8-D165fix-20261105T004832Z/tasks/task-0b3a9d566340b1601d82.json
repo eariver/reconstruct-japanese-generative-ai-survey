@@ -1,0 +1,48 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:42da1ab5ebd8e6c6",
+  "discovery_ids": [
+    "EFF-D124"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_PAPER",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r2",
+      "observed_at": "2026-09-21T17:30:00Z",
+      "title": "DeepSeek-V4 technical report (V4-Flash first-party anchor)",
+      "locator": "https://arxiv.org/abs/2606.19348",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-r2-g16-capstone-firstparty.md"
+      ],
+      "published_at": "2026-04-26",
+      "summary_text": "1.6T/49B Pro + 284B/13B Flash; CSA+HCA; FP4 experts; Muon; 32T/33T; vs V3.2 10% FLOPs/7% KV. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "g16",
+        "expansion": "r2",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "ratio conditions"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D124",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026",
+          "moe-routing",
+          "quantization"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:cde3936a557259de",
+  "basis": {
+    "task_sha256": "10dc19a34fcbc18d6fb4e26006202cc8b569c031257985e14217c3ddafe7a2ca",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.15486",
+      "canonical_name": "Beyond Single-Vulnerability Evaluation: Closing the Engineering Decision Gap Between C Retrofits and Native Safety",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.15486"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.15486",
+    "artifact_type": "PAPER",
+    "canonical_name": "Beyond Single-Vulnerability Evaluation: Closing the Engineering Decision Gap Between C Retrofits and Native Safety",
+    "canonical_url": "https://arxiv.org/abs/2608.15486"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-5aa7aec4713d8853",
+      "url": "https://arxiv.org/abs/2608.15486",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.15486",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:34:46Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Beyond Single-Vulnerability Evaluation: Closing the Engineering Decision Gap Between C Retrofits and Native Safety\" proposes Closing the Engineering Decision Gap Between C Retrofits and Native Safety Title: Content selection saved.",
+      "subject_id": "paper-2608.15486",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-5aa7aec4713d8853"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: RQ3: Performance Evaluation A total of 2,316 benchmark tests were conducted, including control baselines, with each modification combination tested over 30 independent runs to support statistical comparison.",
+      "subject_id": "paper-2608.15486",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-5aa7aec4713d8853"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): WHile these 5 categories account for 99.8% of CVEs in the evaluated CWEs, the remaining uncovered class highlights a fundamental gap between retrofitting and native memory safety. (2) Performance Superiority : Rust consistently outperforms optimized C retrofits in 7 out of 9 benc",
+      "subject_id": "paper-2608.15486",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-5aa7aec4713d8853"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.15486",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-5aa7aec4713d8853"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.15486",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-5aa7aec4713d8853"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.15486",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-5aa7aec4713d8853"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.15486) in lane evaluation. Discovery triage only: matched=evaluation,memory_context,safety_security; title_matches=evaluation,safety_security; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: While decades of research have produced numerous retrofitted memory-safety protections for C, these mechanisms are almost exclusively evaluated in isolation, targeting specific vulnerability classes. This siloed evaluation paradigm leaves practitioners without a clear understanding of the cumulative performance costs, interoperability conflicts, and protection gaps that arise when layering defenses to achieve comprehensive safety. This paper presents a new evaluation paradigm that benchmarks natively memory-safe languages like Rust and Go against compounded C retrofits. Using standardized cros",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.15486"
+        ],
+        "source_ids": [
+          "supplement-src-5aa7aec4713d8853"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

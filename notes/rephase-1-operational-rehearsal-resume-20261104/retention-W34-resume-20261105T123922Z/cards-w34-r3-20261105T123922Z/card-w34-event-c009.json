@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:ce31c797b1ed242e",
+  "basis": {
+    "task_sha256": "58d0e5f21f3e66b9174018512dcfaf0b32d551a88b7a7be7b65bbe8e8c869a8d",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "claude-protein-design",
+      "canonical_name": "Claude protein design / analytical chemistry results",
+      "entity_type": "PRODUCT",
+      "organization": "Anthropic",
+      "canonical_url": "https://www.anthropic.com/research/Claude-accelerates-protein-design"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "claude-protein-design",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Claude protein design / analytical chemistry results",
+    "canonical_url": "https://www.anthropic.com/research/Claude-accelerates-protein-design"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-47c3bfef1da0d550",
+      "url": "https://www.anthropic.com/research/Claude-accelerates-protein-design",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.anthropic.com/research/Claude-accelerates-protein-design",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:03Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Anthropic's Aug 18 post reports Claude (Mythos Preview, Opus 4.8) designed binders against 15 targets, succeeding on 14, with 22-35% individual-design hit rates vs 10-15% typical.",
+      "subject_id": "claude-protein-design",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-47c3bfef1da0d550"
+      ],
+      "context": "Maker-reported campaign figures; wet-lab validation by named partners, not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The post reports Opus 5 matched a contract lab's NMR/LC-MS analysis within about 25 minutes from raw instrument files.",
+      "subject_id": "claude-protein-design",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-47c3bfef1da0d550"
+      ],
+      "context": "Single-test vendor account; no independent rerun in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All hit-rate and timing figures are Anthropic-reported; independent reproduction and dual-use review status are outside captured bytes.",
+      "subject_id": "claude-protein-design",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-47c3bfef1da0d550"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Life-science task gating (restricted models, planned scientist access program) limits what the results imply for general availability.",
+      "subject_id": "claude-protein-design",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-47c3bfef1da0d550"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Primary research result; maker-reported experimental claims require careful framing.",
+        "status": "VERIFIED",
+        "finding": "Captured Anthropic first-party body confirms the reported experimental program and figures; figures stay maker-reported and carefully framed, per target.",
+        "subject_ids": [
+          "claude-protein-design"
+        ],
+        "source_ids": [
+          "supplement-src-47c3bfef1da0d550"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

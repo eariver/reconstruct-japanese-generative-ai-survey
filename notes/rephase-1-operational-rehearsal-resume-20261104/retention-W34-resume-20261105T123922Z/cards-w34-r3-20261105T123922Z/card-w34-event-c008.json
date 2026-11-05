@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:e9bf17c410ccbfb3",
+  "basis": {
+    "task_sha256": "253c930e7c8c7dc49305336c2b16474f574618acde0866f10d4df42761fffbde",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "openai-zdr-psp",
+      "canonical_name": "OpenAI Zero Data Retention + Private Safety Processing",
+      "entity_type": "PRODUCT",
+      "organization": "OpenAI",
+      "canonical_url": "https://openai.com/index/offering-zero-data-retention-for-frontier-models/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openai-zdr-psp",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "OpenAI Zero Data Retention + Private Safety Processing",
+    "canonical_url": "https://openai.com/index/offering-zero-data-retention-for-frontier-models/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-dc9fb8c084a87a39",
+      "url": "https://openai.com/index/offering-zero-data-retention-for-frontier-models/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openai.com/index/offering-zero-data-retention-for-frontier-models/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:52:50Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "OpenAI's Aug 19 post offers Zero Data Retention for eligible API frontier-model customers: prompts/responses not retained after processing.",
+      "subject_id": "openai-zdr-psp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-dc9fb8c084a87a39"
+      ],
+      "context": "Announcement text in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The same post previews Private Safety Processing: automated cross-interaction pattern detection emitting narrow activity-type/severity signals without accessing content, tested with early customers.",
+      "subject_id": "openai-zdr-psp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-dc9fb8c084a87a39"
+      ],
+      "context": "Preview description; availability explicitly limited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Named early direction supporters in the post include Glean, Databricks, Abridge, and Microsoft.",
+      "subject_id": "openai-zdr-psp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-dc9fb8c084a87a39"
+      ],
+      "context": "Attribution list; endorsement depth not specified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Private Safety Processing is a preview, not GA; architecture is prose-described with a technical white paper planned September 2026, not proven in captured bytes.",
+      "subject_id": "openai-zdr-psp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-dc9fb8c084a87a39"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "ZDR eligibility boundaries and the pre-existing CSAM-reporting carve-out are policy details summarized from the post, not legal text.",
+      "subject_id": "openai-zdr-psp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-dc9fb8c084a87a39"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Cross-interaction safety pattern detection designed to remain compatible with ZDR.",
+        "status": "VERIFIED",
+        "finding": "Captured OpenAI first-party body confirms cross-interaction safety pattern detection designed to remain compatible with ZDR, plus preview status and scope.",
+        "subject_ids": [
+          "openai-zdr-psp"
+        ],
+        "source_ids": [
+          "supplement-src-dc9fb8c084a87a39"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

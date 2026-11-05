@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:282ad113b8875c58",
+  "discovery_ids": [
+    "w34-event-refresh-arxiv-arxiv-saem"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.21614",
+      "metadata": {
+        "arxiv_id": "2608.21614",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.AI",
+          "cs.DC"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SUMMARY",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-refresh-arxiv-arxiv-saem",
+        "event_level_expansion": true,
+        "exact_http_bytes_preserved": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-architecture-r2-research-sufficiency-revision-r1",
+        "iterative_evidence_priority": true,
+        "lane": "MoE inference / serving",
+        "primary_category": "cs.AI",
+        "provider": "arXiv",
+        "refresh_note": "The Atom response is a broad category sweep. The abstract is a Discovery lead only; paper-level Evidence and significance remain for Sol/Luna review.",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-refresh-arxiv-saem",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "updated_at": "2026-08-21T20:26:32Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-07T16:11:21Z",
+      "published_at": "2026-08-21T20:26:32Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-ai.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Chain-of-thought (CoT) prompting improves LLM reasoning by decomposing complex problems into intermediate steps, but its sequential nature increases decoding latency and memory usage. Mixture-of-Experts (MoE) models scale capacity through sparse expert activation, yet their full expert weights often exceed GPU memory and require costly GPU-CPU transfers. Existing runtimes treat all tokens uniformly, overlooking a key structural property of CoT traces: consecutive reasoning stages exhibit coherent and predictable expert activation patterns. Ignoring this stage-level regularity leads to inefficient caching and unnecessary data movement. We propose SAEM, a stage-aware MoE inference runtime that detects reasoning stage boundaries and exploits stage-level activation coherence to guide expert placement. SAEM combines stage-aware caching, expert-aligned token repacking, and in-situ CPU execution to reduce data transfer and kernel fragmentation. On mathematical and scientific reasoning workloads, SAEM achieves an average 1.33x throughput improvement over the strongest state-of-the-art caching and offloading baselines under constrained GPU memory, rising to 1.54x when calibration data matches the workload, demonstrating the effectiveness of stage-aware, locality-driven MoE inference for CoT reasoning.",
+      "title": "SAEM: Stage-Aware Expert Management for Memory-Efficient MoE Inference in Chain-of-Thought Reasoning"
+    }
+  ],
+  "verification_targets": [
+    "Chain-of-thought (CoT) prompting improves LLM reasoning by decomposing complex problems into intermediate steps, but its sequential nature increases decoding latency and memory usage. Mixture-of-Experts (MoE) models scale capacity through sparse expert activation, yet their full expert weights often exceed GPU memory and require costly GPU-CPU transfers. Existing runtimes treat all tokens uniformly, overlooking a key structural property of CoT traces: consecutive reasoning stages exhibit coherent and predictable expert activation patterns. Ignoring this stage-level regularity leads to inefficient caching and unnecessary data movement. We propose SAEM, a stage-aware MoE inference runtime that detects reasoning stage boundaries and exploits stage-level activation coherence to guide expert placement. SAEM combines stage-aware caching, expert-aligned token repacking, and in-situ CPU execution to reduce data transfer and kernel fragmentation. On mathematical and scientific reasoning workloads, SAEM achieves an average 1.33x throughput improvement over the strongest state-of-the-art caching and offloading baselines under constrained GPU memory, rising to 1.54x when calibration data matches the workload, demonstrating the effectiveness of stage-aware, locality-driven MoE inference for CoT reasoning."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-refresh-arxiv-arxiv-saem",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "moe-inference",
+          "serving"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-8a203f045f2fd872"
+  ]
+}

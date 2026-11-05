@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:117bce1d83f36156",
+  "basis": {
+    "task_sha256": "f5cf4979ec7c060ba7e0ac08937b917ef0a15647457ae024fa828d0895b3f7f6",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "imagen-shutdown",
+      "canonical_name": "Imagen API shutdown / Gemini Image migration",
+      "entity_type": "PRODUCT",
+      "organization": "Google",
+      "canonical_url": "https://ai.google.dev/gemini-api/docs/deprecations"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "imagen-shutdown",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Imagen API shutdown / Gemini Image migration",
+    "canonical_url": "https://ai.google.dev/gemini-api/docs/deprecations"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-1d937617eccb3ba4",
+      "url": "https://firebase.google.com/docs/ai-logic/imagen-models-migration",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://firebase.google.com/docs/ai-logic/imagen-models-migration",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:31Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-8606358595e424dd",
+      "url": "https://ai.google.dev/gemini-api/docs/deprecations",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://ai.google.dev/gemini-api/docs/deprecations",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:29Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Google's deprecation page lists all three Imagen 4 GA endpoints shutting down August 17, 2026, replaced by gemini-3.1-flash-image.",
+      "subject_id": "imagen-shutdown",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1d937617eccb3ba4",
+        "supplement-src-8606358595e424dd"
+      ],
+      "context": "Deprecation table in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Firebase migration guidance states all Imagen models shut down Aug 17 across Gemini Developer API and Agent Platform, with SDK/API-shape breaking changes.",
+      "subject_id": "imagen-shutdown",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1d937617eccb3ba4",
+        "supplement-src-8606358595e424dd"
+      ],
+      "context": "Migration page in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Vertex AI surfaces carry a different documented date (June 30) for the same IDs; the Gemini-API Aug 17 date is the verified claim, Vertex scope unresolved.",
+      "subject_id": "imagen-shutdown",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1d937617eccb3ba4",
+        "supplement-src-8606358595e424dd"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Exact UTC cutoff moment on Aug 17 is unspecified in captured bytes.",
+      "subject_id": "imagen-shutdown",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1d937617eccb3ba4",
+        "supplement-src-8606358595e424dd"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "All Imagen models shut down Aug 17; migration to Gemini 3.x Image.",
+        "status": "VERIFIED",
+        "finding": "Captured Google first-party pages confirm the Aug 17 shutdown of all Imagen models and the Gemini 3.x Image migration path.",
+        "subject_ids": [
+          "imagen-shutdown"
+        ],
+        "source_ids": [
+          "supplement-src-1d937617eccb3ba4",
+          "supplement-src-8606358595e424dd"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

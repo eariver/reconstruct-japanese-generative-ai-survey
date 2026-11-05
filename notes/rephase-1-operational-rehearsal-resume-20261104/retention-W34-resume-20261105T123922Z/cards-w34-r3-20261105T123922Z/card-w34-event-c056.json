@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d6ad2b7d5d7d9f9e",
+  "basis": {
+    "task_sha256": "017415950865e6fc7f4609ffdcf104dc80fdbb5a8aed98a611c3e9985494896e",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "meta-ai-mac",
+      "canonical_name": "Meta AI Mac app",
+      "entity_type": "PRODUCT",
+      "organization": "Meta",
+      "canonical_url": "https://techcrunch.com/2026/08/20/meta-ais-new-mac-app-wants-you-to-talk-to-your-apps/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "meta-ai-mac",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Meta AI Mac app",
+    "canonical_url": "https://techcrunch.com/2026/08/20/meta-ais-new-mac-app-wants-you-to-talk-to-your-apps/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-2e4ad0d4d4112d84",
+      "url": "https://techcrunch.com/2026/08/20/meta-ais-new-mac-app-wants-you-to-talk-to-your-apps/",
+      "source_class": "SECONDARY",
+      "title": "First-party/official body: https://techcrunch.com/2026/08/20/meta-ais-new-mac-app-wants-you-to-talk-to-your-apps/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:02:30Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "TechCrunch's Aug 20 report states Meta announced a Mac app for Meta AI with system-wide dictation and Muse Spark screen-context answers.",
+      "subject_id": "meta-ai-mac",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-2e4ad0d4d4112d84"
+      ],
+      "context": "Secondary report in captured body; used as corroboration only."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No Meta first-party announcement page was located in bounded search; all product specifics rest on a single secondary report in captured bytes.",
+      "subject_id": "meta-ai-mac",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-2e4ad0d4d4112d84"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Dictation scope, model behavior, and availability specifics are unverified beyond the report.",
+      "subject_id": "meta-ai-mac",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-2e4ad0d4d4112d84"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Product event appears real; seek Meta first-party announcement before Evidence.",
+        "status": "UNRESOLVED",
+        "finding": "Product event appears real via dated secondary corroboration, but Meta first-party announcement still sought per target.",
+        "subject_ids": [
+          "meta-ai-mac"
+        ],
+        "source_ids": [
+          "supplement-src-2e4ad0d4d4112d84"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Product event appears real; seek Meta first-party announcement before Evidence.: Product event appears real via dated secondary corroboration, but Meta first-party announcement still sought per target."
+    ],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:344afe2151db5cee",
+  "discovery_ids": [
+    "w34-event-gap-alibaba-wan30-model-studio"
+  ],
+  "source_records": [
+    {
+      "collector_id": "official-web-fallback",
+      "collector_run_id": "official-fallback-web-2026-W34-20260908T005152Z",
+      "locator": "https://www.alibabacloud.com/help/en/model-studio/newly-released-models",
+      "metadata": {
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "chronology_precision": "DATE_ONLY_FIRST_PARTY_FALLBACK_OBSERVATION",
+        "chronology_role": "PROVIDER_SERVICE_AVAILABILITY",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-gap-alibaba-wan30-model-studio",
+        "event_level_expansion": true,
+        "exact_http_body_captured_by_repo_collector": false,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-discovery-gapfill-after-sol-review-r1",
+        "identity_action": "NEW_SPLIT_CHILD_FROM_LATER_RUNWAY_EVENT",
+        "lane": "model provider / video service availability",
+        "provider": "Alibaba Cloud / Model Studio",
+        "reconciles_prior_event_ids": [
+          "W34-C072"
+        ],
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-gapfill-alibaba-wan30-model-studio",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-08T00:51:52Z",
+      "published_at": "2026-08-20",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-discovery-gapfill-after-sol-review-r1/source-observations/alibaba-model-lifecycle-official-web.md"
+      ],
+      "source_type": "official_web_fallback_observation",
+      "summary_text": "Alibaba's official Model Studio lifecycle table shows wan3.0-video-prime on 2026-08-20. This is a provider/service availability lead and is kept separate from the later Runway Wan integration.",
+      "title": "Alibaba Model Studio wan3.0-video-prime lifecycle/availability"
+    }
+  ],
+  "verification_targets": [
+    "Alibaba's official Model Studio lifecycle table shows wan3.0-video-prime on 2026-08-20. This is a provider/service availability lead and is kept separate from the later Runway Wan integration."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-gap-alibaba-wan30-model-studio",
+        "decision": "KEEP",
+        "scope_tags": [
+          "model-provider",
+          "video-service-availability"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-d2bb6c0d0da37129"
+  ]
+}

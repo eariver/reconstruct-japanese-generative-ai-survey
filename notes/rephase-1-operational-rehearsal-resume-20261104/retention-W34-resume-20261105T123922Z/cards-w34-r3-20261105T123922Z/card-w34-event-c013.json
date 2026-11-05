@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:9be3dca9ff94b788",
+  "basis": {
+    "task_sha256": "731cef7e7e06ca266f95ec269c626ad883365ab5a160b5ab879f5ed18605e921",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "lfm25-dspark",
+      "canonical_name": "LFM2.5-DSpark speculative decoding checkpoints",
+      "entity_type": "PRODUCT",
+      "organization": "Liquid AI",
+      "canonical_url": "https://www.liquid.ai/blog/lfm2.5-dspark"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "lfm25-dspark",
+    "artifact_type": "MODEL_UPDATE",
+    "canonical_name": "LFM2.5-DSpark speculative decoding checkpoints",
+    "canonical_url": "https://www.liquid.ai/blog/lfm2.5-dspark"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-49cd281427f2bb0f",
+      "url": "https://www.liquid.ai/blog/lfm2.5-dspark",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.liquid.ai/blog/lfm2.5-dspark",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:09Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Liquid AI's Aug 20 post releases DSpark draft checkpoints (~300M params) for LFM2.5-1.2B-Instruct, 2.6B, and 8B-A1B with day-one llama.cpp/SGLang support.",
+      "subject_id": "lfm25-dspark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-49cd281427f2bb0f"
+      ],
+      "context": "Release statement in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The post reports up to 3.18x H100 and 2.87x Apple-silicon decoding speedups with unchanged outputs under greedy speculative decoding.",
+      "subject_id": "lfm25-dspark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-49cd281427f2bb0f"
+      ],
+      "context": "Maker-reported figures; means vary by model/hardware and MoE-on-Metal is weak (1.18x)."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Throughput figures are Liquid-reported for specific benchmarks/platforms; honest expectation per the post's own tables is closer to 2.1-2.7x means, and MoE-on-Apple-Silicon is ~1.18x.",
+      "subject_id": "lfm25-dspark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-49cd281427f2bb0f"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Output-equivalence holds under greedy decoding; sampling-dependent equivalence is not established in captured bytes.",
+      "subject_id": "lfm25-dspark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-49cd281427f2bb0f"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Public draft checkpoints for three LFM2.5 models; vendor-reported throughput gains.",
+        "status": "VERIFIED",
+        "finding": "Captured Liquid first-party body confirms public draft checkpoints for three LFM2.5 models; throughput gains stay vendor-reported per target.",
+        "subject_ids": [
+          "lfm25-dspark"
+        ],
+        "source_ids": [
+          "supplement-src-49cd281427f2bb0f"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

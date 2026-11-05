@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:5c53f938316a928f",
+  "basis": {
+    "task_sha256": "566f06615c63e83544ab10191c420e637ebe3d3e2658485d2bda0a297bfc0986",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.18534",
+      "canonical_name": "FinRCA-Bench: Benchmarking Evidence Retrieval and Reasoning for Financial AI Systems",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.18534"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.18534",
+    "artifact_type": "PAPER",
+    "canonical_name": "FinRCA-Bench: Benchmarking Evidence Retrieval and Reasoning for Financial AI Systems",
+    "canonical_url": "https://arxiv.org/abs/2608.18534"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-428215f9f943c7b9",
+      "url": "https://arxiv.org/pdf/2608.18534",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv PDF body for 2608.18534 (HTML conversion unavailable; text extracted via pdftotext for inspection)",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:54:43Z",
+      "role": "Post-Screening exact authority supplement: primary paper PDF body; HTML full-text conversion unavailable so PDF was retrieved and text-extracted for method/evaluation/results inspection"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"FinRCA-Bench: Benchmarking Evidence Retrieval and Reasoning for Financial AI Systems\" proposes Determinism is a design requirement rather than a convenience: knowing the injected cause exactly is\nwhat permits an enumerable required-evidence set, and an enumerable required-evidence set is what permits retrieval\nto be scored apart from reasoning.",
+      "subject_id": "paper-2608.18534",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-428215f9f943c7b9"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Problem Formulation and the Evidence Ladder\nThe benchmark, Rules/SQL specification, ML feature registry and model search, Dense RAG protocol and\nK-selection policy, graph relation registry, TPGR traversal grammar, evidence selector, and downstream reasoning\nprompt were frozen bef",
+      "subject_id": "paper-2608.18534",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-428215f9f943c7b9"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): The central result is that the same LLM\nmoves from 2.05% accuracy under frozen Dense RAG to 72.44% under TPGR as macro required-record recall\nmoves from 0.83% to 77.70%, and that decomposing the remaining errors attributes 95 of them to structural retrieval\nfailure against 15 to ",
+      "subject_id": "paper-2608.18534",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-428215f9f943c7b9"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.18534",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-428215f9f943c7b9"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.18534",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-428215f9f943c7b9"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.18534) in lane evaluation. Discovery triage only: matched=evaluation,language_models,retrieval_embeddings,training_methods; title_matches=evaluation,retrieval_embeddings,training_methods; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Large language models are increasingly used to support financial operations, but their apparent reasoning performance can depend on whether they receive the right evidence. In financial reconciliation, the evidence needed for diagnosis is distributed across invoices, purchase orders, approvals, allocations, payments, ledger entries, and bank activity, linked by transactional relationships rather than textual similarity. End-to-end accuracy can therefore conflate evidence access with reasoning quality. We introduce FinRCA-Bench, a deterministic synthetic benchmark of 2,250 accounts-payable-to-b",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv PDF text extraction confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.18534"
+        ],
+        "source_ids": [
+          "supplement-src-428215f9f943c7b9"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

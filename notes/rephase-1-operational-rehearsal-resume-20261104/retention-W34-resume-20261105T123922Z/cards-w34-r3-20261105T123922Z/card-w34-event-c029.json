@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:edb5a1733f2422aa",
+  "basis": {
+    "task_sha256": "e66d79edde41c217d6417e0751b008b7e5bba5810920c16e076e97b707710387",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "nemotron-35-lightning-jumpstart",
+      "canonical_name": "Nemotron 3.5 Lightning on SageMaker JumpStart",
+      "entity_type": "MODEL",
+      "organization": "NVIDIA / AWS",
+      "canonical_url": "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-5-lightning-now-available-in-amazon-sagemaker-jumpstart"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "nemotron-35-lightning-jumpstart",
+    "artifact_type": "MODEL",
+    "canonical_name": "Nemotron 3.5 Lightning on SageMaker JumpStart",
+    "canonical_url": "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-5-lightning-now-available-in-amazon-sagemaker-jumpstart"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-68689d276d5b6f51",
+      "url": "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-5-lightning-now-available-in-amazon-sagemaker-jumpstart",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-5-lightning-now-available-in-amazon-sagemaker-jumpstart",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:59:42Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "AWS's Aug 17 blog states Nemotron 3.5 Lightning (30B MoE, 3B active) is available via SageMaker JumpStart with up to 4x throughput and 30% faster task completion.",
+      "subject_id": "nemotron-35-lightning-jumpstart",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-68689d276d5b6f51"
+      ],
+      "context": "Dated blog in captured body; figures vendor-reported."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The Aug 11 whats-new listing for the same model is pre-window and is not the W34 delta.",
+      "subject_id": "nemotron-35-lightning-jumpstart",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-68689d276d5b6f51"
+      ],
+      "context": "Date boundary applied."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Throughput/task figures are vendor-reported without independent reproduction in captured bytes.",
+      "subject_id": "nemotron-35-lightning-jumpstart",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-68689d276d5b6f51"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Underlying model release pre-window; only JumpStart availability is the W34 delta.",
+      "subject_id": "nemotron-35-lightning-jumpstart",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-68689d276d5b6f51"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Underlying model pre-window; JumpStart availability is W34.",
+        "status": "VERIFIED",
+        "finding": "Captured AWS first-party Aug 17 blog confirms W34 JumpStart availability with pre-window model/notice separated per target.",
+        "subject_ids": [
+          "nemotron-35-lightning-jumpstart"
+        ],
+        "source_ids": [
+          "supplement-src-68689d276d5b6f51"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

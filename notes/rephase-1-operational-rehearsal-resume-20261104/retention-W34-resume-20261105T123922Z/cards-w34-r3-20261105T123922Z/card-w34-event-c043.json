@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:17bdb30024304d1e",
+  "basis": {
+    "task_sha256": "68170b2b596a627289f1b63f56c1aa9b99277e5151747c543b545491ba5b7e55",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "unsloth-qwen-gguf",
+      "canonical_name": "Unsloth Qwen3.8-27B GGUF packaging",
+      "entity_type": "PRODUCT",
+      "organization": "Unsloth",
+      "canonical_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "unsloth-qwen-gguf",
+    "artifact_type": "OPEN_WEIGHT",
+    "canonical_name": "Unsloth Qwen3.8-27B GGUF packaging",
+    "canonical_url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-40391db9b3900461",
+      "url": "https://huggingface.co/unsloth/Qwen3.8-27B-GGUF",
+      "source_class": "PRIMARY_REPOSITORY",
+      "title": "First-party/official body: https://huggingface.co/unsloth/Qwen3.8-27B-GGUF",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:05:06Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-4838ab0f554bfd47",
+      "url": "https://unsloth.ai/docs/models/qwen3.8",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://unsloth.ai/docs/models/qwen3.8",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:05:08Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured HF repo page lists Dynamic v3.0 GGUF quants for Qwen3.8-27B across 1-bit to 8-bit/BF16 tiers with size tables.",
+      "subject_id": "unsloth-qwen-gguf",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-40391db9b3900461",
+        "supplement-src-4838ab0f554bfd47"
+      ],
+      "context": "Repo page tables in captured bytes."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Unsloth docs describe Dynamic v3.0 methodology and per-hardware run guidance.",
+      "subject_id": "unsloth-qwen-gguf",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-40391db9b3900461",
+        "supplement-src-4838ab0f554bfd47"
+      ],
+      "context": "Docs body in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Accuracy claims (>10% better, 77% 1-bit, benchmark tables) are Unsloth-reported on its Divergence-300 @32 held-out method; no independent audit in captured bytes.",
+      "subject_id": "unsloth-qwen-gguf",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-40391db9b3900461",
+        "supplement-src-4838ab0f554bfd47"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Artifact timestamp precision (Aug 19-20) rests on external dating, not captured commit bytes.",
+      "subject_id": "unsloth-qwen-gguf",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-40391db9b3900461",
+        "supplement-src-4838ab0f554bfd47"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Third-party packaging/optimization; verify artifact timestamp and technical deltas before Evidence.",
+        "status": "VERIFIED",
+        "finding": "Third-party packaging artifact and technical deltas confirmed in captured first-party-distributor bytes; vendor accuracy figures stay bounded per target.",
+        "subject_ids": [
+          "unsloth-qwen-gguf"
+        ],
+        "source_ids": [
+          "supplement-src-40391db9b3900461",
+          "supplement-src-4838ab0f554bfd47"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

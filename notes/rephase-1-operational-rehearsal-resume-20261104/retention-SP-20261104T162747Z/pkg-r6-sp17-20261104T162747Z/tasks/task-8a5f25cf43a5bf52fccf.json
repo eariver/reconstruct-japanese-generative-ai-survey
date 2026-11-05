@@ -1,0 +1,43 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:fdb03808269b515f",
+  "discovery_ids": [
+    "EFF-D044"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_PAPER",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "AWQ: Activation-aware Weight Quantization (Lin et al.)",
+      "locator": "https://arxiv.org/abs/2306.00978",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-d06-precision.md"
+      ],
+      "published_at": "2023-06-01",
+      "summary_text": "Salient-weight protection; strong 4-bit weight-only with tiny calibration. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "d06",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D044",
+        "decision": "KEEP",
+        "scope_tags": [
+          "quantization"
+        ]
+      }
+    ]
+  }
+}

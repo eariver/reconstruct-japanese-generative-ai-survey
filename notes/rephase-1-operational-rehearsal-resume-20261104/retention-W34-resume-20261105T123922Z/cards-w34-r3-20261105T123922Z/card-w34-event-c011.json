@@ -1,0 +1,164 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:505a926f08cac51d",
+  "basis": {
+    "task_sha256": "5fdbd09b83691e43d5ddd2167f5c15df92d7252cab2d34eba923b9e20acbd2ea",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "claude-platform-ga",
+      "canonical_name": "Claude Platform Computer Use / Skills / Files GA",
+      "entity_type": "PRODUCT",
+      "organization": "Anthropic",
+      "canonical_url": "https://claude.com/blog/computer-use-skills-api-files-api"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "claude-platform-ga",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Claude Platform Computer Use / Skills / Files GA",
+    "canonical_url": "https://claude.com/blog/computer-use-skills-api-files-api"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-0e957258f403fc2e",
+      "url": "https://docs.anthropic.com/en/docs/agents-and-tools/computer-use",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://docs.anthropic.com/en/docs/agents-and-tools/computer-use",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:27Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-1c4dd5d0cb317710",
+      "url": "https://claude.com/blog/computer-use-skills-api-files-api",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://claude.com/blog/computer-use-skills-api-files-api",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:53:54Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-54b52eb251742684",
+      "url": "https://www.anthropic.com/news/skills",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.anthropic.com/news/skills",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:31Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-d6a80af7764ee03b",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/files",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://platform.claude.com/docs/en/build-with-claude/files",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:53:56Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Anthropic's Aug 20 post makes Computer Use, the Skills API, and the Files API generally available on the Claude Platform and adds a new browser-use tool.",
+      "subject_id": "claude-platform-ga",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0e957258f403fc2e",
+        "supplement-src-1c4dd5d0cb317710",
+        "supplement-src-54b52eb251742684",
+        "supplement-src-d6a80af7764ee03b"
+      ],
+      "context": "GA bundle statement in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Computer Use operates software via screenshots (click/type/scroll, now multi-action turns); the browser-use tool targets web page elements structurally rather than pixels alone.",
+      "subject_id": "claude-platform-ga",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0e957258f403fc2e",
+        "supplement-src-1c4dd5d0cb317710",
+        "supplement-src-54b52eb251742684",
+        "supplement-src-d6a80af7764ee03b"
+      ],
+      "context": "Boundary distinction stated in captured body and docs."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Skills API uploads/versions folder-based skills executed in Anthropic's sandbox; Files API offers upload-once ID references, expiration, higher limits, 1TB/org; both also ship on Microsoft Foundry while updated computer/browser tools are coming soon to Vertex AI.",
+      "subject_id": "claude-platform-ga",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0e957258f403fc2e",
+        "supplement-src-1c4dd5d0cb317710",
+        "supplement-src-54b52eb251742684",
+        "supplement-src-d6a80af7764ee03b"
+      ],
+      "context": "Availability/platform scope in captured bodies."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Performance/latency improvement claims for multi-action turns are vendor-stated without benchmarks in captured bytes.",
+      "subject_id": "claude-platform-ga",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-0e957258f403fc2e",
+        "supplement-src-1c4dd5d0cb317710",
+        "supplement-src-54b52eb251742684",
+        "supplement-src-d6a80af7764ee03b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Files API is documented as not ZDR-eligible in secondary coverage; the captured first-party bodies do not state retention scope, so no retention claim is made here.",
+      "subject_id": "claude-platform-ga",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-0e957258f403fc2e",
+        "supplement-src-1c4dd5d0cb317710",
+        "supplement-src-54b52eb251742684",
+        "supplement-src-d6a80af7764ee03b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Computer use, Skills API, Files API generally available; browser use tool added.",
+        "status": "VERIFIED",
+        "finding": "Captured Anthropic first-party bodies confirm what became GA (Computer Use, Skills API, Files API), the distinct surfaces, and the browser/computer-use boundary.",
+        "subject_ids": [
+          "claude-platform-ga"
+        ],
+        "source_ids": [
+          "supplement-src-0e957258f403fc2e",
+          "supplement-src-1c4dd5d0cb317710",
+          "supplement-src-54b52eb251742684",
+          "supplement-src-d6a80af7764ee03b"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

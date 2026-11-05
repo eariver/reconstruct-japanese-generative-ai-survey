@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:9f67ca6cc60a6c67",
+  "discovery_ids": [
+    "w34-event-refresh-arxiv-arxiv-aid-guard"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.21159",
+      "metadata": {
+        "arxiv_id": "2608.21159",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.CR",
+          "cs.AI"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SUMMARY",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-refresh-arxiv-arxiv-aid-guard",
+        "event_level_expansion": true,
+        "exact_http_bytes_preserved": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-architecture-r2-research-sufficiency-revision-r1",
+        "iterative_evidence_priority": true,
+        "lane": "agent security / authorization",
+        "primary_category": "cs.CR",
+        "provider": "arXiv",
+        "refresh_note": "The Atom response is a broad category sweep. The abstract is a Discovery lead only; paper-level Evidence and significance remain for Sol/Luna review.",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-refresh-arxiv-aid-guard",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "updated_at": "2026-08-21T14:31:29Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-07T16:11:21Z",
+      "published_at": "2026-08-21T14:31:29Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-cr.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Tool-using AI agents turn delegated tasks into provider effects, yet authorization often ends at admission while provider state, delivery, retry, and recovery evolve. A request may change before commit, or response loss may cause a replacement to create a second effect from one approval. We present AID-Guard, a stateful authorization-to-effect closure protocol. It revalidates the approved request and provider state at commit, retains one reservation under ambiguity, and permits release or one successor only after a terminal result or certified no effect with a delivery fence. For supported provider contracts, one reservation yields at most one effect across retry and recovery. To our knowledge, it is the first evaluated agent-authorization protocol to unify these controls in one lifecycle. We implement a Python/SQLite prototype. In a declared loopback MCP domain, 13 live mutations caused no unauthorized provider effects, three concurrent histories were linearizable, and evidence bundles supported public verification and replay. All 210 Stripe provider-contract trials matched predeclared outcomes. Across Stripe and Resend, 40 terminalize-successor schedules, 30 overlapping races, and 10 crash-recovery schedules completed without duplicate effects. Under complete proposer compromise, AID-Guard blocked 44/44 attacks and admitted 44/44 matched legitimate proposals. Its strict exact-manifest profile reduced benign utility by 35.4 to 43.8 percentage points; a typed frontier recovered 9-10 completions without observed unsafe effects. A composition study blocked 20/20 post-admission lifecycle attacks and preserved 8/8 valid or exact-retry executions. The results support authorization-to-effect binding under the evaluated effect-path inventory, provider contracts, and failure schedules.",
+      "title": "AID-Guard: Stateful Authorization for Delegated Agent Effects"
+    }
+  ],
+  "verification_targets": [
+    "Tool-using AI agents turn delegated tasks into provider effects, yet authorization often ends at admission while provider state, delivery, retry, and recovery evolve. A request may change before commit, or response loss may cause a replacement to create a second effect from one approval. We present AID-Guard, a stateful authorization-to-effect closure protocol. It revalidates the approved request and provider state at commit, retains one reservation under ambiguity, and permits release or one successor only after a terminal result or certified no effect with a delivery fence. For supported provider contracts, one reservation yields at most one effect across retry and recovery. To our knowledge, it is the first evaluated agent-authorization protocol to unify these controls in one lifecycle. We implement a Python/SQLite prototype. In a declared loopback MCP domain, 13 live mutations caused no unauthorized provider effects, three concurrent histories were linearizable, and evidence bundles supported public verification and replay. All 210 Stripe provider-contract trials matched predeclared outcomes. Across Stripe and Resend, 40 terminalize-successor schedules, 30 overlapping races, and 10 crash-recovery schedules completed without duplicate effects. Under complete proposer compromise, AID-Guard blocked 44/44 attacks and admitted 44/44 matched legitimate proposals. Its strict exact-manifest profile reduced benign utility by 35.4 to 43.8 percentage points; a typed frontier recovered 9-10 completions without observed unsafe effects. A composition study blocked 20/20 post-admission lifecycle attacks and preserved 8/8 valid or exact-retry executions. The results support authorization-to-effect binding under the evaluated effect-path inventory, provider contracts, and failure schedules."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-refresh-arxiv-arxiv-aid-guard",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "agent-security",
+          "authorization"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-5e6421aab8c9b682"
+  ]
+}

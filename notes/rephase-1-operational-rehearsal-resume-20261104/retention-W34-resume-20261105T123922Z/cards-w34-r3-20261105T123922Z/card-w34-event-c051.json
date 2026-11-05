@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:a1cc8d5e368b842e",
+  "basis": {
+    "task_sha256": "9de9751d800fc9c9d3745d3fe68eae141a232696c4857f4793c4124971dcbbdc",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "NEEDS_MORE",
+  "entities": [
+    {
+      "entity_id": "romance-baiting-study",
+      "canonical_name": "LLM romance-baiting scam study",
+      "entity_type": "PRODUCT",
+      "organization": null,
+      "canonical_url": "https://drive.google.com/open?id=1erwXcN9wO32p56FqY82O-WfG25He_2S6"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "romance-baiting-study",
+    "artifact_type": "PAPER",
+    "canonical_name": "LLM romance-baiting scam study",
+    "canonical_url": "https://drive.google.com/open?id=1erwXcN9wO32p56FqY82O-WfG25He_2S6"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "src-1",
+      "url": "https://drive.google.com/open?id=1erwXcN9wO32p56FqY82O-WfG25He_2S6",
+      "source_class": "SOCIAL",
+      "title": "LLM romance-baiting / pig-butchering scam experiment",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:34:01Z",
+      "role": "Discovery-bounded source used for factual verification"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "W34 DailyX record preserves discussion of an LLM romance-baiting/pig-butchering experiment writeup.",
+      "subject_id": "romance-baiting-study",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "SOCIAL_OBSERVATION",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Local record excerpt in ledger detail."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Underlying research (USENIX Security, arbXiv Dec 2025) predates W34; targeted search located no in-window first-party research artifact.",
+      "subject_id": "romance-baiting-study",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Technical findings retained only as background; W34-event nature (presentation vs discussion) unverified.",
+      "subject_id": "romance-baiting-study",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Underlying research circulated before W34; retain the technical findings but verify whether the W34 event is conference presentation/public discussion rather than new-paper publication.",
+        "status": "UNRESOLVED",
+        "finding": "Technical findings retained as background; W34 event nature (conference presentation vs public discussion vs new publication) unverified per target.",
+        "subject_ids": [
+          "romance-baiting-study"
+        ],
+        "source_ids": [
+          "src-1"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Underlying research circulated before W34; retain the technical findings but verify whether the W34 event is conference presentation/public discussion rather than new-paper publication.: Technical findings retained as background; W34 event nature (conference presentation vs public discussion vs new publication) unverified per target."
+    ],
+    "contradictions": []
+  }
+}

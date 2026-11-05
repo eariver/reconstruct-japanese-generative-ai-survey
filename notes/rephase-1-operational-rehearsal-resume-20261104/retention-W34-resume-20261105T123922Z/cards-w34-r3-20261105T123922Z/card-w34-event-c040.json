@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:de16998be83a0cb8",
+  "basis": {
+    "task_sha256": "d922fbdfc17278ed83766edb72947773ff24f17a6a7c9b20f465e2be813fc33a",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "deepseek-v4pro-pricing",
+      "canonical_name": "DeepSeek V4-Pro pricing/access change",
+      "entity_type": "PRODUCT",
+      "organization": "DeepSeek",
+      "canonical_url": "https://api-docs.deepseek.com/quick_start/pricing"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "deepseek-v4pro-pricing",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "DeepSeek V4-Pro pricing/access change",
+    "canonical_url": "https://api-docs.deepseek.com/quick_start/pricing"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-1ba9085af736ba4b",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://api-docs.deepseek.com/quick_start/pricing",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:00:20Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-e2ec024294d68253",
+      "url": "https://api-docs.deepseek.com/updates/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "DeepSeek API updates page (shared body: Aug 13 GA + Aug 16 peak/off-peak entries)",
+      "published_at": null,
+      "accessed_at": "2026-09-08T23:00:00Z",
+      "role": "Post-Screening exact authority supplement: shared updates-page body documenting GA timing and pricing-switch mechanics; same bytes as c022 capture"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "DeepSeek's updates page (captured for c022, rebound here) documents the Aug 13 V4-Pro GA rollout and the Aug 16 16:00 UTC peak/off-peak switch with off-peak at half peak.",
+      "subject_id": "deepseek-v4pro-pricing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1ba9085af736ba4b",
+        "supplement-src-e2ec024294d68253"
+      ],
+      "context": "Dated first-party entries; entry bytes shared with c022 capture."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The pricing page lists V4-Pro and V4-Flash-Vision-Exp model IDs on the official rate card.",
+      "subject_id": "deepseek-v4pro-pricing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1ba9085af736ba4b",
+        "supplement-src-e2ec024294d68253"
+      ],
+      "context": "Rate-card listing in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Exact new tariff figures ($0.66/$1.98 off-peak etc.) are secondary-reported and not extracted from captured first-party bytes; do not cite as first-party-verified numbers.",
+      "subject_id": "deepseek-v4pro-pricing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1ba9085af736ba4b",
+        "supplement-src-e2ec024294d68253"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Aug 13 GA is pre-window background; only the in-window pricing/access change is the W34 delta.",
+      "subject_id": "deepseek-v4pro-pricing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1ba9085af736ba4b",
+        "supplement-src-e2ec024294d68253"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Do not redraft Aug 13 GA as W34; retain the in-window pricing/access change.",
+        "status": "VERIFIED",
+        "finding": "In-window pricing/access change retained with Aug 13 GA kept as background per target; tariff precision bounded to secondary reporting.",
+        "subject_ids": [
+          "deepseek-v4pro-pricing"
+        ],
+        "source_ids": [
+          "supplement-src-1ba9085af736ba4b",
+          "supplement-src-e2ec024294d68253"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

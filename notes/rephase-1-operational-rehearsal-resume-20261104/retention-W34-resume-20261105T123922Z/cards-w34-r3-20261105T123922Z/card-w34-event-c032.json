@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:0b9f282f6b8db60f",
+  "basis": {
+    "task_sha256": "213fe6538445eaf87ad221b97dae76cf68b41028a5c2da171d9446663f21eae0",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "openrouter-activity",
+      "canonical_name": "OpenRouter Activity dashboard + Analytics API",
+      "entity_type": "PRODUCT",
+      "organization": "OpenRouter",
+      "canonical_url": "https://openrouter.ai/blog/announcements/activity-dashboard/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openrouter-activity",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "OpenRouter Activity dashboard + Analytics API",
+    "canonical_url": "https://openrouter.ai/blog/announcements/activity-dashboard/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-b93407e25f96bd26",
+      "url": "https://openrouter.ai/blog/announcements/activity-dashboard/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openrouter.ai/blog/announcements/activity-dashboard/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:59:44Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "OpenRouter's Aug 17 post launches the Activity dashboard (spend/requests/tokens/cache-hit/blended-cost views) with Explore/Trends/logs drill-downs.",
+      "subject_id": "openrouter-activity",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-b93407e25f96bd26"
+      ],
+      "context": "Dated post in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The same surface is exposed via the Analytics API (meta + query endpoints) behind management keys, with an agent skill and cost-control cookbook.",
+      "subject_id": "openrouter-activity",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-b93407e25f96bd26"
+      ],
+      "context": "API description in captured body; beta-roughness edges documented by third parties, not contested here."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Internal $6.2K-anecdote savings illustration is vendor-reported and account-specific.",
+      "subject_id": "openrouter-activity",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-b93407e25f96bd26"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Analytics API beta drift (schema changes) is acknowledged in surrounding docs; long-horizon retention limits apply.",
+      "subject_id": "openrouter-activity",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-b93407e25f96bd26"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Per-agent/model/request spend and usage observability; relevant to production-agent operations.",
+        "status": "VERIFIED",
+        "finding": "Captured OpenRouter first-party body confirms per-agent/model/request spend and usage observability relevant to production-agent operations.",
+        "subject_ids": [
+          "openrouter-activity"
+        ],
+        "source_ids": [
+          "supplement-src-b93407e25f96bd26"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

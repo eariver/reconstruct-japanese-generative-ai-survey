@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:fb02a4acdd726b75",
+  "basis": {
+    "task_sha256": "217cccdcd3fa0d9121bf51fe7b63662868389b6b08baaa40bcb5bc7acfd674f5",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "deepseek-v4-flash-vision",
+      "canonical_name": "DeepSeek-V4-Flash-Vision-Exp",
+      "entity_type": "MODEL",
+      "organization": "DeepSeek",
+      "canonical_url": "https://api-docs.deepseek.com/updates/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "deepseek-v4-flash-vision",
+    "artifact_type": "MODEL",
+    "canonical_name": "DeepSeek-V4-Flash-Vision-Exp",
+    "canonical_url": "https://api-docs.deepseek.com/updates/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-44487524db08ab26",
+      "url": "https://api-docs.deepseek.com/updates/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://api-docs.deepseek.com/updates/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:47Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "DeepSeek's changelog entry dated 2026-08-21 releases DeepSeek-V4-Flash-Vision-Exp as an experimental multimodal vision-understanding model on the API.",
+      "subject_id": "deepseek-v4-flash-vision",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-44487524db08ab26"
+      ],
+      "context": "Dated entry in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The entry states pure-text capabilities on par with official V4-Flash and access via model='deepseek-v4-flash-vision-exp'.",
+      "subject_id": "deepseek-v4-flash-vision",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-44487524db08ab26"
+      ],
+      "context": "Entry text; parity claim is vendor-stated without published methodology in captured excerpt."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Capability-parity and any benchmark figures are vendor-stated; methodology and independent evaluation are absent from captured bytes.",
+      "subject_id": "deepseek-v4-flash-vision",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-44487524db08ab26"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Changelog entry carries Aug 21 date-only (no clock); exact position vs 22:00Z W34-end boundary is unresolved in captured bytes; week eligibility rests on date-level placement, not clock-time proof.",
+      "subject_id": "deepseek-v4-flash-vision",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-44487524db08ab26"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Experimental vision/multimodal API release; maker benchmarks need methodology-aware treatment.",
+        "status": "UNRESOLVED",
+        "finding": "Experimental release content VERIFIED in captured DeepSeek changelog (48149B); maker benchmarks kept methodology-aware. Aug 21 date-only vs 22:00Z week placement remains UNRESOLVED; no week-eligibility upgrade claimed.",
+        "subject_ids": [
+          "deepseek-v4-flash-vision"
+        ],
+        "source_ids": [
+          "supplement-src-44487524db08ab26"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Experimental vision/multimodal API release; maker benchmarks need methodology-aware treatment.: Experimental release content VERIFIED in captured DeepSeek changelog (48149B); maker benchmarks kept methodology-aware. Aug 21 date-only vs 22:00Z week placement remains UNRESOLVED; no week-eligibility upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

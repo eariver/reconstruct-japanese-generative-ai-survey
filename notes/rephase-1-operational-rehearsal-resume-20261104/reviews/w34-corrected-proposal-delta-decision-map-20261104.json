@@ -1,0 +1,163 @@
+{
+  "role": "General independent supervisory reviewer (NOT author/root/operator, NOT Sol/Luna/Human)",
+  "issue_id": "2026-W34",
+  "proposal_files": {
+    "w34-corrected-input-20261104.json": {
+      "bytes": 1575840,
+      "sha256": "5e53a179ea49ac0f3ea190cf2e9fc7e77f69aa1d3c1f504d84971a5a9ac2bfe2"
+    },
+    "w34-corrected-delta-20261104.json": {
+      "bytes": 19856,
+      "sha256": "c55395774e075f4ce2db1d14e10fe39dcee6f0281c3938a5c3b6dde80c34d46e"
+    },
+    "w34-correction-rationale-20261104.md": {
+      "bytes": 6212,
+      "sha256": "92d02d34ec8aacc82e742efd4714ffc4492fb5e7c76f6cd2ce64b061604432b9"
+    },
+    "w34-owned-output-disposition-candidate-20261104.json": {
+      "bytes": 10204,
+      "sha256": "8955707950c71f6b7165b315151850a1e6639aa06af8256559607e5de9d90080"
+    }
+  },
+  "e84_basis": {
+    "sources/2026-W34/evidence/proposed-input/interactive-evidence.json": {
+      "bytes": 1573186,
+      "sha256": "3ffc6e310e389bf03275b7ac7df0b029e43acec5f6140cc3a5bd56f8a4794f27"
+    },
+    "sources/2026-W34/external/evidence-supplement/evidence-authority-supplement-r2-fresh-basis.json": {
+      "bytes": 389414,
+      "sha256": "ce6f977a3e690e779c380b7b035d9247207e262b5c50a5b14b6b6b8f0fbc704e"
+    },
+    "sources/2026-W34/evidence/v2/accepted/bf208f96d6b66e257c80af3b1bf3d85cdc8c6b63178ace7dbe292624aa8559d2/evidence-accepted.json": {
+      "bytes": 126603,
+      "sha256": "450b508ca5078703d99aad46d5aedf466222aa3889e8753862696f7588cf000e"
+    },
+    "sources/2026-W34/evidence/v2/views/accepted/f744e46b26ec1592b39729d1cfab4ffdfe2c47861941fbfc15766fde38eaf62c/edition-views-accepted.json": {
+      "bytes": 159498,
+      "sha256": "5ad0a6acdb27e3e5c1415297a6c03838107b8785ec2d4c5025050f1d0aaacf0e"
+    },
+    "sources/2026-W34/materiality-ledger-v2.json": {
+      "bytes": 186202,
+      "sha256": "76ac53f90f3c731c5819ab73ae3fcfd4451f7d5030795232e80e02ebac2aca4b"
+    },
+    "sources/2026-W34/profile-completeness-v2.json": {
+      "bytes": 71532,
+      "sha256": "93dbefae96ee0acddf5a13125dac6d28a25c3ef3e1d4decaf61d766356c57bfb"
+    }
+  },
+  "delta_check": {
+    "records": 409,
+    "unique_ids": 409,
+    "changed": 8,
+    "changed_ids": [
+      "w34-event-c002",
+      "w34-event-c006",
+      "w34-event-c020",
+      "w34-event-c039",
+      "w34-event-c055",
+      "w34-event-c065",
+      "w34-event-c066",
+      "w34-event-c096"
+    ],
+    "unchanged": 401
+  },
+  "supplement_binding": {
+    "supplement_bindings": 428,
+    "distinct_raw": 425,
+    "supplement_sha256": "ce6f977a3e690e779c380b7b035d9247207e262b5c50a5b14b6b6b8f0fbc704e",
+    "input_bindings_corrected": 426,
+    "retained_unused": [
+      "supplement-src-6f7270b995d12409",
+      "supplement-src-1ed7511b4105f0bd"
+    ],
+    "legal_retention": true,
+    "reason": "input subset of task-bound allowed; package tasks still bind 428 exactly once; cards cite subset; no pruned supplement required"
+  },
+  "schema": {
+    "AUTHOR_CLAIM_supported": true,
+    "split_targets_allowed": true,
+    "overall_vs_targets": "code checks structure only; overall VERIFIED with load-bearing UNRESOLVED is semantically unsound for W34"
+  },
+  "per_did_minimal": [
+    {
+      "discovery_id": "w34-event-c002",
+      "overall_fix": "VERIFIED->PARTIAL with split content-VERIFIED/timing-UNRESOLVED",
+      "capture_suffices": true,
+      "indispensable": null
+    },
+    {
+      "discovery_id": "w34-event-c020",
+      "overall_fix": "VERIFIED->PARTIAL with split",
+      "capture_suffices": true,
+      "indispensable": null
+    },
+    {
+      "discovery_id": "w34-event-c039",
+      "overall_fix": "VERIFIED->PARTIAL with split (remove unbound clause already done)",
+      "capture_suffices": true,
+      "indispensable": null
+    },
+    {
+      "discovery_id": "w34-event-c066",
+      "overall_fix": "VERIFIED->PARTIAL (keep split)",
+      "capture_suffices": true,
+      "indispensable": null
+    },
+    {
+      "discovery_id": "w34-event-c022",
+      "overall_fix": "Include: split + PARTIAL (not in proposal)",
+      "capture_suffices": true,
+      "indispensable": null
+    },
+    {
+      "discovery_id": "w34-event-c045",
+      "overall_fix": "Include: split + PARTIAL (not in proposal)",
+      "capture_suffices": true,
+      "indispensable": null
+    },
+    {
+      "discovery_id": "w34-event-c055",
+      "overall_fix": "PARTIAL already correct (researcher VERIFIED/vendor UNRESOLVED)",
+      "capture_suffices": true,
+      "indispensable": "optional MSRC only if vendor load-bearing"
+    },
+    {
+      "discovery_id": "w34-event-c096",
+      "overall_fix": "VERIFIED entry/scope-residual sound (scope not in claims)",
+      "capture_suffices": true,
+      "indispensable": "optional Help URL only if scope load-bearing"
+    },
+    {
+      "discovery_id": "w34-event-c065",
+      "overall_fix": "PARTIAL HOLD with UNRESOLVED correct",
+      "capture_suffices": true,
+      "indispensable": "optional rankings only if specs load-bearing"
+    },
+    {
+      "discovery_id": "w34-event-c006",
+      "overall_fix": "VERIFIED feed-only correct",
+      "capture_suffices": true,
+      "indispensable": null
+    }
+  ],
+  "carry_over": {
+    "status": "SATISFIED stands",
+    "reason": "1 rechecked, DROP recorded, 0 tasks required, no Selection dependency"
+  },
+  "counts": {
+    "discovery_accepted_root": 369,
+    "screening_effective": 439,
+    "screening_event": 434,
+    "screening_accounting": 5,
+    "ledger_rows": 439,
+    "evidence_results": 409,
+    "note": "369 / 439=434+5 / 409; never sum root+effective"
+  },
+  "disposition_candidate": {
+    "file": "w34-owned-output-disposition-candidate-20261104.json",
+    "sha256": "8955707950c71f6b7165b315151850a1e6639aa06af8256559607e5de9d90080",
+    "ownership": "exact2 CAND-owned unaccepted verified from State/refs; execution NOT approved; no SP inference; needs bounded Astra auth + retention verification + fresh re-review"
+  },
+  "verdict": "CHANGES_REQUIRED_NARROW_BLOCKERS_c002_c020_c039_c066_overall_PARTIAL_plus_include_c022_c045",
+  "read_scope": "source/data-read only; no network/Production/reconstruct Git/readback/imports/runtime/tests/build/State/source writes; no subagents; no revised-input authoring; no new fetches"
+}

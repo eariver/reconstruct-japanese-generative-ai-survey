@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:948cac7d43eca1a5",
+  "basis": {
+    "task_sha256": "5e41fa4b2e926ea00166936a25e9c2b37e8b5d2400ec62d0b2440cb578f0396a",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "agentcore-auth-context",
+      "canonical_name": "AgentCore user authorization context propagation",
+      "entity_type": "PRODUCT",
+      "organization": "AWS",
+      "canonical_url": "https://aws.amazon.com/blogs/security/propagate-user-authorization-context-in-ai-agents-with-amazon-bedrock-agentcore"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "agentcore-auth-context",
+    "artifact_type": "FRAMEWORK",
+    "canonical_name": "AgentCore user authorization context propagation",
+    "canonical_url": "https://aws.amazon.com/blogs/security/propagate-user-authorization-context-in-ai-agents-with-amazon-bedrock-agentcore"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-9dd925b654d5e1da",
+      "url": "https://aws.amazon.com/blogs/security/propagate-user-authorization-context-in-ai-agents-with-amazon-bedrock-agentcore",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://aws.amazon.com/blogs/security/propagate-user-authorization-context-in-ai-agents-with-amazon-bedrock-agentcore",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:06:17Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The AWS blog demonstrates propagating user authorization context through AgentCore so each user sees only authorized data across sources.",
+      "subject_id": "agentcore-auth-context",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-9dd925b654d5e1da"
+      ],
+      "context": "Post body in captured bytes (1.3MB)."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Enforcement is positioned outside agent code (gateway/identity layer) with Cognito/IdP claims and AgentCore Identity binding.",
+      "subject_id": "agentcore-auth-context",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-9dd925b654d5e1da"
+      ],
+      "context": "Architecture description in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "How-to/sample scope: production hardening beyond the sample is reader work, not a stated guarantee.",
+      "subject_id": "agentcore-auth-context",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-9dd925b654d5e1da"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Infrastructure-enforced user authorization propagation across agent data/tool calls; important control-plane pattern, but a technical-how-to rather than a new model/product release.",
+        "status": "VERIFIED",
+        "finding": "Infrastructure-enforced authorization propagation confirmed as control-plane pattern; how-to (not release) framing kept per target.",
+        "subject_ids": [
+          "agentcore-auth-context"
+        ],
+        "source_ids": [
+          "supplement-src-9dd925b654d5e1da"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

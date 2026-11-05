@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:05b03e0cb53f1a35",
+  "discovery_ids": [
+    "EFF-D028"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_REPO",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "MoonshotAI/Kimi-Linear (KDA kernel, vLLM, checkpoints)",
+      "locator": "https://github.com/MoonshotAI/Kimi-Linear",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-d04-attention-kvcache.md"
+      ],
+      "published_at": "2025-10-29",
+      "summary_text": "Deployment authority: open kernel + vLLM impl + 5.7T checkpoints. [retrieval: LOCATOR_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "d04",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "LOCATOR_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "kernel/runtime version binding"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D028",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026",
+          "serving"
+        ]
+      }
+    ]
+  }
+}

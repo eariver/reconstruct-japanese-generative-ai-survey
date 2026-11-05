@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:1afede3241c614d8",
+  "basis": {
+    "task_sha256": "6ba2ebdb53851ee6c49364d0c483f675b2e6061f79d7b3afb2aa6af1efc8c7d9",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "openai-regional-processing",
+      "canonical_name": "OpenAI API regional processing",
+      "entity_type": "PRODUCT",
+      "organization": "OpenAI",
+      "canonical_url": "https://developers.openai.com/api/docs/changelog"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openai-regional-processing",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "OpenAI API regional processing",
+    "canonical_url": "https://developers.openai.com/api/docs/changelog"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-7d4a82599a431b6b",
+      "url": "https://developers.openai.com/api/docs/changelog",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://developers.openai.com/api/docs/changelog",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:53Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured changelog states: Aug 21 feature — API customers can select regional processing per request via prefixed domain with a Global-geography project API key.",
+      "subject_id": "openai-regional-processing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-7d4a82599a431b6b"
+      ],
+      "context": "Dated entry text in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Geography/eligibility boundaries beyond the entry text are not detailed in captured bytes.",
+      "subject_id": "openai-regional-processing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-7d4a82599a431b6b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Changelog badge carries Aug 21 date-only (no clock); exact position vs 22:00Z W34-end boundary is unresolved in captured bytes; week eligibility rests on date-level placement, not clock-time proof.",
+      "subject_id": "openai-regional-processing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-7d4a82599a431b6b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Candidate-specific official changelog capture still needed.",
+        "status": "UNRESOLVED",
+        "finding": "Regional-processing content VERIFIED in candidate-specific official changelog capture (488098B); Aug 21 badge date-only vs 22:00Z week placement remains UNRESOLVED. No week-eligibility upgrade claimed.",
+        "subject_ids": [
+          "openai-regional-processing"
+        ],
+        "source_ids": [
+          "supplement-src-7d4a82599a431b6b"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Candidate-specific official changelog capture still needed.: Regional-processing content VERIFIED in candidate-specific official changelog capture (488098B); Aug 21 badge date-only vs 22:00Z week placement remains UNRESOLVED. No week-eligibility upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

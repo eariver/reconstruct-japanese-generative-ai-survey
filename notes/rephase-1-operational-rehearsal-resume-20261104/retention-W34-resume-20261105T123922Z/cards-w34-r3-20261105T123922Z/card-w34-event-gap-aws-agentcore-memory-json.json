@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:28ee8417973b7f02",
+  "basis": {
+    "task_sha256": "ed7568e5b2a90b4ea8c8302f3899ec3473d464e85956eccad89c1b3dad4820cd",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "agentcore-memory-json",
+      "canonical_name": "AgentCore Memory JSON payloads",
+      "entity_type": "PRODUCT",
+      "organization": "AWS",
+      "canonical_url": "https://aws.amazon.com/about-aws/whats-new/2026/08/agentcore-memory-json-payloads/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "agentcore-memory-json",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "AgentCore Memory JSON payloads",
+    "canonical_url": "https://aws.amazon.com/about-aws/whats-new/2026/08/agentcore-memory-json-payloads/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-3be071fbc85f9159",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/08/agentcore-memory-json-payloads/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://aws.amazon.com/about-aws/whats-new/2026/08/agentcore-memory-json-payloads/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:07Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured Aug 20 post states AgentCore Memory extracts memories from non-conversational JSON payloads (behavioral events, logs, system events up to 100KB).",
+      "subject_id": "agentcore-memory-json",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-3be071fbc85f9159"
+      ],
+      "context": "Post body in captured bytes (1.1KB text)."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "JSON payloads feed the same extraction pipeline across all four strategies (semantic, preference, summarization, episodic) in all Memory regions.",
+      "subject_id": "agentcore-memory-json",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-3be071fbc85f9159"
+      ],
+      "context": "Capability scope in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Behavioral/quality effects undescribed beyond the feature statement.",
+      "subject_id": "agentcore-memory-json",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-3be071fbc85f9159"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "AWS's official What's New page dated Aug 20 describes AgentCore Memory accepting structured non-conversational JSON payloads for memory extraction. It is a distinct service capability lead.",
+        "status": "VERIFIED",
+        "finding": "Captured AWS post confirms structured non-conversational JSON memory extraction as a distinct capability lead.",
+        "subject_ids": [
+          "agentcore-memory-json"
+        ],
+        "source_ids": [
+          "supplement-src-3be071fbc85f9159"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

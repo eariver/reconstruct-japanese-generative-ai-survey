@@ -1,0 +1,74 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d94694a20515367b",
+  "discovery_ids": [
+    "w34-event-arxiv-2608-15531"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.15531",
+      "metadata": {
+        "arxiv_id": "2608.15531",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.DC"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SNAPSHOT",
+        "deterministic_prefilter_hit": true,
+        "deterministic_score": 11,
+        "discovery_only": true,
+        "duplicate_relationship": null,
+        "event_level_discovery_id": "w34-event-arxiv-2608-15531",
+        "event_level_expansion": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-discovery-gapfill-after-sol-review-r1",
+        "iterative_evidence_priority": true,
+        "lane": "inference_serving",
+        "matched_term_groups": [
+          "inference_serving",
+          "language_models",
+          "memory_context"
+        ],
+        "primary_category": "cs.DC",
+        "provider": "arXiv",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-gapfill-arxiv-triage-2608-15531",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "triage_bucket": "SEMANTIC_SHORTLIST",
+        "updated_at": "2026-08-16T04:57:39Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-08T00:51:52Z",
+      "published_at": "2026-08-16T04:57:39Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-dc.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Abstract-level arXiv Discovery lead (2608.15531) in lane inference_serving. Discovery triage only: matched=inference_serving,language_models,memory_context; title_matches=inference_serving,language_models,memory_context; score=11. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Low-bit quantization reduces the memory footprint and computational cost of large language model (LLM) inference. However, high-magnitude outlier weights can induce substantial quantization errors and degrade model accuracy. Outlier-aware quantization addresses this issue by retaining outliers in high precision while quantizing the remaining weights, resulting in a low-bit dense GEMM path and a high-precision sparse SpMM path. Existing implementations execute these paths in separate GPU kernels, despite their shared activations and outputs, thereby missing opportunities for intra-operator reus",
+      "title": "FlashQuant: Sparse-Dense Fusion for Memory-Efficient Outlier-Aware LLM Inference"
+    }
+  ],
+  "verification_targets": [
+    "Abstract-level arXiv Discovery lead (2608.15531) in lane inference_serving. Discovery triage only: matched=inference_serving,language_models,memory_context; title_matches=inference_serving,language_models,memory_context; score=11. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Low-bit quantization reduces the memory footprint and computational cost of large language model (LLM) inference. However, high-magnitude outlier weights can induce substantial quantization errors and degrade model accuracy. Outlier-aware quantization addresses this issue by retaining outliers in high precision while quantizing the remaining weights, resulting in a low-bit dense GEMM path and a high-precision sparse SpMM path. Existing implementations execute these paths in separate GPU kernels, despite their shared activations and outputs, thereby missing opportunities for intra-operator reus"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-arxiv-2608-15531",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "inference_serving"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-c7c889003ec5824a"
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d070ce13e20b4668",
+  "basis": {
+    "task_sha256": "b159ca1fd53eae55050bc2dd8927fc85ee0fd88fe835d67641462cd987d31fbd",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "openrouter-stripe",
+      "canonical_name": "OpenRouter joining Stripe",
+      "entity_type": "PRODUCT",
+      "organization": "Stripe / OpenRouter",
+      "canonical_url": "https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openrouter-stripe",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "OpenRouter joining Stripe",
+    "canonical_url": "https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-e0c17bab514e1ccf",
+      "url": "https://openrouter.ai/blog/announcements/openrouter-is-joining-stripe/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openrouter.ai/blog/announcements/openrouter-is-joining-stripe/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:01Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-f4e265faad45f3c9",
+      "url": "https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://stripe.com/newsroom/news/stripe-agrees-to-acquire-openrouter",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:56:00Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Stripe's Aug 19 newsroom post states it agreed to acquire OpenRouter, a model gateway/routing platform.",
+      "subject_id": "openrouter-stripe",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e0c17bab514e1ccf",
+        "supplement-src-f4e265faad45f3c9"
+      ],
+      "context": "First-party announcement text."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "OpenRouter's companion post states it will continue operating with the same mission, name, product, and roadmap, and cites 10+ trillion tokens/day across 400+ models.",
+      "subject_id": "openrouter-stripe",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e0c17bab514e1ccf",
+        "supplement-src-f4e265faad45f3c9"
+      ],
+      "context": "Company-reported scale figures; not independently audited in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Transaction price/terms are not stated on either first-party page; widely reported $7-8B figures are press-reported and were not consumed as facts.",
+      "subject_id": "openrouter-stripe",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e0c17bab514e1ccf",
+        "supplement-src-f4e265faad45f3c9"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Gateway scale figures (tokens/day, model counts) are company-reported without disclosed methodology in captured bytes.",
+      "subject_id": "openrouter-stripe",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e0c17bab514e1ccf",
+        "supplement-src-f4e265faad45f3c9"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Confirmed transaction/integration event; model gateway scale and routing economics are technically relevant.",
+        "status": "VERIFIED",
+        "finding": "Both first-party bodies confirm the Aug 19 transaction/integration event; model-gateway scale and routing-economics context confirmed as company-reported.",
+        "subject_ids": [
+          "openrouter-stripe"
+        ],
+        "source_ids": [
+          "supplement-src-e0c17bab514e1ccf",
+          "supplement-src-f4e265faad45f3c9"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

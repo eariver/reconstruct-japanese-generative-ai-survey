@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:0221bb0370677d0b",
+  "basis": {
+    "task_sha256": "02f4611393e1260abe25618b1b2ace51b6d49bfa51c1d2216e68ebf4d72bec18",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "runway-mcp-workflows",
+      "canonical_name": "Runway MCP Workflow Support",
+      "entity_type": "PRODUCT",
+      "organization": "Runway",
+      "canonical_url": "https://runway.com/changelog"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "runway-mcp-workflows",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Runway MCP Workflow Support",
+    "canonical_url": "https://runway.com/changelog"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-e1b4053303504ce3",
+      "url": "https://runway.com/changelog",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://runway.com/changelog",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:56Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured changelog entry 'Aug 20, 2026 All Plans Workflow Support in Runway MCP' states agents can list, open, tweak, and run workspace workflows from chat.",
+      "subject_id": "runway-mcp-workflows",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e1b4053303504ce3"
+      ],
+      "context": "Dated entry in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "No Wan 3.0 availability claim appears in the captured changelog entries; the post-cutoff Wan integration is a separate event.",
+      "subject_id": "runway-mcp-workflows",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-e1b4053303504ce3"
+      ],
+      "context": "Absence observation in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Agent-workflow quality/limits are undescribed in the changelog entry.",
+      "subject_id": "runway-mcp-workflows",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e1b4053303504ce3"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Workflow Support in Runway MCP lets agents list, open, tweak, and run workflows; separate from post-cutoff Wan 3.0 availability.",
+        "status": "VERIFIED",
+        "finding": "Captured Runway body confirms MCP workflow list/open/tweak/run support, separated from post-cutoff Wan 3.0 availability per target.",
+        "subject_ids": [
+          "runway-mcp-workflows"
+        ],
+        "source_ids": [
+          "supplement-src-e1b4053303504ce3"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

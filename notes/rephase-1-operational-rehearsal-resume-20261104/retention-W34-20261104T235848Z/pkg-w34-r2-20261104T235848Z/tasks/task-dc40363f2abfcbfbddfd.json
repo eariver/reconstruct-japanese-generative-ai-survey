@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:279c16d2e6f48edc",
+  "discovery_ids": [
+    "w34-event-refresh-arxiv-arxiv-sec-opd"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.21500",
+      "metadata": {
+        "arxiv_id": "2608.21500",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.CR",
+          "cs.AI"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SUMMARY",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-refresh-arxiv-arxiv-sec-opd",
+        "event_level_expansion": true,
+        "exact_http_bytes_preserved": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-architecture-r2-research-sufficiency-revision-r1",
+        "iterative_evidence_priority": true,
+        "lane": "agent security / prompt injection",
+        "primary_category": "cs.CR",
+        "provider": "arXiv",
+        "refresh_note": "The Atom response is a broad category sweep. The abstract is a Discovery lead only; paper-level Evidence and significance remain for Sol/Luna review.",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-refresh-arxiv-sec-opd",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "updated_at": "2026-08-21T16:14:07Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-07T16:11:21Z",
+      "published_at": "2026-08-21T16:14:07Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-cr.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Prompt injection is listed as the \\#1 threat to AI agents. When an agent accesses external data from websites, files, or emails, an attacker may inject a prompt into the data, saying, \"Ignore all prior instructions and perform <an attacker's task>.\" To prevent arbitrary manipulation of agents, defenders try to train secure LLMs, which, however, still suffer from near 100% attack success rates (ASRs) against adaptive prompt injections. We note that this is because existing defensive finetuning recipes rely on sequence-level feedback signals (in DPO or GRPO). Treating an entire output equally prevents the model from learning precisely which output tokens are insecure. In this paper, we propose Secure On-Policy Distillation (SecOPD) that provides token-level feedback to guide defensive fine-tuning. The LLM receives an injected sample and produces a rollout, whose tokens are scored by the initialization model given the corresponding clean input. With more fine-grained training signals, our defended Qwen3.6-27B achieves a 9.0% ASR against the SoTA PISmith adaptive prompt injections, compared to 94.0% for the prior SoTA, Meta-SecAlign. The obtained security generalizes to domains completely unseen in training: in agentic tool calling, SecOPD achieves a 4.7% ASR compared to 5.5% for Meta-SecAlign. Code and the model are available at https://github.com/pppyb/SecOPD and https://huggingface.co/pybbb/Qwen3.6-27B-SecOPD.",
+      "title": "SecOPD: Mitigating Adaptive Prompt Injections by On-Policy Distillation"
+    }
+  ],
+  "verification_targets": [
+    "Prompt injection is listed as the \\#1 threat to AI agents. When an agent accesses external data from websites, files, or emails, an attacker may inject a prompt into the data, saying, \"Ignore all prior instructions and perform <an attacker's task>.\" To prevent arbitrary manipulation of agents, defenders try to train secure LLMs, which, however, still suffer from near 100% attack success rates (ASRs) against adaptive prompt injections. We note that this is because existing defensive finetuning recipes rely on sequence-level feedback signals (in DPO or GRPO). Treating an entire output equally prevents the model from learning precisely which output tokens are insecure. In this paper, we propose Secure On-Policy Distillation (SecOPD) that provides token-level feedback to guide defensive fine-tuning. The LLM receives an injected sample and produces a rollout, whose tokens are scored by the initialization model given the corresponding clean input. With more fine-grained training signals, our defended Qwen3.6-27B achieves a 9.0% ASR against the SoTA PISmith adaptive prompt injections, compared to 94.0% for the prior SoTA, Meta-SecAlign. The obtained security generalizes to domains completely unseen in training: in agentic tool calling, SecOPD achieves a 4.7% ASR compared to 5.5% for Meta-SecAlign. Code and the model are available at https://github.com/pppyb/SecOPD and https://huggingface.co/pybbb/Qwen3.6-27B-SecOPD."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-refresh-arxiv-arxiv-sec-opd",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "agent-security",
+          "prompt-injection"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-1249097d66e38708"
+  ]
+}

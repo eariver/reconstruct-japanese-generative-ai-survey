@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:2cd0930cf46eb97d",
+  "basis": {
+    "task_sha256": "cfa8435df59289361850ad0f464d9902004927767562224d3e9cf59b20dcf251",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.23611",
+      "canonical_name": "REFINE: A Multi-Agent LLM Approach for Evidence-Guided Code Refactoring",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.23611"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.23611",
+    "artifact_type": "PAPER",
+    "canonical_name": "REFINE: A Multi-Agent LLM Approach for Evidence-Guided Code Refactoring",
+    "canonical_url": "https://arxiv.org/abs/2608.23611"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-253a1edf981e40d2",
+      "url": "https://arxiv.org/abs/2608.23611",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.23611",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:41:35Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"REFINE: A Multi-Agent LLM Approach for Evidence-Guided Code Refactoring\" proposes Vidence-Guided Code Refactoring Title: Content selection saved.",
+      "subject_id": "paper-2608.23611",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-253a1edf981e40d2"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Prior empirical work evaluates LLM refactoring using combinations of code-smell reduction, static quality metrics, and unit-test success [ 6 ] , while recent repository-level benchmarks emphasize compilation, test execution, and automated refactoring detection as stronger validat",
+      "subject_id": "paper-2608.23611",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-253a1edf981e40d2"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): V-E Implications for Research and Practice For researchers, these results suggest that future evaluations of LLM-based refactoring should move beyond aggregate improvement scores.",
+      "subject_id": "paper-2608.23611",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-253a1edf981e40d2"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.23611",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-253a1edf981e40d2"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.23611",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-253a1edf981e40d2"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.23611",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-253a1edf981e40d2"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Large Language Models (LLMs) offer new opportunities for automated code refactoring. However, generated changes must reduce targeted quality problems without introducing new issues or altering behaviour-relevant code structures. We introduce REFINE (Refactoring with Evidence-aware Flow for Integrated ageNtic Execution), a tool-agnostic, evidence-aware multi-agent approach for generating Java file-level refactoring candidates. REFINE combines static-analysis-guided smell identification, smell-informed planning, LLM-based transformation, automated re-analysis, preservation checks, and structured reporting. We evaluate REFINE on 450 Java files from 15 open-source systems, producing 1,350 model-pass outputs using OpenAI GPT-5.5, Google Gemini 3.1 Pro Preview, and Anthropic Claude Opus 4.8. REFINE reduces detected code smells by 68.26%, 72.79%, and 68.49% across the three configurations, respectively, with the strongest reductions observed for major smells. A matched 150-file direct-prompt baseline shows that REFINE achieves a higher median code-smell reduction with smaller edits and fewer public-method removals. However, broader quality improvements are inconsistent, and preservation checks reveal residual risks, including assert/fail-call changes and public-method removal. Therefore, REFINE outputs should be treated as refactoring candidates requiring compilation, testing, dependency analysis, and human review before adoption in repository- or system-level settings.",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.23611"
+        ],
+        "source_ids": [
+          "supplement-src-253a1edf981e40d2"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:43af0ba4ffb35eec",
+  "basis": {
+    "task_sha256": "420bd02bacfb2ab6dbf77e9f683e22a1fd796097a714573e2d5aea96b4dd738c",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.19009",
+      "canonical_name": "Grading the Graders: Verification Autonomy Levels (L0-L5) for LLM Reasoning",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.19009"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.19009",
+    "artifact_type": "PAPER",
+    "canonical_name": "Grading the Graders: Verification Autonomy Levels (L0-L5) for LLM Reasoning",
+    "canonical_url": "https://arxiv.org/abs/2608.19009"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-fbce79e969a45b09",
+      "url": "https://arxiv.org/pdf/2608.19009",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv PDF body for 2608.19009 (HTML conversion unavailable; text extracted via pdftotext for inspection)",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:54:44Z",
+      "role": "Post-Screening exact authority supplement: primary paper PDF body; HTML full-text conversion unavailable so PDF was retrieved and text-extracted for method/evaluation/results inspection"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Grading the Graders: Verification Autonomy Levels (L0-L5) for LLM Reasoning\" proposes Examples of the\ncorrect form: solveset over \"polynomial equations of degree ≤ 4 with real coefficients\" (checkable before\nsolving); an Alvarado score over \"a record with all eight MANTRELS fields present and\nnumeric/boolean\"; a borrow checker over \"a term parseable in the surface",
+      "subject_id": "paper-2608.19009",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-fbce79e969a45b09"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: M³-\nSafetyBench [11] evaluates models across content- and functional-safety dimensions with a 170k-item\nbenchmark.",
+      "subject_id": "paper-2608.19009",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-fbce79e969a45b09"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): The mathematics negative result is bounded by a ceiling effect: a 20/20 baseline leaves\nno accuracy headroom, so the result supports only \"no headroom on in-distribution problems,\"\nnot \"verification cannot improve accuracy in general.\" We do not compare against published\nverifica",
+      "subject_id": "paper-2608.19009",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-fbce79e969a45b09"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.19009",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-fbce79e969a45b09"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.19009",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-fbce79e969a45b09"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv PDF text extraction exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.19009",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-fbce79e969a45b09"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.19009) in lane language_models. Discovery triage only: matched=developer_systems,evaluation,language_models,training_methods; title_matches=language_models,training_methods; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Large language models (LLMs) are increasingly paired with verifiers (step checkers, self-consistency filters, tool-based fact checkers, formal proof assistants) that claim to detect the model's errors. Yet the verification literature uses the word \"level\" to mean at least five different things: verification granularity, concept abstraction, risk tier, system-stack layer, and the epistemic source of the ground truth. We propose Verification Autonomy Levels (VAL), a meta-standard that classifies any verification scheme along a single axis: where does the verification spec come from, and what doe",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv PDF text extraction confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.19009"
+        ],
+        "source_ids": [
+          "supplement-src-fbce79e969a45b09"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

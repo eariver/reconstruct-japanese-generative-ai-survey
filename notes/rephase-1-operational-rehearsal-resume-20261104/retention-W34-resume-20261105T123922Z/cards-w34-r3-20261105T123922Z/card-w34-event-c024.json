@@ -1,0 +1,124 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:eb3686f53ea63bcc",
+  "basis": {
+    "task_sha256": "e85e05378af70efca0397bad1cee55e923395409482cc36509c2372171e88732",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "grok-4-6-gemini-enterprise",
+      "canonical_name": "Grok 4.6 on Gemini Enterprise Agent Platform",
+      "entity_type": "PRODUCT",
+      "organization": "Google Cloud / xAI",
+      "canonical_url": "https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "grok-4-6-gemini-enterprise",
+    "artifact_type": "INTEGRATION",
+    "canonical_name": "Grok 4.6 on Gemini Enterprise Agent Platform",
+    "canonical_url": "https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-0e6966e978244464",
+      "url": "https://x.ai/news/grok-4-6",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://x.ai/news/grok-4-6",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:50Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-86b6148adcc801bc",
+      "url": "https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://cloud.google.com/vertex-ai/generative-ai/docs/partner-models/grok",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:48Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Google Cloud docs list Grok 4.6 as a partner model on the Enterprise Agent Platform/Model Garden surface.",
+      "subject_id": "grok-4-6-gemini-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0e6966e978244464",
+        "supplement-src-86b6148adcc801bc"
+      ],
+      "context": "Docs body in captured bytes."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "xAI's announcement describes the same Model Garden availability with 500K context and configurable reasoning.",
+      "subject_id": "grok-4-6-gemini-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0e6966e978244464",
+        "supplement-src-86b6148adcc801bc"
+      ],
+      "context": "xAI post in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Dated Aug 21 xAI release-notes corroboration for the Vertex listing was observed via release tracking, not captured as bytes; exact listing date precision is limited to the captured docs content.",
+      "subject_id": "grok-4-6-gemini-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-0e6966e978244464",
+        "supplement-src-86b6148adcc801bc"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Base model pre-window; only platform distribution is the W34 delta.",
+      "subject_id": "grok-4-6-gemini-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-0e6966e978244464",
+        "supplement-src-86b6148adcc801bc"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Clean W34 distribution delta distinct from base model launch.",
+        "status": "UNRESOLVED",
+        "finding": "Distribution content VERIFIED in captured first-party bodies (distinct from pre-window base); Aug 21 listing-version date precision remains UNRESOLVED (observed via release tracking, not captured as bytes). No week-eligibility upgrade claimed.",
+        "subject_ids": [
+          "grok-4-6-gemini-enterprise"
+        ],
+        "source_ids": [
+          "supplement-src-0e6966e978244464",
+          "supplement-src-86b6148adcc801bc"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Clean W34 distribution delta distinct from base model launch.: Distribution content VERIFIED in captured first-party bodies (distinct from pre-window base); Aug 21 listing-version date precision remains UNRESOLVED (observed via release tracking, not captured as bytes). No week-eligibility upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

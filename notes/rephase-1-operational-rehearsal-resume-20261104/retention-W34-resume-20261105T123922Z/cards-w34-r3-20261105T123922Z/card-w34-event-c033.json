@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:b25c912f0774b778",
+  "basis": {
+    "task_sha256": "27cde993676eeef8db663be6bf59fc9997703ffc0f7b3984f1641070692fd036",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "NEEDS_MORE",
+  "entities": [
+    {
+      "entity_id": "openrouter-rankings",
+      "canonical_name": "OpenRouter rankings/benchmarks surface",
+      "entity_type": "PRODUCT",
+      "organization": "OpenRouter",
+      "canonical_url": "https://openrouter.ai/rankings"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openrouter-rankings",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "OpenRouter rankings/benchmarks surface",
+    "canonical_url": "https://openrouter.ai/rankings"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-10ca4b388a80845d",
+      "url": "https://openrouter.ai/rankings",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openrouter.ai/rankings",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:05:09Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "A rankings page was captured (1.8MB) but extracted text states rankings do not rank models by accuracy/reasoning/benchmark performance and points to a separate Benchmarks section.",
+      "subject_id": "openrouter-rankings",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-10ca4b388a80845d"
+      ],
+      "context": "Captured-byte observation; the benchmark section itself is not in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "The '39 image models over challenging prompts with price/time display' claim and OpenRouter's evaluation methodology are not present in captured bytes; the page renders client-side.",
+      "subject_id": "openrouter-rankings",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-10ca4b388a80845d"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "No finding on methodology framing is possible until the Benchmarks section is captured.",
+      "subject_id": "openrouter-rankings",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-10ca4b388a80845d"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "39 image models over challenging prompts with price/time display; evaluation methodology must be framed as OpenRouter's benchmark.",
+        "status": "UNRESOLVED",
+        "finding": "Evaluation methodology cannot be framed as OpenRouter's benchmark from captured bytes; rankings shell confirms the surface exists but not the 39-model image evaluation.",
+        "subject_ids": [
+          "openrouter-rankings"
+        ],
+        "source_ids": [
+          "supplement-src-10ca4b388a80845d"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "39 image models over challenging prompts with price/time display; evaluation methodology must be framed as OpenRouter's benchmark.: Evaluation methodology cannot be framed as OpenRouter's benchmark from captured bytes; rankings shell confirms the surface exists but not the 39-model image evaluation."
+    ],
+    "contradictions": []
+  }
+}

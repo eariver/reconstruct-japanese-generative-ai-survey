@@ -1,0 +1,46 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:1249d127cabfe78e",
+  "discovery_ids": [
+    "EFF-D075"
+  ],
+  "source_records": [
+    {
+      "source_type": "SECONDARY_REFERENCE",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "DeepSeek-V4-Flash provider page (specs + throughput)",
+      "locator": "https://lambda.ai/inference-models/deepseek-ai/deepseek-v4-flash",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-capstones-2026.md"
+      ],
+      "published_at": "2026-04-27",
+      "summary_text": "284B/13B, mHC, Muon 32T, FP4+FP8; provider-measured throughput; rebind at Evidence. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "cap",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "provider measurement conditions"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D075",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "capstone-2026",
+          "moe-routing",
+          "serving"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "single_use": "r4 correction delta (machine, data-only, no project imports, no Git, no network, no active writes). Replaces ONLY wrong digests tied to durable bytes/manifest/sidecar; preserves semantic scope; discloses 17/17 failure; reports unresolved r4-manifest mismatches (NOT fixed, do NOT edit r4 harness/plans).",
+  "preservation": "Old r2 supplement 1abf563c... + r2 input ed56f6fd... + r2 delta 4f37f830... + r3 plan/harness/observation + r4 harness/manifest/note preserved untouched. NEW r4 supplement/input/verification/delta are separate files; no active writes; no Raw staged; no imports/runtime.",
+  "failed_17_17_claim": {
+    "claim": "Independent r2 findings provenance.new_17_match_captures=true (17/17) + r2 review \u00a72 (13 old + 17 NEW verified)",
+    "reality": "16/17 NEW match packet (D123 65-char malformed does NOT match true 64-char). 13/13 old match. Total 29/30 match r2 supplement; 30/30 match true expected manifest + packet + sidecar.",
+    "second_miss": "O05 rationale 63-char vLLM embedded (missing 0) also missed (found in r4 scrutiny, fixed transparently).",
+    "disclosure": "Original 17/17 claim FAILED. Preserved as evidence; r4 correction replaces ONLY wrong digests, not source identity."
+  },
+  "supplement_correction": {
+    "base_old_path": "notes/rephase-1-operational-rehearsal-resume-20261104/sp-corrected-supplement-r2-20261104.json",
+    "base_old_bytes": 31282,
+    "base_old_sha256": "1abf563ca995fabccb77d6a26d7ef6af955126effdaf60bb7555f2033bc56f55",
+    "new_corrected_path": "notes/rephase-1-operational-rehearsal-resume-20261104/sp-corrected-supplement-r4-20261104.json",
+    "new_corrected_bytes": 31278,
+    "new_corrected_sha256": "1221d293b121977d8fe4ce086e9fb09a2c4b296c1d50bcbcda3705ec997b5db7",
+    "exact_changes": [
+      {
+        "discovery_id": "EFF-D123",
+        "field": "raw_sha256",
+        "old_len": 65,
+        "old": "0cfdda19c8e1691b5226dd0fd4949e2397051268e8a823c2fb61db94ea20c4ac0",
+        "new_len": 64,
+        "new": "0cfdda19c8e1691b5226dd0d4949e2397051268e8a823c2fb61db94ea20c4ac0",
+        "bytes_preserved": 1663475,
+        "identity_preserved": "locator https://arxiv.org/pdf/2609.19969v1, source_type/class PRIMARY_PAPER, title, published_at 2026-09-17T09:43:10Z, accessed_at, raw_path, byte_count, supplement_source_id, evidence_task_id unchanged. ONLY digest corrected."
+      },
+      {
+        "discovery_id": "EFF-D123",
+        "field": "relation (embedded digest suffix)",
+        "old_len": 65,
+        "old_embedded": "0cfdda19c8e1691b5226dd0fd4949e2397051268e8a823c2fb61db94ea20c4ac0",
+        "new_len": 64,
+        "new_embedded": "0cfdda19c8e1691b5226dd0d4949e2397051268e8a823c2fb61db94ea20c4ac0",
+        "note": "Same root cause (extra f); wording preserved, ONLY digest corrected."
+      }
+    ],
+    "other_29_rows_unchanged": true,
+    "tie": "Acquisition manifest did_map sp09 v1 2026-09-17 + sidecar sp09-body.sha256.txt 0cfdda19...0d4949... 64-char + sidecar bytes 1663475 + durable DATA.sp09-v41-v1.pdf 1663475B true 64-char + expected manifest true 64-char. Agreement, not reseal. If disagreement, STOP (not the case)."
+  },
+  "input_correction_transparent": {
+    "base_old_path": "notes/rephase-1-operational-rehearsal-resume-20261104/sp-corrected-input-r2-20261104.json",
+    "base_old_bytes": 355386,
+    "base_old_sha256": "ed56f6fdb645c8c35dc95312106737a3fd2ce41c538b89e2f6372a53fed4e97c",
+    "new_corrected_path": "notes/rephase-1-operational-rehearsal-resume-20261104/sp-corrected-input-r4-20261104.json",
+    "new_corrected_bytes": 355386,
+    "new_corrected_sha256": "0ee3187eb3850fd79060556bc03cfbe4634365efbf33f47cdacd119d0b7c2a89",
+    "semantic_scope_preserved": "r2 semantic (5 CONTEXT + O05 LIMITATION, 10 papers/PR/HF MATERIAL, 160/15, overall LIMITED) unchanged; status/materiality/claims/bindings/closure identical. ONLY 2 embedded digest strings corrected.",
+    "exact_changes": [
+      {
+        "location": "records[EFF-D123].verification[0].finding",
+        "old_len": 65,
+        "old": "0cfdda19c8e1691b5226dd0fd4949e2397051268e8a823c2fb61db94ea20c4ac0",
+        "new_len": 64,
+        "new": "0cfdda19c8e1691b5226dd0d4949e2397051268e8a823c2fb61db94ea20c4ac0",
+        "note": "Body v1 pin suffix; scope/section/arch/appendix-map wording preserved."
+      },
+      {
+        "location": "completeness.obligations[EFF-O05].rationale DSpark vLLM pin",
+        "old_len": 63,
+        "old": "fa61427e75ee14b172bc56ce79e46179e1a6c906fad4142625c4aeea7d908c2",
+        "new_len": 64,
+        "new": "fa61427e75ee14b172bc56ce79e46179e1a6c906fad4142625c4a0eea7d908c2",
+        "note": "Missing 0 restored (5c4aeea -> 5c4a0eea); O05 LIMITATION + decoding-only per-body wording preserved."
+      }
+    ],
+    "new_embedded_malformed_count": 0
+  },
+  "true_binding_summary": {
+    "thirteen_existing_active": "13/13 match (bytes+SHA+mode 0o664+islink false, hex64 valid)",
+    "seventeen_captured_packet_true": "17/17 match true expected manifest (bytes+SHA hex64 valid)",
+    "r2_supplement_vs_packet": "16/17 match (D123 65-char malformed does NOT match); r4 supplement 17/17 match true",
+    "new_files_embedded_malformed": "0 (40-char dba1be0a... in D030 relation is valid Git commit, allowed)",
+    "task_DID_ids": "30/30 task IDs match sha256(DID)[:16] via stdlib; 30/30 supp IDs valid unique 16-hex; patched 17 bindings match ids.json; input 160 IDs match screening non-DROP 160",
+    "verification_file": {
+      "path": "notes/rephase-1-operational-rehearsal-resume-20261104/sp-true-binding-verification-r4-20261104.json",
+      "bytes": 24346,
+      "sha256": "9f412fffde06bd3bd4656e7a25ad2dd5240a2501c03ab7dee684041b007bdce0"
+    }
+  },
+  "unresolved_mismatches_r4_manifest_NOT_fixed": {
+    "note": "r4 expected manifest (initial plan) contains 5 wrong pins vs real active files (found in r4 scrutiny). Do NOT edit r4 harness/plans per instruction; report ONLY. Real State/contract/pins in r3 corrected machine bind real files.",
+    "mismatches": [
+      {
+        "field": "original_expected_authority.contract_pipeline_sha256",
+        "expected_manifest_value": "3adfbda22131ec8eff867aef2ebb2f346f884371c4ea8343e9062392eabd5",
+        "expected_len": 61,
+        "real_state_contract_pipeline_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+        "real_len": 64,
+        "real_source": "sources/SP-efficient-llm-2026/production-state.json contract.pipeline_contract_sha256 (real file, NEW r3 machine 64-char valid)",
+        "disposition": "REPORT ONLY, do NOT fix by reseal; harness must bind real State file at operation time, not manifest copy."
+      },
+      {
+        "field": "original_expected_authority.supplement_r1_sha256",
+        "expected_manifest_value": "6e1ae0cb2d5671655dddd46d082706b1f590f48a0b2fd027fe874f7385971608a",
+        "expected_len": 65,
+        "real_file_sha256": "6e1ae0cb2d5671655dddd46d0826901b590f48a0b2fd027fe874f7385971608a",
+        "real_len": 64,
+        "real_source": "sources/SP-efficient-llm-2026/external/evidence-supplement/evidence-authority-supplement-r1-fresh-basis.json 12871B (real file, 13/13 rehash match)",
+        "disposition": "REPORT ONLY."
+      },
+      {
+        "field": "original_expected_authority.accepted_evidence_sha256",
+        "expected_manifest_value": "9c2543191e78a1b8e005e46f0ead9c5a20470a28406f0fd10b58fb8829c46e18",
+        "expected_len": 64,
+        "real_file_sha256": "9c2543191e78a1b8e005e46f0ead9c5a10470a28406f0fd10b58fb8829c46e18",
+        "real_len": 64,
+        "real_bytes": 49241,
+        "disposition": "REPORT ONLY (wrong byte 2 vs 1; real file binds)."
+      },
+      {
+        "field": "original_expected_authority.accepted_package_sha256",
+        "expected_manifest_value": "34f81e563b2f8c3d43dde42bf58a4be295295746dc0add7c6025059aefd0",
+        "expected_len": 60,
+        "real_file_sha256": "34f81e563b2f8c3d43dde42bf58a4be0152955237466dc0add7c6025059aefd0",
+        "real_len": 64,
+        "real_bytes": 48671,
+        "disposition": "REPORT ONLY (truncated 60-char; real file binds)."
+      },
+      {
+        "field": "original_expected_authority.accepted_views_sha256",
+        "expected_manifest_value": "7a205de1010da647fd8d9af9a8b029da461faae68be4501d0406b3b116ee2a4f",
+        "expected_len": 64,
+        "real_file_sha256": "7a205de1010da647fd8d9af9a8b029da461faae68be4501d0406d3b116ee2a4f",
+        "real_len": 64,
+        "real_bytes": 64227,
+        "disposition": "REPORT ONLY (b vs d byte; real file binds)."
+      }
+    ],
+    "action": "No active fix; r4 harness must bind real files at operation time (re-read + hex64 + bytes/mode/identity per plan r3 B3/B4), never manifest copies. If harness binds manifest copies, STOP."
+  }
+}

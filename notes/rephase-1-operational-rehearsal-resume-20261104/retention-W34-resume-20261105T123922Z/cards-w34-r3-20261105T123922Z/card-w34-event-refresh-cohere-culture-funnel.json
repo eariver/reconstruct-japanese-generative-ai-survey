@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:7541a55d75f4da58",
+  "basis": {
+    "task_sha256": "9ea4757c2193f8d0f2d526ccbe2ae6c9e9a7b62014f5ce55ba91c35d919e843a",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "cohere-culture-funnel",
+      "canonical_name": "The Culture Funnel",
+      "entity_type": "PRODUCT",
+      "organization": "Cohere",
+      "canonical_url": "https://cohere.com/blog/the-culture-funnel-you-cant-align-what-isnt-in-the-data"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "cohere-culture-funnel",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "The Culture Funnel",
+    "canonical_url": "https://cohere.com/blog/the-culture-funnel-you-cant-align-what-isnt-in-the-data"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-474667c0fe17b586",
+      "url": "https://cohere.com/blog/the-culture-funnel-you-cant-align-what-isnt-in-the-data",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://cohere.com/blog/the-culture-funnel-you-cant-align-what-isnt-in-the-data",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:13Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Cohere's Aug 19 post reports that post-training data loses cultural diversity (the 'cultural data funnel'), based on 5.6M+ training samples across pipeline stages.",
+      "subject_id": "cohere-culture-funnel",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-474667c0fe17b586"
+      ],
+      "context": "Maker-reported finding in captured full post (16.7KB)."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Finding is Cohere-reported without independent reproduction in captured bytes; dataset/method appendix depth unassessed here.",
+      "subject_id": "cohere-culture-funnel",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-474667c0fe17b586"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Index snapshot was the discovery lead; full post now consumed, but technical claim stays research-grade.",
+      "subject_id": "cohere-culture-funnel",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-474667c0fe17b586"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Cohere's official blog index lists this Aug 19 Research item and describes a finding that cultural diversity can be lost in post-training data mixes. The current index snapshot is a research lead, not an accepted technical claim.",
+        "status": "VERIFIED",
+        "finding": "Full post consumed: cultural-diversity-loss finding confirmed as stated; technical claim remains research-grade per target.",
+        "subject_ids": [
+          "cohere-culture-funnel"
+        ],
+        "source_ids": [
+          "supplement-src-474667c0fe17b586"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

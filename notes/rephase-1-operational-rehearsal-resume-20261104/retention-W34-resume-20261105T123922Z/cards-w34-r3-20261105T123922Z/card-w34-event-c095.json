@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:e11de99259163e0a",
+  "basis": {
+    "task_sha256": "c09b9ef057e8c9e60f41227674ee7a5b583b8c4063eb37f253993afa8def0d65",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "chatgpt-aug21-updates",
+      "canonical_name": "ChatGPT Aug 21 product-experience updates",
+      "entity_type": "PRODUCT",
+      "organization": "OpenAI",
+      "canonical_url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "chatgpt-aug21-updates",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "ChatGPT Aug 21 product-experience updates",
+    "canonical_url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": [
+      {
+        "event_id": "event-1",
+        "event_type": "SOURCE_PUBLICATION_OR_RELEASE",
+        "event_date": "2026-08-20T00:00:00Z",
+        "subject_id": "chatgpt-aug21-updates",
+        "subject_role": "PRIMARY_SUBJECT",
+        "source_ids": [
+          "supplement-src-744eb08a5deed17a"
+        ]
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-744eb08a5deed17a",
+      "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "OpenAI ChatGPT release notes (shared body)",
+      "published_at": "2026-08-20T00:00:00Z",
+      "accessed_at": "2026-09-08T23:00:00Z",
+      "role": "Post-Screening exact authority supplement: shared ChatGPT release-notes body (Aug 20 entry) covering Aug 21 product-experience updates; same bytes as c052 capture"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured Aug 21 notes entry lists improved plugin discovery, time-aware answers, faster long web conversations, and earlier interactive-content rendering.",
+      "subject_id": "chatgpt-aug21-updates",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-744eb08a5deed17a"
+      ],
+      "context": "Entry text spans in captured body (shared c052 bytes)."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Each sub-item is a release-note line, not a measured improvement; no metrics in captured bytes.",
+      "subject_id": "chatgpt-aug21-updates",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-744eb08a5deed17a"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Improved plugin discovery, more time-aware answers, faster long web conversations, and earlier interactive-content rendering; screen as a grouped product delta.",
+        "status": "VERIFIED",
+        "finding": "Grouped product delta confirmed as listed; screened as one grouped delta per target.",
+        "subject_ids": [
+          "chatgpt-aug21-updates"
+        ],
+        "source_ids": [
+          "supplement-src-744eb08a5deed17a"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

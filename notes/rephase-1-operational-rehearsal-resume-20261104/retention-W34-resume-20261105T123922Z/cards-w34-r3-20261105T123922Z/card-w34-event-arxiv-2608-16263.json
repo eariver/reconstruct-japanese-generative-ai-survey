@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:6415c949ec728709",
+  "basis": {
+    "task_sha256": "a950b2a8bb185ef73a6c8e3f11cc7983e1bd9d5745ec5e567da075fa20035240",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.16263",
+      "canonical_name": "Seeing Before Answering: Training-Free Visual Layer Profiling for Vision-Language Models",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.16263"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.16263",
+    "artifact_type": "PAPER",
+    "canonical_name": "Seeing Before Answering: Training-Free Visual Layer Profiling for Vision-Language Models",
+    "canonical_url": "https://arxiv.org/abs/2608.16263"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-2de8a251788cb7e4",
+      "url": "https://arxiv.org/abs/2608.16263",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.16263",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:35:48Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Seeing Before Answering: Training-Free Visual Layer Profiling for Vision-Language Models\" proposes Isual Layer Profiling for Vision-Language Models Title: Content selection saved.",
+      "subject_id": "paper-2608.16263",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-2de8a251788cb7e4"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: We focus on two training-free geometric signals from prior representation-analysis research: visual dataset entropy (VDE) [ 24 ] , a matrix-based entropy; and Gromov-Wasserstein (GW) distance between visual and language features [ 20 , 9 ] .",
+      "subject_id": "paper-2608.16263",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-2de8a251788cb7e4"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): The downstream accuracy curves show a stable high-performance region around Layers 22–27, with Layer 27 consistently outperforming the default Layer 26.",
+      "subject_id": "paper-2608.16263",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-2de8a251788cb7e4"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No public code/model artifact link was found in the inspected arXiv HTML full text sections; reproducibility cannot be confirmed from captured bytes.",
+      "subject_id": "paper-2608.16263",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-2de8a251788cb7e4"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.16263",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-2de8a251788cb7e4"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-3",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.16263",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-2de8a251788cb7e4"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.16263) in lane language_models. Discovery triage only: matched=evaluation,inference_serving,language_models,multimodal_media,retrieval_embeddings,safety_security; title_matches=language_models,multimodal_media; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: LLaVA-style Vision-Language Models (VLMs) pass visual tokens from a fixed late layer of the vision backbone, typically the penultimate one, to the language model. We first show that this hidden convention is fragile: across 2 VLMs and 7 image and video benchmarks, the default layer is sub-optimal in 13 of 14 model-task pairs, and the best layer shifts with both task and visual backbone. Finding that layer by exhaustive layer-wise inference is prohibitively expensive, and no better fixed default exists. We therefore ask whether layer usefulness can instead be predicted from representation geome",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.16263"
+        ],
+        "source_ids": [
+          "supplement-src-2de8a251788cb7e4"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

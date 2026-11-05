@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d14c84c73c800879",
+  "basis": {
+    "task_sha256": "c2b683497c5abdf5bcbe85a68db0f768786c78ed2ee7f5abc15bb3a547a80953",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "agentcore-policy-gateway",
+      "canonical_name": "AgentCore governed tool-access patterns",
+      "entity_type": "PRODUCT",
+      "organization": "AWS",
+      "canonical_url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy.html"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "agentcore-policy-gateway",
+    "artifact_type": "FRAMEWORK",
+    "canonical_name": "AgentCore governed tool-access patterns",
+    "canonical_url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy.html"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-1c25c5643865db39",
+      "url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy.html",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/policy.html",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:06:00Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "AWS Policy docs state gateway-intercepted evaluation of agent-tool traffic with NL-to-Cedar authoring, validation, and CloudWatch audit logging.",
+      "subject_id": "agentcore-policy-gateway",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1c25c5643865db39"
+      ],
+      "context": "Docs body in captured bytes (19KB page)."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Temporal/session-scoped rules and deterministic deny-by-default enforcement are documented as gateway-layer properties.",
+      "subject_id": "agentcore-policy-gateway",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1c25c5643865db39"
+      ],
+      "context": "Docs statements in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Docs describe steady-state platform properties, not a dated W34 release; the W34 delta is the observed enterprise-pattern currency, not a launch.",
+      "subject_id": "agentcore-policy-gateway",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1c25c5643865db39"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Merge into the AgentCore control-plane feature set is an editorial option, not a docs-stated fact.",
+      "subject_id": "agentcore-policy-gateway",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1c25c5643865db39"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Governed/auditable enterprise tool gateway patterns; may merge into AgentCore control-plane feature.",
+        "status": "VERIFIED",
+        "finding": "Governed/auditable enterprise tool-gateway patterns confirmed in captured AWS docs; control-plane merge left as editorial option per target.",
+        "subject_ids": [
+          "agentcore-policy-gateway"
+        ],
+        "source_ids": [
+          "supplement-src-1c25c5643865db39"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:c3ea314d06318632",
+  "discovery_ids": [
+    "w34-event-arxiv-2608-18261"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.18261",
+      "metadata": {
+        "arxiv_id": "2608.18261",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.AI",
+          "cs.LG"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SNAPSHOT",
+        "deterministic_prefilter_hit": true,
+        "deterministic_score": 12,
+        "discovery_only": true,
+        "duplicate_relationship": null,
+        "event_level_discovery_id": "w34-event-arxiv-2608-18261",
+        "event_level_expansion": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-discovery-gapfill-after-sol-review-r1",
+        "iterative_evidence_priority": true,
+        "lane": "evaluation",
+        "matched_term_groups": [
+          "evaluation",
+          "inference_serving",
+          "language_models",
+          "memory_context"
+        ],
+        "primary_category": "cs.AI",
+        "provider": "arXiv",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-gapfill-arxiv-triage-2608-18261",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "triage_bucket": "SEMANTIC_SHORTLIST",
+        "updated_at": "2026-08-18T19:23:32Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-08T00:51:52Z",
+      "published_at": "2026-08-18T19:23:32Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-ai.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Abstract-level arXiv Discovery lead (2608.18261) in lane evaluation. Discovery triage only: matched=evaluation,inference_serving,language_models,memory_context; title_matches=evaluation,inference_serving,memory_context; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Serving a 235B-parameter Mixture-of-Experts (MoE) model on a single 8 GB GPU is bottlenecked not by compute but by memory bandwidth: decode must stream each token's active experts from whichever tier holds them, and on consumer hardware most experts sit on an SSD far slower than RAM. We quantify this bandwidth wall on Qwen3-235B (Q4_K_M, 134 GB): measured decode is 0.44 tok/s warm, matching a bytes-per-token / bandwidth model, while a batching scheme that should amortize one disk sweep instead collapses at batch 32 from paging thrash. We build llama-moe-trace, a zero-surgery router-telemetry t",
+      "title": "Cacheable by Design? Training Mixture-of-Experts Routers for Locality Against the Edge Memory-Bandwidth Wall: A Pre-Registered Negative Result with a Systems Measurement Study"
+    }
+  ],
+  "verification_targets": [
+    "Abstract-level arXiv Discovery lead (2608.18261) in lane evaluation. Discovery triage only: matched=evaluation,inference_serving,language_models,memory_context; title_matches=evaluation,inference_serving,memory_context; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Serving a 235B-parameter Mixture-of-Experts (MoE) model on a single 8 GB GPU is bottlenecked not by compute but by memory bandwidth: decode must stream each token's active experts from whichever tier holds them, and on consumer hardware most experts sit on an SSD far slower than RAM. We quantify this bandwidth wall on Qwen3-235B (Q4_K_M, 134 GB): measured decode is 0.44 tok/s warm, matching a bytes-per-token / bandwidth model, while a batching scheme that should amortize one disk sweep instead collapses at batch 32 from paging thrash. We build llama-moe-trace, a zero-surgery router-telemetry t"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-arxiv-2608-18261",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "evaluation"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-1f4c22b963018655"
+  ]
+}

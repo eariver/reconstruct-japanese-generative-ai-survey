@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "ISSUE_INITIALIZED",
+  "to_state": "DISCOVERY_COLLECTED",
+  "checkpoints": [
+    "discovery"
+  ],
+  "recorded_at": "2026-11-01T11:00:23Z",
+  "implementation": {
+    "repository_commit_sha": "480823560c0c26ed2e5baa18e0e79a22b2839a27",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "discovery-acceptance",
+      "path": "sources/SP-efficient-llm-2026/discovery/discovery-accepted-v2.json",
+      "sha256": "2413dbe2f188ca2cde5d07ac07a749932b6536d41db2263b43cd3cd86924a856"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "General isolated-rehearsal deterministic stage validation (author, not independent reviewer)",
+      "evidence": "validate_stage PASS report sources/SP-efficient-llm-2026/orchestration/v2/stage-validation/ISSUE_INITIALIZED-report.json sha256 4922f9843b8d49bccdf4e9d8d04fc69eb75085534f9fc92a074dd00df6d79 on exact current bytes (log 13-stage-reports exit 0); independent SourceIntake content review tracked separately, BOUNDED PROCEED per packet review below",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/orchestration/v2/stage-validation/ISSUE_INITIALIZED-report.json",
+        "sha256": "4922f9843b8d49bccdf4e9d8d04fc69eb75085534e53f9fc92a074dd00df6d79"
+      }
+    },
+    {
+      "check_id": "SOURCE_INTAKE_SUPERVISORY_REVIEW",
+      "kind": "AGENT_RESEARCH",
+      "status": "PASS",
+      "executor": "General independent supervisory reviewer",
+      "evidence": "Independent SourceIntake BOUNDED PROCEED for SP-efficient-llm-2026 with explicit §5 residual Evidence targets retained; review file notes/rephase-1-operational-rehearsal-20261101/reviews/source-intake-review-20261101T104700Z.md sha256 1d46058ed53f322b62a9106b20ecfd85fbc69f9e7278e005b52ce9a744bf015a 38557B including CORR-20261101T11Z final-binding; executor General independent supervisory reviewer (not Sol/Astra/Human); no Gate decided, no semantic PASS given",
+      "result": null
+    }
+  ],
+  "summary": "Discovery acceptance validated (SP 165 DIRECT, 25 Raw bound) with COMPLETE X intake bound to fresh Profile; advancing ISSUE_INITIALIZED to DISCOVERY_COLLECTED after independent SourceIntake BOUNDED PROCEED (reviews/source-intake-review-20261101T104700Z.md 1d46058e/38557B, CORR-20261101T11Z final-binding; residuals retained as Evidence targets)."
+}

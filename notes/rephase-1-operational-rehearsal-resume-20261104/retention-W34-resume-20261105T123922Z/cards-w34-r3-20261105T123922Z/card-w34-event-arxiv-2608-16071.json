@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:887cad64677bb51b",
+  "basis": {
+    "task_sha256": "b6267a478f9b128b56fb0ad29dc4806dcfc87fbaee3df17dcf07560e129ee2fe",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.16071",
+      "canonical_name": "Skill2Query: Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.16071"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.16071",
+    "artifact_type": "PAPER",
+    "canonical_name": "Skill2Query: Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval",
+    "canonical_url": "https://arxiv.org/abs/2608.16071"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-e88545254ee75ac9",
+      "url": "https://arxiv.org/abs/2608.16071",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.16071",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:35:32Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Skill2Query: Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval\" proposes Learn more × License: arXiv.org perpetual non-exclusive license arXiv:2608.16071v1 [cs.CL] 17 Aug 2026 Skill2Query: Exploiting Skill Structure to Generate Pseudo-Queries for Agent Skill Retrieval CCS: Information systems Information retrieval query processing CCS: Information sys",
+      "subject_id": "paper-2608.16071",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e88545254ee75ac9"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: The heatmap illustrates the retrieval performance improvements of Skill2Query-generated training data compared with Few-shot LLM and SkillFlow-style methods across different datasets and evaluation metrics.",
+      "subject_id": "paper-2608.16071",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e88545254ee75ac9"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Skill2Query achieves superior parameter validity and functional coverage: Exec-Pass reaches 42.85 % 42.85\\% (improvements of 16.94 16.94 pp over Few-shot, 23.88 23.88 pp over Zero-shot, and 20.09 20.09 pp over SkillFlow-style).",
+      "subject_id": "paper-2608.16071",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e88545254ee75ac9"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.16071",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-e88545254ee75ac9"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.16071",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e88545254ee75ac9"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.16071",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e88545254ee75ac9"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.16071) in lane agents_tools. Discovery triage only: matched=agents_tools,evaluation,language_models,retrieval_embeddings; title_matches=agents_tools,retrieval_embeddings; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Pseudo-query generation can alleviate the supervision bottleneck for agent skill retrieval, but existing document-level approaches typically leave the rich internal relations among capabilities, parameters, and usage examples implicit. As a result, generated queries may be topically relevant to a skill while lacking capability grounding and parameter consistency, raising the question of whether explicitly exploiting a skill document's internal structure can produce more effective retrieval signals. We therefore propose Skill2Query, a framework that first parses a skill document into a Skill Kn",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.16071"
+        ],
+        "source_ids": [
+          "supplement-src-e88545254ee75ac9"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

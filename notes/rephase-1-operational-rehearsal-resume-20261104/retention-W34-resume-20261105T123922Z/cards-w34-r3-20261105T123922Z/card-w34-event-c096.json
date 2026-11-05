@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:ac31c38a016aad80",
+  "basis": {
+    "task_sha256": "43c2a480fe2c71bfbebd00c97efb332f7eff5da38988426ef0ac00b1d76a12b6",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "chatgpt-messages-plugin",
+      "canonical_name": "ChatGPT Apple Messages plugin",
+      "entity_type": "PRODUCT",
+      "organization": "OpenAI",
+      "canonical_url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "chatgpt-messages-plugin",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "ChatGPT Apple Messages plugin",
+    "canonical_url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": [
+      {
+        "event_id": "event-1",
+        "event_type": "SOURCE_PUBLICATION_OR_RELEASE",
+        "event_date": "2026-08-20T00:00:00Z",
+        "subject_id": "chatgpt-messages-plugin",
+        "subject_role": "PRIMARY_SUBJECT",
+        "source_ids": [
+          "supplement-src-40875f5b03808f54"
+        ]
+      }
+    ]
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-40875f5b03808f54",
+      "url": "https://help.openai.com/en/articles/6825453-chatgpt-release-notes",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "OpenAI ChatGPT release notes (shared body)",
+      "published_at": "2026-08-20T00:00:00Z",
+      "accessed_at": "2026-09-08T23:00:00Z",
+      "role": "Post-Screening exact authority supplement: shared ChatGPT release-notes body (Aug 20 Apple Messages plugin entry); same bytes as c052 capture"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured Aug 20 notes state the Apple Messages plugin in the macOS desktop app reads/searches iMessage, SMS, RCS and prepares/sends messages through Messages.",
+      "subject_id": "chatgpt-messages-plugin",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-40875f5b03808f54"
+      ],
+      "context": "Entry text in captured body (shared c052 bytes)."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Sending requires user approval of message and recipients by default, with persistent-approval risks documented.",
+      "subject_id": "chatgpt-messages-plugin",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-40875f5b03808f54"
+      ],
+      "context": "Approval statements in captured entry."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Apple-silicon-only and Work/Codex-only scope per secondary detail was not separately verified in captured notes bytes; scope claims stay entry-bounded and UNRESOLVED.",
+      "subject_id": "chatgpt-messages-plugin",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-40875f5b03808f54"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "No Apple endorsement; local-automation mechanism per secondary reporting, not captured first-party.",
+      "subject_id": "chatgpt-messages-plugin",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-40875f5b03808f54"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Apple-silicon macOS plugin can read/search iMessage, SMS, and RCS and prepare/send messages through Messages with approval by default.",
+        "status": "VERIFIED",
+        "finding": "Entry read/search/prepare/send with approval-by-default VERIFIED in captured OpenAI notes; Apple-silicon/Work-Codex scope restriction stays an explicit UNRESOLVED residual (secondary detail, not in captured bytes). No scope upgrade claimed; entry remains VERIFIED with scope residual.",
+        "subject_ids": [
+          "chatgpt-messages-plugin"
+        ],
+        "source_ids": [
+          "supplement-src-40875f5b03808f54"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

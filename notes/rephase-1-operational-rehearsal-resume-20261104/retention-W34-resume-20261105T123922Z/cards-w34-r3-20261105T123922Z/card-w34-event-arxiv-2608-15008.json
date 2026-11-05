@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:963968b9f4454e14",
+  "basis": {
+    "task_sha256": "cb43e3565339a5da0280991a0bdca0f8aeabc2b4a1b5e164d950a551f8c4b477",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.15008",
+      "canonical_name": "Harness the Memory: A Holistic Evaluation of Memory Substrates in Memory Agents",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.15008"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.15008",
+    "artifact_type": "PAPER",
+    "canonical_name": "Harness the Memory: A Holistic Evaluation of Memory Substrates in Memory Agents",
+    "canonical_url": "https://arxiv.org/abs/2608.15008"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-a260f9e094238cec",
+      "url": "https://arxiv.org/abs/2608.15008",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.15008",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:33:49Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Harness the Memory: A Holistic Evaluation of Memory Substrates in Memory Agents\" proposes N of Memory Substrates in Memory Agents Title: Content selection saved.",
+      "subject_id": "paper-2608.15008",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-a260f9e094238cec"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Figure 1: Evaluation landscape of 52 memory-augmented LLM systems (2023–2026). (a) Benchmark adoption: 62% of usage concentrates on LoCoMo and LongMemEval (b) Metric coverage: every system reports accuracy but only 21% report any efficiency metric; 81% of systems use GPT-family b",
+      "subject_id": "paper-2608.15008",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-a260f9e094238cec"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Figure 1: Evaluation landscape of 52 memory-augmented LLM systems (2023–2026). (a) Benchmark adoption: 62% of usage concentrates on LoCoMo and LongMemEval (b) Metric coverage: every system reports accuracy but only 21% report any efficiency metric; 81% of systems use GPT-family b",
+      "subject_id": "paper-2608.15008",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-a260f9e094238cec"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.15008",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-a260f9e094238cec"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.15008",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-a260f9e094238cec"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.15008",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-a260f9e094238cec"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.15008) in lane agents_tools. Discovery triage only: matched=agents_tools,evaluation,language_models,memory_context,retrieval_embeddings; title_matches=agents_tools,evaluation,memory_context; score=13. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Memory is becoming core infrastructure for long-horizon LLM agents, yet existing evaluations offer limited guidance on which memory substrate, namely the underlying medium in which memory is represented and stored, should be used under different operating regimes. We present a controlled harness evaluation of memory substrates for memory-augmented agents, covering dense and sparse indices, text records, structural stores, hierarchical stores, refinement-based memories, parametric updates, and activation-compatible context mechanisms. Across three backbone models and four benchmark suites spann",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.15008"
+        ],
+        "source_ids": [
+          "supplement-src-a260f9e094238cec"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

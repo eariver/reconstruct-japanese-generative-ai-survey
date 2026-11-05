@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d7e5e47d96e70a9d",
+  "basis": {
+    "task_sha256": "906f1d433c9b86e5044c6f4375c748c06c7ad6494d4ebe702c02bfde2c7112b2",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20122",
+      "canonical_name": "ArmorOCR: Grounded Adversarial Visual Perception via Observation-Transferred Self-Distillation",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20122"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20122",
+    "artifact_type": "PAPER",
+    "canonical_name": "ArmorOCR: Grounded Adversarial Visual Perception via Observation-Transferred Self-Distillation",
+    "canonical_url": "https://arxiv.org/abs/2608.20122"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-0459bd1436d5cc1c",
+      "url": "https://arxiv.org/abs/2608.20122",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.20122",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:39:35Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"ArmorOCR: Grounded Adversarial Visual Perception via Observation-Transferred Self-Distillation\" proposes Learn more × License: CC BY 4.0 arXiv:2608.20122v1 [cs.CV] 20 Aug 2026 ArmorOCR: Grounded Adversarial Visual Perception via Observation-Transferred Self-Distillation Linhan Cao Siyuan Li Jun Lan \\corresponding Liangbo He Guannan Li Xiaolei Huang Jun Jia Shuheng Zhou Huijia Zhu We",
+      "subject_id": "paper-2608.20122",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0459bd1436d5cc1c"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Evaluation Protocol We use VQA accuracy as the primary metric.",
+      "subject_id": "paper-2608.20122",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0459bd1436d5cc1c"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): For example, Gemini-2.5 Flash achieves competitive accuracy but obtains only 28.0% IoU, 7% lower than GPT-5 despite its lower accuracy.",
+      "subject_id": "paper-2608.20122",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-0459bd1436d5cc1c"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.20122",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-0459bd1436d5cc1c"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20122",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-0459bd1436d5cc1c"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20122",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-0459bd1436d5cc1c"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20122) in lane safety_security. Discovery triage only: matched=evaluation,inference_serving,multimodal_media,safety_security,training_methods; title_matches=safety_security,training_methods; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Large multimodal models (LMMs) have demonstrated strong OCR recognition capabilities, yet remain vulnerable to adversarial visual text that is readable to humans but challenging for models to localize and recognize. Existing OCR benchmarks mainly focus on natural or document-style text, while adversarial OCR evaluations remain limited in scale, task coverage, or region-aware evaluation. In this paper, we formulate adversarial OCR as a \\textbf{grounded OCR perception} task and introduce \\textbf{AdvSpot}, the first benchmark for grounded adversarial OCR evaluation. AdvSpot comprises 390 images w",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20122"
+        ],
+        "source_ids": [
+          "supplement-src-0459bd1436d5cc1c"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

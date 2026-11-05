@@ -1,0 +1,63 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:28ee8417973b7f02",
+  "discovery_ids": [
+    "w34-event-gap-aws-agentcore-memory-json"
+  ],
+  "source_records": [
+    {
+      "collector_id": "official-web-fallback",
+      "collector_run_id": "official-fallback-web-2026-W34-20260908T005152Z",
+      "locator": "https://aws.amazon.com/about-aws/whats-new/2026/08/agentcore-memory-json-payloads/",
+      "metadata": {
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "chronology_precision": "DATE_ONLY_FIRST_PARTY_FALLBACK_OBSERVATION",
+        "chronology_role": "SERVICE_CAPABILITY_ANNOUNCEMENT",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-gap-aws-agentcore-memory-json",
+        "event_level_expansion": true,
+        "exact_http_body_captured_by_repo_collector": false,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-discovery-gapfill-after-sol-review-r1",
+        "identity_action": "NEW_EVENT_IDENTITY",
+        "lane": "agent infrastructure / memory",
+        "provider": "AWS / Amazon Bedrock AgentCore",
+        "reconciles_prior_event_ids": [],
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-gapfill-aws-agentcore-memory-json",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-08T00:51:52Z",
+      "published_at": "2026-08-20",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-discovery-gapfill-after-sol-review-r1/source-observations/official-fallback-web-observations.md"
+      ],
+      "source_type": "official_web_fallback_observation",
+      "summary_text": "AWS's official What's New page dated Aug 20 describes AgentCore Memory accepting structured non-conversational JSON payloads for memory extraction. It is a distinct service capability lead.",
+      "title": "Amazon Bedrock AgentCore Memory accepts non-conversational JSON payloads"
+    }
+  ],
+  "verification_targets": [
+    "AWS's official What's New page dated Aug 20 describes AgentCore Memory accepting structured non-conversational JSON payloads for memory extraction. It is a distinct service capability lead."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-gap-aws-agentcore-memory-json",
+        "decision": "KEEP",
+        "scope_tags": [
+          "agent-infrastructure",
+          "memory"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-3be071fbc85f9159"
+  ]
+}

@@ -1,0 +1,27 @@
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-operational-rehearsal-resume-20261104/w34-operator-dispose-run-r3-20261104.py", line 781, in main
+    out = stage_dispose_run(a.retention_dir, a.ready_path, a.manifest, a.expected_ready_sha, a.expected_manifest_sha)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-operational-rehearsal-resume-20261104/w34-operator-dispose-run-r3-20261104.py", line 563, in stage_dispose_run
+    result = rn.run(repo, state_path, ctx["staged_input_abs"], ctx["supplement_abs"])
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work/scripts/run_evidence_v2_interactive.py", line 697, in run
+    card = evidence._build_card_core(task, meta, package, records_by_id[did], runner, _batch_auth)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work/scripts/survey_evidence_v2.py", line 2294, in _build_card_core
+    raise ValueError(
+        f"{task['discovery_ids'][0]}: verification input must cover exact task targets: missing={sorted(set(expected_targets)-set(verification_map))} extra={sorted(set(verification_map)-set(expected_targets))}"
+    )
+ValueError: w34-event-c001: verification input must cover exact task targets: missing=['Release confirmed; exact Aug 14 time vs 22:00Z boundary still unresolved. Keep W34 adoption/free-access/coding-agent delta regardless.'] extra=['Content: GLM-5.3 release with coding capabilities as described in captured Aug 18 Z.ai entry.', 'Week placement: exact Aug 14 vs 22:00Z side (Discovery Aug 14 vs captured Aug 18).']
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-operational-rehearsal-resume-20261104/w34-operator-dispose-run-r3-20261104.py", line 799, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-operational-rehearsal-resume-20261104/w34-operator-dispose-run-r3-20261104.py", line 788, in main
+    R6b._stage_bytes_exclusive_under(rd / "FAILURE.json", RESUME.resolve(),
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (json.dumps({"stage": "dispose-run", "exit": 2, "error": str(exc)[:4000], "retained_partials": partials}, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-operational-rehearsal-resume-20261104/sp-operator-prepare-r6-20261104.py", line 156, in _stage_bytes_exclusive_under
+    raise ValueError(f"dest must be absolute: {abs_dest}")
+ValueError: dest must be absolute: notes/rephase-1-operational-rehearsal-resume-20261104/retention-W34-dispose-20261105T003915Z/FAILURE.json

@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:01e35e1cd7191fef",
+  "basis": {
+    "task_sha256": "02d098b283f966184feaaf92993e9681195c12959dd47a8d61f1a9178b9f77b2",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.17521",
+      "canonical_name": "BrainNorm: A Foundation Model that knows Normal via Semantic Atlas Pretraining",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.17521"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.17521",
+    "artifact_type": "PAPER",
+    "canonical_name": "BrainNorm: A Foundation Model that knows Normal via Semantic Atlas Pretraining",
+    "canonical_url": "https://arxiv.org/abs/2608.17521"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-c83a6f4abc313471",
+      "url": "https://arxiv.org/abs/2608.17521",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.17521",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:37:05Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"BrainNorm: A Foundation Model that knows Normal via Semantic Atlas Pretraining\" proposes Normal via Semantic Atlas Pretraining Title: Content selection saved.",
+      "subject_id": "paper-2608.17521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-c83a6f4abc313471"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Linear probing with full-data on BrainNorm representations consistently outperforms the end-to-end supervised baselines across all evaluated datasets and tasks, highlighting the advantage of BrainNorm’s normative pretraining and CN-only finetuning for identifying disease-relevant",
+      "subject_id": "paper-2608.17521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-c83a6f4abc313471"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Retrieval accuracy improves consistently after CN-only finetuning, indicating stronger anatomical grounding of the learned representations.",
+      "subject_id": "paper-2608.17521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-c83a6f4abc313471"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No public code/model artifact link was found in the inspected arXiv HTML full text sections; reproducibility cannot be confirmed from captured bytes.",
+      "subject_id": "paper-2608.17521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-c83a6f4abc313471"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.17521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-c83a6f4abc313471"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-3",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.17521",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-c83a6f4abc313471"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.17521) in lane language_models. Discovery triage only: matched=inference_serving,language_models,retrieval_embeddings,training_methods; title_matches=language_models,training_methods; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: We introduce BrainNorm, a normative foundation model, trained and tested on ~66,000 T1-weighted structural MRI (T1w sMRI) scans. By leveraging language-image style contrastive pretraining on healthy cohorts across ages, BrainNorm learns a Semantic Atlas Latent space (SAL), where each scan is represented as a set of atlas-parcel embeddings. This yields parcel-specific healthy aging template trajectories that support age-consistent template matching and localized deviation scoring relative to a subject's chronological age. Across 6 downstream cohorts, BrainNorm demonstrates generalization evalua",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.17521"
+        ],
+        "source_ids": [
+          "supplement-src-c83a6f4abc313471"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

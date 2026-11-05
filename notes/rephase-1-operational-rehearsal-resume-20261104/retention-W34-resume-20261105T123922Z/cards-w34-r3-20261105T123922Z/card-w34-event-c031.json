@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d6b498587269267b",
+  "basis": {
+    "task_sha256": "15cff43ba5b8df89a93de6e5ee98e13ea6096f120b9ddb02d895f9b449c3f93e",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "dogwood-nl-authoring",
+      "canonical_name": "Dogwood natural-language policy authoring",
+      "entity_type": "PRODUCT",
+      "organization": "AWS",
+      "canonical_url": "https://aws.amazon.com/blogs/machine-learning/authoring-dogwood-policies-from-natural-language-in-amazon-bedrock-agentcore/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "dogwood-nl-authoring",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Dogwood natural-language policy authoring",
+    "canonical_url": "https://aws.amazon.com/blogs/machine-learning/authoring-dogwood-policies-from-natural-language-in-amazon-bedrock-agentcore/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-f9fd7d2028fa37d3",
+      "url": "https://aws.amazon.com/blogs/machine-learning/authoring-dogwood-policies-from-natural-language-in-amazon-bedrock-agentcore/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://aws.amazon.com/blogs/machine-learning/authoring-dogwood-policies-from-natural-language-in-amazon-bedrock-agentcore/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:57:13Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "AWS's Aug 20 blog states Policy Authoring turns natural-language documents into Dogwood/Cedar policies with validation against tool schemas and over/under-permissiveness checks.",
+      "subject_id": "dogwood-nl-authoring",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-f9fd7d2028fa37d3"
+      ],
+      "context": "Dated blog in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Enforcement is described at the gateway layer, outside agent code, with deterministic deny-by-default decisions and logging.",
+      "subject_id": "dogwood-nl-authoring",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-f9fd7d2028fa37d3"
+      ],
+      "context": "Architecture description; 'prompt-proof' reading is not adopted beyond the text."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Original Dogwood OSS release (Aug 6) is pre-window background; only the Aug 20 authoring/production-context follow-up is the W34 delta.",
+      "subject_id": "dogwood-nl-authoring",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-f9fd7d2028fa37d3"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Validation-completeness claims are vendor-described without adversarial evaluation in captured bytes.",
+      "subject_id": "dogwood-nl-authoring",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-f9fd7d2028fa37d3"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Original Dogwood release pre-window; W34 follow-up adds policy authoring and temporal controls in production context.",
+        "status": "VERIFIED",
+        "finding": "Captured AWS first-party body confirms the W34 policy-authoring follow-up with temporal controls in production context, separated from the pre-window Dogwood release.",
+        "subject_ids": [
+          "dogwood-nl-authoring"
+        ],
+        "source_ids": [
+          "supplement-src-f9fd7d2028fa37d3"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:d42890f1dd0c0f89",
+  "discovery_ids": [
+    "EFF-D164"
+  ],
+  "source_records": [
+    {
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-x-followup-f2",
+      "locator": "https://unsloth.ai/docs/models/glm-5.3-flash",
+      "metadata": {
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "expansion": "r4",
+        "lane": "f2",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      },
+      "observed_at": "2026-09-22T00:00:00Z",
+      "published_at": null,
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-r4-x-followup.md"
+      ],
+      "source_type": "PACKAGING_DOCS",
+      "summary_text": "Packaging authority: GGUF availability 1-bit UD-IQ1_S (93.1 GB) through BF16 (642 GB); memory-fit guidance (1-bit ~100 GB RAM; 3-bit 128-150 GB); llama.cpp + Unsloth Desktop paths; day-zero llama.cpp PR 27754; up-to-3.3x MTP speedup recorded as vendor-packaging claim requiring independent confirmation. X 1.6-3.4x speed claim NOT accepted. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "title": "Unsloth GLM-5.3-Flash local quantization authority (GGUF table, memory-fit guidance, MTP claim context)"
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "MTP claim independence"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D164",
+        "decision": "KEEP",
+        "scope_tags": [
+          "capstone-2026",
+          "local-inference",
+          "quantization"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:64ca5964fdefa4b3",
+  "basis": {
+    "task_sha256": "8f1d5c3f94a0d24278f4a2c07d4e7da7d5ece693025b0bfb9675e23689af4f51",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "deepmind-eve",
+      "canonical_name": "DeepMind EVE Online games research partnership",
+      "entity_type": "PRODUCT",
+      "organization": "Google DeepMind",
+      "canonical_url": "https://deepmind.google/blog/from-atari-to-eve-online-building-on-15-years-of-ai-research-in-games/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "deepmind-eve",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "DeepMind EVE Online games research partnership",
+    "canonical_url": "https://deepmind.google/blog/from-atari-to-eve-online-building-on-15-years-of-ai-research-in-games/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-80d041239a58fd62",
+      "url": "https://deepmind.google/blog/from-atari-to-eve-online-building-on-15-years-of-ai-research-in-games/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://deepmind.google/blog/from-atari-to-eve-online-building-on-15-years-of-ai-research-in-games/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:59:46Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "DeepMind's Aug 21 post announces a Fenris Creations/EVE Universe research partnership targeting continual learning, deep memory, long-horizon planning, and multi-agent dynamics.",
+      "subject_id": "deepmind-eve",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-80d041239a58fd62"
+      ],
+      "context": "Dated post in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The program starts in an offline instance separated from live players, with EVE Frontier as a later human-agent environment.",
+      "subject_id": "deepmind-eve",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-80d041239a58fd62"
+      ],
+      "context": "Staged-deployment statement; live deployment explicitly not current."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Research agenda, not results: no EVE-specific architecture, benchmarks, or safety-evaluation methods published in captured bytes.",
+      "subject_id": "deepmind-eve",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-80d041239a58fd62"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Capability goals must not be described as solved.",
+      "subject_id": "deepmind-eve",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-80d041239a58fd62"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Official Aug 21 research article confirms game-developer partnerships aimed at long-horizon planning, continual learning and multi-agent research.",
+        "status": "VERIFIED",
+        "finding": "Captured DeepMind first-party Aug 21 article confirms the partnerships and the long-horizon/continual/multi-agent research aims.",
+        "subject_ids": [
+          "deepmind-eve"
+        ],
+        "source_ids": [
+          "supplement-src-80d041239a58fd62"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

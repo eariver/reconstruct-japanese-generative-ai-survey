@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:b25e5c08bd0efb09",
+  "basis": {
+    "task_sha256": "b935a0e4c8ebd71a1afed6162a4fc380fd979a7548b741bc7238b01ca9d57cca",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "NEEDS_MORE",
+  "entities": [
+    {
+      "entity_id": "bytedance-mpa-mou",
+      "canonical_name": "ByteDance-MPA copyright MOU",
+      "entity_type": "PRODUCT",
+      "organization": "ByteDance / MPA",
+      "canonical_url": "https://drive.google.com/open?id=1frKEYDRhBgmrYwlvgTMU0f_wulTsCDY6"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "bytedance-mpa-mou",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "ByteDance-MPA copyright MOU",
+    "canonical_url": "https://drive.google.com/open?id=1frKEYDRhBgmrYwlvgTMU0f_wulTsCDY6"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "src-1",
+      "url": "https://drive.google.com/open?id=1frKEYDRhBgmrYwlvgTMU0f_wulTsCDY6",
+      "source_class": "SOCIAL",
+      "title": "ByteDance–MPA AI copyright agreement covering Seedance/Seedream",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:34:01Z",
+      "role": "Discovery-bounded source used for factual verification"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "W34 DailyX record preserves community discussion of the ByteDance-MPA memorandum on Seedance/Seedream guardrails.",
+      "subject_id": "bytedance-mpa-mou",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "SOCIAL_OBSERVATION",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Local record excerpt in ledger detail."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No first-party MOU text (ByteDance or MPA) captured; Reuters fetch failed (401) so even secondary corroboration is search-excerpt-level, not bound bytes.",
+      "subject_id": "bytedance-mpa-mou",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Guardrail substance, licensing terms, and territorial scope are unverified; training-data liability explicitly remains with courts per reporting.",
+      "subject_id": "bytedance-mpa-mou",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Official MOU establishes a shared framework for IP guardrails on Seedance and Seedream across ByteDance/TikTok products.",
+        "status": "UNRESOLVED",
+        "finding": "Official MOU framework content unverified in bound bytes; retained as KEEP-screened event pending authoritative capture.",
+        "subject_ids": [
+          "bytedance-mpa-mou"
+        ],
+        "source_ids": [
+          "src-1"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Official MOU establishes a shared framework for IP guardrails on Seedance and Seedream across ByteDance/TikTok products.: Official MOU framework content unverified in bound bytes; retained as KEEP-screened event pending authoritative capture."
+    ],
+    "contradictions": []
+  }
+}

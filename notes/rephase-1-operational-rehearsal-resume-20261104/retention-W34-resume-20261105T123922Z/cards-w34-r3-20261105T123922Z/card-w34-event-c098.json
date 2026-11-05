@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:a0770811586303ca",
+  "basis": {
+    "task_sha256": "db7321ab922b50da399e0bfa6eff422cf1119c1a66d7055726ee50d1e783d7aa",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "lfm25-qad",
+      "canonical_name": "LFM2.5 Q4_0 quantization-aware-distillation checkpoints",
+      "entity_type": "PRODUCT",
+      "organization": "Liquid AI",
+      "canonical_url": "https://huggingface.co/blog/LiquidAI/qad"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "lfm25-qad",
+    "artifact_type": "MODEL_UPDATE",
+    "canonical_name": "LFM2.5 Q4_0 quantization-aware-distillation checkpoints",
+    "canonical_url": "https://huggingface.co/blog/LiquidAI/qad"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-cde6f4de7bdd3186",
+      "url": "https://huggingface.co/blog/LiquidAI/qad",
+      "source_class": "PRIMARY_REPOSITORY",
+      "title": "First-party/official body: https://huggingface.co/blog/LiquidAI/qad",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:57:44Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured Aug 19 article presents LFM2.5 Q4_0 checkpoints from quantization-aware distillation for edge deployment.",
+      "subject_id": "lfm25-qad",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-cde6f4de7bdd3186"
+      ],
+      "context": "Article header/body in captured bytes (3.6KB text)."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "'Roughly 97% BF16 average retention' was not extracted from captured bytes; retention figures stay unverified here.",
+      "subject_id": "lfm25-qad",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-cde6f4de7bdd3186"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Four-model coverage and per-model deltas are not confirmed in captured text.",
+      "subject_id": "lfm25-qad",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-cde6f4de7bdd3186"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Updated 4-bit checkpoints for four LFM2.5 models trained with QAD; vendor reports roughly 97% BF16 average retention.",
+        "status": "VERIFIED",
+        "finding": "QAD Q4_0 checkpoint line confirmed as a dated vendor artifact; retention/coverage precision open per limitation.",
+        "subject_ids": [
+          "lfm25-qad"
+        ],
+        "source_ids": [
+          "supplement-src-cde6f4de7bdd3186"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

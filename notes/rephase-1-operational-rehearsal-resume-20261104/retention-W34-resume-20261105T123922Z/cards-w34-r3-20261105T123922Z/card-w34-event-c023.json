@@ -1,0 +1,136 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:9f48ec4992f99714",
+  "basis": {
+    "task_sha256": "b6a2e758ee941f392e71b73c447517bb99d137151d37d1470d9296f41f677623",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "grok-4-6-bedrock",
+      "canonical_name": "Grok 4.6 on Amazon Bedrock",
+      "entity_type": "PRODUCT",
+      "organization": "AWS / xAI",
+      "canonical_url": "https://aws.amazon.com/about-aws/whats-new/2026/08/amazon-bedrock-grok-4-6/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "grok-4-6-bedrock",
+    "artifact_type": "INTEGRATION",
+    "canonical_name": "Grok 4.6 on Amazon Bedrock",
+    "canonical_url": "https://aws.amazon.com/about-aws/whats-new/2026/08/amazon-bedrock-grok-4-6/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-3e49dc2851c5c819",
+      "url": "https://aws.amazon.com/about-aws/whats-new/2026/08/amazon-bedrock-grok-4-6/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://aws.amazon.com/about-aws/whats-new/2026/08/amazon-bedrock-grok-4-6/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:52:54Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-858a4cb365e4c0c4",
+      "url": "https://x.ai/news/grok-4-6",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://x.ai/news/grok-4-6",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:46Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    },
+    {
+      "source_id": "supplement-src-fb7abb38d492c9a8",
+      "url": "https://x.ai/news/grok-4-6-amazon-bedrock",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://x.ai/news/grok-4-6-amazon-bedrock",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:52:56Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "AWS's Aug 19 post states Grok 4.6 is generally available on Bedrock with cross-Region inference, 500K context, and four reasoning efforts.",
+      "subject_id": "grok-4-6-bedrock",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-3e49dc2851c5c819",
+        "supplement-src-858a4cb365e4c0c4",
+        "supplement-src-fb7abb38d492c9a8"
+      ],
+      "context": "Dated post in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "xAI's companion announcement presents Bedrock as a first-class distribution channel with identical $2/$6 pricing.",
+      "subject_id": "grok-4-6-bedrock",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-3e49dc2851c5c819",
+        "supplement-src-858a4cb365e4c0c4",
+        "supplement-src-fb7abb38d492c9a8"
+      ],
+      "context": "xAI post in captured body; pricing trio matches direct API."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Underlying Grok 4.6 model launched pre-window (Aug 12); only Bedrock distribution is the W34 delta.",
+      "subject_id": "grok-4-6-bedrock",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-3e49dc2851c5c819",
+        "supplement-src-858a4cb365e4c0c4",
+        "supplement-src-fb7abb38d492c9a8"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Bedrock-specific benchmark/latency behavior is unpublished in captured bytes.",
+      "subject_id": "grok-4-6-bedrock",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-3e49dc2851c5c819",
+        "supplement-src-858a4cb365e4c0c4",
+        "supplement-src-fb7abb38d492c9a8"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Underlying Grok 4.6 is pre-window; Bedrock GA is a clean W34 distribution delta.",
+        "status": "VERIFIED",
+        "finding": "Captured AWS+xAI first-party bodies confirm Bedrock GA as a clean W34 distribution delta with pre-window base preserved.",
+        "subject_ids": [
+          "grok-4-6-bedrock"
+        ],
+        "source_ids": [
+          "supplement-src-3e49dc2851c5c819",
+          "supplement-src-858a4cb365e4c0c4",
+          "supplement-src-fb7abb38d492c9a8"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

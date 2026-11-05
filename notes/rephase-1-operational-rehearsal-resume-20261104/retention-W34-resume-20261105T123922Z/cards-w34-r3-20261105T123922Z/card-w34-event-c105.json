@@ -1,0 +1,86 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:62945304367dd0bf",
+  "basis": {
+    "task_sha256": "bd6acb103dea75ccab37b7b767fe77cee318b7eee6ed8c0f859ebea975cb23bf",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "agentcore-async",
+      "canonical_name": "AgentCore async serverless patterns",
+      "entity_type": "PRODUCT",
+      "organization": "AWS",
+      "canonical_url": "https://aws.amazon.com/blogs/machine-learning/asynchronous-patterns-for-calling-amazon-bedrock-agentcore-agents-in-serverless-pipelines/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "agentcore-async",
+    "artifact_type": "FRAMEWORK",
+    "canonical_name": "AgentCore async serverless patterns",
+    "canonical_url": "https://aws.amazon.com/blogs/machine-learning/asynchronous-patterns-for-calling-amazon-bedrock-agentcore-agents-in-serverless-pipelines/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-078288c51d39b907",
+      "url": "https://aws.amazon.com/blogs/machine-learning/asynchronous-patterns-for-calling-amazon-bedrock-agentcore-agents-in-serverless-pipelines/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://aws.amazon.com/blogs/machine-learning/asynchronous-patterns-for-calling-amazon-bedrock-agentcore-agents-in-serverless-pipelines/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:06:19Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The AWS blog presents task-token callbacks, direct service integration, and durable-function orchestration for long-running agents without idle Lambda compute.",
+      "subject_id": "agentcore-async",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-078288c51d39b907"
+      ],
+      "context": "Pattern catalog in captured body (1.3MB)."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Cost/behavioral claims are pattern-level and workload-dependent; no measured savings in captured bytes.",
+      "subject_id": "agentcore-async",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-078288c51d39b907"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Task-token callback, direct service integration, and durable-function patterns for long-running agents without idle compute; implementation architecture item.",
+        "status": "VERIFIED",
+        "finding": "Task-token callback, direct service integration, and durable-function patterns confirmed as implementation architecture per target.",
+        "subject_ids": [
+          "agentcore-async"
+        ],
+        "source_ids": [
+          "supplement-src-078288c51d39b907"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

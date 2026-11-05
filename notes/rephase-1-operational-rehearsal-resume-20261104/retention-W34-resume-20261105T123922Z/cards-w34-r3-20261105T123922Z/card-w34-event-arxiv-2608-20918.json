@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:2768f99048a9888e",
+  "basis": {
+    "task_sha256": "bad640bcfe9ef3eca4291decfee04d464c50562a23655494f315fc364cf396fc",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20918",
+      "canonical_name": "UpgradeBench: A Decision-Centric Benchmark for Upgrading Fine-Tuned LLM Specialists",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20918"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20918",
+    "artifact_type": "PAPER",
+    "canonical_name": "UpgradeBench: A Decision-Centric Benchmark for Upgrading Fine-Tuned LLM Specialists",
+    "canonical_url": "https://arxiv.org/abs/2608.20918"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-16876c0ab313e18f",
+      "url": "https://arxiv.org/abs/2608.20918",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.20918",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:40:25Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"UpgradeBench: A Decision-Centric Benchmark for Upgrading Fine-Tuned LLM Specialists\" proposes Learn more × License: CC BY-NC-SA 4.0 arXiv:2608.20918v1 [cs.AI] 21 Aug 2026 UpgradeBench: A Decision-Centric Benchmark for Upgrading Fine-Tuned LLM Specialists Ye Chen Weining Zhang * Alibaba Group Cheung Kong Graduate School of Business Abstract Organizations increasingly maint",
+      "subject_id": "paper-2608.20918",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-16876c0ab313e18f"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: A longitudinal, cost-accounted benchmark of fine-tuning transfer along a complete open-weight release lineage, at two model scales, with unified tasks, metrics, per-query prediction records, bootstrap CIs, and energy logs, all released.",
+      "subject_id": "paper-2608.20918",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-16876c0ab313e18f"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): The first is that fine-tunes obsolesce quickly: across nine upgrade hops, freezing retains 99–101% of the attainable gain on intent classification, and over four generations the retrained reference score moves 0.2 points while zero-shot rises twenty-one (Figure 1 a).",
+      "subject_id": "paper-2608.20918",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-16876c0ab313e18f"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.20918",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-16876c0ab313e18f"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20918",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-16876c0ab313e18f"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20918",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-16876c0ab313e18f"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20918) in lane evaluation. Discovery triage only: matched=evaluation,language_models,training_methods; title_matches=evaluation,language_models; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Organizations maintain task-specific adapters for open-weight language models, and each new base-model release forces a migration decision: retain existing specialists, port adapters, refresh from preserved behavior, or retrain. Prior transfer work evaluates isolated model pairs, without studying these choices across real model release sequences. We present UpgradeBench, a decision-driven longitudinal benchmark covering four consecutive Qwen releases, one continuation checkpoint, six tasks, and two model sizes, augmented by OLMo checkpoints with known training lineage. The benchmark disentangl",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20918"
+        ],
+        "source_ids": [
+          "supplement-src-16876c0ab313e18f"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d22538fd928be3f1",
+  "basis": {
+    "task_sha256": "d44f1b63c38a63d1c2138ff6df0c3c9c767a7bbae3e07f0ef953bd0a43b26349",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.18640",
+      "canonical_name": "SAM2Dual: Training-Free, Dual Memory for Long-Term Video Object Segmentation",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.18640"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.18640",
+    "artifact_type": "PAPER",
+    "canonical_name": "SAM2Dual: Training-Free, Dual Memory for Long-Term Video Object Segmentation",
+    "canonical_url": "https://arxiv.org/abs/2608.18640"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-195b77268c65bb10",
+      "url": "https://arxiv.org/abs/2608.18640",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.18640",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:38:19Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"SAM2Dual: Training-Free, Dual Memory for Long-Term Video Object Segmentation\" proposes Long-Term Video Object Segmentation Title: Content selection saved.",
+      "subject_id": "paper-2608.18640",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-195b77268c65bb10"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: For all datasets, we follow the official evaluation protocols and report results on the standard splits provided by each benchmark.",
+      "subject_id": "paper-2608.18640",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-195b77268c65bb10"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): IV-B Evaluation Metrics Following common VOS practice [ 8 ] , we report the combined J&F score, which averages region similarity ( J ) and boundary accuracy ( F ).",
+      "subject_id": "paper-2608.18640",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-195b77268c65bb10"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No public code/model artifact link was found in the inspected arXiv HTML full text sections; reproducibility cannot be confirmed from captured bytes.",
+      "subject_id": "paper-2608.18640",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-195b77268c65bb10"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.18640",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-195b77268c65bb10"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-3",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.18640",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-195b77268c65bb10"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.18640) in lane memory_context. Discovery triage only: matched=evaluation,inference_serving,memory_context,retrieval_embeddings,safety_security; title_matches=memory_context; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Long-term video object segmentation (VOS) remains challenging due to error accumulation under extended occlusions, re-appearance, and scene changes. Although SAM2 provides strong zero-shot performance, its streaming memory can amplify drift over long horizons when recent, unreliable predictions dominate the memory state. We propose SAM2Dual, a training-free, plug-and-play inference-time enhancement that improves long-video robustness without updating model weights. SAM2Dual introduces a Dual Memory design that explicitly separates (i) short-term memory for rapid local adaptation and (ii) long-",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.18640"
+        ],
+        "source_ids": [
+          "supplement-src-195b77268c65bb10"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

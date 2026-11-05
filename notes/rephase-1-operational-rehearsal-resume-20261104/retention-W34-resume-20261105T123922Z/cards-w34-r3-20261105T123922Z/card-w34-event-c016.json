@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:f34c018b293e9aa1",
+  "basis": {
+    "task_sha256": "b415522ae1507a4932eb9cccf7773617051ff4bf942ee03646d89cbba0d1a9e0",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "x-ads-mcp",
+      "canonical_name": "X Ads MCP",
+      "entity_type": "PRODUCT",
+      "organization": "X",
+      "canonical_url": "https://docs.x.com/x-ads-api/mcp"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "x-ads-mcp",
+    "artifact_type": "API",
+    "canonical_name": "X Ads MCP",
+    "canonical_url": "https://docs.x.com/x-ads-api/mcp"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-3e46caa0c385ef13",
+      "url": "https://docs.x.com/x-ads-api/mcp",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://docs.x.com/x-ads-api/mcp",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:01:30Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "X developer docs describe an Ads MCP endpoint exposing 23 advertising tools with OAuth read/write scopes.",
+      "subject_id": "x-ads-mcp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-3e46caa0c385ef13"
+      ],
+      "context": "Docs body in captured bytes."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The docs state campaigns/line items created through MCP start paused, with explicit activation tools.",
+      "subject_id": "x-ads-mcp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-3e46caa0c385ef13"
+      ],
+      "context": "Safety-default statement in captured docs."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Captured docs carry no publication date; the Aug 21 XBusiness announcement timestamp (8:01 PM, timezone unspecified) sits on the W34 cutoff boundary, so launch-date precision is retained as a qualifier.",
+      "subject_id": "x-ads-mcp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-3e46caa0c385ef13"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Spend-governance beyond paused-defaults (budgets, approvals) is editorial guidance, not documented platform guarantees in captured bytes.",
+      "subject_id": "x-ads-mcp",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-3e46caa0c385ef13"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Agent-driven ad management via MCP; preserve exact launch post and locate canonical X Business docs.",
+        "status": "VERIFIED",
+        "finding": "Captured X first-party docs confirm the agent-driven ad-management surface; exact launch-post capture was not obtained, so the canonical-docs qualifier from the target is retained.",
+        "subject_ids": [
+          "x-ads-mcp"
+        ],
+        "source_ids": [
+          "supplement-src-3e46caa0c385ef13"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

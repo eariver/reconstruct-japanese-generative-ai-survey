@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:e33878460fde7eb6",
+  "basis": {
+    "task_sha256": "8ea578dd4ee9c78e8197ac9e86516b579656b2179f688ce6b11c096d05368935",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.15171",
+      "canonical_name": "P-PAS: Prefill-Pressure Adaptive Scheduling for Long-Context LLM Serving",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.15171"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.15171",
+    "artifact_type": "PAPER",
+    "canonical_name": "P-PAS: Prefill-Pressure Adaptive Scheduling for Long-Context LLM Serving",
+    "canonical_url": "https://arxiv.org/abs/2608.15171"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-b77fe6e55d1b2026",
+      "url": "https://arxiv.org/abs/2608.15171",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.15171",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:34:00Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"P-PAS: Prefill-Pressure Adaptive Scheduling for Long-Context LLM Serving\" proposes Learn more × License: CC BY 4.0 arXiv:2608.15171v1 [cs.DC] 15 Aug 2026 P-PAS: Prefill-Pressure Adaptive Scheduling for Long-Context LLM Serving Timo Sämann Affiliation: Independent Researcher Abstract Long-context LLM applications such as retrieval-augmented generation (RAG) and ",
+      "subject_id": "paper-2608.15171",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-b77fe6e55d1b2026"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: We then aggregate these ratios across the K K burst rates using the geometric mean: R m = ( ∏ k = 1 K m P ​ - ​ PAS , k m baseline , k ) 1 / K , R_{m}=\\left(\\prod_{k=1}^{K}\\frac{m_{\\mathrm{P\\text{-}PAS},k}}{m_{\\mathrm{baseline},k}}\\right)^{1/K}, (1) where m m denotes the evaluate",
+      "subject_id": "paper-2608.15171",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-b77fe6e55d1b2026"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): We express the resulting ratio as a percentage improvement: I m = ( 1 − R m ) × 100 % .",
+      "subject_id": "paper-2608.15171",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-b77fe6e55d1b2026"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.15171",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-b77fe6e55d1b2026"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.15171",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-b77fe6e55d1b2026"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.15171",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-b77fe6e55d1b2026"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.15171) in lane inference_serving. Discovery triage only: matched=agents_tools,inference_serving,language_models,retrieval_embeddings; title_matches=inference_serving,language_models; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Long-context LLM applications such as retrieval-augmented generation (RAG) and agentic systems often process tens of thousands of input tokens to produce short outputs, making end-to-end request latency an important serving objective. We show that the maximum number of batched tokens (MBT), which controls the token scheduling budget in vLLM, has a scheduling-pressure-dependent effect on latency. Larger token budgets can reduce latency under low scheduling pressure, while smaller budgets become preferable under higher pressure. Consequently, no single static MBT performs best across load regime",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.15171"
+        ],
+        "source_ids": [
+          "supplement-src-b77fe6e55d1b2026"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

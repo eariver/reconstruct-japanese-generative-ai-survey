@@ -1,0 +1,49 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:f68093e34eeac853",
+  "discovery_ids": [
+    "EFF-D165"
+  ],
+  "source_records": [
+    {
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-x-followup-f3",
+      "locator": "https://github.com/ggml-org/llama.cpp/pull/27742",
+      "metadata": {
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "expansion": "r4",
+        "lane": "f3",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      },
+      "observed_at": "2026-09-22T00:00:00Z",
+      "published_at": null,
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-r4-x-followup.md"
+      ],
+      "source_type": "RUNTIME_PR",
+      "summary_text": "Merged implementation authority (2026-08-27, Unsloth-authored): qwen4exp converter, gated-delta-net + MoE graph, QSA sparse attention, host-side PLE n-gram hash embeddings; correctness vs vLLM reference (PPL 4.0068 vs 4.0126; QSA bit-identical below budget); known conv-state gaps fixed in-PR and honestly documented. Explains Flash-Next llama.cpp support behind OBS-R2-009. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "title": "llama.cpp Qwen3.8-Flash-Next implementation port (merged PR 27742: converter, GDN, QSA, PLE)"
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D165",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026",
+          "local-inference"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-1ae83672998fa5fe"
+  ]
+}

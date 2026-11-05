@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:c7126721d5c45c52",
+  "basis": {
+    "task_sha256": "70c43308ef1d13d40a4a72aec5e715e2121a6e63cde98021b43174d3a7d8274a",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "copilot-slack",
+      "canonical_name": "GitHub Copilot in Slack",
+      "entity_type": "PRODUCT",
+      "organization": "GitHub",
+      "canonical_url": "https://docs.github.com/copilot/slack"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "copilot-slack",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "GitHub Copilot in Slack",
+    "canonical_url": "https://docs.github.com/copilot/slack"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-f1762d7cb63e8331",
+      "url": "https://docs.github.com/copilot/slack",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "GitHub first-party changelog snapshot for w34-event-c100",
+      "published_at": null,
+      "accessed_at": "2026-09-08T00:51:52Z",
+      "role": "Post-Screening exact authority supplement: pre-screening repository-owned first-party snapshot rebound to fresh task; exact bytes preserved with original run provenance"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured changelog snapshot states the Slack integration brings GitHub Copilot CLI/app agentic capabilities into Slack in public preview, with sessions directable from Slack into pull requests.",
+      "subject_id": "copilot-slack",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-f1762d7cb63e8331"
+      ],
+      "context": "Snapshot spans in bound bytes."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The snapshot states Copilot can create a dedicated code channel for the task, where the team follows the plan, inspects diffs, reviews HTML previews, and iterates.",
+      "subject_id": "copilot-slack",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-f1762d7cb63e8331"
+      ],
+      "context": "Snapshot spans in bound bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Snapshot capture-dated (Sep 8); entry-level dating vs W34 relies on changelog context plus Discovery observation.",
+      "subject_id": "copilot-slack",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-f1762d7cb63e8331"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Public preview brings Copilot cloud-agent sessions into Slack conversations and code channels with shared steering and PR workflows.",
+        "status": "UNRESOLVED",
+        "finding": "Slack sessions/code-channel content VERIFIED in captured snapshot bytes; entry-level dating vs W34 remains UNRESOLVED (Sep 8 capture + changelog context). No week-eligibility upgrade claimed.",
+        "subject_ids": [
+          "copilot-slack"
+        ],
+        "source_ids": [
+          "supplement-src-f1762d7cb63e8331"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Public preview brings Copilot cloud-agent sessions into Slack conversations and code channels with shared steering and PR workflows.: Slack sessions/code-channel content VERIFIED in captured snapshot bytes; entry-level dating vs W34 remains UNRESOLVED (Sep 8 capture + changelog context). No week-eligibility upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

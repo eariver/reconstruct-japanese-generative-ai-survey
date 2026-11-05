@@ -1,0 +1,77 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:32bbe37312ff4b3d",
+  "discovery_ids": [
+    "w34-event-arxiv-2608-17616"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.17616",
+      "metadata": {
+        "arxiv_id": "2608.17616",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.AI",
+          "cs.CL",
+          "cs.LG"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SNAPSHOT",
+        "deterministic_prefilter_hit": true,
+        "deterministic_score": 10,
+        "discovery_only": true,
+        "duplicate_relationship": null,
+        "event_level_discovery_id": "w34-event-arxiv-2608-17616",
+        "event_level_expansion": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-discovery-gapfill-after-sol-review-r1",
+        "iterative_evidence_priority": true,
+        "lane": "inference_serving",
+        "matched_term_groups": [
+          "evaluation",
+          "inference_serving",
+          "memory_context",
+          "training_methods"
+        ],
+        "primary_category": "cs.AI",
+        "provider": "arXiv",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-gapfill-arxiv-triage-2608-17616",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "triage_bucket": "SEMANTIC_SHORTLIST",
+        "updated_at": "2026-08-18T10:28:23Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-08T00:51:52Z",
+      "published_at": "2026-08-18T10:28:23Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-ai.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Abstract-level arXiv Discovery lead (2608.17616) in lane inference_serving. Discovery triage only: matched=evaluation,inference_serving,memory_context,training_methods; title_matches=inference_serving,memory_context; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: We present MoNe, a lightweight modular neural memory that attaches to any frozen pretrained Transformer to enable long-context inference without retraining. MoNe reads context in fixed-size segments via test-time learning of fast-weight neural memory networks with layer-localized gradient updates; at inference, the memory generates keys and values from the query tokens alone, with no context tokens re-read. This two-phase design decouples inference cost from context length, achieving $O(N)$ preprocessing and $O(1)$ query cost with peak GPU memory that does not grow with $N$. At 128K tokens, Mo",
+      "title": "MoNe: Modular Neural Memory for Efficient Long Context Inference"
+    }
+  ],
+  "verification_targets": [
+    "Abstract-level arXiv Discovery lead (2608.17616) in lane inference_serving. Discovery triage only: matched=evaluation,inference_serving,memory_context,training_methods; title_matches=inference_serving,memory_context; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: We present MoNe, a lightweight modular neural memory that attaches to any frozen pretrained Transformer to enable long-context inference without retraining. MoNe reads context in fixed-size segments via test-time learning of fast-weight neural memory networks with layer-localized gradient updates; at inference, the memory generates keys and values from the query tokens alone, with no context tokens re-read. This two-phase design decouples inference cost from context length, achieving $O(N)$ preprocessing and $O(1)$ query cost with peak GPU memory that does not grow with $N$. At 128K tokens, Mo"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-arxiv-2608-17616",
+        "decision": "INSPECT",
+        "scope_tags": [
+          "inference_serving"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-be958d6059d2cd79"
+  ]
+}

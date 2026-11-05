@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:2342578889942fe4",
+  "basis": {
+    "task_sha256": "681482bfe99d08a1a053739ca3d6914beb9bd05183bc2623b56031a2e6e027ad",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "alibaba-kimi-k3",
+      "canonical_name": "Alibaba Model Studio kimi-k3 availability",
+      "entity_type": "PRODUCT",
+      "organization": "Alibaba Cloud",
+      "canonical_url": "https://www.alibabacloud.com/help/en/model-studio/newly-released-models"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "alibaba-kimi-k3",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Alibaba Model Studio kimi-k3 availability",
+    "canonical_url": "https://www.alibabacloud.com/help/en/model-studio/newly-released-models"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-ac6bb92c54483cde",
+      "url": "https://www.alibabacloud.com/help/en/model-studio/newly-released-models",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.alibabacloud.com/help/en/model-studio/newly-released-models",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:02Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured lifecycle table lists kimi-k3 (Kimi flagship, 2.8T params) under 2026-08-19 alongside an older 2026-08-07 kimi/kimi-k3 row.",
+      "subject_id": "alibaba-kimi-k3",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-ac6bb92c54483cde"
+      ],
+      "context": "Table rows in captured body (60KB text)."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Table gives date-level precision only; no clock times.",
+      "subject_id": "alibaba-kimi-k3",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-ac6bb92c54483cde"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Parameter/architecture descriptors are Alibaba-stated.",
+      "subject_id": "alibaba-kimi-k3",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-ac6bb92c54483cde"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Alibaba's official Model Studio lifecycle table shows kimi-k3 on 2026-08-19. The row is retained as a distinct provider/service availability Discovery lead for Sol review.",
+        "status": "VERIFIED",
+        "finding": "Official lifecycle table shows kimi-k3 on 2026-08-19 as a distinct provider/service availability lead for Sol review.",
+        "subject_ids": [
+          "alibaba-kimi-k3"
+        ],
+        "source_ids": [
+          "supplement-src-ac6bb92c54483cde"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

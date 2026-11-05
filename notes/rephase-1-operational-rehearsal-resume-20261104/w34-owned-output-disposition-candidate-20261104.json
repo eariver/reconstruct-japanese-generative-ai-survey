@@ -1,0 +1,70 @@
+{
+  "candidate_role": "W34 exact2 owned-output disposition candidate DATA mapping (proposal author, NOT reviewer/root; DATA only, NO authorization, NO disposition executed)",
+  "issue_id": "2026-W34",
+  "runtime": {
+    "repo_root": ".rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work",
+    "code_head": "e84a82aca000c990597ea8cf60f548e2ff187bd1",
+    "code_parent": "480823560c0c26ed2e5baa18e0e79a22b2839a27",
+    "state_impl": "480823560c0c26ed2e5baa18e0e79a22b2839a27",
+    "lifecycle_state": "CANDIDATES_NORMALIZED"
+  },
+  "authorization_scope": "NONE. This file is a candidate mapping for Root + independent review only. It does NOT authorize any copy/rename/unlink/disposition/retry, and it does NOT claim the SP disposition plan (sp-disposition-plan-r2-20261104.md) authorizes W34. W34 clearing requires its own explicit bounded Astra authorization after independent review of the corrected input + this mapping. No Human gate per filesystem step is invented; no new shipping API/Core feature/atomicity guarantee claimed.",
+  "exact2_targets": [
+    {
+      "path": "sources/2026-W34/materiality-ledger-v2.json",
+      "sha256": "76ac53f90f3c731c5819ab73ae3fcfd4451f7d5030795232e80e02ebac2aca4b",
+      "bytes": 186202,
+      "mode": "0o664",
+      "kind": "regular file (not symlink/dir)",
+      "owner_state": "CANDIDATES_NORMALIZED",
+      "acceptance": "unaccepted (State CAND, no EVIDENCE_REVIEWED checkpoint, no Human refs)"
+    },
+    {
+      "path": "sources/2026-W34/profile-completeness-v2.json",
+      "sha256": "93dbefae96ee0acddf5a13125dac6d28a25c3ef3e1d4decaf61d766356c57bfb",
+      "bytes": 71532,
+      "mode": "0o664",
+      "kind": "regular file (not symlink/dir)",
+      "owner_state": "CANDIDATES_NORMALIZED",
+      "acceptance": "unaccepted (State CAND, no EVIDENCE_REVIEWED checkpoint, no Human refs)"
+    }
+  ],
+  "state_refs": {
+    "production_state": "sources/2026-W34/production-state.json 3386B 7e6a50c2b84cdc7e526f1560f02efd95184685770edb95ab35bb9a40c633ea58 mode 0o664",
+    "production_profile": "sources/2026-W34/production-profile.json 2371B 2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1",
+    "lifecycle": "CANDIDATES_NORMALIZED, target ARCHITECTURE_REVIEW, next stage evidence-materiality-completeness, impl 48082356 (old init retained)",
+    "machine": "evidence/materiality/completeness pending",
+    "human_gates": "pending/null, human_gate_provenance null, gates/ absent",
+    "checkpoints": "exactly 2: ISSUE_INITIALIZED 3c64e40b... 3101B + DISCOVERY_COLLECTED 4d3221d3... 3206B; CANDIDATES_NORMALIZED.json absent; EVIDENCE_REVIEWED.json absent",
+    "stage_reviews": "exactly 2 stage-reviews + 2 stage-validation reports; no candidate-matrix/selection/architecture files",
+    "contract8": "pipeline 3adfbda22131eac4017ef867aef2ebb2f346f884c4ea8343e9062392eabd5, quality b5b955d524fb438c0f1b2c9490bea1da2083e79025c44aca92d67fbd75c51a98f7c2958, research W34 666f8a064b190ffd35216e6d2fdf2dd0fa932cac7b1b0d6448e262ded77b9a, publication W34 99adff93ff443e02dc639ce5dcf4d4c959ee45a804da70efc4277db57fdddb",
+    "dcp": "discovery-accepted-v2.json 377589B 255fb12d71cf463e78b9be74fbb57d35d3beea2dbb47fa27cbd36b442133f22b + raw discovery-v2.jsonl 963155B e176326f...",
+    "scp": "screening-accepted.json 543880B b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841 + input event-discovery-v2.jsonl 1335444B 0a23be47...",
+    "accepted_evidence": "evidence/v2/accepted/bf208f96d6b66e257c80af3b1bf3d85cdc8c6b63178ace7dbe292624aa8559d2/evidence-accepted.json 126603B 450b508ca... + package.json 157429B 0ec312b4... + audit 1041B 0a41ec9d...",
+    "accepted_views": "evidence/v2/views/accepted/f744e46b26ec1592b39729d1cfab4ffdfe2c47861941fbfc15766fde38eaf62c/edition-views-accepted.json 159498B 5ad0a6ac...",
+    "ledger_basis_pins": "profile 2a8c3089..., discovery 0a23be47..., screening b9d963d8..., evidence 450b508c..., views 5ad0a6ac..., sets bf208f96.../f744e46b...",
+    "completeness_basis_pin": "ledger 76ac53f9... + profile 2a8c3089...",
+    "gap_check": "No accepted checkpoint/Human/downstream binding references the 2 target files themselves (stage reviews/reports contain no ledger refs; no candidate-matrix/selection/architecture files; gates absent). Completeness->ledger pin is unaccepted-downstream, not accepted authority. Audit outputs are path-only (input path+SHA f46dcf2f... analogue for W34 is 3ffc6e31...). If Root/independent review finds any such pin, or byte/type/mode drift vs above, RETURN GAP and stop — plan VOID."
+  },
+  "preserved_context": "Old accepted Evidence/Views dirs (bf208f96.../f744e46b...), proposed input 3ffc6e31..., supplement ce6f977a..., Discovery/Screening/States/profiles/checkpoints, NEW corrected proposal w34-corrected-input-20261104.json 5e53a179... + delta + rationale in this packet, real-run packet + final patch/manifest, old480/bd80 copies. Never mutate/delete. Retention MUST be exclusive NEW packet-local namespace (e.g. notes/rephase-1-operational-rehearsal-resume-20261104/retention-W34-YYYYMMDDTHHMMSSZ/), NOT sources/, NOT active candidate-work second tree, with full byte+SHA+mode manifest, NOT a second source tree.",
+  "why_blocked": "Code-observed, NOT executed: scripts/run_evidence_v2_interactive.py:773-807 order Evidence accept (new content-addressed dir) -> Views accept (new dir) -> Ledger if exists/symlink refusing to overwrite -> Completeness same. A normal rerun with divergent NEW Evidence/Views (from corrected input) would create orphan NEW dirs then fail at Ledger, leaving canonical Ledger/Completeness unchanged + no State change. No --force/cleanup flag exists (survey_evidence_v2.py:654/901/2798 same; accept idempotent only if same result_set_sha). This mapping does NOT prove a new Core engine is required, nor that guarded manual repair is forbidden — it is the precise gap to close by owned-preservation + guards, not force/rollback/new API.",
+  "allowed_write_sets": {
+    "P1_packet": "retention dir + retention-manifest.json + execution journal + review evidence (packet-local, BEFORE any active change)",
+    "P2_active_after_authorization_before_retry": "NEW proposed input (from w34-corrected-input DATA, NEW file under evidence/proposed-input/, never overwrite 3ffc6e31...), NEW supplement ONLY if needed (none needed here — supplement identical), NEW Raw staging ONLY if needed (none needed here)",
+    "runner_outputs_separate": "NEW Evidence accepted dir (new result_set_sha) + NEW Views accepted dir (new view_set_sha) + NEW ledger + NEW completeness (created by normal runner AFTER clear)",
+    "forbidden": "NO State/Profile/checkpoint/HumanGate/config/schema/scripts/tests writes; NO overwrite of accepted bf208f96.../f744e46b... dirs; NO weakening of _dm022_require_ready, pin capture/assert/recheck, exists/symlink guards, agent-facade current_stage_basis_override, or validator checks"
+  },
+  "guarded_procedure_candidate": {
+    "note": "FOR AUTHORIZATION ONLY — DO NOT RUN NOW. Requires one bounded Root authorization AFTER independent review of corrected input + delta + rationale + this mapping.",
+    "steps": [
+      "0. Preconditions (read-only, record SHAs/modes in journal): State still CAND + machine pending/null + human null + 2 checkpoints only + gates absent + Contract8/Profile/DCP/SCP SHAs as above + targets bytes/modes unchanged + accepted dirs present + retention namespace empty + no live jobs for instance (scoped PID/command check only, no kill). If drift STOP + re-observe.",
+      "1. Copy+verify (NOT move/rename): copy exact 2 bytes to exclusive packet retention dir + write retention-manifest.json (old path/new path/SHA/bytes/mode/State SHA/timestamp/operator). Re-read both copies (SHA match). Do NOT remove originals yet. Independent manifest verify.",
+      "2a. Guarded unlink Ledger ONLY after §0-1 + independent manifest confirm: recheck authority/State/refs/guard/readiness + Ledger identity (isfile true + islink false + mode 0o664 + SHA/bytes match) immediately before; then os.unlink(canonical ledger) ONLY (no glob/force/State reset). Immediately recheck canonical exists false + islink false + retention copy SHA intact + State still CAND/pending/null + no new checkpoints/Gates + accepted dirs intact. On fail/drift preserve partials, report exact partial state, STOP. NO auto-restore.",
+      "2b. Guarded unlink Completeness: same as 2a for completeness path (separate recheck immediately before; separate post-recheck immediately after). Preserve partials on fail/drift, NO auto-restore.",
+      "3. Readiness BEFORE any rerun: canonical Ledger/Completeness both absent (exists false, islink false) + accepted dirs SHAs unchanged + State CAND + NEW input adapted (above) + supplement validated via normal APIs with strict facade. Do NOT run full409 until readiness + fresh independent Evidence re-review path confirmed."
+    ],
+    "failure_resume": "Any refusing-to-overwrite at Ledger/Completeness after relocate means precondition violated (file reappeared) -> STOP, re-observe, do NOT force. Any incomplete pre-existing (orphan NEW dirs) -> STOP, preserve orphans, report, do NOT delete. Any State drift -> STOP, preserve, report. Unknown State -> preserve + report, no auto-retry. No atomicity/CAS claimed (existing check is exists()/is_symlink(), NOT OS O_EXCL). No crash-atomicity claimed. No unconditional copy-back (could overwrite newly accepted authority — forbidden)."
+  },
+  "stop_conditions": "Any accepted/Human/downstream pin on the 2 files; any byte/type/mode drift; any State/checkpoint/Gate change; any new output collision/partial acceptance; any unknown/drifted State. All -> preserve (backups + surviving original + any new products), report exact partials, require new bounded observation/decision. No REQUEST_CHANGES/rollback/reinit/force/glob/weakening.",
+  "open": "Independent review of w34-corrected-input + delta + rationale + this mapping; exact retention namespace verification at execution time; NEW bound run + fresh independent Evidence re-review AFTER disposition (separate authorization); Selection/Architecture/R4/Adoption/savings OPEN. WholeNOT_READY/step4B3OPEN/auditunstarted/DM021+022OPEN."
+}

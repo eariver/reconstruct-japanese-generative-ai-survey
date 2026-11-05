@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:d79e629cc7f1b90f",
+  "basis": {
+    "task_sha256": "b704a90740eeb8e3a8a383b5f1d2c7e1a26d36db855a698bca27c5ec14f42090",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20814",
+      "canonical_name": "Enhancing Localized Reasoning for Long Video Understanding via Efficient Segment-to-Video Supervision",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20814"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20814",
+    "artifact_type": "PAPER",
+    "canonical_name": "Enhancing Localized Reasoning for Long Video Understanding via Efficient Segment-to-Video Supervision",
+    "canonical_url": "https://arxiv.org/abs/2608.20814"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-5ed8c5ee597d0894",
+      "url": "https://arxiv.org/abs/2608.20814",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.20814",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:40:21Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Enhancing Localized Reasoning for Long Video Understanding via Efficient Segment-to-Video Supervision\" proposes Learn more × License: CC BY 4.0 arXiv:2608.20814v1 [cs.CV] 21 Aug 2026 Enhancing Localized Reasoning for Long Video Understanding via Efficient Segment-to-Video Supervision Beibei Zhang Chao Xu Jun Lan Zongyi Li Lai Wei Huijia Zhu Tongwei Ren Abstract Though Multimodal Large Lang",
+      "subject_id": "paper-2608.20814",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-5ed8c5ee597d0894"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Benchmarks and Experimental Settings Benchmarks and Evaluation Metrics.",
+      "subject_id": "paper-2608.20814",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-5ed8c5ee597d0894"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Experimental results demonstrate that S2V can consistently improve LVU performance across multiple LVU benchmarks, outperforming both general MLLMs and reasoning-based methods not only in LVU accuracy but also in training and inference efficiency.",
+      "subject_id": "paper-2608.20814",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-5ed8c5ee597d0894"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.20814",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-5ed8c5ee597d0894"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20814",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-5ed8c5ee597d0894"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20814",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-5ed8c5ee597d0894"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20814) in lane training_methods. Discovery triage only: matched=evaluation,inference_serving,language_models,multimodal_media,training_methods; title_matches=training_methods; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Though Multimodal Large Language Models (MLLMs) have shown impressive potential in video understanding, long video understanding (LVU) remains challenging since distracting noise in complex and lengthy contexts can obscure localized details, misleading MLLMs to produce incorrect answers. Recent works mitigate these issues by incentivizing deep reasoning to include relevant evidence. However, these methods have two main problems: First, the reinforcement fine-tuning framework (RFT) they leveraged incurs substantial training overheads, including high annotation costs and complicated reward desig",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20814"
+        ],
+        "source_ids": [
+          "supplement-src-5ed8c5ee597d0894"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

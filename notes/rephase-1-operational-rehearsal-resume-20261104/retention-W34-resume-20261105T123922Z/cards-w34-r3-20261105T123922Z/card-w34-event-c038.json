@@ -1,0 +1,99 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:da50cb0ba00eb7f1",
+  "basis": {
+    "task_sha256": "c3628241651497dc110a9edad80a38672d744c00993f440697c4e195a6850f42",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "NEEDS_MORE",
+  "entities": [
+    {
+      "entity_id": "sensenova-u1-5",
+      "canonical_name": "SenseNova-U1.5",
+      "entity_type": "MODEL",
+      "organization": "SenseTime",
+      "canonical_url": "https://drive.google.com/open?id=1gPkwYYQz2SNnrgrc0ay6JxeTDzpj1xE_"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "sensenova-u1-5",
+    "artifact_type": "MODEL",
+    "canonical_name": "SenseNova-U1.5",
+    "canonical_url": "https://drive.google.com/open?id=1gPkwYYQz2SNnrgrc0ay6JxeTDzpj1xE_"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "src-1",
+      "url": "https://drive.google.com/open?id=1avn6m20KB6EEDSXCODwSRxGJXsxz60sn",
+      "source_class": "SOCIAL",
+      "title": "SenseNova-U1.5 open multimodal generation/editing model",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:34:01Z",
+      "role": "Discovery-bounded source used for factual verification"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "W34 DailyX record preserves community discussion of a SenseNova-U1.5 open multimodal generation/editing model.",
+      "subject_id": "sensenova-u1-5",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "SOCIAL_OBSERVATION",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Local record excerpt in ledger detail."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Targeted search found only the April U1 release (pre-window) and Aug 25 U1.5 official coverage (post-cutoff); no in-window first-party U1.5 page captured.",
+      "subject_id": "sensenova-u1-5",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Model existence is not disputed; public release timestamp vs W34 is unverified, so no dated release claim is made.",
+      "subject_id": "sensenova-u1-5",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Artifact exists; precise public release timestamp vs W34 needs history/model-card verification.",
+        "status": "UNRESOLVED",
+        "finding": "Artifact exists; precise public release timestamp vs W34 unverified in bound bytes; history/model-card verification still open per target.",
+        "subject_ids": [
+          "sensenova-u1-5"
+        ],
+        "source_ids": [
+          "src-1"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Artifact exists; precise public release timestamp vs W34 needs history/model-card verification.: Artifact exists; precise public release timestamp vs W34 unverified in bound bytes; history/model-card verification still open per target."
+    ],
+    "contradictions": []
+  }
+}

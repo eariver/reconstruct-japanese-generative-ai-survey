@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:1258b7280dc9669a",
+  "basis": {
+    "task_sha256": "e9606696a830fcde8021010693daf6d3c555db22efe6d14098f8fd5390df9cd6",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "copilot-jetbrains-enterprise",
+      "canonical_name": "GitHub Copilot for JetBrains enterprise settings",
+      "entity_type": "PRODUCT",
+      "organization": "GitHub",
+      "canonical_url": "https://docs.github.com/copilot/jetbrains"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "copilot-jetbrains-enterprise",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "GitHub Copilot for JetBrains enterprise settings",
+    "canonical_url": "https://docs.github.com/copilot/jetbrains"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-1cc7d280cc00096e",
+      "url": "https://docs.github.com/copilot/jetbrains",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "GitHub first-party changelog snapshot for w34-event-c099",
+      "published_at": null,
+      "accessed_at": "2026-09-08T00:51:52Z",
+      "role": "Post-Screening exact authority supplement: pre-screening repository-owned first-party snapshot rebound to fresh task; exact bytes preserved with original run provenance"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured changelog snapshot states JetBrains support for enterprise managed plugin/marketplace governance.",
+      "subject_id": "copilot-jetbrains-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1cc7d280cc00096e"
+      ],
+      "context": "Snapshot text in bound bytes (Sep 8 repository-owned capture)."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The snapshot lists MCP allow/deny lists (allowedMcpServers/deniedMcpServers), managed OpenTelemetry, and permission-mode controls.",
+      "subject_id": "copilot-jetbrains-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-1cc7d280cc00096e"
+      ],
+      "context": "Feature list in bound bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Snapshot is dated by capture (Sep 8), not by a page dateline; W34 timing rests on the changelog-entry context plus Discovery observation.",
+      "subject_id": "copilot-jetbrains-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1cc7d280cc00096e"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Rollout/plan specifics beyond the entry are not in captured bytes.",
+      "subject_id": "copilot-jetbrains-enterprise",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-1cc7d280cc00096e"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Adds enterprise plugin governance, MCP allow/deny lists, managed OpenTelemetry, and permission-mode controls in JetBrains.",
+        "status": "UNRESOLVED",
+        "finding": "Feature content VERIFIED in captured GitHub snapshot bytes; entry-level dating vs W34 remains UNRESOLVED (Sep 8 capture + changelog context, not a primary date). No week-eligibility upgrade claimed.",
+        "subject_ids": [
+          "copilot-jetbrains-enterprise"
+        ],
+        "source_ids": [
+          "supplement-src-1cc7d280cc00096e"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Adds enterprise plugin governance, MCP allow/deny lists, managed OpenTelemetry, and permission-mode controls in JetBrains.: Feature content VERIFIED in captured GitHub snapshot bytes; entry-level dating vs W34 remains UNRESOLVED (Sep 8 capture + changelog context, not a primary date). No week-eligibility upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

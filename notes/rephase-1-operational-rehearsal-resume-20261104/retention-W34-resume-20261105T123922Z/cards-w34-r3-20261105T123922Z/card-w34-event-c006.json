@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:4c6e756c29612828",
+  "basis": {
+    "task_sha256": "ddf4ce9cdba288ee38ded0328f3a7559c12bdfee596346c605ec6fbcdccaa0b8",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "cisa-kev-ray-cve-2025-62593",
+      "canonical_name": "Ray CVE-2025-62593 CISA KEV listing",
+      "entity_type": "PRODUCT",
+      "organization": "CISA",
+      "canonical_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "cisa-kev-ray-cve-2025-62593",
+    "artifact_type": "SECURITY_EVENT",
+    "canonical_name": "Ray CVE-2025-62593 CISA KEV listing",
+    "canonical_url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-4d2cb3db49666f68",
+      "url": "https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:07:58Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "CISA KEV feed entry: CVE-2025-62593, Ray-Project Ray code-injection vulnerability with remote-code-execution potential, dateAdded 2026-08-17, due 2026-08-20.",
+      "subject_id": "cisa-kev-ray-cve-2025-62593",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-4d2cb3db49666f68"
+      ],
+      "context": "Verbatim feed fields in captured JSON bytes."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The feed's required action references vendor mitigations and BOD 26-04 patching/forensics-triage guidance.",
+      "subject_id": "cisa-kev-ray-cve-2025-62593",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-4d2cb3db49666f68"
+      ],
+      "context": "Feed requiredAction/notes fields."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "KEV listing confirms catalog status only; exploitation scope and vendor-fix completeness require the Ray advisory/NVD record, not captured here.",
+      "subject_id": "cisa-kev-ray-cve-2025-62593",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-4d2cb3db49666f68"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The HTML catalog page retrieved alongside is a 281297B JS application shell, captured-but-unconsumed for catalog facts (not a failed fetch); verification rests solely on the machine-readable KEV feed (dateAdded 2026-08-17), not the rendered page.",
+      "subject_id": "cisa-kev-ray-cve-2025-62593",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-4d2cb3db49666f68"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "W34 exploitation/KEV delta is distinct from 2025 vulnerability disclosure.",
+        "status": "VERIFIED",
+        "finding": "Captured CISA KEV feed bytes confirm the Aug 17 KEV addition for Ray CVE-2025-62593, a W34 exploitation/catalog delta distinct from the 2025 vulnerability disclosure.",
+        "subject_ids": [
+          "cisa-kev-ray-cve-2025-62593"
+        ],
+        "source_ids": [
+          "supplement-src-4d2cb3db49666f68"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

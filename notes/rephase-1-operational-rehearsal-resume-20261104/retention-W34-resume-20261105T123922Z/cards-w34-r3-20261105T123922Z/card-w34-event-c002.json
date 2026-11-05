@@ -1,0 +1,121 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:11953b0889d773f1",
+  "basis": {
+    "task_sha256": "03c2c02257c1799b30f5eb7055d005b137bac6724408be9b022941c3a19a1bfc",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "anthropic-claude-watermark",
+      "canonical_name": "Claude text watermarking",
+      "entity_type": "PRODUCT",
+      "organization": "Anthropic",
+      "canonical_url": "https://www.anthropic.com/news/claude-text-watermark"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "anthropic-claude-watermark",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Claude text watermarking",
+    "canonical_url": "https://www.anthropic.com/news/claude-text-watermark"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-e7063b0f48a3b58b",
+      "url": "https://www.anthropic.com/news/claude-text-watermark",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.anthropic.com/news/claude-text-watermark",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:52:51Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Anthropic's Aug 14 article states future Claude models will generate text containing a watermark to estimate likelihood of Claude involvement, implemented with other major providers for EU AI Act compliance.",
+      "subject_id": "anthropic-claude-watermark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e7063b0f48a3b58b"
+      ],
+      "context": "Article lede and summary bullets."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The article states the method uses token-choice watermarking with no practical impact on output quality and no reader-distinguishable difference.",
+      "subject_id": "anthropic-claude-watermark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-e7063b0f48a3b58b"
+      ],
+      "context": "Vendor mechanism description; no independent verification in captured bytes."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "The article is dated Aug 14, 2026 on the page; no clock time is published.",
+      "subject_id": "anthropic-claude-watermark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-e7063b0f48a3b58b"
+      ],
+      "context": "Page dateline text."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Exact page publication time vs the Aug 14 22:00Z W34-start boundary is unresolved: the page carries a date only.",
+      "subject_id": "anthropic-claude-watermark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e7063b0f48a3b58b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Watermark robustness/detection-tool claims are vendor-described; no independent test or detector in captured bytes.",
+      "subject_id": "anthropic-claude-watermark",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-e7063b0f48a3b58b"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Future Claude models use token-choice watermarking for EU AI Act compliance. Exact page time vs W34 start unresolved; ordinary-window X discussion exists.",
+        "status": "UNRESOLVED",
+        "finding": "Watermarking content VERIFIED in captured Anthropic first-party body (token-choice for EU AI Act compliance); exact Aug 14 date-only vs 22:00Z week placement remains UNRESOLVED. Ordinary-window X discussion is a lead only and is not cited as timing corroboration; no week-eligibility upgrade claimed.",
+        "subject_ids": [
+          "anthropic-claude-watermark"
+        ],
+        "source_ids": [
+          "supplement-src-e7063b0f48a3b58b"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "Future Claude models use token-choice watermarking for EU AI Act compliance. Exact page time vs W34 start unresolved; ordinary-window X discussion exists.: Watermarking content VERIFIED in captured Anthropic first-party body (token-choice for EU AI Act compliance); exact Aug 14 date-only vs 22:00Z week placement remains UNRESOLVED. Ordinary-window X discussion is a lead only and is not cited as timing corroboration; no week-eligibility upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

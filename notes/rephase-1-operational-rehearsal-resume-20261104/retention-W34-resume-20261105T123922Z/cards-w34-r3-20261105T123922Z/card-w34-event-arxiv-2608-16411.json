@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:304d9ce03d2edeee",
+  "basis": {
+    "task_sha256": "0c1b3f3787119817a77f711f86d64bf860aeec0cc4ed8d64a2d3e88697e58cdc",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.16411",
+      "canonical_name": "Towards Risk-free AI Agent Deployment",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.16411"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.16411",
+    "artifact_type": "PAPER",
+    "canonical_name": "Towards Risk-free AI Agent Deployment",
+    "canonical_url": "https://arxiv.org/abs/2608.16411"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-61d14459634eda5d",
+      "url": "https://arxiv.org/abs/2608.16411",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.16411",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:36:00Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Towards Risk-free AI Agent Deployment\" proposes Learn more × License: CC BY 4.0 arXiv:2608.16411v1 [cs.SE] 17 Aug 2026 Towards Risk-free AI Agent Deployment DOI: XXXXXXX.XXXXXXX Journal: JACM Volume: 37 4 111 8 CCS: Computing methodologies Artificial intelligence CCS: Software and its engineering Software creation and manageme",
+      "subject_id": "paper-2608.16411",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-61d14459634eda5d"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Recent benchmarks such as τ \\tau -bench ( Yao et al., 2024 ) and OSWorld ( Xie et al., 2024 ) move toward E2E evaluation by assessing resulting system state rather than only final outputs.",
+      "subject_id": "paper-2608.16411",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-61d14459634eda5d"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Who&When ( Zhang et al., 2025 ) benchmarks automated attribution directly, introducing three baseline strategies—all-at-once, step-by-step, and binary-search attribution—and finding that even frontier models achieve only a miserable step-level localization accuracy.",
+      "subject_id": "paper-2608.16411",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-61d14459634eda5d"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.16411",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-61d14459634eda5d"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.16411",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-61d14459634eda5d"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.16411",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-61d14459634eda5d"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.16411) in lane agents_tools. Discovery triage only: matched=agents_tools,developer_systems,language_models,safety_security,training_methods; title_matches=agents_tools; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: LLM-based agents are rapidly moving from research prototypes into the core business processes of organizations, but these agents pose deployment risks to security, compliance, and functionality. In this article, we argue that risk-free deployment must be grounded in the agent's trajectory: the recorded sequence of reasoning steps, tool invocations, and environmental observations. Trajectories are available for any agent, and many failures are visible only in the trajectory. To make agents deployable and sustainable, we advocate agent testing and debugging as a systematic research direction for",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.16411"
+        ],
+        "source_ids": [
+          "supplement-src-61d14459634eda5d"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

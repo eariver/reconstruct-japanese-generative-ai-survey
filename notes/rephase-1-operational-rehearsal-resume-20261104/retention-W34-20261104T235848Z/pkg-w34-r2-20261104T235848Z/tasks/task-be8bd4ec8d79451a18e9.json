@@ -1,0 +1,68 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:248e947795105c19",
+  "discovery_ids": [
+    "w34-event-refresh-arxiv-arxiv-memory-augmentation"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.21265",
+      "metadata": {
+        "arxiv_id": "2608.21265",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.CL"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SUMMARY",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-refresh-arxiv-arxiv-memory-augmentation",
+        "event_level_expansion": true,
+        "exact_http_bytes_preserved": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-architecture-r2-research-sufficiency-revision-r1",
+        "iterative_evidence_priority": true,
+        "lane": "reasoning efficiency / retrieval",
+        "primary_category": "cs.CL",
+        "provider": "arXiv",
+        "refresh_note": "The Atom response is a broad category sweep. The abstract is a Discovery lead only; paper-level Evidence and significance remain for Sol/Luna review.",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-refresh-arxiv-memory-augmentation",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "updated_at": "2026-08-26T12:50:17Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-07T16:11:21Z",
+      "published_at": "2026-08-21T16:22:36Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-cl.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Large language models often rely on Chain-of-Thought (CoT) reasoning to solve complex tasks, but verbose reasoning traces introduce substantial inference overhead. CoT compression shortens generation, yet aggressive compression may disrupt logical coherence and degrade performance. We formalize this trade-off as the Context-Generation Substitution Law, where explicit reasoning context substitutes for part of decode-time generation. Based on this principle, we propose Memory-Augmented Compression, a training-free framework that constructs reusable reasoning memories from historical traces and retrieves them as prefill-side scaffolds. Rather than using raw demonstrations, these memories summarize reusable reasoning patterns, key constraints, and critical operations to compensate for information lost during compression. Experiments show that Memory consistently improves prompt-based Chain-of-Draft (CoD) compression across mathematical reasoning, complex reasoning, and science question answering tasks, yielding accuracy gains of 21.4, 28.0, 29.5, and 6.61 points over CoD on GSM8K, MATH, BBH, and MMLU-Sci, while achieving a 1.14-1.49x latency speedup latency speedup over standard CoT. Memory is also compatible with token-level, reasoning-trace-level, and inference-state compression mechanisms.",
+      "title": "Memory Augmentation Unlocks Efficient Chain-of-Thought Reasoning"
+    }
+  ],
+  "verification_targets": [
+    "Large language models often rely on Chain-of-Thought (CoT) reasoning to solve complex tasks, but verbose reasoning traces introduce substantial inference overhead. CoT compression shortens generation, yet aggressive compression may disrupt logical coherence and degrade performance. We formalize this trade-off as the Context-Generation Substitution Law, where explicit reasoning context substitutes for part of decode-time generation. Based on this principle, we propose Memory-Augmented Compression, a training-free framework that constructs reusable reasoning memories from historical traces and retrieves them as prefill-side scaffolds. Rather than using raw demonstrations, these memories summarize reusable reasoning patterns, key constraints, and critical operations to compensate for information lost during compression. Experiments show that Memory consistently improves prompt-based Chain-of-Draft (CoD) compression across mathematical reasoning, complex reasoning, and science question answering tasks, yielding accuracy gains of 21.4, 28.0, 29.5, and 6.61 points over CoD on GSM8K, MATH, BBH, and MMLU-Sci, while achieving a 1.14-1.49x latency speedup latency speedup over standard CoT. Memory is also compatible with token-level, reasoning-trace-level, and inference-state compression mechanisms."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-refresh-arxiv-arxiv-memory-augmentation",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "reasoning-efficiency",
+          "retrieval"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-386cd49fd7fe12d5"
+  ]
+}

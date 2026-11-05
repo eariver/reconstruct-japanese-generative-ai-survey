@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:fb85a056f96e113a",
+  "basis": {
+    "task_sha256": "448a3ea05f5a1bb14a2489100c45eb7756697a4be92c5bbb94b0a292adf9bb27",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "mistral-agentic-search",
+      "canonical_name": "Mistral Agentic Search",
+      "entity_type": "PRODUCT",
+      "organization": "Mistral AI",
+      "canonical_url": "https://mistral.ai/news/agentic-search/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "mistral-agentic-search",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Mistral Agentic Search",
+    "canonical_url": "https://mistral.ai/news/agentic-search/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-fda465f3cb8a4488",
+      "url": "https://mistral.ai/news/agentic-search/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://mistral.ai/news/agentic-search/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:43Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "Mistral's Aug 20 post describes Agentic Search as a multi-step retrieval loop (find, inspect, verify) over existing indexes with five tools: search, open, navigate, read, grep.",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-fda465f3cb8a4488"
+      ],
+      "context": "Capability description in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The post states the model inspects findings, refines searches, opens documents, navigates sections, and reads source material before answering, reducing turns/token use/latency.",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-fda465f3cb8a4488"
+      ],
+      "context": "Architecture claims in captured body."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "The post reports evaluation on FinanceBench and OfficeQA Pro with default stack settings.",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-fda465f3cb8a4488"
+      ],
+      "context": "Maker-reported benchmark attribution, not adopted as fact."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "FinanceBench/OfficeQA Pro figures are Mistral-reported with default-stack settings; no independent reproduction in captured bytes.",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-fda465f3cb8a4488"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Availability/pricing/surface scope beyond the announcement post is not in captured bytes.",
+      "subject_id": "mistral-agentic-search",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-fda465f3cb8a4488"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Multi-step retrieval/navigation/verification layer; vendor benchmarks remain maker-reported.",
+        "status": "VERIFIED",
+        "finding": "Captured Mistral first-party body supports multi-step search, link/document following (open/navigate), reading/analysis, and search refinement; benchmarks separated as maker-reported per target.",
+        "subject_ids": [
+          "mistral-agentic-search"
+        ],
+        "source_ids": [
+          "supplement-src-fda465f3cb8a4488"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:191c5a57398e4f05",
+  "basis": {
+    "task_sha256": "83bff7573f5b2da60e31ea8ddd9b98608e10a824d9e49bde3d99b5523e1d42e6",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.20421",
+      "canonical_name": "Six misconceptions about large language models: A minimal model and diagnostic taxonomy",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.20421"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.20421",
+    "artifact_type": "PAPER",
+    "canonical_name": "Six misconceptions about large language models: A minimal model and diagnostic taxonomy",
+    "canonical_url": "https://arxiv.org/abs/2608.20421"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-125e94ae7936eced",
+      "url": "https://arxiv.org/pdf/2608.20421",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv PDF body for 2608.20421 (HTML conversion unavailable; text extracted via pdftotext for inspection)",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:54:48Z",
+      "role": "Post-Screening exact authority supplement: primary paper PDF body; HTML full-text conversion unavailable so PDF was retrieved and text-extracted for method/evaluation/results inspection"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Six misconceptions about large language models: A minimal model and diagnostic taxonomy\" proposes Models: A minimal\n                  model and diagnostic taxonomy.",
+      "subject_id": "paper-2608.20421",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-125e94ae7936eced"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: In a dataset of more than 4 million artworks, AI-assisted creators who combined active\n ideation with selective filtering of model outputs received the most favorable peer evaluations; even\n though average content and visual novelty declined, peak content novelty increased among ",
+      "subject_id": "paper-2608.20421",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-125e94ae7936eced"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): On\nFreshQA, retrieval-augmented prompting improved GPT-4’s factual accuracy by 32.6–49.0%\nrelative to the same model without retrieval (60); on LitQA2 (a domain-expert scientific\nliterature benchmark), PaperQA2—an agent that retrieves and synthesizes full papers—achieved\n85.2% pr",
+      "subject_id": "paper-2608.20421",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-125e94ae7936eced"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No public code/model artifact link was found in the inspected arXiv PDF text extraction sections; reproducibility cannot be confirmed from captured bytes.",
+      "subject_id": "paper-2608.20421",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-125e94ae7936eced"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.20421",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-125e94ae7936eced"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-3",
+      "text": "The inspected arXiv PDF text extraction exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.20421",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-125e94ae7936eced"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.20421) in lane language_models. Discovery triage only: matched=agents_tools,evaluation,language_models,memory_context,safety_security,training_methods; title_matches=language_models; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Large language models (LLMs) are now embedded in scientific, educational, and governance workflows, with debates centering on their capabilities, mechanisms, and impacts. Yet these debates remain structured by persistent folk theories--intuitive, informal explanatory models that guide attitudes and actions. Deflationary slogans (\"just autocomplete,\" \"stochastic parrots,\" and \"average of the internet\") and anthropomorphic framings (\"emergent agents\" and \"proto-minds\") each capture genuine features of current systems but mistake those features for the whole. This Perspective proposes a minimal w",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv PDF text extraction confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.20421"
+        ],
+        "source_ids": [
+          "supplement-src-125e94ae7936eced"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

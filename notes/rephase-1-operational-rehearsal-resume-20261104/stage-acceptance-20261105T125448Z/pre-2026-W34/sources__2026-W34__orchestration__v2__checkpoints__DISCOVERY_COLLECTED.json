@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "from_state": "DISCOVERY_COLLECTED",
+  "to_state": "CANDIDATES_NORMALIZED",
+  "checkpoints": [
+    "screening"
+  ],
+  "recorded_at": "2026-11-01T11:31:00Z",
+  "implementation": {
+    "repository_commit_sha": "480823560c0c26ed2e5baa18e0e79a22b2839a27",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+  },
+  "artifacts": [
+    {
+      "name": "screening-acceptance",
+      "path": "sources/2026-W34/screening/v2/accepted/e193ad0507895568e369437833b87d2610d68ef50f0c6419b092f5711e26bbea/screening-accepted.json",
+      "sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "General isolated-rehearsal deterministic stage validation (author, not independent reviewer)",
+      "evidence": "validate_stage PASS report sources/2026-W34/orchestration/v2/stage-validation/DISCOVERY_COLLECTED-report.json sha256 a838f65ab89338fbe9c431f401966d87935aafe7f45c5a84db9bbfb93c7cd88c on exact current bytes (fresh expansion screening e193ad05, 439 decisions, DERIVED_EXPANSION bound); independent Screening content review tracked separately, BOUNDED PROCEED per packet review below",
+      "result": {
+        "path": "sources/2026-W34/orchestration/v2/stage-validation/DISCOVERY_COLLECTED-report.json",
+        "sha256": "a838f65ab89338fbe9c431f401966d87935aafe7f45c5a84db9bbfb93c7cd88c"
+      }
+    },
+    {
+      "check_id": "SCREENING_SUPERVISORY_REVIEW",
+      "kind": "AGENT_RESEARCH",
+      "status": "PASS",
+      "executor": "General independent supervisory reviewer",
+      "evidence": "Independent W34 Screening BOUNDED PROCEED with no mandatory proposed-input correction and explicit residual Evidence targets; review file notes/rephase-1-operational-rehearsal-20261101/reviews/screening-w34-review-20261101T111852Z.md sha256 1a34fddb548004397291b2de16f1ee231008581520f9cbdc824270bc1f241fb5 16289B including residuals; executor General independent supervisory reviewer (not Sol/Astra/Human); no Gate decided, no semantic PASS given",
+      "result": null
+    }
+  ],
+  "summary": "Screening accepted W34 439-event expansion (KEEP73/MAYBE136/INSPECT200/DROP30, e193ad05) validated against 369-root Discovery with strict facade; advancing DISCOVERY_COLLECTED to CANDIDATES_NORMALIZED after independent Screening BOUNDED PROCEED (reviews/screening-w34-review-20261101T111852Z.md 1a34fddb/16289B; residuals retained as Evidence targets)."
+}

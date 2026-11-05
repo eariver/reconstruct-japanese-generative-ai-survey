@@ -1,0 +1,47 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:abce30ccc43cf2d3",
+  "discovery_ids": [
+    "EFF-D132"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_REPO",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r2",
+      "observed_at": "2026-09-21T17:30:00Z",
+      "title": "KDA kernel implementation (FLA) + vLLM path",
+      "locator": "https://github.com/fla-org/flash-linear-attention/tree/main/fla/ops/kda",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-r2-g16-capstone-firstparty.md"
+      ],
+      "published_at": null,
+      "summary_text": "Open kernel + vLLM impl = deployability proof beyond paper; numerics/perf at Evidence. [retrieval: LOCATOR_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "g16",
+        "expansion": "r2",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "LOCATOR_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "numerics/perf at Evidence"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D132",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026",
+          "serving"
+        ]
+      }
+    ]
+  }
+}

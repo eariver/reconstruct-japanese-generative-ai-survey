@@ -1,0 +1,45 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:144a652b9efeadf1",
+  "discovery_ids": [
+    "EFF-D051"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_REPO",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "KTransformers (heterogeneous CPU/GPU MoE execution)",
+      "locator": "https://github.com/kvcache-ai/ktransformers",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-d07-representation-local.md"
+      ],
+      "published_at": null,
+      "summary_text": "Expert-offload answer to weight-capacity vs active-compute question. [retrieval: LOCATOR_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "d07",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "LOCATOR_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "version/content binding at Evidence"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D051",
+        "decision": "KEEP",
+        "scope_tags": [
+          "local-inference",
+          "moe-routing"
+        ]
+      }
+    ]
+  }
+}

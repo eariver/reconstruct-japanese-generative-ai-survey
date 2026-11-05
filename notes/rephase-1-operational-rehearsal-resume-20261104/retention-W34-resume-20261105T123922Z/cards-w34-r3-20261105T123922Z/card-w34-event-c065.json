@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:230956555def2a51",
+  "basis": {
+    "task_sha256": "8be8af5f52d01f7899dca9d9ed1dbdefdad42c937fdb7bf01fba85dc599574ef",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "ox-alpha-preview",
+      "canonical_name": "Ox Alpha anonymous stealth preview",
+      "entity_type": "MODEL",
+      "organization": null,
+      "canonical_url": "https://drive.google.com/open?id=1avn6m20KB6EEDSXCODwSRxGJXsxz60sn"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "ox-alpha-preview",
+    "artifact_type": "MODEL",
+    "canonical_name": "Ox Alpha anonymous stealth preview",
+    "canonical_url": "https://drive.google.com/open?id=1avn6m20KB6EEDSXCODwSRxGJXsxz60sn"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "src-1",
+      "url": "https://drive.google.com/open?id=1avn6m20KB6EEDSXCODwSRxGJXsxz60sn",
+      "source_class": "SOCIAL",
+      "title": "Ox Alpha stealth preview, later revealed as GLM-5.3-Flash",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:34:01Z",
+      "role": "Discovery-bounded source used for factual verification"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "W34 DailyX record preserves Aug 20-21 community observation of an anonymous free 1M-context stealth model (stealth/ox-alpha) drawing heavy coding-agent traffic on OpenRouter.",
+      "subject_id": "ox-alpha-preview",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "SOCIAL_OBSERVATION",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Local record excerpts in ledger detail; OpenRouter listing itself not captured."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Post-cutoff attribution (Z.ai GLM-5.3-Flash, Aug 26) is excluded from W34 claims by chronology rule.",
+      "subject_id": "ox-alpha-preview",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Exclusion boundary, not a consumed fact."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "No first-party preview artifact captured; preview specs/pricing/traffic figures are community-observed, not verified.",
+      "subject_id": "ox-alpha-preview",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The Aug 26 official release must not be retroactively treated as an ordinary-window release per target.",
+      "subject_id": "ox-alpha-preview",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "src-1"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "W34 event is the anonymous real-world preview/traffic evaluation. Identity was intentionally hidden during W34 and resolved post-cutoff; do not retroactively treat the Aug 26 official GLM-5.3-Flash release as an ordinary-window release.",
+        "status": "UNRESOLVED",
+        "finding": "Discussion-existence of an Aug 20-21 anonymous stealth observation on OpenRouter is preserved as SOCIAL_OBSERVATION; preview/traffic facts (1M-context specs, heavy coding-agent traffic) remain UNRESOLVED without a first-party preview artifact. Post-cutoff GLM-5.3-Flash attribution is excluded from W34 claims; no preview upgrade claimed.",
+        "subject_ids": [
+          "ox-alpha-preview"
+        ],
+        "source_ids": [
+          "src-1"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "W34 event is the anonymous real-world preview/traffic evaluation. Identity was intentionally hidden during W34 and resolved post-cutoff; do not retroactively treat the Aug 26 official GLM-5.3-Flash release as an ordinary-window release.: Discussion-existence of an Aug 20-21 anonymous stealth observation on OpenRouter is preserved as SOCIAL_OBSERVATION; preview/traffic facts (1M-context specs, heavy coding-agent traffic) remain UNRESOLVED without a first-party preview artifact. Post-cutoff GLM-5.3-Flash attribution is excluded from W34 claims; no preview upgrade claimed."
+    ],
+    "contradictions": []
+  }
+}

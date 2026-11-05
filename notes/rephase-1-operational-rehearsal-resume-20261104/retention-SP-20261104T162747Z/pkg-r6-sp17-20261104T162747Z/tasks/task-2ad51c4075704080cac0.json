@@ -1,0 +1,49 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:eabc25761ace223d",
+  "discovery_ids": [
+    "EFF-D008"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_PAPER",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "On the Design of Qwen3.8-Next Architecture (technical report)",
+      "locator": "https://arxiv.org/abs/2608.30320",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-d02-scaling-training.md"
+      ],
+      "published_at": "2026-08-31",
+      "summary_text": "125B/6B + 51B host-offloaded n-gram; GDN/QSA; Muon+AdamW; scaling-law refit; vendor-claimed 1/3 tokens ~1/9 FLOPs. [retrieval: SUMMARY_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "d02",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "SUMMARY_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "vendor-claimed 1/3 tokens / 1/9 FLOPs quarantine"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D008",
+        "decision": "KEEP",
+        "scope_tags": [
+          "attention-kv",
+          "capstone-2026",
+          "scaling-training"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-d711ecee9747087b"
+  ]
+}

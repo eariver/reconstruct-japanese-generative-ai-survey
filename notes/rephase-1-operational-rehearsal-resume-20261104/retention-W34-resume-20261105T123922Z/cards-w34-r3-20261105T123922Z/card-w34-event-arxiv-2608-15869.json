@@ -1,0 +1,130 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:af493593e582d06f",
+  "basis": {
+    "task_sha256": "89727f7470d7853933a0366fd74ab0da4fd112a0778a2a8e07fd5e4b0dfb507c",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "paper-2608.15869",
+      "canonical_name": "Beyond Visual CoT: Internalized Visual Thinking for Proactive Video Reasoning",
+      "entity_type": "PAPER",
+      "organization": null,
+      "canonical_url": "https://arxiv.org/abs/2608.15869"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "paper-2608.15869",
+    "artifact_type": "PAPER",
+    "canonical_name": "Beyond Visual CoT: Internalized Visual Thinking for Proactive Video Reasoning",
+    "canonical_url": "https://arxiv.org/abs/2608.15869"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-6a464c073b356aed",
+      "url": "https://arxiv.org/abs/2608.15869",
+      "source_class": "PRIMARY_PAPER",
+      "title": "arXiv full-text HTML body for 2608.15869",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:35:19Z",
+      "role": "Post-Screening exact authority supplement: primary paper body inspected for method, evaluation, results, artifacts, and limitations; abstract alone not used for substantive claims"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "\"Beyond Visual CoT: Internalized Visual Thinking for Proactive Video Reasoning\" proposes Learn more × License: arXiv.org perpetual non-exclusive license arXiv:2608.15869v1 [cs.CV] 16 Aug 2026 \\correspondence Xiaoyu Zhu: xiaoyu_zhu2@apple.com Beyond Visual CoT: Internalized Visual Thinking for Proactive Video Reasoning Xiaoyu Zhu Xinke Deng Suresh Taddewadikar Arnab K",
+      "subject_id": "paper-2608.15869",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-6a464c073b356aed"
+      ],
+      "context": "Method/system claim as reported by the authors in the inspected body; not independently reproduced."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "Evaluation as reported: Under matched base models, training data, and evaluation protocols, IVT surpasses strong Visual CoT counterparts on 4 of 6 benchmarks.",
+      "subject_id": "paper-2608.15869",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-6a464c073b356aed"
+      ],
+      "context": "Evaluation design/benchmark scope as described by the authors; benchmark choice and protocol not independently audited."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Maker-reported result (not a publication-grade fact): Although it begins below the understanding-heavy variants, it continues to improve across later checkpoints and achieves the best result on every metric at 20k steps, including ROUGE-L of 34.5 34.5 , METEOR of 27.4 27.4 , CIDEr of 2.02 2.02 , and BERTScore of 36.5 36.5 .",
+      "subject_id": "paper-2608.15869",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "AUTHOR_CLAIM",
+      "source_ids": [
+        "supplement-src-6a464c073b356aed"
+      ],
+      "context": "Author-reported numbers only; no independent reproduction or significance testing in captured bytes."
+    },
+    {
+      "statement_id": "claim-4",
+      "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+      "subject_id": "paper-2608.15869",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-6a464c073b356aed"
+      ],
+      "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+      "subject_id": "paper-2608.15869",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-6a464c073b356aed"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "The inspected arXiv HTML full text exposes no dedicated limitations discussion captured by section parsing; absence-of-limitations is a parsing observation, not a quality judgment.",
+      "subject_id": "paper-2608.15869",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-6a464c073b356aed"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Abstract-level arXiv Discovery lead (2608.15869) in lane training_methods. Discovery triage only: matched=evaluation,inference_serving,language_models,multimodal_media,retrieval_embeddings,training_methods; title_matches=training_methods; score=10. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Multimodal large language models increasingly use visual chain-of-thought (Visual CoT) to reason about spatial, temporal, and embodied environments. By generating intermediate reasoning images, Visual CoT provides an intuitive mechanism for visual foresight but introduces substantial inference overhead, which is particularly problematic for proactive video reasoning. We ask whether models can learn to think visually during training while reasoning directly at inference. We introduce Internalized Visual Thinking (IVT), a post-training framework that jointly optimizes textual prediction and next",
+        "status": "VERIFIED",
+        "finding": "Inspected arXiv HTML full text confirms the paper states the reported method, evaluation setup, and results summarized in the discovery abstract (span-grounded claims above); substantive numbers remain author-reported.",
+        "subject_ids": [
+          "paper-2608.15869"
+        ],
+        "source_ids": [
+          "supplement-src-6a464c073b356aed"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

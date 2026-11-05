@@ -1,0 +1,69 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:2cd0930cf46eb97d",
+  "discovery_ids": [
+    "w34-event-refresh-arxiv-arxiv-refine"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.23611",
+      "metadata": {
+        "arxiv_id": "2608.23611",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.SE",
+          "cs.AI"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SUMMARY",
+        "discovery_only": true,
+        "event_level_discovery_id": "w34-event-refresh-arxiv-arxiv-refine",
+        "event_level_expansion": true,
+        "exact_http_bytes_preserved": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-architecture-r2-research-sufficiency-revision-r1",
+        "iterative_evidence_priority": true,
+        "lane": "developer tooling / agentic code",
+        "primary_category": "cs.SE",
+        "provider": "arXiv",
+        "refresh_note": "The Atom response is a broad category sweep. The abstract is a Discovery lead only; paper-level Evidence and significance remain for Sol/Luna review.",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-refresh-arxiv-refine",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "updated_at": "2026-08-21T17:44:40Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-07T16:11:21Z",
+      "published_at": "2026-08-21T17:44:40Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-ai.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Large Language Models (LLMs) offer new opportunities for automated code refactoring. However, generated changes must reduce targeted quality problems without introducing new issues or altering behaviour-relevant code structures. We introduce REFINE (Refactoring with Evidence-aware Flow for Integrated ageNtic Execution), a tool-agnostic, evidence-aware multi-agent approach for generating Java file-level refactoring candidates. REFINE combines static-analysis-guided smell identification, smell-informed planning, LLM-based transformation, automated re-analysis, preservation checks, and structured reporting. We evaluate REFINE on 450 Java files from 15 open-source systems, producing 1,350 model-pass outputs using OpenAI GPT-5.5, Google Gemini 3.1 Pro Preview, and Anthropic Claude Opus 4.8. REFINE reduces detected code smells by 68.26%, 72.79%, and 68.49% across the three configurations, respectively, with the strongest reductions observed for major smells. A matched 150-file direct-prompt baseline shows that REFINE achieves a higher median code-smell reduction with smaller edits and fewer public-method removals. However, broader quality improvements are inconsistent, and preservation checks reveal residual risks, including assert/fail-call changes and public-method removal. Therefore, REFINE outputs should be treated as refactoring candidates requiring compilation, testing, dependency analysis, and human review before adoption in repository- or system-level settings.",
+      "title": "REFINE: A Multi-Agent LLM Approach for Evidence-Guided Code Refactoring"
+    }
+  ],
+  "verification_targets": [
+    "Large Language Models (LLMs) offer new opportunities for automated code refactoring. However, generated changes must reduce targeted quality problems without introducing new issues or altering behaviour-relevant code structures. We introduce REFINE (Refactoring with Evidence-aware Flow for Integrated ageNtic Execution), a tool-agnostic, evidence-aware multi-agent approach for generating Java file-level refactoring candidates. REFINE combines static-analysis-guided smell identification, smell-informed planning, LLM-based transformation, automated re-analysis, preservation checks, and structured reporting. We evaluate REFINE on 450 Java files from 15 open-source systems, producing 1,350 model-pass outputs using OpenAI GPT-5.5, Google Gemini 3.1 Pro Preview, and Anthropic Claude Opus 4.8. REFINE reduces detected code smells by 68.26%, 72.79%, and 68.49% across the three configurations, respectively, with the strongest reductions observed for major smells. A matched 150-file direct-prompt baseline shows that REFINE achieves a higher median code-smell reduction with smaller edits and fewer public-method removals. However, broader quality improvements are inconsistent, and preservation checks reveal residual risks, including assert/fail-call changes and public-method removal. Therefore, REFINE outputs should be treated as refactoring candidates requiring compilation, testing, dependency analysis, and human review before adoption in repository- or system-level settings."
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-refresh-arxiv-arxiv-refine",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "developer-tooling",
+          "agentic-code"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-253a1edf981e40d2"
+  ]
+}

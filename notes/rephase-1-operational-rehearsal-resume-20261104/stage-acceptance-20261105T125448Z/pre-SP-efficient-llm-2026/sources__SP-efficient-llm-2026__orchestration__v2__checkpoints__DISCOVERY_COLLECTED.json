@@ -1,0 +1,53 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "from_state": "DISCOVERY_COLLECTED",
+  "to_state": "CANDIDATES_NORMALIZED",
+  "checkpoints": [
+    "screening"
+  ],
+  "recorded_at": "2026-11-01T11:21:00Z",
+  "implementation": {
+    "repository_commit_sha": "480823560c0c26ed2e5baa18e0e79a22b2839a27",
+    "orchestrator_version": "survey-production-core-v2/0.15-postintegration-transport-thematic"
+  },
+  "contract": {
+    "pipeline_contract_version": "2.0-rc1",
+    "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+    "quality_contract_version": "2.0-rc1",
+    "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+    "research_profile_version": "2.0-rc1",
+    "research_profile_sha256": "0f575e6d97caec72b2bf8b7f6b78a562d97ca67b2071193417b968ba3d73e6e8",
+    "publication_profile_version": "2.0-rc1",
+    "publication_profile_sha256": "a6859559dd1b9d42ab8fb4402b74b7bdd8611dbe65c8e02a7b022b545c20f4eb"
+  },
+  "artifacts": [
+    {
+      "name": "screening-acceptance",
+      "path": "sources/SP-efficient-llm-2026/screening/v2/accepted/9b9796295c2ddf28b087fc725b78b7d089d6e946a5a5ba65ab51601d58f558a9/screening-accepted.json",
+      "sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4"
+    }
+  ],
+  "reviews": [
+    {
+      "check_id": "CORE_STAGE_CONTRACT",
+      "kind": "DETERMINISTIC",
+      "status": "PASS",
+      "executor": "General isolated-rehearsal deterministic stage validation (author, not independent reviewer)",
+      "evidence": "validate_stage PASS report sources/SP-efficient-llm-2026/orchestration/v2/stage-validation/DISCOVERY_COLLECTED-report.json sha256 84d73fc52a7b4ed7ce24dfb2bfa62e4a8c13c61454644f18c1d9588a66de2fc8 on exact current bytes (fresh screening acceptance 9b979629/69226B, DIRECT 165); independent Screening content review tracked separately, BOUNDED PROCEED per packet review below",
+      "result": {
+        "path": "sources/SP-efficient-llm-2026/orchestration/v2/stage-validation/DISCOVERY_COLLECTED-report.json",
+        "sha256": "84d73fc52a7b4ed7ce24dfb2bfa62e4a8c13c61454644f18c1d9588a66de2fc8"
+      }
+    },
+    {
+      "check_id": "SCREENING_SUPERVISORY_REVIEW",
+      "kind": "AGENT_RESEARCH",
+      "status": "PASS",
+      "executor": "General independent supervisory reviewer",
+      "evidence": "Independent Screening BOUNDED PROCEED for SP-efficient-llm-2026 with no mandatory input correction and explicit residual Evidence targets; review file notes/rephase-1-operational-rehearsal-20261101/reviews/screening-efficient-llm-review-20261101T111203Z.md sha256 f450573dd47202a0b21145e94b572b9124b686f4d4ee6997dbd0a47c1a3d7fbc 15613B; executor General independent supervisory reviewer (not Sol/Astra/Human); no Gate decided, no semantic PASS given",
+      "result": null
+    }
+  ],
+  "summary": "Screening accepted SP DIRECT 165 (135/20/5/5, 9b979629) with COMPLETE X + validated Discovery bound to fresh Profile; advancing DISCOVERY_COLLECTED to CANDIDATES_NORMALIZED after independent Screening BOUNDED PROCEED (reviews/screening-efficient-llm-review-20261101T111203Z.md f450573d/15613B; residuals retained as Evidence targets)."
+}

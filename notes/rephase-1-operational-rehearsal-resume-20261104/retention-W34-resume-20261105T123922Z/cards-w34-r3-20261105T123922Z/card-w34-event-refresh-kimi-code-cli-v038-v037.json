@@ -1,0 +1,97 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:42d0b21ecf41bf1b",
+  "basis": {
+    "task_sha256": "54886a30bb597d7bd88aea0c71ae06db1f5e5b5bcc6fdd30cfdc9a6f4159d896",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "kimi-code-cli",
+      "canonical_name": "Kimi Code CLI v0.38.0/v0.37.0",
+      "entity_type": "PRODUCT",
+      "organization": "Moonshot AI",
+      "canonical_url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "kimi-code-cli",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Kimi Code CLI v0.38.0/v0.37.0",
+    "canonical_url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-4b815e1106c0b771",
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/whats-new.html",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://www.kimi.com/code/docs/en/kimi-code/whats-new.html",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:51:15Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The captured notes list v0.38.0 (Aug 20) with a WaitFor tool for background-task completion in-turn and 13 new Kimi Datasource data sources.",
+      "subject_id": "kimi-code-cli",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-4b815e1106c0b771"
+      ],
+      "context": "Dated entries in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "v0.37.0 (Aug 18) adds multi-skill activation per prompt, queued skill commands, session Done/Workspaces tabs, /reload, kimi doctor, and Windows fail-early on missing Git Bash.",
+      "subject_id": "kimi-code-cli",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-4b815e1106c0b771"
+      ],
+      "context": "Dated entries in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Behavioral/quality effects of the new tools are undescribed beyond feature statements.",
+      "subject_id": "kimi-code-cli",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-4b815e1106c0b771"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "The official Kimi Code release-note page lists v0.38.0 on Aug 20 and v0.37.0 on Aug 18, including a WaitFor tool, additional data sources, multi-skill activation, and Windows CLI auto-update. Candidate-level scope and chronology still require Evidence review.",
+        "status": "VERIFIED",
+        "finding": "Official release-note page confirms both versions, dates, and the listed scope (WaitFor, data sources, multi-skill, session management, Windows update).",
+        "subject_ids": [
+          "kimi-code-cli"
+        ],
+        "source_ids": [
+          "supplement-src-4b815e1106c0b771"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

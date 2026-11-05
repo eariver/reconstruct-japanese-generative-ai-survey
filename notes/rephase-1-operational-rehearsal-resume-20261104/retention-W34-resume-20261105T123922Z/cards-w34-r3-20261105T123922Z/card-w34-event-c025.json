@@ -1,0 +1,110 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:7f3083af813bd19b",
+  "basis": {
+    "task_sha256": "dd32d83708928e2a6dcd4e528cc2002579009e749b4e0b884a268e6c5ae6d551",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "PARTIAL",
+  "entities": [
+    {
+      "entity_id": "xai-grok-build",
+      "canonical_name": "Grok Build availability",
+      "entity_type": "PRODUCT",
+      "organization": "xAI",
+      "canonical_url": "https://x.ai/build/changelog"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "xai-grok-build",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "Grok Build availability",
+    "canonical_url": "https://x.ai/build/changelog"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-421880d24a3b49e0",
+      "url": "https://x.ai/api/changelog",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://x.ai/api/changelog",
+      "published_at": null,
+      "accessed_at": "2026-09-08T14:50:48Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "The xAI Build changelog body carries versioned 1.0.x entries including v1.0.7 dated Aug 19, 2026, evidencing in-window Build development cadence.",
+      "subject_id": "xai-grok-build",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-421880d24a3b49e0"
+      ],
+      "context": "Dated entries in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The configured https://x.ai/api/changelog URL resolves to the SpaceXAI Console changelog (console features Aug 13-24), not a Build/API availability record.",
+      "subject_id": "xai-grok-build",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "PRIMARY_FACT",
+      "source_ids": [
+        "supplement-src-421880d24a3b49e0"
+      ],
+      "context": "Captured body content mismatch documented."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "July-beta-to-broad-availability with publishing/sharing and model access is not confirmed in captured entries; the configured locator does not support the claim.",
+      "subject_id": "xai-grok-build",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-421880d24a3b49e0"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Plan/entitlement scope for Build availability is absent from captured bytes.",
+      "subject_id": "xai-grok-build",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-421880d24a3b49e0"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "July beta becomes broadly available with publishing/sharing and model access.",
+        "status": "UNRESOLVED",
+        "finding": "July beta broad availability with publishing/sharing and model access is not confirmed in captured bodies; in-window 1.0.x changelog cadence is confirmed but does not establish the availability claim.",
+        "subject_ids": [
+          "xai-grok-build"
+        ],
+        "source_ids": [
+          "supplement-src-421880d24a3b49e0"
+        ]
+      }
+    ],
+    "unresolved_questions": [
+      "July beta becomes broadly available with publishing/sharing and model access.: July beta broad availability with publishing/sharing and model access is not confirmed in captured bodies; in-window 1.0.x changelog cadence is confirmed but does not establish the availability claim."
+    ],
+    "contradictions": []
+  }
+}

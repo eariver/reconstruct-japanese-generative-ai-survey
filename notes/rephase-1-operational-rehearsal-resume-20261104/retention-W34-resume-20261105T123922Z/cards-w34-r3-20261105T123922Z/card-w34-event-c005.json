@@ -1,0 +1,119 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:b30f6f25b5e7d9f9",
+  "basis": {
+    "task_sha256": "1dce9cc3c95ac55aec33d72d0944ef348602326bfd72c374d24fd6008afe35d0",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "openai-frontier-pacing",
+      "canonical_name": "OpenAI frontier development pacing (Astra cyber)",
+      "entity_type": "PRODUCT",
+      "organization": "OpenAI",
+      "canonical_url": "https://openai.com/index/pacing-model-development-cyber-capabilities/"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "openai-frontier-pacing",
+    "artifact_type": "SAFETY_EVENT",
+    "canonical_name": "OpenAI frontier development pacing (Astra cyber)",
+    "canonical_url": "https://openai.com/index/pacing-model-development-cyber-capabilities/"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-04338bfe509479f8",
+      "url": "https://openai.com/index/pacing-model-development-cyber-capabilities/",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://openai.com/index/pacing-model-development-cyber-capabilities/",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:05:58Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "OpenAI's Aug 18 post states it paused some frontier RL training for about two weeks with the largest planned frontier RL run remaining on hold.",
+      "subject_id": "openai-frontier-pacing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-04338bfe509479f8"
+      ],
+      "context": "Pacing statement in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The post links the pacing to preliminary evidence that Astra may meet the Critical cybersecurity capability threshold, with Astra internally flagged on Aug 7.",
+      "subject_id": "openai-frontier-pacing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-04338bfe509479f8"
+      ],
+      "context": "Vendor causal account; preliminary status explicitly stated."
+    },
+    {
+      "statement_id": "claim-3",
+      "text": "Stated measures include sandboxing/network isolation, continuous automated red-teaming, multistage monitoring with a 30-minute alert target, and deeper alignment techniques.",
+      "subject_id": "openai-frontier-pacing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-04338bfe509479f8"
+      ],
+      "context": "Safeguard list in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Astra's Critical-tier status is vendor-described as preliminary ('cannot be ruled out' as of the post); no evaluation scores or external verification in captured bytes.",
+      "subject_id": "openai-frontier-pacing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-04338bfe509479f8"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Monitoring-overhead (~20% of monitored inference compute) is an OpenAI estimate, not a measured result in captured bytes.",
+      "subject_id": "openai-frontier-pacing",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-04338bfe509479f8"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Astra preliminary Critical cyber threshold evidence plus stronger containment/monitoring/alignment and development pacing.",
+        "status": "VERIFIED",
+        "finding": "Captured OpenAI first-party body confirms Astra preliminary Critical-cyber evidence, stronger containment/monitoring/alignment, and the development-pacing decision.",
+        "subject_ids": [
+          "openai-frontier-pacing"
+        ],
+        "source_ids": [
+          "supplement-src-04338bfe509479f8"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}

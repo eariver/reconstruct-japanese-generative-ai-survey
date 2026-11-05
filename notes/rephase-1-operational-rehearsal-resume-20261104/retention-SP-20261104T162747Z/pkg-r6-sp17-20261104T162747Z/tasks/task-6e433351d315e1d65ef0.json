@@ -1,0 +1,44 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "SP-efficient-llm-2026",
+  "evidence_task_id": "evidence:SP-efficient-llm-2026:37ec251ef35b5db8",
+  "discovery_ids": [
+    "EFF-D058"
+  ],
+  "source_records": [
+    {
+      "source_type": "PRIMARY_REPO",
+      "collector_id": "chatgpt-primary-web",
+      "collector_run_id": "efficient-llm-discovery-r1",
+      "observed_at": "2026-09-21T17:00:00Z",
+      "title": "TensorRT-LLM (NVIDIA production kernel stack)",
+      "locator": "https://github.com/NVIDIA/TensorRT-LLM",
+      "raw_paths": [
+        "sources/SP-efficient-llm-2026/raw/discovery-observations-d08-serving.md"
+      ],
+      "published_at": null,
+      "summary_text": "Day-0 Qwen3.8-Flash-Next support; version/precision binding at Evidence. [retrieval: LOCATOR_CAPTURED; full-body consumption at Evidence stage]",
+      "metadata": {
+        "lane": "d08",
+        "evidence_boundary": "source-local claims only until Evidence verification",
+        "retrieval_status": "LOCATOR_CAPTURED"
+      }
+    }
+  ],
+  "verification_targets": [
+    "Evidence-stage full-body verification",
+    "version/precision binding"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "6ff524b0a2c2c8f79603348acb86d18d39b180498a72ca92dc12f852dc786bf4",
+    "decisions": [
+      {
+        "discovery_id": "EFF-D058",
+        "decision": "KEEP",
+        "scope_tags": [
+          "serving"
+        ]
+      }
+    ]
+  }
+}

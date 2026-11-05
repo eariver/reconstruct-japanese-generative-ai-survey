@@ -1,0 +1,75 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:48d71d8245ec82d7",
+  "discovery_ids": [
+    "w34-event-arxiv-2608-21278"
+  ],
+  "source_records": [
+    {
+      "collector_id": "arxiv-api",
+      "collector_run_id": "arxiv-api-2026-W34-20260907T161121Z",
+      "locator": "https://arxiv.org/abs/2608.21278",
+      "metadata": {
+        "arxiv_id": "2608.21278",
+        "authority_class": "DISCOVERY_SOURCE_ONLY",
+        "categories": [
+          "cs.AI"
+        ],
+        "chronology_precision": "EXACT_PUBLISHED_IN_ATOM_SNAPSHOT",
+        "deterministic_prefilter_hit": true,
+        "deterministic_score": 12,
+        "discovery_only": true,
+        "duplicate_relationship": null,
+        "event_level_discovery_id": "w34-event-arxiv-2608-21278",
+        "event_level_expansion": true,
+        "fresh_expansion": "w34-screening-evidence-after-sol-discovery-r2",
+        "fresh_refresh": "w34-discovery-gapfill-after-sol-review-r1",
+        "iterative_evidence_priority": true,
+        "lane": "inference_serving",
+        "matched_term_groups": [
+          "evaluation",
+          "inference_serving",
+          "language_models",
+          "safety_security"
+        ],
+        "primary_category": "cs.AI",
+        "provider": "arXiv",
+        "screening_decision_present": false,
+        "selected_source_parent": "w34-gapfill-arxiv-triage-2608-21278",
+        "selection_not_performed": true,
+        "technical_claims_accepted": false,
+        "triage_bucket": "SEMANTIC_SHORTLIST",
+        "updated_at": "2026-08-21T16:36:10Z",
+        "window_relation_observation": "IN_WINDOW_DATE_CANDIDATE",
+        "window_utc": "[2026-08-14T22:00:00Z, 2026-08-21T22:00:00Z)"
+      },
+      "observed_at": "2026-09-08T00:51:52Z",
+      "published_at": "2026-08-21T16:36:10Z",
+      "raw_paths": [
+        "sources/2026-W34/execution/luna/w34-architecture-r2-research-sufficiency-revision-r1/source-intake/sources/2026-W34/collectors/arxiv/runs/20260907T161121Z/raw/cs-ai.atom"
+      ],
+      "source_type": "arxiv_atom_snapshot",
+      "summary_text": "Abstract-level arXiv Discovery lead (2608.21278) in lane inference_serving. Discovery triage only: matched=evaluation,inference_serving,language_models,safety_security; title_matches=inference_serving,language_models,safety_security; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Improving the safety of large language models (LLMs) often comes at the expense of utility, as globally applied safety tuning may affect model responses to both harmful and benign inputs. We propose \\textbf{C}ontinuous \\textbf{L}at\\textbf{E}nt \\textbf{A}dapter \\textbf{R}outing (CLEAR), a conditional safety adaptation framework that uses a lightweight hidden-state gate to continuously control the activation strength of a safety low-rank adapter. CLEAR aims to reduce harmful completions while avoiding unnecessary changes to the frozen backbone that could degrade performance on benign prompts. Ex",
+      "title": "CLEAR: Continuous Latent Adapter Routing for Utility-Preserving LLM Safety Alignment"
+    }
+  ],
+  "verification_targets": [
+    "Abstract-level arXiv Discovery lead (2608.21278) in lane inference_serving. Discovery triage only: matched=evaluation,inference_serving,language_models,safety_security; title_matches=inference_serving,language_models,safety_security; score=12. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Improving the safety of large language models (LLMs) often comes at the expense of utility, as globally applied safety tuning may affect model responses to both harmful and benign inputs. We propose \\textbf{C}ontinuous \\textbf{L}at\\textbf{E}nt \\textbf{A}dapter \\textbf{R}outing (CLEAR), a conditional safety adaptation framework that uses a lightweight hidden-state gate to continuously control the activation strength of a safety low-rank adapter. CLEAR aims to reduce harmful completions while avoiding unnecessary changes to the frozen backbone that could degrade performance on benign prompts. Ex"
+  ],
+  "screening_basis": {
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "decisions": [
+      {
+        "discovery_id": "w34-event-arxiv-2608-21278",
+        "decision": "MAYBE",
+        "scope_tags": [
+          "inference_serving"
+        ]
+      }
+    ]
+  },
+  "authority_supplement_source_ids": [
+    "supplement-src-6bd460dddd2e0780"
+  ]
+}

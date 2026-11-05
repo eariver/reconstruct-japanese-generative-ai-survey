@@ -1,0 +1,108 @@
+{
+  "schema_version": "2.0-rc1",
+  "issue_id": "2026-W34",
+  "evidence_task_id": "evidence:2026-W34:2d8d371d5d5a96c2",
+  "basis": {
+    "task_sha256": "c50e0afdb7f0cc7ba652131d89f83bfe4a0c271d930db0e851267df56c5ce944",
+    "screening_acceptance_sha256": "b9d963d83b712ba3fb7e93358f051c4e902f31d0e262c44eea6f76dcdf155841",
+    "prompt_sha256": "fc2129ff2d21791a45a8ae2dd754dd7fca1a6101594408b3f51aa13f38a4a64b",
+    "result_contract_sha256": "48568a0ea687257fd368e3d2ea33f560e7c9806aa3a9b9e81136f05f052abc91"
+  },
+  "status": "VERIFIED",
+  "entities": [
+    {
+      "entity_id": "agentcore-web-search-filters",
+      "canonical_name": "AgentCore Web Search domain/date filters",
+      "entity_type": "PRODUCT",
+      "organization": "AWS",
+      "canonical_url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html"
+    }
+  ],
+  "artifact": {
+    "primary_subject_id": "agentcore-web-search-filters",
+    "artifact_type": "PRODUCT",
+    "canonical_name": "AgentCore Web Search domain/date filters",
+    "canonical_url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html"
+  },
+  "temporal": {
+    "observed_at": "2026-09-08T15:34:01Z",
+    "events": []
+  },
+  "sources": [
+    {
+      "source_id": "supplement-src-dbb238b7d122636d",
+      "url": "https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html",
+      "source_class": "PRIMARY_OFFICIAL",
+      "title": "First-party/official body: https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/release-notes.html",
+      "published_at": null,
+      "accessed_at": "2026-09-08T15:00:18Z",
+      "role": "Post-Screening exact authority supplement: first-party announcement/docs/changelog body inspected for capability, availability, chronology, and API/functional facts; marketing framing separated"
+    }
+  ],
+  "claims": [
+    {
+      "statement_id": "claim-1",
+      "text": "AWS release notes state Web Search Tool connector versions 1.1.0/1.2.0 include request-level domain and date filters with target-level include lists.",
+      "subject_id": "agentcore-web-search-filters",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-dbb238b7d122636d"
+      ],
+      "context": "Notes text in captured body."
+    },
+    {
+      "statement_id": "claim-2",
+      "text": "The notes record EU (Ireland) and APAC (Tokyo) regional expansion for the connector.",
+      "subject_id": "agentcore-web-search-filters",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "VENDOR_CLAIM",
+      "source_ids": [
+        "supplement-src-dbb238b7d122636d"
+      ],
+      "context": "Expansion entry in captured body."
+    }
+  ],
+  "metrics": [],
+  "limitations": [
+    {
+      "statement_id": "limitation-1",
+      "text": "Server-side enforcement semantics are doc-stated; no independent behavioral test in captured bytes.",
+      "subject_id": "agentcore-web-search-filters",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-dbb238b7d122636d"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    },
+    {
+      "statement_id": "limitation-2",
+      "text": "Connector version availability per region must be checked per deployment.",
+      "subject_id": "agentcore-web-search-filters",
+      "subject_role": "PRIMARY_SUBJECT",
+      "evidence_class": "INFERENCE",
+      "source_ids": [
+        "supplement-src-dbb238b7d122636d"
+      ],
+      "context": "Evidence boundary retained for downstream editorial use."
+    }
+  ],
+  "verification": {
+    "targets": [
+      {
+        "target": "Per-request source-domain and freshness filtering enforced server-side.",
+        "status": "VERIFIED",
+        "finding": "Captured AWS first-party notes confirm per-request source-domain and freshness filtering enforced server-side with version/region scope.",
+        "subject_ids": [
+          "agentcore-web-search-filters"
+        ],
+        "source_ids": [
+          "supplement-src-dbb238b7d122636d"
+        ]
+      }
+    ],
+    "unresolved_questions": [],
+    "contradictions": []
+  }
+}
