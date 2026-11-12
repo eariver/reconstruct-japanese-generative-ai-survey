@@ -1,0 +1,718 @@
+diff --git a/scripts/survey_prearchitecture_acceptance_v2.py b/scripts/survey_prearchitecture_acceptance_v2.py
+index 37f22ab..b664e42 100644
+--- a/scripts/survey_prearchitecture_acceptance_v2.py
++++ b/scripts/survey_prearchitecture_acceptance_v2.py
+@@ -506,6 +506,15 @@ def prepare_revision(repo_root: Path, state_path: Path, request_path: Path, revi
+     except Exception as exc:
+         raise AcceptanceError(f"request strict parse failed: {exc}") from exc
+     schema_gate.validate_instance(request, repo_root / "schemas/dm022-revision-request-v2.schema.json", label="revision request")
++    # Preserve original entry bytes/refs for late-boundary recheck (no tautology:
++    # manifest field must equal originally captured values + actual file bytes,
++    # not the current in-memory assignment).
++    import copy as _copy_mod
++
++    original_request_raw = request_raw
++    original_request_sha = hashlib.sha256(request_raw).hexdigest()
++    original_request_len = len(request_raw)
++    original_supp_ref = _copy_mod.deepcopy(request.get("supplement_manifest"))
+     if request.get("revision_id") != revision_id:
+         raise AcceptanceError("request.revision_id must equal revision_id argument")
+     work = request.get("work", {})
+@@ -633,8 +642,40 @@ def prepare_revision(repo_root: Path, state_path: Path, request_path: Path, revi
+         })
+     # Candidate generation via LOW pure builders (in-memory; HIGH writes).
+     # Package (REAL Discovery/Screening/tasks, REAL prompt/contracts from OLD).
++    # HIGH supplement binding seam: verify request SizedRef bytes before any
++    # package/task write; LOW builder validates full supplement closure with
++    # effective DS and sets package authority. HIGH rechecks equality here
++    # (before writes) and again before manifest (no duplicate full validator).
++    _req_supp = request.get("supplement_manifest")
++    if _req_supp is None:
++        pass
++    else:
++        try:
++            low._sized_ref_shape(_req_supp, "request.supplement_manifest")
++        except Exception as exc:
++            raise AcceptanceError(f"request supplement_manifest shape invalid: {exc}") from exc
++        try:
++            low._verify_sized_ref_bytes(repo_root, _req_supp, "request supplement_manifest")
++        except Exception as exc:
++            raise AcceptanceError(f"request supplement_manifest bytes invalid: {exc}") from exc
+     built_pkg = low.build_revision_package_from_paths(repo_root, request_abs, state_copy, rev_root / "candidate")
+     pkg_payload = built_pkg["package"]
++    # Recheck package authority equals validated request manifest (exact
++    # {path,sha256}, not OLD path when replaced; null => no authority).
++    if _req_supp is None:
++        if pkg_payload.get("authority_supplement") is not None:
++            raise AcceptanceError("package must have no authority_supplement when request supplement_manifest is null")
++        if isinstance(pkg_payload.get("contracts"), dict) and "supplement" in pkg_payload["contracts"]:
++            raise AcceptanceError("package must have no supplement contract when request supplement_manifest is null")
++        for _tm in pkg_payload.get("tasks", []):
++            if "authority_supplement_source_ids" in _tm:
++                raise AcceptanceError("package tasks must have no supplement IDs when request supplement_manifest is null")
++    else:
++        _pkg_auth = pkg_payload.get("authority_supplement")
++        if not isinstance(_pkg_auth, dict) or set(_pkg_auth) != {"path", "sha256"}:
++            raise AcceptanceError("package authority_supplement fields invalid")
++        if _pkg_auth.get("path") != _req_supp.get("path") or _pkg_auth.get("sha256") != _req_supp.get("sha256"):
++            raise AcceptanceError("package authority_supplement must equal validated request supplement_manifest {path,sha256}")
+     _exclusive_write_bytes(rev_root / "candidate" / "package.json", core.json_bytes(pkg_payload), "R package")
+     for meta in built_pkg["tasks"]:
+         task_raw = core.json_bytes(meta["_task"])
+@@ -758,6 +799,34 @@ def prepare_revision(repo_root: Path, state_path: Path, request_path: Path, revi
+         raise AcceptanceError("revision produced empty view set (refuse empty binding)")
+     view_refs = [_sized(f"{rev_rel_str}/candidate/views-runs/{vw_acc['view_set_sha256']}/views/{_ev.view_filename(r['evidence_task_id'])}") for r in ordered_view_rows]
+ 
++    # Late publication boundary: request file must not have drifted between entry,
++    # builder, manifest, and request copy. Re-read actual bytes and compare to
++    # originally captured entry bytes (preserved, not current in-memory).
++    try:
++        late_request_raw = _safe_read_bytes(request_abs, "revision request (late recheck)")
++    except Exception as exc:
++        raise AcceptanceError(f"late request re-read failed: {exc}") from exc
++    if late_request_raw != original_request_raw or hashlib.sha256(late_request_raw).hexdigest() != original_request_sha or len(late_request_raw) != original_request_len:
++        raise AcceptanceError("request file bytes changed between entry and manifest (late drift refused)")
++    # Re-verify request SizedRef bytes at late boundary (profile/discovery/
++    # screening + supplement manifest). Preserves original expected values.
++    for _rk in ("profile_ref", "discovery_ref", "screening_ref"):
++        try:
++            low._sized_ref_shape(request.get(_rk), f"request.{_rk}")
++            low._verify_sized_ref_bytes(repo_root, request[_rk], f"request {_rk} (late recheck)")
++        except Exception as exc:
++            raise AcceptanceError(f"request {_rk} late bytes invalid: {exc}") from exc
++    if original_supp_ref is None:
++        if request.get("supplement_manifest") is not None:
++            raise AcceptanceError("request supplement_manifest changed from null to non-null (late drift refused)")
++    else:
++        try:
++            low._sized_ref_shape(original_supp_ref, "original request.supplement_manifest")
++            low._verify_sized_ref_bytes(repo_root, original_supp_ref, "original request supplement_manifest (late recheck)")
++        except Exception as exc:
++            raise AcceptanceError(f"original request supplement_manifest late bytes invalid: {exc}") from exc
++        if request.get("supplement_manifest") != original_supp_ref:
++            raise AcceptanceError("request supplement_manifest changed between entry and manifest (late drift refused)")
+     manifest = {
+         "schema_version": DM022_SCHEMA_VERSION, "issue_id": request["issue_id"],
+         "revision_id": revision_id, "revision_root": rev_rel_str,
+@@ -783,17 +852,22 @@ def prepare_revision(repo_root: Path, state_path: Path, request_path: Path, revi
+             "views_acceptance": _sized(f"{rev_rel_str}/candidate/views-runs/{vw_acc['view_set_sha256']}/edition-views-accepted.json"),
+             "ledger": _sized(f"{rev_rel_str}/candidate/materiality-ledger.json"),
+             "completeness": _sized(f"{rev_rel_str}/candidate/profile-completeness.json"),
+-            "supplement_manifest": request.get("supplement_manifest"),
++            "supplement_manifest": _copy_mod.deepcopy(original_supp_ref),
+         },
+         "tool_pins": request.get("tool_pins"),
+         "work": {"expected_head": head_tree["head"], "expected_tree": head_tree["tree"]},
+         "recorded_at": datetime.now(timezone.utc).isoformat(timespec="seconds").replace("+00:00", "Z"),
+         "executor": "HIGH prepare_revision",
+     }
++    # HIGH manifest recheck: candidate_outputs.supplement_manifest must equal the
++    # originally captured request value + actual file bytes (not a tautological
++    # in-memory assignment). Null enforces no authority downstream (prove checks).
++    if manifest["candidate_outputs"].get("supplement_manifest") != original_supp_ref:
++        raise AcceptanceError("manifest candidate_outputs.supplement_manifest must equal original request supplement_manifest")
+     schema_gate.validate_instance(manifest, repo_root / "schemas/dm022-revision-manifest-v2.schema.json", label="revision manifest")
+     manifest_raw = core.json_bytes(manifest)
+     _exclusive_write_bytes(rev_root / "revision-manifest.json", manifest_raw, "R manifest")
+-    _exclusive_write_bytes(rev_root / "request.json", request_raw, "R/request.json")
++    _exclusive_write_bytes(rev_root / "request.json", original_request_raw, "R/request.json")
+     # Retention inventory carries the FULL row (identical key set to the stored
+     # manifest retention_snapshots above) so completion/readiness can exactly
+     # bind seven_plan rows to captured bytes AND inodes.
+diff --git a/scripts/survey_research_authority_v2.py b/scripts/survey_research_authority_v2.py
+index e6c56ba..7b7a5fd 100644
+--- a/scripts/survey_research_authority_v2.py
++++ b/scripts/survey_research_authority_v2.py
+@@ -2071,8 +2071,9 @@ def derive_before_context(
+     if not set(affected).issubset(set(discovery_ids)):
+         raise ResearchAuthorityError("request.affected_ids must be known Discovery IDs")
+     # Records must cover exact non-DROP Discovery IDs (same-State, no new IDs).
++    # Exactly one record per non-DROP DID (cardinality + set; schema has no DID uniqueness).
+     record_ids = [r.get("discovery_id") for r in request.get("records", [])]
+-    if set(record_ids) != non_drop:
++    if len(record_ids) != len(non_drop) or set(record_ids) != non_drop:
+         raise ResearchAuthorityError("request.records must cover exact non-DROP Discovery IDs (no new/omitted IDs allowed in same-State correction)")
+     # Old accepted graph from previous checkpoint record (4 artifacts).
+     prev_record = prev_typed["record"]
+@@ -2125,6 +2126,105 @@ def _planned_ref(repo_root: Path, rel: str, payload: dict[str, Any]) -> dict[str
+     }
+ 
+ 
++def _bind_selected_supplement_for_revision(
++    repo_root: Path, request: dict[str, Any], ds_context: dict[str, Any], old_pkg: dict[str, Any] | None
++) -> dict[str, Any]:
++    """Bind the selected Evidence Authority Supplement for a same-State revision.
++
++    Narrow shared private helper (existing LOW module only, no new module/cache/
++    public dict). Reused by LOW package derivation, HIGH prepare recheck, and
++    LOW prove cross-check to avoid triplicate validators. Re-derives from
++    request/DS bytes each call, never old self-passed metadata.
++
++    - request.supplement_manifest is explicit nullable SizedRef, no OLD fallback.
++    - OLD supplemented + NEW null refuses (NEW-revision only, never retroactive).
++    - Non-null: SizedRef SHA+byte_count verified, then the validated manifest
++      with effective DS (implementation_sha=None, both screening_acceptance and
++      discoveries non-None from ds_context) and COPY-bound source_root.
++    - Returns {"supplement_ref", "entries", "raw_refs", "ctx"} where entries is
++      the validated supplement-source map and ctx is the private phase context
++      (MappingProxyType, discarded by caller; no public-dict permission).
++    """
++    from scripts import survey_evidence_v2 as evidence_mod
++
++    supp_ref = request.get("supplement_manifest")
++    if supp_ref is None:
++        if isinstance(old_pkg, dict) and old_pkg.get("authority_supplement") is not None:
++            raise ResearchAuthorityError(
++                "OLD supplemented + NEW supplement_manifest null refused "
++                "(would lose supplement-bound tasks; NEW-revision only)"
++            )
++        try:
++            empty_ctx = evidence_mod._resolve_phase_supplement_context(
++                repo_root, {}, implementation_sha=None, screening_acceptance=None, discoveries=None
++            )
++        except Exception as exc:
++            raise ResearchAuthorityError(f"empty supplement context factory failed: {exc}") from exc
++        return {"supplement_ref": None, "entries": {}, "raw_refs": (), "ctx": empty_ctx}
++    _sized_ref_shape(supp_ref, "request.supplement_manifest")
++    _verify_sized_ref_bytes(repo_root, supp_ref, "request supplement_manifest")
++    # Note: manifest bytes already verified via SizedRef above (SHA + byte_count,
++    # repo-local, no symlink/traversal). No duplicate raw read here.
++    profile_doc = ds_context.get("profile")
++    if not isinstance(profile_doc, dict):
++        raise ResearchAuthorityError("supplement bind requires ds_context profile")
++    try:
++        source_root_rel = profile_doc["paths"]["source_root"]
++    except (KeyError, TypeError) as exc:
++        raise ResearchAuthorityError(f"supplement bind profile source_root invalid: {exc}") from exc
++    if not isinstance(source_root_rel, str) or not source_root_rel:
++        raise ResearchAuthorityError("supplement bind profile source_root invalid")
++    try:
++        expected_source_root = core.repo_local_path(repo_root, source_root_rel, "expected source_root")
++    except ValueError as exc:
++        raise ResearchAuthorityError(f"supplement bind expected source_root unsafe: {exc}") from exc
++    screening_acceptance = ds_context.get("screening_acceptance")
++    effective_records = ds_context.get("effective_records")
++    if screening_acceptance is None or effective_records is None:
++        raise ResearchAuthorityError(
++            "supplement bind requires non-None screening_acceptance + effective_records "
++            "(None+None fallback refused)"
++        )
++    # Discovery/Screening path binding is already enforced by the shared kernel
++    # (request.discovery_ref == effective path 1630-1651, request.screening_ref
++    # == SCP artifact 1647-1651) plus _resolve -> validate (manifest basis
++    # Discovery/Screening SHAs + paths). No additional path check here; no
++    # fabricated fallback. Source_root is checked explicitly below (same
++    # predicate as prepare_evidence_package:879-881, COPY-bound profile).
++    provisional_pkg = {
++        "authority_supplement": {"path": supp_ref["path"], "sha256": supp_ref["sha256"]},
++        "issue_id": request.get("issue_id"),
++        "basis": {
++            "discovery_path": request["discovery_ref"]["path"],
++            "screening_acceptance_path": request["screening_ref"]["path"],
++        },
++    }
++    try:
++        ctx = evidence_mod._resolve_phase_supplement_context(
++            repo_root,
++            provisional_pkg,
++            implementation_sha=None,
++            screening_acceptance=screening_acceptance,
++            discoveries=effective_records,
++        )
++    except ResearchAuthorityError:
++        raise
++    except Exception as exc:
++        raise ResearchAuthorityError(f"selected supplement context invalid: {exc}") from exc
++    # Cross-check expected source_root against the resolved ctx (same predicate
++    # as prepare_evidence_package:879-881, COPY-bound profile).
++    try:
++        if ctx.get("source_root") is None or ctx["source_root"].resolve() != expected_source_root.resolve():
++            raise ResearchAuthorityError("selected supplement source_root mismatch (COPY-bound profile)")
++    except OSError as exc:
++        raise ResearchAuthorityError(f"supplement source_root resolve failed: {exc}") from exc
++    entries = ctx.get("entries") or {}
++    raw_refs = ctx.get("raw_refs") or ()
++    if len(raw_refs) != len(entries):
++        raise ResearchAuthorityError("selected supplement Raw closure changed (entries vs raw_refs)")
++    return {"supplement_ref": supp_ref, "entries": entries, "raw_refs": raw_refs, "ctx": ctx}
++
++
+ def build_revision_package_from_paths(
+     repo_root: Path, request_path: Path, before_copy_path: Path, output_dir: Path
+ ) -> dict[str, Any]:
+@@ -2147,21 +2247,39 @@ def build_revision_package_from_paths(
+     request_path = _norm_path(request_path, "revision request path")
+     before_copy_path = _norm_path(before_copy_path, "retained state-before COPY path")
+     output_dir = _norm_path(output_dir, "output dir")
+-    request = load_revision_request(repo_root, request_path)
++    # Phase pins BEFORE consumption (no reseal, no future-path pins): request + COPY.
++    req_abs_pkg = request_path if Path(request_path).is_absolute() else (repo_root / str(request_path))
++    copy_abs_pkg = before_copy_path if Path(before_copy_path).is_absolute() else (repo_root / str(before_copy_path))
++    pkg_pre_pins = evidence_mod._capture_phase_pins(
++        (("LOW request", req_abs_pkg), ("LOW retained COPY", copy_abs_pkg))
++    )
++    request = evidence_mod._load_pinned_json(pkg_pre_pins[0])
++    try:
++        schema_gate.validate_instance(request, repo_root / str(DM022_REQUEST_SCHEMA), label="revision request")
++    except Exception as exc:
++        raise ResearchAuthorityError(f"revision request schema invalid: {exc}") from exc
++    _sized_ref_shape(request.get("before_state"), "request.before_state")
++    for _pin in pkg_pre_pins:
++        evidence_mod._assert_pin_repo_ancestors(repo_root, _pin)
++    evidence_mod._recheck_phase_pins(pkg_pre_pins)
+     before_ref = _sized_ref_shape(request["before_state"], "request.before_state")
+-    copy_target = before_copy_path if Path(before_copy_path).is_absolute() else (repo_root / str(before_copy_path))
+-    copy_raw = _safe_read_bytes(copy_target, "retained state-before COPY")
+-    if hashlib.sha256(copy_raw).hexdigest() != before_ref["sha256"]:
+-        raise ResearchAuthorityError("package derivation COPY drift")
++    if pkg_pre_pins[1][2] != before_ref["sha256"] or pkg_pre_pins[1][3] != before_ref["byte_count"]:
++        raise ResearchAuthorityError("package derivation COPY drift (pin vs request.before_state)")
+     # Previous record path comes from the request's before_checkpoint evidence
+-    # ref (the predecessor checkpoint file). Load it to reuse real
++    # ref (the predecessor checkpoint file). Pinned load to reuse real
+     # prompt/contracts (no invented placeholder SHAs).
+     prev_ref = (request.get("before_checkpoint") or {}).get("evidence")
+     _artifact_ref_shape(prev_ref, "request.before_checkpoint.evidence")
+     prev_abs = _repo_rel(repo_root, prev_ref["path"], "previous checkpoint record")
+-    prev_raw = _safe_read_bytes(prev_abs, "previous checkpoint record")
+-    if hashlib.sha256(prev_raw).hexdigest() != prev_ref["sha256"]:
+-        raise ResearchAuthorityError("previous checkpoint record FILE sha drift (package stage)")
++    prev_pin = evidence_mod._capture_phase_pins((("previous checkpoint record", prev_abs),))[0]
++    prev_raw = evidence_mod._load_pinned_json(prev_pin)
++    # _load_pinned_json returns parsed dict, but we need typed record loader
++    # which re-reads via its own path policy; recheck pin first.
++    for _pin in (prev_pin,):
++        evidence_mod._assert_pin_repo_ancestors(repo_root, _pin)
++    evidence_mod._recheck_phase_pins((prev_pin,))
++    # Load typed record via existing loader (re-reads same bytes, validated
++    # above via pin; no reseal).
+     prev_typed_pkg = load_typed_checkpoint_record(repo_root, prev_abs)
+     prev_record_pkg = prev_typed_pkg["record"]
+     old_art_by_name_pkg = {r.get("name"): r for r in prev_record_pkg.get("artifacts", []) if isinstance(r, dict)}
+@@ -2171,15 +2289,58 @@ def build_revision_package_from_paths(
+     old_ev_abs_pkg = _repo_rel(repo_root, old_ev_ref_pkg["path"], "OLD evidence acceptance")
+     old_pkg_path_pkg = old_ev_abs_pkg.parent / "package.json"
+     try:
+-        old_pkg_raw_pkg = _safe_read_bytes(old_pkg_path_pkg, "OLD evidence package")
++        old_pkg_pin = evidence_mod._capture_phase_pins((("OLD evidence package", old_pkg_path_pkg),))[0]
++        old_pkg_pkg = evidence_mod._load_pinned_json(old_pkg_pin)
+     except ResearchAuthorityError as exc:
+         raise ResearchAuthorityError(f"OLD evidence package missing (run_dir layout required): {exc}") from exc
+-    old_pkg_pkg = _strict_parse_object(old_pkg_raw_pkg, "OLD evidence package")
++    for _pin in (old_pkg_pin,):
++        evidence_mod._assert_pin_repo_ancestors(repo_root, _pin)
++    evidence_mod._recheck_phase_pins((old_pkg_pin,))
++    # Profile/discovery/screening inputs (existing files, no future paths).
++    # Capture pins BEFORE DS derivation/consumption.
++    try:
++        prof_abs_pkg = _repo_rel(repo_root, request["profile_ref"]["path"], "request.profile_ref.path")
++        disc_abs_pkg = _repo_rel(repo_root, request["discovery_ref"]["path"], "request.discovery_ref.path")
++        scr_abs_pkg = _repo_rel(repo_root, request["screening_ref"]["path"], "request.screening_ref.path")
++    except (KeyError, TypeError) as exc:
++        raise ResearchAuthorityError(f"request profile/discovery/screening refs invalid: {exc}") from exc
++    pkg_basis_pins = evidence_mod._capture_phase_pins(
++        (("request profile", prof_abs_pkg), ("request discovery", disc_abs_pkg), ("request screening acceptance", scr_abs_pkg))
++    )
++    for _pin in pkg_basis_pins:
++        evidence_mod._assert_pin_repo_ancestors(repo_root, _pin)
++    evidence_mod._recheck_phase_pins(pkg_basis_pins)
+     profile_doc, _ = _load_json_from_sized(repo_root, request["profile_ref"], "request.profile_ref")
++    # Prompt/contract inputs from OLD package (existing stable bytes).
++    try:
++        prompt_abs_pkg = _repo_rel(repo_root, old_pkg_pkg["prompt"]["path"], "OLD prompt")
++        rc_abs_pkg = _repo_rel(repo_root, old_pkg_pkg["contracts"]["run_package"]["path"], "OLD contract run_package")
++        task_abs_pkg = _repo_rel(repo_root, old_pkg_pkg["contracts"]["task"]["path"], "OLD contract task")
++        card_abs_pkg = _repo_rel(repo_root, old_pkg_pkg["contracts"]["card"]["path"], "OLD contract card")
++    except (KeyError, TypeError) as exc:
++        raise ResearchAuthorityError(f"OLD prompt/contracts refs invalid: {exc}") from exc
++    prompt_contract_list: list[tuple[str, Path]] = [
++        ("OLD prompt", prompt_abs_pkg), ("OLD contract run_package", rc_abs_pkg),
++        ("OLD contract task", task_abs_pkg), ("OLD contract card", card_abs_pkg),
++    ]
++    supp_ref_early = request.get("supplement_manifest")
++    if supp_ref_early is not None:
++        try:
++            supp_schema_abs_early = _repo_rel(repo_root, str(evidence_mod.SUPPLEMENT_SCHEMA), "Evidence supplement contract")
++            prompt_contract_list.append(("supplement schema", supp_schema_abs_early))
++        except ResearchAuthorityError:
++            raise
++        except Exception as exc:
++            raise ResearchAuthorityError(f"supplement contract path invalid: {exc}") from exc
++    pkg_prompt_pins = evidence_mod._capture_phase_pins(tuple(prompt_contract_list))
++    for _pin in pkg_prompt_pins:
++        evidence_mod._assert_pin_repo_ancestors(repo_root, _pin)
++    evidence_mod._recheck_phase_pins(pkg_prompt_pins)
+     # True historical R/E from the pinned COPY + accepted D/S chain (never
+     # E-as-R, never LIVE State). Tasks derive from the validated effective
+     # set; the loader already bound request.discovery_ref == E and
+-    # request.screening_ref == the SCP artifact.
++    # request.screening_ref == the SCP artifact. Original owner proper DS
++    # derivation from COPY (LOW history loader, never LOW LIVE).
+     ds_context = derive_ordinary_root_effective_context(repo_root, request_path, before_copy_path)
+     discoveries = ds_context["effective_records"]
+     screening_doc = ds_context["screening_acceptance"]
+@@ -2199,6 +2360,35 @@ def build_revision_package_from_paths(
+             evidence_mod.validate_research_record_content(rec, profile_doc)
+         except Exception as exc:
+             raise ResearchAuthorityError(f"request.records[{idx}] invalid: {exc}") from exc
++    # Exact non-DROP record coverage + affected subset (existing kernel predicate,
++    # no schema expansion; reuse derive_before_context:2066-2076 logic here).
++    # Note: decisions above maps DID -> full decision record (for task derivation);
++    # non-DROP uses the decision string (kernel maps DID -> decision string).
++    non_drop = {
++        did
++        for did, dec_rec in decisions.items()
++        if (dec_rec.get("decision") if isinstance(dec_rec, dict) else dec_rec) in ("KEEP", "MAYBE", "INSPECT")
++    }
++    affected_ids = request.get("affected_ids", [])
++    if not affected_ids or len(set(affected_ids)) != len(affected_ids):
++        raise ResearchAuthorityError("request.affected_ids must be nonempty unique")
++    if not set(affected_ids).issubset(non_drop):
++        raise ResearchAuthorityError("request.affected_ids must be a subset of non-DROP Discovery IDs")
++    if not set(affected_ids).issubset(set(discovery_map)):
++        raise ResearchAuthorityError("request.affected_ids must be known Discovery IDs")
++    record_ids = [r.get("discovery_id") for r in request.get("records", [])]
++    if len(record_ids) != len(non_drop) or set(record_ids) != non_drop:
++        raise ResearchAuthorityError(
++            "request.records must cover exact non-DROP Discovery IDs "
++            "(no new/omitted/DROP/extra unused IDs allowed in same-State correction)"
++        )
++    # Selected supplement bind (explicit nullable SizedRef, no OLD fallback).
++    # OLD package needed for the OLD-supplemented + NEW null refusal; helper
++    # validates manifest bytes + full Raw closure with effective DS.
++    supp_bind = _bind_selected_supplement_for_revision(repo_root, request, ds_context, old_pkg_pkg)
++    supp_ref = supp_bind["supplement_ref"]
++    supp_entries = supp_bind["entries"]
++    supp_ctx = supp_bind["ctx"]
+     out_rel = str(output_dir).rstrip("/")
+     tasks: list[dict[str, Any]] = []
+     for discovery_id in sorted(discovery_map):
+@@ -2224,10 +2414,40 @@ def build_revision_package_from_paths(
+                 }],
+             },
+         }
++        if supp_ref is not None:
++            task_supp_ids = sorted(
++                source_id
++                for source_id, entry in supp_entries.items()
++                if entry.get("evidence_task_id") == task_id
++            )
++            if task_supp_ids:
++                task["authority_supplement_source_ids"] = task_supp_ids
+         task_filename = evidence_mod.task_filename(task_id)
+         tasks.append({"task": task, "filename": task_filename})
+     if not tasks:
+         raise ResearchAuthorityError("no non-DROP Discovery tasks (empty package refused)")
++    # Supplement task binding invariants (in-memory, no files yet): every
++    # supplement source bound exactly once by its task; task IDs require manifest.
++    if supp_ref is not None:
++        bound_counts: dict[str, int] = {}
++        for entry_task in tasks:
++            t = entry_task["task"]
++            for source_id in t.get("authority_supplement_source_ids", []):
++                entry = supp_entries.get(source_id)
++                if entry is None:
++                    raise ResearchAuthorityError(
++                        f"Evidence Task references unknown supplement source: {source_id}"
++                    )
++                if entry.get("evidence_task_id") != t["evidence_task_id"] or entry.get("discovery_id") not in t["discovery_ids"]:
++                    raise ResearchAuthorityError(
++                        f"Evidence supplement source is bound to the wrong task: {source_id}"
++                    )
++                bound_counts[source_id] = bound_counts.get(source_id, 0) + 1
++        if set(bound_counts) != set(supp_entries) or any(c != 1 for c in bound_counts.values()):
++            raise ResearchAuthorityError("every Evidence supplement source must be bound exactly once by its task")
++    else:
++        if any("authority_supplement_source_ids" in entry["task"] for entry in tasks):
++            raise ResearchAuthorityError("Evidence Task supplement sources require an Evidence Authority Supplement manifest")
+     # Validate each task shape via real task validator (needs meta sha; compute
+     # task file sha from canonical task bytes first).
+     task_metas: list[dict[str, Any]] = []
+@@ -2235,12 +2455,29 @@ def build_revision_package_from_paths(
+         task = entry["task"]
+         task_raw = core.json_bytes(task)
+         task_sha = hashlib.sha256(task_raw).hexdigest()
+-        meta = {"evidence_task_id": task["evidence_task_id"], "path": f"tasks/{entry['filename']}", "sha256": task_sha, "discovery_ids": task["discovery_ids"]}
++        meta: dict[str, Any] = {"evidence_task_id": task["evidence_task_id"], "path": f"tasks/{entry['filename']}", "sha256": task_sha, "discovery_ids": task["discovery_ids"]}
++        if "authority_supplement_source_ids" in task:
++            meta["authority_supplement_source_ids"] = list(task["authority_supplement_source_ids"])
+         errs = evidence_mod._validate_task(task, meta, hashlib.sha256(screening_raw).hexdigest())
+         if errs:
+             raise ResearchAuthorityError(f"derived task invalid: {errs[0]}")
++        if "authority_supplement_source_ids" in meta and meta["authority_supplement_source_ids"] != task.get("authority_supplement_source_ids"):
++            raise ResearchAuthorityError(
++                f"Evidence Task metadata supplement bindings differ: {meta['evidence_task_id']}"
++            )
+         task_metas.append({**meta, "_task": task, "_raw": task_raw})
+-    package = {
++    # OLD prompt/non-supplement contracts verbatim; supplement contract/rule from
++    # existing stable bytes (no new schema). Deterministic task/meta IDs recreated
++    # to SAME semantics via core.json_bytes recompute above.
++    new_contracts = dict(old_pkg_pkg.get("contracts") or {})
++    for key in ("run_package", "task", "card"):
++        if key not in new_contracts:
++            raise ResearchAuthorityError(f"OLD package contracts missing required entry: {key}")
++    package_rules = [
++        "DM022 same-State revision: tasks derive from real Discovery/Screening; no CANDIDATES_NORMALIZED pretense.",
++        "Every event/claim/metric/limitation binds an explicit subject entity and subject role.",
++    ]
++    package: dict[str, Any] = {
+         "schema_version": DM022_SCHEMA_VERSION,
+         "issue_id": request["issue_id"],
+         "research_profile": request["research_profile"],
+@@ -2255,19 +2492,72 @@ def build_revision_package_from_paths(
+             "screening_acceptance_sha256": hashlib.sha256(screening_raw).hexdigest(),
+         },
+         "prompt": old_pkg_pkg.get("prompt"),
+-        "contracts": old_pkg_pkg.get("contracts"),
+-        "tasks": [{k: m[k] for k in ("evidence_task_id", "path", "sha256", "discovery_ids")} for m in task_metas],
+-        "expected_outputs": {"one_result_per_task": True, "filename_rule": "same-basename-as-task"},
+-        "rules": [
+-            "DM022 same-State revision: tasks derive from real Discovery/Screening; no CANDIDATES_NORMALIZED pretense.",
+-            "Every event/claim/metric/limitation binds an explicit subject entity and subject role.",
++        "contracts": new_contracts,
++        "tasks": [
++            {k: m[k] for k in ("evidence_task_id", "path", "sha256", "discovery_ids", "authority_supplement_source_ids") if k in m}
++            for m in task_metas
+         ],
++        "expected_outputs": {"one_result_per_task": True, "filename_rule": "same-basename-as-task"},
++        "rules": package_rules,
+     }
+-    # Real package field/content checks (no State).
++    if supp_ref is not None:
++        package["authority_supplement"] = {"path": supp_ref["path"], "sha256": supp_ref["sha256"]}
++        try:
++            supp_schema_rel = evidence_mod.SUPPLEMENT_SCHEMA
++            supp_schema_abs = _repo_rel(repo_root, str(supp_schema_rel), "Evidence supplement contract")
++            supp_schema_raw = _safe_read_bytes(supp_schema_abs, "Evidence supplement contract")
++            supp_schema_sha = hashlib.sha256(supp_schema_raw).hexdigest()
++        except ResearchAuthorityError:
++            raise
++        except Exception as exc:
++            raise ResearchAuthorityError(f"supplement contract bytes unreadable: {exc}") from exc
++        package["contracts"]["supplement"] = {"path": str(supp_schema_rel), "sha256": supp_schema_sha}
++        package["rules"].append(
++            "Post-Screening authority is eligible only through an exact validated Evidence Authority Supplement source ID bound to this task."
++        )
++    else:
++        if "supplement" in package["contracts"]:
++            raise ResearchAuthorityError("Evidence supplement contract requires an Evidence Authority Supplement manifest")
++    # Real package field/content checks (no State) + return-time pin discipline.
++    # Combine all input-file pins captured BEFORE derivation (no future paths):
++    # request/COPY + OLD checkpoint/package + profile/discovery/screening +
++    # prompt/contracts (+ supplement schema when supplemented). Supplement
++    # manifest/basis/ALL Raw pins live in supp_ctx (via helper _resolve).
++    # Before return: recheck supp + recheck pins + owner revalidate + recheck
++    # again via _finish_authority_phase (no reseal, no snapshot after validation).
++    # Inert R partials on later HIGH card failure are preserved (no zero-write claim).
+     try:
+         evidence_mod._check_evidence_package_fields_content(package)
+     except Exception as exc:
+         raise ResearchAuthorityError(f"derived package fields invalid: {exc}") from exc
++    try:
++        evidence_mod._check_evidence_package_files_content(repo_root, package)
++    except Exception as exc:
++        raise ResearchAuthorityError(f"derived package files invalid: {exc}") from exc
++    pkg_input_pins = (
++        pkg_pre_pins + (prev_pin,) + (old_pkg_pin,) + pkg_basis_pins + pkg_prompt_pins
++    )
++    for _pin in pkg_input_pins:
++        evidence_mod._assert_pin_repo_ancestors(repo_root, _pin)
++
++    def _revalidate_pkg_owner() -> None:
++        try:
++            evidence_mod._check_evidence_package_fields_content(package)
++        except Exception as exc:
++            raise ResearchAuthorityError(f"derived package fields invalid (revalidate): {exc}") from exc
++        try:
++            evidence_mod._check_evidence_package_files_content(repo_root, package)
++        except Exception as exc:
++            raise ResearchAuthorityError(f"derived package files invalid (revalidate): {exc}") from exc
++
++    try:
++        evidence_mod._finish_authority_phase(
++            repo_root, supp_ctx, pkg_input_pins, revalidate_owner=_revalidate_pkg_owner
++        )
++    except ResearchAuthorityError:
++        raise
++    except Exception as exc:
++        raise ResearchAuthorityError(f"package return pin/recheck failed: {exc}") from exc
+     planned = [_planned_ref(repo_root, f"{out_rel}/candidate/package.json", package)]
+     for meta in task_metas:
+         planned.append(_planned_ref(repo_root, f"{out_rel}/candidate/tasks/{meta['path'].split('/')[-1]}", meta["_task"]))
+@@ -3213,6 +3503,14 @@ def prove_revision_from_paths(
+     # HIGH new-admission gates, not retrofitted validators). Never E-as-R.
+     _prove_request_abs = _repo_rel(repo_root, req_ref["path"], "manifest request path")
+     _old_ctx = derive_ordinary_root_effective_context(repo_root, _prove_request_abs, before_copy_path)
++    # Exact record coverage for proof admission (same cardinality+set guard as
++    # producer; prevents duplicate-DID decoy on externally bound request).
++    _prove_screening = _old_ctx.get("screening_acceptance") or {}
++    _prove_decisions = {r.get("discovery_id"): r.get("decision") for r in _prove_screening.get("decisions", []) if isinstance(r, dict)}
++    _prove_non_drop = {did for did, dec in _prove_decisions.items() if dec in ("KEEP", "MAYBE", "INSPECT")}
++    _prove_record_ids = [r.get("discovery_id") for r in request.get("records", [])]
++    if len(_prove_record_ids) != len(_prove_non_drop) or set(_prove_record_ids) != _prove_non_drop:
++        raise ResearchAuthorityError("request.records must cover exact non-DROP Discovery IDs (no new/omitted/duplicate/DROP/extra unused IDs allowed in same-State correction)")
+     discoveries = _old_ctx["root_records"]
+     disc_abs = _old_ctx["root_path"]
+     for art_key, art_label in (("evidence_acceptance", "NEW evidence acceptance"), ("views_acceptance", "NEW views acceptance"), ("ledger", "NEW ledger"), ("completeness", "NEW completeness"), ("package", "NEW package")):
+@@ -3314,6 +3612,40 @@ def prove_revision_from_paths(
+         new_pkg = _strict_parse_object(new_pkg_raw, "NEW package")
+     else:
+         raise ResearchAuthorityError("manifest candidate_outputs.package must be a SizedRef")
++    # Supplement cross-binding (request ↔ package ↔ manifest decoy fix, no new
++    # proof row). Verifies the request SizedRef bytes and enforces equality with
++    # the NEW package authority and the stored manifest field.
++    req_supp = request.get("supplement_manifest")
++    man_supp = new_refs.get("supplement_manifest")
++    if req_supp is None:
++        if man_supp is not None:
++            raise ResearchAuthorityError(
++                "manifest candidate_outputs.supplement_manifest must be null when request supplement_manifest is null"
++            )
++        if isinstance(new_pkg, dict) and new_pkg.get("authority_supplement") is not None:
++            raise ResearchAuthorityError(
++                "NEW package must have no authority_supplement when request supplement_manifest is null"
++            )
++    else:
++        _sized_ref_shape(req_supp, "request.supplement_manifest")
++        _verify_sized_ref_bytes(repo_root, req_supp, "request supplement_manifest")
++        if man_supp is None:
++            raise ResearchAuthorityError(
++                "manifest candidate_outputs.supplement_manifest must equal request supplement_manifest (both null or equal SizedRef)"
++            )
++        _sized_ref_shape(man_supp, "manifest candidate_outputs.supplement_manifest")
++        _verify_sized_ref_bytes(repo_root, man_supp, "manifest candidate_outputs.supplement_manifest")
++        if man_supp != req_supp:
++            raise ResearchAuthorityError(
++                "manifest candidate_outputs.supplement_manifest must equal request supplement_manifest"
++            )
++        new_auth = new_pkg.get("authority_supplement") if isinstance(new_pkg, dict) else None
++        if not isinstance(new_auth, dict) or set(new_auth) != {"path", "sha256"}:
++            raise ResearchAuthorityError("NEW package authority_supplement fields invalid")
++        if new_auth.get("path") != req_supp.get("path") or new_auth.get("sha256") != req_supp.get("sha256"):
++            raise ResearchAuthorityError(
++                "NEW package authority_supplement must equal validated request supplement_manifest {path,sha256}"
++            )
+     old_task_by_disc: dict[str, str] = {}
+     for meta in old_pkg.get("tasks", []):
+         for did in meta.get("discovery_ids", []):
+@@ -3388,6 +3720,39 @@ def prove_revision_from_paths(
+                 raise ResearchAuthorityError(f"unaffected Discovery {did} card semantic drift OLD vs NEW")
+             # Mechanical digest propagation for acceptances/ledger/completeness
+             # basis SHAs is recorded below (field_path level), not per-card.
++    # Unaffected Views: actual accepted OLD/NEW View semantic comparison (narrow
++    # addition to already-selected prove seam). Fully bound acceptance SHA/file
++    # metadata; no ignored materiality/profile annotations. Acceptance-set
++    # digest projections (view_set_sha256) are not blanket view semantic permission.
++    try:
++        old_vw_acc_ref = old_by_name.get("edition-views-acceptance")
++        if old_vw_acc_ref is None:
++            raise ResearchAuthorityError("previous record lacks required artifact: edition-views-acceptance")
++        old_vw_acc_path = _repo_rel(repo_root, old_vw_acc_ref["path"], "OLD edition-views-acceptance")
++        old_views_dir = old_vw_acc_path.parent / "views"
++        new_vw_acc_path = _repo_rel(repo_root, new_refs["views_acceptance"]["path"], "NEW views acceptance path")
++        new_views_dir = new_vw_acc_path.parent / "views"
++    except ResearchAuthorityError:
++        raise
++    except Exception as exc:
++        raise ResearchAuthorityError(f"views dirs resolve failed: {exc}") from exc
++    for did in sorted(all_non_drop):
++        task_id = old_task_by_disc[did]
++        try:
++            old_view_raw = _safe_read_bytes(old_views_dir / evidence_mod.view_filename(task_id), f"OLD view {task_id}")
++            new_view_raw = _safe_read_bytes(new_views_dir / evidence_mod.view_filename(task_id), f"NEW view {task_id}")
++        except ResearchAuthorityError as exc:
++            raise ResearchAuthorityError(f"view bytes missing for {task_id}: {exc}") from exc
++        old_view_doc = _strict_parse_object(old_view_raw, f"OLD view {task_id}")
++        new_view_doc = _strict_parse_object(new_view_raw, f"NEW view {task_id}")
++        if did in set(affected):
++            if old_view_raw == new_view_raw:
++                raise ResearchAuthorityError(f"affected Discovery {did} view bytes identical OLD vs NEW (must carry new evidence)")
++        else:
++            if old_view_doc != new_view_doc:
++                raise ResearchAuthorityError(f"unaffected Discovery {did} view semantic drift OLD vs NEW (no ignored materiality/profile annotations)")
++            if old_view_raw != new_view_raw:
++                raise ResearchAuthorityError(f"unaffected Discovery {did} view bytes drift OLD vs NEW")
+     # Ledger rows: affected rows may change downstream_disposition/view_statuses/rationale only.
+     old_ledger_rows = {r["discovery_id"]: r for r in old_loaded["materiality-ledger"].get("rows", [])}
+     new_ledger_rows = {r["discovery_id"]: r for r in new_loaded["materiality-ledger"].get("rows", [])}
+diff --git a/tests/test_dm022_c_direct_operation_v2.py b/tests/test_dm022_c_direct_operation_v2.py
+index d6e44d8..deacba8 100644
+--- a/tests/test_dm022_c_direct_operation_v2.py
++++ b/tests/test_dm022_c_direct_operation_v2.py
+@@ -615,15 +615,16 @@ class Dm022CDirectOperationTests(unittest.TestCase):
+     def test_c_binding_integrity_drift(self) -> None:
+         """Integrity/drift bindings: exact type+message, honest windows.
+ 
+-        N7 ghost DID refuses as RAW ResearchAuthorityError AFTER the owned
+-        State COPY + candidate build (late records-binding failure, NOT a
+-        universal pre-write promise): canonical State bytes unchanged, no
+-        checkpoint/proof/guard writes. N8 flips an existing manifest snapshot
+-        row field (schema-valid) → prove row-inequality refusal. N9a labels the
+-        stored-request SHA drift honestly (integrity, not CURRENT proof). N9b
+-        tampers real fixture tool bytes post-prepare → strict public adopt
+-        refuses CURRENT drift with State unswitched (no authority rebinding to
+-        evade validation).
++        N7 ghost DID refuses as RAW ResearchAuthorityError at exact non-DROP
++        preflight AFTER the owned State COPY (retention/state-before.json +
++        slot COPYs may exist) but BEFORE candidate package/cards construction
++        (no candidate package/tasks/cards, no universal pre-write promise):
++        canonical State bytes unchanged, no checkpoint/proof/guard writes.
++        N8 flips an existing manifest snapshot row field (schema-valid) →
++        prove row-inequality refusal. N9a labels the stored-request SHA drift
++        honestly (integrity, not CURRENT proof). N9b tampers real fixture tool
++        bytes post-prepare → strict public adopt refuses CURRENT drift with
++        State unswitched (no authority rebinding to evade validation).
+         """
+         import copy as _copy
+         import json as _json
+@@ -642,9 +643,11 @@ class Dm022CDirectOperationTests(unittest.TestCase):
+         out_c, req_c, dec_c = a2._prepare_and_decide(chain, state_abs, "rev-c-bind-ok", ["target-source"])
+         base_req = _json.loads(req_c.read_bytes())
+ 
+-        # N7: ghost record for an unknown DID. Refusal is LATE (owned State
+-        # COPY + candidate build already written); canonical State and all
+-        # checkpoint/proof/guard outputs stay untouched.
++        # N7: ghost record for an unknown DID. Refusal is at exact non-DROP
++        # preflight AFTER the owned State COPY (retention/state-before.json +
++        # slot COPYs may exist) but BEFORE candidate package/tasks/cards
++        # construction; canonical State and all checkpoint/proof/guard outputs
++        # stay untouched. No false universal zero-write claim.
+         bad7 = _copy.deepcopy(base_req)
+         bad7["revision_id"] = "rev-c-bind-n7"
+         ghost = _copy.deepcopy(bad7["records"][0])
+@@ -658,15 +661,30 @@ class Dm022CDirectOperationTests(unittest.TestCase):
+             high.prepare_revision(root, state_abs, bad7_path, "rev-c-bind-n7")
+         self.assertEqual(
+             str(_cm7.exception),
+-            "request.records[1] discovery_id is not a bound effective Discovery ID "
+-            "(records bind E DIDs, never invented IDs)")
++            "request.records must cover exact non-DROP Discovery IDs "
++            "(no new/omitted/DROP/extra unused IDs allowed in same-State correction)")
+         post7 = _sha_tree(root, issue_id)
+         self.assertEqual(_sha_file(state_abs), state_pre,
+-                         "late ghost refusal must leave canonical State bytes unchanged")
++                          "late ghost refusal must leave canonical State bytes unchanged")
+         _ghost_new = {k: v for k, v in post7.items() if k not in before7
+                       and k != str(bad7_path.relative_to(root))}
+         self.assertFalse([k for k in _ghost_new if "/checkpoint/" in k or "/proof/" in k],
+-                         f"late ghost refusal must write no checkpoint/proof: {sorted(_ghost_new)}")
++                          f"late ghost refusal must write no checkpoint/proof: {sorted(_ghost_new)}")
++        # Timing: State COPY may exist (owned retention/state-before.json + slot
++        # COPYs), but candidate package/cards must NOT yet be constructed (LOW
++        # refuses before package derivation; HIGH never writes package/tasks).
++        # No false universal zero-write claim.
++        _prof7 = _json.loads(chain["profile_path"].read_bytes())
++        _src_root7 = root / _prof7["paths"]["source_root"]
++        _rev_root7 = _src_root7 / "research" / "v2" / "acceptance-revisions" / "rev-c-bind-n7"
++        self.assertFalse((_rev_root7 / "candidate" / "package.json").exists(),
++                         "ghost refusal must not construct candidate package (exact preflight before derivation)")
++        self.assertFalse((_rev_root7 / "candidate" / "tasks").exists(),
++                         "ghost refusal must not construct candidate tasks")
++        self.assertFalse((_rev_root7 / "candidate" / "results").exists(),
++                         "ghost refusal must not construct candidate cards")
++        self.assertFalse((low.guard_path_for(_src_root7)).exists(),
++                         "ghost refusal must claim no guard (no HIGH guard before package derivation)")
+ 
+         # N8: manifest retention substitution on a schema-valid EXISTING field:
+         # flip one stored snapshot row's present flag in place (finally

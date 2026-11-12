@@ -1,0 +1,58 @@
+{
+  "artifact": "decoded-body manifest (NEW, independent content-reviewer; acquisition author files untouched)",
+  "intake_dir": "notes/rephase-1-selection-architecture-20261105/intake-20261106T001808Z-jev-archive",
+  "method": "offline only: magic-byte check + stdlib gzip decompress; raw *.body.bin preserved byte-identical, no network, no project runtime/import/tests/Git/Production",
+  "raw_preserved": {
+    "u1.snapshot.body.bin": {
+      "bytes": 42836,
+      "sha256": "10bf660766c6c4a1bee86ceb4d11e5e3ef6cbadfd60022b1a07a88745e61aee3",
+      "magic": "1f8b (gzip)",
+      "content_encoding_served": "gzip"
+    },
+    "u2.snapshot.body.bin": {
+      "bytes": 49007,
+      "sha256": "62bf012c9f5b9cbb19effab194aceae0eb4bda55f65e1aebdc449d68036c1d36",
+      "magic": "1f8b (gzip)",
+      "content_encoding_served": "gzip"
+    },
+    "u3.snapshot.body.bin": {
+      "bytes": 350662,
+      "sha256": "97a5dd74ed1e9ba006d21759c14615a7c0a485c4db161dc00a2d0b1e4d651b69",
+      "magic": "3c21 ('<!', plain HTML, no content-encoding)",
+      "content_encoding_served": "none (plain)"
+    }
+  },
+  "decoded_new": {
+    "u1.snapshot.decoded.html": {
+      "bytes": 253542,
+      "sha256": "14ae31184b253b736ff8be423fafbe5ff82d1f75cf66b600bad8b8c9152aa443",
+      "source_raw": "u1.snapshot.body.bin",
+      "note": "gzip-decompressed; raw preserved"
+    },
+    "u2.snapshot.decoded.html": {
+      "bytes": 307198,
+      "sha256": "357708348b9884d004669d6df45100986676f5ab900a75e76304fb19cae05bf2",
+      "source_raw": "u2.snapshot.body.bin",
+      "note": "gzip-decompressed; raw preserved"
+    },
+    "u3.note": "raw IS plain HTML; no decoded copy written (raw sha256 97a5dd74... == decoded identity, 350662B). No duplication, no raw mutation."
+  },
+  "cdx_digest_domain_offline": {
+    "method": "SHA1(raw wire bytes) base32 == CDX digest cell",
+    "u1": "6XH5NKHYUN6JX6VRKYZPPO4XVV333MNF MATCH (raw gzip bytes)",
+    "u2": "TUIONZBNGAJDKEOMM4J4D4WQ63DCRHAN MATCH (raw gzip bytes)",
+    "u3_requested_row_20260921091419": "E2BRC73XGREHH2N7TGKRIWTR53A5GE6S NO-MATCH vs served bytes (expected: archive redirected away)",
+    "u3_served_row_20260920205053": "ABQRK5MRIZ6QIRYKMJRJ3PSLMHR5PSIG MATCH (raw plain bytes == that CDX row digest)"
+  },
+  "cdx_length_vs_http_bytes": {
+    "warning": "CDX length column is WARC-record length, NOT HTTP payload bytes. Do not assert equality.",
+    "u1": "CDX 43980 vs HTTP gzip 42836 vs decoded 253542",
+    "u2": "CDX 51619 vs HTTP gzip 49007 vs decoded 307198",
+    "u3": "requested-row CDX 55225 vs served-row CDX 55087 vs HTTP plain 350662"
+  },
+  "request_vs_served": {
+    "u1": "request 20260921033022 == served memento 2026-09-21T03:30:22Z, no redirect",
+    "u2": "request 20260921041355 == served memento 2026-09-21T04:13:55Z, no redirect",
+    "u3": "request 20260921091419 -> 302 -> served 20260920205053 (memento 2026-09-20T20:50:53Z). Logical 6 requests, HTTP redirect-transport 7 hops (6 logical + 1 archive 302)."
+  }
+}

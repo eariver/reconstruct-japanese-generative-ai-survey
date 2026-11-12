@@ -1,0 +1,234 @@
+{
+  "schema": "sp-four-record-correction-proposal-1",
+  "basis": {
+    "accepted_interactive_evidence": "sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/interactive-evidence.json 355643B 697a4ed088b76f18b3859568a735491a3a8b2295c480be3e1e678c4d8b31f104",
+    "checkpoint": "sources/SP-efficient-llm-2026/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json 4745B 1233b1f6ca3301d6430d4d157788d0a45a613c9ce1e1563e7c06fe11d73993f0",
+    "state": "sources/SP-efficient-llm-2026/production-state.json 4194B 180db8c30721825d40461cd5e1b92edb704f3630f518bfd693b4732211538220 EVIDENCE_REVIEWED",
+    "profile_as_of": "2026-09-21T16:10:00Z OPEN_HISTORY_AS_OF"
+  },
+  "records": [
+    {
+      "discovery_id": "EFF-D070",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:5491a3053d02fc3f",
+      "status_current": "PARTIAL",
+      "verification_original_targets_exact": [
+        "Evidence-stage full-body verification",
+        "race/accuracy claims quarantine"
+      ],
+      "binding_original": "supplement-src-6a5ae38ab18f02cb (current-only launch 270966B 278478f0, Last-Modified 2026-10-28)",
+      "binding_proposed": "supplement-src-archive-u1-6XH5NKHY-20260921033022 (served 2026-09-21T03:30:22Z; original URL https://typesafe.ai/blog/introducing-system-one-models-and-jev + served timestamp separate)",
+      "claims_proposed": [
+        {
+          "text": "TypeSafe announces System One Models with Jev in early access: new model architecture + parallel sampler + RLCD training, emitting typed probabilistic outputs instead of generated strings. [vendor/project claim in archived body; RLCD internals undisclosed name-only; no independent validation]",
+          "class_proposed": "VENDOR_CLAIM (retained)"
+        },
+        {
+          "text": "Launch claims ~70-500ms end-to-end (40-200x), $0.042/MTok input outputs free, no-type-error by construction, Pareto workflow evals vs GPT-6 Astra/Fable 5.1 avg (193.6x/444.6x headline). [archived body present; vendor-evaluated; no independent reproduction]",
+          "class_proposed": "VENDOR_CLAIM (retained, vendor quarantine)"
+        },
+        {
+          "text": "Launch discloses limits: West-Coast laptop evals, own-capabilities workflows, adapter-wrapper LLM baselines, OpenRouter hallucination baselines. [first-party nuance admissions in archived body]",
+          "class_proposed": "VENDOR_CLAIM (retained)"
+        }
+      ],
+      "verification_proposed": [
+        {
+          "target": "Evidence-stage full-body verification",
+          "status_proposed": "VERIFIED (historical presence, vendor scope; conditional on accepted revision + independent re-review; not ready canonical)",
+          "finding_proposed": "Launch archived revision CONFIRMED present: served 2026-09-21T03:30:22Z, raw wire gzip 42836B 10bf6607 (CDX 6XH5NKHYUN6JX6VRKYZPPO4XVV333MNF MATCH) / decoded 253542B 14ae3118, title/og:url exact + Sep 15 byline + embedded 2026-09-15 + Sep 20 publish comment + ssr 09-18/optimized 09-20. Vendor claims present with bias admissions. No independent validation, no RLCD inference."
+        },
+        {
+          "target": "race/accuracy claims quarantine",
+          "status_proposed": "UNRESOLVED (vendor quarantine retained)",
+          "finding_proposed": "Comparative claims recorded strictly as vendor claims with page bias disclosures in archived revision; independent reproduction thin (D073 leads, F4 unresolved, X LOW_SIGNAL)."
+        }
+      ],
+      "limitations_proposed": [
+        "Independent reproduction outstanding (D073 community only). STAND.",
+        "RLCD internals undisclosed name-only; no secret inference. STAND.",
+        "Historical version BOUND to served 2026-09-21T03:30:22Z upon accepted revision (not current 11-01)."
+      ]
+    },
+    {
+      "discovery_id": "EFF-D071",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:e1f751a159101aed",
+      "status_current": "PARTIAL",
+      "verification_original_targets_exact": [
+        "Evidence-stage full-body verification"
+      ],
+      "binding_original": "supplement-src-0d550497594e1efc (current-only concepts 165512B b58d91ae, dateModified 2026-10-14)",
+      "binding_proposed": "supplement-src-archive-u2-TUIONZBNG-20260921041355 (served 2026-09-21T04:13:55Z; original URL https://docs.typesafe.ai/concepts/system-one + served timestamp separate)",
+      "claims_proposed": [
+        {
+          "text": "System One models evaluate a state and return typed answers via Choice/Score/Noul primitives with per-output confidence, all questions in parallel via state + typed question map in one POST. [archived body present 09-21; vendor mechanism]",
+          "class_proposed": "VENDOR_CLAIM (corrected from PROJECT_CLAIM)"
+        },
+        {
+          "text": "Calibration measured across groups, no per-answer guarantee; text input only (strings/JSON/text arrays; no image/audio/video yet). [archived body verbatim; first-party caveat]",
+          "class_proposed": "VENDOR_CLAIM (first-party caveat)"
+        },
+        {
+          "text": "Decomposition guidance (atomic questions, code-side combination, confidence-gated escalation). [archived body present] 255-cardinality / score-then-choose two-stage handling ABSENT in archived visible text - REMOVED from as-of claim, current-only.",
+          "class_proposed": "VENDOR_CLAIM (255-cardinality EXCLUDED from as-of)"
+        }
+      ],
+      "verification_proposed": [
+        {
+          "target": "Evidence-stage full-body verification",
+          "status_proposed": "VERIFIED (historical presence, vendor scope; conditional)",
+          "finding_proposed": "Concepts archived revision CONFIRMED: served 2026-09-21T04:13:55Z, raw gzip 49007B 62bf012c (CDX TUIONZBNGAJDKEOMM4J4D4WQ63DCRHAN MATCH) / decoded 307198B 35770834, dateModified 2026-09-17. Choice/Score/Noul + parallel + group-calibration + text-only + decomposition present. 255-cardinality absent. No API schema (links out, belongs to D142)."
+        }
+      ],
+      "limitations_proposed": [
+        "Calibration/CJK untested independently. STAND.",
+        "API details belong to D142. STAND.",
+        "Historical BOUND to served 2026-09-21T04:13:55Z. 255-cardinality stays current-only."
+      ]
+    },
+    {
+      "discovery_id": "EFF-D141",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:deaa552e6dcabb5b",
+      "status_current": "PARTIAL",
+      "verification_original_targets_exact": [
+        "Evidence-stage full-body verification",
+        "version/alias binding"
+      ],
+      "binding_original": "supplement-src-95365faf9fae84f7 (current-only models 219035B 59b6c17, aliases->1.14.0 + 1.13/1.14 table)",
+      "binding_proposed": "supplement-src-archive-u3-ABQRK5MR-20260920205053 (served 2026-09-20T20:50:53Z via requested 20260921091419 302; original URL https://docs.typesafe.ai/models + served timestamp separate; requested-row E2BRC NO-MATCH unserved)",
+      "claims_proposed": [
+        {
+          "text": "Archived Models page (served 2026-09-20T20:50:53Z, dateModified 09-20) pins SINGLE jev-1.13.0 at $42/BTok input-only outputs free, 250k tok/s + 1200 req/min, 64k ctx, text only, jev-latest/jev-preview BOTH -> 1.13.0. [historical 1.13-only valid] Nov 1.14 drift post-cutoff, no conflict, no back-projection.",
+          "class_proposed": "VENDOR_CLAIM (corrected historical)"
+        },
+        {
+          "text": "Alias drift warned: pin versioned ID; response model field reports answering ID. [present BOTH revisions, stable]",
+          "class_proposed": "VENDOR_CLAIM (stable)"
+        },
+        {
+          "text": "No per-account fine-tuning; RLCD-calibrated shared weights, domain via state/instructions. [present BOTH; internals undisclosed]",
+          "class_proposed": "VENDOR_CLAIM (stable)"
+        }
+      ],
+      "verification_proposed": [
+        {
+          "target": "Evidence-stage full-body verification",
+          "status_proposed": "VERIFIED (historical presence + alias binding, vendor scope; conditional)",
+          "finding_proposed": "Models archived revision CONFIRMED: served 2026-09-20T20:50:53Z via requested 20260921091419 302, raw plain 350662B 97a5dd74 (CDX served-row ABQRK5MR MATCH; requested-row E2BRC unserved). Single 1.13.0 only; no 1.14. Card aliases->1.13.0 CORRECTED at historical scope; current aliases->1.14.0 post-cutoff drift noted separately."
+        },
+        {
+          "target": "version/alias binding",
+          "status_proposed": "VERIFIED (historical pin; conditional)",
+          "finding_proposed": "jev-1.13.0 + alias-drift CONFIRMED at served 2026-09-20 scope; 1.13.0-only era. Nov drift kept not conflicting."
+        }
+      ],
+      "limitations_proposed": [
+        "Behavioral compliance untested. STAND.",
+        "Non-English weaker warning. STAND.",
+        "Historical BOUND to served 2026-09-20T20:50:53Z. Current 1.14 drift noted."
+      ]
+    },
+    {
+      "discovery_id": "EFF-D142",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:2e9cc18a2ca831a7",
+      "status_current": "PARTIAL",
+      "verification_original_targets_exact": [
+        "Evidence-stage full-body verification",
+        "calibration protocol gap"
+      ],
+      "binding_original": "NONE (no supplement entry, no body)",
+      "binding_proposed": "NONE (no new source id; unfetched API cannot typed mechanism)",
+      "claims_proposed": [
+        {
+          "text": "API reference role described as answer schema + distribution-derived confidence (summary-level, corroborated by D070/D071/D141 scope). No schema fields/confidence math/version/date/body consumption claimed.",
+          "class_proposed": "PROJECT_CLAIM (summary-only retained)"
+        },
+        {
+          "text": "No benchmark/calibration-measurement protocol located; independent peer-reviewed evidence NOT FOUND. Unchanged by u1/u2/u3.",
+          "class_proposed": "INFERENCE (negative finding retained)"
+        }
+      ],
+      "verification_proposed": [
+        {
+          "target": "Evidence-stage full-body verification",
+          "status_proposed": "UNRESOLVED (overclaimed VERIFIED corrected; summary-only)",
+          "finding_proposed": "Contract-role summary-only + page body outstanding (NO body, NO sp17-api raw, NO supplement entry; u1/u2/u3 contain no API schema). Prior VERIFIED label inconsistent with PARTIAL + limitation; CORRECTED to UNRESOLVED. Cannot support typed mechanism."
+        },
+        {
+          "target": "calibration protocol gap",
+          "status_proposed": "UNRESOLVED (retained)",
+          "finding_proposed": "No public calibration protocol located; independent evidence NOT FOUND retained."
+        }
+      ],
+      "limitations_proposed": [
+        "Reference page not fetched; details outstanding. STAND.",
+        "Historical API contract (<=09-21 snapshot) still missing. STAND."
+      ]
+    }
+  ],
+  "proposed_supplement_new_version": {
+    "entries_total": 30,
+    "counts_computed_sourcejoin": "entries 30 = 27 preserved + 3 new archive (D070/D071/D141 current-only replaced); taskbound DIDs 28 = 25 preserved + 3 replaced; extra entries D062x2/D093x2 preserved within 27; D142 no entry.",
+    "new_archive_entries": [
+      {
+        "proposed_supplement_source_id": "supplement-src-archive-u1-6XH5NKHY-20260921033022",
+        "discovery_id": "EFF-D070",
+        "locator_original_url": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+        "served_memento": "2026-09-21T03:30:22Z",
+        "requested_timestamp": "20260921033022",
+        "raw_sha256": "10bf660766c6c4a1bee86ceb4d11e5e3ef6cbadfd60022b1a07a88745e61aee3",
+        "raw_bytes": 42836,
+        "decoded_sha256": "14ae31184b253b736ff8be423fafbe5ff82d1f75cf66b600bad8b8c9152aa443",
+        "decoded_bytes": 253542,
+        "cdx_digest": "6XH5NKHYUN6JX6VRKYZPPO4XVV333MNF MATCH raw wire gzip",
+        "published_at": null
+      },
+      {
+        "proposed_supplement_source_id": "supplement-src-archive-u2-TUIONZBNG-20260921041355",
+        "discovery_id": "EFF-D071",
+        "locator_original_url": "https://docs.typesafe.ai/concepts/system-one",
+        "served_memento": "2026-09-21T04:13:55Z",
+        "requested_timestamp": "20260921041355",
+        "raw_sha256": "62bf012c9f5b9cbb19effab194aceae0eb4d5a55e1aebdc449d68036c1d36",
+        "raw_bytes": 49007,
+        "decoded_sha256": "357708348b9884d004669d6df45100986676f5ab900a75e76304fb19cae05bf",
+        "decoded_bytes": 307198,
+        "cdx_digest": "TUIONZBNGAJDKEOMM4J4D4WQ63DCRHAN MATCH raw wire gzip",
+        "published_at": null
+      },
+      {
+        "proposed_supplement_source_id": "supplement-src-archive-u3-ABQRK5MR-20260920205053",
+        "discovery_id": "EFF-D141",
+        "locator_original_url": "https://docs.typesafe.ai/models",
+        "served_memento": "2026-09-20T20:50:53Z",
+        "requested_timestamp": "20260921091419 -> 302 -> served 20260920205053 (truthful)",
+        "raw_sha256": "97a5dd74ed1e9ba006d21759c14615a7c0a485c4db161dc00a2d0b1e4d651b69",
+        "raw_bytes": 350662,
+        "decoded_sha256": "97a5dd74ed1e9ba006d21759c14615a7c0a485c4db161dc00a2d0b1e4d651b69",
+        "decoded_bytes": 350662,
+        "cdx_digest": "ABQRK5MRIZ6QIRYKMJRJ3PSLMHR5PSIG MATCH served bytes; requested-row E2BRC73XGREHH2N7TGKRIWTR53A5GE6S NO-MATCH unserved",
+        "published_at": null
+      }
+    ],
+    "preserved_other_27_note": "27 entries preserved byte-identical (includes D062 second + D093 second extras). Replaced 3 current-only with 3 archive above. D142 remains no entry."
+  },
+  "raw_staging_map_proposed_only": {
+    "note": "Proposed only; no active source_root/external write. Packet bins are DATA.",
+    "packet_intake_dir": "notes/rephase-1-selection-architecture-20261105/intake-20261106T001808Z-jev-archive",
+    "u1_raw": "u1.snapshot.body.bin 42836B 10bf6607 gzip",
+    "u1_decoded": "u1.snapshot.decoded.html 253542B 14ae3118",
+    "u2_raw": "u2.snapshot.body.bin 49007B 62bf012c gzip",
+    "u2_decoded": "u2.snapshot.decoded.html 307198B 35770834",
+    "u3_raw": "u3.snapshot.body.bin 350662B 97a5dd74 plain (decoded identity)"
+  },
+  "source_pins": {
+    "u1": "raw 42836B 10bf6607 / decoded 253542B 14ae3118 / CDX 6XH5 MATCH / served 2026-09-21T03:30:22Z == requested 20260921033022",
+    "u2": "raw 49007B 62bf012c / decoded 307198B 35770834 / CDX TUIONZB MATCH / served 2026-09-21T04:13:55Z == requested 20260921041355",
+    "u3": "raw 350662B 97a5dd74 plain / CDX served-row ABQRK5MR MATCH / served 2026-09-20T20:50:53Z via requested 20260921091419 (302); requested-row E2BRC unserved"
+  },
+  "obligations_kept": {
+    "count": 15,
+    "O10": "LIMITATION pending independent mechanisms/eval; do not auto SAT"
+  },
+  "operation_blocked": "High producer gap SOURCEGAP_CONFIRMED; operation BLOCKED; do NOT run LOW manual workaround. Proposal DATA only.",
+  "supplement_bases": "latest supplement r6-sp17 30922B ffcd0a7e (30 entries) + intake manifest 4289B 671bfab + decoded-manifest + independent-content-review + claim-version-map"
+}

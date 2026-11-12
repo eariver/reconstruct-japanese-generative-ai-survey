@@ -1,0 +1,63 @@
+=== BATCH 05 START 20261107T032041Z PID 700562 ===
+ARGV: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest -v [6 C tests]
+CWD: /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work
+ENV: PYTHONDONTWRITEBYTECODE=1 HOME=/home/eariver
+PID: 700562
+START_UTC: 20261107T032041Z
+PRE_SHA:
+d50282bf0812a4d07e3da13cf3574961add0466cd27a3ef3c648b89fe40330dd  scripts/survey_research_authority_v2.py
+f312f02e2dc5c1aa5a1d6432bca134cd83f0a1edea2d127721d0206d05514a90  scripts/survey_prearchitecture_acceptance_v2.py
+5d5d3aadec70bc5d5c22fdec3e3c65d4f38d73aa995d326d8927fb8f73e26f00  tests/test_dm022_supplement_carry_v2.py
+TEST_IDS: c_direct 6
+tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_direct_weekly_prepare_adopt_readback
+tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_thematic_direct_prepare_adopt_readback
+tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_true_r_not_equal_e
+tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_negatives_profile_copy_retention_refuse_no_write
+tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_ref_mismatch
+tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift
+---Unittest BEGIN---
+test_c_direct_weekly_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_direct_weekly_prepare_adopt_readback)
+ONE Weekly DIRECT positive: prepare → adopt → readback → checker. ... /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/scripts/survey_schema_v2.py:38: DeprecationWarning: Accessing jsonschema.__version__ is deprecated and will be removed in a future release. Use importlib.metadata directly to query for jsonschema's version.
+  _JSONSCHEMA_VERSION = getattr(jsonschema, "__version__", "unknown")
+ok
+test_c_thematic_direct_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_thematic_direct_prepare_adopt_readback)
+THEMATIC positive: second supported route + pure parentOID oracles. ... ok
+test_c_derived_weekly_true_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_true_r_not_equal_e)
+Weekly DERIVED: accepted root R vs Screening-derived E (raw parent refs). ... ok
+test_c_negatives_profile_copy_retention_refuse_no_write (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_negatives_profile_copy_retention_refuse_no_write)
+Targeted negatives: exact mapped type+message, SHA inventories. ... ok
+test_c_binding_ref_mismatch (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_ref_mismatch)
+Valid-control ref mismatches: exact type+message, SHA inventories. ... ok
+test_c_binding_integrity_drift (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift)
+Integrity/drift bindings: exact type+message, honest windows. ... FAIL
+
+======================================================================
+FAIL: test_c_binding_integrity_drift (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_binding_integrity_drift)
+Integrity/drift bindings: exact type+message, honest windows.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/tests/test_dm022_c_direct_operation_v2.py", line 659, in test_c_binding_integrity_drift
+    self.assertEqual(
+    ~~~~~~~~~~~~~~~~^
+        str(_cm7.exception),
+        ^^^^^^^^^^^^^^^^^^^^
+        "request.records[1] discovery_id is not a bound effective Discovery ID "
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        "(records bind E DIDs, never invented IDs)")
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'request.records must cover exact non-DROP Discovery IDs [67 chars]ion)' != 'request.records[1] discovery_id is not a bound effective[51 chars]IDs)'
+- request.records must cover exact non-DROP Discovery IDs (no new/omitted/DROP/extra unused IDs allowed in same-State correction)
++ request.records[1] discovery_id is not a bound effective Discovery ID (records bind E DIDs, never invented IDs)
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 13.273s
+
+FAILED (failures=1)
+---Unittest END EXIT:1---
+END_UTC: 20261107T032054Z
+POST_SHA:
+d50282bf0812a4d07e3da13cf3574961add0466cd27a3ef3c648b89fe40330dd  scripts/survey_research_authority_v2.py
+f312f02e2dc5c1aa5a1d6432bca134cd83f0a1edea2d127721d0206d05514a90  scripts/survey_prearchitecture_acceptance_v2.py
+5d5d3aadec70bc5d5c22fdec3e3c65d4f38d73aa995d326d8927fb8f73e26f00  tests/test_dm022_supplement_carry_v2.py
+EXIT:1

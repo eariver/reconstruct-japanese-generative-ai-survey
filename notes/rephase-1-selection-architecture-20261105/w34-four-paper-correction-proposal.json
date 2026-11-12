@@ -1,0 +1,289 @@
+{
+  "schema_version": "1.0",
+  "issue_id": "2026-W34",
+  "proposal": "author-four-paper-correction-r3-DATA-only-BLOCKED",
+  "role": "W34 research/editorial proposal AUTHOR (not independent reviewer, not Root, not Human)",
+  "basis": {
+    "latest_accepted_input": "notes/rephase-1-operational-rehearsal-resume-20261104/w34-corrected-input-r3-20261104.json",
+    "latest_accepted_input_sha256": "15e87eef65753bd0eeff8c512651859d6cb3b8b57127d0243925628acbf1d112",
+    "latest_accepted_input_bytes": 1576279,
+    "state": "EVIDENCE_REVIEWED d7acd29b1518399ffc2376eb07e102491a6ec9782b3fdd79815c5f230e1886b0 (unchanged, no adoption)",
+    "checkpoint": "CANDIDATES_NORMALIZED 0979f9f7703a25c2bd3424824bc4ad9f8719e8e7bcc49c19c5573d0f70ab593a (unchanged)",
+    "supplement_manifest": "sources/2026-W34/external/evidence-supplement/evidence-authority-supplement-r2-fresh-basis.json 389414B ce6f977a3e690e779c380b7b035d9247207e262b5c50a5b14b6b6b8f0fbc704e (unchanged, bodies already present, no new archive)",
+    "operation_map": "notes/rephase-1-selection-architecture-20261105/actual-dm022-supplement-operation-map.md FULL (HIGH carry gap confirmed, no normal HIGH prepare/adopt with supplements)",
+    "capability_review": "notes/rephase-1-selection-architecture-20261105/independent-correction-capability-review.md FULL (SOURCEGAP_CONFIRMED, Option R repair required before same-stage retry)",
+    "r2_review": "notes/rephase-1-selection-architecture-20261105/reviews/w34-r2-selection-proposal-independent-review-20261105.md + machine (counterfactual 4 accepted: 15127/16096/21100/18389; 21095 optional NOT included this unit)"
+  },
+  "scope_exact": {
+    "replace_only": [
+      "w34-event-arxiv-2608-15127",
+      "w34-event-arxiv-2608-16096",
+      "w34-event-arxiv-2608-21100",
+      "w34-event-arxiv-2608-18389"
+    ],
+    "explicitly_considered_hold": [
+      "w34-event-arxiv-2608-21095 (Trustworthy RAG KEEP16 P4 fit, optional 5th; NOT included this unit, retained as HOLD with reason)"
+    ],
+    "unchanged": 405,
+    "total": 409,
+    "no_hand_rebuild": "Whole 409 input for next unit = 405 records byte-identical to 15e87eef input + 4 replacement records below. No other record touched, no Discovery/Screening/basis change.",
+    "high_gap_block": "Existing HIGH supplement carry gap (operation-map §1-§4, capability-review §§3-5) prevents active adoption now. This file is durable CORRECTION DATA only for next unit (pre-code map + scoped implementation Option R first). No source/state/runtime writes, no prepare/adopt/resume/readback, no tests/imports/network/Git/Production/subagents performed."
+  },
+  "replacement_records": [
+    {
+      "discovery_id": "w34-event-arxiv-2608-15127",
+      "status": "PARTIAL",
+      "entity": {
+        "entity_id": "paper-2608.15127",
+        "canonical_name": "From LLM Inference to Agentic Workloads: Characterization and Implications for Serving Systems",
+        "entity_type": "PAPER",
+        "organization": null,
+        "canonical_url": "https://arxiv.org/abs/2608.15127"
+      },
+      "artifact_type": "PAPER",
+      "claims": [
+        {
+          "text": "As reported, AgentSysBench characterizes agentic workloads as long-running tool/state/I-O systems distinct from isolated inference: 10 representative applications with unified systems instrumentation identify heavyweight stateful execution, heterogeneous resource affinity, shifting bottlenecks and minutes-to-hours idle state.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Method/system as reported in Abstract/§2-§3 (Background/Motivation, Benchmarking Suite §§3.1-3.5); not independently reproduced; no deployment claim."
+        },
+        {
+          "text": "Evaluation as reported: controlled deployments plus production-trace analysis with workload generator (one-by-one/Poisson/trace-driven arrivals via orchestrator protocol), measurement toolkit and default benchmarking settings.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Evaluation design as reported §3/§7 (Suite, Production-Trace Analysis); benchmark choice/protocol not independently audited."
+        },
+        {
+          "text": "Maker-reported results (not publication-grade facts): task-aware serving reduces latency 29-40%, communication-aware placement up to 4.5x, state offloading reduces memory 4.6x, tool-result caching removes 35.2% redundant work; non-LLM components dominate latency in 5/10 apps, sandbox working-set peaks 28GB/session, task latencies diverge up to 32x.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Author-reported numbers only §§4-6; no independent reproduction/significance/holdout in captured bytes; conditions are design explorations."
+        },
+        {
+          "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+          "evidence_class": "PRIMARY_FACT",
+          "context": "Artifact-link presence observed in body; availability/version not fetch-verified; no availability claim."
+        }
+      ],
+      "limitations": [
+        "All performance figures are maker-reported author claims from the paper body; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+        "Benchmark suite proposal with maker-measured deployments/traces; no first-party W34 product deployment; no claim that characterization constitutes a W34 release event.",
+        "No deployment/reproduction/first-priority assertion; HKUST/Alibaba/ByteDance authorship is attribution, not deployment proof."
+      ],
+      "verification": [
+        {
+          "target": "Abstract-level arXiv Discovery lead (2608.15127) in lane agents_tools. Discovery triage only: matched=agents_tools,evaluation,inference_serving,language_models,memory_context,retrieval_embeddings; title_matches=agents_tools,inference_serving,language_models; score=14. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Agentic applications are shifting AI serving from isolated model inference to long-running workloads in which LLMs coordinate tools, environments, and persistent state. However, the system behavior of these workloads---where latency, cost, and bottlenecks arise---remains poorly characterized, leaving serving systems to rely on assumptions built for conventional inference. We present AgentSysBench, a benchmark suite and measurement toolkit with ten representative agentic applications and unified systems-level instrumentation. Across controlled deployments and production traces, we identify six",
+          "status": "VERIFIED",
+          "finding": "Inspected HTML body 314048B 85c70376aa8fc521ef4877aafe69402a4a18b79496cac8032316b07d275c67c9 confirms method (§§2-3), evaluation setup (§3/§7) and reported results (§§4-6: 29-40%/4.5x/4.6x/35.2%/28GB/32x) as span-grounded AUTHOR_CLAIM; numbers remain author-reported, no reproduction/deployment upgrade."
+        }
+      ],
+      "materiality": "MATERIAL",
+      "materiality_rationale": "Method contribution warrants MATERIAL for Research-Notes SUPPORTING: serving shift to long-running tool/state/I-O with measured bottlenecks/cost breakdown directly backgrounds P2 pay-and-collaborate thesis; not a core event, restricted to box.",
+      "scope_dimensions": ["current relevance", "technical significance"],
+      "window_relation": "MAIN_EVENT",
+      "carry_over": false,
+      "source_bindings": ["supplement-src-6f78fb828e6ec113"]
+    },
+    {
+      "discovery_id": "w34-event-arxiv-2608-16096",
+      "status": "PARTIAL",
+      "entity": {
+        "entity_id": "paper-2608.16096",
+        "canonical_name": "The Commercial Tax: Rent-vs-Own Blind Spots in Multi-Hop Retrieval Benchmarks",
+        "entity_type": "PAPER",
+        "organization": null,
+        "canonical_url": "https://arxiv.org/abs/2608.16096"
+      },
+      "artifact_type": "PAPER",
+      "claims": [
+        {
+          "text": "As reported, the paper audits multi-hop retrieval benchmarks for two buyer facts: commercial deployability of the retrieval backbone (NV-Embed-v2 licensed cc-by-nc-4.0; 3 of 4 leading MuSiQue systems depend on it undisclosed) and build cost (standardized two-axis model keeping licensing and cost separate).",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Method as reported Abstract/§2-§3 (MuSiQue/HippoRAG-2 protocol §2.1, NV-Embed-v2 non-commercial §2.2, Tasks A-D §§3.1-3.4); not independently reproduced; no deployment claim."
+        },
+        {
+          "text": "Evaluation as reported: 13 embedders from 8 makers on one identical protocol (HippoRAG-2 fixed anchor), commercial-embedder retrieval floor, literature disclosure audits of leading systems, panel composition and re-measurement with worked metric/format sensitivity and realistic institutional data volumes.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Evaluation design as reported §§3-4 and Appendices A-D; benchmark/protocol choice not independently audited."
+        },
+        {
+          "text": "Maker-reported discussion (not publication-grade facts): commercial-embedder floor, indexing/embedding/answering cost breakdown (one-time vs recurring per query), and buyer checklist (what buyer should ask; expensive-but-governed may be correct); no claim of new retrieval deployment.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Author-reported audit/discussion §§4-5; numbers remain author-reported; conditions are audit scope, not deployment proof."
+        },
+        {
+          "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+          "evidence_class": "PRIMARY_FACT",
+          "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+        }
+      ],
+      "limitations": [
+        "All performance/cost figures are maker-reported author claims; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+        "License/cost disclosure audit only; no new retrieval deployment, no vendor corroboration, no claim that audit constitutes a W34 product event.",
+        "No deployment/reproduction/first-priority assertion."
+      ],
+      "verification": [
+        {
+          "target": "Abstract-level arXiv Discovery lead (2608.16096) in lane evaluation. Discovery triage only: matched=evaluation,language_models,retrieval_embeddings; title_matches=evaluation,retrieval_embeddings; score=9. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: Enterprises connect language models to their own data through retrieval. The benchmarks that rank multi-hop retrieval systems leave out two facts a buyer needs before a published number can be used: whether the retrieval backbone may be deployed commercially, and what it costs to build. On licensing: the field's dense-retrieval anchor, NV-Embed-v2, is licensed cc-by-nc-4.0. Of the four leading MuSiQue systems we audit (HippoRAG-2, PropRAG, SAG, KET-RAG), three depend on it for their best numbers and none says so. On performance: we measure thirteen embedders from eight makers on one identical",
+          "status": "VERIFIED",
+          "finding": "Inspected HTML body 414077B a4c2aafef170bd915418979475983b009f4236786f67ce81a370747568e44f75 confirms license audit (§§3.1/4.1), commercial floor (§§3.2/4.2) and cost model/discussion (§§3.4/4.5-4.7/§5) as AUTHOR_CLAIM; numbers remain author-reported, sections include Limitations §6."
+        }
+      ],
+      "materiality": "MATERIAL",
+      "materiality_rationale": "Method contribution warrants MATERIAL for Research-Notes SUPPORTING: license/cost disclosure audit directly qualifies every P1 pricing/SOTA/throughput number as buyer caution; restricted to sidebar, not core.",
+      "scope_dimensions": ["current relevance", "technical significance"],
+      "window_relation": "MAIN_EVENT",
+      "carry_over": false,
+      "source_bindings": ["supplement-src-c980beaaa7c4448a"]
+    },
+    {
+      "discovery_id": "w34-event-arxiv-2608-21100",
+      "status": "PARTIAL",
+      "entity": {
+        "entity_id": "paper-2608.21100",
+        "canonical_name": "ReFrame: Evidence-Guided Test-Time Safety Alignment in Multimodal Large Language Models",
+        "entity_type": "PAPER",
+        "organization": null,
+        "canonical_url": "https://arxiv.org/abs/2608.21100"
+      },
+      "artifact_type": "PAPER",
+      "claims": [
+        {
+          "text": "As reported, ReFrame performs test-time safety alignment without retraining or internal-state inspection, addressing utility dominance and reasoning inertia that cause overlooking latent risks: Evidence-Generation Agent plus Rewrite-and-Routing Agent plus Safe Inference.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Method as reported §4 (§§4.1-4.3) and §3 problem setup/empirical findings; not independently reproduced; no deployment claim; closed-source applicability is author-described, not proven."
+        },
+        {
+          "text": "Evaluation as reported: previously released benchmarks cited in Appendix B.2 only (no newly collected data), strictly for academic research/safety evaluation not operational/commercial/harmful purposes; RQ1&2 main, RQ3 ablations, RQ4 scalability, RQ5 runtime, plus case studies.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Evaluation design as reported §§5.1-5.6 and Appendix B.2; benchmark choice/protocol not independently audited."
+        },
+        {
+          "text": "Maker-reported results (not publication-grade facts): best average accuracy 37.28 to 45.95 with gains on POPE/Math/Physics and no loss on Computer; ablations/scalability/runtime as reported.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Author-reported numbers §§5.2-5.6; no independent reproduction/significance/holdout in captured bytes."
+        },
+        {
+          "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+          "evidence_class": "PRIMARY_FACT",
+          "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+        }
+      ],
+      "limitations": [
+        "All figures are maker-reported; no independent reproduction, significance test, or held-out audit exists in captured bytes.",
+        "Test-time mechanism only; no retraining-free deployment proof for closed-source MLLMs beyond author description; cross-modal jailbreak/safety-awareness/over-refusal scope is author-framed.",
+        "No deployment/reproduction/first-priority assertion; no claim that method resolves MLLM safety generally."
+      ],
+      "verification": [
+        {
+          "target": "Abstract-level arXiv Discovery lead (2608.21100) in lane evaluation. Discovery triage only: matched=agents_tools,evaluation,inference_serving,language_models,multimodal_media,safety_security,training_methods; title_matches=evaluation,language_models,multimodal_media,safety_security; score=17. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: While multimodal large language models (MLLMs) extend model capabilities beyond text, they also make safety alignment increasingly challenging. Multimodal safety alignment methods must address cross-modal jailbreaks, safety-awareness failures, and over-sensitive refusals. However, existing methods often rely on retraining or internal-state inspection, limiting their applicability to deployed closed-source MLLMs and motivating test-time safety alignment. We analyze this setting and identify two key obstacles, utility dominance and reasoning inertia, which cause models to overlook latent risks o",
+          "status": "VERIFIED",
+          "finding": "Inspected HTML body 711224B da737a85b9fad92509ba08e9877c1ba359d47adf00cb3bd2c99ceccf5152e383 confirms method (§4), evaluation (§5.1/Appendix B.2) and reported gains (§§5.2-5.6) as AUTHOR_CLAIM; numbers remain author-reported."
+        }
+      ],
+      "materiality": "MATERIAL",
+      "materiality_rationale": "Method contribution warrants MATERIAL for Research-Notes SUPPORTING: test-time safety mechanism fits P4 terms-of-deployment thesis as mechanism note; same researcher class as c055 but with full body + limitations, restricted to box.",
+      "scope_dimensions": ["current relevance", "technical significance"],
+      "window_relation": "MAIN_EVENT",
+      "carry_over": false,
+      "source_bindings": ["supplement-src-70c044a81cc5695d"]
+    },
+    {
+      "discovery_id": "w34-event-arxiv-2608-18389",
+      "status": "PARTIAL",
+      "entity": {
+        "entity_id": "paper-2608.18389",
+        "canonical_name": "A Jagged Frontier: Evaluating Robustness of Code Agents to Semantics-Preserving Transformations",
+        "entity_type": "PAPER",
+        "organization": null,
+        "canonical_url": "https://arxiv.org/abs/2608.18389"
+      },
+      "artifact_type": "PAPER",
+      "claims": [
+        {
+          "text": "As reported, the paper evaluates code-agent reliability under semantically equivalent rewrites via random variant sampler applying semantics-preserving transformations (control-flow rewrites, dead-code injection, identifier renaming) with validation/composition/scope/sampling and notation.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Method as reported Abstract/Introduction/SPT Definition/Catalog/Validation/Composition; not independently reproduced; authors describe as first such evaluation (description only, not asserted as fact here)."
+        },
+        {
+          "text": "Evaluation as reported: 2 scaffolds (mini-SWE agent, OpenCode) each with 4 frontier models (Claude Opus 4.5, Kimi K2.5, MiniMax M2.5, Qwen 3.6-27B) across SWE-bench Verified/Pro instances; multiple runs per unperturbed/perturbed variant yielding paired resolve-rate estimates isolating perturbation effect; resolve-rate/degradation/effort-cost metrics with two-randomness protocol and one-run-per-variant efficient split.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Evaluation design as reported Experiments/Setup/Benchmarks/Agents/Variant generation/Protocol; benchmark/scaffold choice not independently audited."
+        },
+        {
+          "text": "Maker-reported results (not publication-grade facts): small degradation in most configs, up to 6.7pp mean resolve-rate drop in most affected with significant degradations in 6/16 configs; simpler scaffold consistently more robust; degradation concentrated not diffuse; robustness rankings do not transfer across scaffolds/benchmarks.",
+          "evidence_class": "AUTHOR_CLAIM",
+          "context": "Author-reported RQ1/RQ2 as reported; no independent reproduction/significance/holdout beyond reported protocol in captured bytes."
+        },
+        {
+          "text": "The inspected body references a public code/model artifact location (repository or model-hub link present in body text).",
+          "evidence_class": "PRIMARY_FACT",
+          "context": "Artifact-link presence observed in body; availability/version not fetch-verified."
+        }
+      ],
+      "limitations": [
+        "All figures are maker-reported; no independent reproduction beyond reported protocol exists in captured bytes.",
+        "Robustness counterweight to vendor GA claims only; no claim that findings invalidate any specific deployment; no first-priority fact asserted here.",
+        "No deployment/reproduction assertion."
+      ],
+      "verification": [
+        {
+          "target": "Abstract-level arXiv Discovery lead (2608.18389) in lane agents_tools. Discovery triage only: matched=agents_tools,developer_systems,evaluation,inference_serving,safety_security; title_matches=agents_tools,developer_systems,evaluation,inference_serving,safety_security; score=17. Shortlist status is provisional and requires Sol review; no downstream disposition is encoded. Abstract excerpt: AI code agents are increasingly deployed to resolve real software issues, yet their reliability under superficial code variations remains poorly understood. We evaluate whether coding agents that repair repository-level issues remain reliable when the surrounding codebase is rewritten into a semantically equivalent form. We introduce a random variant sampler that applies common semantics-preserving transformations (SPTs) - spanning control-flow rewrites, dead-code injection, and identifier renaming - to produce perturbed variants. We evaluate two agentic scaffolds (mini-SWE agent and OpenCode)",
+          "status": "VERIFIED",
+          "finding": "Inspected HTML body 388712B 56b4829134fcf85b0131b70ef8ce0641d5289c57c4edd9cb5c79735d3a9d37ea confirms SPT method, 2x4 SWE-bench paired evaluation and reported RQ1/RQ2 (6.7pp/6-of-16/simpler-robust/non-transfer) as AUTHOR_CLAIM; numbers remain author-reported."
+        }
+      ],
+      "materiality": "MATERIAL",
+      "materiality_rationale": "Method contribution warrants MATERIAL for Research-Notes SUPPORTING: scaffold/codebase-dependent robustness directly counterweights P2/P3 vendor GA claims (Slack Code/Copilot/Kimi) with stronger date/body authority than c066/c099-101; restricted to box, single P2 destination.",
+      "scope_dimensions": ["current relevance", "technical significance"],
+      "window_relation": "MAIN_EVENT",
+      "carry_over": false,
+      "source_bindings": ["supplement-src-c54d707262dc6b1b"]
+    }
+  ],
+  "read_ledger_per_claim": [
+    {"did": "w34-event-arxiv-2608-15127", "claim": 1, "sections": "Abstract/§2-§3", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_15127.html", "sha256": "85c70376aa8fc521ef4877aafe69402a4a18b79496cac8032316b07d275c67c9", "bytes": 314048, "note": "AgentSysBench 10 apps + 6 properties; AUTHOR_CLAIM method, no reproduction/deployment"},
+    {"did": "w34-event-arxiv-2608-15127", "claim": 2, "sections": "§3/§7", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_15127.html", "sha256": "85c70376aa8fc521ef4877aafe69402a4a18b79496cac8032316b07d275c67c9", "bytes": 314048, "note": "Controlled + traces, arrival processes; evaluation design not audited"},
+    {"did": "w34-event-arxiv-2608-15127", "claim": 3, "sections": "§§4-6", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_15127.html", "sha256": "85c70376aa8fc521ef4877aafe69402a4a18b79496cac8032316b07d275c67c9", "bytes": 314048, "note": "29-40%/4.5x/4.6x/35.2%/28GB/32x maker-reported design explorations"},
+    {"did": "w34-event-arxiv-2608-16096", "claim": 1, "sections": "Abstract/§2-§3", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_16096.html", "sha256": "a4c2aafef170bd915418979475983b009f4236786f67ce81a370747568e44f75", "bytes": 414077, "note": "NV-Embed-v2 CC-BY-NC, Tasks A-D, two-axis cost model; AUTHOR_CLAIM"},
+    {"did": "w34-event-arxiv-2608-16096", "claim": 2, "sections": "§§2-3 + Appendices A-D", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_16096.html", "sha256": "a4c2aafef170bd915418979475983b009f4236786f67ce81a370747568e44f75", "bytes": 414077, "note": "MuSiQue/HippoRAG-2, 13 embedders/8 makers, panel re-measurement"},
+    {"did": "w34-event-arxiv-2608-16096", "claim": 3, "sections": "§§4-5", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_16096.html", "sha256": "a4c2aafef170bd915418979475983b009f4236786f67ce81a370747568e44f75", "bytes": 414077, "note": "Floor + cost breakdown + buyer checklist discussion, no deployment"},
+    {"did": "w34-event-arxiv-2608-21100", "claim": 1, "sections": "§3-§4", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_21100.html", "sha256": "da737a85b9fad92509ba08e9877c1ba359d47adf00cb3bd2c99ceccf5152e383", "bytes": 711224, "note": "Test-time without retraining/inspection, Evidence-Generation + Rewrite-Routing + Safe Inference; closed-source applicability author-described"},
+    {"did": "w34-event-arxiv-2608-21100", "claim": 2, "sections": "§5.1/Appendix B.2", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_21100.html", "sha256": "da737a85b9fad92509ba08e9877c1ba359d47adf00cb3bd2c99ceccf5152e383", "bytes": 711224, "note": "Released benchmarks only, academic/safety-eval scope"},
+    {"did": "w34-event-arxiv-2608-21100", "claim": 3, "sections": "§§5.2-5.6", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_21100.html", "sha256": "da737a85b9fad92509ba08e9877c1ba359d47adf00cb3bd2c99ceccf5152e383", "bytes": 711224, "note": "37.28→45.95 POPE/Math/Physics maker-reported"},
+    {"did": "w34-event-arxiv-2608-18389", "claim": 1, "sections": "Abstract/SPT Definition/Catalog", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_18389.html", "sha256": "56b4829134fcf85b0131b70ef8ce0641d5289c57c4edd9cb5c79735d3a9d37ea", "bytes": 388712, "note": "SPT sampler (control-flow/dead-code/renaming); first-description qualified, not asserted as fact"},
+    {"did": "w34-event-arxiv-2608-18389", "claim": 2, "sections": "Experiments/Setup/Protocol", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_18389.html", "sha256": "56b4829134fcf85b0131b70ef8ce0641d5289c57c4edd9cb5c79735d3a9d37ea", "bytes": 388712, "note": "2 scaffolds x4 models SWE-bench Verified/Pro paired estimates"},
+    {"did": "w34-event-arxiv-2608-18389", "claim": 3, "sections": "RQ1/RQ2", "locator": "sources/2026-W34/execution/luna/w34-screening-evidence-after-sol-discovery-r2/evidence-bodies/arxiv/2608_18389.html", "sha256": "56b4829134fcf85b0131b70ef8ce0641d5289c57c4edd9cb5c79735d3a9d37ea", "bytes": 388712, "note": "6.7pp/6-of-16/simpler-robust/non-transfer maker-reported"}
+  ],
+  "before_after_delta": {
+    "w34-event-arxiv-2608-15127": {"before": {"status": "PARTIAL", "materiality": "CONTEXT", "claims": 4, "generic_title_claim": true}, "after": {"status": "PARTIAL", "materiality": "MATERIAL", "claims": 4, "bounded_method_eval_results": true}, "entity_unchanged": true, "bindings_unchanged": ["supplement-src-6f78fb828e6ec113"], "task_target_names_set_exact": true},
+    "w34-event-arxiv-2608-16096": {"before": {"status": "PARTIAL", "materiality": "CONTEXT", "claims": 4, "generic_title_claim": true}, "after": {"status": "PARTIAL", "materiality": "MATERIAL", "claims": 4, "bounded_method_eval_results": true}, "entity_unchanged": true, "bindings_unchanged": ["supplement-src-c980beaaa7c4448a"], "task_target_names_set_exact": true},
+    "w34-event-arxiv-2608-21100": {"before": {"status": "PARTIAL", "materiality": "CONTEXT", "claims": 4, "generic_title_claim": true}, "after": {"status": "PARTIAL", "materiality": "MATERIAL", "claims": 4, "bounded_method_eval_results": true}, "entity_unchanged": true, "bindings_unchanged": ["supplement-src-70c044a81cc5695d"], "task_target_names_set_exact": true},
+    "w34-event-arxiv-2608-18389": {"before": {"status": "PARTIAL", "materiality": "CONTEXT", "claims": 4, "generic_title_claim": true}, "after": {"status": "PARTIAL", "materiality": "MATERIAL", "claims": 4, "bounded_method_eval_results": true}, "entity_unchanged": true, "bindings_unchanged": ["supplement-src-c54d707262dc6b1b"], "task_target_names_set_exact": true}
+  },
+  "unaffected_pin_policy": "405 records byte-identical to 15e87eef input (sorted by discovery_id, canonical JSON SHA per record preserved in next-unit prove step). No Discovery/Screening/basis/entity/binding change for unaffected 405 (397 supplement-bound +8 Discovery-only). Proof must refuse any unaffected semantic drift (operation-map §5, capability-review §4). No hand rebuild of all source.",
+  "selection_r3_DATA": {
+    "selected_total": 45,
+    "explanation": "41 (r2) +4 supporting (this correction). 21095 explicitly HOLD, not included.",
+    "matrix": "409 Matrix (45 SELECTED PRIMARY/SUPPORTING +364 HOLD/NONE) +30 nonMatrix separate (26 EXCLUDED+4 DUPLICATE, 0 tasks). Ledger 439 unchanged.",
+    "counts": {"ledger_total": 439, "matrix_total": 409, "nonmatrix_total": 30, "selected_total": 45, "hold_matrix": 364, "feature_core": 12, "section_core": 12, "supporting_evidence": 21},
+    "packages": {
+      "P1-frontier-distribution-pricing": {"total": 12, "added": ["w34-event-arxiv-2608-16096 SUPPORTING buyer-caution sidebar"], "note": "P1 11+1; license audit qualifies every P1 pricing/benchmark number"},
+      "P2-agent-platform-GA": {"total": 13, "added": ["w34-event-arxiv-2608-15127 SUPPORTING workload mechanism", "w34-event-arxiv-2608-18389 SUPPORTING robustness counterweight (single P2 destination)"], "note": "P2 11+2 in one Research-Notes box; workload + jagged robustness backgrounds P2 thesis"},
+      "P3-enterprise-developer-surfaces": {"total": 8, "added": [], "note": "unchanged"},
+      "P4-safety-security-governance": {"total": 8, "added": ["w34-event-arxiv-2608-21100 SUPPORTING safety-mechanism note"], "note": "P4 7+1; ReFrame test-time alignment under terms"},
+      "P5-infra-economics-creative": {"total": 4, "added": [], "note": "unchanged"}
+    },
+    "role_package_placement_verified": "All 409 Matrix rows exactly once; 45 SELECTED with PRIMARY (FEATURE+SECTION 24) / SUPPORTING (21 =17 r2 +4 new); 364 HOLD/NONE; 30 nonMatrix not assignable. No silent mechanical binding changes: discovery_id/task/entity/source_bindings identical except 4 materiality CONTEXT→MATERIAL + bounded claims; task_target names/set exact.",
+    "page_plan": {"target": 15, "max": 16, "arithmetic": "r2 base 14 (P1 3 +P2 4 +P3 2 +P4 3 +P5 2 after P3 trio-merge tightening) +1 Research-Notes box (0.5 P1 sidebar +0.5 P2/P4 notes, single box counted once, last in drafting order) =15 target; max 16 allows 0.5 overflow per package. Honest vs automatic 17pp: box is bounded, not a 6th package; qualified SUPPORTING never headlined."}
+  },
+  "unresolved_boundaries": [
+    "All 4 remain PARTIAL AUTHOR_CLAIM maker-reported, no independent reproduction/significance/holdout; no deployment claim; no W34 product-event assertion.",
+    "15127: workload characterization is suite proposal with maker-measured deployments/traces; pay-go breakdown is estimate, not audited cost.",
+    "16096: license/cost audit scope only; NV-Embed-v2 commercial status is author audit, no vendor corroboration; no new retrieval deployment.",
+    "21100: test-time alignment without retraining/inspection is author-described; closed-source applicability not proven; benchmarks are released-only academic eval.",
+    "18389: robustness is scaffold/codebase-dependent as reported; no first-priority fact asserted; no invalidation of any specific deployment.",
+    "21095 Trustworthy RAG KEEP16 explicitly considered HOLD this unit (P4 fit but box room reserved); 14927 routing negative result and 14967 analytical WAN remain considered HOLD background, not overlooked."
+  ],
+  "blocked_notice": "BLOCKED pending accepted Evidence correction via normal Option R producer repair (operation-map §7, capability-review §§7-9: pre-code map + scoped implementation with FULL 409/160 content-core/unaffected-match/mechanical-projection validation + independent re-review of corrected 4 cards only). No canonical State/Ledger/Completeness/Selection/Architecture writes performed or claimed here. No Draft/PDF/Human Gate. Next unit must return with concrete bounded Root dispatch after readiness; do not auto-start writer/API JSON, Selection writes, or SP work.",
+  "no_self_approval": true,
+  "attribution": "W34 AUTHOR correction DATA only (not independent reviewer, not Root, not Human). Prior BOUNDED_PROCEED/CHANGES_REQUIRED reviews cited as history, not reused as approval. Independent re-review of corrected 4 required before any Selection r3 adoption."
+}

@@ -1,0 +1,33 @@
+test_thematic_direct_novel_then_unchanged_carry (tests.test_dm022_supplement_carry_v2.SupplementCarryFocusedTests.test_thematic_direct_novel_then_unchanged_carry)
+THEMATIC direct 3-task novel addition then unchanged carry + adopt/readback. ... ERROR
+
+======================================================================
+ERROR: test_thematic_direct_novel_then_unchanged_carry (tests.test_dm022_supplement_carry_v2.SupplementCarryFocusedTests.test_thematic_direct_novel_then_unchanged_carry)
+THEMATIC direct 3-task novel addition then unchanged carry + adopt/readback.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/scripts/survey_research_authority_v2.py", line 2401, in build_revision_cards_views_from_paths
+    card = evidence_mod._build_card_core(task, meta, package, rec, request.get("runner", {}), _low_auth)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/scripts/survey_evidence_v2.py", line 2247, in _build_card_core
+    raise ValueError(f"{task['evidence_task_id']}: source_bindings must explicitly select task-bound sources")
+ValueError: evidence:SP001:b72027b969442983: source_bindings must explicitly select task-bound sources
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/tests/test_dm022_supplement_carry_v2.py", line 379, in test_thematic_direct_novel_then_unchanged_carry
+    out1, req1, dec1 = self._prepare_and_decide(chain, state_abs, rev1, chain["dids"], supp_manifest, sid_by_did)
+                       ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/tests/test_dm022_supplement_carry_v2.py", line 253, in _prepare_and_decide
+    out = high.prepare_revision(root, state_abs, request_path, revision_id)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/scripts/survey_prearchitecture_acceptance_v2.py", line 651, in prepare_revision
+    cv = low.build_revision_cards_views_from_paths(repo_root, rev_root / "candidate" / "package.json", request_abs, results_dir, views_dir, before_copy_path=state_copy)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/supplement-carry-implementation-20261106T131722Z/candidate-work/scripts/survey_research_authority_v2.py", line 2403, in build_revision_cards_views_from_paths
+    raise ResearchAuthorityError(f"card build failed for {meta.get('evidence_task_id')}: {exc}") from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: card build failed for evidence:SP001:b72027b969442983: evidence:SP001:b72027b969442983: source_bindings must explicitly select task-bound sources
+
+----------------------------------------------------------------------
+Ran 1 test in 1.091s
+
+FAILED (errors=1)
+EXIT:1

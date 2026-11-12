@@ -1,0 +1,331 @@
+{
+  "schema": "sp-four-record-correction-proposal-r2",
+  "basis": {
+    "accepted_interactive_evidence": "sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/interactive-evidence.json 355643B 697a4ed088b76f18b3859568a735491a3a8b2295c480be3e1e678c4d8b31f104",
+    "checkpoint": "sources/SP-efficient-llm-2026/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json 4745B 1233b1f6ca3301d6430d4d157788d0a45a613c9ce1e1563e7c06fe11d73993f0",
+    "state": "sources/SP-efficient-llm-2026/production-state.json 4194B 180db8c30721825d40461cd5e1b92edb704f3630f518bfd693b4732211538220 EVIDENCE_REVIEWED",
+    "profile_as_of": "2026-09-21T16:10:00Z OPEN_HISTORY_AS_OF",
+    "original_accepted_records_baseline": "interactive-evidence.json 160 records; D070 PARTIAL/CONTEXT bindings [6a5ae38a], D071 PARTIAL/CONTEXT [0d550497], D141 PARTIAL/CONTEXT [95365faf], D142 PARTIAL/MATERIAL bindings None; verification targets/names per record below (unchanged in proposal)"
+  },
+  "records": [
+    {
+      "discovery_id": "EFF-D070",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:5491a3053d02fc3f",
+      "status_baseline": "PARTIAL (unchanged)",
+      "verification_targets_exact_unchanged": [
+        "Evidence-stage full-body verification",
+        "race/accuracy claims quarantine"
+      ],
+      "before": {
+        "source_bindings": [
+          "supplement-src-6a5ae38ab18f02cb"
+        ],
+        "claims": 3,
+        "claims_note": "3 VENDOR_CLAIM (announce+parallel/RLCD/typed; 70-500ms/40-200x/$0.042/193.6-444.6x; laptop/adapter/OpenRouter nuance admissions)",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status": "UNRESOLVED"
+          },
+          {
+            "target": "race/accuracy claims quarantine",
+            "status": "UNRESOLVED"
+          }
+        ],
+        "limitations": 3,
+        "materiality": "CONTEXT (unchanged)"
+      },
+      "after_proposed": {
+        "source_bindings": [
+          "supplement-src-ea9b086e35e1c559"
+        ],
+        "claims": "same 3 texts (vendor scope retained); contexts updated to archived revision served 2026-09-21T03:30:22Z; no indep repro/RLCD inference added",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status_proposed": "VERIFIED (historical presence, vendor scope; conditional on accepted revision + independent re-review; not ready canonical)"
+          },
+          {
+            "target": "race/accuracy claims quarantine",
+            "status_proposed": "UNRESOLVED (vendor quarantine retained)"
+          }
+        ],
+        "limitations": "lim1-2 STAND; lim3 closable to BOUND served 2026-09-21T03:30:22Z upon accepted revision",
+        "materiality": "CONTEXT (unchanged in accepted; conditional SELECT SUPPORTING p8 in r3 map)"
+      },
+      "binding_change": "supplement-src-6a5ae38ab18f02cb -> supplement-src-ea9b086e35e1c559"
+    },
+    {
+      "discovery_id": "EFF-D071",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:e1f751a159101aed",
+      "status_baseline": "PARTIAL (unchanged)",
+      "verification_targets_exact_unchanged": [
+        "Evidence-stage full-body verification"
+      ],
+      "before": {
+        "source_bindings": [
+          "supplement-src-0d550497594e1efc"
+        ],
+        "claims": 3,
+        "claims_note": "3 PROJECT_CLAIM (Choice/Score/Noul+parallel; calibration group + 255-cardinality score-then-choose; decomposition guidance)",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status": "UNRESOLVED"
+          }
+        ],
+        "limitations": 3,
+        "materiality": "CONTEXT (unchanged)"
+      },
+      "after_proposed": {
+        "source_bindings": [
+          "supplement-src-793903f4b4b1d3e1"
+        ],
+        "claims": "claim1/claim3 archived present (vendor mechanism); claim2 SPLIT: group-calibration + text-only retained as-of, 255-cardinality/score-then-choose REMOVED from as-of (absent archived visible text, current-only)",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status_proposed": "VERIFIED (historical presence, vendor scope; conditional)"
+          }
+        ],
+        "limitations": "lim1-2 STAND; lim3 closable to BOUND served 2026-09-21T04:13:55Z; 255-cardinality stays current-only",
+        "materiality": "CONTEXT (unchanged; conditional SELECT SUPPORTING p8)"
+      },
+      "binding_change": "supplement-src-0d550497594e1efc -> supplement-src-793903f4b4b1d3e1"
+    },
+    {
+      "discovery_id": "EFF-D141",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:deaa552e6dcabb5b",
+      "status_baseline": "PARTIAL (unchanged)",
+      "verification_targets_exact_unchanged": [
+        "Evidence-stage full-body verification",
+        "version/alias binding"
+      ],
+      "before": {
+        "source_bindings": [
+          "supplement-src-95365faf9fae84f7"
+        ],
+        "claims": 3,
+        "claims_note": "3 PROJECT_CLAIM (1.13.0 + aliases->1.13.0 + limits; alias-drift warning; no per-customer fine-tune)",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status": "UNRESOLVED"
+          },
+          {
+            "target": "version/alias binding",
+            "status": "UNRESOLVED"
+          }
+        ],
+        "limitations": 3,
+        "materiality": "CONTEXT (unchanged)"
+      },
+      "after_proposed": {
+        "source_bindings": [
+          "supplement-src-228b81661893f1ea"
+        ],
+        "claims": "claim1 CORRECTED to archived historical (single 1.13.0, aliases BOTH->1.13.0 at served 2026-09-20T20:50:53Z; Nov ->1.14.0 drift noted not conflicting, no back-projection); claims 2-3 stable across revisions",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status_proposed": "VERIFIED (historical presence + alias binding, vendor scope; conditional)"
+          },
+          {
+            "target": "version/alias binding",
+            "status_proposed": "VERIFIED (historical pin 1.13.0-only; conditional)"
+          }
+        ],
+        "limitations": "lim1-2 STAND; lim3 closable to BOUND served 2026-09-20T20:50:53Z",
+        "materiality": "CONTEXT (unchanged; conditional SELECT SUPPORTING p8)"
+      },
+      "binding_change": "supplement-src-95365faf9fae84f7 -> supplement-src-228b81661893f1ea"
+    },
+    {
+      "discovery_id": "EFF-D142",
+      "evidence_task_id": "evidence:SP-efficient-llm-2026:2e9cc18a2ca831a7",
+      "status_baseline": "PARTIAL (unchanged)",
+      "verification_targets_exact_unchanged": [
+        "Evidence-stage full-body verification",
+        "calibration protocol gap"
+      ],
+      "before": {
+        "source_bindings": null,
+        "claims": 2,
+        "claims_note": "PROJECT_CLAIM summary-only contract + INFERENCE negative finding (no calibration protocol, NOT FOUND)",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status": "VERIFIED (overclaimed)"
+          },
+          {
+            "target": "calibration protocol gap",
+            "status": "UNRESOLVED"
+          }
+        ],
+        "limitations": 1,
+        "materiality": "MATERIAL (unchanged)"
+      },
+      "after_proposed": {
+        "source_bindings": null,
+        "new_supplement": "NONE (unfetched API cannot typed mechanism; no new source id, no body)",
+        "claims": "unchanged (summary-only retained; no schema/confidence math/version/date/body consumption inferred)",
+        "verification": [
+          {
+            "target": "Evidence-stage full-body verification",
+            "status_proposed": "UNRESOLVED (overclaimed VERIFIED corrected; summary-only + NOT FOUND)"
+          },
+          {
+            "target": "calibration protocol gap",
+            "status_proposed": "UNRESOLVED (retained)"
+          }
+        ],
+        "limitations": "unchanged (page not fetched; historical contract still missing)",
+        "materiality": "MATERIAL (unchanged; HOLD summary-only)"
+      },
+      "binding_change": "NONE -> NONE (no new supplement/body)"
+    }
+  ],
+  "proposed_supplement_new_version": {
+    "entries_total": 30,
+    "counts_computed_sourcejoin": "entries 30 = 27 preserved (byte-identical IDs listed) + 3 new archive (D070/D071/D141 current-only replaced); taskbound DIDs 28 = 25 preserved + 3 replaced; extra entries D062x2/D093x2 preserved within 27; D142 no entry (unchanged).",
+    "preserved_old_27_unchanged_ids": [
+      "supplement-src-826dbb98ef8af92d",
+      "supplement-src-08a78004c1c2fd3b",
+      "supplement-src-324833e48fd79d22",
+      "supplement-src-eef3e7d55c702106",
+      "supplement-src-2f561e2e32b9f5f6",
+      "supplement-src-da141b8265766ca3",
+      "supplement-src-46c4106a61d8b9cb",
+      "supplement-src-85c7e505c911e2ee",
+      "supplement-src-9a65c3c472fb23c9",
+      "supplement-src-867e4c16a28026d2",
+      "supplement-src-8aa19103ded60575",
+      "supplement-src-d31c45e64b7cea4c",
+      "supplement-src-6fe51b459a274631",
+      "supplement-src-25c1f6c365fc812a",
+      "supplement-src-a37ddc72f19c9273",
+      "supplement-src-960dd079a3825c8c",
+      "supplement-src-36187e872e8ea736",
+      "supplement-src-89bf74c7065d29cd",
+      "supplement-src-6df8822a389e0f8b",
+      "supplement-src-8f0c74d69a49bf6c",
+      "supplement-src-d711ecee9747087b",
+      "supplement-src-8ebcb3c969d5baaf",
+      "supplement-src-932f948f35a308ac",
+      "supplement-src-dbca62183fd36d05",
+      "supplement-src-1ae83672998fa5fe",
+      "supplement-src-ee795fde92025089",
+      "supplement-src-03f361c27084d535"
+    ],
+    "replaced_old_3_retired_ids": [
+      "supplement-src-6a5ae38ab18f02cb",
+      "supplement-src-0d550497594e1efc",
+      "supplement-src-95365faf9fae84f7"
+    ],
+    "new_archive_entries_full_rows": [
+      {
+        "supplement_source_id": "supplement-src-ea9b086e35e1c559",
+        "discovery_id": "EFF-D070",
+        "evidence_task_id": "evidence:SP-efficient-llm-2026:5491a3053d02fc3f",
+        "locator": "https://typesafe.ai/blog/introducing-system-one-models-and-jev",
+        "source_type": "PRIMARY_ANNOUNCEMENT",
+        "source_class": "PRIMARY_OFFICIAL",
+        "title": "Introducing System One Models and Jev (TypeSafe launch, archived 2026-09-21T03:30:22Z)",
+        "published_at": null,
+        "accessed_at": "2026-11-06T00:19:04.542766Z",
+        "raw_path": "sources/SP-efficient-llm-2026/external/evidence-supplement/raw/sp17-archive-launch-20260921T033022Z.html",
+        "raw_sha256": "14ae31184b253b736ff8be423fafbe5ff82d1f75cf66b600bad8b8c9152aa443",
+        "byte_count": 253542,
+        "relation": "Archived revision served 2026-09-21T03:30:22Z (requested 20260921033022, no redirect) for original locator; wire gzip 42836B 10bf6607 CDX 6XH5NKHYUN6JX6VRKYZPPO4XVV333MNF MATCH, decoded 253542B 14ae3118; published_at null (memento datetime is served time, not publication); vendor/project claims with first-party bias admissions, no independent validation, RLCD internals undisclosed name-only."
+      },
+      {
+        "supplement_source_id": "supplement-src-793903f4b4b1d3e1",
+        "discovery_id": "EFF-D071",
+        "evidence_task_id": "evidence:SP-efficient-llm-2026:e1f751a159101aed",
+        "locator": "https://docs.typesafe.ai/concepts/system-one",
+        "source_type": "PRIMARY_DOC",
+        "source_class": "PRIMARY_OFFICIAL",
+        "title": "System One TypeSafe concepts (archived 2026-09-21T04:13:55Z)",
+        "published_at": null,
+        "accessed_at": "2026-11-06T00:19:08.912972Z",
+        "raw_path": "sources/SP-efficient-llm-2026/external/evidence-supplement/raw/sp17-archive-concepts-20260921T041355Z.html",
+        "raw_sha256": "357708348b9884d004669d6df45100986676f5ab900a75e76304fb19cae05bf2",
+        "byte_count": 307198,
+        "relation": "Archived revision served 2026-09-21T04:13:55Z (requested 20260921041355, no redirect) for original locator; wire gzip 49007B 62bf012c CDX TUIONZBNGAJDKEOMM4J4D4WQ63DCRHAN MATCH, decoded 307198B 35770834; published_at null; Choice/Score/Noul + parallel + group-calibration + text-only + decomposition present; 255-cardinality/score-then-choose absent in archived visible text (current-only)."
+      },
+      {
+        "supplement_source_id": "supplement-src-228b81661893f1ea",
+        "discovery_id": "EFF-D141",
+        "evidence_task_id": "evidence:SP-efficient-llm-2026:deaa552e6dcabb5b",
+        "locator": "https://docs.typesafe.ai/models",
+        "source_type": "PRIMARY_DOC",
+        "source_class": "PRIMARY_OFFICIAL",
+        "title": "Jev 1.13 Models page (archived 2026-09-20T20:50:53Z, 1.13-only)",
+        "published_at": null,
+        "accessed_at": "2026-11-06T00:19:10.873766Z",
+        "raw_path": "sources/SP-efficient-llm-2026/external/evidence-supplement/raw/sp17-archive-models-20260920T205053Z.html",
+        "raw_sha256": "97a5dd74ed1e9ba006d21759c14615a7c0a485c4db161dc00a2d0b1e4d651b69",
+        "byte_count": 350662,
+        "relation": "Archived revision served 2026-09-20T20:50:53Z via requested 20260921091419 302 (cite served row, not requested row E2BRC NO-MATCH unserved); served-row CDX ABQRK5MRIZ6QIRYKMJRJ3PSLMHR5PSIG MATCH raw plain 350662B 97a5dd74; published_at null; historical aliases ->1.13.0 (1.13-only, no 1.14); Nov aliases ->1.14.0 drift post-cutoff noted not conflicting, no back-projection."
+      }
+    ],
+    "taskbound_DIDs_preserved_25": [
+      "EFF-D004",
+      "EFF-D005",
+      "EFF-D008",
+      "EFF-D027",
+      "EFF-D030",
+      "EFF-D032",
+      "EFF-D036",
+      "EFF-D061",
+      "EFF-D062",
+      "EFF-D093",
+      "EFF-D094",
+      "EFF-D098",
+      "EFF-D112",
+      "EFF-D117",
+      "EFF-D119",
+      "EFF-D123",
+      "EFF-D125",
+      "EFF-D139",
+      "EFF-D148",
+      "EFF-D149",
+      "EFF-D150",
+      "EFF-D151",
+      "EFF-D154",
+      "EFF-D163",
+      "EFF-D165"
+    ],
+    "shape_check": "DATA-only: 13 required keys each, no invented fields; source_class enum + _source_class(source_type) mapping (ANNOUNCEMENT/DOC->OFFICIAL); supplement-src-[0-9a-f]{16}; sha256; raw_path source_root-namespace/no-traversal (future paths, no file written); published_at null (memento datetime NOT in published_at; served in relation + proof map); accessed_at intake retrieval instants; binding (task_id,locator) unique vs preserved set; evidence_task_id copied unchanged (stable_task_id). Validator NOT executed (no project runtime); no acceptance PASS claimed."
+  },
+  "raw_staging_map_proposed_only": {
+    "note": "Proposed only; no active source_root/external write. Packet intake bins are DATA source; future R raw paths are explicit source-root safe-namespace strings (files NOT written now).",
+    "packet_intake_dir": "notes/rephase-1-selection-architecture-20261105/intake-20261106T001808Z-jev-archive",
+    "future_raw_paths": [
+      "sources/SP-efficient-llm-2026/external/evidence-supplement/raw/sp17-archive-launch-20260921T033022Z.html",
+      "sources/SP-efficient-llm-2026/external/evidence-supplement/raw/sp17-archive-concepts-20260921T041355Z.html",
+      "sources/SP-efficient-llm-2026/external/evidence-supplement/raw/sp17-archive-models-20260920T205053Z.html"
+    ],
+    "u1": "wire gzip 42836B 10bf6607 -> decoded 253542B 14ae3118 = raw authority; CDX 6XH5 MATCH; index 2697B 495c93a8",
+    "u2": "wire gzip 49007B 62bf012c -> decoded 307198B 35770834 = raw authority; CDX TUION MATCH; index 1093B 487d4aec",
+    "u3": "raw plain 350662B 97a5dd74 (decoded identity) = raw authority; served-row CDX ABQRK5 MATCH; requested-row E2BRC NO-MATCH unserved; index 1104B 41dfc593"
+  },
+  "source_pins": {
+    "u1": "raw wire 42836B 10bf6607... / decoded 253542B 14ae3118... / CDX 6XH5NKHYUN6JX6VRKYZPPO4XVV333MNF MATCH / index 2697B 495c93a8 / served 2026-09-21T03:30:22Z == requested 20260921033022 / manifest refs decoded-manifest + independent-content-review §3-5 + claim-version-map D070",
+    "u2": "raw wire 49007B 62bf012c... / decoded 307198B 35770834... / CDX TUIONZBNGAJDKEOMM4J4D4WQ63DCRHAN MATCH / index 1093B 487d4aec / served 2026-09-21T04:13:55Z == requested 20260921041355",
+    "u3": "raw plain 350662B 97a5dd74... (decoded identity, no duplicate copy) / served-row CDX ABQRK5MRIZ6QIRYKMJRJ3PSLMHR5PSIG MATCH / requested-row E2BRC73XGREHH2N7TGKRIWTR53A5GE6S NO-MATCH unserved / index 1104B 41dfc593 / served 2026-09-20T20:50:53Z via requested 20260921091419 302 truthful"
+  },
+  "obligations_kept": {
+    "count": 15,
+    "O10": "LIMITATION pending independent mechanisms/eval; do not auto SAT. Improved boundary: vendor-historical scope (u1/u2/u3 served timestamps) + independent-measurement gap explicit; vLLM/Dynamo deployment quarantined Appendix-A; architecture via V41 §2.4.3 + README dba1be0."
+  },
+  "operation_blocked": "High producer gap SOURCEGAP_CONFIRMED; operation BLOCKED; do NOT run LOW manual workaround. Proposal DATA only; no active State/source write, no producer run.",
+  "independent_review_needed": [
+    "Re-verify u1/u2/u3 bytes/sha/CDX/original-URL/served-timestamp bindings + vendor-scope presence + RLCD undisclosed + no indep repro (limitations STAND).",
+    "Confirm D071 255-cardinality absent archived visible text and stays current-only.",
+    "Confirm D141 aliases historical ->1.13.0 + Nov drift note + claims 2-3 stable.",
+    "Confirm D142 stays PARTIAL + UNRESOLVED (no body, no inference).",
+    "Confirm supplement 30 = 27 preserved + 3 new; taskbound 28 = 25 + 3; 160 task IDs unchanged; raw staging proposed-only.",
+    "Confirm O10 LIMITATION; no auto SAT; p8 conditional (r3 map) not ready canonical."
+  ]
+}

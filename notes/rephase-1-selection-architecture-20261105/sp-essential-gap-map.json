@@ -1,0 +1,111 @@
+{
+  "schema_version": "sp-essential-gap-map-1",
+  "issue_id": "SP-efficient-llm-2026",
+  "state": "EVIDENCE_REVIEWED",
+  "checkpoint": "CANDIDATES_NORMALIZED 1233b1f6ca3301d6430d4d157788d0a45a613c9ce1e1563e7c06fe11d73993f0",
+  "D141_status": "PARTIAL CONTEXT, verification UNRESOLVED historical, HOLD Appendix-A",
+  "D141_body_pins": {
+    "current_body": "DATA.sp13-models.html 219035B 59b6c17b12d3cb8ac781abdf5f9b52888ce336d840d35c49cc9c1f9ec9286e60 dateModified 2026-11-01T02:39:33Z, aliases jev-latest/jev-preview ->1.14.0, table 1.13.0+1.14.0",
+    "accepted_card": "results/task-4700b268375ef45d48a6.json 6321B aad7cc3f31122d0e76e14e5fd8f9eb63f3116135e82d69",
+    "historical_summary": "raw/discovery-observations-r2-g19-g20-data-jev.md 3751B f7eeec6872fa7dd9ad8f8fb80adfb9e2ff2bab571ffff807c2d34718662662 S141 SUMMARY_CAPTURED jev-1.13.0",
+    "contradiction": "card claims aliases both ->1.13.0 vs current body aliases ->1.14.0; dated historical summary vs new body distinct, not proof of 09-21 revision"
+  },
+  "D141_subtarget_correction_scope_to_Root": {
+    "EFF-D141_claims_text_alias": "aliases both resolving to 1.13.0 -> must note 1.14.0 present + aliases->1.14.0 in current body; historical 1.13.0 summary-only vs new body distinct; correction to Root",
+    "EFF-D141_verification_UNRESOLVED": "retain UNRESOLVED historical VERIFIED requires 09-21 revision; do not elevate current 1.13 presence to historical pin",
+    "EFF-D142_claims_contract": "answer schema + distribution-derived confidence summary-only; cannot cite schema fields/confidence math/version/date/body consumption",
+    "EFF-D142_verification_VERIFIED-label": "VERIFIED Contract-role recorded vs status PARTIAL + limitation page not fetched + UNRESOLVED calibration NOT FOUND is internally inconsistent; retain PARTIAL/UNRESOLVED, do not treat target label as body verification"
+  },
+  "D142_status": "PARTIAL MATERIAL, verification MIXED (VERIFIED contract-role + UNRESOLVED calibration NOT FOUND), limitation page not fetched, HOLD summary-only",
+  "D142_body_pins": {
+    "current_body": "NONE (no sp17-api raw, no supplement entry)",
+    "accepted_card": "results/task-21ce0892d8846adffd6b.json 3681B 7d7d26d454bf9f982696bb3a42b9b398f9ce31b5eca8f1403639b9b998f9ca8b",
+    "historical_summary": "same r2-g19-g20 file S142 SUMMARY_CAPTURED answer schema + distribution-derived confidence, no benchmark/calibration protocol, INDEPENDENT_EVIDENCE_NOT_FOUND_AS_OF_2026-09-21",
+    "cannot_support": [
+      "schema fields",
+      "confidence derivation math",
+      "version/date",
+      "body consumption",
+      "current/historical primary-body status",
+      "independent evaluation/calibration validity"
+    ]
+  },
+  "D142_subtarget_correction_scope_to_Root": "retain PARTIAL/UNRESOLVED; do not treat VERIFIED Contract-role target label as body verification; contract details require D142 body (current-only even if fetched, historical requires <=09-21 snapshot)",
+  "blocked_O10_historical_authority": "No full-body pre-09-21 TypeSafe capture in authorized captures; historical material is 2026-09-21 SUMMARY_CAPTURED only (4453B 0b8bd… + 3751B f7eeec68…); full bodies 2026-11-01 current-only; D142 no body. O10 remains LIMITATION, cannot be waived by empty P8 + Appendix HOLD. Upgrade requires archive snapshots for 3 locators (launch/concepts/models; api only if contract load-bearing) via Root limited archive access; no Human Q1Q2Q3.",
+  "source_paths_context_hashes": [
+    {
+      "gap_id": "G1-vllm-historical",
+      "need": "vLLM pinned-09-20 historical proof (version header/commit/archived revision, exact recipes#1136/#1137 path) IF as-of deployment-config claimed; otherwise Appendix-A current-only suffices",
+      "existing_data": "current 2705796B fa61427e Vercel HIT no version header; file history 13 commits 2026-10-17–10-31 0/13 <=cutoff (Host recipes + sync 1136/1137); supplement s14-commits-file-correct 61054B 747e5df2",
+      "source_paths": [
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp14-vllm-recipe.html",
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-supplement-20261101T172535Z/DATA.s14-commits-file-correct.json"
+      ],
+      "status": "OPTIONAL for architecture (DSpark already via V41 §2.4.3 + README dba1be0); BLOCKING only for as-of deployment-config claims (D040/D049/D063/D153 moved HOLD)",
+      "upstream": "no active upstream edit; exact path returns to root only if Human wants as-of deployment VERIFIED"
+    },
+    {
+      "gap_id": "G2-dynamo-matrix",
+      "need": "Dynamo per-topology precision matrix + doc source link (no direct Edit link, kustomization infra only)",
+      "existing_data": "dev current 16535B 5b9ddeb7 DSpark/disaggregation wording only; FP8 exact-string absent variant-checked",
+      "source_paths": [
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp17-dynamo.md"
+      ],
+      "status": "OPTIONAL; current role-only, matrix UNCONSUMED; D004/D063 HOLD",
+      "upstream": "STOP no new repo guess"
+    },
+    {
+      "gap_id": "G3-typesafe-0921-BLOCKING-O10",
+      "need": "TypeSafe 09-21 historical body verification for O10 as-of VERIFIED (or accept HOLD+LIMITATION honest ceiling)",
+      "existing_data": "D070 launch 270966B 278478f0 Last-Modified 2026-10-28 + 09-15 CMS field MIXED; D071 concepts 165512B b58d91ae dateModified 2026-10-14; D141 models 219035B 59b6c17 dateModified 2026-11-01 (1.13+1.14 aliases->1.14); D142 no body; historical summaries 2026-09-21 S70/S71/S141/S142 SUMMARY_CAPTURED 4453B 0b8bd… + 3751B f7eeec68… only",
+      "source_paths": [
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp11-launch.html",
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp12-concepts.html",
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp13-models.html",
+        "CW/sources/SP-efficient-llm-2026/raw/discovery-observations-d10-specialization-jev.md 4453B 0b8bd80ab6804fa0fd31f9e5a6a647a738d100bce33efaaabcaaabc00e87ce",
+        "CW/sources/SP-efficient-llm-2026/raw/discovery-observations-r2-g19-g20-data-jev.md 3751B f7eeec6872fa7dd9ad8f8fb80adfb9e2ff2bab571ffff807c2d34718662662"
+      ],
+      "status": "BLOCKING for O10 as-of VERIFIED; HOLD+LIMITATION is honest ceiling from existing captures; upgrade requires archive snapshots (see inventory §8)",
+      "upstream": "Root will ask limited archive access for 3 TypeSafe URLs (launch/concepts/models; api only if contract details load-bearing); no Human Q1Q2Q3; no active upstream edit"
+    },
+    {
+      "gap_id": "G4-perfigure",
+      "need": "per-figure pins only if chapter cites figure numbers (V41 Appx B/C, Qwen ablations, Kimi tables, routing/TTC, harness/repo pins)",
+      "existing_data": "captured 10 PDFs full bodies available; REQUIRED depth is section/table headlines per map (EAGLE §5.1+Fig1, Snell Intro+§7, s1 §§2-3, ThinkPrune Table1+§3.3, overthinking Table3+§3.3/§5, FrugalGPT Table3+§4, Kimi Abstract+arch+§§, Qwen Abstract+§2-3+Tab11, V41 §2+§5+Appx map, V32 §2.1); appendices quarantined",
+      "source_paths": [
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp01-eagle-v3.pdf",
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp09-v41-v1.pdf"
+      ],
+      "status": "NOT REQUIRED for proposed headlines; REQUIRED only on figure-number citation",
+      "upstream": "no broad fetch"
+    },
+    {
+      "gap_id": "G5-calibration-aiperf-license",
+      "need": "calibration protocol (D142 NOT FOUND), AIPerf standalone surface, Kimi license repo-side, harness/scaffold pins",
+      "existing_data": "D142 MATERIAL summary-only contract + NOT FOUND; D119 GenAI-Perf docs VERIFIED distinct from AIPerf open; Kimi front-matter CC BY-NC-ND repo-side outstanding",
+      "source_paths": [
+        "sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/interactive-evidence.json"
+      ],
+      "status": "LIMITATION retained; optional future",
+      "upstream": "none"
+    },
+    {
+      "gap_id": "G6-D141-D142-accepted-correction-to-Root",
+      "need": "Exact accepted-Evidence correction scope to Root (no accepted edit here)",
+      "existing_data": "D141 PARTIAL CONTEXT card task-4700b268375ef45d48a6 6321B aad7f7cc3f31122d0e76e14e5fd8f9eb63f3116135e82d69 + current body 219035B 59b6c17 dateModified 2026-11-01 (aliases->1.14) vs card aliases->1.13; D142 PARTIAL MATERIAL card task-21ce0892d8846adffd6b 3681B 7d7d26d454bf9f982696bb3a42b9b398f9ce31b5eca8b + no body; verification target VERIFIED-contract vs status PARTIAL inconsistency",
+      "source_paths": [
+        "CW/sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/results/task-4700b268375ef45d48a6.json",
+        "CW/sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/results/task-21ce0892d8846adffd6b.json",
+        "notes/rephase-1-operational-rehearsal-20261101/publisher-intake-20261101T163426Z/DATA.sp13-models.html 219035B 59b6c17b12d3cb8ac781abdf5f9b52888ce336d840d35c49cc9c1f9ec9286e60"
+      ],
+      "subtarget_correction_scope": {
+        "EFF-D141_claims_text_alias": "aliases both resolving to 1.13.0 -> must note 1.14.0 present + aliases->1.14.0 in current body; historical 1.13.0 summary-only vs new body distinct; correction to Root",
+        "EFF-D141_verification_UNRESOLVED": "retain UNRESOLVED historical VERIFIED requires 09-21 revision; do not elevate current 1.13 presence to historical pin",
+        "EFF-D142_claims_contract": "answer schema + distribution-derived confidence summary-only; cannot cite schema fields/confidence math/version/date/body consumption",
+        "EFF-D142_verification_VERIFIED-label": "VERIFIED Contract-role recorded vs status PARTIAL + limitation page not fetched + UNRESOLVED calibration NOT FOUND is internally inconsistent; retain PARTIAL/UNRESOLVED, do not treat target label as body verification"
+      },
+      "status": "BLOCKING for any D141/D142 as-of fact use; HOLD is ceiling; correction to Root, no accepted edit",
+      "upstream": "no active upstream edit"
+    }
+  ]
+}

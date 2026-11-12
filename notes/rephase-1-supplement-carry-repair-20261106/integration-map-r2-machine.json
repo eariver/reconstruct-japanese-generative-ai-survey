@@ -1,0 +1,160 @@
+{
+  "artifact": "integration-map-r2-machine",
+  "supersedes": "integration-map.md r1 (preserved) per integration-map-independent-review.md §3",
+  "binding_root": "notes/rephase-1-selection-architecture-20261105/astra-working-resolution.md FULL §§4-6",
+  "base": {
+    "final": "139 paths 57M82A / 771 files",
+    "patch_sha": "de0af9cbd58665dc632a53cee5a0605da30ba9cdd3dc63202268565ba9887d49",
+    "manifest_sha": "c5a6b230c975dc94a45e651f48cd42687f84d060c65b37f49d9917ff1bf0f143",
+    "proof_copy": ".rephase-1-editorial-runtime/evidence-scaling-packaging-20261103T174718Z/proof-copy/candidate-partial-b40de60",
+    "saved_e84": ".rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work",
+    "saved_epoch": "e84a82aca000c990597ea8cf60f548e2ff187bd1"
+  },
+  "supplement_validation": {
+    "sized_ref": "_sized_ref_shape (LOW 263) + _verify_sized_ref_bytes (LOW 297: SHA + byte_count>=1, repo-local, no symlink/traversal)",
+    "call": "validate_evidence_authority_supplement(repo_root, manifest_path, None, expected_issue_id=request.issue_id, expected_source_root=COPY-bound profile source_root, expected_discovery_path=request.discovery_ref.path, expected_screening_acceptance_path=request.screening_ref.path, screening_acceptance=ds.screening_acceptance, discoveries=ds.effective_records)",
+    "implementation_sha": "None (DATA loading, never LIVE)",
+    "discoveries": "effective_records (NOT root; tasks derive from effective 2183-2184; kernel binds request.discovery_ref to effective 1630-1644)",
+    "expected_source_root": "COPY-bound profile source_root (same predicate as prepare_evidence_package:879-881, COPY-bound profile_doc)",
+    "refusals": [
+      "unknown DID 607-608",
+      "DROP-targeting 611-612",
+      "task-identity vs stable_task_id 613-614",
+      "source_class 615-616",
+      "duplicate IDs/bindings 602-604,617-620",
+      "Raw byte_count/SHA drift + empty Raw 627-634",
+      "symlink/traversal/cross-source_root 497-520"
+    ]
+  },
+  "raw_closure": {
+    "pins_before_validation": [
+      "request SHA",
+      "COPY SHA",
+      "OLD prompt/non-supplement contract SHAs",
+      "OLD authority_supplement path/sha",
+      "selected manifest SHA/bytes",
+      "basis Discovery/Screening SHAs",
+      "ALL manifest raw_refs (every source, never task-subset)"
+    ],
+    "discipline": "_capture_phase_pins + _recheck_supplement_context + _recheck_phase_pins + _finish_authority_phase (389-451); no reseal; MappingProxyType discarded at phase end; no public-dict/cache",
+    "future_pins": "must refer to actual existing files, not future candidate package path; _planned_ref outputs are return values, not pre-validation inputs"
+  },
+  "carry_matrix": {
+    "prompt": "verbatim from OLD",
+    "non_supplement_contracts": "verbatim from OLD (run_package/task/card); drift refuses via _check_evidence_package_files_content",
+    "supplement_contract_rule": "live supplement-schema SHA + exact prepare_evidence_package:981-983 string; absent when OLD null + NEW null",
+    "task_meta": "sorted discovery order, stable_task_id, task_filename, same source_records/verification_targets/screening_basis + sorted supplement IDs; core.json_bytes; SHA recomputed; unchanged tasks byte-identical",
+    "mechanical_exclusions_only": [
+      "evidence-package.sha256",
+      "evidence-acceptance.package_sha256",
+      "evidence-acceptance.result_set_sha256",
+      "edition-views-acceptance.view_set_sha256",
+      "materiality-ledger.basis.evidence_acceptance_sha256",
+      "materiality-ledger.basis.edition_views_acceptance_sha256",
+      "materiality-ledger.basis.evidence_set_sha256",
+      "materiality-ledger.basis.edition_view_set_sha256",
+      "profile-completeness.basis.materiality_ledger_sha256"
+    ],
+    "states": {
+      "old_null_new_null": "unsupplemented compat (keeps :615,:486)",
+      "old_null_new_non_null": "novel addition (fixture test; D142-new-source blocked unless root grants body)",
+      "old_supp_new_same": "unchanged carry (W34 401)",
+      "old_supp_new_different": "replaced carry (SP 27 same + 3 replaced)",
+      "old_supp_new_null": "builder fail-fast refusal in build_revision_package_from_paths (NEW-revision only; never invalidates OLD history)"
+    },
+    "record_coverage": "request.records covers exact non-DROP DIDs; affected_ids nonempty unique subset of non-DROP + known DIDs (reuse derive_before_context:2066-2076; no schema expansion)"
+  },
+  "cross_binding": {
+    "hole": "HIGH passthrough :786 unverified; prove verifies profile/discovery/screening 3204-3206 but never request.supplement_manifest; proof proposed has no supplement row",
+    "high_prepare_seam": "verify SizedRef before writes; package.authority_supplement == validated request manifest {path,sha256}; candidate_outputs.supplement_manifest == verified request value; null => no authority/contract/IDs",
+    "prove_seam": "verify request.supplement_manifest SizedRef; enforce equals NEW package.authority_supplement; null => NEW package has no authority_supplement",
+    "records": "request.records verbatim via :796 copy; no stripping/normalizing; unbound supplement-src-* refused; missing bindings default src-1 Discovery-only (asserted)",
+    "shared_helper": "one narrow shared private helper in existing survey_research_authority_v2.py allowed (LOW package + HIGH recheck + prove); no new module/staticmethod/cache/public verified-dict; re-derive ds/request bytes each time, never old self-passed metadata",
+    "surfaces": [
+      "LOW build_revision_package_from_paths internals (2128; copy 2257-2258; tasks 2211-2228; dict 2243-2265)",
+      "LOW prove_revision_from_paths cross-check (3080; request bind 3204-3206; identity 3298/3325; affected/Raw 3362-3376; unaffected 3383-3388; ledger 3395-3407; mechanical 3415-3428)",
+      "small HIGH prepare_revision seam (636/651/761-793: verify + equality + recheck before writes/manifest)"
+    ],
+    "signatures": "unchanged; supplement travels in versioned request/manifest; CLI unchanged (no new flags)",
+    "contradiction": "if FULL cores/unaffected/ledger/completeness/mechanical/retention-guard-checkpoint-State-switch needs schema/module/family change, return to root before broadening",
+    "write_window": "package/tasks written 638-641 before cards 651; card refusal may leave partial inert R files; use fresh revision root; never claim zero-all-write when only guard/State untouched"
+  },
+  "tests": {
+    "positive_min": ">=1 affected + >=1 unaffected supplement-bound + >=1 Discovery-only per positive; >=2 non-DROP DIDs",
+    "asserts": [
+      "package authority_supplement + supplement contract",
+      "per-task authority_supplement_source_ids",
+      "card sources supplement-src-* vs src-1",
+      "unchanged cards byte-identical",
+      "ledger rows identical for unaffected",
+      "task-identity + Discovery->task binding identical",
+      "unaffected_comparison.rows_checked covers all non-DROP + ledger rows"
+    ],
+    "versions": [
+      "unchanged-supplement (W34 same)",
+      "replaced-supplement (SP 27+3)",
+      "novel-addition (OLD null + NEW non-null fixture)"
+    ],
+    "compat": "OLD-unsupplemented + NEW null still passes (A2/C regressions)",
+    "routes": [
+      "WEEKLY genuine DERIVED true R!=E (test_c_derived_weekly_true_r_not_equal_e:304)",
+      "THEMATIC/Special whole HIGH prepare->adopt/resume/readback + repeat anchor (:946-968); record Thematic HIGH limitation if not extended (test_14:828, test_14b:927 ordinary path)"
+    ],
+    "negatives": [
+      "missing supplement file",
+      "manifest SHA/byte_count drift",
+      "Raw missing/SHA/byte_count drift + symlink/traversal/cross-source_root",
+      "wrong-DID",
+      "DROP-targeting",
+      "unknown DID",
+      "extra unused supplement source",
+      "unbound source_bindings",
+      "IDs-without-manifest",
+      "contract-without-manifest",
+      "OLD-supplemented + NEW null",
+      "late HEAD/tree/contract/tool drift",
+      "guard present",
+      "retention mismatch",
+      "late Raw drift after context before accept (807)",
+      "late task mutation after load before accept (888)",
+      "package field drift before first write (950)",
+      "historical readback never LIVE (1124)",
+      "readback mutation after check (1327)",
+      "live/history views mutation (1603/1662)",
+      "decoy request/package/manifest ref mismatch",
+      "unaffected proof reject"
+    ],
+    "forbid": [
+      "token trap: only candidate_outputs.supplement_manifest echo :786",
+      "patched _resolve/_merge/_build_card/validate/build_revision_package",
+      "manual supp-candidate as HIGH witness",
+      "fake repo/empty root/stub proof"
+    ],
+    "scope": "targeted subset test-oracle-inventory.md §9; no whole-suite sweeps; full real 409/160 correction later needs separate independent semantic review, not test-method count"
+  },
+  "workcopy": {
+    "execute_now": false,
+    "source": "available final139 already applied; do NOT apply 139 patch on it",
+    "copy": "independent copy all 771 files + object separation; inert origin, no alternates/hardlinks/shared objects; process-scoped identity; no empty commits; no HOME/git-config mutation",
+    "apply_check": "only NEW clean409 proof when packaging final DIRECT; no redundant restore",
+    "current_proof": "fresh verify_renewal_source_proof CURRENT proof for new workcopy via actual API (old proofs go stale when 2 DM022 modules change G76 closure + HIGH tool pins; test-only edits do not)",
+    "minimal_raw": [
+      "exclusive-write logs",
+      "pin tables",
+      "FULL validator outputs",
+      "proof/report/checkpoint bytes",
+      "adopt/resume/readback outputs",
+      "INDETERMINATE preservation"
+    ],
+    "forbidden": [
+      "network",
+      "Production",
+      "reconstruct-Git/readback",
+      "old-runner rerun",
+      "e84 mutation"
+    ]
+  },
+  "contract8": "UNCHANGED (scripts/tests absent from contract_identity; 5 DM022 schemas in pipeline+tool pins so no schema change in minimum)",
+  "tool_shas": "WILL change for edited survey_research_authority_v2.py (+ small HIGH seam if needed); fresh request pins + expected_head/tree required",
+  "status": "R2_READY_FOR_SCOPED_RECONFIRM__CODE_BLOCKED_UNTIL_ROOT_PLUS_SCOPED_REVIEW"
+}

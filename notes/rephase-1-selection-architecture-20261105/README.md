@@ -1,0 +1,29 @@
+# Real-material Selection / Architecture preparation
+
+## Current — 2026-11-06 Selection/Architecture PARTIAL/BLOCKED (existing DM022 HIGH supplement-carry gap)
+
+**PARTIAL, stopped on producer dependency, both EVIDENCE_REVIEWED, Human Commit Point.** Read [assessment](../../outputs/rephase-1-selection-architecture-assessment.md), mandatory [**astra-working-resolution.md** FULL](astra-working-resolution.md), [actual source operation map](actual-dm022-supplement-operation-map.md) + [independent capability review](independent-correction-capability-review.md), independent [independent-closeout-review.md](independent-closeout-review.md) + [independent-closeout-review-machine.json](independent-closeout-review-machine.json) (verdict BOUNDED_PARTIAL_CLOSEOUT_PASS for bounded partial unit, NOT Selection/implementation PASS; read WITH FINAL-BINDING — final-binding check occurs after this doc update, no final confirmation claimed here; ROOT §6 qualifies P3-tightening conditional pages/full cluster IDs/r2 decoded-vs-wire/real scoped read vs UNKNOWN total cost). W34 4-paper correction DATA + conditional 45/5 proposal, no canonical/Selection PASS. SP 3 archived historical bodies confirmed DATA (6 logical/7 HTTP +1 archive-internal 302; models served 2026-09-20 via selected 20260921 URL, not requested Sept21 body); 4-record r2 incl D142 unfetched downgrade, no O10 auto-SAT, read scope/cost UNKNOWN. Current CP/four refs unchanged, shipping final139/771 patch de0af9…/manifest c5a6… same; no active writes/new Gate/Draft/PDF/R4/ordinary commit/readback/Production. Explicit Human 3-URL archive permission used/completed, not standing crawl. Next after Human continuation: bounded existing-producer supplement-carry repair, full normal HIGH path (short actual integration map before code with root+independent review, not historical B2/B4 whole cycle/new module/schema/family/generic reader), then real corrections/review/adopt and Selection resume. See `closeout-check.md` (data-only). Whole NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN. **Stop; ordinary Commit/Push Human-owned.** Below starting-authority text preserved as history.
+
+Human reported Commit/Push and authorized continuation after the Evidence-correction closeout, explicitly without Commit readback. This is the new active work unit. Read [preceding assessment §5](../../outputs/rephase-1-evidence-correction-rehearsal-assessment.md) and its mandatory [closeout](../rephase-1-operational-rehearsal-resume-20261104/astra-closeout-resolution.md); the independent review's **§9 FINAL-BINDING** confirms that prior bounded unit.
+
+## Scope and starting authority
+
+Use only the deliberately selected saved instance `.rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work`, recorded source epoch e84 over480. Both editions start at `EVIDENCE_REVIEWED`, with normal producer checkpoints `orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json`. Resolve the latest four Evidence/Views/Ledger/Completeness refs from those checkpoints, not by selecting arbitrary accepted directories or historical baseline products.
+
+- W34: State `d7acd29b…`, checkpoint `0979f9f7…`;409 Evidence/439 Ledger/3 obligations LIMITED,38 VERIFIED/363 PARTIAL/8 NEEDS_MORE. Preserve chronology limitations, original task-target semantics, carry-over disposition, duplicate/concentration and excluded-candidate reasoning.
+- SP: State `180db8c3…`, checkpoint `1233b1f6…`;160 Evidence/165 Ledger/15 obligations LIMITED,8 VERIFIED/152 PARTIAL,2 SATISFIED/13 LIMITATION. Five living documents remain current-only CONTEXT; PR claim authority is the bound PR JSON body, not unstaged conversation metadata.
+
+Full pins and historical qualifications are in the preceding closeout and final review machines. Shipping final139/771 DIRECT409 remains unchanged; saved runtime has the documented test-only d486 versus delivered7b difference.
+
+## Work and boundaries
+
+1. Observe current State/ref/source data and inspect actual existing Selection/Architecture interfaces and governance before execution.
+2. Author substantive edition-specific Selection and Architecture proposals, with traceable per-candidate inclusion/exclusion and package/section reasoning, explicit limitations and necessary independent research/selection review.
+3. Use existing normal APIs only after source/input/review checks. Preserve accepted research and history; no fake REQUEST_CHANGES, State rollback, unreviewed output replacement, generic reader investment or shipping-source repair is selected.
+4. Prepare the truthful Human-facing Architecture dossier to the reachable normal boundary. Preparation is not Human approval, canonical work-branch retention, publication permission or completed-edition quality evidence. No Draft/PDF before genuine Architecture approval.
+
+Reuse fixed774/c8 captures and the17 already-authorized SP documents/version metadata. No new standing crawl/current-main following, local Production checkout read, code/weights adoption or Production mutation. Any indispensable new material access or capability gap returns to root for a concrete decision. No reconstruct Git/status/log/HEAD/Commit readback; any necessary later project Git calls are explicitly confined to the isolated runtime. No ordinary Commit/Push.
+
+Authoring and read-only preparation may create new packet-local DATA. Active State/output writes require a concrete bounded root dispatch after review. Preserve failures and partials; stop on unexpected failure rather than modifying/retrying locally. Historical scripts are evidence, not rerun instructions.
+
+WholeNOT_READY/step4B3OPEN/auditunstarted/DM021+022OPEN; quality/adoption/savings OPEN. Stop at the next coherent Human Commit Point after actual results and independent review; do not automatically start R4 or a new feature unit.

@@ -1,0 +1,416 @@
+{
+  "schema_version": "selection-architecture-observation-1",
+  "observed_date": "2026-11-05",
+  "scope": "read-only source/data observation; no execution, imports, tests, fixtures, network, Git/HEAD/status/log readback, State writes, approval, or commits",
+  "source_root": ".rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work",
+  "current_family": "LEGACY",
+  "family_reason": "research checkpoint has no kind; from_state/to_state present; load_typed_checkpoint_record strict kind dispatch returns LEGACY",
+  "editions": {
+    "2026-W34": {
+      "issue_id": "2026-W34",
+      "research_profile": "WEEKLY",
+      "publication_profile": "WEEKLY_MAGAZINE",
+      "work_branch": "weekly/2026-W34-v2-work",
+      "temporal_policy": {
+        "mode": "ROLLING_WINDOW",
+        "window_start": "2026-08-14T18:00:00-04:00",
+        "window_end": "2026-08-21T18:00:00-04:00",
+        "cutoff": "2026-08-21T18:00:00-04:00",
+        "timezone": "America/New_York"
+      },
+      "state": {
+        "path": "sources/2026-W34/production-state.json",
+        "sha256": "d7acd29b1518399ffc2376eb07e102491a6ec9782b3fdd79815c5f230e1886b0",
+        "bytes": 4087,
+        "lifecycle_state": "EVIDENCE_REVIEWED",
+        "next_action": "stage:selection",
+        "terminal_reason": null,
+        "target_gate": "ARCHITECTURE_REVIEW",
+        "implementation_commit_sha": "480823560c0c26ed2e5baa18e0e79a22b2839a27"
+      },
+      "checkpoint": {
+        "path": "sources/2026-W34/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json",
+        "sha256": "0979f9f7703a25c2bd3424824bc4ad9f8719e8e7bcc49c19c5573d0f70ab593a",
+        "bytes": 4549,
+        "from_state": "CANDIDATES_NORMALIZED",
+        "to_state": "EVIDENCE_REVIEWED",
+        "kind_present": false,
+        "implementation_commit_sha": "e84a82aca000c990597ea8cf60f548e2ff187bd1",
+        "recorded_at": "2026-11-05T13:02:09Z"
+      },
+      "guard_present": false,
+      "four_refs": {
+        "evidence-acceptance": {
+          "path": "sources/2026-W34/evidence/v2/accepted/5ca6f31033dcaed6a153f0eb6f838f18bc9bdd1674a19a941f8c8378f88e4e48/evidence-accepted.json",
+          "sha256": "edf21e4de5f7ab8db2d5189f45abc8cc6d0cf6475e532b20bcc56b0ce5660218",
+          "bytes": 126592,
+          "sha_matches": true
+        },
+        "edition-views-acceptance": {
+          "path": "sources/2026-W34/evidence/v2/views/accepted/574b96ff3ce87f7f2e46fcd78724bf1fbfcdad590e009be1500f03446697b5c5/edition-views-accepted.json",
+          "sha256": "3777133cc09d0189ab97cc1d8ff1f8b420108d43880f69f1745356508b8acfce",
+          "bytes": 159498,
+          "sha_matches": true
+        },
+        "materiality-ledger": {
+          "path": "sources/2026-W34/materiality-ledger-v2.json",
+          "sha256": "f089cc4eedb49a81b4b925c1219f22a77237d16f28fdee73f20a3744e725e91d",
+          "bytes": 186202,
+          "sha_matches": true
+        },
+        "profile-completeness": {
+          "path": "sources/2026-W34/profile-completeness-v2.json",
+          "sha256": "e8c432dd6275e81df5286cb8c0d55d99e27aa0812c52a114d870dddaf0d2795f",
+          "bytes": 71532,
+          "sha_matches": true
+        }
+      },
+      "matrix": {
+        "candidate_count": 409,
+        "source": "evidence-acceptance.results",
+        "unique_evidence_task_ids": 409,
+        "unique_discovery_ids": 409,
+        "duplicate_discovery_ids": 0,
+        "max_discovery_ids_per_row": 1,
+        "evidence_status_counts": {
+          "VERIFIED": 38,
+          "PARTIAL": 363,
+          "NEEDS_MORE": 8,
+          "REJECTED": 0
+        },
+        "materiality_counts": {
+          "MATERIAL": 41,
+          "CONTEXT": 358,
+          "HOLD": 10,
+          "NON_MATERIAL": 0
+        },
+        "status_materiality_counts": {
+          "VERIFIED/MATERIAL": 30,
+          "VERIFIED/CONTEXT": 8,
+          "PARTIAL/MATERIAL": 11,
+          "PARTIAL/CONTEXT": 350,
+          "PARTIAL/HOLD": 2,
+          "NEEDS_MORE/HOLD": 8
+        },
+        "selected_eligible_under_validator_before_roles": 399,
+        "selected_ineligible": 10,
+        "selected_ineligible_reason": "8 NEEDS_MORE/HOLD + 2 PARTIAL/HOLD; materiality HOLD and NEEDS_MORE cannot be SELECTED"
+      },
+      "ledger": {
+        "rows": 439,
+        "counts": {
+          "MATERIAL": 41,
+          "CONTEXT": 358,
+          "HOLD": 10,
+          "EXCLUDED": 26,
+          "DUPLICATE": 4
+        },
+        "non_matrix_rows": 30,
+        "non_matrix_detail": "26 EXCLUDED + 4 DUPLICATE have no Evidence task and do not become Matrix candidates"
+      },
+      "completeness": {
+        "overall_status": "LIMITED",
+        "obligation_count": 3,
+        "obligation_status_counts": {
+          "SATISFIED": 1,
+          "LIMITATION": 2
+        },
+        "residual_limitations": 5
+      },
+      "screening": {
+        "rows": 439,
+        "decision_counts": {
+          "KEEP": 73,
+          "MAYBE": 136,
+          "INSPECT": 200,
+          "DROP": 30
+        }
+      },
+      "outputs_absent": [
+        "candidate-matrix-v2.json",
+        "candidate-selection-v2.json",
+        "architecture-v2.json",
+        "architecture-review-summary-v2.json",
+        "architecture-review-attention-v2.json",
+        "orchestration/v2/interactive/",
+        "orchestration/v2/handoffs/",
+        "gates/",
+        "gates/review-index.json"
+      ]
+    },
+    "SP-efficient-llm-2026": {
+      "issue_id": "SP-efficient-llm-2026",
+      "research_profile": "THEMATIC",
+      "publication_profile": "LONGFORM_SPECIAL",
+      "work_branch": "special/efficient-llm-2026-work",
+      "temporal_policy": {
+        "mode": "OPEN_HISTORY_AS_OF",
+        "as_of": "2026-09-21T16:10:00Z"
+      },
+      "state": {
+        "path": "sources/SP-efficient-llm-2026/production-state.json",
+        "sha256": "180db8c30721825d40461cd5e1b92edb704f3630f518bfd693b4732211538220",
+        "bytes": 4194,
+        "lifecycle_state": "EVIDENCE_REVIEWED",
+        "next_action": "stage:selection",
+        "terminal_reason": null,
+        "target_gate": "ARCHITECTURE_REVIEW",
+        "implementation_commit_sha": "480823560c0c26ed2e5baa18e0e79a22b2839a27"
+      },
+      "checkpoint": {
+        "path": "sources/SP-efficient-llm-2026/orchestration/v2/checkpoints/CANDIDATES_NORMALIZED.json",
+        "sha256": "1233b1f6ca3301d6430d4d157788d0a45a613c9ce1e1563e7c06fe11d73993f0",
+        "bytes": 4745,
+        "from_state": "CANDIDATES_NORMALIZED",
+        "to_state": "EVIDENCE_REVIEWED",
+        "kind_present": false,
+        "implementation_commit_sha": "e84a82aca000c990597ea8cf60f548e2ff187bd1",
+        "recorded_at": "2026-11-05T13:00:53Z"
+      },
+      "guard_present": false,
+      "four_refs": {
+        "evidence-acceptance": {
+          "path": "sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/evidence-accepted.json",
+          "sha256": "65784e69559f9379412935fa5e7671beddee59b46b8fdb28a848d450e2b68ce0",
+          "bytes": 49237,
+          "sha_matches": true
+        },
+        "edition-views-acceptance": {
+          "path": "sources/SP-efficient-llm-2026/evidence/v2/views/accepted/5e722402c7e8df6077f87f0da33b2b53355f22ae3f306482dedbd27350b7145f/edition-views-accepted.json",
+          "sha256": "1557fef75b4b737379a0e84eea983d9151b7148077f65da018206a2fae2b0341",
+          "bytes": 64222,
+          "sha_matches": true
+        },
+        "materiality-ledger": {
+          "path": "sources/SP-efficient-llm-2026/materiality-ledger-v2.json",
+          "sha256": "b7c85b4eb009249b355445f94a4041d4374990fccb07c38595b61c1e770c8c60",
+          "bytes": 66850,
+          "sha_matches": true
+        },
+        "profile-completeness": {
+          "path": "sources/SP-efficient-llm-2026/profile-completeness-v2.json",
+          "sha256": "d67f7f8363407b30d58dbe2dbe562b3666ea9483f9f16303859cfe459ab5e805",
+          "bytes": 33683,
+          "sha_matches": true
+        }
+      },
+      "matrix": {
+        "candidate_count": 160,
+        "source": "evidence-acceptance.results",
+        "unique_evidence_task_ids": 160,
+        "unique_discovery_ids": 160,
+        "duplicate_discovery_ids": 0,
+        "max_discovery_ids_per_row": 1,
+        "evidence_status_counts": {
+          "VERIFIED": 8,
+          "PARTIAL": 152,
+          "NEEDS_MORE": 0,
+          "REJECTED": 0
+        },
+        "materiality_counts": {
+          "MATERIAL": 132,
+          "CONTEXT": 28,
+          "HOLD": 0,
+          "NON_MATERIAL": 0
+        },
+        "status_materiality_counts": {
+          "VERIFIED/MATERIAL": 8,
+          "PARTIAL/MATERIAL": 124,
+          "PARTIAL/CONTEXT": 28
+        },
+        "selected_eligible_under_validator_before_roles": 160,
+        "selected_ineligible": 0,
+        "selected_ineligible_reason": null
+      },
+      "ledger": {
+        "rows": 165,
+        "counts": {
+          "MATERIAL": 132,
+          "CONTEXT": 28,
+          "EXCLUDED": 5
+        },
+        "non_matrix_rows": 5,
+        "non_matrix_detail": "5 EXCLUDED have no Evidence task and do not become Matrix candidates"
+      },
+      "completeness": {
+        "overall_status": "LIMITED",
+        "obligation_count": 15,
+        "obligation_status_counts": {
+          "SATISFIED": 2,
+          "LIMITATION": 13
+        },
+        "residual_limitations": 5
+      },
+      "screening": {
+        "rows": 165,
+        "decision_counts": {
+          "KEEP": 135,
+          "MAYBE": 20,
+          "INSPECT": 5,
+          "DROP": 5
+        }
+      },
+      "outputs_absent": [
+        "candidate-matrix-v2.json",
+        "candidate-selection-v2.json",
+        "architecture-v2.json",
+        "architecture-review-summary-v2.json",
+        "architecture-review-attention-v2.json",
+        "orchestration/v2/interactive/",
+        "orchestration/v2/handoffs/",
+        "gates/",
+        "gates/review-index.json"
+      ]
+    }
+  },
+  "four_ref_resolution": {
+    "legacy_branch": {
+      "evidence_views": "agent.resolve_active_evidence_views: same passed checkpoint; exact artifact name/path/live SHA; View must bind Evidence SHA",
+      "ledger_completeness": "canonical source_root paths, not re-read from checkpoint artifact rows",
+      "current_equivalence": "canonical ledger/completeness paths and SHAs equal checkpoint rows in both editions",
+      "history": "historical accepted directories are storage only; no latest-directory selection"
+    },
+    "prearch_branch": {
+      "active": false,
+      "resolver": "low.resolve_research_authority(state_path) returns exact four NamedRefs from one typed record with live re-hash, lineage/SELF/proof, final State/checkpoint recheck; no canonical fallback after supersession",
+      "readiness": "require_research_operation_ready: guard absent; PREARCH additionally requires completion consistency"
+    }
+  },
+  "stage_contract": {
+    "lifecycle_states": [
+      "EVIDENCE_REVIEWED",
+      "SELECTION_COMPLETE",
+      "ARCHITECTURE_ESTABLISHED"
+    ],
+    "selection_stage": {
+      "handler": "stage:selection",
+      "validator": "validate:selection",
+      "handoff_required": false,
+      "next_state": "SELECTION_COMPLETE",
+      "checkpoints": [
+        "selection"
+      ],
+      "stage_validation_current_artifacts": [
+        "candidate-matrix",
+        "candidate-selection"
+      ],
+      "checkpoint_path": "sources/<issue>/orchestration/v2/checkpoints/EVIDENCE_REVIEWED.json"
+    },
+    "architecture_stage": {
+      "handler": "stage:architecture",
+      "validator": "validate:architecture",
+      "handoff_required": false,
+      "next_state": "ARCHITECTURE_ESTABLISHED",
+      "checkpoints": [
+        "architecture"
+      ],
+      "stage_validation_current_artifacts": [
+        "issue-architecture",
+        "architecture-review-summary",
+        "architecture-review-attention"
+      ],
+      "checkpoint_path": "sources/<issue>/orchestration/v2/checkpoints/SELECTION_COMPLETE.json"
+    },
+    "gate_at_state": {
+      "ARCHITECTURE_ESTABLISHED": "ARCHITECTURE_REVIEW"
+    },
+    "gate_inputs": [
+      "issue-architecture",
+      "architecture-review-summary",
+      "architecture-review-attention"
+    ],
+    "state_authority": {
+      "architecture_approval_path": "gates/architecture-approval.json",
+      "human_review_dir": "gates/reviews",
+      "human_review_index_path": "gates/review-index.json",
+      "agent_checkpoint_dir": "orchestration/v2/checkpoints"
+    },
+    "writer_does_not_advance_state": true,
+    "writer_does_not_record_approval": true,
+    "architecture_can_be_written_at_EVIDENCE_REVIEWED": true,
+    "architecture_state_bound_only_at_SELECTION_COMPLETE_transition": true
+  },
+  "selection_eligibility_rules": {
+    "assignment_coverage": "every Matrix candidate exactly once",
+    "selected_requires_usage": [
+      "PRIMARY",
+      "SUPPORTING"
+    ],
+    "selected_requires_at_least_one_role": true,
+    "selected_materiality_forbidden": [
+      "NON_MATERIAL",
+      "HOLD"
+    ],
+    "selected_evidence_status_forbidden": [
+      "REJECTED",
+      "NEEDS_MORE"
+    ],
+    "nonselected_usage": "NONE",
+    "nonselected_roles": null,
+    "selected_primary_destination_count": 1,
+    "selected_supporting_destination_min": 1,
+    "selected_exception_requires_selected_and_no_placement": true,
+    "nonselected_cannot_be_placed": true
+  },
+  "compression_audit": {
+    "hard_rules": "Selection exact coverage; Architecture selected-only placement; PRIMARY exactly one; SUPPORTING at least one; exceptions selected/no placement; inherited Matrix boundaries required",
+    "no_obligation_to_package_machine_binding": true,
+    "no_page_cap_in_v2_architecture_validator": true,
+    "review_summary_major_material_rows": "MATERIAL + CONTEXT only; destination kind PRIMARY/SUPPORTING/EXCEPTION/NOT_SELECTED",
+    "attention_default_limit": 50,
+    "attention_includes": [
+      "SCREENING DROP/MAYBE/INSPECT",
+      "MATERIALITY HOLD/NON_MATERIAL/EXCLUDED/DUPLICATE",
+      "SELECTION HOLD/REJECT/INSPECT"
+    ]
+  },
+  "missing_inputs": [
+    "interactive-selection-architecture.json for both editions",
+    "runner-format per-candidate assignments for all 409/160 Matrix candidates",
+    "runner-format package design (package IDs, primary/supporting placement, must-cover requirements, boundaries, drafting order)",
+    "page_plan target/max for both editions (not present in Production Profile)",
+    "EVIDENCE_REVIEWED stage-validation report and review JSON",
+    "SELECTION_COMPLETE stage-validation report and review JSON",
+    "canonical gates/reviews/index and reviewed commit for Human approval"
+  ],
+  "source_locators": {
+    "writer_run": "CW/scripts/run_selection_architecture_v2_interactive.py:243",
+    "writer_state_gate": "CW/scripts/run_selection_architecture_v2_interactive.py:247-253",
+    "writer_preflight": "CW/scripts/run_selection_architecture_v2_interactive.py:101-114,304-307",
+    "writer_write_order": "CW/scripts/run_selection_architecture_v2_interactive.py:309-471",
+    "input_contract": "CW/scripts/run_selection_architecture_v2_interactive.py:133-227",
+    "one_discovery_per_matrix_candidate": "CW/scripts/run_selection_architecture_v2_interactive.py:230-240",
+    "selection_validation": "CW/scripts/survey_architecture_v2_base.py:407-566",
+    "selection_selected_conditions": "CW/scripts/survey_architecture_v2_base.py:522-536",
+    "selection_exact_coverage": "CW/scripts/survey_architecture_v2_base.py:548",
+    "architecture_validation": "CW/scripts/survey_architecture_v2_base.py:567-850",
+    "architecture_package_coverage": "CW/scripts/survey_architecture_v2_base.py:727-769",
+    "architecture_exceptions": "CW/scripts/survey_architecture_v2_base.py:775-826",
+    "architecture_selected_coverage": "CW/scripts/survey_architecture_v2_base.py:827-846",
+    "empty_placement_wrapper": "CW/scripts/survey_architecture_v2.py:49-95",
+    "review_summary": "CW/scripts/survey_architecture_v2_base.py:852",
+    "attention": "CW/scripts/survey_review_attention_v2.py:31-147",
+    "stage_validation": "CW/scripts/survey_stage_validation_v2.py:852-906",
+    "required_current_artifacts": "CW/scripts/survey_stage_validation_v2.py:151-168",
+    "checkpoint_builder": "CW/scripts/survey_agent_control_v2.py:2227-2302",
+    "advance_with_checkpoint": "CW/scripts/survey_agent_control_v2.py:2304-2360",
+    "low_level_approval": "CW/scripts/survey_agent_control_v2.py:2377-2470",
+    "human_gate_approval": "CW/scripts/survey_human_gate_v2.py:702-768",
+    "human_gate_review_commit": "CW/scripts/survey_human_gate_v2.py:651-700",
+    "human_gate_reachability": "CW/scripts/survey_human_gate_v2.py:542-552",
+    "four_ref_legacy": "CW/scripts/survey_agent_control_v2.py:1329-1388",
+    "four_ref_prearch": "CW/scripts/survey_research_authority_v2.py:1128-1230",
+    "typed_checkpoint_dispatch": "CW/scripts/survey_research_authority_v2.py:329-375",
+    "readiness_guard": "CW/scripts/survey_research_authority_v2.py:3722-3790",
+    "screening_effective_basis": "CW/scripts/survey_screening_v2.py:973-1060",
+    "stage_plan_config": "CW/config/survey-production-v2.json:271-334",
+    "state_authority_config": "CW/config/survey-production-v2.json:403-415",
+    "handoff_requirement_mismatch": "CW/scripts/survey_handoff_v2.py:86-102 plus config handoff_required:false",
+    "orchestrator_runtime_check": "CW/scripts/survey_orchestrator_v2.py:107-119",
+    "weekly_downstream_keys": "CW/scripts/survey_weekly_derivation_v2.py:404-413,481-483",
+    "longform_downstream_package_ids": "CW/scripts/survey_longform_derivation_v2.py:37-38,603-620,741-752"
+  },
+  "no_execution": true,
+  "no_approval": true,
+  "no_commit": true
+}
