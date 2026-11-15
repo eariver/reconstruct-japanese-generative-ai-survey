@@ -1,0 +1,82 @@
+{
+  "schema": "diagnostic-report-machine-20261115-1",
+  "root_authority": "notes/rephase-1-repaired-correction-rehearsal-20261112/astra-operation-resolution.md FULL \u00a720",
+  "timeout_report": "notes/rephase-1-repaired-correction-rehearsal-20261112/selection-preflight-20261115T042533Z/selection-preflight-20261115T042533Z-execution-report-machine.json",
+  "packet": "notes/rephase-1-repaired-correction-rehearsal-20261112/diagnostic-20261115T051801Z/",
+  "shadow": " .rephase-1-editorial-runtime/selection-preflight-20261115T042533Z/candidate-work head ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+  "active_unchanged": "ae0dd1e status 33",
+  "source773": {
+    "manifest": "a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c/202833B",
+    "head": "409b292",
+    "entries": 773,
+    "missing_shadow": 0,
+    "missing_active": 0,
+    "HIGH": "f312f02e/97844",
+    "LOW": "7f5fc9e0/240969",
+    "runner": "553bf22b/27766"
+  },
+  "states": {
+    "W34": "a8586351/4162 EVIDENCE_REVIEWED",
+    "SP": "38a63411/4266 EVIDENCE_REVIEWED",
+    "profiles": [
+      "2a8c3089/2371",
+      "aff05fd5/13748"
+    ],
+    "prearch": [
+      "73ab28ea/6054",
+      "2a528ed5/6300"
+    ],
+    "four_refs_ok": true,
+    "guard_absent": true,
+    "slots": {
+      "W34": "0/7",
+      "SP": "3/7 hashes 2f62e2a8/4e6884d6/4af84ab3"
+    }
+  },
+  "owned_processes": {
+    "W34_pid": 710005,
+    "SP_pid": 712363,
+    "live": false,
+    "no_kill": true,
+    "no_guess_python": true
+  },
+  "selected_entry": "low.require_research_operation_ready (pre-first-write READY gate, no facade, no bypass)",
+  "invocations": {
+    "W34-ready": {
+      "pid": 740047,
+      "exit": 124,
+      "wall_s": 85.01,
+      "utime_d": 78.51,
+      "stime_d": 5.66,
+      "rchar_d": 8854312583,
+      "read_bytes_d": 40960,
+      "calls": 90176914,
+      "outcome": "timeout-signal-14",
+      "pstats": "W34-ready.pstats.txt"
+    },
+    "SP-ready": {
+      "pid": 747458,
+      "exit": 0,
+      "wall_s": 27.98,
+      "utime_d": 25.83,
+      "stime_d": 2.06,
+      "rchar_d": 1175871247,
+      "read_bytes_d": 0,
+      "calls": 37064332,
+      "outcome": "returned-None",
+      "pstats": "SP-ready.pstats.txt"
+    }
+  },
+  "hotspots": [
+    "require_research_operation_ready 85.0/28.0",
+    "_verify_completion_full 85.0/28.0",
+    "_verify_adopted_graph_full x2 84.8/27.8",
+    "evidence_acceptance 61.7/20.0",
+    "materiality_ledger 37.8/15.6",
+    "views_acceptance 33.0/13.4",
+    "sha256/assert_pin/relative_to/lstat"
+  ],
+  "timeout_stack": "survey_evidence_v2.py:515 _supplement_source_file (relative_to) <- :372 _resolve_phase_supplement_context <- :1779 _validate_evidence_acceptance_content <- :1876 _validate_edition_views_acceptance_content <- _verify_adopted_graph_full:950 <- _verify_completion_full:1073 <- require_research_operation_ready:4139",
+  "preservation": "before==after NONE, HEAD ae0dd1e, shadow 36 active 33, no pycache, no canonical artifacts, 1 per edition, no fix/repeat",
+  "bounds": "read-only, no writer/prepare/adopt, no validator/cache/projection patch, PYTHONDONTWRITEBYTECODE=1 GIT_NO_LAZY_FETCH=1, imports from shadow after guard, no net/Production/reconstruct Git, observed scope only not disk/deadlock proof, no subagents"
+}

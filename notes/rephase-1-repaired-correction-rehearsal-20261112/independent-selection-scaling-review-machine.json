@@ -1,0 +1,53 @@
+{
+  "schema": "independent-selection-scaling-review-machine-20261115-1",
+  "review": "notes/rephase-1-repaired-correction-rehearsal-20261112/independent-selection-scaling-review.md",
+  "reviewer": "fresh-independent-no-prior-authorship-no-code-authority",
+  "root_authority": "notes/rephase-1-repaired-correction-rehearsal-20261112/astra-operation-resolution.md FULL §20 ONLY",
+  "inputs": {
+    "timeout_report": "notes/rephase-1-repaired-correction-rehearsal-20261112/selection-preflight-20261115T042533Z/selection-preflight-20261115T042533Z-execution-report.md",
+    "timeout_machine": "notes/rephase-1-repaired-correction-rehearsal-20261112/selection-preflight-20261115T042533Z/selection-preflight-20261115T042533Z-execution-report-machine.json",
+    "call_map": "notes/rephase-1-repaired-correction-rehearsal-20261112/selection-preflight-20261115T042533Z/selection-revalidation-call-map.md",
+    "diagnostic_report": "notes/rephase-1-repaired-correction-rehearsal-20261112/diagnostic-20261115T051801Z/diagnostic-report.md",
+    "diagnostic_machine": "notes/rephase-1-repaired-correction-rehearsal-20261112/diagnostic-20261115T051801Z/diagnostic-report-machine.json",
+    "raw": ["diagnostic-20261115T051801Z/W34-ready.partial-signal.json", "diagnostic-20261115T051801Z/SP-ready.raw.json", "diagnostic-20261115T051801Z/W34-ready.pstats.txt", "diagnostic-20261115T051801Z/SP-ready.pstats.txt", "diagnostic-20261115T051801Z/before-hashes.json", "diagnostic-20261115T051801Z/after-check.txt"]
+  },
+  "source_pins": {
+    "shadow": ".rephase-1-editorial-runtime/selection-preflight-20261115T042533Z/candidate-work head ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "source773_manifest": "a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c/202833B",
+    "runner": "553bf22bb7d218af3b20f7ba303110b7c7918de/27766",
+    "LOW": "7f5fc9e0d79729d98345f0b0352d5070c76e93f92c/240969",
+    "HIGH": "f312f02e/97844"
+  },
+  "states": {
+    "W34": "a8586351/4162 EVIDENCE_REVIEWED PREARCH 73ab28ea/6054",
+    "SP": "38a63411/4266 EVIDENCE_REVIEWED PREARCH 2a528ed5/6300",
+    "four_refs_ok": true,
+    "guard_absent": true,
+    "active_slots": "7 absent (status 33)",
+    "shadow_slots": "W34 0/7 SP 3/7 (2f62e2a8/4e6884d6/4af84ab3 + 4 absent)",
+    "writers_live": false
+  },
+  "estimates_vs_measured": {
+    "W34_60AG_pre_matrix": "source-derived estimate 3+2+1+0+1+6+45+2, NOT measured",
+    "SP_92AG_post_arch": "source-derived estimate 45+45+2, NOT measured",
+    "full_run_162AG": "source-derived estimate 27 direct + 3EU*45, NOT observed",
+    "content_arithmetic": "367E+184V pre-matrix (409), 565E+283V post-arch (160), arithmetic not profiler totals",
+    "finite_DAG": true,
+    "no_infinite_recursion": true
+  },
+  "probes": {
+    "W34-ready": {"pid": 740047, "exit": 124, "wall_s": 85.01, "utime_d": 78.51, "stime_d": 5.66, "rchar_d": 8854312583, "read_bytes_d": 40960, "calls": 90176914, "outcome": "timeout-signal-14"},
+    "SP-ready": {"pid": 747458, "exit": 0, "wall_s": 27.98, "utime_d": 25.83, "stime_d": 2.06, "rchar_d": 1175871247, "read_bytes_d": 0, "calls": 37064332, "outcome": "returned-None"},
+    "scope": "same-process rchar/read_bytes+resource CPU only, no child split, cProfile overhead unisolated, CPU-bound page-cached logical work, no disk/deadlock/physical-savings claim"
+  },
+  "code_boundary": {
+    "allowed": "private invocation-scoped authority/content reuse + write/return freshness, full current/history/guard/own-epoch preserved, no cross-invocation survival",
+    "forbidden": ["global/epoch cache", "caller-verified dict", "public skip flags", "third validator", "new family/schema/module", "mirrored stubs", "hydration-as-proof"],
+    "duplicates": ["low:1018/1073 double AG", "runner :264/:271 double resolve", "summary double upstream 866+880/373", "8 READY gates", "nested 6E/3V per AG"]
+  },
+  "judgment": "SELECT bounded existing PREARCH-readiness/Selection validation scaling repair; REJECT unlimited timeout; REJECT copying partial shadow products",
+  "next": "Astra pre-code map + independent readiness BEFORE code, then whole repair + affected tests + fresh CURRENT proof + independent implementation review; no active canonical generation until repaired runtime passes",
+  "semantic_preserved": "W34/SP PROPOSAL_READY_FOR_PREFLIGHT remain input-scope DATA, neither invalidated nor promoted by timeout; no Selection/Architecture PASS, no Human/Draft/PDF/R4",
+  "uncertain": ["full-runner totals unmeasured", "15->45 per-EU split plausible not re-audited", "full-runner slow-pass vs repetition undistinguished beyond READY", "cProfile overhead unisolated", "cold vs warm cache unmeasured", "SP partials actual but not adoptable"],
+  "bounds": "read-only, no imports/tests/probes/Git/network/Production/reconstruct readback/active changes/subagents; packet-local writes only; no code authorized; whole NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN; stop at Human Commit Point"
+}

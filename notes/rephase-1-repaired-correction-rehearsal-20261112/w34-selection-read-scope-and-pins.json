@@ -1,0 +1,263 @@
+{
+  "schema_version": "1.0",
+  "issue_id": "2026-W34",
+  "proposal": "author-selection-r4-read-scope-pins",
+  "role": "W34 research/editorial proposal AUTHOR (not independent reviewer, not Root, not Human)",
+  "instance": {
+    "runtime": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "source_epoch": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "parent": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "state_path": "sources/2026-W34/production-state.json",
+    "lifecycle_state": "EVIDENCE_REVIEWED",
+    "active_prearch_record": "sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/checkpoint/record.json 73ab28ea R2, 4 refs ONLY (evidence/views/ledger/completeness versioned R2)",
+    "old_canonical_inactive": "sources/2026-W34/materiality-ledger-v2.json f089cc4e 41M inactive; current versioned 45M active; old canonical Ledger/Completeness not active PREARCH refs"
+  },
+  "checkpoint_bound_four_active": [
+    {
+      "name": "evidence-acceptance",
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/evidence-runs/2410e661f0e36c01354b4a395aa6bf1286affcb61f5c6b3cc949c08a0aaebbc8/evidence-accepted.json",
+      "sha256": "eef77479b8d9c003ee8daae7eb882ea2aa63063ea10aea3e43d1f951c747427d",
+      "bytes": 126592,
+      "result_count": 409
+    },
+    {
+      "name": "edition-views-acceptance",
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/views-runs/ad9eee7f863eb41145f4cd3ecc8874ec5a84a29fa670284e7fbd8570a739120f/edition-views-accepted.json",
+      "sha256": "3727485ac1f791d64c3d951520bfab7694821ad4584140b913f91a1c48f654ae",
+      "bytes": 159502,
+      "views": 409,
+      "materiality": "CONTEXT 354 / MATERIAL 45 / HOLD 10"
+    },
+    {
+      "name": "materiality-ledger",
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/materiality-ledger.json",
+      "sha256": "066230f48ff3d29e714be35e86968a4ec834f9dacefb4590f4b64ac1fb73b320",
+      "bytes": 186214,
+      "rows": 439,
+      "disposition": "CONTEXT 354 / MATERIAL 45 / HOLD 10 / EXCLUDED 26 / DUPLICATE 4"
+    },
+    {
+      "name": "profile-completeness",
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/profile-completeness.json",
+      "sha256": "d869027aefce95cde4478b875204c7f930755d66cc4d86e330b82b3835d5fdc6",
+      "bytes": 71532,
+      "obligations": 3,
+      "overall": "LIMITED"
+    }
+  ],
+  "supporting_refs": [
+    {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/production-profile.json",
+      "sha256": "2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1",
+      "bytes": 2371,
+      "note": "ROLLING_WINDOW 2026-08-14T18:00-04:00 to 2026-08-21T18:00-04:00 = UTC [2026-08-14T22Z,08-21T22Z)"
+    },
+    {
+      "path": "sources/2026-W34/carryover/carryover-ledger-v0.1.json",
+      "note": "C076/C077 pre-window explicit disposal in dossier, taskless nonMatrix EXCLUDE, not assignment IDs (see prior 9cf2233e)"
+    }
+  ],
+  "counts_root_effective": {
+    "matrix_total": 409,
+    "eligible_399": 399,
+    "ineligible_hold_10": 10,
+    "ineligible_list": [
+      "w34-event-c033",
+      "w34-event-c035",
+      "w34-event-c038",
+      "w34-event-c051",
+      "w34-event-c053",
+      "w34-event-c054",
+      "w34-event-c057",
+      "w34-event-c065",
+      "w34-event-c097",
+      "w34-event-c103"
+    ],
+    "evidence_statuses": {
+      "PARTIAL": 363,
+      "VERIFIED": 38,
+      "NEEDS_MORE": 8
+    },
+    "views_materiality": {
+      "CONTEXT": 354,
+      "MATERIAL": 45,
+      "HOLD": 10
+    },
+    "ledger_disposition": {
+      "EXCLUDED": 26,
+      "CONTEXT": 354,
+      "MATERIAL": 45,
+      "HOLD": 10,
+      "DUPLICATE": 4
+    },
+    "selected_45": "41 vendor +4 research (15127/16096/21100/18389) provisional SUPPORTING box, no quota",
+    "hold_matrix_364": "10 ineligible HOLD +354 CONTEXT HOLD",
+    "nonmatrix_30_separate": "26 EXCLUDED +4 DUPLICATE, 0 tasks, not assignable; carryover C076/C077 pre-window disposal external dossier"
+  },
+  "exact_read_scope": {
+    "method": "data/source-read only; stdlib hashlib/json/pathlib + read; no project imports, no runtime/tests/build, no network, no Production checkout, no reconstruct Git/readback, no subagents, no active State/source writes",
+    "full": [
+      "State + typed PREARCH record 73ab + profile + versioned R2 ledger/completeness/evidence/views (full JSON, hash-verified vs checkpoint, old canonical f089 noted inactive)",
+      "Ledger 439 rows (full rationale/duplicate/task linkage), Evidence 409 + Views 409 join (status/materiality, 399 eligible/10 HOLD verified)",
+      "All 45 MATERIAL cards (41 vendor +4 paper claims/context/evidence_class + limitations + verification/unresolved, artifact names, source counts) via accepted R2 + four-paper correction + repaired content dossier",
+      "All 10 HOLD cards (claims + limitations + SOCIAL vs first-party distinction)",
+      "Prior r2 triage 319 + body-read 26 + counts + per-DID machine reused as history for 364 HOLD cluster reasons (no mechanical unread HOLD)",
+      "Actual runner _validate_input + architecture validators + Weekly derivation section_label/closing_summary shapes read as source text (no execution)"
+    ],
+    "bulk": [
+      "319 arxiv CONTEXT: per-DID bodies distinct locators/bytes verified via ledger/supplement manifest; 26 full-text samples confirm sections beyond abstract; remaining ~293 hash-only, NOT full semantic PASS claimed",
+      "405 unchanged +4 corrected: 405 byte-identical to 15e87eef input except 4 materiality CONTEXT→MATERIAL + bounded claims; task_target names/set exact"
+    ],
+    "prior_reviews_reused_as_history": [
+      "w34-r2-selection-proposal-independent-review-20261105.md (CHANGES_REQUIRED, counterfactual 4 accepted: 15127/16096/21100/18389; 21095 optional HOLD)",
+      "w34-selection-proposal-independent-review-20261105.md (F1 placement/c102/Memory fixes required, now fixed)",
+      "w34-repaired-content-review-dossier.md (span-grounded Q1-Q4, AUTHOR_CLAIM, no deployment)",
+      "astra-operation-resolution.md §§12-18 FULL (R2 adopt/resume/readback, artifact epoch ae0dd1e, Selection restart from active PREARCH)"
+    ],
+    "not_done": [
+      "No new publisher crawl, no current-main following, no Production checkout read, no code/weights adoption",
+      "No active API JSON writer run (interactive-selection-architecture.json is packet DATA, needs independent semantic review before canonical writer)",
+      "No State advance, no Selection/Architecture artifact writes to active runtime, no Draft/PDF, no Human Gate request, no R4"
+    ]
+  },
+  "source_pins_programmatic_full_hash": {
+    "production_state": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/production-state.json",
+      "sha256": "a8586351b096fda65793dfc20604fae9404f9e9ea06e164c3b9f9c72b576e47d",
+      "bytes": 4162
+    },
+    "production_profile": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/production-profile.json",
+      "sha256": "2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1",
+      "bytes": 2371
+    },
+    "prearch_record": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/checkpoint/record.json",
+      "sha256": "73ab28ea79da8bb13d7083d30eda7fa3188f060f0dbaa96a65e2407daae3ac48",
+      "bytes": 6054
+    },
+    "materiality_ledger_R2": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/materiality-ledger.json",
+      "sha256": "066230f48ff3d29e714be35e86968a4ec834f9dacefb4590f4b64ac1fb73b320",
+      "bytes": 186214
+    },
+    "profile_completeness_R2": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/profile-completeness.json",
+      "sha256": "d869027aefce95cde4478b875204c7f930755d66cc4d86e330b82b3835d5fdc6",
+      "bytes": 71532
+    },
+    "evidence_accepted_R2": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/evidence-runs/2410e661f0e36c01354b4a395aa6bf1286affcb61f5c6b3cc949c08a0aaebbc8/evidence-accepted.json",
+      "sha256": "eef77479b8d9c003ee8daae7eb882ea2aa63063ea10aea3e43d1f951c747427d",
+      "bytes": 126592
+    },
+    "views_accepted_R2": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/candidate/views-runs/ad9eee7f863eb41145f4cd3ecc8874ec5a84a29fa670284e7fbd8570a739120f/edition-views-accepted.json",
+      "sha256": "3727485ac1f791d64c3d951520bfab7694821ad4584140b913f91a1c48f654ae",
+      "bytes": 159502
+    },
+    "materiality_ledger_canonical_old_inactive": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/materiality-ledger-v2.json",
+      "sha256": "f089cc4eedb49a81b4b925c1219f22a77237d16f28fdee73f20a3744e725e91d",
+      "bytes": 186202,
+      "note": "OLD LEGACY f089 41M inactive, not active PREARCH ref"
+    },
+    "scripts/run_selection_architecture_v2_interactive.py": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/run_selection_architecture_v2_interactive.py",
+      "sha256": "553bf22bb7d218af3b20f7ba303110b7c7918da4de5e39e07c756675503f2b31",
+      "bytes": 27766
+    },
+    "scripts/survey_architecture_v2_base.py": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_architecture_v2_base.py",
+      "sha256": "ac52c842afa12c92219a874fc1d2c2d7325769cf2e04507c479879c92858edf4",
+      "bytes": 47416
+    },
+    "scripts/survey_architecture_v2.py": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_architecture_v2.py",
+      "sha256": "472a9dca98f339f6864dc1ff42f50245d5ebbf388f1ab0a0181198e1fd44cda2",
+      "bytes": 4932
+    },
+    "scripts/survey_weekly_derivation_v2.py": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_weekly_derivation_v2.py",
+      "sha256": "3bf9c2a443fe7d2d499646f7f2afc9c5243286b8c8809f4a094706add6054745",
+      "bytes": 57323
+    },
+    "schemas/candidate-selection-v2.schema.json": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/schemas/candidate-selection-v2.schema.json",
+      "sha256": "9f7859d115e6a1917979f91d2cff718573d1ba5a78260d6a89440c09dd19671b",
+      "bytes": 2618
+    },
+    "schemas/issue-architecture-v2.schema.json": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/schemas/issue-architecture-v2.schema.json",
+      "sha256": "215b73fbb1d1d4280f4b935a6ddda5f2cd7a4e6cfa768d38fc183392a6969e86",
+      "bytes": 4216
+    },
+    "config/survey-production-v2.json": {
+      "path": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/config/survey-production-v2.json",
+      "sha256": "95fe3c283f54b356c02ebcb4964eea02282c239c93d7c7e748f28001fb4d8dc8",
+      "bytes": 19097
+    },
+    "notes/rephase-1-selection-architecture-20261105/w34-r2-per-did-disposition-machine.json": {
+      "path": "notes/rephase-1-selection-architecture-20261105/w34-r2-per-did-disposition-machine.json",
+      "sha256": "9f57d1de85e1fca8cbda237dcb1264549d1219acb47de6d04d90e0a470a71465",
+      "bytes": 419238
+    },
+    "notes/rephase-1-selection-architecture-20261105/w34-r2-arxiv-triage.json": {
+      "path": "notes/rephase-1-selection-architecture-20261105/w34-r2-arxiv-triage.json",
+      "sha256": "64db2d0f1e304c2b1c58efa5495b999a288ad43e5ea2e8a9ff9982bfa2ee6eff",
+      "bytes": 403589
+    },
+    "notes/rephase-1-selection-architecture-20261105/w34-r2-body-read-ledger.md": {
+      "path": "notes/rephase-1-selection-architecture-20261105/w34-r2-body-read-ledger.md",
+      "sha256": "06bbe3de31f6228524280e4ef18e45cf584be93e51e69d714da7bef39114aea2",
+      "bytes": 48841
+    },
+    "notes/rephase-1-selection-architecture-20261105/w34-r2-counts.json": {
+      "path": "notes/rephase-1-selection-architecture-20261105/w34-r2-counts.json",
+      "sha256": "c9a93ad56e986b05d01bae09ffa979ea3c0bf27eaabc29d1b26fe3ae36ae72c2",
+      "bytes": 1807
+    },
+    "notes/rephase-1-selection-architecture-20261105/w34-four-paper-correction-proposal.json": {
+      "path": "notes/rephase-1-selection-architecture-20261105/w34-four-paper-correction-proposal.json",
+      "sha256": "bcddd840d5ed707ba3d6311493f008275119c21dee31f1462d2e031bc9a674b3",
+      "bytes": 32465
+    },
+    "notes/rephase-1-selection-architecture-20261105/astra-working-resolution.md": {
+      "path": "notes/rephase-1-selection-architecture-20261105/astra-working-resolution.md",
+      "sha256": "47d526f6eb4e59a9e61da8d402d09d4f507ff856ec478fef9db1696958648a8c",
+      "bytes": 10656
+    },
+    "notes/rephase-1-selection-architecture-20261105/reviews/w34-r2-selection-proposal-independent-review-20261105.md": {
+      "path": "notes/rephase-1-selection-architecture-20261105/reviews/w34-r2-selection-proposal-independent-review-20261105.md",
+      "sha256": "2127f8fc943977239974aead79d9524e6df25f3c1fa0f449550c3d59e91d87a6",
+      "bytes": 13688
+    },
+    "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-repaired-content-review-dossier.md": {
+      "path": "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-repaired-content-review-dossier.md",
+      "sha256": "fdc7cb6fdd807f105368392b1527d49ff7fdbfdb888bcf75e200c42bbba4c17f",
+      "bytes": 7091
+    },
+    "notes/rephase-1-repaired-correction-rehearsal-20261112/astra-operation-resolution.md": {
+      "path": "notes/rephase-1-repaired-correction-rehearsal-20261112/astra-operation-resolution.md",
+      "sha256": "99984dbf212c303833d3eb35f00a49694c68e9e6bd0bb219121f51f4f957951b",
+      "bytes": 35763
+    },
+    "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-selection-architecture-input.json": {
+      "path": "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-selection-architecture-input.json",
+      "sha256": "15375476f308fbfeb79c4e8f3f4d53d85d5cf917e36d29d3c3777580301aab3a",
+      "bytes": 378396
+    },
+    "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-selection-per-did-map.json": {
+      "path": "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-selection-per-did-map.json",
+      "sha256": "0b6808fc7de5dd7095a9f6b3afb716ab122900b2bf5d4f5991a6de7cf2b15ac0",
+      "bytes": 443315
+    },
+    "w34-selection-human-dossier-draft-ja-r4.md": {
+      "path": "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-selection-human-dossier-draft-ja-r4.md",
+      "sha256": "c22d3ad809c8057f54a1e7edb87a2406f2debaf7fdbb16e7f6cbb077d85cec8e",
+      "bytes": 8122
+    }
+  },
+  "original_status_note": "38 VERIFIED / 363 PARTIAL / 8 NEEDS_MORE are historical input structural labels preserved verbatim from repaired runtime, NOT new semantic PASS. Views MATERIAL 45 / CONTEXT 354 / HOLD 10 likewise preserved (45 real after R2 correction, no scoped upgrade beyond 4 AUTHOR_CLAIM SUPPORTING). This proposal re-evaluates them for editorial selection but does not upgrade statuses.",
+  "missing_authority_rule": "No new fetch indispensable for qualified provisional presentation above. Optional headers/versions remain future gaps (MSRC/NVD, Aug14/21 clock-time, Sep8 entry bytes, Aug21 listing bytes) only if Human/root later demands confirmed-W34 headlines; not needed for restricted SUPPORTING presentation."
+}

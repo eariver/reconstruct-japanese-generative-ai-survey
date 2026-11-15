@@ -1,0 +1,62 @@
+=== new HEAD tree ===
+6a903407788eb5fddd5c6bea913303ca6f20c567
+expected write-tree 6a903407788eb5fddd5c6bea913303ca6f20c567
+=== profile blobs present ===
+blob
+142
+blob
+153
+=== profile bytes exact ===
+f20d28f1a10f49b09a37c076a14fc284b22c98a2aa175bf113a6ca68cad05aff  sources/2026-W34/production-profile.json
+93dad36d8aee673ccd629c86e7fa6dcae50858196397b1df61e53294b9f15cd8  sources/SP-efficient-llm-2026/production-profile.json
+{
+  "profile": "2026-W34",
+  "epoch": "fixture-v2-artifact-only",
+  "research_name": "W34-fixture",
+  "publication_name": "W34-fixture-pub"
+}
+{
+  "profile": "SP-efficient-llm-2026",
+  "epoch": "fixture-v2-artifact-only",
+  "research_name": "SP-fixture",
+  "publication_name": "SP-fixture-pub"
+}
+=== nested unrelated still readable ===
+blob
+{
+  "note": "second unrelated nested entry to prove preservation",
+  "id": "nested-001",
+  "payload": "nested-unrelated-bytes"
+}
+=== missing unrelated still refuses ===
+exit-e=1
+exit-p=128
+=== hooks proof ===
+pre-commit-ran pid=563030 ppid=563029 date=20261114T124634Z
+pre-commit-ran pid=563768 ppid=563767 date=20261114T124646Z
+#!/bin/sh
+# sentinel pre-commit hook for partial-tree experiment - proves normal commit ran hooks (no bypass)
+echo "pre-commit-ran pid=$$ ppid=$PPID date=$(date -u +%Y%m%dT%H%M%SZ)" >> "$(git rev-parse --git-dir)/pre-commit-sentinel.log"
+exit 0
+=== alternates/remote/hardlinks ===
+ls: cannot access '.git/objects/info/alternates': No such file or directory
+no alternates
+remote done
+1 .git/objects/15/62ce8df092a35d5a34906e15af2e907d51eebd
+1 .git/objects/23/3513ee49b9f74f4ca4709ac92d0e77fc098495
+1 .git/objects/23/d702c903fd12447fcf9d63e1b2cc3929e4dbca
+1 .git/objects/45/3a1facc89190e607753482d90763d84328445c
+1 .git/objects/55/21993c02c677eeaf45c4255dab910b76f4e3d5
+1 .git/objects/65/12e4ea2e72729efd338ee5d55d8231a4b5a66e
+1 .git/objects/6a/903407788eb5fddd5c6bea913303ca6f20c567
+1 .git/objects/6b/cf79b88a4a8a6cbf3e2179628d8f81826b9a5f
+1 .git/objects/6f/0d32c279979bc8cf99d9df25c253d6b57143ee
+1 .git/objects/80/c01d8a81d4e76c821b236d45fd9c18d8da89ad
+=== index ===
+100644 83335e83803877d05ec9807302847c4042270a13 0	sources/2026-W34/architecture-review-attention-v2.json
+100644 233513ee49b9f74f4ca4709ac92d0e77fc098495 0	sources/2026-W34/nested/unrelated-data.json
+100644 d5c0f5311334a181f3cfd2fb61acdd098d40449e 0	sources/2026-W34/production-profile.json
+100644 5521993c02c677eeaf45c4255dab910b76f4e3d5 0	sources/SP-efficient-llm-2026/production-profile.json
+=== log ===
+453a1fa (HEAD -> master) Fixture artifact-only 2 profiles
+6bcf79b Fixture initial: 2 profiles plus 2 unrelated nested entries

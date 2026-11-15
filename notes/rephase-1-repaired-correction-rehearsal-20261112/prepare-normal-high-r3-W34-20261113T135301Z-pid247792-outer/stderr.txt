@@ -1,0 +1,29 @@
+REFUSE: unexpected (preserved, no retry/cleanup)
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_research_authority_v2.py", line 150, in _safe_read_bytes
+    lst = os.lstat(path)
+FileNotFoundError: [Errno 2] No such file or directory: '.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revision-inputs/w34-repaired-20261112-r1.json'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_prearchitecture_acceptance_v2.py", line 554, in prepare_revision
+    current_ctx = low.derive_current_root_effective_context(repo_root, request_abs, abs_state)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_research_authority_v2.py", line 1926, in derive_current_root_effective_context
+    request = load_revision_request(repo_root, request_path)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_research_authority_v2.py", line 1236, in load_revision_request
+    raw = _safe_read_bytes(target, "revision request")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_research_authority_v2.py", line 152, in _safe_read_bytes
+    raise ResearchAuthorityError(
+        f"{label} lstat failed: {path}: errno={exc.errno}"
+    ) from exc
+scripts.survey_research_authority_v2.ResearchAuthorityError: revision request lstat failed: .rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revision-inputs/w34-repaired-20261112-r1.json: errno=2
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/notes/rephase-1-repaired-correction-rehearsal-20261112/prepare-normal-high-r3.py", line 803, in main
+    result = prepare_revision(repo, Path(f"sources/{issue}/production-state.json"), Path(req_rel), rev)
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/scripts/survey_prearchitecture_acceptance_v2.py", line 556, in prepare_revision
+    raise AcceptanceError(f"HIGH current root/effective context refused before first COPY: {exc}") from exc
+scripts.survey_prearchitecture_acceptance_v2.AcceptanceError: HIGH current root/effective context refused before first COPY: revision request lstat failed: .rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work/sources/2026-W34/research/v2/acceptance-revision-inputs/w34-repaired-20261112-r1.json: errno=2

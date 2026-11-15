@@ -1,0 +1,33 @@
+{
+  "adopt_args": "adopt --repo-root ABS_REPO --state-path sources/2026-W34/production-state.json --revision-path sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2 --decision-path sources/2026-W34/research/v2/acceptance-revision-inputs/w34-repaired-20261112-r2-decision.json",
+  "decision": {
+    "bytes": 4030,
+    "repo_path": "sources/2026-W34/research/v2/acceptance-revision-inputs/w34-repaired-20261112-r2-decision.json",
+    "sha256": "09b2feae6dbae50762d66eae849088736c25cda58ba08b95dfcc62fb624cdc11"
+  },
+  "edition": "2026-W34",
+  "error": "REFUSED postread FULL adopted-graph validation failed (INDETERMINATE): recorded-commit batch header mismatch for: sources/2026-W34/production-profile.json",
+  "exit": 1,
+  "guard": {
+    "attempt_nonce": "387ee54f65a813f8",
+    "before_state_sha256": "d7acd29b1518399ffc2376eb07e102491a6ec9782b3fdd79815c5f230e1886b0",
+    "expected_after_state_sha256": "a8586351b096fda65793dfc20604fae9404f9e9ea06e164c3b9f9c72b576e47d",
+    "path": "sources/2026-W34/orchestration/v2/acceptance-revision.guard.json",
+    "recorded_at": "2026-11-14T06:53:43Z"
+  },
+  "new_checkpoint": "sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/checkpoint/record.json 73ab28ea79da8bb13d7083d30eda7fa3188f060f0dbaa96a65e2407daae3ac48",
+  "new_state": "a8586351b096fda65793dfc20604fae9404f9e9ea06e164c3b9f9c72b576e47d EVIDENCE_REVIEWED/init480/human-pending (triplet switched, no new history row)",
+  "old_preserved": {
+    "ledger": "f089cc4eedb49a81b4b925c1219f22a77237d16f28fdee73f20a3744e725e91d/186202 immutable",
+    "profile_completeness": "e8c432dd6275e81df5286cb8c0d55d99e27aa0812c52a114d870dddaf0d2795f/71532 immutable",
+    "r1": "54de43edc49a24e2fd8ffaf02144a83c5812a2c59290eb1d3a914709e8583da2 preserved",
+    "r2_manifest": "867eba96242eab0cf3e34277048e8497952c804f0805b4d09feacdb51b392a7b preserved",
+    "source_773": "a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c",
+    "sp_manifest": "694f5e49092e4ef68c02849f1709ee17c1bcba6fbfee9ffad287f55624eb37d4 unchanged",
+    "sp_state": "180db8c30721825d40461cd5e1b92edb705135fd19c9a6b689700114bcbf4234aff5 unchanged, no SP guard"
+  },
+  "outer_ns": "notes/rephase-1-repaired-correction-rehearsal-20261112/w34-adopt-20261114T065242Z(.argv/.env/.pid/.wall-start/.stdout/.stderr/.exit)",
+  "resume_readback": "NOT run (STOP on adopt failure; no ALREADY_ACTIVE/readback/Selection)",
+  "revision": "w34-repaired-20261112-r2",
+  "row_counts": "409 tasks/cards/Views (405 unaffected byte-eq per R2 comparison, 4 affected MATERIAL); 439 ledger rows (435 unaffected incl 4 DROP, 4 promoted); completeness LIMITED/closure null"
+}

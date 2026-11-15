@@ -1,0 +1,275 @@
+{
+  "base_interactive": {
+    "bytes": 355643,
+    "path": ".rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work/sources/SP-efficient-llm-2026/evidence/v2/accepted/73f4bc1ec69c70925a7119a0327ff5e6f024812b56cf8edd7c49eae9f672a297/interactive-evidence.json",
+    "sha256": "697a4ed088b76f18b3859568a735491a3a8b2295c480be3e1e678c4d8b31f104"
+  },
+  "base_supplement": {
+    "bytes": 30922,
+    "path": ".rephase-1-editorial-runtime/evidence-scaling-w34-retry-20261103T172327Z/candidate-work/sources/SP-efficient-llm-2026/external/evidence-supplement/evidence-authority-supplement-r6-sp17-20261104T162747Z.json",
+    "sha256": "ffcd0a7eefdcf81700bd81982031ccbf7e8895835f55609eac772c40946fc4b3"
+  },
+  "changed_record_ids": [
+    "EFF-D070",
+    "EFF-D071",
+    "EFF-D141",
+    "EFF-D142"
+  ],
+  "counts": {
+    "affected": 4,
+    "total": 160,
+    "unaffected": 156
+  },
+  "d165_preserved": {
+    "discovery_id": "EFF-D165",
+    "fields_changed": [],
+    "sha256": "16f046f59e171a80c22bb0df2a159af9eafaa1ad3cfb0f9a2269ab90871e6fe2"
+  },
+  "new_records": [
+    {
+      "artifact_type": "API",
+      "branch_ids": [
+        "specialization-jeff"
+      ],
+      "claims": [
+        {
+          "context": "Agent-summary record, NOT publisher fact. Source: sources/SP-efficient-llm-2026/raw/discovery-observations-r2-g19-g20-data-jev.md S142, SUMMARY_CAPTURED observed 2026-09-21 by collector efficient-llm-discovery-r2, 3751B sha256 f7eeec6872fa7dd9ad8f8fb08beadfb9e2ff2bab571ffff807c2d34718662662. Exact token quoted verbatim from retained immutable file (line 44 independent-evidence verdict for peer-reviewed or vendor-independent benchmark/reproduction). No API body fetched (https://docs.typesafe.ai/api outstanding), no supplement entry, source_bindings null retained, no schema fields/confidence math/version/date/body consumption inferred. Body verification UNRESOLVED. Independent review must judge if this narrow summary-note claim meets the contract; if source class/metadata-only cannot support, return gap (no new source invented, no Raw appended).",
+          "evidence_class": "INFERENCE",
+          "text": "INDEPENDENT_EVIDENCE_NOT_FOUND_AS_OF_2026-09-21"
+        },
+        {
+          "context": "Negative finding preserved from baseline; central Jev limitation. Bound to same S142 SUMMARY_CAPTURED INDEPENDENT_EVIDENCE_NOT_FOUND_AS_OF_2026-09-21, not to fetched body.",
+          "evidence_class": "INFERENCE",
+          "text": "No benchmark or calibration-measurement protocol is published on the reference; independent peer-reviewed evidence remains NOT FOUND as of this pass."
+        }
+      ],
+      "discovery_id": "EFF-D142",
+      "entity": {
+        "canonical_name": "TypeSafe API reference (docs.typesafe.ai/api)",
+        "canonical_url": null,
+        "entity_id": "typesafe-api-ref",
+        "entity_type": "PRODUCT",
+        "organization": "TypeSafe AI"
+      },
+      "historical_attribution_caveat": "Reference page not fetched this pass; contract facts at summary level with launch/docs corroboration.",
+      "inheritance_note": null,
+      "limitations": [
+        "Reference page not fetched; schema/confidence-derivation details outstanding."
+      ],
+      "materiality": "MATERIAL",
+      "materiality_rationale": "TypeSafe API reference: contract + confidence derivation specified; no benchmark/calibration protocol; independent evidence absent.",
+      "scope_dimensions": [
+        "specialization_instead_of_generation"
+      ],
+      "source_bindings": null,
+      "status": "PARTIAL",
+      "transition_ids": [
+        "docs-to-contract"
+      ],
+      "verification": [
+        {
+          "finding": "Contract-role summary-only + page body outstanding (NO body, NO sp17-api raw, NO supplement entry; u1/u2/u3 contain no API schema). Prior VERIFIED label inconsistent with PARTIAL + limitation + summary-only; CORRECTED to UNRESOLVED. Cannot support typed mechanism. Real gap returned, no fetch, no validator fix.",
+          "status": "UNRESOLVED",
+          "target": "Evidence-stage full-body verification"
+        },
+        {
+          "finding": "No public calibration protocol located; independent evidence NOT FOUND retained.",
+          "status": "UNRESOLVED",
+          "target": "calibration protocol gap"
+        }
+      ]
+    },
+    {
+      "artifact_type": "PRODUCT",
+      "branch_ids": [
+        "specialization-jeff"
+      ],
+      "claims": [
+        {
+          "context": "Archived revision served 2026-09-21T03:30:22Z (requested 20260921033022, no redirect); first-party launch prose; RLCD name-only, no internals; vendor scope, no independent validation. Raw future DID path, wire/decoded/CDX pins in raw-routing-map. Literal UTF8 verified present in u1.snapshot.decoded.html.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "We built a new stack entirely focused on automation: with a new model architecture, parallel sampler for maximum efficiency, and training method we call Reinforcement Learning for Calibrated Decisions (RLCD)."
+        },
+        {
+          "context": "Same archived revision; adjacent sentence gives 40x-200x faster for System One shaped tasks; $0.042/MTok input outputs free in same body; vendor-evaluated, no independent reproduction. Price/speed vendor quarantine retained. Literal verified in same Raw.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "End-to-end response time is 70ms-500ms"
+        },
+        {
+          "context": "Same archived revision; vendor own nuance section admits higher-end of real-world gains, workflow-authorship/reference-answer bias, laptop/West-Coast evals, adapter-wrapper baselines, OpenRouter hallucination baselines; quarantine retained. Literal verified in same Raw, not appended translation.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "This is where the claims of 193.6x faster, 444.6x cheaper on our home page comes from"
+        }
+      ],
+      "discovery_id": "EFF-D070",
+      "entity": {
+        "canonical_name": "Introducing System One Models & Jev (TypeSafe launch, 2026-09-15)",
+        "canonical_url": null,
+        "entity_id": "typesafe-jev-launch",
+        "entity_type": "PRODUCT",
+        "organization": "TypeSafe AI"
+      },
+      "historical_attribution_caveat": "All comparative speed/cost/intelligence figures are vendor-evaluated; independent evaluation status thin (see D073).",
+      "inheritance_note": null,
+      "limitations": [
+        "Independent reproduction of latency/price/accuracy claims outstanding (D073 community leads only).",
+        "RLCD algorithm internals not disclosed on this page; architecture detail limited to sampler/output semantics.",
+        "Historical version BOUND to served 2026-09-21T03:30:22Z upon accepted revision (current 270966B retired; not current 11-01)."
+      ],
+      "materiality": "CONTEXT",
+      "materiality_rationale": "Jev launch vendor-historical BOUND (archived 2026-09-21T03:30:22Z 253542B 14ae311884b253b736ff8be423fafbe5ff82d1f75cf66b600bad8b8c9152aa443 CDX MATCH, vendor quarantine, RLCD name-only); independent reproduction thin. Inclusion eligibility CONTEXT (archived context with LIMITATION; O10 LIMITATION retained, no independent bench). Relevance to O10/O04/O08/O11 preserved in rationale text; MATERIAL status alone is not relevance proof. Ledger downstream CONTEXT (not MATERIAL proof) until accepted revision + independent re-review. Verification VERIFIED historical presence (vendor scope, conditional; race/accuracy quarantine UNRESOLVED retained).",
+      "scope_dimensions": [
+        "specialization_instead_of_generation"
+      ],
+      "source_bindings": [
+        "supplement-src-ea9b086e35e1c559"
+      ],
+      "status": "PARTIAL",
+      "transition_ids": [
+        "generation-to-decision-models"
+      ],
+      "verification": [
+        {
+          "finding": "Launch archived revision CONFIRMED present: served 2026-09-21T03:30:22Z, raw wire gzip 42836B 10bf6607 (CDX 6XH5NKHYUN6JX6VRKYZPPO4XVV333MNF MATCH) / decoded 253542B 14ae3118, title/og:url exact + Sep 15 byline + embedded 2026-09-15 + Sep 20 publish comment + ssr 09-18/optimized 09-20. Vendor claims present with bias admissions. No independent validation, no RLCD inference. Conditional on accepted revision + independent re-review; not ready canonical.",
+          "status": "VERIFIED",
+          "target": "Evidence-stage full-body verification"
+        },
+        {
+          "finding": "Comparative 70-500ms/40-200x $0.042 193.6/444.6 laptop/adapters/OpenRouter nuance recorded strictly as vendor claims with page bias disclosures in archived revision; independent reproduction thin (D073 leads, F4 unresolved).",
+          "status": "UNRESOLVED",
+          "target": "race/accuracy claims quarantine"
+        }
+      ]
+    },
+    {
+      "artifact_type": "PRODUCT",
+      "branch_ids": [
+        "specialization-jeff"
+      ],
+      "claims": [
+        {
+          "context": "Archived revision served 2026-09-21T04:13:55Z (requested 20260921041355, no redirect); first-party docs prose; vendor mechanism, no independent validation. Literal UTF8 verified present in u2.snapshot.decoded.html. Vendor scope, no independent bench.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "System One models are a class of AI models built to make fast, structured decisions that software can use directly."
+        },
+        {
+          "context": "Same archived revision; first-party caveat verbatim; group-level calibration, no per-answer guarantee. Literal verified in same Raw.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "Calibration is measured across groups of predictions; it does not guarantee that an individual answer is correct."
+        },
+        {
+          "context": "Same archived revision text-only doctrine present; 255-cardinality/score-then-choose two-stage handling ABSENT in archived visible text - REMOVED from as-of claim, stays current-only. Decomposition/confidence-gated escalation present. Literal verified in same Raw.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "Jev currently accepts text input only."
+        }
+      ],
+      "discovery_id": "EFF-D071",
+      "entity": {
+        "canonical_name": "TypeSafe docs: System One concepts + Introduction",
+        "canonical_url": null,
+        "entity_id": "typesafe-system-one-concepts",
+        "entity_type": "PRODUCT",
+        "organization": "TypeSafe AI"
+      },
+      "historical_attribution_caveat": "Documentation describes intended semantics; behavioral compliance (calibration quality) is independently unverified.",
+      "inheritance_note": null,
+      "limitations": [
+        "Behavioral calibration quality and non-English accuracy untested independently.",
+        "API-reference contract details belong to D142, not this page.",
+        "Historical version BOUND to served 2026-09-21T04:13:55Z upon accepted revision; 255-cardinality stays current-only (absent archived visible text)."
+      ],
+      "materiality": "CONTEXT",
+      "materiality_rationale": "Jev concepts vendor-historical BOUND (archived 2026-09-21T04:13:55Z 307198B 357708348b9884d004669d6df45100986676f5ab900a75e76304fb19cae05bf2 CDX MATCH, vendor quarantine); independent behavioral calibration untested. Inclusion eligibility CONTEXT (archived context with LIMITATION; O10 LIMITATION retained). Relevance to O10/O04/O08/O11 preserved in rationale text; MATERIAL status alone is not relevance proof. Ledger downstream CONTEXT (not MATERIAL proof) until accepted revision + independent re-review. Verification VERIFIED historical presence (vendor scope, conditional). 255-cardinality absent archived visible text, stays current-only.",
+      "scope_dimensions": [
+        "specialization_instead_of_generation"
+      ],
+      "source_bindings": [
+        "supplement-src-793903f4b4b1d3e1"
+      ],
+      "status": "PARTIAL",
+      "transition_ids": [
+        "llm-api-to-decision-api"
+      ],
+      "verification": [
+        {
+          "finding": "Concepts archived revision CONFIRMED: served 2026-09-21T04:13:55Z, raw gzip 49007B 62bf012c (CDX TUIONZBNGAJDKEOMM4J4D4WQ63DCRHAN MATCH) / decoded 307198B 35770834, dateModified 2026-09-17. Choice/Score/Noul + parallel + group-calibration + text-only + decomposition present. 255-cardinality absent. No API schema (belongs to D142). Conditional on accepted revision + independent re-review.",
+          "status": "VERIFIED",
+          "target": "Evidence-stage full-body verification"
+        }
+      ]
+    },
+    {
+      "artifact_type": "PRODUCT",
+      "branch_ids": [
+        "specialization-jeff"
+      ],
+      "claims": [
+        {
+          "context": "Archived revision served 2026-09-20T20:50:53Z via requested 20260921091419 302 (served row, not requested row E2BRC NO-MATCH unserved); Mintlify docs chrome; alias semantics vendor doc. Literal UTF8 verified present in u3.snapshot.body.bin (plain decoded identity). Historical 1.13-only era.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "An alias is a model name that resolves to a versioned model ID."
+        },
+        {
+          "context": "Same archived revision; $42/BTok input outputs free, 64k ctx (32k state + longest question), text only, PLATFORM RATE LIMIT row 250k tok/s + 1200 req/min caps (not measured throughput) in same table. Historical 1.13.0-only, no 1.14. Literal verified in same Raw.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "250,000 tokens per second / 1,200 requests per minute"
+        },
+        {
+          "context": "Same archived revision; RLCD shared weights, domain via state; internals undisclosed name-only; present BOTH revisions stable. Literal verified in same Raw.",
+          "evidence_class": "VENDOR_CLAIM",
+          "text": "Jev is not fine-tuned or LoRA-adapted with customer data."
+        }
+      ],
+      "discovery_id": "EFF-D141",
+      "entity": {
+        "canonical_name": "Jev 1.13 official Models page (docs.typesafe.ai/models)",
+        "canonical_url": null,
+        "entity_id": "typesafe-models-page",
+        "entity_type": "PRODUCT",
+        "organization": "TypeSafe AI"
+      },
+      "historical_attribution_caveat": "Docs state what the API does, not how well the model reasons; RLCD remains a training-method name without public algorithm.",
+      "inheritance_note": null,
+      "limitations": [
+        "Behavioral compliance with documented limits untested independently.",
+        "Non-English (incl. CJK) accuracy explicitly weaker; test-on-own-content warning recorded.",
+        "Historical version BOUND to served 2026-09-20T20:50:53Z upon accepted revision. Current 1.14 drift noted, no back-projection."
+      ],
+      "materiality": "CONTEXT",
+      "materiality_rationale": "Jev models vendor-historical BOUND (archived 2026-09-20T20:50:53Z raw plain 350662B 97a5dd74ed1e9ba006d21759c14615a7c0a485c4db161dc00a2d0b1e4d651b69 served-row CDX MATCH via requested 20260921091419, 1.13-only era, vendor quarantine, RLCD name-only). Nov 1.13+1.14 table with aliases->1.14.0 is post-cutoff drift, noted not conflicting, no back-projection. Inclusion eligibility CONTEXT (archived context with LIMITATION; O10 LIMITATION retained). Relevance to O10/O04/O08/O11 preserved in rationale text; MATERIAL status alone is not relevance proof. Ledger downstream CONTEXT (not MATERIAL proof) until accepted revision + independent re-review. Verification VERIFIED historical presence + version/alias binding (vendor scope, conditional).",
+      "scope_dimensions": [
+        "specialization_instead_of_generation"
+      ],
+      "source_bindings": [
+        "supplement-src-228b81661893f1ea"
+      ],
+      "status": "PARTIAL",
+      "transition_ids": [
+        "launch-to-versioned-docs"
+      ],
+      "verification": [
+        {
+          "finding": "Models archived revision CONFIRMED: served 2026-09-20T20:50:53Z via requested 20260921091419 302, raw plain 350662B 97a5dd74 (served-row CDX ABQRK5MR MATCH; requested-row E2BRC unserved). Single 1.13.0 only, both aliases->1.13.0. Claims 2-3 stable across revisions. Historical 1.13.0-only era; Nov 1.14 drift post-cutoff noted not conflicting, no back-projection. Conditional.",
+          "status": "VERIFIED",
+          "target": "Evidence-stage full-body verification"
+        },
+        {
+          "finding": "jev-1.13.0 + alias-drift CONFIRMED at served 2026-09-20 scope; 1.13.0-only era. Current aliases->1.14.0 drift kept not conflicting.",
+          "status": "VERIFIED",
+          "target": "version/alias binding"
+        }
+      ]
+    }
+  ],
+  "preserved_supplement27_hash": "c75389e89c00760231a1e1621efe0c6fdcea8b76aec624397adda896f5a1f995",
+  "proposal_basis": {
+    "accepted_interactive": "697a4ed088b76f18b3859568a735491a3a8b2295c480be3e1e678c4d8b31f104 355643B",
+    "checkpoint": "1233b1f6ca3301d6430d4d157788d0a45a613c9ce1e1563e7c06fe11d73993f0 4745B",
+    "evidence": "65784e69559f9379412935fa5e7671beddee59b46b8fdb28a848d450e2b68ce0 49237B 160",
+    "state": "180db8c30721825d40461cd5e1b92edb705135fd19c9a6b689700114bcbf4234aff5 EVIDENCE_REVIEWED",
+    "views": "1557fef75b4b737379a0e84eea983d9151b7148077f65da018206a2fae2b0341 64222B 160"
+  },
+  "schema": "sp-repaired-records-4-r5-1",
+  "stale_fix_note": "r5 fixes r4: O10-adjacent materiality narrow-corrected (D070/D071/D141) restoring preserved relevance/ledger sentences with archived bound + VERIFIED-conditional (race quarantine retained for D070); D141 Q2 context adds explicit PLATFORM RATE LIMIT qualifier (caps, not measured throughput), vendor class + units unchanged; D142 literal INFERENCE preserved from r4; 156/D165 preserved; full30 r4 reused, no new source.",
+  "unaffected156_hash": "d455f7221a0addd93dd2a3c07c874fe4dfb815d3e795933882eb839e868a1ef9"
+}

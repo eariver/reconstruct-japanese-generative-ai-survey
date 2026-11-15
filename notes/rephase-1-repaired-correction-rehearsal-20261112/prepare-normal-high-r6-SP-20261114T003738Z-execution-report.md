@@ -1,0 +1,12 @@
+# SP r1 full prepare — FAIL before request/R, partials preserved, NO fix/retry
+
+Root §9 sequential (W34 r2 already SUCCESS, source/SP authority unchanged so SP ran independently). r6 `b48d8de7…` + config `4e574a39…` (r7 `0a54004e…`, routing `af4e043c…`, staging `b7fac760…`, r5 `cc4ce34d…`, full30 `e2bfb30a…`, true S142 `f7eeec68…18672662`). ABS repo, workspace CWD, clean env. Outer `prepare-normal-high-r6-SP-20261114T003738Z.{stdout,stderr,exit 2}` + inner `…/prepare-normal-high-r6-SP-20261114T003738Z/` (no manifest, traceback, entry-inventory, prospective 156).
+
+## Precise failure, where writes stopped
+- Exit `2`. `SchemaConformanceError: revision request fails …/dm022-revision-request-v2.schema.json: $.completeness.closure: {'targeted_gap_fill_completed': True, 'limitations': […5…], 'status': 'LIMITED'} is not valid under any of the given schemas` at `prepare-normal-high-r6.py` request `gate.validate_instance` — AFTER SP 4 Raw O_EXCL + supp build/validate, BEFORE request write/R.
+- New partials (preserved, no cleanup): 4 Raw `sp17-EFF-D070…14ae3118…/253542, D071…35770834…/307198, D141…97a5dd74…/350662, D142-summary…f7eeec68…18672662/3751` + supp `evidence-authority-supplement-r7-sp17-20261114T003801Z.json` (size/sha in inner post? not written — builder output exists in repo, request/R absent verified: no `acceptance-revision-inputs/sp-repaired-20261112-r1.json`, no `acceptance-revisions/sp-repaired-20261112-r1/`).
+- No State/guard/decision/adopt, no source edit, no R1/R2 touch. W34 r2 manifest `867eba96…` + R1 preserved.
+
+## Pre-write checks reached (not after-graph acceptance)
+- Manifest ALL773 + tools7, HEAD/tree, State/Profile/CP/Human/guard/seven, r7 patch shape (changed 4, 160 base), deepcopy order, entity order + `indent=2` serialized exact for 156 preserved, prospective unaffected `build_research_card_content` REAL meta: **156/156 byte-eq** vs old `results/task-*.json`, package 160 + task-file targets exact + nonDROP, effective `7074cef2…` (165 DIRECT) via screening basis, 15×7 + `O01/O07` SAT + residual/closure shape fetched (but schema rejects 3-field closure — see above), routing FullDID/safePath/pinned + literal UTF8 bytes in retained Raw, SP payload `validate_instance` pre-Raw passed, builder + `validate_evidence_authority_supplement` passed.
+- Failure is request-closure schema shape (r5 3-field vs schema 8-field `closureOrNull`), not a drift/byte issue. Awaiting root triage; full prepare remains separate. SEMANTIC still pending.

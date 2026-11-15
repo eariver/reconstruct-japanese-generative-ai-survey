@@ -1,0 +1,283 @@
+{
+  "diagnostic_unit": "repaired-correction-rehearsal-20261112 / W34 guarded post-switch refusal / recorded-Profile Git object diagnosis",
+  "authorization": "notes/rephase-1-repaired-correction-rehearsal-20261112/astra-operation-resolution.md section 12 (read-only local Git investigation; no object restore, commit, config, State, guard, source edit, network, tests, project import, or subagents)",
+  "read_only_boundary": {
+    "active_repo_only": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "reconstruct_git_or_production_read": false,
+    "network": false,
+    "object_write_or_restore": false,
+    "hash_object_w": false,
+    "commit_config_state_guard_source_write": false,
+    "tests_or_project_import": false,
+    "new_packet_only": "notes/rephase-1-repaired-correction-rehearsal-20261112/profile-git-diagnosis-20261114Z/",
+    "git_commands_used": ["rev-parse", "for-each-ref", "config --local -l", "remote -v", "ls-tree", "ls-files", "status", "cat-file -t/-e/--batch/--batch-check", "show"],
+    "note": "All object reads were read-only. Standard status/ls-files may refresh the local index stat cache; no object DB, ref, commit, State, guard, or source bytes were changed."
+  },
+  "environment": {
+    "GIT_NO_LAZY_FETCH": "1",
+    "GIT_TERMINAL_PROMPT": "0",
+    "GIT_ROOT_OVERRIDES": "none; no GIT_DIR/GIT_WORK_TREE/GIT_INDEX_FILE/GIT_OBJECT_DIRECTORY/GIT_ALTERNATE_OBJECT_DIRECTORIES/GIT_COMMON_DIR",
+    "git_version": "git version 2.47.3"
+  },
+  "repo": {
+    "head": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "head_tree": "ed2dc4ddd4a9486ccc9d0944bbd48653199b2485",
+    "shallow": true,
+    "refs": {
+      "refs/heads/codex/rephase-candidate-recovery": "b40de600e9ed1f80cb278213ccf17aa5f3cd9de3"
+    },
+    "remote_origin": "https://example.invalid/rephase-candidate-recovery.git",
+    "promisor_packs_present": [
+      "pack-78d27d1eee3ad923472946196748a1aed3227c14 (.promisor)",
+      "pack-b2d8309a611d161509932013dabb0232dc14b5c5 (.promisor)"
+    ],
+    "alternates": false
+  },
+  "failed_operation": {
+    "operation": "HIGH adopt_revision",
+    "revision": "w34-repaired-20261112-r2",
+    "exit": 1,
+    "stdout": "",
+    "stderr": "{\"status\":\"REFUSED\",\"error\":\"postread FULL adopted-graph validation failed (INDETERMINATE): recorded-commit batch header mismatch for: sources/2026-W34/production-profile.json\"}",
+    "stage": "write_cleanup_completion -> low._verify_adopted_graph_full -> _verify_own_epoch_commit -> git cat-file --batch",
+    "guard_held": true,
+    "state_switched_before_failure": true
+  },
+  "guard": {
+    "path": "sources/2026-W34/orchestration/v2/acceptance-revision.guard.json",
+    "sha256": "ddae0b815ea981039ba570f1e8b5f8dd3ed1337ac4b3394c39349207974398c8",
+    "attempt_nonce": "387ee54f65a813f8",
+    "before_state_sha256": "d7acd29b1518399ffc2376eb07e102491a6ec9782b3fdd79815c5f230e1886b0",
+    "expected_after_state_sha256": "a8586351b096fda65793dfc20604fae9404f9e9ea06e164c3b9f9c72b576e47d",
+    "planned_checkpoint": {
+      "path": "sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/checkpoint.planned.json",
+      "sha256": "73ab28ea79da8bb13d7083d30eda7fa3188f060f0dbaa96a65e2407daae3ac48",
+      "byte_count": 6054
+    },
+    "work": {
+      "head": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+      "tree": "ed2dc4ddd4a9486ccc9d0944bbd48653199b2485"
+    },
+    "recorded_at": "2026-11-14T06:53:43Z"
+  },
+  "state": {
+    "path": "sources/2026-W34/production-state.json",
+    "sha256": "a8586351b096fda65793dfc20604fae9404f9e9ea06e164c3b9f9c72b576e47d",
+    "class": "expected-after E",
+    "lifecycle_state": "EVIDENCE_REVIEWED",
+    "human_pending": true,
+    "implementation_repository_commit_sha": "480823560c0c26ed2e5baa18e0e79a22b2839a27",
+    "profile_ref": {
+      "path": "sources/2026-W34/production-profile.json",
+      "sha256": "2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1"
+    },
+    "same_record_triplet_checkpoint": "73ab28ea79da8bb13d7083d30eda7fa3188f060f0dbaa96a65e2407daae3ac48"
+  },
+  "checkpoint_record": {
+    "path": "sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/checkpoint/record.json",
+    "sha256": "73ab28ea79da8bb13d7083d30eda7fa3188f060f0dbaa96a65e2407daae3ac48",
+    "byte_count": 6054,
+    "implementation_repository_commit_sha": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "contract": {
+      "pipeline_contract_sha256": "3adfbda22131eac4017ef867aef2ebb2f346f884731c4ea8343e9062392eabd5",
+      "quality_contract_sha256": "b5b955d524fb438c0f1b2c9490bea1da2083e79028d67a55ca424bbfc20f2958",
+      "research_profile_sha256": "666f8a064b190ffd35216e26d6fdf2dd0fa932cac7b1b0d6448e262ded77b9a8",
+      "publication_profile_sha256": "99adff93ff443e02bdcce639ce5fc4d4c959ee45a804da70efc4277db57fdddb"
+    },
+    "profile_ref": {
+      "path": "sources/2026-W34/production-profile.json",
+      "sha256": "2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1"
+    }
+  },
+  "revision_manifest": {
+    "path": "sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/revision-manifest.json",
+    "sha256": "867eba96242eab0cf3e34277048e8497952c804f0805b4d09feacdb51b392a7b",
+    "byte_count": 438583,
+    "work_expected_head": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "tool_pins_commit": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325"
+  },
+  "helper": {
+    "requested_symbol_in_task": "_verify_recorded_epoch",
+    "actual_symbol": "_verify_own_epoch_commit",
+    "requested_symbol_absent": true,
+    "file": "scripts/survey_research_authority_v2.py",
+    "definition_lines": "639-799",
+    "call_line": "979 (inside _verify_adopted_graph_full)",
+    "low_caller": "scripts/survey_prearchitecture_acceptance_v2.py:1102 (write_cleanup_completion -> low._verify_adopted_graph_full)",
+    "e84_vs_cc1c_helper_body_sha256": "207c3a19647bd0746bb6642fc4bfa26abaa6b1dd4b1bc5f3d312e58d05afb2ae (identical)",
+    "behavior": [
+      "reads request.profile_ref path and ls-tree entries from the recorded commit",
+      "requires the path to exist as a 100644 blob",
+      "batch-reads unique needed blobs and parses each header as exactly three tokens",
+      "raises recorded-commit batch header mismatch when the batch stream returns '<oid> missing' (two tokens)",
+      "uses commit profile bytes only to resolve research_profile/publication_profile names",
+      "recomputes Contract8 from commit config/contract files and profile names; it does not compare the commit profile sha256 to request.profile_ref.sha256 or checkpoint.profile.sha256"
+    ],
+    "diagnostic_limitation": "A missing batch object is reported as a header mismatch rather than a missing-object error; the refusal itself is fail-closed and correct."
+  },
+  "needed_object_read": {
+    "commit": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "needed_paths": 90,
+    "unique_objects": 85,
+    "tree_paths_present": 85,
+    "tree_missing_paths": [],
+    "present_objects": 84,
+    "missing_objects": [
+      {
+        "path": "sources/2026-W34/production-profile.json",
+        "oid": "155b78cfd588eb9300349e4568ee7065ae498477",
+        "batch_header": "155b78cfd588eb9300349e4568ee7065ae498477 missing",
+        "status": "missing"
+      }
+    ],
+    "git_cat_file_batch_exit": 0,
+    "git_cat_file_exists_exit": 1,
+    "git_cat_file_type_exit": 128,
+    "git_cat_file_type_stderr": "fatal: git cat-file: could not get object info",
+    "raw_artifacts": [
+      "needed-ls-tree.raw.txt",
+      "needed-batch-stdout.raw.bin",
+      "needed-batch-stderr.raw.txt",
+      "needed-batch-exit.txt",
+      "needed-batch-parsed.json",
+      "cat-file-batch-check.stdout.txt",
+      "cat-file-exists.exit.txt",
+      "cat-file-type.stderr.txt"
+    ]
+  },
+  "w34_profile": {
+    "recorded_tree_path": "sources/2026-W34/production-profile.json",
+    "recorded_git_blob_oid": "155b78cfd588eb9300349e4568ee7065ae498477",
+    "recorded_expected_sha256": "a6e3eb3006dde95da008876486cbfc7fdce75f507f7efcd6b0fcaba5e154b21a",
+    "recorded_expected_bytes": 2371,
+    "recorded_blob_available_locally": false,
+    "same_tree_entry_in_commits": ["774dd39a951c9ac3818e83dfffd4c7666efb0a20", "409b292", "480823560c0c26ed2e5baa18e0e79a22b2839a27", "e84a82aca000c990597ea8cf60f548e2ff187bd1", "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325", "b40de600e9ed1f80cb278213ccf17aa5f3cd9de3"],
+    "live_worktree_git_blob_oid": "c2990d4fcb81f71a6afac0b14bf93c5b2d9ebb5e",
+    "live_worktree_sha256": "2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1",
+    "live_worktree_bytes": 2371,
+    "index_git_blob_oid": "155b78cfd588eb9300349e4568ee7065ae498477",
+    "worktree_status": "M (modified vs index/HEAD)",
+    "live_vs_recorded_difference": "only contract.pipeline_contract_sha256 (e6ae2637... -> 3adfbda2...) and contract.quality_contract_sha256 (3a36dcea... -> b5b955d5...) differ",
+    "live_is_expected_blob": false
+  },
+  "exact_local_recovery": {
+    "found": true,
+    "path": ".rephase-1-inputs/774dd39a951c9ac3818e83dfffd4c7666efb0a20/sources/2026-W34/production-profile.json",
+    "absolute_path": "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-inputs/774dd39a951c9ac3818e83dfffd4c7666efb0a20/sources/2026-W34/production-profile.json",
+    "sha256": "a6e3eb3006dde95da008876486cbfc7fdce75f507f7efcd6b0fcaba5e154b21a",
+    "git_blob_oid": "155b78cfd588eb9300349e4568ee7065ae498477",
+    "bytes": 2371,
+    "matches_expected_git_blob": true,
+    "provenance": [
+      "notes/rephase-1-contract/inputs.json (path/sha256/git_blob_sha1/bytes at fixed 774)",
+      "notes/phase-4f/inputs.json (same fixed-774 identity)",
+      "notes/rephase-1/evidence.json (same fixed-774 identity)",
+      ".rephase-1-inputs/774dd39a951c9ac3818e83dfffd4c7666efb0a20/tree.json entry: mode 100644, type blob, sha 155b78cf..., size 2371",
+      "notes/rephase-1-operational-rehearsal-20261101/intake-20261101T023147Z/material-sufficiency.md: reused .rephase-1-inputs/774... profile, verified blob 155b78cf..., 2371B"
+    ],
+    "object_restore_performed": false,
+    "restore_authorized_by_section_12": false,
+    "semantic_caveat": "The capture is the exact recorded baseline blob, but its embedded contract hashes are old (pipeline e6ae2637, quality 3a36dcea) while the checkpoint/request/live profile bind the current hashes. _verify_own_epoch_commit uses only profile names and recomputes Contract8 from commit config, so object restoration would satisfy the helper mechanically without making the commit profile bytes equal the adopted live profile. Root must decide whether the recorded commit may carry the baseline profile or whether a new commit/expected-head is required."
+  },
+  "other_capture_search": {
+    "local_git_db_repos_probed": 544,
+    "local_git_db_repos_probed_breakdown": {
+      ".rephase-1-editorial-runtime": 542,
+      ".rephase-1-inputs + .phase-5-inputs": 2
+    },
+    "local_git_db_hits_for_155b78cf": 0,
+    "input_774_capture_has_git_db": false,
+    "b40_archive_path": "notes/rephase-1-candidate-recovery/m3-20261003T0445Z/candidate-partial-b40de60.tar.gz",
+    "b40_archive_contains_profile_file": false,
+    "tmp_opencode_git_dbs_found": 0,
+    "w34_profile_named_copies": {
+      "count": 4,
+      "all_git_blob_oid": "c2990d4fcb81f71a6afac0b14bf93c5b2d9ebb5e",
+      "all_sha256": "2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1",
+      "all_bytes": 2371,
+      "note": "Four runtime copies; the separate pre-stage snapshot sources__2026-W34__production-profile.json also hashes to the same live blob."
+    },
+    "expected_sha256_recorded_in": [
+      "notes/rephase-1-contract/inputs.json",
+      "notes/phase-4f/inputs.json",
+      "notes/rephase-1/evidence.json"
+    ],
+    "raw_artifacts": [
+      "w34-profile-copies.raw.txt",
+      "expected-capture-tree-entry.json",
+      "expected-vs-live-w34-profile.diff.txt"
+    ]
+  },
+  "normal_resume_predicates": {
+    "dispatcher": "scripts/survey_prearchitecture_acceptance_v2.py resume_bound_attempt (resume_revision delegates)",
+    "current_class": "E (expected-after a858...)",
+    "guard_present": true,
+    "guard_planned_sha_matches": true,
+    "retention_rows_must_equal_manifest_snapshots": true,
+    "remaining_execution": "write_checkpoint_as_planned -> clear_remaining_exact_slots -> write_cleanup_completion -> release_guard",
+    "blocking_call": "write_cleanup_completion -> low._verify_adopted_graph_full (line 1102) -> _verify_own_epoch_commit (line 979) -> same missing blob",
+    "guard_absent_path": "require_completion_consistent -> _verify_adopted_graph_full (line 1018) -> same missing blob",
+    "readback_path": "resolve_research_authority -> _verify_adopted_graph_full (line 1073) -> same missing blob",
+    "can_succeed_without_object_or_epoch_change": false
+  },
+  "sp_risk": {
+    "sp_profile_path": "sources/SP-efficient-llm-2026/production-profile.json",
+    "tree_presence_cc1c_e84_480_b40": false,
+    "index_presence": false,
+    "git_log_all_path_entries": 0,
+    "untracked_sp_files_in_worktree": 2523,
+    "prepared_manifest": "sources/SP-efficient-llm-2026/research/v2/acceptance-revisions/sp-repaired-20261112-r1/revision-manifest.json",
+    "prepared_manifest_tool_commit": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "prepared_request_profile_ref": {
+      "path": "sources/SP-efficient-llm-2026/production-profile.json",
+      "sha256": "aff05fd573ce873afa24c0ede26c2b4591ee28b7048c9ed528e8fc389ed8ee45",
+      "bytes": 13748
+    },
+    "live_sp_profile": {
+      "git_blob_oid": "9251f4872bbcc7e2b412464950e88e02055067f8",
+      "sha256": "aff05fd573ce873afa24c0ede26c2b4591ee28b7048c9ed528e8fc389ed8ee45",
+      "bytes": 13748
+    },
+    "authorized_c8_capture": {
+      "path": "notes/rephase-1-operational-rehearsal-20261101/intake-20261101T023147Z/DATA.production-profile.json",
+      "git_blob_oid": "37be89b9bb88a4e49b08f0a06993147c77feb590",
+      "sha256": "22f2e822732e4f34446be832933ac31f61ceb90f828c20d196710818721b1117",
+      "bytes": 13748,
+      "ref": "c8d0ecc1c9566a2303ad3b4c42635d4b672650e4",
+      "diff_vs_live": "only pipeline_contract_sha256 ee897962... -> 3adfbda2..."
+    },
+    "local_git_db_hits_for_live_sp_blob": 0,
+    "local_git_db_hits_for_c8_sp_blob": 0,
+    "c8_commit_present_locally": false,
+    "expected_adopt_failure": "recorded-commit tree lacks required path: sources/SP-efficient-llm-2026/production-profile.json (survey_research_authority_v2.py lines 709-711), before any batch read",
+    "risk": "SP adopt is blocked independently of the W34 missing object. No expected tree OID exists for the SP path; recovery requires a new source commit containing the untracked SP tree and a decision on live amended profile (aff05fd5) vs authorized c8 capture (22f2e822), not object restoration alone."
+  },
+  "source_of_missing_dependency": [
+    "The active runtime is a shallow/promisor partial DB copied from the b40 candidate-recovery material; its recorded commits (774, 409b292, 480, e84, cc1c, b40) all reference the baseline W34 profile blob 155b78cf in the tree.",
+    "That baseline blob was never materialized in the copied object DB (one of the partial-clone missing reachable blobs); the b40 archive does not contain a W34 production-profile file or the missing object.",
+    "The worktree W34 profile is a separate amended file (2a8c3089 / c2990d4f), modified before the setup commit and intentionally preserved as M; setup committed only six source/test paths and did not verify recorded-commit profile object reachability.",
+    "On first W34 DM022 adopt, write_cleanup_completion -> low._verify_adopted_graph_full -> _verify_own_epoch_commit exercised the recorded-commit profile object for the first time; git cat-file --batch returned '<oid> missing' and the three-token parser raised the misleading 'batch header mismatch'.",
+    "The helper is byte-identical between e84 and cc1c, so this is not a cc1c regression; the trigger is the newly exercised recorded-commit own-epoch proof plus the pre-existing partial-DB object gap."
+  ],
+  "conclusion": {
+    "immediate_cause": "Missing local Git object 155b78cfd588eb9300349e4568ee7065ae498477 (baseline fixed-774 W34 production-profile.json), not a corrupted batch header, wrong tree entry, or wrong expected OID.",
+    "exact_local_recovery_exists": true,
+    "exact_recovery_path": ".rephase-1-inputs/774dd39a951c9ac3818e83dfffd4c7666efb0a20/sources/2026-W34/production-profile.json",
+    "recovery_performed": false,
+    "substitute_profile_used": false,
+    "sp_adopt_safe": false,
+    "required_next_authority": "Root must choose: authorize exact object restoration from the verified 774 capture (and accept that the recorded commit profile is the baseline blob while the checkpoint binds the live amended profile), or require a new source epoch/expected-head that contains the adopted profile bytes; separately decide the SP source-commit/tree and profile-byte question.",
+    "not_conclusions": [
+      "Not a source-runtime bug requiring code change; the helper's only defect is the missing-object diagnostic wording.",
+      "Not a wrong OID or malformed tree header.",
+      "Not recovery by copying the live profile 2a8c3089/c2990d4f into the object DB; that would be a fake equivalent and is rejected.",
+      "No adoption/readback/resume/guard removal/source change was performed."
+    ]
+  },
+  "limitations": [
+    "Local Git DB probe covered 544 .git directories (542 under .rephase-1-editorial-runtime; 2 under .rephase-1-inputs/.phase-5-inputs); /tmp/opencode had no Git DB. The reconstruct repository Git and any external/production clone were deliberately not read.",    "The exact capture is a plain fixed-774 input snapshot, not a Git object; object restoration (hash-object -w) was not authorized and was not tested.",
+    "The semantic question whether the recorded commit may carry the baseline profile while the checkpoint/request bind the amended live profile is a root/contract decision, not resolved by this diagnosis.",
+    "SP c8 commit and SP blobs are not present in any probed local Git DB; c8 public availability beyond the preserved capture was not re-fetched.",
+    "No full-suite, adopt, resume, readback, guard, State, source, or SP operation was run."
+  ]
+}

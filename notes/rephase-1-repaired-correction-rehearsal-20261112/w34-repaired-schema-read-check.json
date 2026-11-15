@@ -1,0 +1,42 @@
+{
+ "method": "read-only inspection, no validator execution",
+ "honest_not_runtime_pass": true,
+ "validator_not_executed": "no evidence validator, no project runtime. No acceptance PASS claimed. Independent review needed.",
+ "checks": [
+  {
+   "check": "weeklyRecord shape",
+   "scope": "4 new records",
+   "result": "PASS read: discovery_id/status/PARTIAL/entity PAPER/artifact PAPER/claims/limitations/verification VERIFIED/materiality MATERIAL/rationale/scope_dimensions/window MAIN_EVENT/carry false/source_bindings exact"
+  },
+  {
+   "check": "verification target names exact",
+   "scope": "4 records",
+   "result": "PASS read: Abstract-level arXiv Discovery lead targets identical to base pattern, lane/score preserved"
+  },
+  {
+   "check": "source_bindings/task IDs stable",
+   "scope": "4 DIDs",
+   "result": "PASS read: 8fab99aa7093acb9/6f78fb82, 5841bec7775ece26/c980beaa, b6357aec74216e97/70c044a8, 0dd05128103b336c/c54d70726 match package tasks"
+  },
+  {
+   "check": "raw sha/size/basename DID",
+   "scope": "4 Raws",
+   "result": "PASS read: 85c70376/314048, a4c2aafe/414077, da737a85/711224, 56b48291/388712; future basename contains FULL DID, no traversal"
+  },
+  {
+   "check": "first-claim literal bytes",
+   "scope": "4 first claims",
+   "result": "PASS read: 15127/16096/21100 single-line abstract spans present; 18389 full contiguous sentence with source newline present; hidden Content selection saved ignored as untrusted"
+  },
+  {
+   "check": "following claims section context",
+   "scope": "claims 2-4",
+   "result": "PASS read: method/eval/results bounded AUTHOR_CLAIM with §§ context, maker-reported, no deployment/W34-event upgrade; source_class not truth"
+  },
+  {
+   "check": "record shape preserved",
+   "scope": "patch4",
+   "result": "PASS read: only claims[0] literal + MATERIAL rationale bounded; 405 unchanged hash 20a53137; completeness 7-field x3 preserved"
+  }
+ ]
+}

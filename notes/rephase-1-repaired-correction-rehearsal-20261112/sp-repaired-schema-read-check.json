@@ -1,0 +1,48 @@
+{
+  "method": "read-only inspection, no validator execution",
+  "honest_not_runtime_pass": true,
+  "supplement_schema_file": "schemas/evidence-authority-supplement-v2.schema.json",
+  "validator_not_executed": "no evidence validator, no project runtime. No acceptance PASS claimed. D142 gap returned.",
+  "checks": [
+    {
+      "check": "supplement_source_id hex16",
+      "scope": "3 new + 27 preserved",
+      "result": "PASS read: ea9b086e35e1c559, 793903f4b4b1d3e1, 228b81661893f1ea all 16 hex"
+    },
+    {
+      "check": "13 required keys, no invented fields",
+      "scope": "supplement r3",
+      "result": "PASS read: all present in 3 new rows; preserved 27 identical to r6 hash c75389e8"
+    },
+    {
+      "check": "source_class PRIMARY_OFFICIAL, no promotion",
+      "scope": "3 new entries",
+      "result": "PASS read: same as predecessors; vendor scope, no independent bench"
+    },
+    {
+      "check": "raw sha 64 hex, byte counts, raw_path namespace",
+      "scope": "3 new entries",
+      "result": "PASS read: 14ae3118/253542, 35770834/307198, 97a5dd74/350662; DID in basename, no traversal"
+    },
+    {
+      "check": "task IDs stable, D142 no new body",
+      "scope": "patch4 and supplement",
+      "result": "PASS read: 5491a3053d02fc3f, e1f751a159101aed, deaa552e6dcabb5b stable; D142 null"
+    },
+    {
+      "check": "verification target names exact",
+      "scope": "4 records",
+      "result": "PASS read: D070 2 targets, D071 1, D141 2, D142 2 all identical to 697a"
+    },
+    {
+      "check": "published_at null",
+      "scope": "3 new entries",
+      "result": "PASS read: all null; served in relation and routing map"
+    },
+    {
+      "check": "record shape preserved",
+      "scope": "patch4",
+      "result": "PASS read: only claims, verification, limitations, rationale, bindings changed; D165 identical; unaffected156 hash d455f7221a0addd93dd2a3c07c874fe4dfb815d3e795933882eb839e868a1ef9"
+    }
+  ]
+}

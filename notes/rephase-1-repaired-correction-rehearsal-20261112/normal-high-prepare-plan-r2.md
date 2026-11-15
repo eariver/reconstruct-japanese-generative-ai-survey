@@ -1,0 +1,37 @@
+# Normal HIGH prepare plan r2 — CORRECTED (no execution yet)
+
+Supersedes `normal-high-prepare-plan.md` §§ request-location/structural-guesses. Preserved as history; this r2 controls.
+
+## 1. Selected runtime (pinned, read-only)
+
+- NEW_WORK `.rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work`
+- HEAD `cc1c7fd1cf979e71fda4ae2164828b37bc1b2325` (`e84a82aca000c990597ea8cf60f548e2ff187bd1` parent), tree `ed2dc4ddd4a9486ccc9d0944bbd48653199b2485`, init480 `480823560c0c26ed2e5baa18e0e79a22b2839a27`, both `EVIDENCE_REVIEWED`.
+- Final source manifest `a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c`/202833B (773 files). LOW `7f5fc9e0d79729d98345f0b0352d5070c76e93f92f2c14148e22c9f38a8f4c0f`/240969, HIGH `f312f02e2dc5c1aa5a1d6432bca134cd83f0a1edea2d127721d0206d05514a90`/97844.
+- Tool pins live via `survey_prearchitecture_acceptance_v2.py:437-453` `_contract_and_tools` (2 scripts +5 schemas): request `a99f0dc1…`/18648, manifest `e7534d01…`/8773, proof `a79c0920…`/7403, preadoption `10238a1a…`/14629, supersession `fd39c246…`/7259.
+- Contract8 live `contract_identity`, State-embedded unchanged: pipeline `3adfbda22131…`, quality `b5b955d524…`, W34 research `666f8a064b…` publication `99adff93ff…`, SP research `0f575e6d97…` publication `a6859559dd…`, orchestrator `survey-production-core-v2/0.15-postintegration-transport-thematic`.
+
+## 2. ONE edition per invocation, request INSIDE new repo (critical fix)
+
+- Prior plan wrote request under workspace `notes/…` (packet absolute). HIGH manifest later does `rev_root.resolve().relative_to(repo_root.resolve())` (`:492`) and all `SizedRef.path` must be repo-relative `safePath`. A packet-absolute request breaks containment. Corrected:
+  - W34 `revision_id` `w34-repaired-20261112-r1` (`^[a-z0-9][a-z0-9-]{0,63}$`, 22 chars, lowercase hyphen, no `T/Z`)
+  - SP `revision_id` `sp-repaired-20261112-r1` (21 chars, same rule)
+  - request (future, not written now) `sources/2026-W34/research/v2/acceptance-revision-inputs/w34-repaired-20261112-r1.json` and `sources/SP-efficient-llm-2026/research/v2/acceptance-revision-inputs/sp-repaired-20261112-r1.json` — inside NEW_WORK, `safePath`, no `..`, no leading `/`.
+  - future R (HIGH-owned, separate) `sources/<issue>/research/v2/acceptance-revisions/<revision_id>/` via `_revision_root_for(:261-265)`; `revision-manifest.json` `revision_root` = `rev_rel_str` repo-relative.
+- DM022 request schema (`dm022-revision-request-v2.schema.json`) 18 required: `schema_version/issue_id/revision_id/research_profile/before_state/before_checkpoint/profile_ref/discovery_ref/screening_ref/work/affected_ids/supplement_manifest/records/completeness/runner/tool_pins/recorded_at/executor`. `revision_id` same regex; `SizedRef` `{path/sha256/byte_count}`, `safePath` `^(?![/\\])(?!.*\\.\\.)[^\\\\]+$`, `sha256` 64hex, `gitsha` 40hex.
+
+## 3. Records / completeness / Raw / supp (actual JSON checked, no guesses)
+
+- Do not assume `counts/new_records` field names or unaffected hash constants. `prepare-dispatch-r2.py` loads patch JSON with duplicate-key hook, lists actual keys, requires `changed_record_ids` + record array, checks `discovery_id` unique, 7-field record keys per schema, `verification.status` in `VERIFIED/UNRESOLVED` with non-empty `target/finding`, and logs actual unaffected-hash field value (no hardcoded compare).
+- W34: base `sources/2026-W34/evidence/v2/accepted/5ca6f310…/interactive-evidence.json` `15e87eef65753bd0eeff8c512651859d6cb3b8b57127d0243925628acbf1d112`/1576279 + `w34-repaired-patch4.json` 4 (`15127/16096/21100/18389`) =409 (405+4). SP: base `…/73f4bc1e…/interactive-evidence.json` `697a4ed088b76f18b3859568a735491a3a8b2295c480be3e1e678c4d8b31f104`/355643 + `sp-repaired-records-4-r4.json` 4 (`EFF-D070/D071/D141/D142`) =160 (156+4, D165 `16f046f59e…` preserved). Original `verification_targets` = package task `verification_targets` exact (`survey_evidence_v2.py:2291-2296`); original `evidence_task_id/discovery_ids` preserved.
+- Runner: `request.runner` = base interactive `runner` preserved (provider/model/invocation/generated_at) so `_build_card_core(:2228-2356)` `accessed_at` fallback (`:2265`) + `observed_at` (`:2344`) for unaffected stay original, no false new author claim. `request.executor` = current General truthfully separate (e.g. `general / Muse Spark 1.3 / prepare-dispatch-r2 <issue> <revision_id>`, `recorded_at` actual UTC). Gap: single runner for mixed affected/unaffected misdates affected observation — returned as unresolved (HIGH still guarantees full content; independent review must judge).
+- Completeness 7 fields (`obligation_id/dimension/description/status/discovery_ids/evidence_task_ids/rationale`): W34 3 rows (LIMITATION/LIMITATION/SATISFIED carry-over, `e8c432dd…`/71532 LIMITED), SP 15 rows (`sp-repaired-obligations-15-r4.json` `1d80d994…`/31838 LIMITED, `O01/O07` SAT, rest LIM incl `O10`). No fake SAT, `closure:null` preserved. SP r5 rationale correction pending independent approval — use r4 now, r5 only after approval (unresolved).
+- Raw (future, not staged now): W34 4 `sources/2026-W34/external/evidence-supplement/raw/w34-event-arxiv-2608-{15127,16096,21100,18389}.html` byte-identical (`85c70376…`/314048, `a4c2aafe…`/414077, `da737a85…`/711224, `56b48291…`/388712, FULL DID). SP 4 `sources/SP-…/raw/sp17-EFF-D070-…033022Z.html` (`14ae3118…`/253542) / `D071-…041355Z.html` (`35770834…`/307198) / `D141-…205053Z.html` (`97a5dd74…`/350662) + `sp17-EFF-D142-summary-captured-20260921.md` (exact `f7eeec68…`/3751). W34 `supplement_manifest:null` (existing `ce6f977a…`/389414, 428 sources carried). SP new supp payload via existing `survey_evidence_v2.py:638` `build_evidence_authority_supplement(repo_root,issue_id,source_root,discovery_path,screening_acceptance_path,sources,output_path,supplement_id=…)` under normal facade (public `task_authority_sources` + `validate_evidence_authority_supplement`), then FULL schema + byte validate before HIGH; `supplement_id` e.g. `r4-sp17-EFF-DID-20261112` (actual UTC at dispatch, not guessed now).
+
+## 4. HIGH (later dispatch only)
+
+- ONLY `survey_prearchitecture_acceptance_v2.py:456` `prepare_revision(repo_root,state_path,request_path,revision_id)` / CLI `prepare --repo-root --state-path --request-path --revision-id` (`:1557-1582`). No second HIGH producer/mirrored validator. Prints `manifest_ref` (`:885`).
+- Before-write cheap checks in dispatch (stdlib, no project import for shape): file hash/size/mode, strict JSON duplicate-hook, schema required/regex/counts, individual record keys, task-target exact, first-claim Raw route bytes present, pre-proposal independent-review binding (dossier/r4 present, no Decision forged). HIGH performs full content guarantees.
+- After prepare: all 773 + State/Profile/CP/Gates/old-accepted/canonical Ledger/Comp bytes preserved; only declared `request/4 Raw/SP supp/new R` allowed; record partial error inventory (temp preserved per `_exclusive_write_bytes:83-96`) and STOP, no fix/retry/cleanup/adopt.
+- Output unique packet raw dir (absolute paths), `stdout/stderr/numeric exit/argv/UTC/env-whitelist` (e.g. `PATH/HOME/LANG/TZ/PYTHONDONTWRITEBYTECODE/PWD`, no secrets), `SizedRef` exact helper (safePath+hash+bytes, no fake `verified_dict`). No project tests.
+
+Bounds: no execution now, no Raw/supp/R write, no commit/code/State/network/Production/reconstruct-Git/subagents. Whole NOT_READY/DM021+022OPEN.
