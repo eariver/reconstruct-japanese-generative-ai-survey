@@ -1,0 +1,75 @@
+test_matrix_discovery_map_requires_one_discovery_per_candidate (tests.test_run_selection_architecture_v2_interactive.InteractiveSelectionArchitectureTests.test_matrix_discovery_map_requires_one_discovery_per_candidate) ... ok
+test_input_requires_exact_assignment_coverage (tests.test_run_selection_architecture_v2_interactive.InteractiveSelectionArchitectureTests.test_input_requires_exact_assignment_coverage) ... ok
+test_attention_is_bounded_with_explicit_overflow (tests.test_survey_review_attention_v2.SurveyReviewAttentionV2Tests.test_attention_is_bounded_with_explicit_overflow) ... ok
+test_attention_basis_drift_fails_closed (tests.test_survey_review_attention_v2.SurveyReviewAttentionV2Tests.test_attention_basis_drift_fails_closed) ... ok
+test_archived_screening_may_revalidate_after_canonical_state_bytes_advance (tests.test_survey_agent_tool_v2.SurveyAgentToolV2Tests.test_archived_screening_may_revalidate_after_canonical_state_bytes_advance) ... ok
+test_archived_evidence_may_revalidate_after_canonical_state_bytes_advance (tests.test_survey_agent_tool_v2.SurveyAgentToolV2Tests.test_archived_evidence_may_revalidate_after_canonical_state_bytes_advance) ... ok
+test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate) ... ERROR
+test_selection_is_internal_complete_and_has_no_human_approval_semantics (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_selection_is_internal_complete_and_has_no_human_approval_semantics) ... ERROR
+test_c_direct_weekly_prepare_adopt_readback (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_direct_weekly_prepare_adopt_readback)
+ONE Weekly DIRECT positive: prepare → adopt → readback → checker. ... ok
+test_c_derived_weekly_true_r_not_equal_e (tests.test_dm022_c_direct_operation_v2.Dm022CDirectOperationTests.test_c_derived_weekly_true_r_not_equal_e)
+Weekly DERIVED: accepted root R vs Screening-derived E (raw parent refs). ... ok
+
+======================================================================
+ERROR: test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/tests/test_survey_architecture_v2.py", line 296, in test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate
+    chain = self.chain("THEMATIC")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/tests/test_survey_architecture_v2.py", line 37, in chain
+    ledger = evidence.build_materiality_ledger(
+        root,
+    ...<5 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_evidence_v2.py", line 2585, in build_materiality_ledger
+    screening_acceptance, _, discoveries = validate_screening_acceptance(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_acceptance_path, discovery_path, profile["issue_id"], implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_evidence_v2.py", line 803, in validate_screening_acceptance
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_selection_is_internal_complete_and_has_no_human_approval_semantics (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_selection_is_internal_complete_and_has_no_human_approval_semantics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/tests/test_survey_architecture_v2.py", line 335, in test_selection_is_internal_complete_and_has_no_human_approval_semantics
+    chain = self.chain("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/tests/test_survey_architecture_v2.py", line 37, in chain
+    ledger = evidence.build_materiality_ledger(
+        root,
+    ...<5 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_evidence_v2.py", line 2585, in build_materiality_ledger
+    screening_acceptance, _, discoveries = validate_screening_acceptance(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_acceptance_path, discovery_path, profile["issue_id"], implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_evidence_v2.py", line 803, in validate_screening_acceptance
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/selection-scaling-verification-20261116T025000Z/work/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+----------------------------------------------------------------------
+Ran 10 tests in 5.592s
+
+FAILED (errors=2)

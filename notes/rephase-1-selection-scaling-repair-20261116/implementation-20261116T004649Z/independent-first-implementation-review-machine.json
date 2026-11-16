@@ -1,0 +1,177 @@
+{
+  "kind": "INDEPENDENT_FIRST_IMPLEMENTATION_REVIEW_MACHINE",
+  "schema_version": "1",
+  "packet": "notes/rephase-1-selection-scaling-repair-20261116",
+  "implementation_dir": "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z",
+  "markdown_companion": "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/independent-first-implementation-review.md",
+  "status": "CHANGES_REQUIRED",
+  "verdict": "NOT_PASS",
+  "go_authorized": false,
+  "code_pass": false,
+  "real_run_granted": false,
+  "current_proof_granted": false,
+  "delivery_granted": false,
+  "method": {
+    "reads_only": true,
+    "project_import": false,
+    "runtime": false,
+    "tests": false,
+    "git": false,
+    "network": false,
+    "active_writes_except_two_review_files": true,
+    "subagents": false,
+    "stdlib_diff_hash_recertification": false,
+    "comparator": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "draft": ".rephase-1-editorial-runtime/selection-scaling-implementation-20261116T004649Z/candidate-work",
+    "broad_db_search": false,
+    "explicit_new_git_metadata_readonly": [
+      ".git/HEAD",
+      ".git/config",
+      ".git/shallow",
+      ".git/logs/HEAD",
+      ".git/config.worktree",
+      ".git/info/exclude"
+    ]
+  },
+  "source_identities_recorded_not_reverified": {
+    "active_head": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "active_parent": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "active_tree": "ec11cf6c49b3cdf54c7aa98703f6d3e74806dc58",
+    "base": "409b292",
+    "prior_delivery_patch_sha256": "171812f686c05d8494de8bd32a6c00e043dc5ff1aa7452204a8e35f16848600d",
+    "prior_delivery_manifest_sha256": "a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c"
+  },
+  "draft_changed_paths_claimed": [
+    "scripts/survey_review_attention_v2.py",
+    "scripts/survey_architecture_v2_base.py",
+    "scripts/survey_research_authority_v2.py",
+    "scripts/run_selection_architecture_v2_interactive.py",
+    "tests/test_selection_scaling_repair_v2.py"
+  ],
+  "confirmations_source_grounded": [
+    "C1 attention extraction faithful: NEW survey_review_attention_v2.py:32-145 helper preserves active 41-139; NEW 148-167 public + 170-183 validate unchanged",
+    "C2 base literals match ROOT 6.2: NEW survey_architecture_v2_base.py:400-424 repo_root FIRST P-only; NEW 879-1036 shared FULL summary with INCOMPLETE 902-905 matching active 909-912; NEW 1039-1087 with_upstream held upstream+paths only no implementation_sha; NEW 1090-1151 public shares helper",
+    "C3 runner split matches ROOT 6.1 names: run_selection_architecture_v2_interactive.py:23 base import + 244-261 CheckedSelection + 264-385 prepare + 388-409 check; preflight once 441-445 via 102-115 lstat no-follow",
+    "C4 LEGACY preserved in text: pinned_family 51-68 + resolve 71-99 canonical fallback + LOW resolve 403-434 UNKNOWN_TRIPLET vs LEGACY + load_typed 437-565",
+    "C5 no new module/schema/family/global/ContextVar/public-skip in new code text"
+  ],
+  "findings_blocking": [
+    {
+      "id": "F1",
+      "severity": "BLOCKING",
+      "title": "LOW capture read-set incomplete best-effort",
+      "files_lines": [
+        "scripts/survey_research_authority_v2.py:1160-1494 capture",
+        "scripts/survey_research_authority_v2.py:1356-1390 screening batches only results missing + dead exp 1372-1375",
+        "scripts/survey_research_authority_v2.py:1394-1478 evidence tasks only 1441-1456 dir_sets sole 1446 cards/views missing supplement Raw missing 1459-1473 manifest-only double repo_rel 1462-1467",
+        "scripts/survey_research_authority_v2.py:1479-1485 Discovery Raw X tasks Raws admission no pins",
+        "scripts/survey_research_authority_v2.py:1316-1325 request refs swallow + 1241-1247 req_doc {} + 1261-1266 man_doc {} + 1249-1260 manifest COPY inventory completion swallow + 1369-1370 1387-1388 1427-1428 1439-1440 1454-1455 swallow",
+        "scripts/survey_research_authority_v2.py:1518-1534 recheck listdir/lstat not _exact_regular_files ancestors containment missing"
+      ],
+      "required": "pin FULL closure per inventory 4.1 Discovery Raw X tasks Raws DCP SCP artifacts reviews packages batches results cards views suppRaw prompts schemas config proof decision SizedRefs COPY inventory completion; exact dir_sets for EVERY exact-set dir via existing helpers; fail-closed unknown shape"
+    },
+    {
+      "id": "F2",
+      "severity": "BLOCKING",
+      "title": "own-epoch conditional fail-open",
+      "files_lines": [
+        "scripts/survey_research_authority_v2.py:1487 own record manifest request may be empty",
+        "scripts/survey_research_authority_v2.py:1536-1542 if is_prearch then if rec and man and req call else silently pass"
+      ],
+      "required": "if is_prearch True require own record manifest request non-empty else refuse at capture and recheck; LEGACY alone skips; add disposable withheld-manifest/request negative"
+    },
+    {
+      "id": "F3",
+      "severity": "BLOCKING",
+      "title": "runner expectations root incomplete seven-plan omitted second traversal replaced",
+      "files_lines": [
+        "scripts/run_selection_architecture_v2_interactive.py:369-377 root_records None root_path discovery only",
+        "scripts/run_selection_architecture_v2_interactive.py:359-368 expectations canon fallback str(state_path) 365 canonical unused base 108-109",
+        "scripts/run_selection_architecture_v2_interactive.py:314-324 single resolve 315 then recheck 324 second traversal replaced",
+        "scripts/run_selection_architecture_v2_interactive.py:388-409 check recheck guard triplet HEAD input only no seven-plan expected_after 568-584 1059-1063 1102-1124 recompute"
+      ],
+      "required": "derive root_records root_path via COPY-bound context not None; validate canonical_state_path; retain second traversal or prove equivalence; re-add seven-plan inventory expected_after guard per boundary or prove subsumed"
+    },
+    {
+      "id": "F4",
+      "severity": "BLOCKING",
+      "title": "11 tests do not bind new capture boundary return",
+      "files_lines": [
+        "tests/test_selection_scaling_repair_v2.py:36-117 base helper minimal temp no PREARCH accepted fixture ledger 80 missing disposition",
+        "tests/test_selection_scaling_repair_v2.py:151-169 real capture recheck asserts labels state profile only 165-167 no is_prearch pin own FULL assertions 0.66s compatible with LEGACY",
+        "tests/test_selection_scaling_repair_v2.py:173-184 phase pin existing helper not new capture",
+        "tests/test_selection_scaling_repair_v2.py:186-204 guard preflight existing not new boundary",
+        "tests/test_selection_scaling_repair_v2.py:206-218 input self-simulated hashlib not _check_selection_boundary",
+        "tests/test_selection_scaling_repair_v2.py:221-237 no-supp existing resolve + existing bind helper not new read set",
+        "tests/test_selection_scaling_repair_v2.py:240-251 LEGACY trivial mismatch not PREARCH branch proof",
+        "tests/test_selection_scaling_repair_v2.py:254-271 exact set existing helper disposable tasks only not new recheck all dirs",
+        "tests/test_selection_scaling_repair_v2.py:274-317 blob disposable f.txt 291 rev-parse 301 cat-file -e 310-312 restore 314-317 generic not FULL own-epoch 639-799 needed set"
+      ],
+      "required": "disposable PREARCH-shaped accepted fixture exercising NEW capture recheck prepare check with is_prearch pin own assertions + drift refusals immediate no-next-write + FULL own-epoch needed-blob fault never author DB never b797; no real writer yet"
+    },
+    {
+      "id": "F5",
+      "severity": "REQUIRED",
+      "title": "hardcoded absolute latest-glob + structural family kind indirection",
+      "files_lines": [
+        "tests/test_selection_scaling_repair_v2.py:126 sorted Path /home/... glob selection-scaling-implementation-*/candidate-work cands[-1]",
+        "tests/test_selection_scaling_repair_v2.py:159 same glob for real capture",
+        "scripts/survey_research_authority_v2.py:403-434 UNKNOWN_TRIPLET not PREARCH + 310-316 kind reason + 1205-1212 capture kind check + runner 65 typed family",
+        "scripts/survey_research_authority_v2.py:1191-1192 checkpoint_path checkpoint_sha256 keys match 430-433 no key-name bug"
+      ],
+      "required": "replace hardcoded /home latest-glob with hermetic root; assert is_prearch True checkpoint pin artifacts request retention report proof decision provenance request refs own complete; document UNKNOWN_TRIPLET vs PREARCH-kind split"
+    },
+    {
+      "id": "F6",
+      "severity": "REQUIRED",
+      "title": "COMPLETE overclaim raw tool-only config edit caches nested-DB procedure",
+      "files_lines": [
+        "implementation-20261116T004649Z/README.md:3 COMPLETE rejected must withdraw to PARTIAL",
+        "implementation-20261116T004649Z/README.md:63-66 raw tool output 0.303s 0.664s 0.669s no raw files only README observed",
+        "implementation-20261116T004649Z/README.md:26 git init -b main then cp -a active/.git + remote set-url origin invalid config edit",
+        "implementation-20261116T004649Z/README.md:27 __pycache__ py_compile unittest excluded",
+        "candidate-work/.git/HEAD:1 detached ae0dd1ee not ref",
+        "candidate-work/.git/config:8-10 origin invalid.invalid inert",
+        "candidate-work/.git/shallow:1 774dd39a",
+        "candidate-work/.git/logs/HEAD:1-7 774 to ae0 chain",
+        "candidate-work/.git/config.worktree:1-3 sparseCheckout true",
+        "candidate-work/.git/info/exclude default"
+      ],
+      "required": "withdraw COMPLETE; persist per-attempt raw stdout stderr argv cwd env PID UTC exit + guards as files preserve failures; record config edit caches init-then-copy honestly never commit caches"
+    }
+  ],
+  "checkpoint_path_key_check": {
+    "capture_keys": "structural.get checkpoint_path checkpoint_sha256 at survey_research_authority_v2.py:1191-1192",
+    "resolver_keys": "checkpoint_path checkpoint_sha256 at survey_research_authority_v2.py:430-433 + require_same_triplet 387-400 same keys",
+    "bug_found": false,
+    "frailty": "_resolve returns UNKNOWN_TRIPLET when triplet aligns; PREARCH decided by kind at capture 1205-1212 and typed load at runner pinned_family; branching on _resolve family==PREARCH would misclassify real W34 SP; test does not assert is_prearch so LEGACY minimal would still pass"
+  },
+  "real_capture_branch_assessment": {
+    "w34_triplet": "sources/2026-W34/production-state.json:63-74 same record.json 73ab28ea + record.json:2-4 PREARCH kind reason so full path SHOULD trigger",
+    "test_asserts": "only labels state profile at test 165-167 no is_prearch pin own FULL assertions",
+    "conclusion": "cannot prove PREARCH vs early-LEGACY from 0.66s pin-only reads; likely unproved not proven LEGACY; must assert is_prearch True pin coverage own complete"
+  },
+  "proposed_bounded_corrections": [
+    "complete LOW pin domain exact sets via existing helpers fail-closed unknown shape",
+    "make own-epoch fail-closed on PREARCH refuse incomplete own",
+    "bind root effective not None validate canonical prove or retain second traversal + seven-plan per boundary",
+    "disposable PREARCH-shaped fixture oracles for NEW capture recheck prepare check FULL own-epoch needed set extra symlink all dirs immediate refusal",
+    "remove hardcoded home latest-glob assert is_prearch coverage",
+    "withdraw COMPLETE persist raw record config caches honestly"
+  ],
+  "no_code_until": "bounded F1-F6 correction + independent scoped re-confirmation + explicit ROOT dispatch",
+  "ordinary_commit_push_human_owned": true,
+  "certification": {
+    "fresh_source_certification": false,
+    "runtime_proof": false,
+    "git_verification": false,
+    "network": false,
+    "imports": false,
+    "tests_executed": false,
+    "source_writes": false,
+    "files_written_by_this_review": [
+      "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/independent-first-implementation-review.md",
+      "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/independent-first-implementation-review-machine.json"
+    ]
+  }
+}

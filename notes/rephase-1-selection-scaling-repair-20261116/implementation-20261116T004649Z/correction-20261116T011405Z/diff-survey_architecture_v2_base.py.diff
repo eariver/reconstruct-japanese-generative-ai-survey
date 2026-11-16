@@ -1,0 +1,261 @@
+--- active/scripts/survey_architecture_v2_base.py
+
++++ new/scripts/survey_architecture_v2_base.py
+
+@@ -397,6 +397,33 @@
+
+     return []
+ 
+ 
++def _validate_candidate_matrix_against_upstream(
++    repo_root: Path,
++    matrix: dict[str, Any],
++    upstream: dict[str, Any],
++    profile_path: Path,
++    completeness_path: Path,
++    ledger_path: Path,
++    evidence_path: Path,
++    views_path: Path,
++) -> list[str]:
++    """Private matrix equality against held upstream (no second _load_upstream).
++
++    Re-derives rows via shared pure P only; 45AG removed. repo_root FIRST per ROOT §6.2.
++    """
++    try:
++        expected = _derive_matrix_rows_content(
++            repo_root, upstream, profile_path, completeness_path, ledger_path, evidence_path, views_path
++        )
++    except ValueError as exc:
++        return [str(exc)]
++    if matrix != expected:
++        return [
++            "Candidate Matrix does not exactly match validated upstream Evidence/View/Materiality derivation"
++        ]
++    return []
++
++
+ def write_candidate_matrix(path: Path, payload: dict[str, Any]) -> Path:
+     if path.exists():
+         raise ValueError(f"refusing to overwrite Candidate Matrix: {path}")
+@@ -849,68 +876,33 @@
+
+     return errors
+ 
+ 
+-def build_architecture_review_summary(
++def _summarize_review_contents(
+     repo_root: Path,
++    upstream: dict[str, Any],
++    matrix: dict[str, Any],
++    selection: dict[str, Any],
++    architecture: dict[str, Any],
+     profile_path: Path,
+-    discovery_path: Path,
+-    screening_path: Path,
+-    evidence_path: Path,
+-    views_path: Path,
++    completeness_path: Path,
+     ledger_path: Path,
+-    completeness_path: Path,
+     matrix_path: Path,
+     selection_path: Path,
+     architecture_path: Path,
+-    implementation_sha: str,
++    errors: list[str],
+ ) -> dict[str, Any]:
+-    upstream = _load_upstream(
+-        repo_root,
+-        profile_path,
+-        discovery_path,
+-        screening_path,
+-        evidence_path,
+-        views_path,
+-        ledger_path,
+-        completeness_path,
+-        implementation_sha,
+-    )
+-    matrix = core.load_json(matrix_path)
+-    selection = core.load_json(selection_path)
+-    architecture = core.load_json(architecture_path)
+-    errors = validate_candidate_matrix(
+-        matrix,
+-        repo_root,
+-        profile_path,
+-        discovery_path,
+-        screening_path,
+-        evidence_path,
+-        views_path,
+-        ledger_path,
+-        completeness_path,
+-        implementation_sha,
+-    )
+-    errors += validate_selection(
+-        repo_root,
+-        selection,
+-        profile_path,
+-        matrix_path,
+-        completeness_path,
+-        ledger_path,
+-    )
+-    errors += validate_architecture(
+-        repo_root,
+-        architecture,
+-        profile_path,
+-        completeness_path,
+-        ledger_path,
+-        matrix_path,
+-        selection_path,
+-    )
++    """Shared FULL review payload construction (existing algorithm, no duplication).
++
++    Called by both ordinary public and checked-upstream paths. Receives actual
++    required paths/basis and accumulated errors (ROOT §6.2 literal). Adds
++    completeness INCOMPLETE check, preserves matrix equality, wrapper-specific
++    architecture/empty-placement semantics and all normal schema/readiness
++    checks via caller-passed errors. No second summary algorithm.
++    """
++    errs = list(errors)
+     if upstream["completeness"]["overall_status"] == "INCOMPLETE":
+-        errors.append(
++        errs.append(
+             "Profile Completeness is INCOMPLETE; Architecture Review is not ready"
+         )
+-
+     matrix_by_id = {row["candidate_id"]: row for row in matrix.get("rows", [])}
+     selection_by_id = {
+         row["candidate_id"]: row
+@@ -983,8 +975,8 @@
+
+             "candidate_selection_sha256": core.sha256_file(selection_path),
+         },
+         "readiness": {
+-            "status": "READY_FOR_ARCHITECTURE_REVIEW" if not errors else "BLOCKED",
+-            "errors": errors,
++            "status": "READY_FOR_ARCHITECTURE_REVIEW" if not errs else "BLOCKED",
++            "errors": errs,
+         },
+         "discovery": {
+             "total": len(upstream["discoveries"]),
+@@ -1042,6 +1034,121 @@
+
+             "page_plan": architecture.get("page_plan"),
+         },
+     }
++
++
++def _build_architecture_review_summary_with_upstream(
++    repo_root: Path,
++    profile_path: Path,
++    discovery_path: Path,
++    screening_path: Path,
++    evidence_path: Path,
++    views_path: Path,
++    ledger_path: Path,
++    completeness_path: Path,
++    matrix_path: Path,
++    selection_path: Path,
++    architecture_path: Path,
++    upstream: dict[str, Any],
++) -> dict[str, Any]:
++    """Private checked-upstream summary (held upstream+paths only, no LIVE re-entry).
++
++    Uses held upstream, loads matrix/selection/architecture JSONs, calls
++    _validate_candidate_matrix_against_upstream (P-only, no second _load_upstream)
++    + validate_selection + validate_architecture (wrapper-patched), then shared
++    _summarize_review_contents. No implementation_sha, no _load_upstream.
++    """
++    matrix = core.load_json(matrix_path)
++    selection = core.load_json(selection_path)
++    architecture = core.load_json(architecture_path)
++    errors = _validate_candidate_matrix_against_upstream(
++        repo_root, matrix, upstream, profile_path, completeness_path, ledger_path, evidence_path, views_path
++    )
++    errors += validate_selection(
++        repo_root,
++        selection,
++        profile_path,
++        matrix_path,
++        completeness_path,
++        ledger_path,
++    )
++    errors += validate_architecture(
++        repo_root,
++        architecture,
++        profile_path,
++        completeness_path,
++        ledger_path,
++        matrix_path,
++        selection_path,
++    )
++    return _summarize_review_contents(
++        repo_root, upstream, matrix, selection, architecture,
++        profile_path, completeness_path, ledger_path,
++        matrix_path, selection_path, architecture_path, errors,
++    )
++
++
++def build_architecture_review_summary(
++    repo_root: Path,
++    profile_path: Path,
++    discovery_path: Path,
++    screening_path: Path,
++    evidence_path: Path,
++    views_path: Path,
++    ledger_path: Path,
++    completeness_path: Path,
++    matrix_path: Path,
++    selection_path: Path,
++    architecture_path: Path,
++    implementation_sha: str,
++) -> dict[str, Any]:
++    upstream = _load_upstream(
++        repo_root,
++        profile_path,
++        discovery_path,
++        screening_path,
++        evidence_path,
++        views_path,
++        ledger_path,
++        completeness_path,
++        implementation_sha,
++    )
++    matrix = core.load_json(matrix_path)
++    selection = core.load_json(selection_path)
++    architecture = core.load_json(architecture_path)
++    errors = validate_candidate_matrix(
++        matrix,
++        repo_root,
++        profile_path,
++        discovery_path,
++        screening_path,
++        evidence_path,
++        views_path,
++        ledger_path,
++        completeness_path,
++        implementation_sha,
++    )
++    errors += validate_selection(
++        repo_root,
++        selection,
++        profile_path,
++        matrix_path,
++        completeness_path,
++        ledger_path,
++    )
++    errors += validate_architecture(
++        repo_root,
++        architecture,
++        profile_path,
++        completeness_path,
++        ledger_path,
++        matrix_path,
++        selection_path,
++    )
++    return _summarize_review_contents(
++        repo_root, upstream, matrix, selection, architecture,
++        profile_path, completeness_path, ledger_path,
++        matrix_path, selection_path, architecture_path, errors,
++    )
+ 
+ 
+ def _path(root: Path, value: str) -> Path:

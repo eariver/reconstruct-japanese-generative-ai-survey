@@ -1,0 +1,65 @@
+test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate) ... ERROR
+test_selection_is_internal_complete_and_has_no_human_approval_semantics (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_selection_is_internal_complete_and_has_no_human_approval_semantics) ... ERROR
+
+======================================================================
+ERROR: test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/tests/test_survey_architecture_v2.py", line 296, in test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate
+    chain = self.chain("THEMATIC")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/tests/test_survey_architecture_v2.py", line 37, in chain
+    ledger = evidence.build_materiality_ledger(
+        root,
+    ...<5 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_evidence_v2.py", line 2585, in build_materiality_ledger
+    screening_acceptance, _, discoveries = validate_screening_acceptance(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_acceptance_path, discovery_path, profile["issue_id"], implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_evidence_v2.py", line 803, in validate_screening_acceptance
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+======================================================================
+ERROR: test_selection_is_internal_complete_and_has_no_human_approval_semantics (tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_selection_is_internal_complete_and_has_no_human_approval_semantics)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/tests/test_survey_architecture_v2.py", line 335, in test_selection_is_internal_complete_and_has_no_human_approval_semantics
+    chain = self.chain("WEEKLY")
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/tests/test_survey_architecture_v2.py", line 37, in chain
+    ledger = evidence.build_materiality_ledger(
+        root,
+    ...<5 lines>...
+        IMPLEMENTATION_SHA,
+    )
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_evidence_v2.py", line 2585, in build_materiality_ledger
+    screening_acceptance, _, discoveries = validate_screening_acceptance(
+                                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        repo_root, screening_acceptance_path, discovery_path, profile["issue_id"], implementation_sha
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_evidence_v2.py", line 803, in validate_screening_acceptance
+    screening.validate_package_basis(repo_root, package_path, package, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_screening_v2.py", line 1336, in validate_package_basis
+    core.verify_state_basis(repo_root, cfg, state, implementation_sha)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work/scripts/survey_production_v2.py", line 984, in verify_state_basis
+    raise ValueError("implementation commit differs from authoritative state; explicit rebase/reinitialization is required")
+ValueError: implementation commit differs from authoritative state; explicit rebase/reinitialization is required
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.465s
+
+FAILED (errors=2)

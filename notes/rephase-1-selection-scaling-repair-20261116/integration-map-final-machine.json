@@ -1,0 +1,151 @@
+{
+  "record_type": "selection_scaling_integration_map_final",
+  "status": "MAP_ONLY_NO_CODE_AWAITING_ROOT_AND_INDEPENDENT_CONFIRMATION",
+  "packet": "notes/rephase-1-selection-scaling-repair-20261116",
+  "markdown_companion": "notes/rephase-1-selection-scaling-repair-20261116/integration-map-final.md",
+  "source": {
+    "workspace": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "recorded_head": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "recorded_parent": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "recorded_tree": "ec11cf6c49b3cdf54c7aa98703f6d3e74806dc58",
+    "head_verified_with_git": false,
+    "base": "409b292",
+    "prior_delivery_unchanged": {
+      "patch_sha256": "171812f686c05d8494de8bd32a6c00e043dc5ff1aa7452204a8e35f16848600d",
+      "manifest_sha256": "a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c"
+    },
+    "line_numbers_are_worktree_observations": true
+  },
+  "bounds": {
+    "code": false,
+    "git": false,
+    "imports": false,
+    "runtime": false,
+    "tests": false,
+    "fixtures": false,
+    "network": false,
+    "active_source_shadow_writes": false,
+    "subagents": false,
+    "reads_only": true,
+    "new_files_only": [
+      "notes/rephase-1-selection-scaling-repair-20261116/integration-map-final.md",
+      "notes/rephase-1-selection-scaling-repair-20261116/integration-map-final-machine.json"
+    ]
+  },
+  "retractions": [
+    "empty supplement != no Raw (discovery._normalize_record 121-127 reads/hashes every source.raw_paths)",
+    "stored basis.state_sha256==LIVE rejected; wrapper agent_tool 53-98 adjusts memory copy only after sibling acceptance + archived package hash, then reruns original",
+    "proof/decision bytes not opened by existing readback (SHA-only cross-bind); new domain explicitly rehashes SizedRefs without claiming old full-bytes verification",
+    "no Session files; session-root is in-memory root_records/root_path for content cores"
+  ],
+  "chosen": "bounded 21AG initial (3+2+1+6 + package-once 3+6AG) then 0AG content EU/held-upstream + cheap freshness with FULL own-epoch batch; original LOW completion and public validators unchanged",
+  "counts": {
+    "run_249": 3,
+    "run_260_first_ready_full": 2,
+    "run_264_first_resolve": 1,
+    "run_283_screening": 6,
+    "package_once_screening": 3,
+    "package_once_evidence": 6,
+    "bounded_initial_total": 21,
+    "note": "source/call-graph estimates only, not measured runtime or affordability proof; actual 7-run decides",
+    "eu_summary_after_initial": 0,
+    "later_ready": "0AG cheap freshness (FILE/pin/lstat + FULL own-epoch batch low:639-799), no 6E/3V"
+  },
+  "registries_inspected": {
+    "runner_imports": "run_selection_architecture_v2_interactive.py:20-28 (agent, agent_tool, architecture-wrapper, discovery, core, low, review_attention, schema_gate, screening; NO base)",
+    "low_top_imports_B1": "survey_research_authority_v2.py:40-49 (core shape-only + schema_gate + stdlib only); function-local evidence/completeness at 459-460",
+    "base_top_imports": "survey_architecture_v2_base.py:15-17 (completeness, evidence, core already)",
+    "historical7": "low:587-599 (2 modules + 5 dm022 schemas); $ids low:601-607; tool_pins must equal exactly low:664-667",
+    "contract8": "low:762-798 recompute mirrors core.contract_identity; must equal checkpoint contract 795 and manifest pins 797",
+    "live_vs_content": "screening content 1281-1319 path-identity 1304-1305 vs live 1322-1338 SHA+verify 1333-1336; evidence content 1144-1200 path-identity 1168-1169 vs live 1203-1251 SHA+verify 1219-1223",
+    "matrix_rows_P": "base:183-276 with sha256_file+load_json per card/view 213-218",
+    "summary_projection": "base:852-1044 (866 load 45AG + 880/373 re-derive 45AG removed by held upstream)"
+  },
+  "imports_delta": "runner adds `from scripts import survey_architecture_v2_base as base` (owner BASE, documented); LOW keeps B1 leaf with function-local evidence/completeness/screening only; BASE reuses existing imports; no new module/schema/family/config/Contract8 input",
+  "changed_paths_existing_only": [
+    "scripts/run_selection_architecture_v2_interactive.py (holder + 8 call-site swaps + base import)",
+    "scripts/survey_research_authority_v2.py (3 LOW privates: bundle/fresh/paths-getter)",
+    "scripts/survey_architecture_v2_base.py (2 privates + 1 shared _summarize_review_contents helper)"
+  ],
+  "public_signatures_unchanged": true,
+  "excluded": [
+    "global/epoch/ContextVar authority cache",
+    "verified-dict / public skip flag / caller-verified dict",
+    "expanded bespoke monkeypatch verifier / third mirrored validator",
+    "new runtime module/schema/family",
+    "hand-repin of State/Profile",
+    "old implementation_sha override",
+    "fresh-init fixture standing in for saved-State continuation"
+  ],
+  "handle": {
+    "owner": "LOW",
+    "lifetime": "single run() invocation, opaque to runner, never in run() public return",
+    "type": "_SelectionAuthorityBundle (frozen slots; entries MappingProxyType; raw_refs/pins tuples)",
+    "capture": "low._get_selection_authority_bundle(repo_root, state_path)",
+    "seal": "pre-capture enumeration then full 21AG initial then seal; never expected=observed, never reseal",
+    "freshness": "low._assert_selection_authority_fresh(repo_root, state_path, bundle)",
+    "paths_getter": "low._bundle_upstream_paths(bundle) -> tuple[Path,...]",
+    "upstream_holder": "runner-local upstream MappingProxyType/tuple; passed to base._load_upstream_content and base._build_architecture_review_summary_with_upstream",
+    "shared_projection": "base._summarize_review_contents(upstream, matrix, selection, architecture)",
+    "against_upstream": "base._validate_candidate_matrix_against_upstream(matrix, upstream, profile_path, completeness_path, ledger_path, evidence_path, views_path)"
+  },
+  "capture_rule": "stepwise read+pin SAME bytes parse; exact expected refs where exist (State triplet, NamedRefs, SizedRefs, package/batch/result/view SHAs); computed expected via first full 21AG validation where no external SHA (LIVE State FILE itself, current config/schemas); freshness compares current FILE vs bundle pins, fail-closed, never rebaseline",
+  "closure": [
+    "LIVE State FILE itself + Profile + config + schemas + legacy State if actually read",
+    "checkpoint + 4 artifacts + checkpoint Profile + request/manifest/report/proof/decision/COPY/retention/completion",
+    "DCP/SCP records + artifacts + deterministic review results + CORE reports",
+    "Discovery acceptance + X manifest/tasks/Raws + Discovery JSONL + EVERY source.raw_paths Raw + accepted root JSONL + effective Discovery JSONL",
+    "screening package + exact input batches + exact results + prompt + result schema + basis Profile/Discovery",
+    "evidence package + exact tasks/*.json + exact results/cards + exact views/*.json + prompt + package/task/card/supplement schemas + supplement manifest + EVERY validated.sources Raw + basis_refs",
+    "ledger + completeness + Profile/Discovery/Ledger rereads",
+    "proof/decision SizedRef bytes explicitly rehashed (new binding)",
+    "current code/schema contracts + import/family closures (Contract8 vs historical7 per registries_inspected)"
+  ],
+  "traversal_inventory_containment": "exact directory sets via _exact_regular_files (screening 99-113, evidence 738-753); ancestors via _assert_pin_repo_ancestors (evidence 280-297) + LOW _repo_rel 127-135 + _repo_file policy; parent closure via provenance parent_refs/obligation union; finite DAG (AG never calls completion/resolve/ready); no Session files",
+  "historical_wrapper": "agent_tool 53-98 preserved exactly: sibling acceptance is_file/no-symlink + sha256_file(package)==acceptance.package_sha256, then in-memory adjusted.basis.state_sha256=sha256_file(state_path) + original rerun; no second wrapper in runner/freshness",
+  "current_epoch": "verify_current_stage_basis agent_tool 42-50 (implementation_sha==repository_commit_sha HEAD-only + validate_agent_state) under ORIGINAL override 121-143 at run:309-313/432-436 only; new meaningful source-only commit in NEW independent DB before real run; no State/Profile repin",
+  "writes_return": {
+    "sites": "matrix 316->319, selection 362->365, architecture 427->430, review 440->443, attention 444->447-448, archive copy2 451->454, audit 456->459-471, return 472-481",
+    "gates": "freshness + _dm022_preflight_seven 101-114/304 + exists/is_symlink refuse + lstat_slot tolerance 1102-1124",
+    "audit_binds": "archive input + 5 outputs (not itself); return re-binds 7 rels + SHAs AFTER final freshness",
+    "partial_writes": "no auto-overwrite/rollback/cleanup-retry; unknown State/guard refuses; no global atomicity claim",
+    "legacy": "healthy same-triplet LEGACY keeps canonical ledger/completeness, guard-only READY, no PREARCH cores"
+  },
+  "oracles": [
+    "full validity on new independent byte-copy (hardlinks 0, 231/231, inert origin): unmutated W34-409/SP-160 run() emits 7/7 exact schemas + basis binds + READY_FOR_ARCHITECTURE_REVIEW + audit binds",
+    "late drift: mutate one byte each (Raw/task/result/card/View/supplement/COPY/State/checkpoint/four-ref/guard/stale-slot) after seal before next gate -> refuse, no write; unlink one Raw/task -> pin-recheck refuse",
+    "outer-return: mutate State/checkpoint/artifact between last write and return -> return refused; archive source vs archive_path drift -> audit refuse",
+    "nonreuse: second run() in FRESH invocation must not reuse bundle; W34 bundle must not validate SP (issue_id/triplet mismatch)",
+    "no-supp/LEGACY/history-current on synthetic fixtures only (None+None refusal, LEGACY canonical branch, COPY-bound refuse LIVE-as-COPY)",
+    "needed-blob fault ONLY on NEW disposable fixture copy (mv .git/objects/<aa>/<rest> aside for ONE needed blob, e.g. low:592/598/689-691; never b797; never author/implementation DB); FULL own-epoch batch must refuse; restore then re-verify",
+    "no repeated expensive real run for stability; two clean copies same-input 7-output audit.json SHA equality (bytes equal, inodes may differ)"
+  ],
+  "helpers": [
+    "tests/test_run_selection_architecture_v2_interactive.py",
+    "tests/test_dm022_prearch_b_ordinary_consumers_v2.py",
+    "tests/test_survey_architecture_v2.py",
+    "tests/test_survey_architecture_review_expansion_v2.py",
+    "tests/test_dm022_full_lifecycle_v2.py",
+    "tests/test_dm022_prearchitecture_acceptance_v2.py",
+    "tests/test_dm022_b_late_prepublish_v2.py",
+    "tests/test_dm022_normal_writer_late_guard_v2.py",
+    "tests/test_survey_evidence_v2.py",
+    "tests/test_survey_completeness_v2.py",
+    "tests/test_survey_active_*.py",
+    "tests/test_survey_agent_control_v2.py",
+    "tests/test_survey_agent_tool_v2.py",
+    "tests/test_dm022_c_*.py",
+    "tests/test_dm022_c_direct_operation_v2.py",
+    "tests/test_evidence_scaling_v2.py",
+    "fixtures dm022_prearchitecture_fixtures_v2 + dm022_lifecycle_fixture_v2 + dm022_g71_g76_fixture_v2"
+  ],
+  "proof_delivery_stop": "actual W34-409/SP-160 all-seven normal-writer completion + independent output/content binding + fresh CURRENT proof + DIRECT409 409b292->new-HEAD patch + manifest + proof-copy check0/apply0; record wall/CPU/rchar honestly; genuine gaps (un-pinnable class, new schema/module/family/global-flag, supplement shape, Profile P1-P4, DM022-HIGH/LOW, Thematic/Retrospective scope) return to root, no auto-broaden",
+  "verdict": "MAP_COMPLETE_AWAITING_ROOT_AND_INDEPENDENT_SCOPED_CONFIRMATION; NOT implementation PASS; no code authorized",
+  "no_runtime_proof": {
+    "project_source_imported_or_executed": false,
+    "tests_or_fixtures_run": false,
+    "git_inspected": false,
+    "network_used": false,
+    "writes_limited_to_two_new_map_files": true
+  }
+}

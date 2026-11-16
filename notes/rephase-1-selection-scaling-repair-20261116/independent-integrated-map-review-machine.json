@@ -1,0 +1,203 @@
+{
+  "kind": "INDEPENDENT_INTEGRATED_MAP_REVIEW_MACHINE",
+  "schema_version": "1",
+  "packet": "notes/rephase-1-selection-scaling-repair-20261116",
+  "markdown_companion": "notes/rephase-1-selection-scaling-repair-20261116/independent-integrated-map-review.md",
+  "status": "GO_SCOPED_WITH_MANDATORY_ROOT_CONDITIONS",
+  "verdict": "GO",
+  "go_authorized": true,
+  "code_authorized": false,
+  "requires_explicit_root_dispatch_before_code": true,
+  "method": {
+    "reads_only": true,
+    "read_files": [
+      "astra-repair-resolution.md",
+      "integration-map-final.md",
+      "transitive-dependency-inventory.md",
+      "current-source-closure-map.md"
+    ],
+    "source_root": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "git": false,
+    "runtime_imports_tests_fixtures_network": false,
+    "active_shadow_proof_writes": false,
+    "subagents": false,
+    "earlier_maps_rejected_history": true
+  },
+  "source": {
+    "workspace": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "recorded_head": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "recorded_parent": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "recorded_tree": "ec11cf6c49b3cdf54c7aa98703f6d3e74806dc58",
+    "head_verified_with_git": false,
+    "base": "409b292",
+    "prior_delivery_unchanged": {
+      "patch_sha256": "171812f686c05d8494de8bd32a6c00e043dc5ff1aa7452204a8e35f16848600d",
+      "manifest_sha256": "a7e40c4711a66b4d1d2541e6af1a97fd0e531d217e233f45ce43b40e19cef40c"
+    },
+    "line_numbers_are_worktree_observations": true
+  },
+  "combined_authority_reviewed": [
+    "notes/rephase-1-selection-scaling-repair-20261116/astra-repair-resolution.md",
+    "notes/rephase-1-selection-scaling-repair-20261116/integration-map-final.md",
+    "notes/rephase-1-selection-scaling-repair-20261116/integration-map-final-machine.json",
+    "notes/rephase-1-selection-scaling-repair-20261116/transitive-dependency-inventory.md",
+    "notes/rephase-1-selection-scaling-repair-20261116/transitive-dependency-inventory-machine.json",
+    "notes/rephase-1-selection-scaling-repair-20261116/current-source-closure-map.md",
+    "notes/rephase-1-selection-scaling-repair-20261116/current-source-closure-map-machine.json"
+  ],
+  "confirmations_source_grounded": [
+    "C1 discovery_raw_independent_of_supplement: survey_discovery_v2.py:121-127 + survey_evidence_v2.py:322-330",
+    "C2 historical_wrapper_exact: survey_agent_tool_v2.py:53-98 + override 121-143",
+    "C3 proof_decision_SHA_only_existing: resolve 1181-1201 + checker 3891-3920; new SizedRef rehash is new binding not old claim",
+    "C4 no_session_files: in-memory root_records/root_path only",
+    "C5 content_cores_exist_for_0AG: base 85-152 + 183-276 (213-218 P) + screening content 1281-1319 vs live 1322-1338 + evidence content 1144-1200 vs live 1203-1251",
+    "C6 registries: runner 20-28 NO base + LOW 40-49 B1 leaf + BASE 15-17 + LOW 587-599/601-607/762-798; closure 70/73/36/41/76-0scripts, runner control-root bound, no expansion for existing 4-file edits",
+    "C7 21AG_estimate_not_affordability: map ss1/9 correctly qualified; real 409/160 decides",
+    "C8 epoch_continuation: verify_current_stage_basis 42-50 under override at run 309-313/432-436 only; new independent DB meaningful commit after root dispatch; no repin/override/fresh-init substitute",
+    "C9 standalone_LEGACY_completion_preserved: pinned_family 50-67 + resolve 70-98 + completion 996-1125 + lstat tolerance 1102-1124"
+  ],
+  "findings_blocking": [
+    {
+      "id": "F1",
+      "severity": "BLOCKING",
+      "root": "6.2 literal signatures",
+      "observed": "map s3 proposes _validate_candidate_matrix_against_upstream(matrix,upstream,...) missing repo_root; _summarize_review_contents(upstream,matrix,selection,architecture)->tuple missing repo_root/paths/errors",
+      "required": "base._validate_candidate_matrix_against_upstream(repo_root,matrix,upstream,profile_path,completeness_path,ledger_path,evidence_path,views_path)->list[str]; base._summarize_review_contents(repo_root,upstream,matrix,selection,architecture,profile_path,completeness_path,ledger_path,matrix_path,selection_path,architecture_path,errors)->dict",
+      "source_ground": "base 388-397 *args re-derive via derive 356-365 (repo_root first); build summary 852-1044 takes repo_root+11 paths+implementation_sha"
+    },
+    {
+      "id": "F2",
+      "severity": "BLOCKING",
+      "root": "6.1 capture/verify/own",
+      "observed": "map s3 LOW _get_selection_authority_bundle holds upstream MappingProxyType; names differ; order pre-capture->21AG->seal omits pre-seal recheck; with_upstream carries implementation_sha",
+      "required": "LOW:_capture_selection_read_set + LOW:_recheck_selection_read_set (DATA only) + runner:_prepare_checked_selection + runner:_check_selection_boundary; capture->full validation->recheck->sealed runner context; upstream runner-local, LOW never owns upstream; public fns take no bundle/skip; drop implementation_sha from with_upstream",
+      "source_ground": "LOW header 9-35 PATHS-only/B1 leaf/HIGH-only writes; runner 243-313 owns sequencing"
+    },
+    {
+      "id": "F3",
+      "severity": "BLOCKING",
+      "root": "6.3 attention extraction",
+      "observed": "map s7 describes private pure payload helper in survey_review_attention_v2.py but s2 changed-paths lists only 3 files (runner/LOW/BASE), machine changed_paths_existing_only omits attention; inconsistent",
+      "required": "add scripts/survey_review_attention_v2.py as 4th existing-file edit with import/closure delta (no second algorithm/new module) or root-approved scope-out; keep ss2/7 consistent",
+      "source_ground": "build_attention 32-143 returns Path basis SHAs 119-126 limit 127-139 + validate 146-159; file already G76 member so no membership expansion but edit must be listed"
+    },
+    {
+      "id": "F4",
+      "severity": "BLOCKING",
+      "root": "6.4 no-supp valid",
+      "observed": "map s8 states generic None+None refusal (evidence 300-330,1194-1198) without split",
+      "required": "split (a) legal empty-supplement passes on synthetic fixture vs (b) explicit supplemented->null downgrade refuses; cite exact card predicate not generic None+None",
+      "source_ground": "survey_evidence_v2.py:300-330 empty context legitimate; card requires-context refusal is separate gate"
+    },
+    {
+      "id": "F5",
+      "severity": "REQUIRED",
+      "root": "6.3 boundary/return",
+      "observed": "map ss6-7 directionally right (freshness+FULL own-epoch 639-799 every gate; sites 316/362/427/440/444/451/456 return 472-481) but per-site expected-bytes binding and immediate-refusal semantics need tightening",
+      "required": "preflight7-absent once; later owned-outputs equal producer expected serialized bytes + unwritten slots absent; completion 7-slot tolerance separate; no adopted conflicting output; per-seam immediate refusal/no-next-write not post-restore equality; partials remain no cleanup/retry; disposable-only blob faults never b797/never author DB",
+      "source_ground": "runner return 472-481 rels/counts only no SHA; audit 459-471 binds archive+5 not itself; completion lstat 1102-1124; own-epoch 639-799"
+    },
+    {
+      "id": "F6",
+      "severity": "REQUIRED",
+      "root": "oracles",
+      "observed": "map s8 covers full/late/unlink/outer-return/nonreuse/no-supp/LEGACY/history/blob-disposable/no-repeat-run but omits explicit extra-file and symlink negatives",
+      "required": "add extra-file + symlink negatives via _exact_regular_files (screening 99-113 evidence 738-753 missing/extra/symlink/non-file) on NEW disposable fixtures + per-site input/archive/audit/outer-return drift",
+      "source_ground": "screening 99-113 + evidence 738-753 exact-set no-missing/no-extra/no-symlink"
+    }
+  ],
+  "closure_disposition": {
+    "pipeline_76_scripts_0": true,
+    "g76_per_route_70_union_73": true,
+    "reader_weekly_g76_36_longform_g76_41": true,
+    "low_historical_7_unchanged": true,
+    "runner_no_row_control_root_bound": true,
+    "no_membership_expansion_for_existing_4_file_edits": true,
+    "new_module_or_runner_promotion_requires_explicit_expansion": true
+  },
+  "quantitative": {
+    "bounded_initial_21AG_is_source_estimate_only": true,
+    "not_affordability_proof": true,
+    "real_409_160_oracle_required": true
+  },
+  "unresolved_shapes_return_to_root": [
+    "manifest profile_ref/discovery_ref/screening_ref vs request refs DATA-only",
+    "record.profile vs request.profile_ref not cross-equal",
+    "manifest candidate_outputs + report proposed_artifacts/operation/producer_boundary DATA-only",
+    "retention-plan vs inventory path coincidence not enforced",
+    "no invented validators for above; preserve full predicates"
+  ],
+  "excluded_preserved": [
+    "no new runtime module/schema/family",
+    "no global/epoch/ContextVar authority cache",
+    "no public skip/caller-verified dict/bespoke verifier/third mirrored validator",
+    "no hand-repin State/Profile",
+    "no old implementation override",
+    "no fresh-init fixture as saved-State continuation"
+  ],
+  "correction_addendum": {
+    "supersedes": "prior CHANGES_REQUIRED verdict; F1-F4 BLOCKING reclassified as superseded author prose, ROOT prevails, no author rewrite required to approve",
+    "combined_binding_is_sufficient": true,
+    "no_loadbearing_design_gap_in_combined": true,
+    "exact_superseded_author_sections": {
+      "F1_map_s3_handle": "integration-map-final.md s3 + machine handle: _validate_candidate_matrix_against_upstream(matrix,upstream,...) + _summarize_review_contents(upstream,matrix,selection,architecture)->tuple",
+      "F2_map_s3_bundle": "integration-map-final.md s3: low._get_selection_authority_bundle holding upstream + _assert/_bundle + with_upstream(implementation_sha,upstream) + pre-capture->21AG->seal without named recheck",
+      "F3_map_s2_changed_paths": "integration-map-final.md s2 + machine changed_paths_existing_only: 3 files omitting scripts/survey_review_attention_v2.py",
+      "F4_map_s8_NoneNone": "integration-map-final.md s8 generic None+None refusal"
+    },
+    "corrected_root_conditions_prevailing": {
+      "F1_root_6_2": "base._validate_candidate_matrix_against_upstream(repo_root,matrix,upstream,profile_path,completeness_path,ledger_path,evidence_path,views_path)->list[str]; base._summarize_review_contents(repo_root,upstream,matrix,selection,architecture,profile_path,completeness_path,ledger_path,matrix_path,selection_path,architecture_path,errors)->dict",
+      "F2_root_6_1": "LOW:_capture_selection_read_set->_SelectionReadSet DATA-only + LOW:_recheck_selection_read_set + runner:_prepare_checked_selection->_CheckedSelection + runner:_check_selection_boundary; capture->full validation->recheck->sealed runner context; upstream runner-local LOW never owns upstream; public fns take no bundle/skip",
+      "F3_root_6_3_6_4": "scripts/survey_review_attention_v2.py private pure payload helper (existing extraction, shared public/internal, no second algorithm/new module) as 4th existing-file edit with import/closure delta",
+      "F4_root_6_4": "healthy no-supplement valid (_resolve_phase_supplement_context empty); generic None+None withdrawn; split legal empty vs supplemented->null downgrade"
+    },
+    "combined_binding_sha256_stdlib": {
+      "astra-repair-resolution.md": "6b17919202c42b12a89be8a4ff7f335629d99c11d7de5f66715f373cf1e4b632",
+      "integration-map-final.md": "1570ed8cf9af896b2d86bd4c230df19eeba951f36ff5ed411c356873ecf8df3b",
+      "transitive-dependency-inventory.md": "72bc2a865fe56440b161ed35947571978cff2ca7c719a11d1f96751942b839b1",
+      "current-source-closure-map.md": "14e88cf3ab2e187a8ed63346f4af3e1493072165d9fde41123e5c01847676c1b"
+    },
+    "combined_binding_sizes": {
+      "astra-repair-resolution.md": 18843,
+      "integration-map-final.md": 21925,
+      "integration-map-final-machine.json": 11799,
+      "transitive-dependency-inventory.md": 37581,
+      "transitive-dependency-inventory-machine.json": 39669,
+      "current-source-closure-map.md": 8385,
+      "current-source-closure-map-machine.json": 10595
+    },
+    "fresh_source_certification": false
+  },
+  "mandatory_root_conditions_for_implementation": {
+    "use_root_literals_F1_F2": true,
+    "include_attention_4th_file_F3": true,
+    "split_no_supp_vs_downgrade_F4": true,
+    "expected_bytes_immediate_later_return_no_next_write_F5": "root 6.3: prewrite expected vs postwrite actual + later owned slots/input archive/audit/outer return; preflight7-absent once; partials remain no cleanup/retry",
+    "exact_set_containment_extra_symlink_disposable_F6": "root 6.1 + inventory/containment no-extra/no-symlink; extra+symlink negatives on NEW disposable fixtures; first-write/late/outer-return on disposables",
+    "full_initial_first_write_late_Raw_X_card_View_State_guard_report_COPY_blob_missing_extra_symlink_input_owned_output_outer_return_plus_LEGACY_no_supp_history_standalone_all7": true,
+    "new_independent_copy_meaningful_commit_after_root_dispatch": true,
+    "no_state_profile_repin_old_init480_remains": true,
+    "actual_W34_409_SP_160_all_seven": true,
+    "fresh_CURRENT_proof": "verify_renewal_source_proof CURRENT_PROOF_VALID + SAME-proof drift refusal/restore",
+    "delivery": "exact DIRECT409 409b292->new-HEAD patch + manifest + proof-copy candidate-partial-b40de60 check0/apply0 all-paths x3, scoped689+new, missing26309/bulk31466/runtimeTeX nonbundled retained",
+    "implementation_behavior_unproved_until_tests": true,
+    "genuine_gaps_return_to_root_no_autobroaden": true
+  },
+  "generic_precode_cycle_required": false,
+  "bounded_correction_sufficient": true,
+  "no_code_until_root_dispatch": true,
+  "ordinary_commit_push_human_owned": true,
+  "certification": {
+    "fresh_source_certification": false,
+    "runtime_proof": false,
+    "git_verification": false,
+    "network": false,
+    "imports": false,
+    "tests": false,
+    "source_writes": false,
+    "files_written_by_this_review": [
+      "notes/rephase-1-selection-scaling-repair-20261116/independent-integrated-map-review.md",
+      "notes/rephase-1-selection-scaling-repair-20261116/independent-integrated-map-review-machine.json"
+    ]
+  }
+}

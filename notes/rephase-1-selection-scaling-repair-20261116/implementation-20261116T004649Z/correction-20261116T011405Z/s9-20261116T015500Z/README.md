@@ -1,0 +1,17 @@
+# §9 correction — 20261116T015500Z (bounded, no real writer/CURRENT/delivery)
+
+Root: `astra-repair-resolution.md` FULL §§6–9 (prevails) + `correction-review.md` R1–R5 residuals. Same isolated draft, no new copy/commit, HEAD `ae0dd1e` unchanged. Pre-§9 13-test raw/sources preserved in `correction-20261116T011405Z/` + `pre-s9-snapshot-20261116T014500Z/` (5 files). No reconstruct Git/network/active/shadow/proof writes, no subagents.
+
+## Code (same 4 modules, no new family/schema/global cache)
+
+- LOW `survey_research_authority_v2.py` 301934B `809db657…` → 309483B `fd788b74…`: exhaustive pins + CODE via G76 union (73) + pipeline/quality + runner (W34 1915/5, SP 724/5), request supplement pin (even when evidence has no supplement) + dedup, parser fail-closed for code field paths, lexical nofollow helpers not in LOW (runner-owned).
+- Runner `run_selection_architecture_v2_interactive.py` 44634B `1a1a2471…` → 50865B `b16c4759…`: LEGACY swallow removed (always raise), triplet PREARCH-only, redundant third `_second` removed (helper + direct four = 2, original count), lexical nofollow + ancestor policy before resolution then canonical containment (`_lexical_absolute`, `_require_no_symlink_lexical`, `_lexical_repo_root`), boundary same-byte input leaf/parent symlink refusal, `run`/`main` lexical entry (no resolve-erase).
+- Base/attention unchanged (ROOT literals).
+- Tests `test_selection_scaling_repair_v2.py` 30743B `09d6ba1b…` → 49973B `a21f5949…`: 22 tests, distinct task/card/View + DiscoveryRaw/Xraw0/supplementRaw (genuine supp-carry supply) + Xmanifest/COPY/manifest/completion/State/checkpoint/report logged via `FAULT_SUBCASES:` to stdout, OWNED/RETURN/INPUT via ACTUAL run seams (wrap `write_candidate_matrix`/`write_json`/`copy2` after real write, no PASS stubs, immediate refusal + no-later-artifact + preserve-seven-honest), LEGACY healthy + invalid-package via ACTUAL `run` (corrupt batch SHA), CODE drift via ACTUAL `_check` (mutate LOW same HEAD), symlink same-byte leaf/parent via ACTUAL `_prepare/_check`, no-collateral LEGACY healthy, no-supp NEW (`is_prearch True`, no manifest, recheck + writer pass) distinct old helper, invalid initial fail-closed.
+
+## Evidence (durable, not tool-only)
+
+- `raw-full-stdout.txt` 1291B (19 lines: FAULT_SUBCASES + OWNED/RETURN/INPUT/LEGACY/CODE/SYMLINK/NOSUPP labels) + `raw-full-stderr.txt` 4053B (22 tests) + `raw-full-exit.txt` `0` + `run-metadata.json` (argv/cwd/env/PID 1080621/UTC 02:08:32Z–02:09:49Z/wall 76.42s/exit 0/pins/diffs/modes/counts) + `run-meta-base.json` + `diff-*.diff` (active vs corrected: LOW 70054B, runner 35478B, test 50913B).
+- Cmd: `PYTHONDONTWRITEBYTECODE=1 GIT_NO_LAZY_FETCH=1 python3 -m unittest tests.test_selection_scaling_repair_v2 -v` in draft `candidate-work`, 22/22 PASS. No `py_compile`, no commit/index/ref/config/HOME/network/install/Production/active/shadow/proof writes. Fixtures use inspected helpers (`test_survey_evidence_v2`, `test_dm022_full_lifecycle_v2`, `test_dm022_supplement_carry_v2`, `dm022_lifecycle_fixture_v2`), process identity/inert origin/no empty/no bypass/no config.
+
+No real W34/SP writer, CURRENT, delivery. If fixture capability real gap, return root (none; genuine supply used, no fake acceptance). Original 13-test failures: none (13/13 PASS preserved in prior packet); ordinary bugfixes logged uniquely here (LEGACY expectations canonical, X empty runs, supplemented builder, lexical, third-resolver removal).

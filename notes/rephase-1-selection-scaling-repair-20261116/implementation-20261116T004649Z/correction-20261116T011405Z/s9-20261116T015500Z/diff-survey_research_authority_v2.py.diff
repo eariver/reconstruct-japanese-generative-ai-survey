@@ -1,0 +1,1113 @@
+--- active/scripts/survey_research_authority_v2.py
+
++++ new/scripts/survey_research_authority_v2.py
+
+@@ -1123,6 +1123,1107 @@
+
+             continue
+         raise ResearchAuthorityError(f"DM022_TRANSITION_ACTIVE: stale slot still present: {slot}")
+     return {"completion": completion, "inventory": inventory, "record": record, "manifest": manifest}
++
++
++class _SelectionReadSet:
++    """DATA-only transitive read set (no authority, no architecture upstream).
++
++    Immutable pin tuples, typed pinned documents, exact directory-name sets,
++    root/effective context paths, own-epoch arguments. Never asserts validation;
++    runner factory validates, then rechecks this set before sealing.
++    """
++    __slots__ = (
++        "state_abs", "state_pin", "state_doc",
++        "checkpoint_abs", "checkpoint_pin", "checkpoint_doc",
++        "profile_abs", "profile_pin", "profile_doc",
++        "source_root", "expectations",
++        "pins", "dir_sets", "own_epoch", "is_prearch",
++    )
++    def __init__(self, state_abs, state_pin, state_doc, checkpoint_abs, checkpoint_pin, checkpoint_doc, profile_abs, profile_pin, profile_doc, source_root, expectations, pins, dir_sets, own_epoch, is_prearch):
++        self.state_abs = state_abs
++        self.state_pin = state_pin
++        self.state_doc = state_doc
++        self.checkpoint_abs = checkpoint_abs
++        self.checkpoint_pin = checkpoint_pin
++        self.checkpoint_doc = checkpoint_doc
++        self.profile_abs = profile_abs
++        self.profile_pin = profile_pin
++        self.profile_doc = profile_doc
++        self.source_root = source_root
++        self.expectations = expectations
++        self.pins = pins
++        self.dir_sets = dir_sets
++        self.own_epoch = own_epoch
++        self.is_prearch = is_prearch
++
++
++def _require_no_symlink_ancestors(repo_root: Path, abs_path: Path, label: str) -> None:
++    """Fail-closed ancestor symlink/containment check for captured pins."""
++    try:
++        root = repo_root.resolve()
++    except OSError as exc:
++        raise ResearchAuthorityError(f"{label} repo resolve failed: {exc}") from exc
++    try:
++        cur_resolved = abs_path.resolve()
++    except OSError as exc:
++        raise ResearchAuthorityError(f"{label} resolve failed: {abs_path}: {exc}") from exc
++    try:
++        cur_resolved.relative_to(root)
++    except ValueError as exc:
++        raise ResearchAuthorityError(f"{label} escapes repository: {abs_path}") from exc
++    # Walk repo-relative parts, refusing any symlinked component (lstat, no follow).
++    try:
++        rel = cur_resolved.relative_to(root).as_posix()
++    except ValueError as exc:
++        raise ResearchAuthorityError(f"{label} escapes repository: {abs_path}") from exc
++    cur = root
++    for part in Path(rel).parts:
++        cur = cur / part
++        try:
++            if cur.is_symlink():
++                raise ResearchAuthorityError(f"{label} traverses symlink: {rel}")
++        except OSError as exc:
++            raise ResearchAuthorityError(f"{label} lstat failed: {cur}: {exc}") from exc
++
++
++def _pin_observed(repo_root: Path, abs_path: Path, label: str) -> tuple:
++    """Pin observed file bytes (no external SHA). Fail-closed on missing/symlink."""
++    raw = _safe_read_bytes(abs_path, label)
++    sha = hashlib.sha256(raw).hexdigest()
++    _require_no_symlink_ancestors(repo_root, abs_path, label)
++    return ((label, abs_path, sha, len(raw)), raw)
++
++
++def _pin_with_expected(repo_root: Path, abs_path: Path, label: str, expected_sha: str, expected_len: int | None = None) -> tuple:
++    """Pin file bytes, requiring expected SHA (and len if given). Same-bytes parse follows."""
++    raw = _safe_read_bytes(abs_path, label)
++    actual_sha = hashlib.sha256(raw).hexdigest()
++    if actual_sha != expected_sha:
++        raise ResearchAuthorityError(f"{label} FILE sha drift (capture): {abs_path}")
++    if expected_len is not None and len(raw) != expected_len:
++        raise ResearchAuthorityError(f"{label} byte_count mismatch (capture): {abs_path}")
++    _require_no_symlink_ancestors(repo_root, abs_path, label)
++    return ((label, abs_path, expected_sha, len(raw)), raw)
++
++
++def _parse_object_same(raw: bytes, label: str) -> dict[str, Any]:
++    return _strict_parse_object(raw, label)
++
++
++def _parse_jsonl_same(raw: bytes, label: str) -> list[dict[str, Any]]:
++    try:
++        text = raw.decode("utf-8")
++    except UnicodeDecodeError as exc:
++        raise ResearchAuthorityError(f"{label} JSONL decode failed: {exc}") from exc
++    out: list[dict[str, Any]] = []
++    for lineno, line in enumerate(text.splitlines(), start=1):
++        if not line.strip():
++            continue
++        try:
++            import json as _json
++            from scripts import survey_production_v2 as _core
++            val = _json.loads(line, object_pairs_hook=_core._strict_object_pairs)
++        except Exception as exc:
++            raise ResearchAuthorityError(f"{label} JSONL line {lineno} invalid: {exc}") from exc
++        if not isinstance(val, dict):
++            raise ResearchAuthorityError(f"{label} JSONL line {lineno} must be object")
++        out.append(val)
++    return out
++
++
++def _capture_selection_read_set(repo_root: Path, state_path: Path) -> _SelectionReadSet:
++    """Capture transitive read set first (DATA, no validation).
++
++    Fail-closed exhaustive typed enumeration. No broad except/continue/pass/{}
++    fallbacks. Strict family dispatch via typed loader (unknown kind refuses,
++    never LEGACY fallback). Every reached file is pinned with same-bytes parse
++    for next refs; original expected SHA/size checked where exists, observed
++    pin otherwise (original validators + postcheck bind). No generic recursion,
++    no third validator, no Session files.
++    """
++    repo_root = _norm_path(repo_root, "repo_root")
++    sp = state_path if Path(state_path).is_absolute() else (repo_root / str(state_path))
++    sp = _norm_path(sp, "state path")
++    state_raw = _safe_read_bytes(sp, "production state")
++    state_pin = ("production state", sp, hashlib.sha256(state_raw).hexdigest(), len(state_raw))
++    _require_no_symlink_ancestors(repo_root, sp, "production state")
++    state_doc = _strict_parse_object(state_raw, "production state")
++    prof_ref = state_doc.get("profile")
++    if not isinstance(prof_ref, dict) or set(prof_ref) != {"path", "sha256"}:
++        raise ResearchAuthorityError("state.profile authority fields invalid (capture)")
++    prof_abs = _repo_rel(repo_root, str(prof_ref["path"]), "state.profile.path")
++    prof_raw = _safe_read_bytes(prof_abs, "production profile")
++    if hashlib.sha256(prof_raw).hexdigest() != prof_ref.get("sha256"):
++        raise ResearchAuthorityError("production profile bytes differ (capture)")
++    _require_no_symlink_ancestors(repo_root, prof_abs, "production profile")
++    prof_pin = ("production profile", prof_abs, hashlib.sha256(prof_raw).hexdigest(), len(prof_raw))
++    prof_doc = _strict_parse_object(prof_raw, "production profile")
++    try:
++        srel = prof_doc["paths"]["source_root"]
++    except (KeyError, TypeError) as exc:
++        raise ResearchAuthorityError(f"profile source_root invalid (capture): {exc}") from exc
++    if not isinstance(srel, str) or not srel:
++        raise ResearchAuthorityError("profile source_root invalid (capture)")
++    source_root = _repo_rel(repo_root, str(srel), "paths.source_root")
++    pins: list[tuple] = [state_pin, prof_pin]
++    dir_sets: list[tuple] = []
++    # Static tool files actually read in this path (observed pins, no external SHA).
++    _static_rels = [
++        "config/survey-production-v2.json",
++        "schemas/survey-production-state.schema.json",
++        "schemas/survey-production-profile.schema.json",
++        "schemas/stage-checkpoint-v2.schema.json",
++        "schemas/dm022-revision-request-v2.schema.json",
++        "schemas/dm022-revision-manifest-v2.schema.json",
++        "schemas/dm022-revision-proof-v2.schema.json",
++        "schemas/dm022-preadoption-report-v2.schema.json",
++        "schemas/dm022-supersession-checkpoint-v2.schema.json",
++        "schemas/discovery-acceptance-v2.schema.json",
++        "schemas/x-source-intake-v2.schema.json",
++        "schemas/survey-discovery-record.schema.json",
++        "schemas/screening-v2-run-package.schema.json",
++        "schemas/screening-v2-batch-result.schema.json",
++        "schemas/evidence-v2-run-package.schema.json",
++        "schemas/evidence-v2-task.schema.json",
++        "schemas/evidence-v2-card.schema.json",
++        "schemas/edition-evidence-view.schema.json",
++        "schemas/evidence-authority-supplement-v2.schema.json",
++        "schemas/materiality-ledger.schema.json",
++        "schemas/profile-completeness-result.schema.json",
++        "schemas/candidate-matrix-v2.schema.json",
++        "schemas/candidate-selection-v2.schema.json",
++        "schemas/issue-architecture-v2.schema.json",
++        "schemas/architecture-review-summary-v2.schema.json",
++        "schemas/architecture-review-attention-v2.schema.json",
++        "config/prompts/source-screening-v2.md",
++        "config/prompts/evidence-verification-v2.md",
++    ]
++    _seen_abs: set[str] = set()
++    _config_raw: bytes | None = None
++    for _rel in _static_rels:
++        _abs = _repo_rel(repo_root, _rel, f"tool {_rel}")
++        _pin, _raw = _pin_observed(repo_root, _abs, f"tool {_rel}")
++        pins.append(_pin)
++        _seen_abs.add(str(_abs))
++        if _rel == "config/survey-production-v2.json":
++            _config_raw = _raw
++    # Current runtime CODE via existing fixed registries (no new family/glob/cache).
++    # G76 receipt union (73) = 37 py + 27 schemas + route/staged/style/recipe per current-source-closure-map;
++    # runner itself is control-root bound (not row) and pinned explicitly.
++    # Pipeline/quality docs from live config (same-bytes parse, fail-closed).
++    try:
++        from scripts import survey_versioned_renewal_history_v2 as _hist
++        _g76_w = _hist._expected_receipt_closure("WEEKLY_GENERATED_V2", "G76")
++        _g76_l = _hist._expected_receipt_closure("LONGFORM_GENERATED_V1", "G76")
++        _code_union = tuple(sorted(set(_g76_w) | set(_g76_l)))
++    except Exception as exc:
++        raise ResearchAuthorityError(f"CODE closure registry unloadable (capture): {exc}") from exc
++    if _config_raw is None:
++        raise ResearchAuthorityError("config raw missing for CODE closure (capture)")
++    try:
++        import json as _json2
++        from scripts import survey_production_v2 as _core2
++        _cfg_doc = _json2.loads(_config_raw.decode("utf-8"), object_pairs_hook=_core2._strict_object_pairs)
++    except Exception as exc:
++        raise ResearchAuthorityError(f"config same-bytes parse failed (capture): {exc}") from exc
++    if not isinstance(_cfg_doc, dict):
++        raise ResearchAuthorityError("config must be object (capture)")
++    try:
++        _pipe = _cfg_doc["contract_files"]["pipeline"]
++        _qual = _cfg_doc["contract_files"]["quality"]
++    except (KeyError, TypeError) as exc:
++        raise ResearchAuthorityError(f"config contract_files missing (capture): {exc}") from exc
++    if not isinstance(_pipe, list) or not isinstance(_qual, list):
++        raise ResearchAuthorityError("config pipeline/quality must be lists (capture)")
++    _extra_rels: list[str] = []
++    _extra_rels.extend([str(x) for x in _code_union])
++    _extra_rels.append("scripts/run_selection_architecture_v2_interactive.py")
++    for _pr in _pipe:
++        if not isinstance(_pr, str) or not _pr:
++            raise ResearchAuthorityError("config pipeline entry invalid (capture)")
++        _extra_rels.append(_pr)
++    for _qr in _qual:
++        if not isinstance(_qr, str) or not _qr:
++            raise ResearchAuthorityError("config quality entry invalid (capture)")
++        _extra_rels.append(_qr)
++    for _rel2 in dict.fromkeys(_extra_rels):
++        if not isinstance(_rel2, str) or not _rel2 or "\\" in _rel2:
++            raise ResearchAuthorityError(f"CODE closure path invalid (capture): {_rel2!r}")
++        if _rel2.startswith("/") or ".." in Path(_rel2).parts:
++            raise ResearchAuthorityError(f"CODE closure escapes (capture): {_rel2!r}")
++        try:
++            _abs2 = _repo_rel(repo_root, _rel2, f"code {_rel2}")
++        except ResearchAuthorityError as exc:
++            raise ResearchAuthorityError(f"CODE closure repo-rel failed (capture): {_rel2}: {exc}") from exc
++        if str(_abs2) in _seen_abs:
++            continue
++        _pin2, _ = _pin_observed(repo_root, _abs2, f"code {_rel2}")
++        pins.append(_pin2)
++        _seen_abs.add(str(_abs2))
++    # Legacy compatibility file if present (record-owned, no guessing).
++    try:
++        _leg = state_doc.get("legacy_compatibility") or {}
++    except Exception as exc:
++        raise ResearchAuthorityError(f"state legacy_compatibility unreadable (capture): {exc}") from exc
++    if isinstance(_leg, dict) and _leg.get("legacy_state_present") is True:
++        _lp = _leg.get("legacy_state_path")
++        _ls = _leg.get("legacy_state_sha256")
++        if not isinstance(_lp, str) or not _lp or not isinstance(_ls, str):
++            raise ResearchAuthorityError("legacy_state present but path/sha invalid (capture)")
++        _labs = _repo_rel(repo_root, _lp, "legacy state")
++        _pin2, _ = _pin_with_expected(repo_root, _labs, "legacy state", _ls, None)
++        pins.append(_pin2)
++    structural = _resolve_research_from_state_bytes(repo_root, state_doc)
++    if structural.get("family") == "LEGACY":
++        return _SelectionReadSet(sp, state_pin, state_doc, None, None, None, prof_abs, prof_pin, prof_doc, source_root, {"issue_id": state_doc.get("issue_id"), "research_profile": prof_doc.get("research_profile"), "canonical_state_path": None}, tuple(pins), tuple(dir_sets), {}, False)
++    cpath = structural.get("checkpoint_path")
++    csha = structural.get("checkpoint_sha256")
++    if not isinstance(cpath, str) or not cpath or not isinstance(csha, str) or not csha:
++        raise ResearchAuthorityError("structural checkpoint path/sha invalid (capture)")
++    cp_abs = _repo_rel(repo_root, str(cpath), "research checkpoint")
++    cp_raw = _safe_read_bytes(cp_abs, "research checkpoint")
++    if hashlib.sha256(cp_raw).hexdigest() != csha:
++        raise ResearchAuthorityError("research checkpoint FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, cp_abs, "research checkpoint")
++    cp_pin = ("research checkpoint", cp_abs, str(csha), len(cp_raw))
++    pins.append(cp_pin)
++    cp_doc = _strict_parse_object(cp_raw, "research checkpoint")
++    typed = load_typed_checkpoint_record(repo_root, cp_abs)
++    if typed.get("family") == "LEGACY":
++        return _SelectionReadSet(sp, state_pin, state_doc, cp_abs, cp_pin, cp_doc, prof_abs, prof_pin, prof_doc, source_root, {"issue_id": state_doc.get("issue_id"), "research_profile": prof_doc.get("research_profile"), "canonical_state_path": None}, tuple(pins), tuple(dir_sets), {}, False)
++    if typed.get("family") != "PREARCH":
++        raise ResearchAuthorityError(f"unknown checkpoint family refused (capture): {typed.get('family')!r}")
++    record = typed.get("record")
++    if not isinstance(record, dict):
++        raise ResearchAuthorityError("PREARCH record missing (capture)")
++    # Four artifacts: exactly 4 expected names, strict shapes, pin + same-bytes parse.
++    _arts = record.get("artifacts")
++    if not isinstance(_arts, list) or len(_arts) != 4:
++        raise ResearchAuthorityError("PREARCH artifacts must be exactly 4 (capture)")
++    _art_docs: dict[str, tuple[Path, bytes, dict]] = {}
++    for row in _arts:
++        _named_ref_shape(row, "PREARCH artifact (capture)")
++        a_abs = _repo_rel(repo_root, str(row["path"]), "PREARCH artifact")
++        a_raw = _safe_read_bytes(a_abs, "PREARCH artifact")
++        if hashlib.sha256(a_raw).hexdigest() != row.get("sha256"):
++            raise ResearchAuthorityError("PREARCH artifact FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, a_abs, "PREARCH artifact")
++        pins.append((f"artifact {row.get('name')}", a_abs, str(row.get("sha256")), len(a_raw)))
++        try:
++            adoc = _strict_parse_object(a_raw, f"PREARCH artifact {row.get('name')}")
++        except ResearchAuthorityError as exc:
++            raise ResearchAuthorityError(f"PREARCH artifact JSON invalid (capture): {row.get('name')}: {exc}") from exc
++        if not isinstance(adoc, dict):
++            raise ResearchAuthorityError(f"PREARCH artifact must be object (capture): {row.get('name')}")
++        _art_docs[str(row.get("name"))] = (a_abs, a_raw, adoc)
++    for _need in ("evidence-acceptance", "edition-views-acceptance", "materiality-ledger", "profile-completeness"):
++        if _need not in _art_docs:
++            raise ResearchAuthorityError(f"PREARCH artifacts missing {_need} (capture)")
++    # Checkpoint profile (ArtifactRef, strict).
++    _cprof = record.get("profile")
++    if not isinstance(_cprof, dict):
++        raise ResearchAuthorityError("checkpoint.profile missing (capture)")
++    _artifact_ref_shape(_cprof, "checkpoint.profile (capture)")
++    _cprof_abs = _repo_rel(repo_root, str(_cprof["path"]), "checkpoint profile")
++    _cprof_raw = _safe_read_bytes(_cprof_abs, "checkpoint profile")
++    if hashlib.sha256(_cprof_raw).hexdigest() != _cprof.get("sha256"):
++        raise ResearchAuthorityError("checkpoint profile FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _cprof_abs, "checkpoint profile")
++    pins.append(("checkpoint profile", _cprof_abs, str(_cprof.get("sha256")), len(_cprof_raw)))
++    # Request / retention_plan / report / proof / decision (all SizedRef, strict, no fallback).
++    _sized_docs: dict[str, tuple[Path, bytes, dict]] = {}
++    for _key in ("request", "retention_plan", "report", "proof", "decision"):
++        _ref = record.get(_key)
++        if not isinstance(_ref, dict):
++            raise ResearchAuthorityError(f"checkpoint.{_key} missing (capture)")
++        _sized_ref_shape(_ref, f"checkpoint.{_key} (capture)")
++        _raw = _verify_sized_ref_bytes(repo_root, _ref, f"checkpoint {_key} (capture)")
++        _abs2 = _repo_rel(repo_root, str(_ref["path"]), f"checkpoint {_key}")
++        _require_no_symlink_ancestors(repo_root, _abs2, f"checkpoint {_key}")
++        pins.append((f"checkpoint {_key}", _abs2, str(_ref.get("sha256")), len(_raw)))
++        _doc2 = _strict_parse_object(_raw, f"checkpoint {_key}")
++        _sized_docs[_key] = (_abs2, _raw, _doc2)
++    req_abs, req_raw, req_doc = _sized_docs["request"]
++    # before_state: SizedRef in record; COPY file must match it (plus request.before_state).
++    _bs = record.get("before_state")
++    if not isinstance(_bs, dict):
++        raise ResearchAuthorityError("checkpoint.before_state missing (capture)")
++    _sized_ref_shape(_bs, "checkpoint.before_state (capture)")
++    # Manifest / COPY / inventory / completion via revision_root (all required for PREARCH).
++    _rev = record.get("revision_root")
++    if not isinstance(_rev, str) or not _rev:
++        raise ResearchAuthorityError("checkpoint.revision_root missing (capture)")
++    _rev_stripped = _rev.rstrip("/")
++    _man_rel = f"{_rev_stripped}/revision-manifest.json"
++    _copy_rel = f"{_rev_stripped}/retention/state-before.json"
++    _inv_rel = f"{_rev_stripped}/retention/inventory.json"
++    _comp_rel = f"{_rev_stripped}/completion/cleanup-completion.json"
++    _man_abs = _repo_rel(repo_root, _man_rel, "stored revision manifest")
++    _man_raw = _safe_read_bytes(_man_abs, "stored revision manifest")
++    _require_no_symlink_ancestors(repo_root, _man_abs, "stored revision manifest")
++    pins.append(("stored revision manifest", _man_abs, hashlib.sha256(_man_raw).hexdigest(), len(_man_raw)))
++    man_doc = _strict_parse_object(_man_raw, "stored revision manifest")
++    _copy_abs = _repo_rel(repo_root, _copy_rel, "retained state-before COPY")
++    _copy_raw = _safe_read_bytes(_copy_abs, "retained state-before COPY")
++    if hashlib.sha256(_copy_raw).hexdigest() != _bs.get("sha256"):
++        raise ResearchAuthorityError("retained COPY does not match checkpoint before_state (capture)")
++    if len(_copy_raw) != _bs.get("byte_count"):
++        raise ResearchAuthorityError("retained COPY byte_count != checkpoint before_state (capture)")
++    # Also must match request.before_state.
++    _req_bs = req_doc.get("before_state") if isinstance(req_doc, dict) else None
++    if not isinstance(_req_bs, dict):
++        raise ResearchAuthorityError("request.before_state missing (capture)")
++    _sized_ref_shape(_req_bs, "request.before_state (capture)")
++    if _req_bs.get("sha256") != _bs.get("sha256") or _req_bs.get("byte_count") != _bs.get("byte_count"):
++        raise ResearchAuthorityError("request.before_state != checkpoint.before_state (capture)")
++    # Request path must equal derived canonical logical State path is checked later by validators;
++    # capture pins COPY and records canonical expectation from request (fail-closed if missing).
++    _require_no_symlink_ancestors(repo_root, _copy_abs, "retained state-before COPY")
++    pins.append(("retained state-before COPY", _copy_abs, str(_bs.get("sha256")), len(_copy_raw)))
++    _inv_abs = _repo_rel(repo_root, _inv_rel, "retention inventory")
++    _inv_raw = _safe_read_bytes(_inv_abs, "retention inventory")
++    _require_no_symlink_ancestors(repo_root, _inv_abs, "retention inventory")
++    pins.append(("retention inventory", _inv_abs, hashlib.sha256(_inv_raw).hexdigest(), len(_inv_raw)))
++    try:
++        inv_doc = _strict_parse_object(_inv_raw, "retention inventory")
++    except ResearchAuthorityError as exc:
++        raise ResearchAuthorityError(f"retention inventory JSON invalid (capture): {exc}") from exc
++    _comp_abs = _repo_rel(repo_root, _comp_rel, "cleanup completion")
++    _comp_raw = _safe_read_bytes(_comp_abs, "cleanup completion")
++    _require_no_symlink_ancestors(repo_root, _comp_abs, "cleanup completion")
++    pins.append(("cleanup completion", _comp_abs, hashlib.sha256(_comp_raw).hexdigest(), len(_comp_raw)))
++    try:
++        comp_doc = _strict_parse_object(_comp_raw, "cleanup completion")
++    except ResearchAuthorityError as exc:
++        raise ResearchAuthorityError(f"cleanup completion JSON invalid (capture): {exc}") from exc
++    # DCP/SCP via state provenance (both required for PREARCH history).
++    _prov = state_doc.get("checkpoint_provenance")
++    if not isinstance(_prov, dict):
++        raise ResearchAuthorityError("state.checkpoint_provenance missing (capture)")
++    for _key in ("discovery", "screening"):
++        _ref2 = _prov.get(_key)
++        if not isinstance(_ref2, dict):
++            raise ResearchAuthorityError(f"state provenance {_key} missing (capture)")
++        _artifact_ref_shape(_ref2, f"state provenance {_key} (capture)")
++        _a2 = _repo_rel(repo_root, str(_ref2["path"]), f"state provenance {_key}")
++        _r2 = _safe_read_bytes(_a2, f"state provenance {_key}")
++        if hashlib.sha256(_r2).hexdigest() != _ref2.get("sha256"):
++            raise ResearchAuthorityError(f"state provenance {_key} FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _a2, f"state provenance {_key}")
++        pins.append((f"provenance {_key}", _a2, str(_ref2.get("sha256")), len(_r2)))
++        _docp = _strict_parse_object(_r2, f"state provenance {_key}")
++        # All artifacts in DCP/SCP.
++        _arts2 = _docp.get("artifacts")
++        if not isinstance(_arts2, list) or not _arts2:
++            raise ResearchAuthorityError(f"state provenance {_key} artifacts missing (capture)")
++        for _art in _arts2:
++            if not isinstance(_art, dict) or "path" not in _art or "sha256" not in _art:
++                raise ResearchAuthorityError(f"DCP/SCP artifact shape invalid (capture): {_key}")
++            # NamedRef or ArtifactRef? Accept both (name optional for legacy).
++            if "name" in _art:
++                _named_ref_shape(_art, f"DCP/SCP artifact {_key} (capture)")
++            else:
++                _artifact_ref_shape(_art, f"DCP/SCP artifact {_key} (capture)")
++            _aa = _repo_rel(repo_root, str(_art["path"]), f"DCP/SCP artifact {_key}")
++            _araw = _safe_read_bytes(_aa, f"DCP/SCP artifact {_key}")
++            if hashlib.sha256(_araw).hexdigest() != _art.get("sha256"):
++                raise ResearchAuthorityError(f"DCP/SCP artifact FILE sha drift (capture): {_key}")
++            _require_no_symlink_ancestors(repo_root, _aa, f"DCP/SCP artifact {_key}")
++            pins.append((f"DCP/SCP artifact {_key}", _aa, str(_art.get("sha256")), len(_araw)))
++        # All deterministic review results.
++        _revs = _docp.get("reviews")
++        if not isinstance(_revs, list) or not _revs:
++            raise ResearchAuthorityError(f"state provenance {_key} reviews missing (capture)")
++        for _rr in _revs:
++            if not isinstance(_rr, dict):
++                raise ResearchAuthorityError(f"DCP/SCP review row must be object (capture): {_key}")
++            if _rr.get("kind") != "DETERMINISTIC":
++                continue
++            _rref = _rr.get("result")
++            if not isinstance(_rref, dict) or "path" not in _rref or "sha256" not in _rref:
++                raise ResearchAuthorityError(f"DCP/SCP review result shape invalid (capture): {_key}")
++            _ra = _repo_rel(repo_root, str(_rref["path"]), f"DCP/SCP review {_key}")
++            _rraw = _safe_read_bytes(_ra, f"DCP/SCP review {_key}")
++            if hashlib.sha256(_rraw).hexdigest() != _rref.get("sha256"):
++                raise ResearchAuthorityError(f"DCP/SCP review FILE sha drift (capture): {_key}")
++            if "byte_count" in _rref and len(_rraw) != _rref.get("byte_count"):
++                raise ResearchAuthorityError(f"DCP/SCP review byte_count mismatch (capture): {_key}")
++            _require_no_symlink_ancestors(repo_root, _ra, f"DCP/SCP review {_key}")
++            pins.append((f"DCP/SCP review {_key}:{_rr.get('check_id')}", _ra, str(_rref.get("sha256")), len(_rraw)))
++    # Request profile/discovery/screening SizedRefs (strict, no swallow).
++    for _rk in ("profile_ref", "discovery_ref", "screening_ref"):
++        _rref3 = req_doc.get(_rk)
++        if not isinstance(_rref3, dict):
++            raise ResearchAuthorityError(f"request.{_rk} missing (capture)")
++        _sized_ref_shape(_rref3, f"request.{_rk} (capture)")
++        _rraw3 = _verify_sized_ref_bytes(repo_root, _rref3, f"request {_rk} (capture)")
++        _rabs3 = _repo_rel(repo_root, str(_rref3["path"]), f"request {_rk}")
++        _require_no_symlink_ancestors(repo_root, _rabs3, f"request {_rk}")
++        pins.append((f"request {_rk}", _rabs3, str(_rref3.get("sha256")), len(_rraw3)))
++    # Discovery/X closure: Discovery acceptance (DCP artifact already pinned, re-parse same bytes).
++    # Find DCP discovery-accepted path from provenance discovery doc (already pinned).
++    # Re-derive via request discovery_ref + DCP artifact (both pinned, same bytes).
++    # Pin X manifest + production_profile + tasks + raws + Discovery JSONL + all raw_paths.
++    # Use same-bytes parses throughout.
++    _x_manifest_abs: Path | None = None
++    _disc_jsonl_abs: Path | None = None
++    # Discovery acceptance file: from DCP artifact (first DCP artifact is discovery-acceptance).
++    # Locate via provenance discovery doc re-parse (already pinned raw).
++    _prov_disc_abs = _repo_rel(repo_root, str(_prov["discovery"]["path"]), "state provenance discovery")
++    _prov_disc_raw = _safe_read_bytes(_prov_disc_abs, "state provenance discovery")
++    _prov_disc_doc = _strict_parse_object(_prov_disc_raw, "state provenance discovery")
++    _dcp_art_map: dict[str, dict] = {}
++    for _a in _prov_disc_doc.get("artifacts", []):
++        if isinstance(_a, dict) and isinstance(_a.get("name"), str):
++            _dcp_art_map[_a.get("name")] = _a
++    if "discovery-acceptance" not in _dcp_art_map:
++        raise ResearchAuthorityError("DCP missing discovery-acceptance (capture)")
++    _disc_acc_abs = _repo_rel(repo_root, str(_dcp_art_map["discovery-acceptance"]["path"]), "Discovery acceptance")
++    _disc_acc_raw = _safe_read_bytes(_disc_acc_abs, "Discovery acceptance")
++    if hashlib.sha256(_disc_acc_raw).hexdigest() != _dcp_art_map["discovery-acceptance"].get("sha256"):
++        raise ResearchAuthorityError("Discovery acceptance FILE sha drift (capture)")
++    # Already pinned as DCP/SCP artifact; parse same bytes.
++    _disc_acc_doc = _strict_parse_object(_disc_acc_raw, "Discovery acceptance")
++    _x_ref = _disc_acc_doc.get("x_source_intake")
++    if not isinstance(_x_ref, dict):
++        raise ResearchAuthorityError("Discovery acceptance x_source_intake missing (capture)")
++    if set(_x_ref) != {"path", "sha256"}:
++        raise ResearchAuthorityError("Discovery acceptance x_source_intake shape invalid (capture)")
++    _x_abs = _repo_rel(repo_root, str(_x_ref["path"]), "X manifest")
++    _x_raw = _safe_read_bytes(_x_abs, "X manifest")
++    if hashlib.sha256(_x_raw).hexdigest() != _x_ref.get("sha256"):
++        raise ResearchAuthorityError("X manifest FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _x_abs, "X manifest")
++    pins.append(("X manifest", _x_abs, str(_x_ref.get("sha256")), len(_x_raw)))
++    _x_doc = _strict_parse_object(_x_raw, "X manifest")
++    _x_prof = _x_doc.get("production_profile")
++    if not isinstance(_x_prof, dict):
++        raise ResearchAuthorityError("X manifest production_profile missing (capture)")
++    if set(_x_prof) != {"path", "sha256"}:
++        raise ResearchAuthorityError("X manifest production_profile shape invalid (capture)")
++    _xp_abs = _repo_rel(repo_root, str(_x_prof["path"]), "X production profile")
++    _xp_raw = _safe_read_bytes(_xp_abs, "X production profile")
++    if hashlib.sha256(_xp_raw).hexdigest() != _x_prof.get("sha256"):
++        raise ResearchAuthorityError("X production profile FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _xp_abs, "X production profile")
++    pins.append(("X production profile", _xp_abs, str(_x_prof.get("sha256")), len(_xp_raw)))
++    _runs = _x_doc.get("runs")
++    if not isinstance(_runs, list):
++        raise ResearchAuthorityError("X manifest runs missing (capture)")
++    # Empty runs allowed at capture (e.g., THEMATIC NOT_REQUIRED with 0 runs); original validators decide validity.
++    for _ri, _run in enumerate(_runs):
++        if not isinstance(_run, dict):
++            raise ResearchAuthorityError(f"X run { _ri} must be object (capture)")
++        _task = _run.get("task")
++        if not isinstance(_task, dict) or "path" not in _task or "sha256" not in _task:
++            raise ResearchAuthorityError(f"X run {_ri} task shape invalid (capture)")
++        _t_abs = _repo_rel(repo_root, str(_task["path"]), f"X task {_ri}")
++        _t_raw = _safe_read_bytes(_t_abs, f"X task {_ri}")
++        if hashlib.sha256(_t_raw).hexdigest() != _task.get("sha256"):
++            raise ResearchAuthorityError(f"X task FILE sha drift (capture): {_ri}")
++        _require_no_symlink_ancestors(repo_root, _t_abs, f"X task {_ri}")
++        pins.append((f"X task {_ri}", _t_abs, str(_task.get("sha256")), len(_t_raw)))
++        _res = _run.get("result")
++        if not isinstance(_res, dict):
++            raise ResearchAuthorityError(f"X run {_ri} result missing (capture)")
++        _rraw_ref = _res.get("raw")
++        if not isinstance(_rraw_ref, dict):
++            raise ResearchAuthorityError(f"X run {_ri} result.raw missing (capture)")
++        if set(_rraw_ref) != {"path", "sha256", "byte_count"}:
++            raise ResearchAuthorityError(f"X run {_ri} result.raw shape invalid (capture)")
++        _rr_abs = _repo_rel(repo_root, str(_rraw_ref["path"]), f"X raw {_ri}")
++        _rr_raw = _verify_sized_ref_bytes(repo_root, _rraw_ref, f"X raw {_ri} (capture)")
++        _require_no_symlink_ancestors(repo_root, _rr_abs, f"X raw {_ri}")
++        pins.append((f"X raw {_ri}", _rr_abs, str(_rraw_ref.get("sha256")), len(_rr_raw)))
++    # Discovery JSONL (from Discovery acceptance discovery_path/discovery_sha256).
++    _dpath = _disc_acc_doc.get("discovery_path")
++    _dsha = _disc_acc_doc.get("discovery_sha256")
++    if not isinstance(_dpath, str) or not _dpath or not isinstance(_dsha, str):
++        raise ResearchAuthorityError("Discovery acceptance discovery_path/sha missing (capture)")
++    _dj_abs = _repo_rel(repo_root, _dpath, "Discovery JSONL")
++    _dj_raw = _safe_read_bytes(_dj_abs, "Discovery JSONL")
++    if hashlib.sha256(_dj_raw).hexdigest() != _dsha:
++        raise ResearchAuthorityError("Discovery JSONL FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _dj_abs, "Discovery JSONL")
++    pins.append(("Discovery JSONL", _dj_abs, str(_dsha), len(_dj_raw)))
++    _dj_records = _parse_jsonl_same(_dj_raw, "Discovery JSONL")
++    # All non-supplement Discovery raw_paths (observed pins, no external SHA).
++    try:
++        from scripts import survey_discovery_v2 as _disc_mod
++        _has_disc = True
++    except Exception as exc:
++        raise ResearchAuthorityError(f"Discovery helper import failed (capture): {exc}") from exc
++    _seen_raw: set[str] = set()
++    for _rec in _dj_records:
++        _src = _rec.get("source") if isinstance(_rec, dict) else None
++        if not isinstance(_src, dict):
++            continue
++        _rps = _src.get("raw_paths")
++        if not isinstance(_rps, list):
++            raise ResearchAuthorityError("Discovery record raw_paths must be list (capture)")
++        for _rp in _rps:
++            if not isinstance(_rp, str) or not _rp:
++                raise ResearchAuthorityError("Discovery raw_path must be non-empty string (capture)")
++            if _rp in _seen_raw:
++                continue
++            _seen_raw.add(_rp)
++            _raw_abs2 = _disc_mod._safe_repo_file(repo_root, _rp)
++            _raw_bytes2 = _safe_read_bytes(_raw_abs2, "Discovery Raw")
++            _require_no_symlink_ancestors(repo_root, _raw_abs2, "Discovery Raw")
++            pins.append((f"Discovery Raw {_rp}", _raw_abs2, hashlib.sha256(_raw_bytes2).hexdigest(), len(_raw_bytes2)))
++    # Effective Discovery JSONL (request discovery_ref, already pinned as request discovery_ref).
++    _req_disc = req_doc.get("discovery_ref")
++    assert isinstance(_req_disc, dict)
++    _eff_abs = _repo_rel(repo_root, str(_req_disc["path"]), "request discovery_ref")
++    _eff_raw = _safe_read_bytes(_eff_abs, "request discovery_ref")
++    # Already pinned above as request discovery_ref; parse same bytes as JSONL for Raw closure.
++    _eff_records = _parse_jsonl_same(_eff_raw, "Effective Discovery JSONL")
++    for _rec2 in _eff_records:
++        _src2 = _rec2.get("source") if isinstance(_rec2, dict) else None
++        if not isinstance(_src2, dict):
++            continue
++        _rps2 = _src2.get("raw_paths")
++        if not isinstance(_rps2, list):
++            continue
++        for _rp2 in _rps2:
++            if not isinstance(_rp2, str) or not _rp2 or _rp2 in _seen_raw:
++                continue
++            _seen_raw.add(_rp2)
++            _raw_abs3 = _disc_mod._safe_repo_file(repo_root, _rp2)
++            _raw_bytes3 = _safe_read_bytes(_raw_abs3, "Effective Discovery Raw")
++            _require_no_symlink_ancestors(repo_root, _raw_abs3, "Effective Discovery Raw")
++            pins.append((f"Effective Discovery Raw {_rp2}", _raw_abs3, hashlib.sha256(_raw_bytes3).hexdigest(), len(_raw_bytes3)))
++    # Screening closure: acceptance (SCP artifact + request screening_ref, both pinned).
++    _prov_scr_abs = _repo_rel(repo_root, str(_prov["screening"]["path"]), "state provenance screening")
++    _prov_scr_raw = _safe_read_bytes(_prov_scr_abs, "state provenance screening")
++    _prov_scr_doc = _strict_parse_object(_prov_scr_raw, "state provenance screening")
++    _scp_art_map: dict[str, dict] = {}
++    for _a3 in _prov_scr_doc.get("artifacts", []):
++        if isinstance(_a3, dict) and isinstance(_a3.get("name"), str):
++            _scp_art_map[_a3.get("name")] = _a3
++    if "screening-acceptance" not in _scp_art_map:
++        raise ResearchAuthorityError("SCP missing screening-acceptance (capture)")
++    _scr_acc_abs = _repo_rel(repo_root, str(_scp_art_map["screening-acceptance"]["path"]), "Screening acceptance")
++    _scr_acc_raw = _safe_read_bytes(_scr_acc_abs, "Screening acceptance")
++    if hashlib.sha256(_scr_acc_raw).hexdigest() != _scp_art_map["screening-acceptance"].get("sha256"):
++        raise ResearchAuthorityError("Screening acceptance FILE sha drift (capture)")
++    _scr_acc_doc = _strict_parse_object(_scr_acc_raw, "Screening acceptance")
++    # Screening package (sibling package.json, bound by acceptance package_sha256).
++    _spkg_sha = _scr_acc_doc.get("package_sha256")
++    if not isinstance(_spkg_sha, str) or not _spkg_sha:
++        raise ResearchAuthorityError("Screening acceptance package_sha256 missing (capture)")
++    _spkg_abs = _scr_acc_abs.parent / "package.json"
++    _spkg_raw = _safe_read_bytes(_spkg_abs, "screening package")
++    if hashlib.sha256(_spkg_raw).hexdigest() != _spkg_sha:
++        raise ResearchAuthorityError("screening package FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _spkg_abs, "screening package")
++    pins.append(("screening package", _spkg_abs, str(_spkg_sha), len(_spkg_raw)))
++    _spkg_doc = _strict_parse_object(_spkg_raw, "screening package")
++    # Screening prompt + result_contract (strict shapes, pin + SHA check).
++    for _pk in ("prompt", "result_contract"):
++        _pref = _spkg_doc.get(_pk)
++        if not isinstance(_pref, dict):
++            raise ResearchAuthorityError(f"screening package {_pk} missing (capture)")
++        if "path" not in _pref or "sha256" not in _pref:
++            raise ResearchAuthorityError(f"screening package {_pk} shape invalid (capture)")
++        _pa = _repo_rel(repo_root, str(_pref["path"]), f"screening {_pk}")
++        _pr = _safe_read_bytes(_pa, f"screening {_pk}")
++        if hashlib.sha256(_pr).hexdigest() != _pref.get("sha256"):
++            raise ResearchAuthorityError(f"screening {_pk} FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _pa, f"screening {_pk}")
++        pins.append((f"screening {_pk}", _pa, str(_pref.get("sha256")), len(_pr)))
++    # Screening basis files (profile/discovery, strict).
++    _sbasis = _spkg_doc.get("basis")
++    if not isinstance(_sbasis, dict):
++        raise ResearchAuthorityError("screening package basis missing (capture)")
++    for _bk in ("profile_path", "discovery_path"):
++        _bp = _sbasis.get(_bk)
++        _bs2 = _sbasis.get(_bk.replace("_path", "_sha256"))
++        if not isinstance(_bp, str) or not _bp or not isinstance(_bs2, str):
++            raise ResearchAuthorityError(f"screening package basis {_bk} missing (capture)")
++        _babs = _repo_rel(repo_root, _bp, f"screening basis {_bk}")
++        _braw = _safe_read_bytes(_babs, f"screening basis {_bk}")
++        if hashlib.sha256(_braw).hexdigest() != _bs2:
++            raise ResearchAuthorityError(f"screening basis {_bk} FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _babs, f"screening basis {_bk}")
++        pins.append((f"screening basis {_bk}", _babs, str(_bs2), len(_braw)))
++    # Screening input batches (exact set + each pin + SHA check).
++    _sinput = _spkg_doc.get("input")
++    if not isinstance(_sinput, dict) or not isinstance(_sinput.get("batches"), list) or not _sinput.get("batches"):
++        raise ResearchAuthorityError("screening package input.batches missing (capture)")
++    _exp_batch_names: list[str] = []
++    for _b in _sinput.get("batches"):
++        if not isinstance(_b, dict) or "path" not in _b or "sha256" not in _b or "batch_id" not in _b:
++            raise ResearchAuthorityError("screening batch shape invalid (capture)")
++        _bpath = str(_b["path"])
++        _babs2 = _spkg_abs.parent / _bpath
++        # Ensure within repo + no symlink ancestors.
++        try:
++            _babs2.resolve().relative_to(repo_root.resolve())
++        except ValueError as exc:
++            raise ResearchAuthorityError(f"screening batch escapes repository (capture): {_bpath}") from exc
++        _braw2 = _safe_read_bytes(_babs2, "screening batch")
++        if hashlib.sha256(_braw2).hexdigest() != _b.get("sha256"):
++            raise ResearchAuthorityError("screening batch FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _babs2, "screening batch")
++        pins.append((f"screening batch {_b.get('batch_id')}", _babs2, str(_b.get("sha256")), len(_braw2)))
++        _exp_batch_names.append(Path(_bpath).name)
++    if not _exp_batch_names:
++        raise ResearchAuthorityError("screening batches empty (capture)")
++    dir_sets.append(("screening input batches", _spkg_abs.parent / "input" / "batches", tuple(sorted(_exp_batch_names))))
++    # Screening results (exact set from acceptance batches, each pin + SHA check).
++    _acc_batches = _scr_acc_doc.get("batches")
++    if not isinstance(_acc_batches, list) or not _acc_batches:
++        raise ResearchAuthorityError("Screening acceptance batches missing (capture)")
++    _exp_result_names: list[str] = []
++    for _ab in _acc_batches:
++        if not isinstance(_ab, dict) or "batch_id" not in _ab or "result_sha256" not in _ab:
++            raise ResearchAuthorityError("Screening acceptance batch shape invalid (capture)")
++        _bid = str(_ab["batch_id"])
++        _rname = f"{_bid}.json"
++        _exp_result_names.append(_rname)
++        _rabs4 = _scr_acc_abs.parent / "results" / _rname
++        _rraw4 = _safe_read_bytes(_rabs4, "screening result")
++        if hashlib.sha256(_rraw4).hexdigest() != _ab.get("result_sha256"):
++            raise ResearchAuthorityError("screening result FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _rabs4, "screening result")
++        pins.append((f"screening result {_bid}", _rabs4, str(_ab.get("result_sha256")), len(_rraw4)))
++    dir_sets.append(("screening results", _scr_acc_abs.parent / "results", tuple(sorted(_exp_result_names))))
++    # Evidence closure: acceptance (already pinned as PREARCH artifact).
++    _ev_abs, _ev_raw, _ev_doc = _art_docs["evidence-acceptance"]
++    _ev_pkg_sha = _ev_doc.get("package_sha256")
++    if not isinstance(_ev_pkg_sha, str) or not _ev_pkg_sha:
++        raise ResearchAuthorityError("Evidence acceptance package_sha256 missing (capture)")
++    _ev_pkg_abs = _ev_abs.parent / "package.json"
++    _ev_pkg_raw = _safe_read_bytes(_ev_pkg_abs, "evidence package")
++    if hashlib.sha256(_ev_pkg_raw).hexdigest() != _ev_pkg_sha:
++        raise ResearchAuthorityError("evidence package FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _ev_pkg_abs, "evidence package")
++    pins.append(("evidence package", _ev_pkg_abs, str(_ev_pkg_sha), len(_ev_pkg_raw)))
++    _ev_pkg_doc = _strict_parse_object(_ev_pkg_raw, "evidence package")
++    # Evidence prompt + contracts (all required, strict).
++    _eprompt = _ev_pkg_doc.get("prompt")
++    if not isinstance(_eprompt, dict) or "path" not in _eprompt or "sha256" not in _eprompt:
++        raise ResearchAuthorityError("evidence package prompt missing (capture)")
++    _epa = _repo_rel(repo_root, str(_eprompt["path"]), "evidence prompt")
++    _epr = _safe_read_bytes(_epa, "evidence prompt")
++    if hashlib.sha256(_epr).hexdigest() != _eprompt.get("sha256"):
++        raise ResearchAuthorityError("evidence prompt FILE sha drift (capture)")
++    _require_no_symlink_ancestors(repo_root, _epa, "evidence prompt")
++    pins.append(("evidence prompt", _epa, str(_eprompt.get("sha256")), len(_epr)))
++    _econtracts = _ev_pkg_doc.get("contracts")
++    if not isinstance(_econtracts, dict) or not _econtracts:
++        raise ResearchAuthorityError("evidence package contracts missing (capture)")
++    for _ck, _cref in _econtracts.items():
++        if not isinstance(_cref, dict) or "path" not in _cref or "sha256" not in _cref:
++            raise ResearchAuthorityError(f"evidence contract {_ck} shape invalid (capture)")
++        _ca = _repo_rel(repo_root, str(_cref["path"]), f"evidence contract {_ck}")
++        _cr = _safe_read_bytes(_ca, f"evidence contract {_ck}")
++        if hashlib.sha256(_cr).hexdigest() != _cref.get("sha256"):
++            raise ResearchAuthorityError(f"evidence contract {_ck} FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _ca, f"evidence contract {_ck}")
++        pins.append((f"evidence contract {_ck}", _ca, str(_cref.get("sha256")), len(_cr)))
++    # Evidence basis files (profile/discovery/screening_acceptance, strict).
++    _ebasis = _ev_pkg_doc.get("basis")
++    if not isinstance(_ebasis, dict):
++        raise ResearchAuthorityError("evidence package basis missing (capture)")
++    for _ek in ("profile_path", "discovery_path", "screening_acceptance_path"):
++        _ep2 = _ebasis.get(_ek)
++        _es2 = _ebasis.get(_ek.replace("_path", "_sha256") if _ek != "screening_acceptance_path" else "screening_acceptance_sha256")
++        # Note: basis keys are profile_path/profile_sha256, discovery_path/discovery_sha256, screening_acceptance_path/screening_acceptance_sha256.
++        if _ek == "screening_acceptance_path":
++            _es2 = _ebasis.get("screening_acceptance_sha256")
++        else:
++            _es2 = _ebasis.get(_ek.replace("_path", "_sha256"))
++        if not isinstance(_ep2, str) or not _ep2 or not isinstance(_es2, str):
++            raise ResearchAuthorityError(f"evidence package basis {_ek} missing (capture)")
++        _eabs2 = _repo_rel(repo_root, _ep2, f"evidence basis {_ek}")
++        _eraw2 = _safe_read_bytes(_eabs2, f"evidence basis {_ek}")
++        if hashlib.sha256(_eraw2).hexdigest() != _es2:
++            raise ResearchAuthorityError(f"evidence basis {_ek} FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _eabs2, f"evidence basis {_ek}")
++        pins.append((f"evidence basis {_ek}", _eabs2, str(_es2), len(_eraw2)))
++    # Evidence tasks (exact set + each pin).
++    _etasks = _ev_pkg_doc.get("tasks")
++    if not isinstance(_etasks, list) or not _etasks:
++        raise ResearchAuthorityError("evidence package tasks missing (capture)")
++    _exp_task_names: list[str] = []
++    for _t in _etasks:
++        if not isinstance(_t, dict) or "path" not in _t or "sha256" not in _t or "evidence_task_id" not in _t:
++            raise ResearchAuthorityError("evidence task shape invalid (capture)")
++        _tpath = str(_t["path"])
++        _tabs = _ev_pkg_abs.parent / _tpath
++        try:
++            _tabs.resolve().relative_to(repo_root.resolve())
++        except ValueError as exc:
++            raise ResearchAuthorityError(f"evidence task escapes repository (capture): {_tpath}") from exc
++        _traw = _safe_read_bytes(_tabs, "evidence task")
++        if hashlib.sha256(_traw).hexdigest() != _t.get("sha256"):
++            raise ResearchAuthorityError("evidence task FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _tabs, "evidence task")
++        pins.append((f"evidence task {_t.get('evidence_task_id')}", _tabs, str(_t.get("sha256")), len(_traw)))
++        _exp_task_names.append(Path(_tpath).name)
++    dir_sets.append(("evidence tasks", _ev_pkg_abs.parent / "tasks", tuple(sorted(_exp_task_names))))
++    # Evidence results/cards (exact set from acceptance results, each pin + SHA check).
++    _ev_results = _ev_doc.get("results")
++    if not isinstance(_ev_results, list) or not _ev_results:
++        raise ResearchAuthorityError("Evidence acceptance results missing (capture)")
++    _exp_card_names: list[str] = []
++    for _er in _ev_results:
++        if not isinstance(_er, dict) or "filename" not in _er or "sha256" not in _er or "evidence_task_id" not in _er:
++            raise ResearchAuthorityError("Evidence result shape invalid (capture)")
++        _fname = str(_er["filename"])
++        _exp_card_names.append(_fname)
++        _cabs = _ev_abs.parent / "results" / _fname
++        _craw = _safe_read_bytes(_cabs, "evidence card")
++        if hashlib.sha256(_craw).hexdigest() != _er.get("sha256"):
++            raise ResearchAuthorityError("evidence card FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _cabs, "evidence card")
++        pins.append((f"evidence card {_er.get('evidence_task_id')}", _cabs, str(_er.get("sha256")), len(_craw)))
++    dir_sets.append(("evidence results", _ev_abs.parent / "results", tuple(sorted(_exp_card_names))))
++    # Views (exact set via view_filename, each pin + SHA check against views acceptance).
++    _views_abs, _views_raw, _views_doc = _art_docs["edition-views-acceptance"]
++    _views_list = _views_doc.get("views")
++    if not isinstance(_views_list, list) or not _views_list:
++        raise ResearchAuthorityError("Views acceptance views missing (capture)")
++    try:
++        from scripts import survey_evidence_v2 as _evm
++        _vf = _evm.view_filename
++    except Exception as exc:
++        raise ResearchAuthorityError(f"view_filename helper import failed (capture): {exc}") from exc
++    _exp_view_names: list[str] = []
++    for _vw in _views_list:
++        if not isinstance(_vw, dict) or "evidence_task_id" not in _vw or "view_sha256" not in _vw:
++            raise ResearchAuthorityError("View row shape invalid (capture)")
++        _tid = str(_vw["evidence_task_id"])
++        try:
++            _vname = _vf(_tid)
++        except Exception as exc:
++            raise ResearchAuthorityError(f"view_filename failed (capture): {_tid}: {exc}") from exc
++        _exp_view_names.append(_vname)
++        _vabs = _views_abs.parent / "views" / _vname
++        _vraw = _safe_read_bytes(_vabs, "edition view")
++        if hashlib.sha256(_vraw).hexdigest() != _vw.get("view_sha256"):
++            raise ResearchAuthorityError("edition view FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _vabs, "edition view")
++        pins.append((f"edition view {_tid}", _vabs, str(_vw.get("view_sha256")), len(_vraw)))
++    dir_sets.append(("edition views", _views_abs.parent / "views", tuple(sorted(_exp_view_names))))
++    # Supplement via evidence package authority_supplement (if present) + request supplement_manifest (if present).
++    # Healthy no-supplement = both absent (None). Either present must be strict SizedRef/Ref with ALL Raws.
++    _supp = _ev_pkg_doc.get("authority_supplement")
++    _supp_pinned_abs: set[str] = set()
++    def _pin_supplement_manifest(_ref: dict, _label_prefix: str) -> bytes:
++        if set(_ref) != {"path", "sha256"} and set(_ref) != {"path", "sha256", "byte_count"}:
++            raise ResearchAuthorityError(f"{_label_prefix} fields invalid (capture)")
++        _a = _repo_rel(repo_root, str(_ref["path"]), _label_prefix)
++        # Use SizedRef check when byte_count present, else ArtifactRef check.
++        if "byte_count" in _ref:
++            _r = _verify_sized_ref_bytes(repo_root, _ref, f"{_label_prefix} (capture)")
++        else:
++            _r = _safe_read_bytes(_a, _label_prefix)
++            if hashlib.sha256(_r).hexdigest() != _ref.get("sha256"):
++                raise ResearchAuthorityError(f"{_label_prefix} FILE sha drift (capture)")
++        _require_no_symlink_ancestors(repo_root, _a, _label_prefix)
++        # Deduplicate same abs (real W34 evidence + request point to same file).
++        if str(_a) not in _supp_pinned_abs:
++            pins.append(("supplement manifest", _a, str(_ref.get("sha256")), len(_r)))
++            _supp_pinned_abs.add(str(_a))
++        return _r
++    _supp_doc_to_use: dict | None = None
++    if _supp is None:
++        pass
++    elif not isinstance(_supp, dict):
++        raise ResearchAuthorityError("evidence package authority_supplement shape invalid (capture)")
++    else:
++        _supp_raw = _pin_supplement_manifest(_supp, "supplement manifest")
++        _supp_doc = _strict_parse_object(_supp_raw, "supplement manifest")
++        _supp_sources = _supp_doc.get("sources")
++        if not isinstance(_supp_sources, list) or not _supp_sources:
++            raise ResearchAuthorityError("supplement manifest sources missing (capture)")
++        try:
++            from scripts import survey_evidence_v2 as _evm2
++            _supp_basis = _supp_doc.get("basis")
++            if not isinstance(_supp_basis, dict):
++                raise ResearchAuthorityError("supplement manifest basis missing (capture)")
++            _supp_root_rel = _supp_basis.get("source_root")
++            if not isinstance(_supp_root_rel, str) or not _supp_root_rel:
++                raise ResearchAuthorityError("supplement basis source_root missing (capture)")
++            _supp_root_abs = _repo_rel(repo_root, _supp_root_rel, "supplement source_root")
++        except ResearchAuthorityError:
++            raise
++        except Exception as exc:
++            raise ResearchAuthorityError(f"supplement basis unreadable (capture): {exc}") from exc
++        for _se in _supp_sources:
++            if not isinstance(_se, dict):
++                raise ResearchAuthorityError("supplement source must be object (capture)")
++            _sid = _se.get("supplement_source_id")
++            _rpath = _se.get("raw_path")
++            _rsha = _se.get("raw_sha256")
++            _rlen = _se.get("byte_count")
++            if not isinstance(_sid, str) or not _sid or not isinstance(_rpath, str) or not _rpath or not isinstance(_rsha, str) or not isinstance(_rlen, int):
++                raise ResearchAuthorityError("supplement source fields invalid (capture)")
++            try:
++                _sabs = _evm2._supplement_source_file(repo_root, _rpath, _supp_root_abs)
++            except Exception as exc:
++                raise ResearchAuthorityError(f"supplement Raw path invalid (capture): {_rpath}: {exc}") from exc
++            _sraw = _safe_read_bytes(_sabs, "supplement Raw")
++            if hashlib.sha256(_sraw).hexdigest() != _rsha:
++                raise ResearchAuthorityError("supplement Raw FILE sha drift (capture)")
++            if len(_sraw) != _rlen:
++                raise ResearchAuthorityError("supplement Raw byte_count mismatch (capture)")
++            _require_no_symlink_ancestors(repo_root, _sabs, "supplement Raw")
++            # Deduplicate same Raw abs (real W34 evidence + request share same manifest/Raws).
++            _dup = False
++            for _el, _ep, _es, _ell in pins:
++                if _el == f"supplement Raw {_sid}" and str(_ep) == str(_sabs):
++                    _dup = True
++                    break
++            if not _dup:
++                pins.append((f"supplement Raw {_sid}", _sabs, str(_rsha), len(_sraw)))
++    # Request supplement_manifest (if present) — same strict binding; healthy no-supp = both absent.
++    _req_supp = req_doc.get("supplement_manifest") if isinstance(req_doc, dict) else None
++    if _req_supp is None:
++        pass
++    elif not isinstance(_req_supp, dict):
++        raise ResearchAuthorityError("request.supplement_manifest shape invalid (capture)")
++    else:
++        _req_supp_raw = _pin_supplement_manifest(_req_supp, "request supplement manifest")
++        _req_supp_doc = _strict_parse_object(_req_supp_raw, "request supplement manifest")
++        _req_supp_sources = _req_supp_doc.get("sources")
++        if not isinstance(_req_supp_sources, list) or not _req_supp_sources:
++            raise ResearchAuthorityError("request supplement manifest sources missing (capture)")
++        try:
++            from scripts import survey_evidence_v2 as _evm3
++            _req_basis = _req_supp_doc.get("basis")
++            if not isinstance(_req_basis, dict):
++                raise ResearchAuthorityError("request supplement basis missing (capture)")
++            _req_root_rel = _req_basis.get("source_root")
++            if not isinstance(_req_root_rel, str) or not _req_root_rel:
++                raise ResearchAuthorityError("request supplement source_root missing (capture)")
++            _req_root_abs = _repo_rel(repo_root, _req_root_rel, "request supplement source_root")
++        except ResearchAuthorityError:
++            raise
++        except Exception as exc:
++            raise ResearchAuthorityError(f"request supplement basis unreadable (capture): {exc}") from exc
++        for _se2 in _req_supp_sources:
++            if not isinstance(_se2, dict):
++                raise ResearchAuthorityError("request supplement source must be object (capture)")
++            _sid2 = _se2.get("supplement_source_id")
++            _rpath2 = _se2.get("raw_path")
++            _rsha2 = _se2.get("raw_sha256")
++            _rlen2 = _se2.get("byte_count")
++            if not isinstance(_sid2, str) or not _sid2 or not isinstance(_rpath2, str) or not _rpath2 or not isinstance(_rsha2, str) or not isinstance(_rlen2, int):
++                raise ResearchAuthorityError("request supplement source fields invalid (capture)")
++            try:
++                _sabs2 = _evm3._supplement_source_file(repo_root, _rpath2, _req_root_abs)
++            except Exception as exc:
++                raise ResearchAuthorityError(f"request supplement Raw invalid (capture): {_rpath2}: {exc}") from exc
++            _sraw2 = _safe_read_bytes(_sabs2, "request supplement Raw")
++            if hashlib.sha256(_sraw2).hexdigest() != _rsha2:
++                raise ResearchAuthorityError("request supplement Raw FILE sha drift (capture)")
++            if len(_sraw2) != _rlen2:
++                raise ResearchAuthorityError("request supplement Raw byte_count mismatch (capture)")
++            _require_no_symlink_ancestors(repo_root, _sabs2, "request supplement Raw")
++            _dup2 = False
++            for _el2, _ep2, _es2, _ell2 in pins:
++                if _el2 == f"supplement Raw {_sid2}" and str(_ep2) == str(_sabs2):
++                    _dup2 = True
++                    break
++            if not _dup2:
++                pins.append((f"supplement Raw {_sid2}", _sabs2, str(_rsha2), len(_sraw2)))
++    # Own-epoch args (all required for PREARCH, no empty fallback).
++    own = {"record": record, "manifest": man_doc, "request": req_doc}
++    if not isinstance(record, dict) or not record:
++        raise ResearchAuthorityError("own record empty (capture)")
++    if not isinstance(man_doc, dict) or not man_doc:
++        raise ResearchAuthorityError("own manifest empty (capture)")
++    if not isinstance(req_doc, dict) or not req_doc:
++        raise ResearchAuthorityError("own request empty (capture)")
++    # Expectations (strict, no fallback to state_path string).
++    try:
++        _exp_issue = record.get("issue_id")
++        _exp_prof = record.get("research_profile") or prof_doc.get("research_profile")
++        _canon = (req_doc.get("before_state") or {}).get("path")
++    except Exception as exc:
++        raise ResearchAuthorityError(f"expectations derivation failed (capture): {exc}") from exc
++    if not isinstance(_exp_issue, str) or not _exp_issue:
++        raise ResearchAuthorityError("expectations issue_id missing (capture)")
++    if not isinstance(_exp_prof, str) or not _exp_prof:
++        raise ResearchAuthorityError("expectations research_profile missing (capture)")
++    if not isinstance(_canon, str) or not _canon:
++        raise ResearchAuthorityError("expectations canonical_state_path missing (capture)")
++    exp = {"issue_id": _exp_issue, "research_profile": _exp_prof, "canonical_state_path": _canon}
++    return _SelectionReadSet(sp, state_pin, state_doc, cp_abs, cp_pin, cp_doc, prof_abs, prof_pin, prof_doc, source_root, exp, tuple(pins), tuple(dir_sets), own, True)
++
++
++def _recheck_selection_read_set(repo_root: Path, state_path: Path, read_set: _SelectionReadSet) -> None:
++    """Recheck full read set (FILE pin rechecks + ancestors + exact sets + FULL own-epoch).
++
++    Drift -> fail-closed. Never expected=observed. Includes FULL own-epoch
++    object batch for PREARCH unconditionally; LEGACY skips own-epoch batch.
++    Manifest/request missing refuses (own empty cannot pass for PREARCH).
++    """
++    repo_root = _norm_path(repo_root, "repo_root")
++    for label, path, exp_sha, exp_len in read_set.pins:
++        raw = _safe_read_bytes(Path(path), f"{label} (recheck)")
++        if len(raw) != exp_len or hashlib.sha256(raw).hexdigest() != exp_sha:
++            raise ResearchAuthorityError(f"{label} bytes changed (recheck): {path}")
++        # Ancestor/symlink re-derivation for repo-local pins.
++        try:
++            _require_no_symlink_ancestors(repo_root, Path(path), f"{label} ancestor (recheck)")
++        except ResearchAuthorityError as exc:
++            # Outside repo (e.g., temp input) skips ancestor re-derivation; SHA/len already bound.
++            # Only skip if path is genuinely outside repo.
++            try:
++                Path(path).resolve().relative_to(repo_root.resolve())
++            except ValueError:
++                pass
++            else:
++                raise
++    for label, dpath, exp_names in read_set.dir_sets:
++        d = Path(dpath)
++        # Dir itself must not be symlink and must be within repo.
++        try:
++            lst = os.lstat(d)
++        except OSError as exc:
++            raise ResearchAuthorityError(f"{label} directory unreadable (recheck): {d}: {exc}") from exc
++        if not _stat.S_ISDIR(lst.st_mode):
++            raise ResearchAuthorityError(f"{label} not a directory (recheck): {d}")
++        if _stat.S_ISLNK(lst.st_mode):
++            raise ResearchAuthorityError(f"{label} directory is symlink (recheck): {d}")
++        _require_no_symlink_ancestors(repo_root, d, f"{label} directory (recheck)")
++        try:
++            entries = list(os.listdir(d))
++        except OSError as exc:
++            raise ResearchAuthorityError(f"{label} directory unreadable (recheck): {d}: {exc}") from exc
++        if sorted(entries) != sorted(list(exp_names)):
++            raise ResearchAuthorityError(f"{label} directory set changed (recheck): {d}")
++        for name in entries:
++            p = d / name
++            try:
++                st = os.lstat(p)
++            except OSError as exc:
++                raise ResearchAuthorityError(f"{label} lstat failed (recheck): {p}: {exc}") from exc
++            if not _stat.S_ISREG(st.st_mode):
++                raise ResearchAuthorityError(f"{label} nonregular present (recheck): {p}")
++            # Leaf symlink already refused via S_ISREG? lstat S_ISLNK would be symlink, not regular, so refused. Explicit:
++            if _stat.S_ISLNK(st.st_mode):
++                raise ResearchAuthorityError(f"{label} symlink present (recheck): {p}")
++            _require_no_symlink_ancestors(repo_root, p, f"{label} entry (recheck)")
++    if read_set.is_prearch:
++        own = read_set.own_epoch or {}
++        rec = own.get("record")
++        man = own.get("manifest")
++        req = own.get("request")
++        if not isinstance(rec, dict) or not rec or not isinstance(man, dict) or not man or not isinstance(req, dict) or not req:
++            raise ResearchAuthorityError("PREARCH own epoch incomplete (recheck): manifest/request missing refuses")
++        _verify_own_epoch_commit(repo_root, rec, man, req)
++    # LEGACY skips own-epoch batch (no PREARCH proof).
++
++
++def _check_completion_slots_fresh(repo_root: Path, source_root: Path, checkpoint_ref: dict[str, str]) -> None:
++    """Lightweight seven-plan/inventory/expected_after recompute (no full AG).
++
++    Preserves historical completion semantics via shared extraction: retention
++    inventory 7 rows exactly bound to manifest snapshots, expected_after
++    recomputed from retained COPY, seven_plan vs inventory vs lstat with
++    legitimate-regeneration tolerance (old-absent/new-content/same-byte-new-inode
++    allowed, same-inode stale/nonregular/unreadable refuses). No cleanup/retry.
++    """
++    repo_root = _norm_path(repo_root, "repo_root")
++    source_root = _norm_path(source_root, "source_root")
++    _artifact_ref_shape(checkpoint_ref, "checkpoint_ref")
++    cp_rel = str(checkpoint_ref["path"])
++    # Load record + manifest via pinned paths (no State).
++    abs_cp = _repo_rel(repo_root, cp_rel, "completion checkpoint")
++    raw_cp = _safe_read_bytes(abs_cp, "completion checkpoint")
++    if hashlib.sha256(raw_cp).hexdigest() != checkpoint_ref["sha256"]:
++        raise ResearchAuthorityError("completion checkpoint FILE sha drift")
++    typed = load_typed_checkpoint_record(repo_root, abs_cp)
++    if typed.get("family") != "PREARCH":
++        raise ResearchAuthorityError("completion checkpoint not PREARCH")
++    record = typed.get("record")
++    rev_root = record.get("revision_root")
++    if not isinstance(rev_root, str) or not rev_root:
++        raise ResearchAuthorityError("revision_root missing (slots)")
++    man_abs = _repo_rel(repo_root, f"{rev_root.rstrip('/')}/revision-manifest.json", "slots manifest")
++    man_raw = _safe_read_bytes(man_abs, "slots manifest")
++    man_doc = _strict_parse_object(man_raw, "slots manifest")
++    inv_abs = _repo_rel(repo_root, f"{rev_root.rstrip('/')}/retention/inventory.json", "slots inventory")
++    inv_raw = _safe_read_bytes(inv_abs, "slots inventory")
++    inv_doc = _strict_parse_object(inv_raw, "slots inventory")
++    comp_abs = _repo_rel(repo_root, f"{rev_root.rstrip('/')}/completion/cleanup-completion.json", "slots completion")
++    comp_raw = _safe_read_bytes(comp_abs, "slots completion")
++    comp_doc = _strict_parse_object(comp_raw, "slots completion")
++    copy_abs = _repo_rel(repo_root, f"{rev_root.rstrip('/')}/retention/state-before.json", "slots COPY")
++    copy_raw = _safe_read_bytes(copy_abs, "slots COPY")
++    # Inventory 7 rows exactly bound to manifest snapshots.
++    inv_rows = inv_doc.get("rows")
++    man_rows = (man_doc.get("retention_snapshots") or [])
++    if not isinstance(inv_rows, list) or len(inv_rows) != 7:
++        raise ResearchAuthorityError("slots inventory must have exactly 7 rows")
++    if not isinstance(man_rows, list) or len(man_rows) != 7:
++        raise ResearchAuthorityError("slots manifest must have exactly 7 rows")
++    man_by_slot = {r.get("slot"): r for r in man_rows if isinstance(r, dict)}
++    for row in inv_rows:
++        slot = row.get("slot")
++        if slot not in SEVEN_SLOTS:
++            raise ResearchAuthorityError(f"slots inventory unknown slot: {slot!r}")
++        other = man_by_slot.get(slot)
++        if not isinstance(other, dict) or row != other:
++            raise ResearchAuthorityError(f"slots inventory row != manifest snapshot: {slot}")
++    # Expected_after recomputed from COPY (never trusted).
++    exp_raw = _expected_after_state_bytes(copy_raw, {"path": comp_doc.get("checkpoint", {}).get("path"), "sha256": comp_doc.get("checkpoint", {}).get("sha256")})
++    if hashlib.sha256(exp_raw).hexdigest() != comp_doc.get("expected_after_state", {}).get("sha256"):
++        raise ResearchAuthorityError("slots expected_after sha != COPY recompute")
++    if len(exp_raw) != comp_doc.get("expected_after_state", {}).get("byte_count"):
++        raise ResearchAuthorityError("slots expected_after len != COPY recompute")
++    # Seven_plan vs inventory vs lstat with legitimate-regeneration tolerance.
++    seven = comp_doc.get("seven_plan", [])
++    if not isinstance(seven, list) or len(seven) != 7:
++        raise ResearchAuthorityError("slots seven_plan must have exactly 7 rows")
++    inv_by_slot = {r.get("slot"): r for r in inv_rows}
++    seen: set[str] = set()
++    for row in seven:
++        slot = row.get("slot")
++        if slot not in SEVEN_SLOTS:
++            raise ResearchAuthorityError(f"slots seven_plan unknown slot: {slot!r}")
++        if slot in seen:
++            raise ResearchAuthorityError(f"slots seven_plan duplicate: {slot}")
++        seen.add(slot)
++        if row.get("disposition") not in ("cleared", "absent_legitimate"):
++            raise ResearchAuthorityError(f"slots seven_plan disposition invalid: {slot}")
++        inv = inv_by_slot.get(slot)
++        if inv is None:
++            raise ResearchAuthorityError(f"slots seven_plan missing inventory: {slot}")
++        if inv.get("present"):
++            if row.get("disposition") != "cleared":
++                raise ResearchAuthorityError(f"slots seven_plan must be cleared for retained: {slot}")
++            if row.get("captured_sha") != inv.get("source_sha256") or row.get("copy_sha") != inv.get("copy_sha256"):
++                raise ResearchAuthorityError(f"slots seven_plan sha != inventory: {slot}")
++        else:
++            if row.get("disposition") != "absent_legitimate":
++                raise ResearchAuthorityError(f"slots seven_plan must be absent_legitimate for never-present: {slot}")
++            if row.get("captured_sha") is not None or row.get("copy_sha") is not None:
++                raise ResearchAuthorityError(f"slots seven_plan shas must be null for never-present: {slot}")
++        obs = lstat_slot(source_root, slot)
++        if not obs.get("present"):
++            continue
++        if not inv.get("present"):
++            continue
++        if obs.get("lstat_kind") != "regular":
++            raise ResearchAuthorityError(f"DM022_TRANSITION_ACTIVE: nonregular present slot: {slot}")
++        try:
++            cur_raw = _safe_read_bytes(source_root / slot, f"slot {slot}")
++        except ResearchAuthorityError:
++            raise ResearchAuthorityError(f"DM022_TRANSITION_ACTIVE: unreadable present slot: {slot}")
++        if hashlib.sha256(cur_raw).hexdigest() != inv.get("copy_sha256"):
++            continue
++        captured_ino = inv.get("source_ino")
++        if isinstance(captured_ino, int) and obs.get("ino") != captured_ino:
++            continue
++        raise ResearchAuthorityError(f"DM022_TRANSITION_ACTIVE: stale slot still present: {slot}")
++
+ 
+ 
+ def resolve_research_authority(repo_root: Path, state_path: Path) -> dict[str, Any]:

@@ -1,0 +1,56 @@
+--- active/scripts/survey_review_attention_v2.py
+
++++ new/scripts/survey_review_attention_v2.py
+
+@@ -29,15 +29,20 @@
+
+     return str(path.resolve().relative_to(repo_root.resolve()))
+ 
+ 
+-def build_attention(
++def _build_attention_payload(
+     repo_root: Path,
+     screening_acceptance_path: Path,
+     materiality_ledger_path: Path,
+     candidate_selection_path: Path,
+-    output_path: Path,
+     *,
+     limit: int = 50,
+-) -> Path:
++) -> dict[str, Any]:
++    """Private pure payload builder (existing construction+validation, no write).
++
++    Extracted from build_attention for checked-writer expected-bytes binding.
++    No second algorithm/new module; public builder and runner writer share it.
++    Preserves limit/count/truncation/overflow semantics and basis binds.
++    """
+     if limit < 1 or limit > 500:
+         raise ValueError("review-attention limit must be between 1 and 500")
+     screening_path = _safe_file(repo_root, screening_acceptance_path)
+@@ -137,6 +142,25 @@
+
+         raise ValueError("review-attention bounded count invariant failed")
+     if payload["truncated"] != (payload["overflow_count"] > 0):
+         raise ValueError("review-attention truncation invariant failed")
++    return payload
++
++
++def build_attention(
++    repo_root: Path,
++    screening_acceptance_path: Path,
++    materiality_ledger_path: Path,
++    candidate_selection_path: Path,
++    output_path: Path,
++    *,
++    limit: int = 50,
++) -> Path:
++    payload = _build_attention_payload(
++        repo_root,
++        screening_acceptance_path,
++        materiality_ledger_path,
++        candidate_selection_path,
++        limit=limit,
++    )
+     if output_path.exists():
+         raise ValueError(f"refusing to overwrite Architecture Review attention: {output_path}")
+     core.write_json(output_path, payload)

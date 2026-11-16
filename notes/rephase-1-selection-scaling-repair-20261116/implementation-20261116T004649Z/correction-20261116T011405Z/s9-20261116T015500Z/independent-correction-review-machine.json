@@ -1,0 +1,149 @@
+{
+  "kind": "INDEPENDENT_S9_CORRECTION_REVIEW_MACHINE",
+  "schema_version": "1",
+  "packet": "notes/rephase-1-selection-scaling-repair-20261116",
+  "s9_dir": "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/correction-20261116T011405Z/s9-20261116T015500Z",
+  "markdown_companion": "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/correction-20261116T011405Z/s9-20261116T015500Z/independent-correction-review.md",
+  "status": "GO_TO_REAL_WRITER_REHEARSAL",
+  "verdict": "GO_BOUNDED_REHEARSAL_ONLY",
+  "final_delivery_pass": false,
+  "real_writer_rehearsal_granted": false,
+  "requires_explicit_root_dispatch": true,
+  "operator_auth": false,
+  "source_commit_pending": true,
+  "fresh_current_pending": true,
+  "method": {
+    "reads_only": true,
+    "project_import": false,
+    "runtime": false,
+    "tests": false,
+    "git": false,
+    "network": false,
+    "source_edits": false,
+    "subagents": false,
+    "stdlib_hash_used": true,
+    "stdlib_hash_tool": "python3 -c hashlib/pathlib/json/stat (no project imports)",
+    "broad_db_search": false
+  },
+  "second_author_complete_trusted": false,
+  "source_pins_verified_stdlib": [
+    {
+      "path": "scripts/survey_review_attention_v2.py",
+      "bytes": 7796,
+      "sha256": "10126da7482ff5203aa47663c5795ff96c14a452b67ed60b74d690a86d0e5718",
+      "mode": "0o664"
+    },
+    {
+      "path": "scripts/survey_architecture_v2_base.py",
+      "bytes": 51050,
+      "sha256": "b3cd4a95f5123fbf34150bcd09921f035d12480cdaa69382fc58f4b55b8133c0",
+      "mode": "0o664"
+    },
+    {
+      "path": "scripts/survey_research_authority_v2.py",
+      "bytes": 309483,
+      "sha256": "fd788b7444e5c38988d9946eec2542e35c5b9671e1bfaf9cddac5420120e5bf1",
+      "mode": "0o664"
+    },
+    {
+      "path": "scripts/run_selection_architecture_v2_interactive.py",
+      "bytes": 50865,
+      "sha256": "b16c47599856919a38367aa412889baef8df02aeaf3325048e3796c5921869c7",
+      "mode": "0o664"
+    },
+    {
+      "path": "tests/test_selection_scaling_repair_v2.py",
+      "bytes": 49973,
+      "sha256": "a21f5949434a3a7b787df13556d9ff4cf559d41529c6ef27bf46258dc952ba18",
+      "mode": "0o664"
+    }
+  ],
+  "run_evidence": {
+    "argv": [
+      "/usr/bin/python3",
+      "-m",
+      "unittest",
+      "tests.test_selection_scaling_repair_v2",
+      "-v"
+    ],
+    "cwd": ".rephase-1-editorial-runtime/selection-scaling-implementation-20261116T004649Z/candidate-work",
+    "env": {
+      "PYTHONDONTWRITEBYTECODE": "1",
+      "GIT_NO_LAZY_FETCH": "1",
+      "GIT_OPTIONAL_LOCKS": "0"
+    },
+    "pid": 1080621,
+    "run_start_utc": "2026-11-16T02:08:32.921805Z",
+    "run_end_utc": "2026-11-16T02:09:49.344541Z",
+    "wall_seconds": 76.42269611358643,
+    "stderr_wall_seconds": 76.169,
+    "numeric_exit": 0,
+    "tests": 22,
+    "test_names_count": 22,
+    "stdout_lines": 19,
+    "readset_counts": {
+      "W34_pins": 1915,
+      "W34_dirsets": 5,
+      "SP_pins": 724,
+      "SP_dirsets": 5
+    },
+    "source_head": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56"
+  },
+  "explicit_fault_labels_stdout": [
+    "INPUT_SUBCASE:mutated-input-before-copy-after-check",
+    "INPUT_SUBCASE:input-archive-entry-refused-no-audit",
+    "FAULT_SUBCASES:evidence task, evidence card, edition view, Discovery Raw, X raw 0, supplement Raw, X manifest, retained state-before COPY, stored revision manifest, cleanup completion, production state, research checkpoint, checkpoint report",
+    "OWNED_SUBCASE:mutated-owned-matrix-after-write",
+    "OWNED_SUBCASE:owned-after-selection-refused-no-later-artifact",
+    "RETURN_SUBCASE:mutated-State-after-audit-before-return",
+    "RETURN_SUBCASE:return-after-audit-refused-preserve-seven",
+    "OWNED_SUBCASE:second-run-preflight-present (preflight only, NOT owned-tamper proof)",
+    "LEGACY_SUBCASE:healthy-writer-success",
+    "LEGACY_SUBCASE:invalid-package-corrupt-batch-sha",
+    "CODE_SUBCASE:live-code-drift-same-head",
+    "SYMLINK_SUBCASE:no-collateral-legacy-healthy",
+    "SYMLINK_SUBCASE:same-byte-input-symlink",
+    "SYMLINK_SUBCASE:same-byte-input-leaf-symlink-boundary",
+    "SYMLINK_SUBCASE:same-byte-input-parent-symlink",
+    "NOSUPP_SUBCASE:new-prearch-no-supp-capture-is-prearch-no-manifest",
+    "NOSUPP_SUBCASE:new-no-supp-writer-pass",
+    "NOSUPP_SUBCASE:old-empty-context-still-valid",
+    "NOSUPP_SUBCASE:supplemented-to-null-downgrade-refuses"
+  ],
+  "s9_blockers_closed": {
+    "legacy_swallow_removed_triplet_prearch_only": "runner 425-432 unconditional package validators; boundary 500-504 triplet only when is_prearch; LEGACY healthy + invalid-package via ACTUAL run",
+    "owned_return_input_actual_seams": "wrap write_candidate_matrix write_json copy2 after real write then ACTUAL run; owned mutated-matrix no-later-artifact; return mutated-State-after-audit preserve-seven; input mutated-before-copy archive-refused-no-audit; no fake PASS; second-run preflight distinguished NOT tamper proof",
+    "batched_labels_genuine_supplement": "supplemented PREARCH via supp-carry HIGH prepare adopt; distinct task card View + DiscoveryRaw Xraw0 supplementRaw Xmanifest COPY manifest completion State checkpoint report; _first raises if missing; FAULT_SUBCASES logged; no unexercised counted",
+    "nosupp_new_path": "NEW capture is_prearch no manifest pins + NEW writer pass; old helper + downgrade separate",
+    "live_code_current_closure": "G76 union 73 + pipeline quality + runner pinned 1310-1362; live LOW drift via ACTUAL check refuses same HEAD; historical batch separate",
+    "lexical_nofollow_main_root_effective": "_lexical_absolute _require_no_symlink_lexical _lexical_repo_root in prepare check run main; State input parent lexical + containment; same-byte leaf parent symlink via ACTUAL prepare check; no collateral LEGACY; COPY-derived root_records root_path effective separate",
+    "third_resolver_removed": "helper-internal + direct four = 2; no extra duplicate; wall 76.42s not speedup claim; ROOT section 2 no overoptimization requirement honored"
+  },
+  "wrappers_call_originals": "arch_mod.write_candidate_matrix _orig_write called then mutate; _core2.write_json _orig_write_json called then mutate State on audit; _sh.copy2 _orig_copy2 called then mutate src; full authority validation NOT replaced",
+  "current_g76_union73_pipeline_quality_runner": "37 py + 27 schemas + route staged style recipe + pipeline quality + runner explicitly; live config same-bytes parse fail-closed; dedup; no new family glob cache",
+  "metadata_full_pins_no_extra": "5 changed paths bytes SHA mode listed; diffs active-vs-corrected only 4 modules + test; pre-s9 snapshot preserves 5; full 773 not re-certified here; record for delivery",
+  "closure_membership_fixed_lists": "G76 union pipeline quality DM022-7 5 exact dir_sets via existing helpers; test helpers test-only never runtime authority; unbundled TeX missing26309 bulk31466 runtimeTeX nonbundled preserved; disposable synthetic DBs legitimate",
+  "no_overoptimization": true,
+  "precise_residuals_not_full_suite": [
+    "R1 LEGACY writer covered healthy + invalid; no further LEGACY suite",
+    "R2 no-supp NEW covered; no further supplement suite",
+    "R3 batched 13 labels logged; persist labels no rerun",
+    "R4 modes pins for delivery manifest only",
+    "R5 owned-tamper via seam only; never cite second-run preflight as tamper proof"
+  ],
+  "bounded_rehearsal_scope_if_root_authorizes": "isolated real-material W34 SP all-seven normal writer; no CURRENT delivery; new independent copy meaningful source commit saved State CP completion four-ref seven-absence guards",
+  "ordinary_commit_push_human_owned": true,
+  "certification": {
+    "fresh_source_certification": false,
+    "runtime_proof": false,
+    "git_verification": false,
+    "network": false,
+    "imports": false,
+    "tests_executed": false,
+    "source_writes": false,
+    "files_written_by_this_review": [
+      "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/correction-20261116T011405Z/s9-20261116T015500Z/independent-correction-review.md",
+      "notes/rephase-1-selection-scaling-repair-20261116/implementation-20261116T004649Z/correction-20261116T011405Z/s9-20261116T015500Z/independent-correction-review-machine.json"
+    ]
+  }
+}

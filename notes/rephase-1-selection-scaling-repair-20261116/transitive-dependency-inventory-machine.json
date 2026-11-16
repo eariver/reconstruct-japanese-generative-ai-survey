@@ -1,0 +1,750 @@
+{
+  "record_type": "transitive_dependency_inventory_source_read_only",
+  "status": "SOURCE_READ_ONLY_ANALYSIS_NOT_IMPLEMENTATION_NOT_RUNTIME_PROOF",
+  "packet": "notes/rephase-1-selection-scaling-repair-20261116",
+  "markdown_companion": "notes/rephase-1-selection-scaling-repair-20261116/transitive-dependency-inventory.md",
+  "source": {
+    "workspace": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "recorded_head": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "recorded_parent": "cc1c7fd1cf979e71fda4ae2164828b37bc1b2325",
+    "recorded_tree": "ec11cf6c49b3cdf54c7aa98703f6d3e74806dc58",
+    "head_verified_with_git": false,
+    "scope": "active source files and existing schemas only; no project source import/execution/tests/fixtures/Git/network/active writes/subagents/DB-corpus scan",
+    "method_note": "one static config read as DATA to identify orchestration.stage_plan; all counts below are source and call-graph estimates, not measured runtime counts"
+  },
+  "explicit_qualifiers": {
+    "not_new_authority": true,
+    "not_global_audit_verdict": true,
+    "not_runtime_proof": true,
+    "source_counts_are_estimates": true,
+    "session_root_meaning": "in-memory root_records and root_path passed to content validators; NOT session files, execution indexes, collector sessions, or P3S _Session",
+    "proof_decision_readback_observation": "proof and decision bytes are not opened by the existing Selection readback paths shown here; only SHA fields are cross-bound. This is a material source observation about the existing readback, not an audited global defect claim and not a claim that the broader DM022 lifecycle lacks proof validation",
+    "retention_inventory_external_sha_nuance": "record.retention_plan is a SizedRef and may point to the same file as revision_root/retention/inventory.json. When the paths coincide, that SizedRef can externally bind the inventory path/SHA. The code does not enforce path equality, so a universal assertion that the inventory has no external SHA is not supported"
+  },
+  "root_section_4_1_confirmation": {
+    "function": "survey_discovery_v2._normalize_record",
+    "lines": "121-127",
+    "finding": "every source.raw_paths entry is read and hashed for every Discovery record, independent of Evidence authority_supplement",
+    "details": [
+      "raw_paths = source.get('raw_paths') at 121",
+      "non-empty string-list validation at 122-123",
+      "for each rel: _safe_repo_file; sha256_file; stat().st_size; appended as path/sha256/byte_count at 125-127"
+    ],
+    "empty_supplement_meaning": "survey_evidence_v2._resolve_phase_supplement_context returns empty manifest/raw/basis tuples only when package.authority_supplement is absent (322-330); this does not remove Discovery, X-intake, or in-memory session-root Raw reads",
+    "retraction": "the R2 review inference that an empty supplement means no non-supplement Raw is incorrect"
+  },
+  "entry_sequence": [
+    {
+      "lines": "247-249",
+      "calls": [
+        "core.load_json(config)",
+        "core.load_json(state)",
+        "agent.validate_agent_state"
+      ],
+      "consumed_material": "current config, LIVE State, Profile, State schema, legacy artifact, DCP/SCP records and reports, three PREARCH proof traversals"
+    },
+    {
+      "lines": "260",
+      "calls": [
+        "_dm022_require_ready -> low.require_research_operation_ready"
+      ],
+      "consumed_material": "guard, State, Profile, checkpoint, FULL completion verification with two adopted-graph traversals"
+    },
+    {
+      "lines": "262",
+      "calls": [
+        "discovery.validate_acceptance"
+      ],
+      "consumed_material": "Discovery acceptance, X manifest, current config/Profile, X tasks and Raw, Discovery JSONL and Raw"
+    },
+    {
+      "lines": "264",
+      "calls": [
+        "_dm022_resolve_ledger_completeness -> low.resolve_research_authority"
+      ],
+      "consumed_material": "first full adopted graph, report, State and checkpoint recheck"
+    },
+    {
+      "lines": "270-278",
+      "calls": [
+        "_dm022_pinned_family",
+        "second low.resolve_research_authority"
+      ],
+      "consumed_material": "typed checkpoint reload and second full adopted graph"
+    },
+    {
+      "lines": "283-285",
+      "calls": [
+        "screening.resolve_active_screening_acceptance"
+      ],
+      "consumed_material": "State-bound SCP, package, batches, results, effective Discovery; internal strictState and overridden package-basis verifier"
+    },
+    {
+      "lines": "286-291",
+      "calls": [
+        "screening.resolve_effective_discovery_basis"
+      ],
+      "consumed_material": "Screening package, derived and root Discovery, acceptance"
+    },
+    {
+      "lines": "304",
+      "calls": [
+        "_dm022_preflight_seven"
+      ],
+      "consumed_material": "seven output-slot lstat checks"
+    },
+    {
+      "lines": "309-313",
+      "calls": [
+        "architecture.derive_candidate_matrix under current_stage_basis_override"
+      ],
+      "consumed_material": "LIVE _load_upstream Evidence/Views/Ledger/Completeness nesting"
+    },
+    {
+      "lines": "316-319",
+      "calls": [
+        "READY",
+        "matrix write"
+      ],
+      "consumed_material": "full completion again"
+    },
+    {
+      "lines": "359",
+      "calls": [
+        "architecture.validate_selection"
+      ],
+      "consumed_material": "config, Profile, matrix, completeness, ledger"
+    },
+    {
+      "lines": "362-365",
+      "calls": [
+        "READY",
+        "selection write"
+      ],
+      "consumed_material": "full completion"
+    },
+    {
+      "lines": "422-430",
+      "calls": [
+        "architecture.validate_architecture",
+        "READY",
+        "architecture write"
+      ],
+      "consumed_material": "selection, Profile, matrix, completeness, ledger"
+    },
+    {
+      "lines": "432-436",
+      "calls": [
+        "build_architecture_review_summary under override"
+      ],
+      "consumed_material": "_load_upstream plus validate_candidate_matrix -> second _load_upstream"
+    },
+    {
+      "lines": "440-448",
+      "calls": [
+        "READY",
+        "review write",
+        "READY",
+        "attention build and validation"
+      ],
+      "consumed_material": "two full completions; attention reads SCP acceptance, ledger, selection"
+    },
+    {
+      "lines": "451-459",
+      "calls": [
+        "READY",
+        "archive copy",
+        "READY",
+        "audit write"
+      ],
+      "consumed_material": "full completion; audit hashes five outputs and archive"
+    },
+    {
+      "lines": "472-481",
+      "calls": [
+        "return"
+      ],
+      "consumed_material": "relative paths, counts, and readiness only; no output SHA re-hash"
+    }
+  ],
+  "typed_field_file_pins": {
+    "live_state_profile_config_schema": [
+      {
+        "typed_field": "runner state_path",
+        "path": "CLI path",
+        "existing_expected_pin": "no external SHA; the file itself is the authority input",
+        "actual_bytes_consumed_by": [
+          "runner 248",
+          "LOW readiness 4104",
+          "completion 1066-1068"
+        ],
+        "notes": "State content is validated, not compared to a separately declared State hash"
+      },
+      {
+        "typed_field": "state.profile.{path,sha256}",
+        "path": "repo-relative Profile",
+        "existing_expected_pin": "SHA from State",
+        "actual_bytes_consumed_by": [
+          "runner 255",
+          "agent _profile_and_source 547-575",
+          "LOW _bind_profile_and_canonical 1687-1732",
+          "Screening _canonical_root_acceptance 953-961"
+        ],
+        "notes": "Profile bytes are actually read and hashed"
+      },
+      {
+        "typed_field": "profile.paths.source_root",
+        "path": "directory",
+        "existing_expected_pin": "no hash; path only",
+        "actual_bytes_consumed_by": [
+          "output root",
+          "supplement containment"
+        ],
+        "notes": "not a byte pin"
+      },
+      {
+        "typed_field": "state.legacy_compatibility.legacy_state_path plus present/sha",
+        "path": "file",
+        "existing_expected_pin": "present plus SHA from State",
+        "actual_bytes_consumed_by": [
+          "agent strictState 947-956"
+        ],
+        "notes": "current compatibility artifact"
+      },
+      {
+        "typed_field": "state.checkpoint_provenance.{evidence,materiality,completeness}",
+        "path": "ArtifactRef path and sha256",
+        "existing_expected_pin": "SHA from State",
+        "actual_bytes_consumed_by": [
+          "agent and LOW typed loaders",
+          "require_same_triplet 387-400"
+        ],
+        "notes": "same PREARCH record path and SHA"
+      },
+      {
+        "typed_field": "state.checkpoint_provenance.discovery/screening",
+        "path": "ArtifactRef path and sha256",
+        "existing_expected_pin": "SHA from State",
+        "actual_bytes_consumed_by": [
+          "_context_from_before_state 1765-1789"
+        ],
+        "notes": "legacy DCP and SCP records"
+      },
+      {
+        "typed_field": "config/survey-production-v2.json",
+        "path": "static repo path",
+        "existing_expected_pin": "no declared hash in selection path",
+        "actual_bytes_consumed_by": [
+          "runner 247",
+          "agent producer and control fields",
+          "LOW _legacy_producer_check 1289-1322",
+          "LOW _bind_profile_and_canonical 1709-1717",
+          "Screening live basis"
+        ],
+        "notes": "own epoch reads the commit config 673-685, not current source"
+      },
+      {
+        "typed_field": "schemas/survey-production-state.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash",
+        "actual_bytes_consumed_by": [
+          "agent 937",
+          "LOW 1906"
+        ],
+        "notes": "current tool schema"
+      },
+      {
+        "typed_field": "schemas/survey-production-profile.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash",
+        "actual_bytes_consumed_by": [
+          "LOW 1705"
+        ],
+        "notes": "current tool schema"
+      },
+      {
+        "typed_field": "schemas/stage-checkpoint-v2.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash",
+        "actual_bytes_consumed_by": [
+          "legacy DCP and SCP typed load 346-350"
+        ],
+        "notes": "current tool schema"
+      },
+      {
+        "typed_field": "schemas/dm022-supersession-checkpoint-v2.schema.json",
+        "path": "static",
+        "existing_expected_pin": "object id checked in own epoch",
+        "actual_bytes_consumed_by": [
+          "typed load 352-357"
+        ],
+        "notes": "DM022 checkpoint"
+      },
+      {
+        "typed_field": "schemas/dm022-revision-request-v2.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash; object contract used in own epoch",
+        "actual_bytes_consumed_by": [
+          "request validators 842 and 1238"
+        ],
+        "notes": "request"
+      },
+      {
+        "typed_field": "schemas/dm022-revision-manifest-v2.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash; object contract used in own epoch",
+        "actual_bytes_consumed_by": [
+          "manifest validators 875 and 3402"
+        ],
+        "notes": "manifest"
+      },
+      {
+        "typed_field": "schemas/dm022-preadoption-report-v2.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash; object contract used in own epoch",
+        "actual_bytes_consumed_by": [
+          "report validators 242, 1186, 3897"
+        ],
+        "notes": "report"
+      },
+      {
+        "typed_field": "schemas/dm022-revision-proof-v2.schema.json",
+        "path": "static",
+        "existing_expected_pin": "no declared hash in selection readback",
+        "actual_bytes_consumed_by": [
+          "proof build path 3842 only"
+        ],
+        "notes": "selection readback does not validate proof bytes"
+      }
+    ],
+    "prearch_dm022_record_and_refs": [
+      {
+        "record_field": "artifacts[].{name,path,sha256}",
+        "typed_shape": "NamedRef x4",
+        "path_relationship": "names exactly evidence-acceptance, edition-views-acceptance, materiality-ledger, profile-completeness",
+        "actual_bytes_consumed": true,
+        "consumer": "_load_typed_four_refs 476-494"
+      },
+      {
+        "record_field": "profile.{path,sha256}",
+        "typed_shape": "ArtifactRef",
+        "path_relationship": "checkpoint profile file",
+        "actual_bytes_consumed": true,
+        "consumer": "_load_typed_four_refs 514-520"
+      },
+      {
+        "record_field": "request.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "revision request file",
+        "actual_bytes_consumed": true,
+        "consumer": "_verify_adopted_graph_full 837-846; reread by derive_ordinary_root_effective_context through load_revision_request"
+      },
+      {
+        "record_field": "retention_plan.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "retention or plan JSON",
+        "actual_bytes_consumed": true,
+        "consumer": "_verify_adopted_graph_full 868-870 and 901-903",
+        "nuance": "may be the same file as revision_root/retention/inventory.json. If so, this SizedRef can externally bind that inventory path/SHA. Path equality is not enforced, so do not assert universality either way"
+      },
+      {
+        "record_field": "report.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "pre-adoption report",
+        "actual_bytes_consumed": true,
+        "consumer": "resolve_research_authority 1181-1187; check_supersession_record_from_paths 3891-3899"
+      },
+      {
+        "record_field": "proof.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "proof file",
+        "actual_bytes_consumed": false,
+        "consumer": "SHA-only cross-binding to report fields 1189-1191 and 3906-3908"
+      },
+      {
+        "record_field": "decision.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "decision file",
+        "actual_bytes_consumed": false,
+        "consumer": "SHA-only cross-binding"
+      },
+      {
+        "record_field": "reviews[0].result.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "proof result",
+        "actual_bytes_consumed": false,
+        "consumer": "shape checked 630-644 and 248-259; detached supersession checker does not open it"
+      },
+      {
+        "record_field": "before_state.{path,sha256,byte_count}",
+        "typed_shape": "SizedRef",
+        "path_relationship": "logical canonical State path",
+        "actual_bytes_consumed": "path, length, and SHA used; actual bytes read at revision_root/retention/state-before.json",
+        "consumer": "_verify_adopted_graph_full 918-925; _verify_completion_full 1054-1063"
+      },
+      {
+        "record_field": "before_checkpoint.{evidence,materiality,completeness}",
+        "typed_shape": "ArtifactRef x3",
+        "path_relationship": "identity only",
+        "actual_bytes_consumed": false,
+        "consumer": "request.before_checkpoint compared to COPY State provenance in _context_from_before_state 1753-1764"
+      },
+      {
+        "record_field": "parent_checkpoint, original_anchor",
+        "typed_shape": "ArtifactRef",
+        "path_relationship": "lineage only",
+        "actual_bytes_consumed": false,
+        "consumer": "shape checks only"
+      },
+      {
+        "record_field": "supersedes[]",
+        "typed_shape": "{path,sha256,revision_id}",
+        "path_relationship": "lineage only",
+        "actual_bytes_consumed": false,
+        "consumer": "shape and list checks only"
+      },
+      {
+        "record_field": "revision_root",
+        "typed_shape": "safe path prefix",
+        "path_relationship": "manifest, copy, inventory, completion location",
+        "actual_bytes_consumed": false,
+        "consumer": "path prefix only"
+      },
+      {
+        "record_field": "contract and implementation.repository_commit_sha",
+        "typed_shape": "Contract8 and SHA",
+        "path_relationship": "own epoch",
+        "actual_bytes_consumed": true,
+        "consumer": "_verify_own_epoch_commit 655-799"
+      },
+      {
+        "record_field": "reviews[0] review id, kind, status",
+        "typed_shape": "DATA",
+        "path_relationship": "proof semantics",
+        "actual_bytes_consumed": false,
+        "consumer": "no proof file read"
+      }
+    ],
+    "enforced_field_relationships": [
+      "checkpoint.request equals manifest.request",
+      "manifest.before_state.sha equals checkpoint.before_state.sha",
+      "manifest.before_checkpoint equals request.before_checkpoint",
+      "manifest.revision_root equals checkpoint.revision_root",
+      "retained COPY bytes equal both checkpoint.before_state sha/length and request.before_state sha/length",
+      "request.before_state.path equals the Profile and config derived canonical logical State path",
+      "request.profile_ref, request.discovery_ref, and request.screening_ref are file read and hash bound"
+    ],
+    "relationships_not_enforced_by_this_path": [
+      "record.profile versus request.profile_ref",
+      "manifest.profile_ref, discovery_ref, screening_ref versus request refs",
+      "manifest.candidate_outputs versus actual files",
+      "report.proposed_artifacts versus checkpoint artifacts",
+      "record.before_checkpoint versus request or manifest; request, manifest, and COPY State provenance are tied but the record field is not separately compared",
+      "record.retention_plan.path versus revision_root/retention/inventory.json; the files may coincide but equality is not demanded"
+    ],
+    "dm022_request_manifest_report": {
+      "request_fields_consumed_as_bytes": [
+        "profile_ref",
+        "discovery_ref",
+        "screening_ref",
+        "before_state through retained COPY"
+      ],
+      "request_fields_data_only": [
+        "supplement_manifest",
+        "records",
+        "completeness",
+        "work",
+        "tool_pins",
+        "runner",
+        "executor",
+        "affected_ids"
+      ],
+      "manifest_fields_consumed": [
+        "request",
+        "before_state",
+        "before_checkpoint",
+        "revision_root",
+        "retention_snapshots",
+        "tool_pins"
+      ],
+      "manifest_fields_data_only": [
+        "profile_ref",
+        "discovery_ref",
+        "screening_ref",
+        "candidate_outputs",
+        "work"
+      ],
+      "manifest_pin_note": "there is no direct declared SHA for revision-manifest.json in the checkpoint. resolve_research_authority and check_supersession_record_from_paths bind report.manifest SHA to actual manifest bytes. Completion-only readiness does not read the report and binds manifest through request, before-state, and retention-row comparisons",
+      "report_fields_cross_bound": [
+        "proof",
+        "decision",
+        "request",
+        "before_state",
+        "manifest"
+      ],
+      "report_fields_data_only": [
+        "proposed_artifacts",
+        "operation",
+        "producer_boundary",
+        "affected_ids",
+        "mechanical_projections",
+        "work_ref"
+      ]
+    },
+    "legacy_dcp_scp": {
+      "checkpoint_reads": "typed checkpoint file with SHA from State provenance; LEGACY schema",
+      "artifact_reads": "all artifact NamedRefs rehashed; exactly one discovery-acceptance or screening-acceptance role",
+      "review_reads": "_rehash_deterministic_reviews 1325-1379 reads and hashes every deterministic review result",
+      "report_reads": "_validate_legacy_stage_report 1382-1456 reads CORE report; exact 12 keys; record-owned contract and implementation; canonical production_state path only, no live SHA",
+      "own_epoch_git": false
+    },
+    "discovery_x_root_effective": {
+      "discovery_acceptance_schema": "schemas/discovery-acceptance-v2.schema.json",
+      "x_manifest_schema": "schemas/x-source-intake-v2.schema.json",
+      "actual_bytes_consumed": [
+        "Discovery acceptance",
+        "x_source_intake.path",
+        "X production_profile.path",
+        "X runs[].task.path",
+        "X runs[].result.raw.path with sha256 and byte_count",
+        "Discovery JSONL",
+        "every Discovery source.raw_paths Raw",
+        "accepted root Discovery JSONL"
+      ],
+      "collector_fields_data_only": [
+        "collector_id",
+        "collector_run_id",
+        "locator",
+        "source_type"
+      ],
+      "effective_discovery_note": "derived basis.discovery_path is read, hashed, and parsed. Expansion checks parent closure, source identity, obligation union, and child Raw path existence and containment. It does not re-hash child Raw bytes",
+      "session_root_note": "session-root refers to in-memory root_records and root_path passed to content validators, not any session file"
+    },
+    "screening_closure": [
+      {
+        "object": "screening-acceptance",
+        "existing_expected_pin": "path from SCP artifact; SHA from SCP NamedRef; parent dir name equals result_set_sha256",
+        "consumer": "validate_acceptance and _validate_screening_acceptance_content"
+      },
+      {
+        "object": "package.json",
+        "existing_expected_pin": "SHA equals acceptance.package_sha256",
+        "consumer": "1512-1515 and 1924-1927"
+      },
+      {
+        "object": "input/batches/*.jsonl",
+        "existing_expected_pin": "exact directory set; each SHA from package.input.batches[].sha256; content read and parsed",
+        "consumer": "_check_screening_batches_and_digest 1394-1433"
+      },
+      {
+        "object": "results/*.json",
+        "existing_expected_pin": "exact directory set; each SHA from acceptance batches[].result_sha256; basis hashes checked",
+        "consumer": "_check_screening_batches_and_digest 1394-1433"
+      },
+      {
+        "object": "basis.profile_path",
+        "existing_expected_pin": "file SHA from package; Profile read for identity",
+        "consumer": "_validate_screening_package_basis_content 1281-1319"
+      },
+      {
+        "object": "basis.discovery_path",
+        "existing_expected_pin": "file SHA from package",
+        "consumer": "_validate_screening_package_basis_content 1281-1319"
+      },
+      {
+        "object": "prompt.path",
+        "existing_expected_pin": "config/prompts/source-screening-v2.md; SHA from package",
+        "consumer": "_check_screening_package_files_content 1256-1278"
+      },
+      {
+        "object": "result_contract.path",
+        "existing_expected_pin": "schemas/screening-v2-batch-result.schema.json; SHA from package",
+        "consumer": "_check_screening_package_files_content 1256-1278"
+      },
+      {
+        "object": "archived screening-accepted.json",
+        "existing_expected_pin": "if present, package, batch, and result SHAs rechecked",
+        "consumer": "_validate_archived_screening_files 1233-1253"
+      },
+      {
+        "object": "basis.state_path",
+        "existing_expected_pin": "content path identity only; LIVE file SHA and State validation",
+        "consumer": "content 1304-1305; live 1322-1338"
+      },
+      {
+        "object": "effective Discovery",
+        "existing_expected_pin": "derived JSONL read and hash; expansion check; no derived Raw byte rehash",
+        "consumer": "_resolve_effective_discovery_basis_content 1436-1483"
+      },
+      {
+        "object": "LIVE State-bound root",
+        "existing_expected_pin": "_canonical_root_acceptance loads package.basis.state_path to State to Profile to source_root/discovery/discovery-accepted-v2.json; if absent returns source_root/discovery/discovery-v2.jsonl with acceptance_marker None",
+        "consumer": "945-970 and resolve_effective_discovery_basis 973-1059"
+      }
+    ],
+    "evidence_views_supplement_ledger_completeness": {
+      "evidence_acceptance": "read and pinned; exact field set; parent dir name equals result_set_sha256; package_sha256 binds package copy; screening_acceptance_sha256 binds package basis (1738-1793, 1621-1695)",
+      "evidence_package": "read and pinned; basis Profile, Discovery, and Screening acceptance read and hashed; prompt and package/task/card/supplement schemas read and hashed (1036-1071)",
+      "evidence_tasks": "exact tasks directory set; each path and SHA from package.tasks; file read, hashed, parsed; filename equals task_filename; _validate_task 989-1021",
+      "evidence_results_cards": "exact results directory set using task basenames; acceptance results[].sha256 and filename plus task metadata SHA bind; each file read, hashed, parsed; _validate_card_core 1270-1461",
+      "views": "exact views directory set using view_filename(task_id); each row view_sha256 from views acceptance; each file read, hashed, parsed; validate_edition_view 2018-2072",
+      "supplement": "_resolve_phase_supplement_context 300-386 and validate_evidence_authority_supplement 523-635; manifest path and SHA from package; supplement schema; basis source_root directory, discovery_path, screening_acceptance_path read and hashed; every sources[].raw_path read, hashed, byte-counted, and contained under source_root; _supplement_source_file 497-520",
+      "supplement_recheck": "_recheck_supplement_context 389-424 rechecks all declared Raw refs on every phase and readback, not a task subset",
+      "ledger": "path from PREARCH artifact NamedRef; expected SHA from NamedRef; basis recomputes Profile, Discovery, Screening acceptance, Evidence acceptance, Views acceptance, and result-set digests; rows link exactly one per Discovery and task (_check_ledger_rows_content 2657-2722)",
+      "completeness": "path from PREARCH artifact NamedRef; expected SHA from NamedRef; basis recomputes Profile and Ledger; obligations and closure checked; extra checks reread Discovery JSONL, Profile, and Ledger (50-78, 145-238, 241-262)",
+      "profile_multi_read_note": "Profile file is read through separate checkpoint artifact, request, State, and content refs; equality among all three refs is not universally enforced"
+    },
+    "outputs": {
+      "seven_slots": [
+        "candidate-matrix-v2.json",
+        "candidate-selection-v2.json",
+        "architecture-v2.json",
+        "architecture-review-summary-v2.json",
+        "architecture-review-attention-v2.json",
+        "orchestration/v2/interactive/selection-architecture-input.json",
+        "orchestration/v2/interactive/selection-architecture-audit.json"
+      ],
+      "preflight": "_dm022_preflight_seven 101-114 and 304 lstat all seven and refuse any present or nonregular slot",
+      "write_gates": "each write preceded by _dm022_require_ready and per-path exists/is_symlink refusal; writes at 319, 365, 430, 443, 447-448, 454, 459-471",
+      "attention": "review_attention.build_attention reads Screening acceptance, ledger, selection; basis stores SHAs (32-143); validate_attention rehashes those three paths (146-159)",
+      "audit": "binds archive input plus five output SHAs (462-469), not its own SHA",
+      "return": "472-481 returns relative paths, counts, readiness only; no SHA re-hash. The last READY call is before the audit write at 456, so there is no post-audit freshness check or output-SHA return binding"
+    }
+  },
+  "actual_bytes_consumed": [
+    "LIVE State file; Profile file; State and Profile schemas; config; legacy compatibility file",
+    "State-referenced PREARCH checkpoint; four artifact files; checkpoint Profile; request; retention payload or inventory if same path; report; revision manifest; retained state-before.json; cleanup completion; owner-epoch Git objects",
+    "Legacy DCP and SCP checkpoint records; their artifacts and deterministic review results; CORE reports",
+    "Discovery acceptance; X manifest; X task files; X result Raw files; Discovery JSONL; every normalized Discovery source.raw_paths Raw; accepted root JSONL",
+    "Screening acceptance; package copy; exact input batches; exact result batches; prompt; result schema; basis Profile and Discovery; effective derived Discovery JSONL; accepted root Discovery",
+    "Evidence acceptance; package copy; basis Profile, Discovery, Screening acceptance; prompt; package, task, card, supplement schemas; every task file; every result and card file; every View file; supplement manifest; supplement basis Discovery and Screening acceptance; every declared supplement Raw",
+    "Ledger; completeness; Profile again; Discovery JSONL again; completion receipt; retention inventory",
+    "Review-attention inputs: Screening acceptance, ledger, selection, attention schema"
+  ],
+  "data_only_fields": [
+    "state.history, state.contract, state.implementation for content checks only; no current Contract8 recompute and no HEAD equality in the content path",
+    "checkpoint parent_checkpoint, original_anchor, supersedes, summary, executor, review id, kind, status; no external file read",
+    "checkpoint proof and decision and reviews[0].result in selection readback; shape and SHA only; bytes not opened by these paths",
+    "request records, completeness, work, tool_pins, runner, executor, affected_ids, supplement_manifest in this readback",
+    "manifest profile_ref, discovery_ref, screening_ref, candidate_outputs, work; DATA-only or schema-only; manifest profile, discovery, and screening refs are not compared to request refs",
+    "report proposed_artifacts, operation, producer_boundary, affected_ids, mechanical_projections, work_ref; not re-derived by the selection readback shown here",
+    "collector identity and locator fields; Task source_records; card and View textual fields; ledger row rationale; completeness obligation text; retention accepted_bound and gate_bound",
+    "derived and effective Discovery child Raw paths during expansion: existence and containment only; bytes are not re-hashed by Screening content",
+    "execution and session files: not read. The session root is only in-memory root_records and root_path"
+  ],
+  "proposed_freshness_pin_candidates": {
+    "caveat": "analysis only; not existing code, not authorization, not a new module, schema, family, global or epoch cache, context variable, public flag, or verified dict",
+    "candidates": [
+      "LIVE State file; State-bound Profile file; current config; current tool schema files",
+      "State-referenced PREARCH checkpoint; four artifacts; checkpoint Profile; request; retention payload; report; manifest; retained COPY; inventory; completion receipt",
+      "DCP and SCP checkpoint files; their artifacts; deterministic review results; CORE reports",
+      "Discovery acceptance; X manifest; X tasks and Raws; Discovery JSONL; root Raw closure; accepted root JSONL",
+      "Screening acceptance; package; input batches; result batches; prompt; result schema; basis Profile and Discovery; effective derived Discovery JSONL; accepted root Discovery",
+      "Evidence acceptance; package; basis files; prompt; contract schemas; tasks; results and cards; Views; supplement manifest, basis, and Raws",
+      "Ledger; completeness; seven output slots after each write and at outer return"
+    ],
+    "preferred_existing_external_refs": [
+      "State artifact SHAs",
+      "DCP and SCP NamedRefs",
+      "Discovery acceptance x_source_intake.sha256 and discovery_sha256",
+      "Screening acceptance, package, batch, and result SHAs",
+      "Evidence acceptance, package, task, result, and view SHAs",
+      "checkpoint request, retention_plan, and report SizedRefs",
+      "manifest report.manifest and retention rows",
+      "own-epoch Git object pins"
+    ],
+    "retention_plan_nuance": "record.retention_plan is a SizedRef and may bind the same file as revision_root/retention/inventory.json. If the paths coincide, that record ref can be an external SHA for the inventory. If they do not coincide, the current code compares content only. A proposed pin set must not assert a universal no-external-SHA statement without checking this relationship"
+  },
+  "existing_reusable_builders": {
+    "pin_and_freshness_helpers": [
+      "survey_evidence_v2._capture_phase_pins 232-246",
+      "survey_evidence_v2._recheck_phase_pins 249-256",
+      "survey_evidence_v2._load_pinned_json 259-277",
+      "survey_evidence_v2._assert_pin_repo_ancestors 280-297",
+      "survey_evidence_v2._finish_authority_phase 427-450",
+      "survey_evidence_v2._resolve_phase_supplement_context 300-386",
+      "survey_evidence_v2._recheck_supplement_context 389-424",
+      "survey_evidence_v2._exact_regular_files 738-753; semantically identical Screening helper 99-113",
+      "survey_research_authority_v2._sized_ref_shape and _artifact_ref_shape and _named_ref_shape 263-294",
+      "survey_research_authority_v2._verify_sized_ref_bytes 297-307",
+      "survey_research_authority_v2._repo_rel 127-135",
+      "survey_research_authority_v2._safe_read_bytes 147-187",
+      "survey_research_authority_v2._lstat_one 138-144"
+    ],
+    "full_validation_classes": [
+      "survey_research_authority_v2._verify_adopted_graph_full 802-993",
+      "survey_research_authority_v2._verify_completion_full 996-1125",
+      "survey_research_authority_v2.resolve_research_authority 1128-1228",
+      "survey_research_authority_v2._verify_own_epoch_commit 639-799",
+      "survey_research_authority_v2.require_research_operation_ready 4087-4140",
+      "survey_agent_control_v2.validate_agent_state 919-921 and 924-1070",
+      "survey_agent_control_v2._validate_prearchitecture_core_proof 290-321",
+      "survey_agent_control_v2._resolve_prearchitecture_artifact 1073-1146",
+      "survey_agent_control_v2.resolve_checkpoint_artifact 1149-1326",
+      "survey_agent_tool_v2.verify_current_stage_basis 42-50",
+      "survey_agent_tool_v2._historical_state_basis_wrapper 53-98",
+      "survey_agent_tool_v2.current_stage_basis_override 121-143"
+    ],
+    "shared_content_cores": [
+      "survey_discovery_v2.validate_acceptance 274-298; _normalize_record 84-153",
+      "survey_screening_v2.resolve_effective_discovery_basis 973-1059",
+      "survey_screening_v2._validate_screening_acceptance_content 1486-1521",
+      "survey_screening_v2._resolve_effective_discovery_basis_content 1436-1483",
+      "survey_evidence_v2._validate_evidence_acceptance_content 1738-1793",
+      "survey_evidence_v2._validate_edition_views_acceptance_content 1856-1893",
+      "survey_evidence_v2._validate_materiality_ledger_content 2724-2767",
+      "survey_evidence_v2._check_evidence_acceptance_results_with_context 1621-1695",
+      "survey_completeness_v2._validate_profile_completeness_content 241-262",
+      "survey_architecture_v2_base._load_upstream_content 85-152",
+      "survey_architecture_v2_base._derive_matrix_rows_content 183-276"
+    ],
+    "enumeration_status": "no single existing function enumerates the entire transitive closure. Enumeration is distributed across content validators and exact-directory helpers. If enumeration is expensive, retain the existing full classes rather than adding a mirrored validator or global-epoch cache. Proposed pins are not existing behavior"
+  },
+  "static_multiplicity_estimates": {
+    "counts_are_estimates": true,
+    "adopted_graph_internal_estimate": {
+      "evidence_acceptance_content_calls": 6,
+      "edition_views_acceptance_content_calls": 3,
+      "materiality_ledger_content_calls": 2,
+      "screening_acceptance_content_calls": 9,
+      "effective_discovery_content_calls": 10,
+      "supplement_context_and_full_raw_recheck_calls": 6,
+      "discovery_acceptance_and_raw_normalization_calls": 2,
+      "git_own_epoch_batches": 1
+    },
+    "runner_level_estimate": {
+      "prearch_full_traversals_per_strict_state": 3,
+      "adopted_graph_traversals_per_completion": 2,
+      "require_research_operation_ready_calls": 8,
+      "initial_resolve_research_authority_calls": 2,
+      "live_load_upstream_calls": 3,
+      "notes": "strictState also validates legacy DCP and SCP. Each overridden validate_package_basis or validate_evidence_package_basis call can re-enter verify_current_stage_basis and strictState, multiplying the above static counts. No measured count, wall time, CPU, rchar, or speedup is claimed"
+    }
+  },
+  "observations_uncertainties": [
+    "Discovery Raw exists independently of Evidence supplement. The R2 review inference is retracted; root section 4.1 is confirmed",
+    "Proof and decision bytes are not opened by the existing Selection readback paths, despite comments referring to report, proof, and decision reloads. This is a material source observation, not a global audited defect claim and not a claim that the broader DM022 lifecycle lacks proof validation",
+    "record.profile, request.profile_ref, and manifest profile, discovery, and screening refs are not all cross-equal. Four-ref loading uses record.profile; content uses request.profile_ref; manifest refs are schema-only; _verify_own_epoch_commit uses request.profile_ref",
+    "manifest candidate_outputs, report proposed_artifacts, and report operation, producer_boundary, affected_ids, mechanical_projections are DATA-only in this readback",
+    "there is no direct declared SHA for revision-manifest.json in the checkpoint. resolve_research_authority and check_supersession_record_from_paths bind report.manifest SHA to actual manifest bytes; completion-only readiness does not read the report",
+    "there is no direct external SHA for the LIVE State file, retention inventory, or cleanup completion in these readback paths; they are content-validated. Exception nuance: record.retention_plan is a SizedRef and may be the same file as revision_root/retention/inventory.json, so that record ref can externally bind the inventory when the paths coincide. Path equality is not enforced",
+    "derived and effective Discovery Raw bytes are not re-hashed by Screening content; root Raw is hashed through Discovery normalization while expansion checks derived Raw path existence and containment. Supplement Raw and X Raw are separately hashed",
+    "outer return has no output SHA binding. The audit hashes five outputs and the archive before return, but not itself, and there is no post-audit READY call",
+    "no execution or session file is consumed by Selection. Session-root is the in-memory root_records and root_path context, not a session file",
+    "legacy DCP and SCP implementation identity is record-owned only; no Git own-epoch object check occurs on that branch. PREARCH is the only branch with _verify_own_epoch_commit",
+    "_verify_adopted_graph_full has no final whole-closure pin recheck. Nested content helpers recheck their own subclosures and resolve_research_authority rechecks State and the checkpoint file after the full traversal. _verify_completion_full re-runs the adopted graph twice but does not bind every material byte to one pre-captured set",
+    "_dm022_require_ready is called before each write but not after the final audit write; no end-to-end output freshness window exists in the runner"
+  ],
+  "no_runtime_proof": {
+    "project_source_imported_or_executed": false,
+    "tests_or_fixtures_run": false,
+    "git_inspected": false,
+    "network_used": false,
+    "active_shadow_proof_state_profile_output_source_writes": false,
+    "files_written_by_this_action": [
+      "notes/rephase-1-selection-scaling-repair-20261116/transitive-dependency-inventory.md",
+      "notes/rephase-1-selection-scaling-repair-20261116/transitive-dependency-inventory-machine.json"
+    ],
+    "authority_or_acceptance_claimed": false
+  }
+}

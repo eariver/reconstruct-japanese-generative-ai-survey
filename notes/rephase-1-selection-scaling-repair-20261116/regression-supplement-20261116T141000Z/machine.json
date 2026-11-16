@@ -1,0 +1,49 @@
+{
+  "kind": "REGRESSION_SUPPLEMENT_MACHINE",
+  "packet": "notes/rephase-1-selection-scaling-repair-20261116/regression-supplement-20261116T141000Z",
+  "root": "astra-repair-resolution.md §12 + final-implementation-review.md BLOCKED B1/B2",
+  "source_pack_frozen": {"final774": "0dc361cb8284f3465243120b7cea8e20476c3fbe81d90a71ce3028dd43eed150", "patch": "76ac1318cd58311a5a7c0d924ee26b2bdff68dc815e75014a1aacd517e51fd6b", "pins_5_ok": true, "no_source_pack_changes": true},
+  "parent_control_a": {
+    "old_source": ".rephase-1-editorial-runtime/repaired-correction-rehearsal-20261112T125743Z/candidate-work",
+    "old_head": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "new_copy": ".rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/old-work",
+    "inodes_differ": true,
+    "alternates": false,
+    "origin_inert": true,
+    "no_config_mutation": true,
+    "bind_773_a7": true,
+    "tests_unchanged": ["tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate", "tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_selection_is_internal_complete_and_has_no_human_approval_semantics"],
+    "exit": 1,
+    "errors": 2,
+    "reason": "ValueError: implementation commit differs from authoritative state",
+    "pid": 1208041,
+    "wall_s": 1,
+    "label": "parent-control ERROR, preexisting fixture defect, not 3231 regression"
+  },
+  "final_adapted_b": {
+    "new_copy": ".rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/final-work",
+    "bind_774_3231": true,
+    "shipping_unchanged": true,
+    "adapter": "wrap tests.test_survey_evidence_v2.SurveyEvidenceV2Tests.sandbox -> core.repository_commit_sha(root) -> tests.test_survey_architecture_v2.IMPLEMENTATION_SHA, record old/new per fixture, restore after methods, no validator stubs, no repin, no old override",
+    "adapted_tests": ["tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_matrix_is_exact_derivation_and_cannot_silently_drop_material_candidate", "tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_selection_is_internal_complete_and_has_no_human_approval_semantics", "tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_weekly_and_thematic_share_core_without_dummy_profile_fields", "tests.test_survey_architecture_v2.SurveyArchitectureV2Tests.test_review_summary_blocks_valid_but_incomplete_profile_completeness"],
+    "adapted_pass": true,
+    "failures": 0,
+    "errors": 0,
+    "substitutions": 6,
+    "first_old": "4444444444444444444444444444444444444444",
+    "loaded_from_final_work": true,
+    "label": "adapted-fixture PASS, not unchanged original PASS"
+  },
+  "equivalence": {
+    "base_public_vs_private": {"public_sha": "7ff77fa34e13999dffc065c389f341a359b2c254c607e5c4c1d7e875ca8ba916", "private_sha": "7ff77fa34e13999dffc065c389f341a359b2c254c607e5c4c1d7e875ca8ba916", "equal": true, "genuine_chain": "THEMATIC", "chain_head": "dbf1dba04740c42fde29b93c0dbb8039b5bb61be", "no_validator_replace": true, "no_fake_input": true},
+    "attention_public_vs_private": {"public_sha": "df159445124829bc38fd17b24f5dea1f4ca2a28a216b27f881cba5a9eecc5886", "private_sha": "df159445124829bc38fd17b24f5dea1f4ca2a28a216b27f881cba5a9eecc5886", "equal": true},
+    "attention_drift_refused": true,
+    "superseded_stale_pins_preserved": {"base_public_sha": "fc211e63f1f4d77b7cbe7f6d3b23503e089459c08378c252ba438f4b69604a8e", "attention_public_sha": "5fb0a859ecf1ce7889026966839755956287287f87f98403be88635c561b5968", "report_chain_head_e849fac": "superseded", "cause": "UNKNOWN transcription/stale, not fake forensic history, raw preserved, do not assert unrecorded run"},
+    "raw_head_note": {"raw_final_adapted_head_txt": "3231a0c280287411513bba359f4d3d2b6703d591 WRONG single-char d vs f, do NOT rewrite raw", "actual_recorded_source_commit": "3231a0c280287411513bba359f4d3d2b6703f591, no Git readback requested, identity via all774+loaded source remains"}
+  },
+  "raw": ["old-parent-argv.json", "old-parent-cwd.txt", "old-parent-env.json", "old-parent-pid.txt", "old-parent-start-utc.txt", "old-parent-start-epoch.txt", "old-parent-end-utc.txt", "old-parent-end-epoch.txt", "old-parent-exit.txt", "old-parent-stdout.txt", "old-parent-stderr.txt", "old-parent-wall.txt", "old-parent-head.txt", "old773-pre.json", "old773-post.json", "final-adapted-argv.json", "final-adapted-cwd.txt", "final-adapted-env.json", "final-adapted-pid.txt", "final-adapted-start-utc.txt", "final-adapted-start-epoch.txt", "final-adapted-end-utc.txt", "final-adapted-end-epoch.txt", "final-adapted-exit.txt", "final-adapted-stdout.txt", "final-adapted-stderr.txt", "final-adapted-wall.txt", "final-adapted-head.txt", "final774-pre.json", "final774-post.json", "shipping-test-before.json", "shipping-test-after.json", "adapter-source.json", "fixture-substitutions.json", "loaded-files.json", "base-public-private.json", "attention-public-private.json", "attention-drift.txt", "final-summary.json"],
+  "scope": "4 adapted + exact old2 controls + comparison (base + attention), not full suite",
+  "no_rerun_real_current": true,
+  "no_subagents": true,
+  "verdict": "supplement complete, B1 parent preexisting proven + B1 adapted bodies pass + B2 public/private byte-equal, for final reviewer B1/B2 resolution next"
+}
