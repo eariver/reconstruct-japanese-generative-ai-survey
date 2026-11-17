@@ -1,0 +1,21 @@
+# Stdlib recompute — all 3 DBs
+Method: git cat-file commit <d591> raw (462B) + git cat-file -s, then hashlib.sha1(b"commit 462\\0"+raw). No project imports.
+
+real DB (.rephase-1-editorial-runtime/selection-scaling-real-20261116T021943Z/candidate-work):
+size_txt:462
+raw_len:462
+recomputed:3231a0c280287411513bba359f4d3d2b6703d591
+match:True
+
+implementation DB (.rephase-1-editorial-runtime/selection-scaling-implementation-20261116T004649Z/candidate-work):
+size:462 raw_len:462
+recomputed:3231a0c280287411513bba359f4d3d2b6703d591 match:True
+.git/HEAD: 3231a0c280287411513bba359f4d3d2b6703d591
+rev-parse HEAD: same d591, tree ff01b73e..., parent ae0dd1ee..., f591 cat-e exit 1, d591 exit 0, log same 3231a0c, remote inert, ae0 cat-e 0, ff01 cat-e 0, type commit
+
+final-work DB (.rephase-1-editorial-runtime/regression-supplement-20261116T141000Z/final-work):
+recomputed:3231a0c280287411513bba359f4d3d2b6703d591 match:True
+.git/HEAD: 3231a0c280287411513bba359f4d3d2b6703d591
+rev-parse HEAD: same d591, tree ff01b73e..., parent ae0dd1ee..., f591 cat-e exit 1, d591 exit 0, log same 3231a0c, remote inert, ae0 cat-e 0, ff01 cat-e 0
+
+Conclusion: single genuine d591 in all 3, f591 absent everywhere checked.

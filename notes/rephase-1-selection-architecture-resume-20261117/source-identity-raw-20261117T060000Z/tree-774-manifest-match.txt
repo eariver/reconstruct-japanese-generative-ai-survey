@@ -1,0 +1,28 @@
+# Tree vs manifest — real DB
+Manifest: notes/rephase-1-selection-scaling-repair-20261116/source-packaging/final-20261116T031000Z/complete-selection-scaling-manifest.json 0dc361cb.../187361B intended 774
+
+$ git ls-tree -r --name-only HEAD | wc -l
+32241
+---count-exit:0
+
+$ git ls-tree HEAD -- 5 pins
+100644 blob bc1f1abe4b7658a7eec70921a0f216b3d03f4206	scripts/run_selection_architecture_v2_interactive.py
+100644 blob 969f82cafaf4d03c2e70c847f592b2ccd36800ce	scripts/survey_architecture_v2_base.py
+100644 blob dcf9a03b9f02e718e76fa0d35595689f30584c46	scripts/survey_research_authority_v2.py
+100644 blob dc7a1829e615c71532ca1a8c445badd6dc6d5ce6	scripts/survey_review_attention_v2.py
+100644 blob 6b6a922b9b7900eacf4de340053d203c09e4a228	tests/test_selection_scaling_repair_v2.py
+---5pins-ls-exit:0
+
+Python check (manifest files vs tree_map):
+tree_total:32241
+manifest774_missing_in_tree:0
+mode_mismatch:0
+scripts/survey_review_attention_v2.py blob:dc7a1829... sha256_match:True 10126da7
+scripts/survey_architecture_v2_base.py blob:969f82ca... sha256_match:True b3cd4a95
+scripts/survey_research_authority_v2.py blob:dcf9a03b... sha256_match:True fd788b74
+scripts/run_selection_architecture_v2_interactive.py blob:bc1f1abe... sha256_match:True b16c4759
+tests/test_selection_scaling_repair_v2.py blob:6b6a922b... sha256_match:True a21f5949
+blob_sha256_mismatch_total:0
+
+Worktree (cited entry-binding-r2): 774/774 PASS bytes+SHA256+physical mode vs manifest. Worktree equality ≠ commit identity; both hold 0 mismatch here.
+Source-only: no missing 26309/bulk31466/runtime reads.

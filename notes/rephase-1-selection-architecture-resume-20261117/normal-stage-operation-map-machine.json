@@ -1,0 +1,78 @@
+{
+  "packet": "notes/rephase-1-selection-architecture-resume-20261117",
+  "unit": "normal-stage-operation-map",
+  "role": "read-only OPERATION-MAP (no execution)",
+  "selected_source_recorded_only": {
+    "path": ".rephase-1-editorial-runtime/selection-scaling-real-20261116T021943Z/candidate-work",
+    "head": "3231a0c280287411513bba359f4d3d2b6703f591",
+    "parent": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "tree": "ff01b73e6012fd4519fdfb3807186753ff330367"
+  },
+  "normal_path": {
+    "from": "EVIDENCE_REVIEWED",
+    "via": "SELECTION_COMPLETE",
+    "to": "ARCHITECTURE_ESTABLISHED",
+    "pending_gate": "ARCHITECTURE_REVIEW",
+    "EVIDENCE_REVIEWED": {"handler": "stage:selection", "validator": "validate:selection", "next_state": "SELECTION_COMPLETE", "checkpoints": ["selection"], "current_required": ["candidate-matrix", "candidate-selection"]},
+    "SELECTION_COMPLETE": {"handler": "stage:architecture", "validator": "validate:architecture", "next_state": "ARCHITECTURE_ESTABLISHED", "checkpoints": ["architecture"], "current_required": ["issue-architecture", "architecture-review-summary", "architecture-review-attention"], "artifacts_config": [{"name": "issue-architecture", "path": "{source_root}/architecture-v2.json"}, {"name": "architecture-review-summary", "path": "{source_root}/architecture-review-summary-v2.json"}, {"name": "architecture-review-attention", "path": "{source_root}/architecture-review-attention-v2.json"}]},
+    "gate_inputs_ARCHITECTURE_REVIEW": [{"name": "issue-architecture", "path": "{source_root}/architecture-v2.json"}, {"name": "architecture-review-summary", "path": "{source_root}/architecture-review-summary-v2.json"}, {"name": "architecture-review-attention", "path": "{source_root}/architecture-review-attention-v2.json"}]
+  },
+  "interfaces": {
+    "build_stage_checkpoint": "scripts/survey_agent_control_v2.py:2227 (repo_root,cfg,state_path,artifacts,reviews_path,summary,recorded_at,implementation_sha)->Path; verify_basis+READY entry, terminal/WORKFLOW_DISPATCH/summary/profile/authority/artifact-canonical/reviews-nonempty/DM022-forward-refuse, contract_identity+repository_commit_sha, _validate_core_stage_report exact 1 CORE_STAGE_CONTRACT (2-key result) else DM022 branch refused forward, schema stage-checkpoint-v2, canonical source_root/orchestration/v2/checkpoints/{lifecycle}.json, prepublish READY, divergent-overwrite refuse else core.write_json",
+    "advance_with_checkpoint": "scripts/survey_agent_control_v2.py:2304 (repo_root,cfg,state_path,checkpoint_path)->dict; verify_basis+READY, typed PREARCH refuse, canonical-path equality, issue/from/to/checkpoint-set/contract/impl recheck, artifact+core-report revalidate (+release-reconciliation only if FROZEN), machine_checkpoints/provenance update, history append, refresh_state_control+validate_agent_state, prepublish READY, core.write_json State",
+    "cli_advance_stage": "survey_agent_control_v2.py main advance-stage --repo-root --config --state --artifact NAME=PATH --reviews --summary [--recorded-at] [--implementation-sha]; build then advance; prints {state,checkpoint,lifecycle_state,next_action,terminal_reason}",
+    "cli_validate_stage": "scripts/survey_stage_validation_v2.py main --repo-root --config --state --artifact --output [--recorded-at]; _dm022_require_ready entry+prepublish, _current_artifacts, _dm022_verify_current_r4, _prior_artifacts, _merge, _validate_stage_semantics under current_stage_basis_override, core.write_json report; refuses overwrite",
+    "facade_tool": "scripts/survey_agent_tool_v2.py ALLOWED_HELPERS={scripts/survey_screening_v2.py, scripts/survey_evidence_v2.py}; current_stage_basis_override (HEAD equality+validate_agent_state, historical State-SHA drift only via sibling acceptance package_sha256); NOT used for selection/advance",
+    "writer_done_not_rerun": "scripts/run_selection_architecture_v2_interactive.py run(repo_root,state_path,input_path): lexical-nofollow repo/state/input, _capture+ORIGINAL full validation+recheck sealed context, _dm022_preflight_seven no-overwrite, _verify_owned expected-bytes, _check_selection_boundary, 7 writes with immediate readback; args --repo-root --state --input; correct -m invocation"
+  },
+  "config_operator_review": {
+    "config": "config/survey-production-v2.json",
+    "primary_operator": "CHATGPT",
+    "local_stage_control": "COMPACT_AGENT_CHECKPOINT",
+    "modes": ["DIRECT_LOCAL_CLI", "GITHUB_ACTIONS_OPERATOR_BRIDGE"],
+    "direct_preferred": true,
+    "human_gates": ["ARCHITECTURE_REVIEW", "PUBLICATION_PREVIEW"],
+    "state_authority": {"authoritative_filename": "production-state.json", "profile_filename": "production-profile.json", "agent_checkpoint_dir": "orchestration/v2/checkpoints", "architecture_approval_path": "gates/architecture-approval.json", "human_review_dir": "gates/reviews"},
+    "retry": {"LOCAL_SCRIPT": {"retryable": true, "max_attempts": 3}},
+    "review_kinds": ["DETERMINISTIC", "AGENT_RESEARCH", "AGENT_EDITORIAL", "AGENT_VISUAL"],
+    "reviews_file_keys": ["check_id", "kind", "executor", "evidence", "result_path"],
+    "core_report_keys": ["schema_version", "check_id", "status", "issue_id", "from_state", "to_state", "production_state", "production_profile", "implementation_commit_sha", "contract", "artifacts", "recorded_at"],
+    "forbidden": ["invented APPROVED/typed PASS", "fake provided review", "manual State", "legacy core.transition_state", "inferred decision from silence"]
+  },
+  "producer_impl_artifacts": {
+    "selection": {"from": "EVIDENCE_REVIEWED", "to": "SELECTION_COMPLETE", "checkpoint": "sources/<edition>/orchestration/v2/checkpoints/EVIDENCE_REVIEWED.json", "current": {"candidate-matrix": "<source_root>/candidate-matrix-v2.json", "candidate-selection": "<source_root>/candidate-selection-v2.json"}},
+    "architecture": {"from": "SELECTION_COMPLETE", "to": "ARCHITECTURE_ESTABLISHED", "checkpoint": "sources/<edition>/orchestration/v2/checkpoints/SELECTION_COMPLETE.json", "current": {"issue-architecture": "<source_root>/architecture-v2.json", "architecture-review-summary": "<source_root>/architecture-review-summary-v2.json", "architecture-review-attention": "<source_root>/architecture-review-attention-v2.json"}},
+    "impl_pin": "core.repository_commit_sha == current HEAD (40-hex) + core.contract_identity {pipeline_contract_version, pipeline_contract_sha256, quality_contract_version, quality_contract_sha256, research_profile_version, research_profile_sha256, publication_profile_version, publication_profile_sha256}"
+  },
+  "storage_guards_profiles": {
+    "no_overwrite": ["_dm022_preflight_seven 7 slots incl audit", "per-file exists/is_symlink refuse", "_verify_owned expected-bytes", "divergent checkpoint overwrite refuse", "validate_stage output exists refuse"],
+    "failure": "AgentControlError/StageValidationError/ResearchAuthorityError exit 2, no write beyond preserved partials, no rollback/global atomicity",
+    "guards": "require_research_operation_ready entry+prepublish (ANY guard present -> DM022_TRANSITION_ACTIVE; PREARCH same-triplet + FULL completion LIMITED with COPY-derived expected_after); guard_rel orchestration/v2/acceptance-revision.guard.json absent both (observed)",
+    "profiles": {
+      "W34": {"research": "WEEKLY", "publication": "WEEKLY_MAGAZINE", "source_root": "sources/2026-W34", "survey_root": "surveys/weekly/2026-W34", "work_branch": "weekly/2026-W34-v2-work"},
+      "SP": {"research": "THEMATIC", "publication": "LONGFORM_SPECIAL", "source_root": "sources/SP-efficient-llm-2026", "survey_root": "surveys/special/efficient-llm-2026", "work_branch": "special/efficient-llm-2026-work"}
+    }
+  },
+  "validator_call_map_AG_risk": {
+    "note": "writer shares upstream/summary/attention once; validators re-validate from scratch each boundary (no bundle reuse)",
+    "validate_agent_state": "schema+profile+legacy+expected checkpoints+each _validate_checkpoint_record (PREARCH FULL via LOW else legacy producer/artifact/review re-hash+core-report)+history+gates+controller fields",
+    "EVIDENCE_REVIEWED_selection_basis": "_evidence_basis (discovery->screening effective->screening/evidence/views/ledger/completeness validators, transitive supplement Raw per task) + validate_candidate_matrix (409 W34/160 SP) + validate_selection (exact-once coverage, 45/5 + 130/9, pages/boundaries/roles)",
+    "SELECTION_COMPLETE_architecture": "repeat selection_basis + validate_architecture + build_architecture_review_summary recompute-compare + validate_attention",
+    "AG_risk": "normal validators may still multiply 45AG-scale supplement reloads despite writer repair; prior 1200s timeouts vs bounded 836s/148s wall only (no CPU/rchar, no call-count/speedup proof); total cost UNKNOWN"
+  },
+  "runtime_bound_log_gap": {
+    "bound": "timeout 1200s per edition-stage, sequential, env PYTHONDONTWRITEBYTECODE=1 GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 GIT_CONFIG_NOSYSTEM=1, abs --repo-root, rel --state, repo-rel artifacts",
+    "logs": "unique raw per attempt (no overwrite), wall start/end, exit/stdout/stderr bytes, validate report path print + advance {state,checkpoint,lifecycle_state,next_action,terminal_reason}; argv/env/CPU/IO not durable",
+    "gap": "no measured validation wall on 3231; supplement-transitive cost may exceed bound or hit missing-blob/retention/COPY drift/guard/HEAD/contract drift; return finding to root before broadening, no generic reader/new feature"
+  },
+  "dispatch_recommendation": [
+    "1 validate_stage EVIDENCE_REVIEWED -> sources/<edition>/orchestration/v2/stage-validation/EVIDENCE_REVIEWED-report.json with --artifact candidate-matrix/candidate-selection",
+    "2 author reviews file sources/<edition>/orchestration/v2/stage-reviews/EVIDENCE_REVIEWED-reviews.json {reviews:[{check_id:CORE_STAGE_CONTRACT,kind:DETERMINISTIC,executor,evidence,result_path:report},{check_id:UNIQUE,kind:AGENT_RESEARCH,executor:genuine independent,evidence:substantive findings}]}",
+    "3 advance-stage --state --artifact (same 2) --reviews --summary (non-empty with counts/READY basis) -> checkpoint EVIDENCE_REVIEWED.json + State SELECTION_COMPLETE",
+    "4 repeat 1-3 for SELECTION_COMPLETE with 3 architecture artifacts -> checkpoint SELECTION_COMPLETE.json + State ARCHITECTURE_ESTABLISHED pending ARCHITECTURE_REVIEW",
+    "5 stop; present gate inputs architecture-v2.json + architecture-review-summary-v2.json + architecture-review-attention-v2.json; no approve/R4/Draft/PDF/Production"
+  ],
+  "no_new_feature_premember": "no new module/schema/family, no generic reader, no precode cycle; map closed before root stage execution",
+  "blocker_for_map": null,
+  "executed_runtime": false
+}

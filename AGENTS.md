@@ -6,6 +6,33 @@ This is the writable reconstruction/review workspace for `eariver/japanese-gener
 
 ## Current entry — Re:Phase 1
 
+**CURRENT 2026-11-17 — Selection/Architecture resume PARTIAL/BLOCKED (no source edits; 2 normal validations + read-only identity done, current closeout work docs-only).**
+
+**CORRIGENDUM actual full `3231a0c280287411513bba359f4d3d2b6703d591` (d591, not f591).**
+Parent `ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56`, tree `ff01b73e6012fd4519fdfb3807186753ff330367`.
+Independent 3 named DB commit body462 sha1 recomputes d591, f591 unavailable in those checked DBs only.
+No history global absence/drift claim.
+Old raw regression d591 was WRONGLY labelled typo; this corrigendum as authority takes precedence over prior f591 metadata PROSE+manifest author head, old files kept, no ref change on confirmed d591 HEAD.
+Below history keeps old wrong f591 preserved.
+
+Read `outputs/rephase-1-selection-architecture-resume-assessment.md` (Japanese concise),
+packet `notes/rephase-1-selection-architecture-resume-20261117/README.md`,
+mandatory `astra-closeout-resolution.md` FULL + `astra-operation-resolution.md` §§5–7,
+`source-identity-resolution.md`+machine RAW scope,
+`entry-binding-r2.md`+machine (full774 actual),
+`prior-artifact-compatibility-assessment.md`,
+both R2 substantive reviews/dossiers and execution SP/W34 raw.
+FROZEN patch `76ac1318…`/5691014B & manifest `0dc361cb…`/187361B final143 58M85A 774 remain file byte valid unchanged with MANDATORY corrigendum.
+NEVER rewrite old manifest/pack or old bound closeout.
+All 774 committed blobs/modes match, R2 worktree 774 no mismatch.
+Selected runtime same `.../selection-scaling-real-20261116T021943Z/candidate-work` 7+7 outputs both EVIDENCE_REVIEWED.
+Editorial R2 bounded ready for validation; W34 full770 inventory 720 overflow 55 risk NOT full body semantic read; SP65 inventory 15 overflow current 7 products generated-not-stage-accepted (existing EVIDENCE State, not schema status).
+Actual SP exit2/35.004s and W34 exit2/180.013s normal validator schema from_state missing in `_prior_artifacts:362` before semantics/report.
+No report/checkpoint/advance/noR4. Operator PREFIX gate-actual weakening is an execution deviation, not mere prose; later proof doesn't retroauthorize.
+Next AFTER Human Commit Point/continuation bounded existing prior_artifacts typed PREARCH reader repair with actual short map+root/indep before code.
+Current closeout work docs-only (unit includes 2 validations + read-only identity). Whole NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN.
+New fresh independent closeout will come after docs; link planned `independent-closeout-review.md`+machine WITH FINAL-BINDING NOT preclaimed PASS.
+
 **CURRENT 2026-11-16 — selection-scaling BOUNDED IMPLEMENTATION COMPLETE (technical done, closeout binding pending).**
 
 Read `outputs/rephase-1-selection-scaling-implementation-assessment.md`, packet `notes/rephase-1-selection-scaling-repair-20261116/README.md`, mandatory **`notes/rephase-1-selection-scaling-repair-20261116/astra-closeout-resolution.md` FULL** + `astra-repair-resolution.md` §§10–13, independent `notes/rephase-1-selection-scaling-repair-20261116/final-implementation-review.md` §§10–11 + machine WITH FINAL-BINDING (later actual record controls, not preclaimed here) + `independent-real-output-review.md` §10 + machine, index `notes/rephase-1-selection-scaling-repair-20261116/closeout-evidence-index.md`, pack `notes/rephase-1-selection-scaling-repair-20261116/source-packaging/final-20261116T031000Z/`.

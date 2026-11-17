@@ -1,0 +1,152 @@
+{
+  "packet": "notes/rephase-1-selection-architecture-resume-20261117",
+  "unit": "prior-artifact-compatibility-assessment",
+  "role": "fresh bounded compatibility source reviewer, read-only, not implementation",
+  "selected_source_recorded_only": {
+    "path": ".rephase-1-editorial-runtime/selection-scaling-real-20261116T021943Z/candidate-work",
+    "head_recorded": "3231a0c280287411513bba359f4d3d2b6703f591",
+    "execution_head_observed": "3231a0c280287411513bba359f4d3d2b6703d591",
+    "parent": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "tree": "ff01b73e6012fd4519fdfb3807186753ff330367",
+    "note": "d591 vs f591 is separate investigator handle; no Git work duplicated here; source 774 unchanged"
+  },
+  "defect_source_proof": {
+    "module": "scripts/survey_stage_validation_v2.py",
+    "function": "_prior_artifacts",
+    "lines": "328-423",
+    "guard_lines": "333-337",
+    "failing_line": 362,
+    "failing_call": "schema_gate.load_and_validate_json(path, repo_root / agent.CHECKPOINT_SCHEMA, label=\"prior Stage Checkpoint\")",
+    "legacy_schema": "schemas/stage-checkpoint-v2.schema.json",
+    "legacy_required_includes": [
+      "schema_version",
+      "issue_id",
+      "from_state",
+      "to_state",
+      "checkpoints",
+      "recorded_at",
+      "implementation",
+      "contract",
+      "artifacts",
+      "reviews",
+      "summary"
+    ],
+    "prearch_schema": "schemas/dm022-supersession-checkpoint-v2.schema.json",
+    "prearch_shape": "kind PREARCHITECTURE_ACCEPTANCE_SUPERSESSION_V1, nested operation/producer_boundary from_state/to_state, no top-level from_state",
+    "validate_stage_lines": "852-907",
+    "prior_call_line": 880,
+    "semantics_call_lines": "884-885",
+    "observed_failures": [
+      {
+        "edition": "SP-efficient-llm-2026",
+        "exit": 2,
+        "wall_s": 35.004,
+        "stderr": "prior Stage Checkpoint fails .../schemas/stage-checkpoint-v2.schema.json: $: 'from_state' is a required property",
+        "report": "absent"
+      },
+      {
+        "edition": "2026-W34",
+        "exit": 2,
+        "wall_s": 180.013,
+        "stderr": "prior Stage Checkpoint fails .../schemas/stage-checkpoint-v2.schema.json: $: 'from_state' is a required property",
+        "report": "absent"
+      }
+    ],
+    "interpretation": "normal-stage compatibility refusal before _validate_stage_semantics; not scaling measurement"
+  },
+  "existing_canonical_reuse": {
+    "low_typed_loader": "scripts/survey_research_authority_v2.py:329-373 load_typed_checkpoint_record",
+    "agent_checkpoint_validator": "scripts/survey_agent_control_v2.py:770-805 _validate_checkpoint_record",
+    "agent_prearch_content": "scripts/survey_agent_control_v2.py:186-287 _validate_prearchitecture_record_content",
+    "agent_prearch_proof": "scripts/survey_agent_control_v2.py:290-321 _validate_prearchitecture_core_proof",
+    "agent_four_refs": "scripts/survey_agent_control_v2.py:1389-1462 resolve_active_research_four_refs",
+    "agent_evidence_views": "scripts/survey_agent_control_v2.py:1339-1361 resolve_active_evidence_views",
+    "agent_single_artifact_dispatch": "scripts/survey_agent_control_v2.py:1202-1208 _resolve_checkpoint_artifact PREARCH dispatch",
+    "pinned_family_stage": "scripts/survey_stage_validation_v2.py:194-209 _dm022_pinned_family",
+    "pinned_family_agent": "scripts/survey_agent_control_v2.py:110-128 _dm022_pinned_family",
+    "r4_wiring": "scripts/survey_stage_validation_v2.py:216-246 _dm022_verify_current_r4 via agent.resolve_active_research_four_refs"
+  },
+  "minimal_repair_recommendation": {
+    "edit_function_only": "survey_stage_validation_v2._prior_artifacts",
+    "strategy": "typed dispatch per distinct prior path via low.load_typed_checkpoint_record; PREARCH -> agent.resolve_active_research_four_refs + existing 4-path proof; LEGACY -> retain current legacy branch byte-for-byte",
+    "forbidden": [
+      "new module",
+      "new schema",
+      "new family",
+      "new cache",
+      "new flag",
+      "parallel validator",
+      "PREARCH-to-legacy JSON projection",
+      "fake CORE_STAGE_CONTRACT report",
+      "private bypass validator"
+    ],
+    "imports": "no new imports; agent, low, _setmod, core, schema_gate already imported",
+    "unchanged_callers": [
+      "_dm022_verify_current_r4",
+      "_merge_artifacts",
+      "_evidence_basis",
+      "_selection_basis",
+      "_validate_stage_semantics",
+      "validate_stage",
+      "agent.resolve_active_research_four_refs",
+      "low.load_typed_checkpoint_record",
+      "low.check_supersession_record_from_paths",
+      "agent._validate_prearchitecture_record_content",
+      "agent._validate_prearchitecture_core_proof"
+    ],
+    "digest_closure": [
+      "State triplet path/sha256 -> checkpoint FILE sha",
+      "4 NamedRefs path/sha256 -> live FILE re-hash",
+      "SizedRef report/proof/decision/request/retention_plan/before_state + before_checkpoint/parent_checkpoint/original_anchor + revision_root/retention/state-before.json via low.check_supersession_record_from_paths",
+      "View->Evidence evidence_acceptance_sha256 binding + supersession_checkpoint_sha256 SELF digest"
+    ],
+    "preserve": [
+      "FULL legacy + PREARCH schemas, no cross-validation",
+      "report/decision binding, own-epoch, true R-E",
+      "artifact conflict (_merge_artifacts replace-refusal)",
+      "seen record path duplicate (seen_checkpoint_paths dedup)",
+      "LIVE vs HISTORY (diagnostic reads no guard; mutating path entry+prepublish READY)",
+      "no operational guard in read helper",
+      "forward mutator READY entry+prepublish on validate_stage/build_stage_checkpoint/advance_with_checkpoint",
+      "Group C VERSIONED_ACTIVE active7 overlay + _require_active_candidate_binding unchanged",
+      "healthy LEGACY same-triplet stays on legacy loader; malformed PREARCH fails closed, never falls back"
+    ]
+  },
+  "false_coverage_actual_test_method_names": [
+    "tests/test_survey_stage_validation_v2.py::SurveyStageValidationV2Tests::test_same_named_but_invalid_discovery_authority_is_rejected",
+    "tests/test_survey_stage_validation_v2.py::SurveyStageValidationV2Tests::test_current_tool_basis_does_not_reuse_initialization_commit_as_execution_identity",
+    "tests/test_survey_stage_validation_v2.py::SurveyStageValidationV2Tests::test_draft_stage_validator_requires_paired_package_and_result_authorities (private _current_artifacts only)"
+  ],
+  "related_public_validate_stage_without_prearch_prior": [
+    "tests/test_dm022_b_late_prepublish_v2.py::Dm022BLatePrepublishTests::test_b_stage_validate_prepublish (ISSUE_INITIALIZED discovery-acceptance + guard injection; no EVIDENCE_REVIEWED PREARCH triplet)"
+  ],
+  "coverage_gap": "no existing test invokes public validate_stage on adopted PREARCH EVIDENCE_REVIEWED same-record triplet; claims via private path or other lifecycle are false coverage",
+  "collision_notes": {
+    "active7_future": "keep canonical7/effective7 overlay + candidate active binding + _merge replace-refusal; research PREARCH prior and publication seal projection must coexist with historical bytes pinned",
+    "malformed_same_triplet_legacy": "healthy LEGACY same-triplet returns LEGACY via pinned family; keep on legacy loader with full schema+drift checks; do not route via triplet heuristic"
+  },
+  "cost_note": "public stage full semantics (supplement-transitive reloads, Matrix 409/160 + Selection exact-once, FULL PREARCH proof, legacy re-hash, history/gates) remains UNKNOWN; 35s/180s are refusal walls with /proc windows, not speedup/total-cost proof; 1200s bound adequacy unresolved",
+  "planned_oracles": {
+    "regression_synthetic": "public validate_stage on minimal adopted-PREARCH EVIDENCE_REVIEWED State with synthetic matrix/selection; PASS report exact keys; no-overwrite refusal; malformed PREARCH (legacy-projected) fail-closed without report",
+    "full_real_path": "sequential validate->build(advance-stage)->advance per edition (SP then W34 or root order) with 1200s bound, unique raw/observations, child PID/wall/exit/stdout/stderr, report bytes/hash or absence, before/after inventories, same-child /proc windows labelled observed-vs-total; stop on exit2/timeout, preserve partials, no auto-retry/bound-extension/profiling/bypass; then repeat SELECTION_COMPLETE->ARCHITECTURE_ESTABLISHED only after first advance",
+    "forbidden_in_oracles": [
+      "fake CORE report",
+      "PREARCH-to-legacy projection",
+      "private/bypass validator",
+      "writer rerun",
+      "State/source rewrite",
+      "network fetch",
+      "R4/PDF/Production"
+    ]
+  },
+  "unresolved_decisions": [
+    "d591 vs f591 full-SHA discrepancy and head_expected_prefix weakening: transcription vs ref drift UNKNOWN; no Git work here",
+    "whether one-function _prior_artifacts reuse suffices or shared helper with agent validator is needed (recommend reuse as-is, no new helper)",
+    "1200s bound adequacy for full real EVIDENCE_REVIEWED validation on 3231; missing-blob/retention/COPY/guard/HEAD/contract drift and retry-vs-investment",
+    "no weakening of FULL schemas/report/decision/epoch/R-E/conflict/duplicate/LIVE-vs-HISTORY/guard/READY predicates to force PASS"
+  ],
+  "bounded_root_choice": "accept as scoped _prior_artifacts gap diagnosis; authorize single-function compatibility repair reusing low+agent with no new surface + fresh scoped public-validate_stage regression + independent diff review before any real normal validate->build->advance dispatch",
+  "scope": "_prior_artifacts branch only + named regression + full real normal-path oracles with timeout observation; not general precode cycle, generic reader, writer rerun, R4/PDF/Production, source/State rewrite, or broad suite-green claim",
+  "whole_status_preserved": "NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN; substantive R2 reviews remain bounded editorial evidence until mechanical PASS",
+  "execution_authorized_by_this_assessment": false
+}

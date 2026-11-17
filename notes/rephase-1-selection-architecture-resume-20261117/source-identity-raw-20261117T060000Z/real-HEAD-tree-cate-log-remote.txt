@@ -1,0 +1,44 @@
+# Raw Git transcript — real DB selected
+CWD: .rephase-1-editorial-runtime/selection-scaling-real-20261116T021943Z/candidate-work
+ENV: GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null, cleaned GIT_DIR/WORK_TREE/INDEX_FILE
+NO writes, no fetch, read-only.
+
+$ git rev-parse HEAD
+3231a0c280287411513bba359f4d3d2b6703d591
+---HEAD-exit:0
+
+$ git rev-parse HEAD^{tree} HEAD^
+ff01b73e6012fd4519fdfb3807186753ff330367
+ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56
+---tree-parent-exit:0
+
+$ git cat-file -e 3231a0c280287411513bba359f4d3d2b6703f591
+f591-cat-e-exit:1 (missing, no object)
+
+$ git cat-file -e 3231a0c280287411513bba359f4d3d2b6703d591
+d591-cat-e-exit:0 (exists)
+
+$ git log --oneline -1 --decorate=no
+3231a0c Bounded Selection scaling repair: fail-closed exhaustive pins + COPY root + owned/return gates + genuine PREARCH oracles (4 modules + focused test)
+---log-exit:0
+
+$ git remote -v
+origin	https://invalid.invalid/inert.git (fetch)
+origin	https://invalid.invalid/inert.git (push)
+---remote-exit:0 (no fetch performed)
+
+$ git cat-file -s 3231a0c280287411513bba359f4d3d2b6703d591
+462
+---size-exit:0
+
+$ git cat-file -p 3231a0c280287411513bba359f4d3d2b6703d591
+tree ff01b73e6012fd4519fdfb3807186753ff330367
+parent ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56
+author Synthetic selection-scaling-impl-1085 <selection-scaling-impl-1085@example.invalid> 1794795519 +0900
+committer Synthetic selection-scaling-impl-1085 <selection-scaling-impl-1085@example.invalid> 1794795519 +0900
+
+Bounded Selection scaling repair: fail-closed exhaustive pins + COPY root + owned/return gates + genuine PREARCH oracles (4 modules + focused test)
+---cat-p-exit:0
+
+$ .git/HEAD (Read)
+3231a0c280287411513bba359f4d3d2b6703d591

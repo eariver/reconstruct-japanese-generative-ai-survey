@@ -1,5 +1,34 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-11-17 Selection/Architecture resume PARTIAL/BLOCKED（source editsなし、通常validation2回と読取専用identity調査済み）
+
+現在の closeout 作業のみ docs-only。
+
+**CORRIGENDUM: 実際は `3231a0c280287411513bba359f4d3d2b6703d591`（d591）。**
+以下履歴の `…6703f591`（f591）は誤記として保存し、使用しない。
+parent `ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56`、tree `ff01b73e6012fd4519fdfb3807186753ff330367`。
+独立 3DB で body462 再計算が d591 に一致し、f591 は当該 3DB の範囲では不在。
+指定範囲の所見であり、履歴全体の object 不存在は主張しない。
+旧 raw d591 の typo 扱いは誤りであり、本 corrigendum は権威上の訂正として従来表記に優先する（旧ファイル保持、d591 確認 HEAD の ref 変更なし）。
+
+[assessment](../outputs/rephase-1-selection-architecture-resume-assessment.md)（日本語 concise）、
+[packet](../notes/rephase-1-selection-architecture-resume-20261117/README.md)、
+[mandatory ROOT 全文](../notes/rephase-1-selection-architecture-resume-20261117/astra-closeout-resolution.md) FULL＋[運用 §§5–7](../notes/rephase-1-selection-architecture-resume-20261117/astra-operation-resolution.md)、
+[identity](../notes/rephase-1-selection-architecture-resume-20261117/source-identity-resolution.md)＋machine RAW scope、
+[entry R2](../notes/rephase-1-selection-architecture-resume-20261117/entry-binding-r2.md)＋machine（full774 actual）、
+[compat](../notes/rephase-1-selection-architecture-resume-20261117/prior-artifact-compatibility-assessment.md)、
+R2 両 review／dossier と SP／W34 実行 raw を読む。
+FROZEN patch `76ac1318…`／5691014B・manifest `0dc361cb…`／187361B の final143 58M85A 774 は byte 有効のまま不変であり、凍結物は書き換えない。
+選択 runtime `.../selection-scaling-real-20261116T021943Z/candidate-work` の 7＋7 出力は両 EVIDENCE_REVIEWED。
+R2 bounded ready、W34 770（720 overflow 55 risk）は全文 read ではなく、SP65（15 overflow）は現 7 生成済み・stage 未受理（既存 EVIDENCE、schema status ではない）。
+実際 SP exit2／35.004s・W34 exit2／180.013s は `_prior_artifacts:362` の schema 不適合で report 前に拒否した。
+PREFIX 緩和は gate を実際に弱めた実行上の逸脱であり、単なる prose の問題ではなく追認されない。
+次は Human Commit Point／continuation 後の bounded 既存 reader 修復（actual 短 map＋root／独立を code 前に）。
+現 closeout 作業は docs のみ（unit 全体は validation 2 回＋読取専用 identity 調査を含む）。
+Whole NOT_READY／DM021+022OPEN／audit 未開始／quality-adoption-savings OPEN。
+新規独立 closeout は docs 後に `independent-closeout-review.md`＋machine（WITH FINAL-BINDING、PASS 先取りなし）で記録する。
+**ここで停止。** 以下 prior preserved。
+
 ## Current — 2026-11-16 selection-scaling BOUNDED IMPLEMENTATION COMPLETE (technical done, closeout binding pending)
 
 **限定実装完了、文書binding待ち、Human Commit Point。**

@@ -1,5 +1,21 @@
 # Reconstruction 完了ロードマップ — 2026-10-19 再計画
 
+**CURRENT 2026-11-17 Selection/Architecture resume PARTIAL/BLOCKED（source editsなし、通常validation2回と読取専用identity調査済み）:**
+
+現在の closeout 作業のみ docs-only。
+[評価](rephase-1-selection-architecture-resume-assessment.md)＋[packet](../notes/rephase-1-selection-architecture-resume-20261117/README.md)＋[mandatory closeout ROOT 全文](../notes/rephase-1-selection-architecture-resume-20261117/astra-closeout-resolution.md) FULL＋[運用 §§5–7](../notes/rephase-1-selection-architecture-resume-20261117/astra-operation-resolution.md)＋[identity](../notes/rephase-1-selection-architecture-resume-20261117/source-identity-resolution.md)／machine＋[entry R2](../notes/rephase-1-selection-architecture-resume-20261117/entry-binding-r2.md)／machine＋[compat](../notes/rephase-1-selection-architecture-resume-20261117/prior-artifact-compatibility-assessment.md)＋R2 reviews／dossiers＋SP／W34 raw＋[index](../notes/rephase-1-selection-architecture-resume-20261117/closeout-evidence-index.md)。
+**CORRIGENDUM 実際 `3231a0c280287411513bba359f4d3d2b6703d591`（d591、f591 ではない）。**
+parent `ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56`、tree `ff01b73e6012fd4519fdfb3807186753ff330367`。
+3DB body462 が d591 に一致、f591 は当該 3DB の範囲では不在（履歴全体の不存在は主張しない）。旧 raw typo 扱いは誤りであり、権威上の訂正として従来表記に優先する（旧ファイル保持、d591 確認 HEAD の ref 変更なし）。
+以下履歴の旧 f591 は保存する。
+FROZEN patch `76ac1318…`／5691014B・manifest `0dc361cb…`／187361B の final143 58M85A／774 は byte 有効のまま不変、凍結物は書換えない。
+7＋7 両 EVIDENCE_REVIEWED、SP exit2／35.004s・W34 exit2／180.013s は `_prior_artifacts:362` で report 前拒否、advance／R4 なし。
+PREFIX は gate を実際に弱めた実行上の逸脱であり、単なる prose の問題ではなく追認されない。
+次 Human continuation 後は bounded typed reader 修復（短 map＋root／独立を code 前に）。
+現 closeout 作業は docs のみ。
+Whole NOT_READY／DM021+022OPEN／audit 未開始。独立 closeout は WITH FINAL-BINDING で後記録、PASS 先取りなし。
+Human Commit Point 停止。以下 prior preserved。
+
 **CURRENT 2026-11-16 selection-scaling限定実装完了（技術done、closeout binding待ち）:** [assessment](rephase-1-selection-scaling-implementation-assessment.md)＋[packet](../notes/rephase-1-selection-scaling-repair-20261116/README.md)＋[mandatory closeout ROOT全文](../notes/rephase-1-selection-scaling-repair-20261116/astra-closeout-resolution.md) FULL＋[repair §§10–13](../notes/rephase-1-selection-scaling-repair-20261116/astra-repair-resolution.md)＋独立 [final-implementation-review.md](../notes/rephase-1-selection-scaling-repair-20261116/final-implementation-review.md) §§10–11／[machine](../notes/rephase-1-selection-scaling-repair-20261116/final-implementation-review-machine.json) WITH FINAL-BINDING（後続記録が正、確定主張なし）＋[実出力 §10](../notes/rephase-1-selection-scaling-repair-20261116/independent-real-output-review.md)／machine＋[index](../notes/rephase-1-selection-scaling-repair-20261116/closeout-evidence-index.md)＋[pack](../notes/rephase-1-selection-scaling-repair-20261116/source-packaging/final-20261116T031000Z/packaging-report.md)。
 
 Source `3231a0c280287411513bba359f4d3d2b6703f591` parent `ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56` tree `ff01b73e6012fd4519fdfb3807186753ff330367`、143=58M85A/774。
