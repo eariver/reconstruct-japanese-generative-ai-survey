@@ -1,5 +1,19 @@
 # J-GAS reconstruction — Re:Phase continuation
 
+## Current — 2026-11-22 prior-artifact reader 技術PASS／実運用PARTIAL（docs-only）
+
+判定はBOUNDED_READER_REPAIR_PASS／REAL_OPERATION_PARTIAL_BLOCKED。
+文書bindingは未了で先取りしない。
+[評価](../outputs/rephase-1-prior-artifact-reader-implementation-assessment.md)、
+[packet](../notes/rephase-1-prior-artifact-reader-repair-20261117/README.md)、
+[必須ROOT全文](../notes/rephase-1-prior-artifact-reader-repair-20261117/astra-closeout-resolution.md)、
+[repair §§3–6](../notes/rephase-1-prior-artifact-reader-repair-20261117/astra-repair-resolution.md)、
+[独立最終 §10親対照含む](../notes/rephase-1-prior-artifact-reader-repair-20261117/final-implementation-review.md)＋machineを読む。
+新e59・親d591、完全DIRECT409は144/775でpatch f032・manifest aa54。
+SP約840s PASS、W34約1250s killでreportなし。
+次はHuman Commit Point後にbounded normal-stage scaling修復へ。
+Whole NOT_READY／DM021+022OPEN／audit未開始。**ここで停止。** 以下 prior preserved。
+
 ## Current — 2026-11-17 Selection/Architecture resume PARTIAL/BLOCKED（source editsなし、通常validation2回と読取専用identity調査済み）
 
 現在の closeout 作業のみ docs-only。

@@ -1,0 +1,121 @@
+{
+  "packet": "notes/rephase-1-prior-artifact-reader-repair-20261117",
+  "review": "notes/rephase-1-prior-artifact-reader-repair-20261117/independent-real-validation-review.md",
+  "role": "fresh independent outcome/source reviewer, not author/operator/root",
+  "root_authority": "notes/rephase-1-prior-artifact-reader-repair-20261117/astra-repair-resolution.md FULL SS3-4",
+  "method": {
+    "project_imports": false,
+    "runtime": false,
+    "tests": false,
+    "stage_writer": false,
+    "network": false,
+    "source_state_output_writes": false,
+    "subagents": false,
+    "reconstruct_git": false,
+    "git_scope": "explicit named DB only, lazy fetch disabled, no reconstruct readback",
+    "git_env": "GIT_CONFIG_NOSYSTEM=1 GIT_CONFIG_GLOBAL=/dev/null GIT_OPTIONAL_LOCKS=0 GIT_NO_LAZY_FETCH=1",
+    "stdlib_only": true,
+    "tools": "pathlib/hashlib/json/os/stat + read-only ps owned PIDs only",
+    "ps_scope": "only 1528119,1529795, no unrelated search, no kill"
+  },
+  "source_commit": {
+    "author_copy": ".rephase-1-editorial-runtime/prior-artifact-reader-implementation-20261122T062101Z/candidate-work",
+    "real_copy": ".rephase-1-editorial-runtime/prior-artifact-reader-real-20261122T065145Z/candidate-work",
+    "new_head": "e59fa9bc5f323a640fd922412de7757e60eb5944",
+    "new_parent": "3231a0c280287411513bba359f4d3d2b6703d591",
+    "new_tree": "e5e888cbb285dc32c60b422a41b24acc044378e6",
+    "body_bytes": 390,
+    "body_sha1_recompute": true,
+    "body_text": "Prior-artifact typed reader: strict PREARCH dispatch in _prior_artifacts + focused public tests (2 files)",
+    "git_explicit_both_copies_match": true
+  },
+  "source_775": {
+    "frozen_manifest": "notes/rephase-1-selection-scaling-repair-20261116/source-packaging/final-20261116T031000Z/complete-selection-scaling-manifest.json",
+    "frozen_sha256": "0dc361cb8284f3465243120b7cea8e20476c3fbe81d90a71ce3028dd43eed150",
+    "frozen_bytes": 187361,
+    "frozen_intended": 774,
+    "changed": "scripts/survey_stage_validation_v2.py 51927 1e4c818b144ebeed7a4365cb00b5e43ed93e9bff4d1396691432ba77a515787e 0o664",
+    "new_test": "tests/test_prior_artifact_reader_repair_v2.py 30019 1fb831673b8291813ab0480720f84467e334374619a87fe072ff00c63438d4db 0o664",
+    "author_773_unchanged": "773/773 0 missing 0 mismatch",
+    "real_773_unchanged": "773/773 0 missing 0 mismatch",
+    "author_775": "773 unchanged + changed/new match true",
+    "real_775": "773 unchanged + changed/new match true"
+  },
+  "states_profiles_cp": {
+    "w34_state": "sources/2026-W34/production-state.json 4162 a8586351b096fda65793dfc20604fae9404f9e9ea06e164c3b9f9c72b576e47d EVIDENCE_REVIEWED",
+    "sp_state": "sources/SP-efficient-llm-2026/production-state.json 4266 38a6341107a401128d32537cda101321b42b5ec9088d07baba43b2adc4014bde EVIDENCE_REVIEWED",
+    "w34_profile": "sources/2026-W34/production-profile.json 2371 2a8c3089cec29eb64e121cdf0429eed38670df704ebe955079751198557cfeb1",
+    "sp_profile": "sources/SP-efficient-llm-2026/production-profile.json 13748 aff05fd573ce873afa24c0ede26c2a45b4591ee28b7048c9ed528e8fc389ed8ee45",
+    "w34_cp": "sources/2026-W34/research/v2/acceptance-revisions/w34-repaired-20261112-r2/checkpoint/record.json 6054 73ab28ea79da8bb13d7083d30eda7fa3188f060f0dbaa96a65e2407daae3ac48",
+    "sp_cp": "sources/SP-efficient-llm-2026/research/v2/acceptance-revisions/sp-repaired-20261112-r2/checkpoint/record.json 6300 2a528ed533010da6acc9efaef0e24fb59be62417724b00919e0c2f6983fec9f5",
+    "completion_w34": "1972 80c12d0c53a76f21e3000c4e48a8e4ab843c2c63ac9cc69aeb3c9f20ddc46835",
+    "completion_sp": "2009 70d8c0896d2ce37c0aea2dc4e92cc4ef5008c48eddd54d2994d1f9c9fe41b8eb",
+    "guard_absence": "both absent",
+    "canonical_checkpoints": "EVIDENCE_REVIEWED.json absent both, SELECTION_COMPLETE.json absent both"
+  },
+  "eight_refs": "all 8 match entry-binding: W34 126592 eef77479, 159502 3727485a, 186214 066230f4, 71532 d869027a; SP 49237 7f04e9ad, 64222 45d60f9f, 66850 5cf81f8f, 34249 b4378609",
+  "fourteen_outputs": "all 14 match fresh now: W34 683098 f4469c85, 375063 f3a5000f, 24447 9a76294e, 314350 1b7f6076, 18437 d68b5f31, 378396 15375476, 1436 61d6a0bc; SP 239359 2f62e2a8, 76603 4e6884d6, 33219 4af84ab3, 67700 d0092e13, 15918 482f3c21, 72613 072f90b6, 1530 ad5474da",
+  "launcher": {
+    "path": "notes/rephase-1-prior-artifact-reader-repair-20261117/real-validation-20261122T065238Z/launcher-prior-reader-validation.py",
+    "bytes": 2455,
+    "sha256": "5bdf027b5e6fb04931cc2110a96f0bcf9f7f9d87002f9086f6d5dde9089dbfd2",
+    "version": "v2 with repo-root on sys.path, stdlib faulthandler(300,repeat)+runpy unchanged main exact argv",
+    "v1_bytes": "missing honest, only stderr preserved in raw/SP-harness-import-failure-20261122T065315Z/stderr.txt 1226B ModuleNotFoundError scripts, exit 1, pid 1526696",
+    "no_mock_wrap": true
+  },
+  "SP": {
+    "window_utc": "2026-11-22T06:53:45Z-07:07:45Z",
+    "wall_s": 840,
+    "pid": 1528119,
+    "exit": 0,
+    "stdout": "report path 243B",
+    "stderr_bytes": 0,
+    "stack_bytes": 10822,
+    "phase": "_prior_artifacts refusal gone, full semantics _evidence_basis/_selection_basis with FULL PREARCH proof and supplement rehash",
+    "report": "sources/SP-efficient-llm-2026/orchestration/v2/stage-validation/prior-reader-selection-r1.json 1704 e42455130c8c68f5ca8975e521d0b32e4e1b31a6eb7ef5bbf53dc5907e66bd4f CORE_STAGE_CONTRACT PASS EVIDENCE_REVIEWED->SELECTION_COMPLETE impl e59 state 38a profile aff0 artifacts 2f62/4e68 contract8 keys=12",
+    "state_unchanged": true,
+    "attempt": "attempt2 after v1 import failure, unauthorized local retry v2 per S3, not genuine first",
+    "advance": "none"
+  },
+  "W34": {
+    "window_utc": "2026-11-22T07:08:03Z-07:28:53Z",
+    "wall_s": "1250 tool kill, >1200 bound",
+    "pid": 1529795,
+    "exit": 124,
+    "exit_class": "external tool/wrapper timeout-kill convention, not normal validator CLI exit, stdout/stderr 0B",
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "stack_bytes": 11463,
+    "phase": "_prior_artifacts refusal gone; full semantics _evidence_basis/_selection_basis/_validate_stage_semantics _recheck_phase_pins/_recheck_supplement_context/_supplement_source_file supplement Raw transitive + FULL PREARCH proof _verify_adopted_graph_full, sampled work not deadlock, not exact cost",
+    "report": "absent",
+    "state_unchanged": "a8586351 fresh now, no post-inventory file in packet",
+    "action": "STOP no repair/retry/extend, child reaped"
+  },
+  "pids_ps": {
+    "cmd": "ps -o pid,ppid,stat,cmd -p 1528119,1529795",
+    "result": "header only, ps_exit 1, both reaped/absent, no kill, no unrelated search"
+  },
+  "timeout_scope": {
+    "dispatched": "1200s per edition, no local repair/retry/extension",
+    "implemented": "launcher only faulthandler dump every 300s repeat, no child deadline, no timeout command, tool bound 1250s",
+    "actual_sp": "840s exit 0 within bound",
+    "actual_w34": "1250s tool kill exit 124 exceeds 1200s bound",
+    "classification": "1200 not enforced, 124 is wrapper kill not validator exit, per raw exit.txt + timeout-note.txt + end.txt observer evidence"
+  },
+  "deviations": [
+    "launcher v1 import failure exit 1 then unauthorized local retry v2 without root return, S3 forbids even import-error retry",
+    "W34 no enforced 1200s child deadline, relied on 1250s tool kill, exceeds dispatched bound",
+    "operator no-extension/retry prose withdrawn for those actions, later SP PASS does not retroauthorize"
+  ],
+  "limits": [
+    "fresh current hash does not retro-certify all pre windows, original only spot copy HEAD+State",
+    "W34 pre-inventory only, no post-inventory file, current State match narrow",
+    "sampled stacks show locations, not deadlock or exact cost",
+    "raw v1 script bytes missing honest, only stderr",
+    "synthetic both-routes not re-executed here"
+  ],
+  "verdict": "bounded reader-repair mechanical SP PASS plus synthetic both vs real W34 BLOCKED, not Selection/Architecture full PASS, not Human approval, not R4, not benefit",
+  "next": "observed full-stage revalidation only, enforced child deadline + same observability on frozen e59, no source change, no generic reader/new module/schema/family, no auto retry; no code authorized here",
+  "forbidden_done": "no validator/writer/runtime imports/tests/network/source/ref/config writes/subagents, no head ref mutate/shipping pack, no reconstruct readback",
+  "whole": "NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN"
+}

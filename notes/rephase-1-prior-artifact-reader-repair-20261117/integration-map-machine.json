@@ -1,0 +1,86 @@
+{
+  "packet": "notes/rephase-1-prior-artifact-reader-repair-20261117",
+  "unit": "prior-artifact-reader-integration-map",
+  "role": "general bounded MAP-ONLY, no implementation",
+  "source_actual_readonly": {
+    "path": ".rephase-1-editorial-runtime/selection-scaling-real-20261116T021943Z/candidate-work",
+    "head_true": "3231a0c280287411513bba359f4d3d2b6703d591",
+    "head_wrong_frozen": "3231a0c280287411513bba359f4d3d2b6703f591",
+    "parent": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "tree": "ff01b73e6012fd4519fdfb3807186753ff330367",
+    "delivery": "final143 58M85A/774 patch 76ac1318cd58311a5a7c0d924ee26b2bdff68dc815e75014a1aacd517e51fd6b/5691014B manifest 0dc361cb8284f3465243120b7cea8e20476c3fbe81d90a71ce3028dd43eed150/187361B",
+    "note": "f591 preserved history, never use; prior compatibility assessment is diagnosis not approved patch"
+  },
+  "defect": {
+    "module": "scripts/survey_stage_validation_v2.py",
+    "function": "_prior_artifacts",
+    "range": "328-423",
+    "guard_lines": "333-337",
+    "failing_line": 362,
+    "failing_call": "schema_gate.load_and_validate_json(path, repo_root / agent.CHECKPOINT_SCHEMA)",
+    "legacy_schema": "schemas/stage-checkpoint-v2.schema.json",
+    "prearch_schema": "schemas/dm022-supersession-checkpoint-v2.schema.json",
+    "caller": "validate_stage:880 before _validate_stage_semantics:884-885 before report/checkpoint/advance",
+    "refusal": "SP exit2/35.004s W34 exit2/180.013s 'from_state' is a required property, report absent"
+  },
+  "chosen_reuse": {
+    "helper": "scripts/survey_agent_control_v2.py:770-805 agent._validate_checkpoint_record(repo_root,cfg,state,checkpoint,authority,revalidation=None,pending_basis=None) PREARCH branch",
+    "uses": [
+      "low.load_typed_checkpoint_record repo_root/path (survey_research_authority_v2.py:329-373)",
+      "agent._validate_prearchitecture_record_content(record,checkpoint) 186-287 pure role/shape",
+      "same path-AND-sha triplet + issue_id",
+      "agent._validate_prearchitecture_core_proof 290-321 -> low.check_supersession_record_from_paths 4949-5077 (FULL graph, not hash-only)"
+    ],
+    "avoids": "agent.resolve_active_research_four_refs 1389-1462 via _resolve_prearchitecture_artifact 1073-1146 validate_agent_state 1098-1102 (strict LIVE State/history/guard recursion, active-four only, wrong for historical priors)",
+    "branch_properties": "NO validate_agent_state, NO LIVE guard, NO HIGH recursion in PREARCH branch"
+  },
+  "repair_shape": {
+    "edit_only": "survey_stage_validation_v2._prior_artifacts",
+    "imports": "no new imports (agent,low,_setmod,core,schema_gate present)",
+    "keep": [
+      "333-337 same-record precheck",
+      "338-350 publication approval/revalidation/seen decl",
+      "_authority_ref_path per-row provenance path+sha vs file",
+      "LEGACY 362-375 byte-for-byte with superseded allowance",
+      "Group C active7 376-422 + _merge_artifacts + _require_active_candidate_binding + entry/prepublish READY + report"
+    ],
+    "new_order": [
+      "family+role BEFORE dedup via low.load_typed per row",
+      "PREARCH role gate: name not in (evidence,materiality,completeness) -> DM022_WRONG_FAMILY even if rel seen",
+      "distinct rel + PREARCH -> _validate_checkpoint_record(...,None,None) then merge 4 rows with live rehash, no superseded override, conflict check",
+      "seen rel -> continue after role check (proof once per distinct record, no new cache/API)",
+      "LEGACY -> legacy branch unchanged; unknown kind refuses via loader"
+    ],
+    "forbidden": ["new module/schema/family/cache/flag", "PREARCH-to-legacy projection", "caller verified-dict", "public bypass flag", "global cache", "third validator", "superseded override for PREARCH", "operational guard in read helper"]
+  },
+  "history_vs_mutating": "diagnostic _prior_artifacts + PREARCH branch require no guard; validate_stage keeps _dm022_require_ready entry 869 + prepublish 887",
+  "semantics_full_not_hash_only": [
+    "checkpoint schema/kind/reason/operation/boundary/checkpoints/artifacts/SELF",
+    "report schema + proof/decision/request/manifest/before cross-binds + manifest-bytes bind",
+    "retained COPY vs before_state sha+bytes + layout byte equality",
+    "sole DM022_SUPERSESSION_PROOF + retention 7 rows vs manifest + lineage",
+    "4 artifacts FULL validators + own-epoch Contract8 recompute + View-Evidence bind"
+  ],
+  "closure_membership": {
+    "checked": "config contract_files pipeline 76 + quality 3 contain no scripts/; core.contract_identity pipeline hash excludes scripts/",
+    "dm022_codeset": "exactly 2 modules +5 schemas (research_authority + prearchitecture_acceptance +5 dm022 schemas); stage_validation/agent_control not members",
+    "active7": "exactly 7 publication roles; never append runtime/validator",
+    "conclusion": "script-only edit does not imply Contract8 change by construction; actual contract_identity recompute + CURRENT proof at execution decide"
+  },
+  "test_plan": {
+    "copies": "new isolated synth DBs at d591 child, State init480 + cc1c/ae0 lineage preserved, no repin/rerun/manual report; Git perms root-later",
+    "builders": "tests/test_selection_scaling_repair_v2.py _build_synthetic_prearch_once/_with_supplement/_legacy_once via tests/test_dm022_full_lifecycle_v2.py Dm022FullLifecycleWitnessTests (_chain_root/_materialize_production_discovery_acceptance/_make_evidence_reviewed_state/_prepare_and_decide/_build_selection_input) + HIGH prepare/adopt; not private projection or ISSUE_INITIALIZED-only",
+    "public_route": "validate_stage EVIDENCE -> CORE report -> advance-stage to SELECTION_COMPLETE -> validate architecture -> advance to ARCHITECTURE_ESTABLISHED pending Human; Weekly+Thematic sequential 1200s observed-only",
+    "positives": ["synth PREARCH PASS exact report keys + no-overwrite refusal", "healthy LEGACY same-triplet stays LEGACY PASS"],
+    "negatives": ["unknown kind", "malformed SELF digest", "role-misbound PREARCH alias with path seen", "split sha", "artifact drift", "artifact collision", "wrong four", "path drift", "no report result", "late guard", "history-detached vs mutating READY", "readback drift", "own-epoch drift", "active7 unaffected"]
+  },
+  "likely_scope": "base scripts/survey_stage_validation_v2.py + focused new test; no arbitrary path cap",
+  "cost": "post-reader full stage UNKNOWN; 35s/180s are refusal walls only; do not extrapolate to 45AG; no runtime profiling now",
+  "gaps_for_independent": [
+    "confirm None,None revalidation/pending for PREARCH vs passthrough (artifact merge must ignore superseded)",
+    "confirm role-before-dedup + proof-once preserves pure per-role admission with existing seen set",
+    "confirm no historical validation/freeze/release PREARCH alias passes"
+  ],
+  "status": "MAP READY for root + independent scoped confirmation before code; whole NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN",
+  "source_changed": false
+}

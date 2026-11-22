@@ -1,0 +1,38 @@
+{
+  "packet": "notes/rephase-1-prior-artifact-reader-repair-20261117/implementation-20261122T062101Z/supplement-20261122T064124Z",
+  "unit": "prior-artifact-reader-TEST-only-supplement",
+  "root": "notes/rephase-1-prior-artifact-reader-repair-20261117/astra-repair-resolution.md FULL SS1-2",
+  "independent_verdict": "GO_SCOPED_AFTER_TEST_SUPPLEMENT",
+  "code_frozen": "scripts/survey_stage_validation_v2.py 51927 1e4c818b144ebeed7a4365cb00b5e43ed93e9bff4d1396691432ba77a515787e 0o664 unchanged, no production change",
+  "test": {
+    "path": "tests/test_prior_artifact_reader_repair_v2.py",
+    "before": "22782 926af092519f641c060dc3d3aa380a2f3fae7e85eccec4896283075b06671030 408 lines",
+    "after": "30019 1fb831673b8291813ab0480720f84467e334374619a87fe072ff00c63438d4db 0o664 (0o100664 full) 520 lines",
+    "diff": "raw/test-diff.patch 131 lines: doc qualifier no-fake-validators + TestPriorArtifactLateGuardPrepublish + TestPriorArtifactDirectCollisionPrearchMerge only",
+    "old8_preserved": "reconstruction strip-doc+remove-2-classes -> 22782 926af... exact; raw/ast-old8.txt lists 8 old methods stable; raw/final-test-hash.txt gives final",
+    "scope": "774 baseline +1M+new test =775; author HEAD d591 not committed"
+  },
+  "supplement_1_late_guard": {
+    "test": "TestPriorArtifactLateGuardPrepublish.test_prearch_late_guard_refuses_prepublish_no_report",
+    "fixture": "genuine tiny HIGH adopt +7 outputs WEEKLY late, own epoch, inert origin, family PREARCH, EVIDENCE_REVIEWED triplet",
+    "probe": "unittest.mock.patch.object wrapping ORIGINAL _validate_stage_semantics then injecting owned guard before return, never PASS replacement; doc qualifies no-fake-validators",
+    "expects": "validate_stage refuses DM022_TRANSITION_ACTIVE prepublish, fresh report absent, State/matrix/selection unchanged except guard; restore then separate recovery PASS (not immediate proof)",
+    "wall_s": 41.06,
+    "raw": "raw/per-late/"
+  },
+  "supplement_2_collision": {
+    "test": "TestPriorArtifactDirectCollisionPrearchMerge.test_direct_prior_collision_hits_prearch_merge_disagree",
+    "fixture": "genuine adopted PREARCH collide; reuse actual LEGACY screening record+report to disposable files + contradictory evidence-acceptance row (screening-acceptance path, different from PREARCH evidence); bad_state fault copy only, triplet kept, PREARCH valid",
+    "proves_traverse": "screening LEGACY validates [], evidence PREARCH validates [], then _prior_artifacts hits PREARCH-merge disagree (screening merges first dict order); specific 'prior Stage Checkpoints disagree on artifact name: evidence-acceptance', not early schema/provenance",
+    "label": "direct helper negative, not genuine accepted malformed State; old _merge_artifacts probe remains different",
+    "wall_s": 6.7,
+    "raw": "raw/per-collision/"
+  },
+  "runs": {
+    "combined": {"argv": "python3 -u -m unittest tests.test_prior_artifact_reader_repair_v2.TestPriorArtifactLateGuardPrepublish.test_prearch_late_guard_refuses_prepublish_no_report tests.test_prior_artifact_reader_repair_v2.TestPriorArtifactDirectCollisionPrearchMerge.test_direct_prior_collision_hits_prearch_merge_disagree -v", "cwd": ".rephase-1-editorial-runtime/prior-artifact-reader-implementation-20261122T062101Z/candidate-work", "env": "PYTHONDONTWRITEBYTECODE=1 GIT_NO_LAZY_FETCH=1 GIT_OPTIONAL_LOCKS=0 scrubbed GIT_*", "window_utc": "2026-11-22T06:42:23Z-06:43:10Z", "wall_s": 47, "run_s": 46.406, "exit": 0, "ran": 2, "passed": 2},
+    "raw_exclusive": "supplement-20261122T064124Z/raw/ (combined + per-late + per-collision); old 8-run raw preserved in ../raw/ untouched"
+  },
+  "forbidden_done": "no source commit, no Git config/HOME/network, no source-old writes/subagents, no real W34/SP validation/writer/regeneration, no CURRENT pack, no State/Profile repin, no manual CORE report",
+  "whole": "NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN",
+  "next": "stop for review before commit/real"
+}

@@ -6,6 +6,19 @@ This is the writable reconstruction/review workspace for `eariver/japanese-gener
 
 ## Current entry — Re:Phase 1
 
+**CURRENT 2026-11-22 — Prior-artifact reader BOUNDED_READER_REPAIR_PASS / REAL_OPERATION_PARTIAL_BLOCKED (docs phase DOCS-ONLY).**
+
+Read `outputs/rephase-1-prior-artifact-reader-implementation-assessment.md` (Japanese concise),
+packet `notes/rephase-1-prior-artifact-reader-repair-20261117/README.md`,
+mandatory `astra-closeout-resolution.md` FULL + `astra-repair-resolution.md` §§3–6,
+`final-implementation-review.md` §10 parent-controls + machine WITH FINAL-BINDING
+(actual later record controls, document binding future not preclaimed),
+`independent-real-validation-review.md` + machine, `closeout-evidence-index.md`.
+New e59 parent d591 tree e5e8, DIRECT409 final144 58M86A/775 patch f032/5724474B manifest aa54/187642B.
+Focused 8+2, affected 8/2 parent same-fail resolved, SP ~840s PASS no advance, W34 ~1250s kill no report.
+Next after Human Commit Point: bounded normal-stage validation scaling repair.
+Whole NOT_READY/DM021+022OPEN/audit unstarted. **Human Commit Point — stop.**
+
 **CURRENT 2026-11-17 — Selection/Architecture resume PARTIAL/BLOCKED (no source edits; 2 normal validations + read-only identity done, current closeout work docs-only).**
 
 **CORRIGENDUM actual full `3231a0c280287411513bba359f4d3d2b6703d591` (d591, not f591).**

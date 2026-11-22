@@ -1,0 +1,47 @@
+diff --git a/scripts/survey_stage_validation_v2.py b/scripts/survey_stage_validation_v2.py
+index 15fa4ed..a42baf5 100644
+--- a/scripts/survey_stage_validation_v2.py
++++ b/scripts/survey_stage_validation_v2.py
+@@ -356,6 +356,42 @@ def _prior_artifacts(repo_root: Path, cfg: dict[str, Any], state: dict[str, Any]
+             continue
+         path = _authority_ref_path(repo_root, ref, "prior Stage Checkpoint")
+         rel = _rel(repo_root, path)
++        try:
++            fam = low.load_typed_checkpoint_record(repo_root, path)
++        except Exception as exc:
++            raise StageValidationError(f"prior Stage Checkpoint typed family invalid: {exc}") from exc
++        family = fam.get("family") if isinstance(fam, dict) else None
++        if family == "PREARCH":
++            if name not in DM022_PREARCH_CHECKPOINTS:
++                raise StageValidationError(f"DM022_WRONG_FAMILY for {name}: PREARCH refused outside upstream research roles")
++            if rel in seen_checkpoint_paths:
++                continue
++            seen_checkpoint_paths.add(rel)
++            try:
++                errs = agent._validate_checkpoint_record(
++                    repo_root, cfg, state, name, ref, revalidation=None, pending_basis=None
++                )
++            except Exception as exc:
++                raise StageValidationError(f"prior PREARCH checkpoint validation failed: {exc}") from exc
++            if errs:
++                raise StageValidationError("; ".join(str(item) for item in errs))
++            precord = fam.get("record") if isinstance(fam, dict) else None
++            if not isinstance(precord, dict):
++                raise StageValidationError("prior PREARCH record unreadable")
++            for row in precord.get("artifacts", []):
++                if not isinstance(row, dict):
++                    raise StageValidationError("prior PREARCH artifact row invalid")
++                artifact = core.repo_local_path(repo_root, row["path"], f"prior artifact {row['name']}")
++                expected = row["sha256"]
++                if artifact.is_symlink() or not artifact.is_file() or core.sha256_file(artifact) != expected:
++                    raise StageValidationError(f"prior Stage Checkpoint artifact drift: {row['name']}")
++                existing = result.get(row["name"])
++                if existing is not None and existing.resolve() != artifact.resolve():
++                    raise StageValidationError(f"prior Stage Checkpoints disagree on artifact name: {row['name']}")
++                result[row["name"]] = artifact
++            continue
++        if family != "LEGACY":
++            raise StageValidationError(f"prior Stage Checkpoint unknown family refused: {family!r}")
+         if rel in seen_checkpoint_paths:
+             continue
+         seen_checkpoint_paths.add(rel)

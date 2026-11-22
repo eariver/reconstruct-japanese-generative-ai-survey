@@ -1,5 +1,13 @@
 # Reconstruction 完了ロードマップ — 2026-10-19 再計画
 
+**CURRENT 2026-11-22 prior-artifact reader 技術PASS／実運用PARTIAL（docs-only）:**
+
+[評価](rephase-1-prior-artifact-reader-implementation-assessment.md)＋[packet](../notes/rephase-1-prior-artifact-reader-repair-20261117/README.md)＋[必須ROOT全文](../notes/rephase-1-prior-artifact-reader-repair-20261117/astra-closeout-resolution.md)＋[独立最終§10](../notes/rephase-1-prior-artifact-reader-repair-20261117/final-implementation-review.md)／machine（WITH FINAL-BINDING、bindingは後続が正）＋[index](../notes/rephase-1-prior-artifact-reader-repair-20261117/closeout-evidence-index.md)。
+新e59・親d591、完全DIRECT409は144／775でpatch f032・manifest aa54。
+SP約840s PASS、W34約1250s killでreportなし。
+次Human continuation後はbounded normal-stage scaling修復へ。
+Whole NOT_READY／DM021+022OPEN／audit未開始。Human Commit Point停止。以下 prior preserved。
+
 **CURRENT 2026-11-17 Selection/Architecture resume PARTIAL/BLOCKED（source editsなし、通常validation2回と読取専用identity調査済み）:**
 
 現在の closeout 作業のみ docs-only。

@@ -1,0 +1,41 @@
+test_selection_matrix_late_guard (tests.test_dm022_normal_writer_late_guard_v2.TestNormalWriterLateGuardV2.test_selection_matrix_late_guard) ... FAIL
+test_non_publication_checkpoint_typed_record_is_not_silently_skipped (tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_non_publication_checkpoint_typed_record_is_not_silently_skipped) ... /usr/lib/python3.14/tempfile.py:961: ResourceWarning: Implicitly cleaning up <TemporaryDirectory '/tmp/tmpp_6bctpi'>
+  _warnings.warn(warn_message, ResourceWarning)
+FAIL
+
+======================================================================
+FAIL: test_selection_matrix_late_guard (tests.test_dm022_normal_writer_late_guard_v2.TestNormalWriterLateGuardV2.test_selection_matrix_late_guard)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/prior-artifact-reader-parent-controls-20261122T114100Z/work/tests/test_dm022_normal_writer_late_guard_v2.py", line 147, in test_selection_matrix_late_guard
+    self._run_healthy_and_fault(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        case="selection-matrix",
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<7 lines>...
+        ],
+        ^^
+    )
+    ^
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/prior-artifact-reader-parent-controls-20261122T114100Z/work/tests/test_dm022_normal_writer_late_guard_v2.py", line 74, in _run_healthy_and_fault
+    with self.assertRaisesRegex(Exception, r"DM022_TRANSITION_ACTIVE"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Exception not raised
+
+======================================================================
+FAIL: test_non_publication_checkpoint_typed_record_is_not_silently_skipped (tests.test_survey_freeze_stage_boundary_v2.FreezeStageBoundaryV2Tests.test_non_publication_checkpoint_typed_record_is_not_silently_skipped)
+----------------------------------------------------------------------
+scripts.survey_stage_validation_v2.StageValidationError: Production State invalid before stage validation: legacy checkpoint schema invalid: legacy checkpoint fails /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/prior-artifact-reader-parent-controls-20261122T114100Z/work/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/prior-artifact-reader-parent-controls-20261122T114100Z/work/tests/test_survey_freeze_stage_boundary_v2.py", line 300, in test_non_publication_checkpoint_typed_record_is_not_silently_skipped
+    with self.assertRaisesRegex(stage_validation.StageValidationError, "Stage Checkpoint"):
+         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: "Stage Checkpoint" does not match "Production State invalid before stage validation: legacy checkpoint schema invalid: legacy checkpoint fails /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/prior-artifact-reader-parent-controls-20261122T114100Z/work/schemas/stage-checkpoint-v2.schema.json: $: 'artifacts' is a required property"
+
+----------------------------------------------------------------------
+Ran 2 tests in 5.072s
+
+FAILED (failures=2)

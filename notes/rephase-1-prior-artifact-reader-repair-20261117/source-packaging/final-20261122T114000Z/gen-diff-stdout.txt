@@ -1,0 +1,41 @@
+diff --git a/.github/workflows/build-special-pdf.yml b/.github/workflows/build-special-pdf.yml
+index 073709d2f737906bb6937d63660d31ce9de31f92..4cf5d854ca9cc54e702894b5c2208689d92b8e68 100644
+--- a/.github/workflows/build-special-pdf.yml
++++ b/.github/workflows/build-special-pdf.yml
+@@ -75,6 +75,32 @@ jobs:
+           print(f'source_sha256={core.sha256_file(main_tex)}')
+           PY
+ 
++      - name: Refuse revised-mode canonical build (Group C §8)
++        shell: bash
++        env:
++          PROFILE_PATH: ${{ steps.edition.outputs.profile_path }}
++        run: |
++          set -euo pipefail
++          python - <<'PY'
++          import pathlib, json, os
++          root = pathlib.Path('.').resolve()
++          try:
++              from scripts import survey_publication_set_v2 as setmod
++              from scripts import survey_production_v2 as core
++          except ImportError:
++              raise SystemExit(0)
++          cfg = json.loads((root / 'config/survey-production-v2.json').read_bytes())
++          import glob
++          for s in sorted(glob.glob('sources/*/production-state.json')):
++              st = json.loads((root / s).read_bytes())
++              try:
++                  sel = setmod.resolve_publication_selection(root, cfg, st)
++              except Exception:
++                  continue
++              if isinstance(sel, dict) and sel.get('mode') == 'VERSIONED_ACTIVE':
++                  raise SystemExit(f'canonical Special build refused in VERSIONED_ACTIVE mode (state {s}): use editorial operation')
++          PY
++
+       - name: Set revision-derived reproducible PDF timestamp
+         shell: bash
+         run: echo "SOURCE_DATE_EPOCH=$(git show -s --format=%ct HEAD)" >> "$GITHUB_ENV"
+diff --git a/.github/workflows/build-weekly-survey.yml b/.github/workflows/build-weekly-survey.yml
+index 3e1ce3d8183cd81dfe8ecab64a21b0f1df83906d..05c2f0833b199bbbedd091b17b888ae27cd896fb 100644
+--- a/.github/workflows/build-weekly-survey.yml
++++ b/.github/workflows/build

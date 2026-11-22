@@ -1,0 +1,131 @@
+--- /tmp/opencode/recon-old-test.py	2026-11-22 15:44:51.101926491 +0900
++++ /home/eariver/git/reconstruct-japanese-generative-ai-survey/.rephase-1-editorial-runtime/prior-artifact-reader-implementation-20261122T062101Z/candidate-work/tests/test_prior_artifact_reader_repair_v2.py	2026-11-22 15:42:13.261695603 +0900
+@@ -6,7 +6,9 @@
+ Uses genuine HIGH-adopted PREARCH EVIDENCE_REVIEWED + 7 writer outputs, then
+ public validate_stage -> CORE report -> build/advance Selection -> validate Arch
+ -> build/advance Arch pending Human. Weekly + Thematic in new synth DBs (own
+-epoch, no 480 literal reuse, no State repin). No manual CORE report, no mocks.
++epoch, no 480 literal reuse, no State repin). No manual CORE report, no fake
++validators (unittest.mock allowed only as non-authority fault-injection probe
++wrapping ORIGINAL, never replacing validators with PASS).
+ Old code would refuse public Selection with 'from_state' required property.
+ """
+ from __future__ import annotations
+@@ -404,5 +406,117 @@
+         self.assertTrue(out2.is_file())
+ 
+ 
++class TestPriorArtifactLateGuardPrepublish(unittest.TestCase):
++    """Actual PREARCH late (post-semantics/prepublish) guard — TEST-ONLY supplement.
++
++    Genuine tiny HIGH adopt +7 outputs; wraps ORIGINAL _validate_stage_semantics
++    then injects owned guard right before return (never replacing with PASS).
++    unittest.mock is non-authority probe only, not a fake validator.
++    """
++
++    def test_prearch_late_guard_refuses_prepublish_no_report(self) -> None:
++        import unittest.mock as mock
++        from scripts import survey_stage_validation_v2 as stage_validation
++        from scripts import survey_research_authority_v2 as low
++        _, chain, state_abs, root, source_root, _ = _adopted_prearch_with_outputs(self, "WEEKLY", "late")
++        cfg = chain["cfg"]
++        state = core.load_json(state_abs)
++        profile = core.load_json(root / state["profile"]["path"])
++        source_root_real = root / profile["paths"]["source_root"]
++        guard = low.guard_path_for(source_root_real)
++        self.assertFalse(guard.exists())
++        state_before = state_abs.read_bytes()
++        matrix_before = (source_root / "candidate-matrix-v2.json").read_bytes()
++        selection_before = (source_root / "candidate-selection-v2.json").read_bytes()
++        orig_semantics = stage_validation._validate_stage_semantics
++
++        def _inject_then_return(*args, **kwargs):
++            ret = orig_semantics(*args, **kwargs)
++            guard.parent.mkdir(parents=True, exist_ok=True)
++            guard.write_text("late-guard", encoding="utf-8")
++            return ret
++
++        out = source_root / "orchestration/v2/stage-validation/EVIDENCE-late-bad.json"
++        with mock.patch.object(stage_validation, "_validate_stage_semantics", side_effect=_inject_then_return):
++            with self.assertRaisesRegex(ValueError, "DM022_TRANSITION_ACTIVE|guard"):
++                stage_validation.validate_stage(root, cfg, state_abs,
++                    {"candidate-matrix": source_root / "candidate-matrix-v2.json",
++                     "candidate-selection": source_root / "candidate-selection-v2.json"},
++                    out, datetime(2026, 10, 28, 3, 0, 0, tzinfo=timezone.utc))
++        self.assertFalse(out.exists())
++        # State/artifacts immediate unchanged except intentional guard.
++        self.assertEqual(state_abs.read_bytes(), state_before)
++        self.assertEqual((source_root / "candidate-matrix-v2.json").read_bytes(), matrix_before)
++        self.assertEqual((source_root / "candidate-selection-v2.json").read_bytes(), selection_before)
++        self.assertTrue(guard.is_file())
++        # Restore own fault; recovery run is separate, not immediate proof of refusal.
++        guard.unlink()
++        self.assertFalse(guard.exists())
++        out2 = source_root / "orchestration/v2/stage-validation/EVIDENCE-late-restore.json"
++        stage_validation.validate_stage(root, cfg, state_abs,
++            {"candidate-matrix": source_root / "candidate-matrix-v2.json",
++             "candidate-selection": source_root / "candidate-selection-v2.json"},
++            out2, datetime(2026, 10, 28, 3, 2, 0, tzinfo=timezone.utc))
++        self.assertTrue(out2.is_file())
++
++
++class TestPriorArtifactDirectCollisionPrearchMerge(unittest.TestCase):
++    """Direct _prior_artifacts collision in PREARCH merge — TEST-ONLY supplement.
++
++    Direct helper negative (fault State argument copy only), not a genuine
++    accepted malformed State. Reuses actual LEGACY screening checkpoint as
++    genuine-prior-shaped base, copies record+report to disposable files, adds
++    deliberate contradictory evidence-acceptance row (different path) so LEGACY
++    merges first then PREARCH merge hits disagree. PREARCH record/proof stay
++    valid, role triplet kept, no real/shipping config modified.
++    Old _merge_artifacts temp-file probe remains different coverage.
++    """
++
++    def test_direct_prior_collision_hits_prearch_merge_disagree(self) -> None:
++        from scripts import survey_stage_validation_v2 as stage_validation
++        from scripts import survey_agent_control_v2 as agent
++        _, chain, state_abs, root, source_root, _ = _adopted_prearch_with_outputs(self, "WEEKLY", "collide")
++        cfg = chain["cfg"]
++        state = core.load_json(state_abs)
++        # PREARCH stays valid: triplet + proof pass before fault.
++        ev_ref = dict(state["checkpoint_provenance"]["evidence"])
++        self.assertEqual(agent._validate_checkpoint_record(root, cfg, state, "evidence", ev_ref, revalidation=None, pending_basis=None), [])
++        precord = core.load_json(root / ev_ref["path"])
++        pre_ev = [r for r in precord["artifacts"] if r["name"] == "evidence-acceptance"][0]
++        # Genuine LEGACY base: screening checkpoint + report.
++        scr_ref = dict(state["checkpoint_provenance"]["screening"])
++        scr_abs = root / scr_ref["path"]
++        scr_doc = core.load_json(scr_abs)
++        scr_review = [r for r in scr_doc["reviews"] if r.get("check_id") == "CORE_STAGE_CONTRACT"][0]
++        rep_abs = root / scr_review["result"]["path"]
++        rep_doc = core.load_json(rep_abs)
++        # Contradictory path: screening-acceptance file, different from PREARCH evidence path.
++        other_rel = scr_doc["artifacts"][0]["path"]
++        other_abs = root / other_rel
++        self.assertNotEqual(other_abs.resolve(), (root / pre_ev["path"]).resolve())
++        other_sha = core.sha256_file(other_abs)
++        # Disposable copies inside independent DB (chain root temp DB).
++        disp_rec = root / "sources" / chain["issue_id"] / "disposable-screening-collision.json"
++        disp_rep = root / "sources" / chain["issue_id"] / "disposable-screening-collision-report.json"
++        new_rec = copy.deepcopy(scr_doc)
++        new_rep = copy.deepcopy(rep_doc)
++        extra = {"name": "evidence-acceptance", "path": other_rel, "sha256": other_sha}
++        new_rec["artifacts"] = list(new_rec["artifacts"]) + [extra]
++        new_rep["artifacts"] = list(new_rep["artifacts"]) + [extra]
++        _write(disp_rep, new_rep)
++        new_rec["reviews"] = [dict(scr_review, result={"path": str(disp_rep.relative_to(root)), "sha256": _sha_file(disp_rep)})]
++        _write(disp_rec, new_rec)
++        new_sha = _sha_file(disp_rec)
++        bad_state = copy.deepcopy(state)
++        bad_state["checkpoint_provenance"]["screening"] = {"path": str(disp_rec.relative_to(root)), "sha256": new_sha}
++        # LEGACY disposable part itself validates (so failure is merge, not early schema).
++        self.assertEqual(agent._validate_checkpoint_record(root, cfg, bad_state, "screening", bad_state["checkpoint_provenance"]["screening"], revalidation=None, pending_basis=None), [])
++        # PREARCH evidence still validates alone.
++        self.assertEqual(agent._validate_checkpoint_record(root, cfg, bad_state, "evidence", ev_ref, revalidation=None, pending_basis=None), [])
++        # Direct helper must hit PREARCH merge disagree, not early failure.
++        with self.assertRaisesRegex(ValueError, "prior Stage Checkpoints disagree on artifact name: evidence-acceptance"):
++            stage_validation._prior_artifacts(root, cfg, bad_state)
++
++
+ if __name__ == "__main__":
+     unittest.main()

@@ -1,0 +1,55 @@
+{
+  "packet": "notes/rephase-1-prior-artifact-reader-repair-20261117/implementation-20261122T062101Z",
+  "review": "independent-implementation-review.md",
+  "role": "fresh independent scoped reviewer, not author/root",
+  "mode": "read-only, no Git/imports/runtime/tests/network/source-State writes/subagents; stdlib hash/line-count only + source reads; old saved source readonly comparison",
+  "root": "notes/rephase-1-prior-artifact-reader-repair-20261117/astra-repair-resolution.md FULL SS1-2",
+  "map_go": "integration-map.md + independent-map-review.md GO_SCOPED",
+  "identity": {
+    "head": "3231a0c280287411513bba359f4d3d2b6703d591",
+    "parent": "ae0dd1ee5b0e7a85c44bdab0e6cd024bf12f0c56",
+    "tree": "ff01b73e6012fd4519fdfb3807186753ff330367",
+    "f591": "missing in new DB as expected",
+    "scope": "774 before +775 after (1 new test); current runtime binding only, not whole-history claim"
+  },
+  "source": {
+    "before": "49688 ec15f5ba6b0a15162cb42543b15de63ca6ca8581ff63c8ec339229b437867d9c 0o100664",
+    "after": "51927 1e4c818b144ebeed7a4365cb00b5e43ed93e9bff4d1396691432ba77a515787e 0o100664",
+    "test_new": "22782 926af092519f641c060dc3d3aa380a2f3fae7e85eccec4896283075b06671030 0o100664 408 lines",
+    "diff": "raw/source-diff.patch 47 lines sha256 cf946e74d18e4305c6b5792350e4f410dbc7b327560d0f66d31d07152a3246af, additions only in _prior_artifacts",
+    "scope_ok": "one function typed dispatch role-before-seen strict agent PREARCH full proof no LIVE guard/caller assertion; split path/sha/issue/collision; no publication override; LEGACY byte-for-byte; active7/entry/prepublish/report unchanged; no new imports/module/schema/family/flag/cache/verified-dict/third validator"
+  },
+  "tests_raw": {
+    "argv": "python3 -u -m unittest tests.test_prior_artifact_reader_repair_v2 -v",
+    "stderr_bytes": 1455,
+    "stdout_bytes": 0,
+    "exit": 0,
+    "ran": 8,
+    "passed": 8,
+    "wall_s": 229,
+    "run_s": 228.541,
+    "window_utc": "2026-11-22T06:29:38Z-06:33:27Z",
+    "coverage": "Weekly+Thematic full public validate->advance Selection->validate->advance Arch pending Human PASS; LEGACY same-record PASS; negatives wrong-family-after-seen/unknown-kind/malformed-SELF/split-SHA/drift/missing/_merge collision/guard-history-vs-entry all fail-closed no report; no mocks; synthetic reviews only for checkpoint build not real approval; git-status unit delta only M scripts + ?? tests, other sources/* inherited"
+  },
+  "verdict_original_preserved": "GO_SCOPED_AFTER_TEST_SUPPLEMENT",
+  "code_bugs": "none load-bearing; KeyError-vs-StageValidationError in merge unreachable due to prior loader+content shape checks; TOCTOU closed by _validate provenance+full proof reload",
+  "required_supplements_TEST_only_original": [
+    "actual PREARCH post-semantics late guard via wrapper around original _validate_stage_semantics, expect DM022_TRANSITION_ACTIVE no report then release passes; current test_guard_history_vs_mutator_and_late_ready covers ENTRY only",
+    "direct _prior_artifacts merge-branch collision with two distinct priors disagreeing on same artifact name, expect prior Stage Checkpoints disagree; current _merge_artifacts temp-file test alone insufficient"
+  ],
+  "supplement_resolution": {
+    "packet": "implementation-20261122T062101Z/supplement-20261122T064124Z",
+    "code_frozen_verified": "51927 1e4c818b144ebeed7a4365cb00b5e43ed93e9bff4d1396691432ba77a515787e 0o100664 989 lines unchanged",
+    "test_final_verified": "30019 1fb831673b8291813ab0480720f84467e334374619a87fe072ff00c63438d4db 0o100664 actual 522 lines (packet claims 520, 2-line doc-count deviation non-blocking, hash controls); before 22782 926af092519f641c060dc3d3aa380a2f3fae7e85eccec4896283075b06671030 408 lines",
+    "old8_preserved": "test-diff.patch 131 lines doc-only + 2 classes; AST final 10 = old 8 + 2 new; ast-old8.txt stable; fixtures unchanged",
+    "late_guard": "wraps ORIGINAL _validate_stage_semantics then injects owned guard; targeted validate refuses DM022_TRANSITION_ACTIVE no report, State/artifacts unchanged except guard, restore then separate recovery PASS",
+    "direct_collision": "fault State-copy only; LEGACY screening disposable + PREARCH triplet both validate []; _prior_artifacts hits prior Stage Checkpoints disagree on artifact name: evidence-acceptance (PREARCH-merge, not old _merge helper/preemptor)",
+    "runs": "combined 2026-11-22T06:42:23Z-06:43:10Z wall 47s run 46.406s exit 0 ran 2 passed 2; per-late 40.703s/41.06s exit 0; per-collision 6.366s/6.70s exit 0; 2 unique, duplicates do not sum",
+    "scope": "775 = frozen 774 +1M+new test; public synthetic both routes only, not real/whole R3/audit; TOCTOU bounded not global CAS"
+  },
+  "final_verdict": "GO_TO_SOURCE_COMMIT_AND_BOUNDED_REAL_VALIDATION",
+  "final_binding_note": "no blockers; root dispatch for actual source commit and bounded real-material validation separate; no standing real-run permission here",
+  "not_required": "full proof/decision byte checks beyond contract historic SHA fields; whole expensive R3; PUB7 unchanged supports bounded regression only if appropriate",
+  "forbidden_done": "no source commit, no real W34/SP validation/writer/regeneration, no CURRENT pack, no State/Profile repin, no manual CORE report, no network/Production/Human approval/Draft/PDF/R4/ordinary Commit-Push/reconstruct readback; stdlib hash/read only, no runtime/Git/import/tests/network/source writes/subagents",
+  "whole": "NOT_READY/DM021+022OPEN/audit unstarted/quality-adoption-savings OPEN"
+}
